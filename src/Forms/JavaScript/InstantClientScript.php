@@ -133,8 +133,9 @@ final class InstantClientScript extends /*Nette::*/Object
 
 			if (!empty($rule->message)) { // this is rule
 				$translator = $rule->control->getTranslator();
+				$message = $translator === NULL ? $rule->message : $translator->translate($rule->message);
 				$res .= "if (" . ($rule->isNegative ? '' : '!') . "res) { " .
-					"if (el) el.focus(); alert(" . json_encode((string) ($translator === NULL ? $rule->message : $translator->translate($rule->message))) . "); return false; }\n\t";
+					"if (el) el.focus(); alert(" . json_encode((string) vsprintf($message, (array) $rule->arg)) . "); return false; }\n\t";
 			}
 
 			if ($rule->isCondition) { // this is condition
@@ -217,13 +218,13 @@ final class InstantClientScript extends /*Nette::*/Object
 			return "el=null; res=sender && sender.name==" . json_encode($control->getHtmlName()) . ";";
 
 		case /*nette::forms::*/'selectbox::validateequal':
-			$first = $control->skipFirst() ? 1 : 0;
+			$first = $control->isFirstSkipped() ? 1 : 0;
 			return $tmp . "res = false;\n\t" .
 				"for (var i=$first;i<el.options.length;i++)\n\t\t" .
 				"if (el.options[i].selected && el.options[i].value==" . json_encode((string) $arg) . ") { res = true; break; }";
 
 		case /*nette::forms::*/'selectbox::validatefilled':
-			$first = $control->skipFirst() ? 1 : 0;
+			$first = $control->isFirstSkipped() ? 1 : 0;
 			return $tmp . "res = el.selectedIndex >= $first;";
 
 		case /*nette::forms::*/'textbase::validateequal':
