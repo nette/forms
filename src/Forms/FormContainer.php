@@ -167,7 +167,7 @@ class FormContainer extends /*Nette::*/ComponentContainer implements /*::*/Array
 	 * @param  array   options from which to choose
 	 * @return RadioList
 	 */
-	public function addRadioList($name, $label, array $items)
+	public function addRadioList($name, $label, array $items = NULL)
 	{
 		return $this[$name] = new RadioList($label, $items);
 	}
@@ -182,7 +182,7 @@ class FormContainer extends /*Nette::*/ComponentContainer implements /*::*/Array
 	 * @param  int     number of rows that should be visible
 	 * @return SelectBox
 	 */
-	public function addSelect($name, $label, array $items, $size = 1)
+	public function addSelect($name, $label, array $items = NULL, $size = NULL)
 	{
 		return $this[$name] = new SelectBox($label, $items, FALSE, $size);
 	}
@@ -197,7 +197,7 @@ class FormContainer extends /*Nette::*/ComponentContainer implements /*::*/Array
 	 * @param  int     number of rows that should be visible
 	 * @return SelectBox
 	 */
-	public function addMultiSelect($name, $label, array $items, $size = 1)
+	public function addMultiSelect($name, $label, array $items = NULL, $size = NULL)
 	{
 		return $this[$name] = new SelectBox($label, $items, TRUE, $size);
 	}

@@ -36,44 +36,47 @@ require_once dirname(__FILE__) . '/../../Forms/Controls/FormControl.php';
 class SelectBox extends FormControl
 {
 	/** @var array */
-	private $items;
+	private $items = array();
 
 	/** @var array */
-	protected $allowed;
+	protected $allowed = array();
 
-	/** @var array */
+	/** @var bool */
 	protected $multiple;
 
 	/** @var bool */
-	protected $skipFirst = FALSE;
+	private $skipFirst = FALSE;
+
+	/** @var bool */
+	private $useKeys = TRUE;
 
 
 
 	/**
 	 * @param  string  label
 	 * @param  array   items from which to choose
+	 * @param  bool    allows multiple item selection?
 	 * @param  int     number of rows that should be visible
 	 */
-	public function __construct($label, array $items, $multiple = FALSE, $size = NULL)
+	public function __construct($label, array $items = NULL, $multiple = FALSE, $size = NULL)
 	{
 		parent::__construct($label);
 		$this->control->setName('select');
 		$this->control->size = $size > 1 ? (int) $size : NULL;
 		$this->control->onmousewheel = 'return false';  // prevent accidental change
 		$this->label->onclick = 'return false';  // prevent "deselect" for IE 5 - 6
-
 		$this->multiple = $multiple;
-		$this->setItems($items);
+		if ($items !== NULL) $this->setItems($items);
 	}
 
 
 
 	/**
-	 * Sets selected item/items.
-	 * @param  string|int|array
-	 * @return void
+	 * Returns selected item/items.
+	 * @param  bool
+	 * @return mixed
 	 */
-	public function setValue($value)
+	public function getValue($raw = FALSE)
 	{
 		$allowed = $this->allowed;
 		if ($this->skipFirst) {
@@ -81,19 +84,26 @@ class SelectBox extends FormControl
 		}
 
 		if ($this->multiple) {
-			if (is_scalar($value)) {
-				$value = (array) $value;
-			} elseif (!is_array($value)) {
+			if (is_scalar($this->value)) {
+				$value = array($this->value);
+
+			} elseif (!is_array($this->value)) {
 				$value = array();
+
+			} else {
+				$value = $this->value;
 			}
-			$this->value = array();
+
+			$res = array();
 			foreach ($value as $val) {
-				if (is_scalar($val) && isset($allowed[$val])) {
-					$this->value[] = $val;
+				if (is_scalar($val) && ($raw || isset($allowed[$val]))) {
+					$res[] = $val;
 				}
 			}
+			return $res;
+
 		} else {
-			$this->value = is_scalar($value) && isset($allowed[$value]) ? $value : NULL;
+			return is_scalar($this->value) && ($raw || isset($allowed[$this->value])) ? $this->value : NULL;
 		}
 	}
 
@@ -124,21 +134,33 @@ class SelectBox extends FormControl
 
 
 	/**
+	 * Are the keys used?
+	 * @return bool
+	 */
+	final public function areKeysUsed()
+	{
+		return $this->useKeys;
+	}
+
+
+
+	/**
 	 * Sets items from which to choose.
 	 * @param  array
 	 * @return SelectBox  provides a fluent interface
 	 */
-	public function setItems(array $items)
+	public function setItems(array $items, $useKeys = TRUE)
 	{
 		$this->items = $items;
-		$this->value = NULL;
 		$this->allowed = array();
+		$this->useKeys = (bool) $useKeys;
 
 		foreach ($items as $key => $value) {
 			if (!is_array($value)) {
 				$value = array($key => $value);
 			}
 			foreach ($value as $key2 => $value2) {
+				if (!$this->useKeys) $key2 = $value2;
 				if (isset($this->allowed[$key2])) {
 					throw new /*::*/InvalidArgumentException("Items contain duplication for key '$key2'.");
 				}
@@ -167,7 +189,10 @@ class SelectBox extends FormControl
 	 */
 	final public function getSelectedItem()
 	{
-		if ($this->multiple) {
+		if (!$this->useKeys) {
+			return $this->getValue();
+
+		} elseif ($this->multiple) {
 			$res = array();
 			foreach ($this->getValue() as $value) {
 				$res[$value] = $this->allowed[$value];
@@ -191,7 +216,7 @@ class SelectBox extends FormControl
 		$control = parent::getControl();
 		if ($this->multiple) $control->name .= '[]';
 		$control->multiple = (bool) $this->multiple;
-		$selected = array_flip((array) $this->value);
+		$selected = array_flip((array) $this->getValue());
 		$option = /*Nette::Web::*/Html::el('option');
 		$translator = $this->getTranslator();
 
@@ -200,13 +225,21 @@ class SelectBox extends FormControl
 				$group = $control->create('optgroup')->label($key);
 				foreach ($value as $key2 => $value2) {
 					if ($translator !== NULL) $value2 = $translator->translate($value2);
-					$option->value($key2)->selected(isset($selected[$key2]))->setText($value2);
-					$group->add((string) $option);
+					if ($this->useKeys) {
+						$option->value($key2)->selected(isset($selected[$key2]));
+					} else {
+						$option->selected(isset($selected[$value2]));
+					}
+					$group->add((string) $option->setText($value2));
 				}
 			} else {
 				if ($translator !== NULL) $value = $translator->translate($value);
-				$option->value($key)->selected(isset($selected[$key]))->setText($value);
-				$control->add((string) $option);
+				if ($this->useKeys) {
+					$option->value($key)->selected(isset($selected[$key]));
+				} else {
+					$option->selected(isset($selected[$value]));
+				}
+				$control->add((string) $option->setText($value));
 			}
 		}
 		return $control;
