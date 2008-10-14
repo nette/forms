@@ -4,142 +4,201 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="content-language" content="en" />
 
-	<title>Nette::Forms example 2 | Nette Framework</title>
+	<title>Nette::Forms example 4 | Nette Framework</title>
 
 	<style type="text/css">
 	<!--
-	.required {
-		color: darkred
+	body {
+		font-family: "Trebuchet MS", "Geneva CE", lucida, sans-serif;
 	}
 
-	fieldset {
-		padding: .5em;
-		margin: .3em 0;
-		background: #EAF3FA;
-		border: 1px solid #b2d1eb;
+	.required {
+		font-weight: bold;
+	}
+
+	.error {
+		color: red;
+	}
+
+	input.text {
+		border: 1px solid #78bd3f;
+		padding: 3px;
+		color: black;
+		background: white;
 	}
 
 	input.button {
 		font-size: 120%;
 	}
 
-	th {
-		width: 8em;
+	dt, dd {
+		padding: .5em 1em;
+	}
+
+	#form {
+		width: 550px;
+	}
+
+	#form h3 {
+		background: #78bd3f;
+		color: white;
+		margin: 0;
+		padding: .1em 1em;
+		font-size: 100%;
+		font-weight: normal;
+		clear: both;
+	}
+
+	#form dl {
+		background: #F8F8F8;
+		margin: 0;
+	}
+
+	#form dt {
 		text-align: right;
+		font-weight: normal;
+		float: left;
+		width: 10em;
+		clear: both;
+	}
+
+	#form dd {
+		margin: 0;
+		padding-left: 10em;
+		display: block;
+	}
+
+	#form dd ul {
+		list-style: none;
+		font-size: 90%;
+	}
+
+	#form dd.odd {
+		background: #EEE;
 	}
 	-->
 	</style>
 </head>
 
 <body>
-	<h1>Nette::Forms example 2</h1>
+	<h1>Nette::Forms example 4</h1>
 
 	<form action="" method="post" enctype="multipart/form-data" onsubmit="return validate(this)">
+<div id="form">
 
-<fieldset>
-<legend>Personal data</legend>
-<p>We value your privacy and we ensure that the information you give to us will not be shared to other entities.</p>
-<table>
-<tr class="required">
-	<th><label class="required" for="frm-name">Your name:</label></th>
+<h3>Personal data</h3>
 
-	<td><input type="text" size="35" class="text" name="name" id="frm-name" value="John Doe" /></td>
-</tr>
+<dl>
 
-<tr class="required">
-	<th><label class="required" for="frm-age">Your age:</label></th>
+	<dt><label class="required" for="frm-name">Your name</label>:</dt>
 
-	<td><input type="text" size="5" class="text" name="age" id="frm-age" value="" /></td>
-</tr>
+	<dd><input type="text" size="35" class="text" name="name" id="frm-name" value="John Doe" /></dd>
 
-<tr>
-	<th><label>Your gender:</label></th>
 
-	<td><input type="radio" name="gender" id="frm-gender-0" value="m" /><label for="frm-gender-0">male</label><br /><input type="radio" name="gender" id="frm-gender-1" value="f" /><label for="frm-gender-1">female</label><br /></td>
-</tr>
 
-<tr>
-	<th><label for="frm-email">E-mail:</label></th>
+	<dt><label class="required" for="frm-age">Your age</label>:</dt>
 
-	<td><input type="text" size="35" class="text" name="email" id="frm-email" value="&#64;" /></td>
-</tr>
-</table>
-</fieldset>
+	<dd class="odd"><input type="text" size="5" class="text" name="age" id="frm-age" value="9.9" />
 
-<fieldset>
-<legend>Shipping address</legend>
+<ul class="error">
+	<li>Age must be numeric value</li>
+</ul>
+</dd>
 
-<table>
-<tr>
-	<th>&nbsp;</th>
 
-	<td><input type="checkbox" onclick="toggle(this);" name="send" id="frm-send" /><label for="frm-send">Ship to address</label></td>
-</tr>
-</table>
+
+	<dt><label>Your gender</label>:</dt>
+
+	<dd><input type="radio" name="gender" id="frm-gender-0" value="m" /><label for="frm-gender-0">male</label><br /><input type="radio" name="gender" id="frm-gender-1" value="f" /><label for="frm-gender-1">female</label><br /></dd>
+
+
+
+	<dt><label for="frm-email">E-mail</label>:</dt>
+
+	<dd class="odd"><input type="text" size="35" class="text" name="email" id="frm-email" value="&#64;" /></dd>
+
+</dl>
+
+
+
+<h3>Shipping address</h3>
+
+<dl>
+
+	<dt>&nbsp;</dt>
+
+	<dd><input type="checkbox" onclick="toggle(this);" name="send" id="frm-send" /><label for="frm-send">Ship to address</label></dd>
+
+</dl>
 
 <div id="sendBox">
-<table>
-<tr>
-	<th><label for="frm-street">Street:</label></th>
+<dl>
 
-	<td><input type="text" size="35" class="text" name="street" id="frm-street" value="" /></td>
-</tr>
+	<dt><label for="frm-street">Street</label>:</dt>
 
-<tr class="required">
-	<th><label class="required" for="frm-city">City:</label></th>
-
-	<td><input type="text" size="35" class="text" name="city" id="frm-city" value="" /></td>
-</tr>
-
-<tr class="required">
-	<th><label onclick="return false" class="required" for="frm-country">Country:</label></th>
-
-	<td><select onmousewheel="return false" name="country" id="frm-country"><option value="0">Select your country</option><optgroup label="Europe"><option value="CZ" selected="selected">Czech Republic</option><option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option><option value="HU">Hungary</option><option value="IE">Ireland</option><option value="IT">Italy</option><option value="NL">Netherlands</option><option value="PL">Poland</option><option value="SK">Slovakia</option><option value="ES">Spain</option><option value="CH">Switzerland</option><option value="UA">Ukraine</option><option value="GB">United Kingdom</option></optgroup><option value="AU">Australia</option><option value="CA">Canada</option><option value="EG">Egypt</option><option value="JP">Japan</option><option value="US">United States</option><option value="?">other</option></select></td>
-</tr>
-</table>
-</div></fieldset>
+	<dd class="odd"><input type="text" size="35" class="text" name="street" id="frm-street" value="" /></dd>
 
 
-<fieldset>
-<legend>Your account</legend>
 
-<table>
-<tr class="required">
-	<th><label class="required" for="frm-password">Choose password:</label></th>
+	<dt><label class="required" for="frm-city">City</label>:</dt>
 
-	<td><input type="password" size="20" class="text" name="password" id="frm-password" value="" /></td>
-</tr>
+	<dd><input type="text" size="35" class="text" name="city" id="frm-city" value="Troubsko" /></dd>
 
-<tr class="required">
-	<th><label class="required" for="frm-password2">Reenter password:</label></th>
 
-	<td><input type="password" size="20" class="text" name="password2" id="frm-password2" value="" /></td>
-</tr>
 
-<tr>
-	<th><label for="frm-avatar">Picture:</label></th>
+	<dt><label onclick="return false" class="required" for="frm-country">Country</label>:</dt>
 
-	<td><input type="file" class="text" name="avatar" id="frm-avatar" /></td>
-</tr>
+	<dd class="odd"><select onmousewheel="return false" name="country" id="frm-country"><option value="0">Select your country</option><optgroup label="Europe"><option value="CZ">Czech Republic</option><option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option><option value="HU">Hungary</option><option value="IE">Ireland</option><option value="IT">Italy</option><option value="NL">Netherlands</option><option value="PL">Poland</option><option value="SK">Slovakia</option><option value="ES">Spain</option><option value="CH">Switzerland</option><option value="UA">Ukraine</option><option value="GB">United Kingdom</option></optgroup><option value="AU">Australia</option><option value="CA">Canada</option><option value="EG">Egypt</option><option value="JP">Japan</option><option value="US">United States</option><option value="?">other</option></select></dd>
 
-<tr>
-	<th><label for="frm-note">Comment:</label></th>
+</dl>
+</div>
 
-	<td><textarea cols="30" rows="5" name="note" id="frm-note"></textarea></td>
-</tr>
-</table>
-</fieldset>
 
-<fieldset>
-<table>
-<tr>
-	<th>&nbsp;</th>
 
-	<td><input type="submit" class="button" name="submit1" id="frm-submit1" value="Send" /></td>
-</tr>
-</table>
-</fieldset>
+<h3>Your account</h3>
 
+<dl>
+
+	<dt><label class="required" for="frm-password">Choose password</label>:</dt>
+
+	<dd><input type="password" size="20" class="text" name="password" id="frm-password" value="" /> <small>(at least 3 characters)</small>
+
+<ul class="error">
+	<li>The password is too short: it must be at least 3 characters</li>
+</ul>
+</dd>
+
+
+
+	<dt><label class="required" for="frm-password2">Reenter password</label>:</dt>
+
+	<dd class="odd"><input type="password" size="20" class="text" name="password2" id="frm-password2" value="" /></dd>
+
+
+
+	<dt><label for="frm-avatar">Picture</label>:</dt>
+
+	<dd><input type="file" class="text" name="avatar" id="frm-avatar" /></dd>
+
+
+
+	<dt><label for="frm-note">Comment</label>:</dt>
+
+	<dd class="odd"><textarea cols="30" rows="5" name="note" id="frm-note"></textarea></dd>
+
+</dl>
+
+
+
+<dl>
+
+	<dt>&nbsp;</dt>
+
+	<dd><input type="submit" class="button" name="submit1" id="frm-submit1" value="Send" /></dd>
+
+</dl>
+
+</div>
 <div><input type="hidden" name="userid" value="231" /></div>
 </form>
 <script type="text/javascript">

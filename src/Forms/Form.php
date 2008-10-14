@@ -192,10 +192,17 @@ class Form extends FormContainer
 	{
 		$group = new FormGroup;
 		$group->setOption('label', $label);
+		$group->setOption('render', TRUE);
+
 		if ($setAsCurrent) {
 			$this->setCurrentGroup($group);
 		}
-		return $this->groups[] = $group;
+
+		if (isset($this->groups[$label])) {
+			return $this->groups[] = $group;
+		} else {
+			return $this->groups[$label] = $group;
+		}
 	}
 
 
@@ -207,6 +214,18 @@ class Form extends FormContainer
 	public function getGroups()
 	{
 		return $this->groups;
+	}
+
+
+
+	/**
+	 * Returns the specified group.
+	 * @param  string  name
+	 * @return FormGroup
+	 */
+	public function getGroup($name)
+	{
+		return isset($this->groups[$name]) ? $this->groups[$name] : NULL;
 	}
 
 
@@ -304,11 +323,11 @@ class Form extends FormContainer
 		$request->setEncoding($this->encoding);
 
 		if ($this->isPost) {
-			if ($request->getMethod() !== 'POST') return;
+			if (!$request->isMethod('post')) return;
 			$data = self::arrayAppend($request->getPost(), $request->getFiles());
 
 		} else {
-			if ($request->getMethod() === 'POST') return;
+			if (!$request->isMethod('get')) return;
 			$data = $request->getQuery();
 		}
 
