@@ -77,10 +77,10 @@ class Form extends FormContainer
 	/** protection token ID */
 	const PROTECTOR_ID = '_token_';
 
-	/** @var array  valid form submission; function(Form $sender) */
+	/** @var array of event handlers; Occurs when the form is submitted and successfully validated; function(Form $sender) */
 	public $onSubmit;
 
-	/** @var array  invalid form submission; function(Form $sender) */
+	/** @var array of event handlers; Occurs when the form is submitted and not validated; function(Form $sender) */
 	public $onInvalidSubmit;
 
 	/** @var bool */
@@ -449,7 +449,7 @@ class Form extends FormContainer
 				$sub->cursor = & $cursor;
 			}
 			if ($control instanceof IFormControl) {
-				if (is_array($sub->cursor) && array_key_exists($name, $sub->cursor)) {
+				if ((is_array($sub->cursor) || $sub->cursor instanceof /*\*/ArrayAccess) && array_key_exists($name, $sub->cursor)) {
 					$control->setValue($sub->cursor[$name]);
 
 				} elseif ($erase) {
@@ -457,7 +457,7 @@ class Form extends FormContainer
 				}
 			}
 			if ($control instanceof INamingContainer) {
-				if (is_array($sub->cursor) && isset($sub->cursor[$name])) {
+				if ((is_array($sub->cursor) || $sub->cursor instanceof /*\*/ArrayAccess) && isset($sub->cursor[$name])) {
 					$cursor = & $sub->cursor[$name];
 				} else {
 					unset($cursor);
@@ -728,8 +728,12 @@ class Form extends FormContainer
 			}
 
 		} catch (/*\*/Exception $e) {
-			trigger_error($e->getMessage(), E_USER_WARNING);
-			return '';
+			if (func_get_args()) {
+				throw $e;
+			} else {
+				trigger_error($e->getMessage(), E_USER_WARNING);
+				return '';
+			}
 		}
 	}
 
