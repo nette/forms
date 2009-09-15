@@ -36,16 +36,11 @@
 
 	<form action="" method="post">
 
-<ul class="error">
-	<li>Security token did not match. Possible CSRF attack.</li>
-</ul>
-
-
 <table>
 <tr>
 	<th><label for="frm-text">Any text:</label></th>
 
-	<td><input type="text" class="text" name="text" id="frm-text" value="a" /></td>
+	<td><input type="text" class="text" name="text" id="frm-text" value="" /></td>
 </tr>
 
 <tr>
@@ -55,7 +50,7 @@
 </tr>
 </table>
 
-<div><input type="hidden" name="_token_" id="frm-_token_" value="e930e839afdb53e1fd71372fa386343c" /></div>
+<div><input type="hidden" name="_token_" id="frm-_token_" value="%h%" /></div>
 </form>
 
 </body>

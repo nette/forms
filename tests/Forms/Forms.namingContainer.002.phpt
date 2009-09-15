@@ -1,64 +1,22 @@
-<h1>Nette\Forms naming container test</h1>
-
 <?php
 
-require_once '../../Nette/loader.php';
+/**
+ * Test: Nette\Forms naming container.
+ *
+ * @author     David Grudl
+ * @category   Nette
+ * @package    Nette\Forms
+ * @subpackage UnitTests
+ */
 
 /*use Nette\ComponentContainer;*/
 /*use Nette\Forms\Form;*/
 /*use Nette\Forms\TextInput;*/
 /*use Nette\Forms\FormContainer;*/
-/*use Nette\Debug;*/
-
-Debug::enable();
 
 
-$_SERVER['REQUEST_METHOD'] = 'POST';
-$_POST = array(
-	'name' => 'jim',
-	'text1' => 'hello',
-	'text2' => 'world',
-	'formCont' =>
-	array(
-		'name' => 'jack x\\\\y o\\\'connor',
-		'age' => '23',
-	),
-	'firstperson' =>
-	array(
-		'name' => 'david',
-		'age' => '30',
-	),
-	'secondperson' =>
-	array(
-		'name' => 'jim',
-		'age' => '40',
-	),
-	'age' => '50',
-);
 
-$_FILES = array(
-	'secondperson' => array(
-		'name' => array(
-			'avatar' => 'license.txt',
-		),
-
-		'type' => array(
-			'avatar' => 'text/plain',
-		),
-
-		'tmp_name' => array(
-			'avatar' => 'C:\\PHP\\temp\\php1D5C.tmp',
-		),
-
-		'error' => array(
-			'avatar' => 0,
-		),
-
-		'size' => array(
-			'avatar' => 3013,
-		),
-	),
-);
+require dirname(__FILE__) . '/../NetteTest/initialize.php';
 
 
 
@@ -71,7 +29,6 @@ $sub->addComponent(new TextInput('Second line'), 'text2');
 $sub->addComponent($sub2 = new FormContainer, 'formCont');
 	$sub2->addText('name', 'Your name:', 35);
 	$sub2->addText('age', 'Your age:', 5);
-
 
 $sub = $form->addContainer('firstperson');
 $sub->addText('name', 'Your name:', 35);
@@ -86,21 +43,7 @@ $form->addText('age', 'Your age:', 5);
 
 $form->addSubmit('submit1', 'Send');
 
-
-
-
-echo "Submitted?\n";
-Debug::dump(gettype($form->isSubmitted()));
-
-
-echo "Valid?\n";
-Debug::dump($form->isValid());
-
-echo "Values:\n";
-Debug::dump($form->getValues());
-
-
-$defaults = array(
+$form->setDefaults(array(
 	'name' => 'jim',
 	'text1' => 'hello',
 	'text2' => 'world',
@@ -120,12 +63,31 @@ $defaults = array(
 		'age' => '40',
 	),
 	'age' => '50',
-);
+));
 
-$form->setDefaults($defaults, TRUE);
-echo "Setted values:\n";
-Debug::dump($form->getValues());
+dump( $form->getValues() );
 
 
-echo "Render:\n";
-echo $form;
+
+__halt_compiler();
+
+------EXPECT------
+array(7) {
+	"name" => string(3) "jim"
+	"text1" => string(5) "hello"
+	"text2" => string(5) "world"
+	"formCont" => array(2) {
+		"name" => string(4) "jack"
+		"age" => string(2) "23"
+	}
+	"firstperson" => array(2) {
+		"name" => string(5) "david"
+		"age" => string(2) "30"
+	}
+	"secondperson" => array(3) {
+		"name" => string(3) "jim"
+		"age" => string(2) "40"
+		"avatar" => NULL
+	}
+	"age" => string(2) "50"
+}
