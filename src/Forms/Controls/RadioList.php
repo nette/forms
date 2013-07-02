@@ -22,6 +22,9 @@ use Nette,
  */
 class RadioList extends ChoiceControl
 {
+	/** @var bool */
+	public $generateId = FALSE;
+
 	/** @var Nette\Utils\Html  separator element template */
 	protected $separator;
 
@@ -98,19 +101,22 @@ class RadioList extends ChoiceControl
 		}
 
 		$input = parent::getControl();
+		$items = $this->getItems();
 		$ids = array();
-		foreach ($this->getItems() as $value => $label) {
-			$ids[$value] = $input->id . '-' . $value;
+		if ($this->generateId) {
+			foreach ($items as $value => $label) {
+				$ids[$value] = $input->id . '-' . $value;
+			}
 		}
 
 		return $this->container->setHtml(
 			Nette\Forms\Helpers::createInputList(
-				$this->translate($this->getItems()),
+				$this->translate($items),
 				array_merge($input->attrs, array(
 					'id:' => $ids,
 					'checked?' => $this->value,
 					'disabled:' => $this->disabled,
-					'data-nette-rules:' => array(key($ids) => $input->attrs['data-nette-rules']),
+					'data-nette-rules:' => array(key($items) => $input->attrs['data-nette-rules']),
 				)),
 				array('for:' => $ids) + $this->itemLabel->attrs,
 				$this->separator
