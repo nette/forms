@@ -55,7 +55,7 @@ test(function () { // 'required' is always the first rule
 	Assert::same(Form::REQUIRED, $items[0]->validator);
 	Assert::same(Form::EMAIL, $items[1]->validator);
 
-	$rules->addRule(~$form::REQUIRED);
+	@$rules->addRule(~$form::REQUIRED); // @ - negative rules are deprecated
 	$items = iterator_to_array($rules);
 	Assert::count(2, $items);
 	Assert::same(Form::REQUIRED, $items[0]->validator);
@@ -90,6 +90,6 @@ test(function () { // addRule(~Form::REQUIRED)
 	$input = $form->addText('text');
 
 	Assert::false($input->isRequired());
-	Assert::same($input, $input->addRule(~Form::REQUIRED));
+	Assert::same($input, @$input->addRule(~Form::REQUIRED)); // @ - negative rules are deprecated
 	Assert::false($input->isRequired());
 });

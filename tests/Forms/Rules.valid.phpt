@@ -53,7 +53,7 @@ test(function () {
 test(function () {
 	Assert::exception(function () {
 		$form = new Form;
-		$form->addText('foo')
-			->addRule(~Form::VALID);
+		@$form->addText('foo')
+			->addRule(~Form::VALID); // @ - negative rules are deprecated
 	}, Nette\InvalidArgumentException::class, 'You cannot use Form::VALID in the addRule method.');
 });

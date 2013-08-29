@@ -122,10 +122,10 @@ class Rules implements \IteratorAggregate
 		$rule = new Rule;
 		$rule->control = $control;
 		$rule->validator = $validator;
-		$this->adjustOperation($rule);
 		$rule->arg = $arg;
 		$rule->branch = new static($this->control);
 		$rule->branch->parent = $this;
+		$this->adjustOperation($rule);
 
 		$this->rules[] = $rule;
 		return $rule->branch;
@@ -277,6 +277,10 @@ class Rules implements \IteratorAggregate
 		if (is_string($rule->validator) && ord($rule->validator[0]) > 127) {
 			$rule->isNegative = TRUE;
 			$rule->validator = ~$rule->validator;
+			if (!$rule->branch) {
+				$name = strncmp($rule->validator, ':', 1) ? $rule->validator : 'Form:' . strtoupper($rule->validator);
+				trigger_error("Negative validation rules such as ~$name are deprecated.", E_USER_DEPRECATED);
+			}
 		}
 
 		if (!is_callable($this->getCallback($rule))) {

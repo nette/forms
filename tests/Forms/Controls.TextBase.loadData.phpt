@@ -133,8 +133,8 @@ test(function () { // non float
 	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
-	$input = $form->addText('number')
-		->addRule(~$form::FLOAT);
+	$input = @$form->addText('number')
+		->addRule(~$form::FLOAT); // @ - negative rules are deprecated
 
 	$input->validate();
 	Assert::same(10.5, $input->getValue()); // side effect
