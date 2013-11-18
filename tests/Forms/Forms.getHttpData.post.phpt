@@ -7,7 +7,6 @@
  */
 
 use Nette\Forms\Form,
-	Nette\Forms\Validator,
 	Tester\Assert;
 
 
@@ -61,11 +60,11 @@ test(function() {
 	$form = new Form;
 	$input = $form->addSubmit('send', 'Send');
 	Assert::false( $input->isSubmittedBy() );
-	Assert::false( Validator::validateSubmitted($input) );
+	Assert::false( $input::validateSubmitted($input) );
 
 	$_POST = array('send' => '');
 	$form = new Form;
 	$input = $form->addSubmit('send', 'Send');
 	Assert::true( $input->isSubmittedBy() );
-	Assert::true( Validator::validateSubmitted($input) );
+	Assert::true( $input::validateSubmitted($input) );
 });

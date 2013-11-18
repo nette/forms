@@ -17,8 +17,32 @@ use Nette;
  */
 class Rules extends Nette\Object implements \IteratorAggregate
 {
-	/** @deprecated */
-	public static $defaultMessages;
+	/** @internal */
+	const VALIDATE_PREFIX = 'validate';
+
+	/** @var array */
+	public static $defaultMessages = array(
+		Form::PROTECTION => 'Please submit this form again (security token has expired).',
+		Form::EQUAL => 'Please enter %s.',
+		Form::NOT_EQUAL => 'This value should not be %s.',
+		Form::FILLED => 'This field is required.',
+		Form::BLANK => 'This field should be blank.',
+		Form::MIN_LENGTH => 'Please enter at least %d characters.',
+		Form::MAX_LENGTH => 'Please enter no more than %d characters.',
+		Form::LENGTH => 'Please enter a value between %d and %d characters long.',
+		Form::EMAIL => 'Please enter a valid email address.',
+		Form::URL => 'Please enter a valid URL.',
+		Form::INTEGER => 'Please enter a valid integer.',
+		Form::FLOAT => 'Please enter a valid number.',
+		Form::MIN => 'Please enter a value greater than or equal to %d.',
+		Form::MAX => 'Please enter a value less than or equal to %d.',
+		Form::RANGE => 'Please enter a value between %d and %d.',
+		Form::MAX_FILE_SIZE => 'The size of the uploaded file can be up to %d bytes.',
+		Form::MAX_POST_SIZE => 'The uploaded data exceeds the limit of %d bytes.',
+		Form::IMAGE => 'The uploaded file must be image in format JPEG, GIF or PNG.',
+		Form::MIME_TYPE => 'The uploaded file is not in the expected format.',
+		Nette\Forms\Controls\SelectBox::VALID => 'Please select a valid option.',
+	);
 
 	/** @var Rule */
 	private $required;
@@ -206,7 +230,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 				return FALSE;
 
 			} elseif (!$success && !$rule->branch) {
-				$rule->control->addError(Validator::formatMessage($rule, TRUE));
+				$rule->control->addError($this->formatMessage($rule, TRUE));
 				return FALSE;
 			}
 		}
@@ -266,12 +290,43 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	{
 		$op = $rule->validator;
 		if (is_string($op) && strncmp($op, ':', 1) === 0) {
-			return 'Nette\Forms\Validator::validate' . ltrim($op, ':');
+			return get_class($rule->control) . '::' . self::VALIDATE_PREFIX . ltrim($op, ':');
 		} else {
 			return $op;
 		}
 	}
 
-}
 
-Rules::$defaultMessages = & Validator::$messages;
+	public static function formatMessage(Rule $rule, $withValue = TRUE)
+	{
+		$message = $rule->message;
+		if ($message instanceof Nette\Utils\Html) {
+			return $message;
+
+		} elseif ($message === NULL && is_string($rule->validator) && isset(self::$defaultMessages[$rule->validator])) {
+			$message = self::$defaultMessages[$rule->validator];
+
+		} elseif ($message == NULL) { // intentionally ==
+			trigger_error("Missing validation message for control '{$rule->control->getName()}'.", E_USER_WARNING);
+		}
+
+		if ($translator = $rule->control->getForm()->getTranslator()) {
+			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : NULL);
+		}
+
+		$message = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function($m) use ($rule, $withValue) {
+			static $i = -1;
+			switch ($m[1]) {
+				case 'name': return $rule->control->getName();
+				case 'label': return $rule->control->translate($rule->control->caption);
+				case 'value': return $withValue ? $rule->control->getValue() : $m[0];
+				default:
+					$args = is_array($rule->arg) ? $rule->arg : array($rule->arg);
+					$i = (int) $m[1] ? $m[1] - 1 : $i + 1;
+					return isset($args[$i]) ? ($args[$i] instanceof IControl ? ($withValue ? $args[$i]->getValue() : "%$i") : $args[$i]) : '';
+			}
+		}, $message);
+		return $message;
+	}
+
+}

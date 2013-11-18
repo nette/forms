@@ -122,4 +122,14 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 		));
 	}
 
+
+	/**
+	 * Submitted validator: has been button pressed?
+	 * @return bool
+	 */
+	public static function validateSubmitted(SubmitButton $control)
+	{
+		return $control->isSubmittedBy();
+	}
+
 }

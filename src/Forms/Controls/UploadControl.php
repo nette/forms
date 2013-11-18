@@ -90,4 +90,63 @@ class UploadControl extends BaseControl
 		return $this->value instanceof FileUpload ? $this->value->isOk() : (bool) $this->value; // ignore NULL object
 	}
 
+
+	/********************* validators ****************d*g**/
+
+
+	/**
+	 * Is file size in limit?
+	 * @return bool
+	 */
+	public static function validateFileSize(UploadControl $control, $limit)
+	{
+		foreach (static::toArray($control->getValue()) as $file) {
+			if ($file->getSize() > $limit || $file->getError() === UPLOAD_ERR_INI_SIZE) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+
+
+	/**
+	 * Has file specified mime type?
+	 * @return bool
+	 */
+	public static function validateMimeType(UploadControl $control, $mimeType)
+	{
+		$mimeTypes = is_array($mimeType) ? $mimeType : explode(',', $mimeType);
+		foreach (static::toArray($control->getValue()) as $file) {
+			$type = strtolower($file->getContentType());
+			if (!in_array($type, $mimeTypes, TRUE) && !in_array(preg_replace('#/.*#', '/*', $type), $mimeTypes, TRUE)) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+
+
+	/**
+	 * Is file image?
+	 * @return bool
+	 */
+	public static function validateImage(UploadControl $control)
+	{
+		foreach (static::toArray($control->getValue()) as $file) {
+			if (!$file->isImage()) {
+				return FALSE;
+			}
+		}
+		return TRUE;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	private static function toArray($value)
+	{
+		return $value instanceof FileUpload ? array($value) : (array) $value;
+	}
+
 }
