@@ -1,4 +1,4 @@
-[Nette Framework - client-side script for forms](http://nette.org)
+[NetteForms.js for Nette Framework](http://nette.org)
 ===================================
 
 This is Bower package.
