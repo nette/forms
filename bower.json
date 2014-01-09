@@ -1,27 +1,27 @@
 {
-  "name": "nette-forms",
-  "version": "0.0.3",
-  "authors": [
-    "David Grudl (http://davidgrudl.com)"
-  ],
-  "description": "Client side script for Nette Framework forms",
-  "main": "netteForms.js",
-  "keywords": [
-    "nette",
-    "validation",
-    "forms"
-  ],
-  "license": [
-    "BSD-3-Clause",
-    "GPL-2.0",
-    "GPL-3.0"
-  ],
-  "homepage": "http://nette.org",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+	"name": "nette-forms",
+	"version": "0.0.3",
+	"authors": [
+		"David Grudl (http://davidgrudl.com)"
+	],
+	"description": "Client side script for Nette Framework forms",
+	"main": "netteForms.js",
+	"keywords": [
+		"nette",
+		"validation",
+		"forms"
+	],
+	"license": [
+		"BSD-3-Clause",
+		"GPL-2.0",
+		"GPL-3.0"
+	],
+	"homepage": "http://nette.org",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	]
 }
