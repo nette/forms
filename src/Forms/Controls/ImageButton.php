@@ -9,9 +9,9 @@ namespace Nette\Forms\Controls;
 
 
 /**
- * Submittable image button form control.
+ * Image button form control.
  */
-class ImageButton extends SubmitButton
+class ImageButton extends Button
 {
 
 	/**

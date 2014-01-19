@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\Forms\Controls\Button & SubmitButton
+ * Test: Nette\Forms\Controls\Button
  */
 
 use Nette\Forms\Form;
