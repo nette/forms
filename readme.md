@@ -7,5 +7,5 @@ Getting started
 ---------------
 
 ```shell
-bower install nette-forms
+bower install nette-forms-o5
 ```
