@@ -3,7 +3,7 @@
 	"version": "0.0.4",
 	"authors": [
 		"David Grudl (http://davidgrudl.com)",
-        "Petr Bugyík (http://petr.bugyik.cz)",
+        	"Petr Bugyík (http://petr.bugyik.cz)"
 	],
 	"description": "Client side script for Nette Framework forms - wrapped by a self-executing anonymous function",
 	"main": "netteForms.js",
