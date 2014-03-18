@@ -1,0 +1,35 @@
+{
+	"name": "nette/forms",
+	"description": "Nette Forms: greatly facilitates web forms",
+	"homepage": "http://nette.org",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "http://davidgrudl.com"
+		},
+		{
+			"name": "Nette Community",
+			"homepage": "http://nette.org/contributors"
+		}
+	],
+	"require": {
+		"php": ">=5.3.1",
+		"nette/component-model": "~2.2",
+		"nette/http": "~2.2",
+		"nette/utils": "~2.2"
+	},
+	"require-dev": {
+		"nette/tester": "~1.0",
+		"latte/latte": "~2.2"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	},
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.2-dev"
+		}
+	}
+}
