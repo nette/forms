@@ -341,26 +341,16 @@ Nette.validators = {
 		}
 		return true;
 	},
-
-	mimeType: function (elem, arg, val) {
-		arg = Nette.isArray(arg) ? arg : [arg];
-		for (var i = 0, len = arg.length, re = []; i < len; i++) {
-			re.push('^' + arg[i].replace('*', '.*') + '$');
-		}
-		re = new RegExp(re.join('|'));
-
+	image: function (elem, arg, val) {
 		if (window.FileList && val instanceof FileList) {
 			for (var i = 0; i < val.length; i++) {
-				if (val[i].type && !re.test(val[i].type)) {
+				var type = val[i].type;
+				if (type && type !== 'image/gif' && type !== 'image/png' && type !== 'image/jpeg') {
 					return false;
 				}
 			}
 		}
 		return true;
-	},
-
-	image: function (elem, arg, val) {
-		return Nette.validators.mimeType(elem, ['image/gif', 'image/png', 'image/jpeg'], val);
 	}
 };
 
