@@ -1,0 +1,27 @@
+{
+	"name": "nette-forms",
+	"description": "Client side script for Nette Forms Component",
+	"version": "2.1.0",
+	"homepage": "http://nette.org",
+	"keywords": [
+		"nette",
+		"validation",
+		"forms"
+	],
+	"license": [
+		"BSD-3-Clause",
+		"GPL-2.0",
+		"GPL-3.0"
+	],
+	"authors": [
+		"David Grudl (http://davidgrudl.com)"
+	],
+	"main": "src/assets/netteForms.js",
+	"ignore": [
+		"src/Bridges",
+		"src/Forms",
+		"tests",
+		"**/.*",
+		"*.json"
+	]
+}
