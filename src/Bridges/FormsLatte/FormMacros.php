@@ -139,7 +139,7 @@ class FormMacros extends MacroSet
 	 */
 	public function macroInputAttr(MacroNode $node, PhpWriter $writer)
 	{
-		throw new CompileException("Use n:name instead of n:input.");
+		throw new CompileException('Use n:name instead of n:input.');
 	}
 
 
