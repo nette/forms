@@ -29,6 +29,7 @@ class SelectBox extends ChoiceControl
 	{
 		parent::__construct($label, $items);
 		$this->setOption('type', 'select');
+		$this->addRule([$this, 'isOk'], Nette\Forms\Validator::$messages[self::VALID]);
 	}
 
 
@@ -101,15 +102,15 @@ class SelectBox extends ChoiceControl
 
 
 	/**
-	 * Performs the server side validation.
-	 * @return void
+	 * @return bool
 	 */
-	public function validate()
+	public function isOk()
 	{
-		parent::validate();
-		if (!$this->isDisabled() && $this->prompt === FALSE && $this->getValue() === NULL && $this->options && $this->control->size < 2) {
-			$this->addError(Nette\Forms\Validator::$messages[self::VALID]);
-		}
+		return $this->isDisabled()
+			|| $this->prompt !== FALSE
+			|| $this->getValue() !== NULL
+			|| !$this->options
+			|| $this->control->size > 1;
 	}
 
 }
