@@ -11,11 +11,11 @@ error
 
 		<label for="frm-username" title="hello"> <input type="text" name="username" id="frm-username" value="" title="Hello" size="10"> </label>
 error		<label for="frm-select"></label>
-<select name="select" id="frm-select" title="Hello" size="10"><option value="m">male</option><option value="f">female</option></select>
+<select name="select" id="frm-select" data-nette-rules='[{"op":"Nette\\Forms\\Controls\\SelectBox::validateValid","msg":"Please select a valid option."}]' title="Hello" size="10"><option value="m">male</option><option value="f">female</option></select>
 
 		<br>
 
-		<label for="frm-select" title="hello"> <select name="select" id="frm-select" title="Hello" size="10"><option value="m">male</option><option value="f">female</option></select> </label>
+		<label for="frm-select" title="hello"> <select name="select" id="frm-select" data-nette-rules='[{"op":"Nette\\Forms\\Controls\\SelectBox::validateValid","msg":"Please select a valid option."}]' title="Hello" size="10"><option value="m">male</option><option value="f">female</option></select> </label>
 		<label for="frm-area"></label>
 <textarea name="area" id="frm-area" title="Hello" size="10">one&lt;two</textarea>
 
@@ -76,10 +76,10 @@ error		<label for="frm-select"></label>
 </FORM>
 
 
-<select name="select" id="frm-select"><option value="m">male</option><option value="f">female</option></select>
+<select name="select" id="frm-select" data-nette-rules='[{"op":"Nette\\Forms\\Controls\\SelectBox::validateValid","msg":"Please select a valid option."}]'><option value="m">male</option><option value="f">female</option></select>
 
 
 <textarea title="10" name="area" id="frm-area">one&lt;two</textarea>
 
 
-<select name="select" id="frm-select"><option value="m">male</option><option value="f">female</option></select>
+<select name="select" id="frm-select" data-nette-rules='[{"op":"Nette\\Forms\\Controls\\SelectBox::validateValid","msg":"Please select a valid option."}]'><option value="m">male</option><option value="f">female</option></select>

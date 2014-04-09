@@ -22,8 +22,8 @@ class Translator implements Nette\Localization\ITranslator
 	}
 }
 
-
-test(function() {
+$validOptionRule = '{"op":"Nette\\\\Forms\\\\Controls\\\\SelectBox::validateValid","msg":"Please select a valid option."}';
+test(function() use($validOptionRule) {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', array(
 		'a' => 'First',
@@ -35,22 +35,22 @@ test(function() {
 	Assert::same('<label for="frm-list">Another label</label>', (string) $input->getLabel('Another label'));
 
 	Assert::type('Nette\Utils\Html', $input->getControl());
-	Assert::same('<select name="list" id="frm-list"><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" data-nette-rules=\'[' . $validOptionRule . ']\'><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
 
 
-test(function() { // selected
+test(function() use($validOptionRule) { // selected
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', array(
 		'a' => 'First',
 		0 => 'Second',
 	))->setValue(0);
 
-	Assert::same('<select name="list" id="frm-list"><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" data-nette-rules=\'[' . $validOptionRule . ']\'><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
 });
 
 
-test(function() { // translator & groups
+test(function() use($validOptionRule) { // translator & groups
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', array(
 		'a' => 'First',
@@ -60,11 +60,11 @@ test(function() { // translator & groups
 
 	Assert::same('<label for="frm-list">LABEL</label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-list">ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
-	Assert::same('<select name="list" id="frm-list"><option value="">PROMPT</option><option value="a">FIRST</option><optgroup label="GROUP"><option value="0">SECOND</option><option value="1">THIRD</option></optgroup></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" data-nette-rules=\'[' . $validOptionRule . ']\'><option value="">PROMPT</option><option value="a">FIRST</option><optgroup label="GROUP"><option value="0">SECOND</option><option value="1">THIRD</option></optgroup></select>', (string) $input->getControl());
 });
 
 
-test(function() { // Html with translator & groups
+test(function() use($validOptionRule) { // Html with translator & groups
 	$form = new Form;
 	$input = $form->addSelect('list', Html::el('b', 'Label'), array(
 		'a' => Html::el('option', 'First')->class('class'),
@@ -74,22 +74,22 @@ test(function() { // Html with translator & groups
 
 	Assert::same('<label for="frm-list"><b>Label</b></label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-list"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
-	Assert::same('<select name="list" id="frm-list"><option class="class" value="">Prompt</option><option class="class" value="a">First</option><optgroup label="GROUP"><option value="0">Second</option></optgroup></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" data-nette-rules=\'[' . $validOptionRule . ']\'><option class="class" value="">Prompt</option><option class="class" value="a">First</option><optgroup label="GROUP"><option value="0">Second</option></optgroup></select>', (string) $input->getControl());
 });
 
 
-test(function() { // validation rules
+test(function() use($validOptionRule) { // validation rules
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', array(
 		'a' => 'First',
 		0 => 'Second',
 	))->setRequired('required');
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\'><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"required"},' . $validOptionRule . ']\'><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
 
 
-test(function() { // container
+test(function() use($validOptionRule) { // container
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addSelect('list', 'Label', array(
@@ -97,27 +97,27 @@ test(function() { // container
 		0 => 'Second',
 	));
 
-	Assert::same('<select name="container[list]" id="frm-container-list"><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="container[list]" id="frm-container-list" data-nette-rules=\'[' . $validOptionRule . ']\'><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
 
 
-test(function() { // disabled all
+test(function() use($validOptionRule) { // disabled all
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', array(
 		'a' => 'First',
 		0 => 'Second',
 	))->setDisabled(TRUE);
 
-	Assert::same('<select name="list" id="frm-list" disabled><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" disabled data-nette-rules=\'[' . $validOptionRule . ']\'><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
 
 
-test(function() { // disabled one
+test(function() use($validOptionRule) { // disabled one
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', array(
 		'a' => 'First',
 		0 => 'Second',
 	))->setDisabled(array('a'));
 
-	Assert::same('<select name="list" id="frm-list"><option value="a" disabled>First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" data-nette-rules=\'[' . $validOptionRule . ']\'><option value="a" disabled>First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
