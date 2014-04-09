@@ -20,7 +20,7 @@ use Nette;
 class SelectBox extends ChoiceControl
 {
 	/** validation rule */
-	const VALID = ':selectBoxValid';
+	const VALID = 'Nette\Forms\Controls\SelectBox::validateValid';
 
 	/** @var array of option / optgroup */
 	private $options = array();
@@ -28,7 +28,12 @@ class SelectBox extends ChoiceControl
 	/** @var mixed */
 	private $prompt = FALSE;
 
-
+	public function __construct($label = NULL, array $items = NULL) {
+		parent::__construct($label, $items);
+		$this->addRule(self::VALID);
+	}
+	
+	
 	/**
 	 * Sets first prompt item in select box.
 	 * @param  string
@@ -98,15 +103,11 @@ class SelectBox extends ChoiceControl
 
 
 	/**
-	 * Performs the server side validation.
-	 * @return void
+	 * @return bool
 	 */
-	public function validate()
+	public static function validateValid(SelectBox $selectBox)
 	{
-		parent::validate();
-		if (!$this->isDisabled() && $this->prompt === FALSE && $this->getValue() === NULL) {
-			$this->addError(Nette\Forms\Validator::$messages[self::VALID]);
-		}
+		return $selectBox->isDisabled() || $selectBox->prompt !== FALSE || $selectBox->getValue() !== NULL;
 	}
 
 }
