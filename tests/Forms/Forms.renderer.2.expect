@@ -24,7 +24,7 @@
 
 	<dt><label for="frm-gender">Your gender:</label></dt>
 
-	<dd><select name="gender" id="frm-gender"><option style="color: #248bd3" value="m">male</option><option style="color: #e948d4" value="f">female</option></select>
+	<dd><select name="gender" id="frm-gender" data-nette-rules='[{"op":"Nette\\Forms\\Controls\\SelectBox::validateValid","msg":"Please select a valid option."}]'><option style="color: #248bd3" value="m">male</option><option style="color: #e948d4" value="f">female</option></select>
 
 	<span class="error">
 		Please select a valid option.
@@ -68,7 +68,7 @@
 
 	<dt><label for="frm-country">Country:</label></dt>
 
-	<dd class="odd"><select name="country" id="frm-country" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"Select your country"}],"control":"send","arg":true}]'><option value="">Select your country</option><optgroup label="Europe"><option value="CZ">Czech Republic</option><option value="SK">Slovakia</option><option value="GB">United Kingdom</option></optgroup><option value="CA">Canada</option><option value="US">United States</option><option value="?">other</option></select></dd>
+	<dd class="odd"><select name="country" id="frm-country" data-nette-rules='[{"op":"Nette\\Forms\\Controls\\SelectBox::validateValid","msg":"Please select a valid option."},{"op":":equal","rules":[{"op":":filled","msg":"Select your country"}],"control":"send","arg":true}]'><option value="">Select your country</option><optgroup label="Europe"><option value="CZ">Czech Republic</option><option value="SK">Slovakia</option><option value="GB">United Kingdom</option></optgroup><option value="CA">Canada</option><option value="US">United States</option><option value="?">other</option></select></dd>
 
 </dl>
 </div>
