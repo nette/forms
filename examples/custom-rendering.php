@@ -116,7 +116,7 @@ if ($form->isSuccess()) {
 		background: #EEE;
 	}
 </style>
-<script src="http://nette.github.com/resources/js/netteForms.js"></script>
+<script src="http://nette.github.io/resources/js/netteForms.js"></script>
 
 <h1>Nette Forms custom rendering example</h1>
 
