@@ -104,7 +104,7 @@ class SelectBox extends ChoiceControl
 	public function validate()
 	{
 		parent::validate();
-		if (!$this->isDisabled() && $this->prompt === FALSE && $this->getValue() === NULL) {
+		if (!$this->isDisabled() && $this->prompt === FALSE && $this->getValue() === NULL && count($this->options) > 0) {
 			$this->addError(Nette\Forms\Validator::$messages[self::VALID]);
 		}
 	}
