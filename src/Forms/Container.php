@@ -269,11 +269,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addTextArea($name, $label = NULL, $cols = NULL, $rows = NULL)
 	{
 		$control = new Controls\TextArea($label);
-		if ($cols || $rows) {
-			trigger_error(__METHOD__ . '() parameters $cols and $rows are deprecated, use setAttribute(...).', E_USER_DEPRECATED);
-			$control->setAttribute('cols', $cols)->setAttribute('rows', $rows);
+		if ($cols) {
+			trigger_error(__METHOD__ . '() parameters $cols is deprecated, use setAttribute("cols", ...).', E_USER_DEPRECATED);
+			$control->setAttribute('cols', $cols);
 		}
-		return $this[$name] = $control;
+		return $this[$name] = $control->setAttribute('rows', $rows);
 	}
 
 
