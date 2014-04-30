@@ -253,7 +253,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 			'id' => $this->getHtmlId(),
 			'required' => $this->isRequired(),
 			'disabled' => $this->isDisabled(),
-			'data-nette-rules' => Nette\Forms\Helpers::exportRules($this->rules),
+			'data-nette-rules' => Nette\Forms\Helpers::exportRules($this->rules) ?: NULL,
 		));
 	}
 
