@@ -1,6 +1,9 @@
 Nette Forms: greatly facilitates web forms
 ==========================================
 
+[![Downloads this Month](https://img.shields.io/packagist/dm/nette/forms.svg)](https://packagist.org/packages/nette/forms)
+[![Build Status](https://travis-ci.org/nette/forms.svg?branch=master)](https://travis-ci.org/nette/forms)
+
 Nette\Forms greatly facilitates creating and processing web forms. What it can really do?
 
 - validate sent data both client-side (JavaScript) and server-side
@@ -52,7 +55,3 @@ Nette Framework adds `required` class to all mandatory elements. Adding the foll
 ```
 
 [Continue…](http://doc.nette.org/en/forms).
-
------
-
-[![Build Status](https://secure.travis-ci.org/nette/forms.png?branch=master)](http://travis-ci.org/nette/forms)
