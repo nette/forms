@@ -1,6 +1,6 @@
 <?php
 %A%
-Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control["myForm"], array('id' => 'myForm', 'class'=>"ajax")) ;$iterations = 0; foreach (array('id', 'username', 'select', 'area', 'send') as $name) { ?>
+Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array('id' => 'myForm', 'class'=>"ajax")) ;$iterations = 0; foreach (array('id', 'username', 'select', 'area', 'send') as $name) { ?>
 		<?php $_input = is_object($name) ? $name : $_form[$name]; if ($_label = $_input->getLabel()) echo $_label  ?>
 
 <?php $_input = is_object($name) ? $name : $_form[$name]; echo $_input->getControl()->addAttributes(array('title' => 'Hello', 'size' => 10)) ?>
@@ -33,10 +33,10 @@ Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control[
 
 	<?php if ($_label = $_form["my"]->getLabel()) echo $_label ; echo $_form["my"]->getControl() ?>
 
-<?php Nette\Bridges\FormsLatte\FormMacros::renderFormEnd($_form) ?>
+<?php Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
 
 
-<?php Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control["myForm"], array()) ;Nette\Bridges\FormsLatte\FormMacros::renderFormEnd($_form) ?>
+<?php Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array()) ;Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
 
 
 
@@ -72,19 +72,19 @@ Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control[
 <?php $iterations++; } ?>
 
 
-<?php if (1) { ?><form id="myForm" class="ajax"<?php Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control["myForm"], array (
+<?php if (1) { ?><form id="myForm" class="ajax"<?php Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
   'id' => NULL,
   'class' => NULL,
 ), FALSE) ?>>
 	<input<?php $_input = $_form["username"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
-<?php Nette\Bridges\FormsLatte\FormMacros::renderFormEnd($_form, FALSE) ?></form>
+<?php Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?></form>
 <?php } ?>
 
 
-<FORM<?php Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = is_object($_control['myForm']) ? $_control['myForm'] : $_control[$_control['myForm']], array (
+<FORM<?php Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = is_object($_control['myForm']) ? $_control['myForm'] : $_control[$_control['myForm']], array (
 ), FALSE) ?>>
 	<input<?php $_input = $_form["username"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
-<?php Nette\Bridges\FormsLatte\FormMacros::renderFormEnd($_form, FALSE) ?></FORM>
+<?php Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?></FORM>
 
 
 <select<?php $_input = $_form["select"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>
