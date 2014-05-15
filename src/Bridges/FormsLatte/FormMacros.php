@@ -50,7 +50,7 @@ class FormMacros extends MacroSet
 	 */
 	public function macroForm(MacroNode $node, PhpWriter $writer)
 	{
-		if ($node->htmlNode && strtolower($node->htmlNode->name) === 'form') {
+		if ($node->prefix) {
 			throw new CompileException('Did you mean <form n:name=...> ?');
 		}
 		$name = $node->tokenizer->fetchWord();
@@ -73,7 +73,7 @@ class FormMacros extends MacroSet
 	{
 		$name = $node->tokenizer->fetchWord();
 		if ($name === FALSE) {
-			throw new CompileException("Missing form name in {{$node->name}}.");
+			throw new CompileException("Missing name in {{$node->name}}.");
 		}
 		$node->tokenizer->reset();
 		return $writer->write(
@@ -182,7 +182,7 @@ class FormMacros extends MacroSet
 
 	public function macroName(MacroNode $node, PhpWriter $writer)
 	{
-		if (!$node->htmlNode) {
+		if (!$node->prefix) {
 			throw new CompileException("Unknown macro {{$node->name}}, use n:{$node->name} attribute.");
 		} elseif ($node->prefix !== MacroNode::PREFIX_NONE) {
 			throw new CompileException("Unknown attribute n:{$node->prefix}-{$node->name}, use n:{$node->name} attribute.");
