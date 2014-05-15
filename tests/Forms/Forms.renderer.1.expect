@@ -1,6 +1,6 @@
 <form action="" method="post" enctype="multipart/form-data">
 
-<fieldset>
+<fieldset id="test-group-id-set-via-option">
 <legend>Personal data</legend>
 <p>We value your privacy and we ensure that the information you give to us will not be shared to other entities.</p>
 
