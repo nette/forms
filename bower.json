@@ -1,7 +1,6 @@
 {
 	"name": "nette-forms",
 	"description": "Client side script for Nette Forms Component",
-	"version": "2.1.0",
 	"homepage": "http://nette.org",
 	"keywords": [
 		"nette",
