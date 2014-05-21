@@ -380,7 +380,7 @@ Nette.toggleControl = function(elem, rules, topSuccess, firsttime) {
 	rules = rules || Nette.parseJSON(elem.getAttribute('data-nette-rules'));
 	var has = false, __hasProp = Object.prototype.hasOwnProperty, handler = function() {
 		Nette.toggleForm(elem.form, elem);
-	};
+	}, handled = {};
 
 	for (var id = 0, len = rules.length; id < len; id++) {
 		var rule = rules[id], op = rule.op.match(/(~)?([^?]+)/);
@@ -410,7 +410,13 @@ Nette.toggleControl = function(elem, rules, topSuccess, firsttime) {
 					els = el.nodeName ? [el] : el; // is radiolist?
 
 				for (var i = 0; i < els.length; i++) {
+					if (els[i].id && handled[els[i].id]) {
+						continue;
+					}
 					Nette.addEvent(els[i], oldIE && el.type in {checkbox: 1, radio: 1} ? 'click' : 'change', handler);
+					if (els[i].id) {
+						handled[els[i].id] = true;
+					}
 				}
 			}
 			for (var id2 in rule.toggle || []) {
