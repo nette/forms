@@ -117,7 +117,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 
 
 	/**
-	 * Adds a validation condition a returns new branch.
+	 * Adds a validation condition and returns new branch.
 	 * @param  mixed      condition type
 	 * @param  mixed      optional condition arguments
 	 * @return Rules      new branch
