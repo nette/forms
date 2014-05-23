@@ -496,7 +496,7 @@ Nette.inArray = function(arr, val) {
 		}
 		return false;
 	}
-}
+};
 
 
 Nette.addEvent(window, 'load', function() {
