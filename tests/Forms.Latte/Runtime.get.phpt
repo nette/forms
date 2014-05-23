@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Bridges\FormsLatte\FormMacros: GET form
- *
- * @author     Filip Procházka
  */
 
 use Nette\Bridges\FormsLatte\Runtime;

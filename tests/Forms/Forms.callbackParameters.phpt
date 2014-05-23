@@ -2,8 +2,6 @@
 
 /**
  * Test: Nette\Forms success callback takes $form and $values parameters.
- *
- * @author     rostenkowski
  */
 
 use Nette\Utils\ArrayHash;

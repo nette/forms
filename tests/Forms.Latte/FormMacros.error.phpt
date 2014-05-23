@@ -2,8 +2,6 @@
 
 /**
  * Test: FormMacros errors.
- *
- * @author     David Grudl
  */
 
 use Nette\Forms\Form,
