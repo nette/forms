@@ -64,10 +64,10 @@ class Runtime extends Nette\Object
 		}
 
 		if (iterator_count($form->getComponents(TRUE, 'Nette\Forms\Controls\TextInput')) < 2) {
-			$s .= '<!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->';
+			$s .= "<!--[if IE]><input type=IEbug disabled style=\"display:none\"><![endif]-->\n";
 		}
 
-		echo ($s ? "<div>$s</div>\n" : '') . ($withTags ? $form->getElementPrototype()->endTag() . "\n" : '');
+		echo $s . ($withTags ? $form->getElementPrototype()->endTag() . "\n" : '');
 	}
 
 }
