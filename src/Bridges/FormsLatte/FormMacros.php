@@ -154,7 +154,7 @@ class FormMacros extends MacroSet
 		}
 		$name = array_shift($words);
 		$tagName = strtolower($node->htmlNode->name);
-		$node->isEmpty = !in_array($tagName, array('form', 'select', 'textarea'));
+		$node->isEmpty = !in_array($tagName, array('form', 'select', 'textarea'), TRUE);
 
 		if ($tagName === 'form') {
 			return $writer->write(
