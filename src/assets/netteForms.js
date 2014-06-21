@@ -442,7 +442,17 @@ Nette.parseJSON = function(s) {
 Nette.toggle = function(id, visible, srcElement) {
 	var elem = document.getElementById(id);
 	if (elem) {
-		elem.style.display = visible ? '' : 'none';
+		if (visible) {
+			elem.style.display = '';
+
+			var children = elem.getElementsByTagName('input');
+			if (children.length) {
+				children[0].focus();
+			}
+
+		} else {
+			elem.style.display = 'none';
+		}
 	}
 };
 
