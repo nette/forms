@@ -445,9 +445,9 @@ Nette.toggle = function(id, visible, srcElement) {
 		if (visible) {
 			elem.style.display = '';
 
-			var children = elem.getElementsByTagName('input');
-			if (children.length) {
-				children[0].focus();
+			var inputs = elem.getElementsByTagName('input');
+			if (inputs.length) {
+				inputs[0].focus();
 			}
 
 		} else {
