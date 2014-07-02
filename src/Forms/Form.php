@@ -91,6 +91,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/** @var array of function(Form $sender); Occurs when the form is submitted */
 	public $onSubmit;
+	
+	/** @var array of function(Form $sender, array $values); Occurs when values are set or form receive responsea */
+	public $onPopulate;
 
 	/** @var mixed or NULL meaning: not detected yet */
 	private $submittedBy;
@@ -154,6 +157,10 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		if ($obj instanceof self) {
 			throw new Nette\InvalidStateException('Nested forms are forbidden.');
 		}
+		
+		if ($this->isSubmitted()) {
+			$this->onPopulate($this, $this->getHttpData());
+		}
 	}
 
 
@@ -211,6 +218,20 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function getMethod()
 	{
 		return $this->getElementPrototype()->method;
+	}
+	
+	
+	
+	/**
+	* @param array|\Traversable $values
+	* @param bool $erase
+	* @return self
+	*/
+	public function setValues($values, $erase = FALSE)
+	{
+		$this->onPopulate($this, $values);
+
+		return parent::setValues($values, $erase);
 	}
 
 
