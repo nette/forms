@@ -89,8 +89,10 @@ class TextInput extends TextBase
 			}
 		}
 
-		if ($input->type !== 'password') {
-			$input->value = $this->rawValue === '' ? $this->translate($this->emptyValue) : $this->rawValue;
+		if ($input->type !== 'password' && ($this->rawValue !== '' || $this->emptyValue !== '')) {
+			$input->value = $this->rawValue === ''
+				? $this->translate($this->emptyValue)
+				: $this->rawValue;
 		}
 		return $input;
 	}

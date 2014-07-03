@@ -77,13 +77,13 @@ test(function() { // validation rule required & PATTERN
 
 	foreach (array('text', 'search', 'tel', 'url', 'email') as $type) {
 		$input->setType($type);
-		Assert::same('<input type="' . $type . '" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\' pattern="[0-9]+" value="">', (string) $input->getControl());
+		Assert::same('<input type="' . $type . '" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\' pattern="[0-9]+">', (string) $input->getControl());
 	}
 	$input->setType('password');
 	Assert::same('<input type="password" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\' pattern="[0-9]+">', (string) $input->getControl());
 
 	$input->setType('number');
-	Assert::same('<input type="number" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\' value="">', (string) $input->getControl());
+	Assert::same('<input type="number" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 });
 
 
@@ -93,7 +93,7 @@ test(function() { // conditional required
 	$input->addCondition($form::FILLED)
 			->addRule($form::FILLED);
 
-	Assert::same('<input type="text" name="text" id="frm-text" data-nette-rules=\'[{"op":":filled","rules":[{"op":":filled","msg":"This field is required."}],"control":"text"}]\' value="">', (string) $input->getControl());
+	Assert::same('<input type="text" name="text" id="frm-text" data-nette-rules=\'[{"op":":filled","rules":[{"op":":filled","msg":"This field is required."}],"control":"text"}]\'>', (string) $input->getControl());
 });
 
 
@@ -101,7 +101,7 @@ test(function() { // maxlength without validation rule
 	$form = new Form;
 	$input = $form->addText('text', NULL, NULL, 30);
 
-	Assert::same('<input type="text" name="text" maxlength="30" id="frm-text" value="">', (string) $input->getControl());
+	Assert::same('<input type="text" name="text" maxlength="30" id="frm-text">', (string) $input->getControl());
 });
 
 
@@ -110,7 +110,7 @@ test(function() { // validation rule LENGTH
 	$input = $form->addText('text', NULL, NULL, 30)
 		->addRule($form::LENGTH, NULL, array(10, 20));
 
-	Assert::same('<input type="text" name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\' value="">', (string) $input->getControl());
+	Assert::same('<input type="text" name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\'>', (string) $input->getControl());
 });
 
 
@@ -119,7 +119,7 @@ test(function() { // validation rule MAX_LENGTH
 	$input = $form->addText('text', NULL, NULL, 30)
 		->addRule($form::MAX_LENGTH, NULL, 10);
 
-	Assert::same('<input type="text" name="text" maxlength="10" id="frm-text" data-nette-rules=\'[{"op":":maxLength","msg":"Please enter no more than 10 characters.","arg":10}]\' value="">', (string) $input->getControl());
+	Assert::same('<input type="text" name="text" maxlength="10" id="frm-text" data-nette-rules=\'[{"op":":maxLength","msg":"Please enter no more than 10 characters.","arg":10}]\'>', (string) $input->getControl());
 });
 
 
@@ -133,7 +133,7 @@ test(function() { // validation rule RANGE without setType
 		->addRule(Form::MAX, 'Must be less than or equal to %d', 101)
 		->addRule(Form::RANGE, 'Must be in range from %d to %d', array($minInput, $maxInput));
 
-	Assert::same('<input type="text" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\' value="">', (string) $input->getControl());
+	Assert::same('<input type="text" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\'>', (string) $input->getControl());
 });
 
 
@@ -148,7 +148,7 @@ test(function() { // validation rule RANGE with setType
 		->addRule(Form::MAX, 'Must be less than or equal to %d', 101)
 		->addRule(Form::RANGE, 'Must be in range from %d to %d', array($minInput, $maxInput));
 
-	Assert::same('<input type="number" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\' min="1" max="100" value="">', (string) $input->getControl());
+	Assert::same('<input type="number" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\' min="1" max="100">', (string) $input->getControl());
 });
 
 
@@ -161,10 +161,19 @@ test(function() { // setEmptyValue
 });
 
 
+test(function() { // setDefaultValue
+	$form = new Form;
+	$input = $form->addText('text')
+		->setDefaultValue('default');
+
+	Assert::same('<input type="text" name="text" id="frm-text" value="default">', (string) $input->getControl());
+});
+
+
 test(function() { // container
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addText('text');
 
-	Assert::same('<input type="text" name="container[text]" id="frm-container-text" value="">', (string) $input->getControl());
+	Assert::same('<input type="text" name="container[text]" id="frm-container-text">', (string) $input->getControl());
 });
