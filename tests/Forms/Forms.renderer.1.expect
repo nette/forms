@@ -14,7 +14,7 @@
 <tr class="required">
 	<th><label for="frm-age" class="required">Your age:</label></th>
 
-	<td><input type="text" name="age" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Age must be numeric value"},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' value="" class="text">
+	<td><input type="text" name="age" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Age must be numeric value"},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' class="text">
 
 	<span class="error">
 		Enter your age
@@ -52,13 +52,13 @@
 <tr>
 	<th><label for="frm-street">Street:</label></th>
 
-	<td><input type="text" name="street" id="frm-street" value="" class="text"></td>
+	<td><input type="text" name="street" id="frm-street" class="text"></td>
 </tr>
 
 <tr>
 	<th><label for="frm-city">City:</label></th>
 
-	<td><input type="text" name="city" id="frm-city" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"Enter your shipping address"}],"control":"send","arg":true}]' value="" class="text">
+	<td><input type="text" name="city" id="frm-city" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"Enter your shipping address"}],"control":"send","arg":true}]' class="text">
 
 	<span class="error">
 		Enter your shipping address

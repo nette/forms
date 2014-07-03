@@ -56,7 +56,7 @@
 
 	<dt><label for="frm-street">Street:</label></dt>
 
-	<dd class="odd"><input type="text" name="street" id="frm-street" value="" class="text"></dd>
+	<dd class="odd"><input type="text" name="street" id="frm-street" class="text"></dd>
 
 
 
