@@ -469,6 +469,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	}
 
 
+	/** @internal */
 	public function validateMaxPostSize()
 	{
 		if (!$this->submittedBy || strcasecmp($this->getMethod(), 'POST') || empty($_SERVER['CONTENT_LENGTH'])) {
