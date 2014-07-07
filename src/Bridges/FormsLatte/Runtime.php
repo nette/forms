@@ -16,6 +16,7 @@ use Nette,
  * Runtime helpers for Latte.
  *
  * @author     David Grudl
+ * @internal
  */
 class Runtime extends Nette\Object
 {
