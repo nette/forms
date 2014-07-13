@@ -151,6 +151,16 @@ test(function() use ($series) { // setValue() and invalid argument
 });
 
 
+test(function() use ($series) { // setValue() ignore values out of range
+	$form = new Form;
+	$input = $form['select'] = new ChoiceControl(NULL, $series);
+	$input->setValidateRange(FALSE);
+	$input->setValue('unknown');
+	
+	Assert::null( $input->getValue() );
+});
+
+
 test(function() { // object as value
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(NULL, array('2013-07-05 00:00:00' => 1));

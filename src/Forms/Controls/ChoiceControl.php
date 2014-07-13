@@ -18,11 +18,15 @@ use Nette;
  * @property   array $items
  * @property-read mixed $selectedItem
  * @property-read mixed $rawValue
+ * @method setValidateRange(bool $validateRange)
  */
 abstract class ChoiceControl extends BaseControl
 {
 	/** @var array */
 	private $items = array();
+
+	/** @var bool */
+	public $validateRange = TRUE;
 
 
 	public function __construct($label = NULL, array $items = NULL)
@@ -58,7 +62,7 @@ abstract class ChoiceControl extends BaseControl
 	 */
 	public function setValue($value)
 	{
-		if ($value !== NULL && !array_key_exists((string) $value, $this->items)) {
+		if ($this->validateRange && $value !== NULL && !array_key_exists((string) $value, $this->items)) {
 			$range = Nette\Utils\Strings::truncate(implode(', ', array_map(function($s) { return var_export($s, TRUE); }, array_keys($this->items))), 70, '...');
 			throw new Nette\InvalidArgumentException("Value '$value' is out of allowed range [$range] in field '{$this->name}'.");
 		}
