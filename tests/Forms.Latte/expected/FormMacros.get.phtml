@@ -1,8 +1,8 @@
 <?php
 %A%
-Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array()) ;Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
+echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array()) ;echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
 
 
-<form<?php Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
+<form<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
 ), FALSE) ?>>
-<?php Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?></form>
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?></form>

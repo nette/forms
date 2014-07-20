@@ -23,7 +23,7 @@ class Runtime extends Nette\Object
 
 	/**
 	 * Renders form begin.
-	 * @return void
+	 * @return string
 	 */
 	public static function renderFormBegin(Form $form, array $attrs, $withTags = TRUE)
 	{
@@ -37,7 +37,7 @@ class Runtime extends Nette\Object
 			$el->action = preg_replace('~\?[^#]*~', '', $el->action, 1);
 		}
 		$el->addAttributes($attrs);
-		echo $withTags ? $el->startTag() : $el->attributes();
+		return $withTags ? $el->startTag() : $el->attributes();
 	}
 
 
@@ -68,7 +68,7 @@ class Runtime extends Nette\Object
 			$s .= "<!--[if IE]><input type=IEbug disabled style=\"display:none\"><![endif]-->\n";
 		}
 
-		echo $s . ($withTags ? $form->getElementPrototype()->endTag() . "\n" : '');
+		return $s . ($withTags ? $form->getElementPrototype()->endTag() . "\n" : '');
 	}
 
 }

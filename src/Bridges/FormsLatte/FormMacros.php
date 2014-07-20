@@ -33,7 +33,7 @@ class FormMacros extends MacroSet
 	public static function install(Latte\Compiler $compiler)
 	{
 		$me = new static($compiler);
-		$me->addMacro('form', array($me, 'macroForm'), 'Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form)');
+		$me->addMacro('form', array($me, 'macroForm'), 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form)');
 		$me->addMacro('formContainer', array($me, 'macroFormContainer'), '$_form = array_pop($_formStack)');
 		$me->addMacro('label', array($me, 'macroLabel'), array($me, 'macroLabelEnd'));
 		$me->addMacro('input', array($me, 'macroInput'), NULL, array($me, 'macroInputAttr'));
@@ -59,7 +59,7 @@ class FormMacros extends MacroSet
 		}
 		$node->tokenizer->reset();
 		return $writer->write(
-			'Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = '
+			'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = '
 			. ($name[0] === '$' ? 'is_object(%node.word) ? %node.word : ' : '')
 			. '$_control[%node.word], %node.array)'
 		);
@@ -158,7 +158,7 @@ class FormMacros extends MacroSet
 
 		if ($tagName === 'form') {
 			return $writer->write(
-				'Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = '
+				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = '
 					. ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
 					. '$_control[%0.word], %1.var, FALSE)',
 				$name,
@@ -194,7 +194,7 @@ class FormMacros extends MacroSet
 	{
 		preg_match('#^(.*? n:\w+>)(.*)(<[^?].*)\z#s', $node->content, $parts);
 		if (strtolower($node->htmlNode->name) === 'form') {
-			$node->content = $parts[1] . $parts[2] . '<?php Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?>' . $parts[3];
+			$node->content = $parts[1] . $parts[2] . '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?>' . $parts[3];
 		} else { // select, textarea
 			$node->content = $parts[1] . '<?php echo $_input->getControl()->getHtml() ?>' . $parts[3];
 		}
@@ -220,14 +220,14 @@ class FormMacros extends MacroSet
 	/** @deprecated */
 	public static function renderFormBegin(Form $form, array $attrs, $withTags = TRUE)
 	{
-		Runtime::renderFormBegin($form, $attrs, $withTags);
+		echo Runtime::renderFormBegin($form, $attrs, $withTags);
 	}
 
 
 	/** @deprecated */
 	public static function renderFormEnd(Form $form, $withTags = TRUE)
 	{
-		Runtime::renderFormEnd($form, $withTags);
+		echo Runtime::renderFormEnd($form, $withTags);
 	}
 
 }
