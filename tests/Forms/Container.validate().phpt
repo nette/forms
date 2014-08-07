@@ -12,9 +12,16 @@ use Nette\Forms\Form,
 require __DIR__ . '/../bootstrap.php';
 
 $form = new Form;
-$form->addText('name', 'Text:')->addRule($form::NUMERIC);
+$form->addText('name')->addRule($form::NUMERIC);
+
 $form->onValidate[] = function (Container $container) {
-	$container['name']->addError('just fail');
+	$container['name']->addError('fail 1');
+};
+
+$container = $form->addContainer('cont');
+$container->addText('name');
+$container->onValidate[] = function (Container $container) {
+	$container['name']->addError('fail 2');
 };
 
 $form->setValues(array('name' => "invalid*input"));
@@ -22,5 +29,6 @@ $form->validate();
 
 Assert::same(array(
 	'Please enter a valid integer.',
-	'just fail',
-), $form['name']->getErrors());
+	'fail 1',
+	'fail 2'
+), $form->getErrors());
