@@ -1,12 +1,16 @@
 <?php
 %A%
-Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control["myForm"], array('id' => 'myForm', 'class'=>"ajax")) ;$iterations = 0; foreach (array('id', 'username', 'select', 'area', 'send') as $name) { ?>
+Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control["myForm"], array('id' => 'myForm', 'class'=>"ajax")) ?>
+
+<?php $iterations = 0; foreach (array('id', 'username', 'select', 'area', 'send') as $name) { ?>
 		<?php $_input = is_object($name) ? $name : $_form[$name]; if ($_label = $_input->getLabel()) echo $_label  ?>
 
-<?php $_input = is_object($name) ? $name : $_form[$name]; echo $_input->getControl()->addAttributes(array('title' => 'Hello', 'size' => 10)) ?>
+		<?php $_input = is_object($name) ? $name : $_form[$name]; echo $_input->getControl()->addAttributes(array('title' => 'Hello', 'size' => 10)) ?>
+
 		<?php echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
 
-<?php $_input = is_object($name) ? $name : $_form[$name]; echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
+		<?php $_input = is_object($name) ? $name : $_form[$name]; echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
+
 
 		<br>
 
@@ -14,7 +18,9 @@ Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control[
  <?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo $_input->getControl()->addAttributes(array('title' => 'Hello', 'size' => 10)) ?>
  <?php if ($_label) echo $_label->endTag() ?>
 
-<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ;$iterations++; } ?>
+		<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
+
+<?php $iterations++; } ?>
 
 	<?php $_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']]; if ($_label = $_input->getLabel()) echo $_label  ?>
 
@@ -34,6 +40,7 @@ Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control[
 	<?php if ($_label = $_form["my"]->getLabel()) echo $_label ; echo $_form["my"]->getControl() ?>
 
 <?php Nette\Bridges\FormsLatte\FormMacros::renderFormEnd($_form) ?>
+
 
 
 <?php Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control["myForm"], array()) ;Nette\Bridges\FormsLatte\FormMacros::renderFormEnd($_form) ?>
