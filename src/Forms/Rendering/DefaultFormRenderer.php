@@ -253,6 +253,11 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 			$container = $group->getOption('container', $defaultContainer);
 			$container = $container instanceof Html ? clone $container : Html::el($container);
 
+			$id = $group->getOption('id');
+			if ($id) {
+				$container->id = $id;
+			}
+
 			$s .= "\n" . $container->startTag();
 
 			$text = $group->getOption('label');

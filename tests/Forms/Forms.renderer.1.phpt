@@ -37,7 +37,8 @@ $form = new Form;
 
 
 $form->addGroup('Personal data')
-	->setOption('description', 'We value your privacy and we ensure that the information you give to us will not be shared to other entities.');
+	->setOption('description', 'We value your privacy and we ensure that the information you give to us will not be shared to other entities.')
+	->setOption('id', 'test-group-id-set-via-option');
 
 $form->addText('name', 'Your name:')
 	->addRule(Form::FILLED, 'Enter your name');
