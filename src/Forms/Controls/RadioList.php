@@ -18,6 +18,7 @@ use Nette,
  *
  * @property-read Nette\Utils\Html $separatorPrototype
  * @property-read Nette\Utils\Html $containerPrototype
+ * @property-read Nette\Utils\Html $itemLabelPrototype
  */
 class RadioList extends ChoiceControl
 {
@@ -26,6 +27,9 @@ class RadioList extends ChoiceControl
 
 	/** @var Nette\Utils\Html  container element template */
 	protected $container;
+
+	/** @var Nette\Utils\Html  item label template */
+	protected $itemLabel;
 
 
 	/**
@@ -38,6 +42,7 @@ class RadioList extends ChoiceControl
 		$this->control->type = 'radio';
 		$this->container = Html::el();
 		$this->separator = Html::el('br');
+		$this->itemLabel = Html::el();
 	}
 
 
@@ -72,6 +77,16 @@ class RadioList extends ChoiceControl
 
 
 	/**
+	 * Returns item label HTML element template.
+	 * @return Nette\Utils\Html
+	 */
+	public function getItemLabelPrototype()
+	{
+		return $this->itemLabel;
+	}
+
+
+	/**
 	 * Generates control's HTML element.
 	 * @return Nette\Utils\Html
 	 */
@@ -97,7 +112,7 @@ class RadioList extends ChoiceControl
 					'disabled:' => $this->disabled,
 					'data-nette-rules:' => array(key($ids) => $input->attrs['data-nette-rules']),
 				)),
-				array('for:' => $ids),
+				array('for:' => $ids) + $this->itemLabel->attrs,
 				$this->separator
 			)
 		);
