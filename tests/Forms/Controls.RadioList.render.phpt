@@ -143,3 +143,14 @@ test(function() { // disabled one
 	Assert::same('<label for="frm-list-a"><input type="radio" name="list" id="frm-list-a" disabled value="a">First</label><br><label for="frm-list-0"><input type="radio" name="list" id="frm-list-0" value="0">Second</label>', (string) $input->getControl());
 	Assert::same('<input type="radio" name="list" id="frm-list-a" disabled value="a">', (string) $input->getControlPart('a'));
 });
+
+
+test(function() { // item label prototype
+	$form = new Form;
+	$input = $form->addRadioList('list', NULL, array(
+		'a' => 'b',
+	));
+	$input->getItemLabelPrototype()->class("foo");
+
+	Assert::same('<label class="foo" for="frm-list-a"><input type="radio" name="list" id="frm-list-a" value="a">b</label>', (string) $input->getControl());
+});
