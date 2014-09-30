@@ -99,7 +99,8 @@ test(function() { // conditional required
 
 test(function() { // maxlength without validation rule
 	$form = new Form;
-	$input = $form->addText('text', NULL, NULL, 30);
+	$input = $form->addText('text')
+		->setMaxLength(30);
 
 	Assert::same('<input type="text" name="text" maxlength="30" id="frm-text">', (string) $input->getControl());
 });
@@ -107,7 +108,8 @@ test(function() { // maxlength without validation rule
 
 test(function() { // validation rule LENGTH
 	$form = new Form;
-	$input = $form->addText('text', NULL, NULL, 30)
+	$input = $form->addText('text')
+		->setMaxLength(30)
 		->addRule($form::LENGTH, NULL, array(10, 20));
 
 	Assert::same('<input type="text" name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\'>', (string) $input->getControl());
