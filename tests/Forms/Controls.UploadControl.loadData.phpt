@@ -88,7 +88,7 @@ test(function() { // container
 
 test(function() { // multiple (in container)
 	$form = new Form;
-	$input = $form->addContainer('multiple')->addUpload('avatar', NULL, TRUE);
+	$input = $form->addContainer('multiple')->addMultiUpload('avatar');
 
 	Assert::true( $form->isValid() );
 	Assert::equal( array(new FileUpload(array(
@@ -110,7 +110,7 @@ test(function() { // multiple (in container)
 
 test(function() { // missing data
 	$form = new Form;
-	$input = $form->addUpload('empty', NULL, TRUE)
+	$input = $form->addMultiUpload('empty')
 		->setRequired();
 
 	Assert::false( $form->isValid() );
@@ -146,7 +146,7 @@ test(function() { // malformed data
 	Assert::false( $input->isFilled() );
 
 	$form = new Form;
-	$input = $form->addUpload('avatar', NULL, TRUE);
+	$input = $form->addMultiUpload('avatar');
 
 	Assert::true( $form->isValid() );
 	Assert::equal( array(), $input->getValue() );
@@ -182,7 +182,7 @@ test(function() { // validators
 
 test(function() { // validators on multiple files
 	$form = new Form;
-	$input = $form->addContainer('multiple')->addUpload('avatar', NULL, TRUE)
+	$input = $form->addContainer('multiple')->addMultiUpload('avatar')
 		->addRule($form::MAX_FILE_SIZE, NULL, 3000);
 
 	Assert::false( $input::validateFileSize($input, 150) );

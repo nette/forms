@@ -285,6 +285,18 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
+	 * Adds control that allows the user to upload multiple files.
+	 * @param  string  control name
+	 * @param  string  label
+	 * @return Nette\Forms\Controls\UploadControl
+	 */
+	public function addMultiUpload($name, $label = NULL)
+	{
+		return $this[$name] = new Controls\UploadControl($label, TRUE);
+	}
+
+
+	/**
 	 * Adds hidden form control used to store a non-displayed value.
 	 * @param  string  control name
 	 * @param  mixed   default value
