@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Test: Nette\Forms success callback takes $form and $values parameters.
+ * Test: Nette\Forms success and validate callback takes $form and $values parameters.
  */
 
 use Nette\Utils\ArrayHash;
@@ -67,16 +67,19 @@ $f3 = function ($form, $values) use (& $types) {
 $f4 = function ($form, $values) use (& $types) {
 	$values->text = 'b';
 };
-$arrayHashIsImmutable = FALSE;
+$arrayHashIsImmutable = array();
 $f5 = function ($form, $values) use (& $arrayHashIsImmutable) {
-	$arrayHashIsImmutable = $values->text === 'a';
+	$arrayHashIsImmutable[] = $values->text === 'a';
 };
 
 foreach (array($m1, $m2, $m3, $f1, $f2, $f3, $f4, $f5) as $f) {
 	$form->onSuccess[] = $f;
 }
+foreach (array($m1, $m2, $m3, $f1, $f2, $f3, $f4, $f5) as $f) {
+	$form->onValidate[] = $f;
+}
 $form->fireEvents();
 
-Assert::same(TestFormCallbackParameters::$results, array(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE));
-Assert::same($types, array(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE));
-Assert::true($arrayHashIsImmutable);
+Assert::same(TestFormCallbackParameters::$results, array(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE));
+Assert::same($types, array(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE));
+Assert::same($arrayHashIsImmutable, array(TRUE, TRUE));
