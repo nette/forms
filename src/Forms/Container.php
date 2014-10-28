@@ -139,7 +139,13 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		foreach ($controls === NULL ? $this->getComponents() : $controls as $control) {
 			$control->validate();
 		}
-		$this->onValidate($this);
+		if ($this->onValidate) {
+			foreach ($this->onValidate as $handler) {
+				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
+				$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : NULL;
+				Nette\Utils\Callback::invoke($handler, $this, $values);
+			}
+		}
 		$this->validated = TRUE;
 	}
 
