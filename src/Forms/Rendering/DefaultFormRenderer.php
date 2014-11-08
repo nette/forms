@@ -301,13 +301,13 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 
 	/**
 	 * Renders group of controls.
-	 * @param  Nette\Forms\Container|FormGroup
+	 * @param  Nette\Forms\Container|Nette\Forms\ControlGroup
 	 * @return string
 	 */
 	public function renderControls($parent)
 	{
 		if (!($parent instanceof Nette\Forms\Container || $parent instanceof Nette\Forms\ControlGroup)) {
-			throw new Nette\InvalidArgumentException('Argument must be FormContainer or FormGroup instance.');
+			throw new Nette\InvalidArgumentException('Argument must be Nette\Forms\Container or Nette\Forms\ControlGroup instance.');
 		}
 
 		$container = $this->getWrapper('controls container');
@@ -364,7 +364,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 
 	/**
 	 * Renders single visual row of multiple controls.
-	 * @param  IFormControl[]
+	 * @param  Nette\Forms\IControl[]
 	 * @return string
 	 */
 	public function renderPairMulti(array $controls)
@@ -372,7 +372,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 		$s = array();
 		foreach ($controls as $control) {
 			if (!$control instanceof Nette\Forms\IControl) {
-				throw new Nette\InvalidArgumentException('Argument must be array of IFormControl instances.');
+				throw new Nette\InvalidArgumentException('Argument must be array of Nette\Forms\IControl instances.');
 			}
 			$description = $control->getOption('description');
 			if ($description instanceof Html) {
