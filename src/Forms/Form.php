@@ -600,7 +600,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Renders form to string.
-	 * @return can throw exceptions? (hidden parameter)
+	 * @param can throw exceptions? (hidden parameter)
 	 * @return string
 	 */
 	public function __toString()
