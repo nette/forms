@@ -19,6 +19,8 @@ before(function() {
 
 test(function() {
 	$_GET = array('item');
+	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
+
 	$form = new Form;
 	$form->setMethod($form::GET);
 	$form->addSubmit('send', 'Send');

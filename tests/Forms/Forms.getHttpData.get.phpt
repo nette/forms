@@ -42,6 +42,7 @@ test(function() {
 test(function() {
 	$name = 'name';
 	$_GET = array(Form::TRACKER_ID => $name);
+	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
 
 	$form = new Form($name);
 	$form->setMethod($form::GET);
