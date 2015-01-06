@@ -371,7 +371,7 @@ Nette.toggleForm = function(form, elem) {
 	}
 
 	for (i in Nette.toggles) {
-		Nette.toggle(i, Nette.toggles[i], elem);
+		Nette.toggle(i, Nette.toggles[i]);
 	}
 };
 
@@ -442,7 +442,7 @@ Nette.parseJSON = function(s) {
 /**
  * Displays or hides HTML element.
  */
-Nette.toggle = function(id, visible, srcElement) {
+Nette.toggle = function(id, visible) {
 	var elem = document.getElementById(id);
 	if (elem) {
 		elem.style.display = visible ? '' : 'none';
