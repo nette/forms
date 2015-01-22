@@ -385,6 +385,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 				$description = '';
 			}
 
+			$control->setOption('rendered', TRUE);
 			$el = $control->getControl();
 			if ($el instanceof Html && $el->getName() === 'input') {
 				$el->class($this->getValue("control .$el->type"), TRUE);
@@ -444,6 +445,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 			$description = $this->getValue('control requiredsuffix') . $description;
 		}
 
+		$control->setOption('rendered', TRUE);
 		$el = $control->getControl();
 		if ($el instanceof Html && $el->getName() === 'input') {
 			$el->class($this->getValue("control .$el->type"), TRUE);
