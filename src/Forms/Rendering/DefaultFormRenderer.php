@@ -406,6 +406,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 				$description = '';
 			}
 
+			$control->setOption('rendered', TRUE);
 			$s[] = $control->getControl() . $description;
 		}
 		$pair = $this->getWrapper('pair container');
@@ -458,6 +459,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 			$description = $this->getValue('control requiredsuffix') . $description;
 		}
 
+		$control->setOption('rendered', TRUE);
 		$el = $control->getControl();
 		return $body->setHtml($el . $description . $this->renderErrors($control));
 	}
