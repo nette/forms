@@ -19,5 +19,5 @@ $form->addHidden('x');
 $form->isSuccess();
 
 $errors = $form->getErrors();
-Assert::same( 1, count($errors) );
+Assert::count( 1, $errors );
 Assert::match( 'The size of the uploaded file can be up to %d% bytes.', $errors[0] );
