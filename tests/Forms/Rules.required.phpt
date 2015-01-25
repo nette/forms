@@ -32,7 +32,7 @@ test(function() { // Rules
 	Assert::true( $rules->isRequired() );
 
 	$items = iterator_to_array($rules);
-	Assert::same( 1, count($items) );
+	Assert::count( 1, $items );
 	Assert::same( Form::REQUIRED, $items[0]->validator );
 	Assert::null( $items[0]->branch );
 	Assert::false( $items[0]->isNegative );
@@ -51,13 +51,13 @@ test(function() { // 'required' is always the first rule
 	$rules->addRule($form::REQUIRED);
 
 	$items = iterator_to_array($rules);
-	Assert::same( 2, count($items) );
+	Assert::count( 2, $items );
 	Assert::same( Form::REQUIRED, $items[0]->validator );
 	Assert::same( Form::EMAIL, $items[1]->validator );
 
 	$rules->addRule(~$form::REQUIRED);
 	$items = iterator_to_array($rules);
-	Assert::same( 2, count($items) );
+	Assert::count( 2, $items );
 	Assert::same( Form::REQUIRED, $items[0]->validator );
 	Assert::true( $items[0]->isNegative );
 	Assert::same( Form::EMAIL, $items[1]->validator );
@@ -77,7 +77,7 @@ test(function() { // setRequired(FALSE)
 	$rules->setRequired(FALSE);
 
 	$items = iterator_to_array($rules);
-	Assert::same( 1, count($items) );
+	Assert::count( 1, $items );
 	Assert::same( Form::EMAIL, $items[0]->validator );
 
 	Assert::false( $rules->validate() );
