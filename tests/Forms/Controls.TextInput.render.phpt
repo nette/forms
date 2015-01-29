@@ -46,8 +46,8 @@ test(function () { // translator
 		->setTranslator(new Translator)
 		->setEmptyValue('xxx');
 
-	Assert::same('<label for="frm-text">LABEL</label>', (string) $input->getLabel());
-	Assert::same('<label for="frm-text">ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<label for="frm-text">Label</label>', (string) $input->getLabel());
+	Assert::same('<label for="frm-text">Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<input type="text" name="text" placeholder="PLACE" id="frm-text" data-nette-empty-value="XXX" value="text">', (string) $input->getControl());
 });
 

@@ -69,8 +69,8 @@ test(function () { // translator & groups
 	])->setPrompt('Prompt');
 	$input->setTranslator(new Translator);
 
-	Assert::same('<label for="frm-list">LABEL</label>', (string) $input->getLabel());
-	Assert::same('<label for="frm-list">ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<label for="frm-list">Label</label>', (string) $input->getLabel());
+	Assert::same('<label for="frm-list">Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<select name="list" id="frm-list"><option value="">PROMPT</option><option value="a">FIRST</option><optgroup label="GROUP"><option value="0">SECOND</option><option value="1">THIRD</option></optgroup></select>', (string) $input->getControl());
 });
 

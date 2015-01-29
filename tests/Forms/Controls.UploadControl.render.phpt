@@ -49,8 +49,8 @@ test(function () { // Html with translator
 	$input = $form->addUpload('file', 'Label');
 	$input->setTranslator(new Translator);
 
-	Assert::same('<label for="frm-file">LABEL</label>', (string) $input->getLabel());
-	Assert::same('<label for="frm-file">ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<label for="frm-file">Label</label>', (string) $input->getLabel());
+	Assert::same('<label for="frm-file">Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<label for="frm-file"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
 });
 
