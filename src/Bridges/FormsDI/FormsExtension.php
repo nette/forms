@@ -25,7 +25,7 @@ class FormsExtension extends Nette\DI\CompilerExtension
 
 	public function afterCompile(Nette\PhpGenerator\ClassType $class)
 	{
-		$initialize = $class->methods['initialize'];
+		$initialize = $class->getMethod('initialize');
 		$config = $this->validateConfig($this->defaults);
 
 		foreach ((array) $config['messages'] as $name => $text) {
