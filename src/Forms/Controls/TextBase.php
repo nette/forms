@@ -55,9 +55,6 @@ abstract class TextBase extends BaseControl
 	public function getValue()
 	{
 		$value = $this->value;
-		if (!empty($this->control->maxlength)) {
-			$value = Strings::substring($value, 0, $this->control->maxlength);
-		}
 		foreach ($this->filters as $filter) {
 			$value = (string) call_user_func($filter, $value);
 		}

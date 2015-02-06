@@ -141,28 +141,6 @@ test(function() { // non float
 });
 
 
-test(function() { // max length
-	$_POST = array('long' => ' žluťoučký');
-
-	$form = new Form;
-	$input = $form->addText('long')
-		->addRule($form::MAX_LENGTH, NULL, 5);
-
-	Assert::same( 'žluťo', $input->getValue() );
-});
-
-
-test(function() { // max length
-	$_POST = array('long' => ' žluťoučký');
-
-	$form = new Form;
-	$input = $form->addTextArea('long')
-		->addRule($form::MAX_LENGTH, NULL, 5);
-
-	Assert::same( ' žluť', $input->getValue() );
-});
-
-
 test(function() { // URL
 	$_POST = array('url' => 'nette.org');
 
