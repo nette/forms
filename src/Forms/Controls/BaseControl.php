@@ -513,6 +513,14 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	}
 
 
+	/** @deprecated */
+	protected static function exportRules($rules)
+	{
+		trigger_error(__METHOD__ . '() is deprecated; use Nette\Forms\Helpers::exportRules() instead.', E_USER_DEPRECATED);
+		return Nette\Forms\Helpers::exportRules($rules);
+	}
+
+
 	/********************* user data ****************d*g**/
 
 

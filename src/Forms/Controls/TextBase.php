@@ -107,6 +107,7 @@ abstract class TextBase extends BaseControl
 	 */
 	public function addFilter($filter)
 	{
+		trigger_error(__METHOD__ . '() is deprecated; use validation rules instead.', E_USER_DEPRECATED);
 		$this->filters[] = Nette\Utils\Callback::check($filter);
 		return $this;
 	}
