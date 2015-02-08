@@ -47,6 +47,12 @@ Nette.getValue = function(elem) {
 	} else if (!elem.form.elements[elem.name].nodeName) { // multi element
 		return Nette.getValue(elem.form.elements[elem.name]);
 
+	} else if (elem.type === 'file') {
+		return elem.files || elem.value;
+
+	} else if (elem.name.match(/\[\]$/)) { // multi element with single option
+		return Nette.getValue([elem]);
+
 	} else if (elem.nodeName.toLowerCase() === 'select') {
 		var index = elem.selectedIndex, options = elem.options, values = [];
 
@@ -66,9 +72,6 @@ Nette.getValue = function(elem) {
 
 	} else if (elem.type === 'radio') {
 		return elem.checked && elem.value;
-
-	} else if (elem.type === 'file') {
-		return elem.files || elem.value;
 
 	} else if (elem.nodeName.toLowerCase() === 'textarea') {
 		return elem.value.replace("\r", '');

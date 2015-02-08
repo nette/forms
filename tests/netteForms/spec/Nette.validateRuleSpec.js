@@ -179,6 +179,30 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
+	it('checkbox list with single item', function() {
+		fixtures.set('<form><input type="checkbox" name="input[]" value="r" id="input-r"></form>');
+
+		var doc = fixtures.window().document,
+			form = doc.forms[0],
+			el = form['input[]'];
+
+		expect(Nette.getValue(el)).toEqual([]);
+		expect(Nette.validateRule(el, 'filled')).toBe(false);
+		expect(Nette.validateRule(el, 'blank')).toBe(true);
+		expect(Nette.validateRule(el, 'equal', ['r', 'g', 'b'])).toBe(true);
+
+		doc.getElementById('input-r').checked = true;
+		expect(Nette.getValue(el)).toEqual(['r']);
+		expect(Nette.validateRule(el, 'filled')).toBe(true);
+		expect(Nette.validateRule(el, 'blank')).toBe(false);
+		expect(Nette.validateRule(el, 'equal', 'r')).toBe(true);
+		expect(Nette.validateRule(el, 'equal', 'g')).toBe(false);
+		expect(Nette.validateRule(el, 'equal', ['r', 'g'])).toBe(true);
+		expect(Nette.validateRule(el, 'minLength', 1)).toBe(true);
+		expect(Nette.validateRule(el, 'minLength', 2)).toBe(false);
+	});
+
+
 	it('radio', function() {
 		fixtures.set('<form><input type="radio" name="input" value="f"><form>');
 
