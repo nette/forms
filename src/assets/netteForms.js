@@ -257,6 +257,7 @@ Nette.validators = {
 	},
 
 	equal: function(elem, arg, val) {
+		/* jshint eqeqeq: false */
 		if (arg === undefined) {
 			return null;
 		}
@@ -301,9 +302,9 @@ Nette.validators = {
 
 	regexp: function(elem, arg, val) {
 		var parts = typeof arg === 'string' ? arg.match(/^\/(.*)\/([imu]*)$/) : false;
-		if (parts) { try {
-			return (new RegExp(parts[1], parts[2].replace('u', ''))).test(val);
-		} catch (e) {} }
+		try {
+			return parts && (new RegExp(parts[1], parts[2].replace('u', ''))).test(val);
+		} catch (e) {}
 	},
 
 	pattern: function(elem, arg, val) {
@@ -385,7 +386,7 @@ Nette.toggleForm = function(form, elem) {
  */
 Nette.toggleControl = function(elem, rules, topSuccess, firsttime) {
 	rules = rules || Nette.parseJSON(elem.getAttribute('data-nette-rules'));
-	var has = false, __hasProp = Object.prototype.hasOwnProperty, handler = function() {
+	var has = false, hasProp = Object.prototype.hasOwnProperty, handler = function () {
 		Nette.toggleForm(elem.form, elem);
 	}, handled = [];
 
@@ -424,7 +425,7 @@ Nette.toggleControl = function(elem, rules, topSuccess, firsttime) {
 				}
 			}
 			for (var id2 in rule.toggle || []) {
-				if (__hasProp.call(rule.toggle, id2)) {
+				if (hasProp.call(rule.toggle, id2)) {
 					Nette.toggles[id2] = Nette.toggles[id2] || (rule.toggle[id2] ? success : !success);
 				}
 			}

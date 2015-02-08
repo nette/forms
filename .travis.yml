@@ -12,7 +12,8 @@ matrix:
 
 script:
     - vendor/bin/tester tests -s -p php -c tests/php-unix.ini
-    - php code-checker/src/code-checker.php
+    - php code-checker/src/code-checker.php -i netteForms
+    - if [ $TRAVIS_PHP_VERSION  == "5.6" ]; then grunt --gruntfile tests/netteForms/Gruntfile.js test; fi
 
 after_failure:
     # Print *.actual content
@@ -22,3 +23,4 @@ before_script:
     # Install Nette Tester & Code Checker
     - composer install --no-interaction --dev --prefer-source
     - composer create-project nette/code-checker code-checker ~2.3 --no-interaction --prefer-source
+    - if [ $TRAVIS_PHP_VERSION  == "5.6" ]; then npm install -g grunt-cli; cd tests/netteForms; npm install; bower install; cd ../..; fi
