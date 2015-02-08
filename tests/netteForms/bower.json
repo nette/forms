@@ -1,0 +1,7 @@
+{
+	"name": "netteForms.js tests",
+	"dependencies": {
+		"jasmine": "~2.2.1",
+		"fixtures": "~1.5.3"
+	}
+}
