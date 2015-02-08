@@ -70,6 +70,9 @@ Nette.getValue = function(elem) {
 	} else if (elem.type === 'file') {
 		return elem.files || elem.value;
 
+	} else if (elem.nodeName.toLowerCase() === 'textarea') {
+		return elem.value.replace("\r", '');
+
 	} else {
 		return elem.value.replace("\r", '').replace(/^\s+|\s+$/g, '');
 	}
@@ -344,6 +347,7 @@ Nette.validators = {
 		}
 		return true;
 	},
+
 	image: function (elem, arg, val) {
 		if (window.FileList && val instanceof FileList) {
 			for (var i = 0; i < val.length; i++) {
