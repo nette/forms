@@ -244,7 +244,7 @@ Nette.validateRule = function(elem, op, arg) {
 Nette.validators = {
 	filled: function(elem, arg, val) {
 		return val !== '' && val !== false && val !== null
-			&& (!Nette.isArray(val) || val.length)
+			&& (!Nette.isArray(val) || !!val.length)
 			&& (!window.FileList || !(val instanceof FileList) || val.length);
 	},
 
