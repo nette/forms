@@ -29,7 +29,7 @@ Nette.getValue = function(elem) {
 	if (!elem) {
 		return null;
 
-	} else if (!elem.nodeName) { // RadioNodeList, HTMLCollection, array
+	} else if (!elem.tagName) { // RadioNodeList, HTMLCollection, array
 		var multi = elem[0] && !!elem[0].name.match(/\[\]$/),
 			res = [];
 
@@ -44,7 +44,7 @@ Nette.getValue = function(elem) {
 		}
 		return multi ? res : null;
 
-	} else if (!elem.form.elements[elem.name].nodeName) { // multi element
+	} else if (!elem.form.elements[elem.name].tagName) { // multi element
 		return Nette.getValue(elem.form.elements[elem.name]);
 
 	} else if (elem.type === 'file') {
@@ -53,7 +53,7 @@ Nette.getValue = function(elem) {
 	} else if (elem.name.match(/\[\]$/)) { // multi element with single option
 		return Nette.getValue([elem]);
 
-	} else if (elem.nodeName.toLowerCase() === 'select') {
+	} else if (elem.tagName.toLowerCase() === 'select') {
 		var index = elem.selectedIndex, options = elem.options, values = [];
 
 		if (elem.type === 'select-one') {
@@ -73,7 +73,7 @@ Nette.getValue = function(elem) {
 	} else if (elem.type === 'radio') {
 		return elem.checked && elem.value;
 
-	} else if (elem.nodeName.toLowerCase() === 'textarea') {
+	} else if (elem.tagName.toLowerCase() === 'textarea') {
 		return elem.value.replace("\r", '');
 
 	} else {
@@ -100,7 +100,7 @@ Nette.getEffectiveValue = function(elem) {
  * Validates form element against given rules.
  */
 Nette.validateControl = function(elem, rules, onlyCheck) {
-	if (!elem.nodeName) { // RadioNodeList
+	if (!elem.tagName) { // RadioNodeList
 		elem = elem[0];
 	}
 	rules = rules || Nette.parseJSON(elem.getAttribute('data-nette-rules'));
@@ -111,7 +111,7 @@ Nette.validateControl = function(elem, rules, onlyCheck) {
 		rule.op = op[2];
 		rule.condition = !!rule.rules;
 		var el = rule.control ? elem.form.elements[rule.control] : elem;
-		if (!el.nodeName) { // RadioNodeList
+		if (!el.tagName) { // RadioNodeList
 			el = el[0];
 		}
 
@@ -188,7 +188,7 @@ Nette.validateForm = function(sender) {
  */
 Nette.isDisabled = function(elem) {
 	if (elem.type === 'radio') {
-		elem = elem.form.elements[elem.name].nodeName ? [elem] : elem.form.elements[elem.name];
+		elem = elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name];
 		for (var i = 0; i < elem.length; i++) {
 			if (!elem[i].disabled) {
 				return false;
@@ -373,7 +373,7 @@ Nette.toggleForm = function(form, elem) {
 	var i;
 	Nette.toggles = {};
 	for (i = 0; i < form.elements.length; i++) {
-		if (form.elements[i].nodeName.toLowerCase() in {input: 1, select: 1, textarea: 1, button: 1}) {
+		if (form.elements[i].tagName.toLowerCase() in {input: 1, select: 1, textarea: 1, button: 1}) {
 			Nette.toggleControl(form.elements[i], null, null, !elem);
 		}
 	}
@@ -418,7 +418,7 @@ Nette.toggleControl = function(elem, rules, topSuccess, firsttime) {
 			has = true;
 			if (firsttime) {
 				var oldIE = !document.addEventListener, // IE < 9
-					els = el.nodeName ? [el] : el; // is radiolist?
+					els = el.tagName ? [el] : el; // is radiolist?
 
 				for (var i = 0; i < els.length; i++) {
 					if (!Nette.inArray(handled, els[i])) {
