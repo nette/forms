@@ -160,3 +160,16 @@ test(function() { // object
 
 	Assert::same( $date, $input->getValue() );
 });
+
+
+test(function() { // filter
+	$_POST = array('text' => 'hello');
+
+	$form = new Form;
+	$input = $form->addText('text')
+		->addFilter('strrev');
+
+	Assert::same( 'hello', $input->getValue() );
+	$input->validate();
+	Assert::same( 'olleh', $input->getValue() );
+});

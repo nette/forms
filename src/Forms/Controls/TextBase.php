@@ -24,9 +24,6 @@ abstract class TextBase extends BaseControl
 	/** @var string */
 	protected $emptyValue = '';
 
-	/** @var array */
-	protected $filters = array();
-
 	/** @var mixed unfiltered submitted value */
 	protected $rawValue = '';
 
@@ -54,11 +51,7 @@ abstract class TextBase extends BaseControl
 	 */
 	public function getValue()
 	{
-		$value = $this->value;
-		foreach ($this->filters as $filter) {
-			$value = (string) call_user_func($filter, $value);
-		}
-		return $value === Strings::trim($this->translate($this->emptyValue)) ? '' : $value;
+		return $this->value === Strings::trim($this->translate($this->emptyValue)) ? '' : $this->value;
 	}
 
 
@@ -100,13 +93,14 @@ abstract class TextBase extends BaseControl
 	 * Appends input string filter callback.
 	 * @param  callable
 	 * @return self
-	 * @deprecated
 	 */
 	public function addFilter($filter)
 	{
-		trigger_error(__METHOD__ . '() is deprecated; use validation rules instead.', E_USER_DEPRECATED);
-		$this->filters[] = Nette\Utils\Callback::check($filter);
-		return $this;
+		Nette\Utils\Callback::check($filter);
+		return parent::addRule(function($control) use ($filter) {
+			$control->setValue( call_user_func($filter, $control->getValue()) );
+			return TRUE;
+		});
 	}
 
 
