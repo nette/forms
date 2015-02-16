@@ -164,7 +164,10 @@ Nette.validateForm = function(sender) {
 	for (i = 0; i < form.elements.length; i++) {
 		elem = form.elements[i];
 
-		if (elem.type === 'radio') {
+		if (elem.tagName && !(elem.tagName.toLowerCase() in {input: 1, select: 1, textarea: 1, button: 1})) {
+			continue;
+
+		} else if (elem.type === 'radio') {
 			if (radios[elem.name]) {
 				continue;
 			}
