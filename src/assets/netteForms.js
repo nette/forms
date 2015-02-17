@@ -6,6 +6,10 @@
  */
 
 (function(global, factory) {
+	if (!global.JSON) {
+		return;
+	}
+
 	if (typeof define === 'function' && define.amd) {
 		define(function() {
 			return factory(global);
@@ -490,11 +494,9 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 
 
 Nette.parseJSON = function(s) {
-	s = s || '[]';
-	if (s.substr(0, 3) === '{op') {
-		return eval('[' + s + ']'); // backward compatibility
-	}
-	return window.JSON && window.JSON.parse ? JSON.parse(s) : eval(s);
+	return (s || '').substr(0, 3) === '{op'
+		? eval('[' + s + ']') // backward compatibility with Nette 2.0.x
+		: JSON.parse(s || '[]');
 };
 
 
