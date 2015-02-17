@@ -37,7 +37,7 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.validateRule(el, 'length', [1, 6])).toBe(true);
 		expect(Nette.validateRule(el, 'length', [3, 4])).toBe(false);
 		expect(Nette.validateRule(el, 'email')).toBe(false);
-		expect(Nette.validateRule(el, 'url')).toBe(false);
+		expect(Nette.validateRule(el, 'url')).toBe(true);
 		expect(Nette.validateRule(el, 'regexp', '/\\d+/')).toBe(false);
 		expect(Nette.validateRule(el, 'regexp', '/\\w+/')).toBe(true);
 		expect(Nette.validateRule(el, 'pattern', '\\d+')).toBe(false);

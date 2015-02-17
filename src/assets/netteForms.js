@@ -101,9 +101,10 @@ Nette.getEffectiveValue = function(elem) {
 /**
  * Validates form element against given rules.
  */
-Nette.validateControl = function(elem, rules, onlyCheck) {
+Nette.validateControl = function(elem, rules, onlyCheck, value) {
 	elem = elem.tagName ? elem : elem[0]; // RadioNodeList
 	rules = rules || Nette.parseJSON(elem.getAttribute('data-nette-rules'));
+	value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
 
 	for (var id = 0, len = rules.length; id < len; id++) {
 		var rule = rules[id],
@@ -115,7 +116,9 @@ Nette.validateControl = function(elem, rules, onlyCheck) {
 		rule.condition = !!rule.rules;
 		curElem = curElem.tagName ? curElem : curElem[0]; // RadioNodeList
 
-		var success = Nette.validateRule(curElem, rule.op, rule.arg);
+		var curValue = elem === curElem ? value : {value: Nette.getEffectiveValue(curElem)},
+			success = Nette.validateRule(curElem, rule.op, rule.arg, curValue);
+
 		if (success === null) {
 			continue;
 		} else if (rule.neg) {
@@ -123,7 +126,7 @@ Nette.validateControl = function(elem, rules, onlyCheck) {
 		}
 
 		if (rule.condition && success) {
-			if (!Nette.validateControl(elem, rule.rules, onlyCheck)) {
+			if (!Nette.validateControl(elem, rule.rules, onlyCheck, value)) {
 				return false;
 			}
 		} else if (!rule.condition && !success) {
@@ -231,8 +234,8 @@ Nette.expandRuleArgument = function(form, arg) {
 /**
  * Validates single rule.
  */
-Nette.validateRule = function(elem, op, arg) {
-	var val = Nette.getEffectiveValue(elem);
+Nette.validateRule = function(elem, op, arg, value) {
+	value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
 
 	if (op.charAt(0) === ':') {
 		op = op.substr(1);
@@ -245,7 +248,7 @@ Nette.validateRule = function(elem, op, arg) {
 		arr[i] = Nette.expandRuleArgument(elem.form, arr[i]);
 	}
 	return Nette.validators[op]
-		? Nette.validators[op](elem, Nette.isArray(arg) ? arr : arr[0], val)
+		? Nette.validators[op](elem, Nette.isArray(arg) ? arr : arr[0], value.value, value)
 		: null;
 };
 
@@ -305,8 +308,15 @@ Nette.validators = {
 		return (/^("([ !\x23-\x5B\x5D-\x7E]*|\\[ -~])+"|[-a-z0-9!#$%&'*+\/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+\/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF][-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF]$/i).test(val);
 	},
 
-	url: function(elem, arg, val) {
-		return (/^(https?:\/\/|(?=.*\.))([0-9a-z\u00C0-\u02FF\u0370-\u1EFF](([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)*[a-z\u00C0-\u02FF\u0370-\u1EFF][-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF]|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[[0-9a-f:]{3,39}\])(:\d{1,5})?(\/\S*)?$/i).test(val);
+	url: function(elem, arg, val, value) {
+		if (!(/^[a-z\d+.-]+:/).test(val)) {
+			val = 'http://' + val;
+		}
+		if ((/^https?:\/\/([0-9a-z\u00C0-\u02FF\u0370-\u1EFF](([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)*[a-z\u00C0-\u02FF\u0370-\u1EFF][-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF]|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[[0-9a-f:]{3,39}\])(:\d{1,5})?(\/\S*)?$/i).test(val)) {
+			value.value = val;
+			return true;
+		}
+		return false;
 	},
 
 	regexp: function(elem, arg, val) {
@@ -326,8 +336,13 @@ Nette.validators = {
 		return (/^-?[0-9]+$/).test(val);
 	},
 
-	'float': function(elem, arg, val) {
-		return (/^-?[0-9]*[.,]?[0-9]+$/).test(val);
+	'float': function(elem, arg, val, value) {
+		val = val.replace(' ', '').replace(',', '.');
+		if ((/^-?[0-9]*[.,]?[0-9]+$/).test(val)) {
+			value.value = val;
+			return true;
+		}
+		return false;
 	},
 
 	min: function(elem, arg, val) {
@@ -393,11 +408,11 @@ Nette.toggleForm = function(form, elem) {
 /**
  * Process toggles on form element.
  */
-Nette.toggleControl = function(elem, rules, topSuccess, firsttime) {
+Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 	rules = rules || Nette.parseJSON(elem.getAttribute('data-nette-rules'));
+	value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
 
 	var has = false,
-		success = topSuccess,
 		handled = [],
 		handler = function () {
 			Nette.toggleForm(elem.form, elem);
@@ -408,22 +423,18 @@ Nette.toggleControl = function(elem, rules, topSuccess, firsttime) {
 			op = rule.op.match(/(~)?([^?]+)/),
 			curElem = rule.control ? elem.form.elements[rule.control] : elem;
 
-		if (!rule.rules) {
-			continue;
-		}
-
 		if (success !== false) {
 			rule.neg = op[1];
 			rule.op = op[2];
-			success = Nette.validateRule(curElem, rule.op, rule.arg);
-			if (success === null) {
+			var curValue = elem === curElem ? value : {value: Nette.getEffectiveValue(curElem)},
+				res = Nette.validateRule(curElem, rule.op, rule.arg, curValue);
+			if (res === null) {
 				continue;
-			} else if (rule.neg) {
-				success = !success;
 			}
+			success = rule.neg ? !res : res;
 		}
 
-		if (Nette.toggleControl(elem, rule.rules, success, firsttime) || rule.toggle) {
+		if ((rule.rules && Nette.toggleControl(elem, rule.rules, success, firsttime, value)) || rule.toggle) {
 			has = true;
 			if (firsttime) {
 				var oldIE = !document.addEventListener, // IE < 9
