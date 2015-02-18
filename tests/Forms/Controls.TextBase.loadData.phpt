@@ -173,3 +173,17 @@ test(function() { // filter
 	$input->validate();
 	Assert::same( 'olleh', $input->getValue() );
 });
+
+
+test(function() { // filter in condition
+	$_POST = array('text' => 'hello');
+
+	$form = new Form;
+	$input = $form->addText('text');
+	$input->addCondition($form::FILLED)
+			->addFilter('strrev');
+
+	Assert::same( 'hello', $input->getValue() );
+	$input->validate();
+	Assert::same( 'olleh', $input->getValue() );
+});

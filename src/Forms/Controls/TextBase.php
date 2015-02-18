@@ -96,11 +96,8 @@ abstract class TextBase extends BaseControl
 	 */
 	public function addFilter($filter)
 	{
-		Nette\Utils\Callback::check($filter);
-		return parent::addRule(function($control) use ($filter) {
-			$control->setValue( call_user_func($filter, $control->getValue()) );
-			return TRUE;
-		});
+		$this->rules->addFilter($filter);
+		return $this;
 	}
 
 

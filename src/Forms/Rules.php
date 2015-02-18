@@ -152,6 +152,24 @@ class Rules extends Nette\Object implements \IteratorAggregate
 
 
 	/**
+	 * Adds a filter callback.
+	 * @param  callable
+	 * @return self
+	 */
+	public function addFilter($filter)
+	{
+		Nette\Utils\Callback::check($filter);
+		$this->rules[] = $rule = new Rule;
+		$rule->control = $this->control;
+		$rule->validator = function($control) use ($filter) {
+			$control->setValue( call_user_func($filter, $control->getValue()) );
+			return TRUE;
+		};
+		return $this;
+	}
+
+
+	/**
 	 * Toggles HTML element visibility.
 	 * @param  string     element id
 	 * @param  bool       hide element?
