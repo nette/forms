@@ -93,13 +93,8 @@ class RadioList extends ChoiceControl
 	 * Generates control's HTML element.
 	 * @return Nette\Utils\Html
 	 */
-	public function getControl($key = NULL)
+	public function getControl()
 	{
-		if ($key !== NULL) {
-			trigger_error(sprintf('Partial %s() is deprecated; use getControlPart() instead.', __METHOD__), E_USER_DEPRECATED);
-			return $this->getControlPart($key);
-		}
-
 		$input = parent::getControl();
 		$items = $this->getItems();
 		$ids = array();
@@ -130,12 +125,8 @@ class RadioList extends ChoiceControl
 	 * @param  string
 	 * @return Nette\Utils\Html
 	 */
-	public function getLabel($caption = NULL, $key = NULL)
+	public function getLabel($caption = NULL)
 	{
-		if ($key !== NULL) {
-			trigger_error(sprintf('Partial %s() is deprecated; use getLabelPart() instead.', __METHOD__), E_USER_DEPRECATED);
-			return $this->getLabelPart($key);
-		}
 		return parent::getLabel($caption)->for(NULL);
 	}
 

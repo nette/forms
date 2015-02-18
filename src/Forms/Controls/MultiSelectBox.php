@@ -66,12 +66,4 @@ class MultiSelectBox extends MultiChoiceControl
 		)->addAttributes(parent::getControl()->attrs)->multiple(TRUE);
 	}
 
-
-	/** @deprecated */
-	function getSelectedItem()
-	{
-		trigger_error(__METHOD__ . '(TRUE) is deprecated; use getSelectedItems() instead.', E_USER_DEPRECATED);
-		return $this->getSelectedItems();
-	}
-
 }
