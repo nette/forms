@@ -44,7 +44,7 @@ Nette.getValue = function(elem) {
 		}
 		return multi ? res : null;
 
-	} else if (!elem.form.elements[elem.name].tagName) { // multi element
+	} else if (elem.name && !elem.form.elements[elem.name].tagName) { // multi element
 		return Nette.getValue(elem.form.elements[elem.name]);
 
 	} else if (elem.type === 'file') {
