@@ -127,6 +127,7 @@ Nette.validateControl = function(elem, rules, onlyCheck, value) {
 
 		if (rule.condition && success) {
 			if (!Nette.validateControl(elem, rule.rules, onlyCheck, value)) {
+				Nette.markControlInvalid(elem);
 				return false;
 			}
 		} else if (!rule.condition && !success) {
@@ -140,10 +141,32 @@ Nette.validateControl = function(elem, rules, onlyCheck, value) {
 					});
 				Nette.addError(curElem, message);
 			}
+			Nette.markControlInvalid(elem);
 			return false;
 		}
 	}
+	Nette.markControlValid(elem);
 	return true;
+};
+
+
+Nette.markControlValid = function(elem) {
+	Nette.switchClass(elem, 'control-invalid', 'control-valid');
+};
+
+
+Nette.markControlInvalid = function(elem) {
+	Nette.switchClass(elem, 'control-valid', 'control-invalid');
+};
+
+
+Nette.switchClass = function(elem, remove, add) {
+	if (typeof elem.classList === 'undefined') { // not supported in IE < 10 , Opera Mini 8
+		return;
+	}
+
+	elem.classList.remove(remove);
+	elem.classList.add(add);
 };
 
 
