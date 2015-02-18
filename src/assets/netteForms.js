@@ -151,12 +151,12 @@ Nette.validateControl = function(elem, rules, onlyCheck, value) {
 
 
 Nette.markControlValid = function(elem) {
-	Nette.switchClass(elem, 'control-invalid', 'control-valid');
+	Nette.switchClass(elem, 'nette-control-invalid', 'nette-control-valid');
 };
 
 
 Nette.markControlInvalid = function(elem) {
-	Nette.switchClass(elem, 'control-valid', 'control-invalid');
+	Nette.switchClass(elem, 'nette-control-valid', 'nette-control-invalid');
 };
 
 
