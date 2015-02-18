@@ -30,6 +30,9 @@
 
 var Nette = {};
 
+Nette.formErrors = [];
+
+
 /**
  * Attaches a handler to an event for the element.
  */
@@ -196,11 +199,14 @@ Nette.validateForm = function(sender) {
 	var form = sender.form || sender,
 		scope = false;
 
+	Nette.formErrors = [];
+
 	if (form['nette-submittedBy'] && form['nette-submittedBy'].getAttribute('formnovalidate') !== null) {
 		var scopeArr = Nette.parseJSON(form['nette-submittedBy'].getAttribute('data-nette-validation-scope'));
 		if (scopeArr.length) {
 			scope = new RegExp('^(' + scopeArr.join('-|') + '-)');
 		} else {
+			Nette.showFormErrors(form, []);
 			return true;
 		}
 	}
@@ -224,11 +230,13 @@ Nette.validateForm = function(sender) {
 			continue;
 		}
 
-		if (!Nette.validateControl(elem)) {
+		if (!Nette.validateControl(elem) && !Nette.formErrors.length) {
 			return false;
 		}
 	}
-	return true;
+	var success = !Nette.formErrors.length;
+	Nette.showFormErrors(form, Nette.formErrors);
+	return success;
 };
 
 
@@ -249,14 +257,29 @@ Nette.isDisabled = function(elem) {
 
 
 /**
- * Display error message.
+ * Adds error message to the queue.
  */
 Nette.addError = function(elem, message) {
-	if (message) {
-		alert(message);
+	Nette.formErrors.push({
+		element: elem,
+		message: message
+	});
+};
+
+
+/**
+ * Display error messages.
+ */
+Nette.showFormErrors = function(form, errors) {
+	if (!errors.length) {
+		return;
 	}
-	if (elem.focus) {
-		elem.focus();
+	var error = errors[0];
+	if (error.message) {
+		alert(error.message);
+	}
+	if (error.element.focus) {
+		error.element.focus();
 	}
 };
 
