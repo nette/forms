@@ -438,8 +438,10 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 				res = Nette.validateRule(curElem, rule.op, rule.arg, curValue);
 			if (res === null) {
 				continue;
+
+			} else if (!rule.rules) {
+				success = rule.neg ? !res : res;
 			}
-			success = rule.neg ? !res : res;
 		}
 
 		if ((rule.rules && Nette.toggleControl(elem, rule.rules, success, firsttime, value)) || rule.toggle) {
