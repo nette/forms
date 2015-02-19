@@ -320,4 +320,17 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.validateRule(el, 'minLength', 2)).toBe(true);
 		expect(Nette.validateRule(el, 'minLength', 3)).toBe(false);
 	});
+
+
+	it('missing name', function() {
+		fixtures.set('<form><input></form>');
+
+		var doc = fixtures.window().document,
+			form = doc.forms[0],
+			el = form.elements[0];
+
+		expect(Nette.getValue(el)).toEqual('');
+		el.value = ' hello ';
+		expect(Nette.getValue(el)).toBe('hello');
+	});
 });
