@@ -111,6 +111,10 @@ Nette.validateControl = function(elem, rules, onlyCheck, value) {
 			op = rule.op.match(/(~)?([^?]+)/),
 			curElem = rule.control ? elem.form.elements[rule.control] : elem;
 
+		if (!curElem) {
+			continue;
+		}
+
 		rule.neg = op[1];
 		rule.op = op[2];
 		rule.condition = !!rule.rules;
@@ -422,6 +426,10 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 		var rule = rules[id],
 			op = rule.op.match(/(~)?([^?]+)/),
 			curElem = rule.control ? elem.form.elements[rule.control] : elem;
+
+		if (!curElem) {
+			continue;
+		}
 
 		if (success !== false) {
 			rule.neg = op[1];
