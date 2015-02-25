@@ -358,8 +358,9 @@ Nette.validators = {
 	},
 
 	range: function(elem, arg, val) {
+		val = parseFloat(val);
 		return Nette.isArray(arg) ?
-			((arg[0] === null || parseFloat(val) >= arg[0]) && (arg[1] === null || parseFloat(val) <= arg[1])) : null;
+			((arg[0] === null || val >= parseFloat(arg[0])) && (arg[1] === null || val <= parseFloat(arg[1]))) : null;
 	},
 
 	submitted: function(elem, arg, val) {
@@ -485,7 +486,7 @@ Nette.parseJSON = function(s) {
 /**
  * Displays or hides HTML element.
  */
-Nette.toggle = function(id, visible, srcElement) {
+Nette.toggle = function(id, visible) {
 	var elem = document.getElementById(id);
 	if (elem) {
 		elem.style.display = visible ? '' : 'none';
