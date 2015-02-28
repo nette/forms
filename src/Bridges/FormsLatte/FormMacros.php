@@ -154,7 +154,7 @@ class FormMacros extends MacroSet
 		}
 		$name = array_shift($words);
 		$tagName = strtolower($node->htmlNode->name);
-		$node->isEmpty = !in_array($tagName, array('form', 'select', 'textarea'), TRUE);
+		$node->isEmpty = $tagName === 'input';
 
 		if ($tagName === 'form') {
 			return $writer->write(
@@ -193,8 +193,13 @@ class FormMacros extends MacroSet
 	public function macroNameEnd(MacroNode $node, PhpWriter $writer)
 	{
 		preg_match('#^(.*? n:\w+>)(.*)(<[^?].*)\z#s', $node->content, $parts);
-		if (strtolower($node->htmlNode->name) === 'form') {
+		$tagName = strtolower($node->htmlNode->name);
+		if ($tagName === 'form') {
 			$node->content = $parts[1] . $parts[2] . '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?>' . $parts[3];
+		} elseif ($tagName === 'label') {
+			if ($parts[2] === '') {
+				$node->content = $parts[1] . '<?php echo $_input->getLabel()->getHtml() ?>' . $parts[3];
+			}
 		} else { // select, textarea
 			$node->content = $parts[1] . '<?php echo $_input->getControl()->getHtml() ?>' . $parts[3];
 		}
