@@ -1,0 +1,13 @@
+<?php
+%A%
+<form<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
+), FALSE) ?>>
+	<button<?php $_input = $_form["send"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
+		description of button
+	</button>
+
+	<button<?php $_input = $_form["send"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>
+><?php echo htmlspecialchars($_input->caption) ?></button>
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?></form>
+<?php
+}}

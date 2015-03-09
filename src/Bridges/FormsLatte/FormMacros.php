@@ -144,7 +144,7 @@ class FormMacros extends MacroSet
 
 
 	/**
-	 * <form n:name>, <input n:name>, <select n:name>, <textarea n:name> and <label n:name>
+	 * <form n:name>, <input n:name>, <select n:name>, <textarea n:name>, <label n:name> and <button n:name>
 	 */
 	public function macroNameAttr(MacroNode $node, PhpWriter $writer)
 	{
@@ -199,6 +199,10 @@ class FormMacros extends MacroSet
 		} elseif ($tagName === 'label') {
 			if ($parts[2] === '') {
 				$node->content = $parts[1] . '<?php echo $_input->getLabel()->getHtml() ?>' . $parts[3];
+			}
+		} elseif ($tagName === 'button') {
+			if ($parts[2] === '') {
+				$node->content = $parts[1] . '<?php echo htmlspecialchars($_input->caption) ?>' . $parts[3];
 			}
 		} else { // select, textarea
 			$node->content = $parts[1] . '<?php echo $_input->getControl()->getHtml() ?>' . $parts[3];
