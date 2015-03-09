@@ -105,5 +105,6 @@ Nette\Bridges\FormsLatte\FormMacros::renderFormBegin($form = $_form = $_control[
 
 
 <select<?php $_input = $_form["select"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>
-><?php echo $_input->getControl()->getHtml() ?></select><?php
+><?php echo $_input->getControl()->getHtml() ?></select>
+<?php
 %A%
