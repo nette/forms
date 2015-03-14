@@ -521,6 +521,18 @@ Nette.initForm = function(form) {
 
 
 /**
+ * @private
+ */
+Nette.initOnLoad = function() {
+	Nette.addEvent(window, 'load', function() {
+		for (var i = 0; i < document.forms.length; i++) {
+			Nette.initForm(document.forms[i]);
+		}
+	});
+};
+
+
+/**
  * Determines whether the argument is an array.
  */
 Nette.isArray = function(arg) {
@@ -545,13 +557,6 @@ Nette.inArray = function(arr, val) {
 };
 
 
-Nette.addEvent(window, 'load', function() {
-	for (var i = 0; i < document.forms.length; i++) {
-		Nette.initForm(document.forms[i]);
-	}
-});
-
-
 /**
  * Converts string to web safe characters [a-z0-9-] text.
  */
@@ -566,3 +571,5 @@ Nette.webalize = function(s) {
 };
 
 Nette.webalizeTable = {\u00e1: 'a', \u00e4: 'a', \u010d: 'c', \u010f: 'd', \u00e9: 'e', \u011b: 'e', \u00ed: 'i', \u013e: 'l', \u0148: 'n', \u00f3: 'o', \u00f4: 'o', \u0159: 'r', \u0161: 's', \u0165: 't', \u00fa: 'u', \u016f: 'u', \u00fd: 'y', \u017e: 'z'};
+
+Nette.initOnLoad();
