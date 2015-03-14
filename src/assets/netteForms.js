@@ -19,6 +19,8 @@
 
 }(typeof window !== 'undefined' ? window : this, function(window) {
 
+'use strict';
+
 var Nette = {};
 
 /**
