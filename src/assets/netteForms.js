@@ -5,7 +5,21 @@
  * Copyright (c) 2004 David Grudl (http://davidgrudl.com)
  */
 
-var Nette = Nette || {};
+(function(global, factory) {
+	if (typeof define === 'function' && define.amd) {
+		define(function() {
+			return factory(global);
+		});
+	} else if (typeof module === 'object' && typeof module.exports === 'object') {
+		module.exports = factory(global);
+	} else {
+		global.Nette = factory(global);
+		global.Nette.initOnLoad();
+	}
+
+}(typeof window !== 'undefined' ? window : this, function(window) {
+
+var Nette = {};
 
 /**
  * Attaches a handler to an event for the element.
@@ -261,7 +275,7 @@ Nette.validators = {
 	filled: function(elem, arg, val) {
 		return val !== '' && val !== false && val !== null
 			&& (!Nette.isArray(val) || !!val.length)
-			&& (!window.FileList || !(val instanceof FileList) || val.length);
+			&& (!window.FileList || !(val instanceof window.FileList) || val.length);
 	},
 
 	blank: function(elem, arg, val) {
@@ -378,7 +392,7 @@ Nette.validators = {
 	},
 
 	image: function (elem, arg, val) {
-		if (window.FileList && val instanceof FileList) {
+		if (window.FileList && val instanceof window.FileList) {
 			for (var i = 0; i < val.length; i++) {
 				var type = val[i].type;
 				if (type && type !== 'image/gif' && type !== 'image/png' && type !== 'image/jpeg') {
@@ -572,4 +586,5 @@ Nette.webalize = function(s) {
 
 Nette.webalizeTable = {\u00e1: 'a', \u00e4: 'a', \u010d: 'c', \u010f: 'd', \u00e9: 'e', \u011b: 'e', \u00ed: 'i', \u013e: 'l', \u0148: 'n', \u00f3: 'o', \u00f4: 'o', \u0159: 'r', \u0161: 's', \u0165: 't', \u00fa: 'u', \u016f: 'u', \u00fd: 'y', \u017e: 'z'};
 
-Nette.initOnLoad();
+return Nette;
+}));

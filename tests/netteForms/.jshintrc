@@ -2,7 +2,7 @@
     // Predefined globals whom JSHint will ignore.
     "browser"       : true,   // Standard browser globals e.g. `window`, `document`.
     "predef"        : [  // Custom globals.
-        "FileList"
+        "define", "module"
     ],
     
     "debug"         : false,  // Allow debugger statements e.g. browser breakpoints.
