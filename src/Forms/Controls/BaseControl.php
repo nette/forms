@@ -19,7 +19,7 @@ use Nette,
  *
  * @author     David Grudl
  *
- * @property-read Nette\Forms\Form $form
+ * @property-read Form $form
  * @property-read string $htmlName
  * @property   string $htmlId
  * @property-read array $options
@@ -29,10 +29,10 @@ use Nette,
  * @property-write $defaultValue
  * @property   bool $disabled
  * @property   bool $omitted
- * @property-read Nette\Utils\Html $control
- * @property-read Nette\Utils\Html $label
- * @property-read Nette\Utils\Html $controlPrototype
- * @property-read Nette\Utils\Html $labelPrototype
+ * @property-read Html $control
+ * @property-read Html $label
+ * @property-read Html $controlPrototype
+ * @property-read Html $labelPrototype
  * @property-read Nette\Forms\Rules $rules
  * @property   bool $required
  * @property-read array $errors
@@ -48,10 +48,10 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var mixed current control value */
 	protected $value;
 
-	/** @var Nette\Utils\Html  control element template */
+	/** @var Html  control element template */
 	protected $control;
 
-	/** @var Nette\Utils\Html  label element template */
+	/** @var Html  label element template */
 	protected $label;
 
 	/** @var array */
@@ -104,7 +104,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/**
 	 * Returns form.
 	 * @param  bool   throw exception if form doesn't exist?
-	 * @return Nette\Forms\Form
+	 * @return Form
 	 */
 	public function getForm($need = TRUE)
 	{
@@ -243,7 +243,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Generates control's HTML element.
-	 * @return Nette\Utils\Html|string
+	 * @return Html|string
 	 */
 	public function getControl()
 	{
@@ -262,7 +262,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/**
 	 * Generates label's HTML element.
 	 * @param  string
-	 * @return Nette\Utils\Html|string
+	 * @return Html|string
 	 */
 	public function getLabel($caption = NULL)
 	{
@@ -275,7 +275,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns control's HTML element template.
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getControlPrototype()
 	{
@@ -285,7 +285,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns label's HTML element template.
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getLabelPrototype()
 	{
@@ -409,7 +409,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Adds a validation condition based on another control a returns new branch.
-	 * @param  Nette\Forms\IControl form control
+	 * @param  IControl form control
 	 * @param  mixed      condition type
 	 * @param  mixed      optional condition arguments
 	 * @return Nette\Forms\Rules      new branch
