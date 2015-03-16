@@ -165,7 +165,7 @@ class Helpers extends Nette\Object
 
 
 	/**
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public static function createSelectBox(array $items, array $optionAttrs = NULL)
 	{

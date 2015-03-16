@@ -16,22 +16,22 @@ use Nette,
  *
  * @author     David Grudl
  *
- * @property-read Nette\Utils\Html $separatorPrototype
- * @property-read Nette\Utils\Html $containerPrototype
- * @property-read Nette\Utils\Html $itemLabelPrototype
+ * @property-read Html $separatorPrototype
+ * @property-read Html $containerPrototype
+ * @property-read Html $itemLabelPrototype
  */
 class RadioList extends ChoiceControl
 {
 	/** @var bool */
 	public $generateId = FALSE;
 
-	/** @var Nette\Utils\Html  separator element template */
+	/** @var Html  separator element template */
 	protected $separator;
 
-	/** @var Nette\Utils\Html  container element template */
+	/** @var Html  container element template */
 	protected $container;
 
-	/** @var Nette\Utils\Html  item label template */
+	/** @var Html  item label template */
 	protected $itemLabel;
 
 
@@ -61,7 +61,7 @@ class RadioList extends ChoiceControl
 
 	/**
 	 * Returns separator HTML element template.
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getSeparatorPrototype()
 	{
@@ -71,7 +71,7 @@ class RadioList extends ChoiceControl
 
 	/**
 	 * Returns container HTML element template.
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getContainerPrototype()
 	{
@@ -81,7 +81,7 @@ class RadioList extends ChoiceControl
 
 	/**
 	 * Returns item label HTML element template.
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getItemLabelPrototype()
 	{
@@ -91,7 +91,7 @@ class RadioList extends ChoiceControl
 
 	/**
 	 * Generates control's HTML element.
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getControl()
 	{
@@ -123,7 +123,7 @@ class RadioList extends ChoiceControl
 	/**
 	 * Generates label's HTML element.
 	 * @param  string
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getLabel($caption = NULL)
 	{
@@ -132,7 +132,7 @@ class RadioList extends ChoiceControl
 
 
 	/**
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getControlPart($key)
 	{
@@ -146,7 +146,7 @@ class RadioList extends ChoiceControl
 
 
 	/**
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getLabelPart($key)
 	{
