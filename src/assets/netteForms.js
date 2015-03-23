@@ -60,8 +60,8 @@ Nette.getValue = function(elem) {
 		}
 		return multi ? res : null;
 
-	} else if (elem.name && !elem.form.elements[elem.name].tagName) { // multi element
-		return Nette.getValue(elem.form.elements[elem.name]);
+	} else if (elem.name && !elem.form.elements.namedItem(elem.name).tagName) { // multi element
+		return Nette.getValue(elem.form.elements.namedItem(elem.name));
 
 	} else if (elem.type === 'file') {
 		return elem.files || elem.value;
@@ -125,7 +125,7 @@ Nette.validateControl = function(elem, rules, onlyCheck, value) {
 	for (var id = 0, len = rules.length; id < len; id++) {
 		var rule = rules[id],
 			op = rule.op.match(/(~)?([^?]+)/),
-			curElem = rule.control ? elem.form.elements[rule.control] : elem;
+			curElem = rule.control ? elem.form.elements.namedItem(rule.control) : elem;
 
 		if (!curElem) {
 			continue;
@@ -156,7 +156,7 @@ Nette.validateControl = function(elem, rules, onlyCheck, value) {
 			if (!onlyCheck) {
 				var arr = Nette.isArray(rule.arg) ? rule.arg : [rule.arg],
 					message = rule.msg.replace(/%(value|\d+)/g, function(foo, m) {
-						return Nette.getValue(m === 'value' ? curElem : elem.form.elements[arr[m].control]);
+						return Nette.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control));
 					});
 				Nette.addError(curElem, message);
 			}
@@ -215,7 +215,7 @@ Nette.validateForm = function(sender) {
  */
 Nette.isDisabled = function(elem) {
 	if (elem.type === 'radio') {
-		elem = elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name];
+		elem = elem.form.elements.namedItem(elem.name).tagName ? [elem] : elem.form.elements.namedItem(elem.name);
 		for (var i = 0; i < elem.length; i++) {
 			if (!elem[i].disabled) {
 				return false;
@@ -245,7 +245,7 @@ Nette.addError = function(elem, message) {
  */
 Nette.expandRuleArgument = function(form, arg) {
 	if (arg && arg.control) {
-		arg = Nette.getEffectiveValue(form.elements[arg.control]);
+		arg = Nette.getEffectiveValue(form.elements.namedItem(arg.control));
 	}
 	return arg;
 };
@@ -442,7 +442,7 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 	for (var id = 0, len = rules.length; id < len; id++) {
 		var rule = rules[id],
 			op = rule.op.match(/(~)?([^?]+)/),
-			curElem = rule.control ? elem.form.elements[rule.control] : elem;
+			curElem = rule.control ? elem.form.elements.namedItem(rule.control) : elem;
 
 		if (!curElem) {
 			continue;
