@@ -166,3 +166,14 @@ test(function() { // forced ID
 
 	Assert::same('<label for="frm-list-a"><input type="radio" name="list" id="frm-list-a" value="a">First</label><br><label for="frm-list-0"><input type="radio" name="list" id="frm-list-0" value="0">Second</label>', (string) $input->getControl());
 });
+
+test(function() { // default value of control part
+	$form = new Form;
+	$input = $form->addRadioList('list', 'Label', array(
+		1 => 'First',
+		2 => 'Second',
+	));
+	$form->setDefaults(array('list' => 1));
+
+	Assert::same('<input type="radio" name="list" id="frm-list-1" checked value="1">', (string) $input->getControlPart('1'));
+});
