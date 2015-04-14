@@ -210,7 +210,7 @@ describe('Nette.getValue & validateRule', function() {
 			form = doc.forms[0],
 			el = form.input;
 
-		expect(Nette.getValue(el)).toBe(false);
+		expect(Nette.getValue(el)).toBe(null);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
 		expect(Nette.validateRule(el, 'blank')).toBe(true);
 		expect(Nette.validateRule(el, 'equal', ['f', 'm'])).toBe(false);
