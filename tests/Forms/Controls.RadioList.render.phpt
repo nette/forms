@@ -154,3 +154,14 @@ test(function() { // item label prototype
 
 	Assert::same('<label class="foo" for="frm-list-a"><input type="radio" name="list" id="frm-list-a" value="a">b</label>', (string) $input->getControl());
 });
+
+
+test(function() { // numeric key as string & getControlPart
+	$form = new Form;
+	$input = $form->addRadioList('list', 'Label', array(
+		1 => 'First',
+		2 => 'Second',
+	))->setDefaultValue(1);
+
+	Assert::same('<input type="radio" name="list" id="frm-list-1" checked value="1">', (string) $input->getControlPart('1'));
+});
