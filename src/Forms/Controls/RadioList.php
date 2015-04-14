@@ -136,6 +136,7 @@ class RadioList extends ChoiceControl
 	 */
 	public function getControlPart($key)
 	{
+		$key = key(array((string) $key => NULL));
 		return parent::getControl()->addAttributes(array(
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, TRUE),

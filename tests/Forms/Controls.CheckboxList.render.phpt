@@ -142,3 +142,14 @@ test(function() { // disabled one
 	Assert::same('<label><input type="checkbox" name="list[]" disabled value="a">First</label><br><label><input type="checkbox" name="list[]" value="0">Second</label>', $input->getControl());
 	Assert::same('<input type="checkbox" name="list[]" id="frm-list-a" disabled value="a">', (string) $input->getControlPart('a'));
 });
+
+
+test(function() { // numeric key as string & getControlPart
+	$form = new Form;
+	$input = $form->addCheckboxList('list', 'Label', array(
+		1 => 'First',
+		2 => 'Second',
+	))->setDefaultValue(1);
+
+	Assert::same('<input type="checkbox" name="list[]" id="frm-list-1" checked value="1">', (string) $input->getControlPart('1'));
+});
