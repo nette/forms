@@ -131,3 +131,14 @@ test(function () { // rendering options
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));
 });
+
+
+test(function() {
+	$form = new Form;
+	$input = $form->addMultiSelect('list', 'Label', [
+		1 => 'First',
+		2 => 'Second',
+	]);
+	$input->addOptionAttributes(['data-foo:' => [1 => 'a', 2 => 'b']]);
+	Assert::same('<select name="list[]" id="frm-list" multiple><option value="1" data-foo="a">First</option><option value="2" data-foo="b">Second</option></select>', (string) $input->getControl());
+});
