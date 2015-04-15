@@ -18,6 +18,9 @@ class MultiSelectBox extends MultiChoiceControl
 	/** @var array of option / optgroup */
 	private $options = [];
 
+	/** @var array */
+	private $optionAttributes = [];
+
 
 	public function __construct($label = NULL, array $items = NULL)
 	{
@@ -67,8 +70,18 @@ class MultiSelectBox extends MultiChoiceControl
 			[
 				'selected?' => $this->value,
 				'disabled:' => is_array($this->disabled) ? $this->disabled : NULL,
-			]
+			] + $this->optionAttributes
 		)->addAttributes(parent::getControl()->attrs)->multiple(TRUE);
+	}
+
+
+	/**
+	 * @return self
+	 */
+	public function addOptionAttributes(array $attributes)
+	{
+		$this->optionAttributes = $attributes + $this->optionAttributes;
+		return $this;
 	}
 
 }

@@ -24,6 +24,9 @@ class SelectBox extends ChoiceControl
 	/** @var mixed */
 	private $prompt = FALSE;
 
+	/** @var array */
+	private $optionAttributes = [];
+
 
 	public function __construct($label = NULL, array $items = NULL)
 	{
@@ -96,8 +99,18 @@ class SelectBox extends ChoiceControl
 			[
 				'selected?' => $this->value,
 				'disabled:' => is_array($this->disabled) ? $this->disabled : NULL,
-			]
+			] + $this->optionAttributes
 		)->addAttributes(parent::getControl()->attrs);
+	}
+
+
+	/**
+	 * @return self
+	 */
+	public function addOptionAttributes(array $attributes)
+	{
+		$this->optionAttributes = $attributes + $this->optionAttributes;
+		return $this;
 	}
 
 
