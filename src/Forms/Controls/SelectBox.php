@@ -24,6 +24,9 @@ class SelectBox extends ChoiceControl
 	/** @var mixed */
 	private $prompt = FALSE;
 
+	/** @var array */
+	private $optionAttributes = [];
+
 
 	public function __construct($label = NULL, array $items = NULL)
 	{
@@ -92,11 +95,22 @@ class SelectBox extends ChoiceControl
 
 		return Nette\Forms\Helpers::createSelectBox(
 			$items,
-			[
+			array_merge($this->optionAttributes, [
 				'selected?' => $this->value,
 				'disabled:' => is_array($this->disabled) ? $this->disabled : NULL,
-			]
+			])
 		)->addAttributes(parent::getControl()->attrs);
+	}
+
+
+	/**
+	 * @param array
+	 * @return self
+	 */
+	public function addOptionAttributes(array $attributes)
+	{
+		$this->optionAttributes = array_merge($this->optionAttributes, $attributes);
+		return $this;
 	}
 
 
