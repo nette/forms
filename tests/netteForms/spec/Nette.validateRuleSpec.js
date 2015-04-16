@@ -285,7 +285,7 @@ describe('Nette.getValue & validateRule', function() {
 
 	it('multi selectbox', function() {
 		fixtures.set('<form> \
-			<select name="input" multiple> \
+			<select name="input[]" multiple> \
 				<optgroup label="World"><option value="bu" id="option-2">Buranda</option></optgroup> \
 				<option value="?" id="option-3">other</option> \
 			</select> \
@@ -293,7 +293,7 @@ describe('Nette.getValue & validateRule', function() {
 
 		var doc = fixtures.window().document,
 			form = doc.forms[0],
-			el = form.input;
+			el = form['input[]'];
 
 		expect(Nette.getValue(el)).toEqual([]);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);

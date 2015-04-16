@@ -66,9 +66,6 @@ Nette.getValue = function(elem) {
 	} else if (elem.type === 'file') {
 		return elem.files || elem.value;
 
-	} else if (elem.name.match(/\[\]$/)) { // multi element with single option
-		return Nette.getValue([elem]);
-
 	} else if (elem.tagName.toLowerCase() === 'select') {
 		var index = elem.selectedIndex,
 			options = elem.options,
@@ -84,6 +81,9 @@ Nette.getValue = function(elem) {
 			}
 		}
 		return values;
+
+	} else if (elem.name && elem.name.match(/\[\]$/)) { // multi element with single option
+		return Nette.getValue([elem]);
 
 	} else if (elem.type === 'checkbox') {
 		return elem.checked;
