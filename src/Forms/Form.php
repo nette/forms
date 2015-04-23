@@ -409,19 +409,20 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			}
 		}
 
-		if ($this->onSuccess) {
+		if (!$this->isValid()) {
+			$this->onError($this);
+		} elseif ($this->onSuccess) {
 			foreach ($this->onSuccess as $handler) {
+				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
+				$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : NULL;
+				Nette\Utils\Callback::invoke($handler, $this, $values);
 				if (!$this->isValid()) {
 					$this->onError($this);
 					break;
 				}
-				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-				$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : NULL;
-				Nette\Utils\Callback::invoke($handler, $this, $values);
 			}
-		} elseif (!$this->isValid()) {
-			$this->onError($this);
 		}
+
 		$this->onSubmit($this);
 	}
 

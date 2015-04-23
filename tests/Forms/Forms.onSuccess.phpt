@@ -14,7 +14,6 @@ require __DIR__ . '/../bootstrap.php';
 $_SERVER['REQUEST_METHOD'] = 'POST';
 
 $called = array();
-
 $form = new Form;
 $form->addText('name');
 $form->addSubmit('submit');
@@ -34,8 +33,23 @@ $form->onSuccess[] = function() use (& $called) {
 $form->onError[] = function() use (& $called) {
 	$called[] = 'err';
 };
-
-
 $form->fireEvents();
+Assert::same(array(1, 2, 'err'), $called);
 
+
+$called = array();
+$form = new Form;
+$form->addText('name');
+$form->addSubmit('submit');
+$form->onSuccess[] = function() use (& $called) {
+	$called[] = 1;
+};
+$form->onSuccess[] = function($form) use (& $called) {
+	$called[] = 2;
+	$form['name']->addError('error');
+};
+$form->onError[] = function() use (& $called) {
+	$called[] = 'err';
+};
+$form->fireEvents();
 Assert::same(array(1, 2, 'err'), $called);
