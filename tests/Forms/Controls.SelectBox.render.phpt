@@ -64,15 +64,21 @@ test(function() { // translator & groups
 
 test(function() { // Html with translator & groups
 	$form = new Form;
+
+	$optGroup = Html::el('optgroup')->label('Foo')->class('bar');
+	$optGroup->add(Html::el('option', 'One')->value('1'));
+	$optGroup->add(Html::el('option', 'Two')->value('2'));
+
 	$input = $form->addSelect('list', Html::el('b', 'Label'), array(
 		'a' => Html::el('option', 'First')->class('class'),
 		'group' => array(Html::el('option', 'Second')),
+		$optGroup,
 	))->setPrompt(Html::el('option', 'Prompt')->class('class'));
 	$input->setTranslator(new Translator);
 
 	Assert::same('<label for="frm-list"><b>Label</b></label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-list"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
-	Assert::same('<select name="list" id="frm-list"><option class="class" value="">Prompt</option><option class="class" value="a">First</option><optgroup label="GROUP"><option value="0">Second</option></optgroup></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list"><option class="class" value="">Prompt</option><option class="class" value="a">First</option><optgroup label="GROUP"><option value="0">Second</option></optgroup><optgroup label="Foo" class="bar"><option value="1">One</option><option value="2">Two</option></optgroup></select>', (string) $input->getControl());
 });
 
 
