@@ -173,7 +173,10 @@ class Helpers extends Nette\Object
 		$option = Html::el();
 		$res = $tmp = '';
 		foreach ($items as $group => $subitems) {
-			if (is_array($subitems)) {
+			if($subitems instanceof Html && $subitems->getName() === 'optgroup') {
+				$tmp = $subitems;
+				$subitems = array();
+			} elseif (is_array($subitems)) {
 				$res .= Html::el('optgroup')->label($group)->startTag();
 				$tmp = '</optgroup>';
 			} else {
