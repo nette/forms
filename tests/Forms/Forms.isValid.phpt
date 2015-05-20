@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_GET = $_POST = $_FILES = array();
+	$_GET = $_POST = $_FILES = [];
 });
 
 
@@ -24,26 +24,26 @@ test(function() {
 	Assert::true( $form->isSubmitted() );
 	Assert::true( $form->isValid() );
 	Assert::true( $form->isSuccess() );
-	Assert::same( array(), $form->getErrors() );
+	Assert::same( [], $form->getErrors() );
 
 	$form['item']->addError('1');
 
 	Assert::true( $form->isSubmitted() );
 	Assert::false( $form->isValid() );
 	Assert::false( $form->isSuccess() );
-	Assert::same( array('1'), $form->getErrors() );
+	Assert::same( ['1'], $form->getErrors() );
 
 	$form['item']->addError('2');
 
 	Assert::true( $form->isSubmitted() );
 	Assert::false( $form->isValid() );
-	Assert::same( array('1', '2'), $form->getErrors() );
+	Assert::same( ['1', '2'], $form->getErrors() );
 
 	$form->validate();
 
 	Assert::true( $form->isSubmitted() );
 	Assert::true( $form->isValid() );
-	Assert::same( array(), $form->getErrors() );
+	Assert::same( [], $form->getErrors() );
 });
 
 
@@ -55,7 +55,7 @@ test(function() {
 
 	Assert::true( $form->isSubmitted() );
 	Assert::false( $form->isValid() );
-	Assert::same( array('1'), $form->getErrors() );
+	Assert::same( ['1'], $form->getErrors() );
 });
 
 
@@ -67,7 +67,7 @@ test(function() {
 
 	Assert::true( $form->isSubmitted() );
 	Assert::false( $form->isValid() );
-	Assert::same( array('1'), $form->getErrors() );
+	Assert::same( ['1'], $form->getErrors() );
 });
 
 
@@ -80,7 +80,7 @@ test(function() {
 
 	Assert::true( $form->isSubmitted() );
 	Assert::false( $form->isValid() );
-	Assert::same( array('1', '2'), $form->getErrors() );
+	Assert::same( ['1', '2'], $form->getErrors() );
 });
 
 
@@ -94,5 +94,5 @@ test(function() {
 
 	Assert::true( $form->isSubmitted() );
 	Assert::false( $form->isValid() );
-	Assert::same( array('1', '2'), $form->getErrors() );
+	Assert::same( ['1', '2'], $form->getErrors() );
 });

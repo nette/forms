@@ -18,20 +18,20 @@ class ChoiceControl extends Nette\Forms\Controls\ChoiceControl
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_POST = $_FILES = array();
+	$_POST = $_FILES = [];
 });
 
 
-$series = array(
+$series = [
 	'red-dwarf' => 'Red Dwarf',
 	'the-simpsons' => 'The Simpsons',
 	0 => 'South Park',
 	'' => 'Family Guy',
-);
+];
 
 
 test(function() use ($series) { // Select
-	$_POST = array('select' => 'red-dwarf');
+	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(NULL, $series);
@@ -44,7 +44,7 @@ test(function() use ($series) { // Select
 
 
 test(function() use ($series) { // Select with invalid input
-	$_POST = array('select' => 'days-of-our-lives');
+	$_POST = ['select' => 'days-of-our-lives'];
 
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(NULL, $series);
@@ -57,7 +57,7 @@ test(function() use ($series) { // Select with invalid input
 
 
 test(function() use ($series) { // Indexed arrays
-	$_POST = array('zero' => 0);
+	$_POST = ['zero' => 0];
 
 	$form = new Form;
 	$input = $form['zero'] = new ChoiceControl(NULL, $series);
@@ -71,7 +71,7 @@ test(function() use ($series) { // Indexed arrays
 
 
 test(function() use ($series) { // empty key
-	$_POST = array('empty' => '');
+	$_POST = ['empty' => ''];
 
 	$form = new Form;
 	$input = $form['empty'] = new ChoiceControl(NULL, $series);
@@ -95,7 +95,7 @@ test(function() use ($series) { // missing key
 
 
 test(function() use ($series) { // disabled key
-	$_POST = array('disabled' => 'red-dwarf');
+	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
 	$input = $form['disabled'] = new ChoiceControl(NULL, $series);
@@ -108,7 +108,7 @@ test(function() use ($series) { // disabled key
 
 
 test(function() use ($series) { // malformed data
-	$_POST = array('malformed' => array(NULL));
+	$_POST = ['malformed' => [NULL]];
 
 	$form = new Form;
 	$input = $form['malformed'] = new ChoiceControl(NULL, $series);
@@ -121,17 +121,17 @@ test(function() use ($series) { // malformed data
 
 
 test(function() use ($series) { // setItems without keys
-	$_POST = array('select' => 'red-dwarf');
+	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl;
 	$input->setItems(array_keys($series), FALSE);
-	Assert::same( array(
+	Assert::same( [
 		'red-dwarf' => 'red-dwarf',
 		'the-simpsons' => 'the-simpsons',
 		0 => 0,
 		'' => '',
-	), $input->getItems() );
+	], $input->getItems() );
 
 	Assert::true( $form->isValid() );
 	Assert::same( 'red-dwarf', $input->getValue() );
@@ -153,7 +153,7 @@ test(function() use ($series) { // setValue() and invalid argument
 
 test(function() { // object as value
 	$form = new Form;
-	$input = $form['select'] = new ChoiceControl(NULL, array('2013-07-05 00:00:00' => 1));
+	$input = $form['select'] = new ChoiceControl(NULL, ['2013-07-05 00:00:00' => 1]);
 	$input->setValue(new DateTime('2013-07-05'));
 
 	Assert::same( '2013-07-05 00:00:00', $input->getValue() );
@@ -163,7 +163,7 @@ test(function() { // object as value
 test(function() { // object as item
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl;
-	$input->setItems(array(new DateTime('2013-07-05')), FALSE)
+	$input->setItems([new DateTime('2013-07-05')], FALSE)
 		->setValue(new DateTime('2013-07-05'));
 
 	Assert::same( '2013-07-05 00:00:00', $input->getValue() );
@@ -171,31 +171,31 @@ test(function() { // object as item
 
 
 test(function() use ($series) { // disabled one
-	$_POST = array('select' => 'red-dwarf');
+	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(NULL, $series);
-	$input->setDisabled(array('red-dwarf'));
+	$input->setDisabled(['red-dwarf']);
 
 	Assert::null( $input->getValue() );
 
 	unset($form['select']);
 	$input = new ChoiceControl(NULL, $series);
-	$input->setDisabled(array('red-dwarf'));
+	$input->setDisabled(['red-dwarf']);
 	$form['select'] = $input;
 
 	Assert::null( $input->getValue() );
 });
 
 test(function() {
-	$_POST = array('select' => 1);
+	$_POST = ['select' => 1];
 
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(NULL);
-	$input->setItems(array(
+	$input->setItems([
 		1 => NULL,
 		2 => 'Red dwarf'
-	));
+	]);
 
 	Assert::same( 1, $input->getValue() );
 });

@@ -28,13 +28,13 @@ $form->addText('count', 'Number of results:')
 	->setType('number')
 	->setDefaultValue(10)
 	->addRule($form::INTEGER, 'Must be numeric value')
-	->addRule($form::RANGE, 'Must be in range from %d to %d', array(1, 100));
+	->addRule($form::RANGE, 'Must be in range from %d to %d', [1, 100]);
 
 $form->addText('precision', 'Precision:')
 	->setType('range')
 	->setDefaultValue(50)
 	->addRule($form::INTEGER, 'Precision must be numeric value')
-	->addRule($form::RANGE, 'Precision must be in range from %d to %d', array(0, 100));
+	->addRule($form::RANGE, 'Precision must be in range from %d to %d', [0, 100]);
 
 $form->addText('email', 'Send to email:')
 	->setType('email')

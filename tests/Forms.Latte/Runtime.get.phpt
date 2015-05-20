@@ -17,7 +17,7 @@ $form->action = 'http://example.com/?do=foo-submit#toc';
 
 Assert::same(
 	'<form action="http://example.com/#toc" method="get">',
-	Runtime::renderFormBegin($form, array())
+	Runtime::renderFormBegin($form, [])
 );
 
 Assert::match(

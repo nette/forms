@@ -36,14 +36,14 @@ $form->addGroup('Personal data');
 $form->addText('name', 'Your name')
 	->setRequired('Enter your name');
 
-$form->addRadioList('gender', 'Your gender', array(
+$form->addRadioList('gender', 'Your gender', [
 	'm' => Html::el('option', 'male')->style('color: #248bd3'),
 	'f' => Html::el('option', 'female')->style('color: #e948d4'),
-));
+]);
 
-$form->addSelect('country', 'Country', array(
+$form->addSelect('country', 'Country', [
 	'Buranda', 'Qumran', 'Saint Georges Island',
-));
+]);
 
 $form->addCheckbox('send', 'Ship to address');
 

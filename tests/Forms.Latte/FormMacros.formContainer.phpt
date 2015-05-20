@@ -27,7 +27,7 @@ $cont2->addCheckbox('input6', 'Input 6');
 $cont1->addText('input7', 'Input 7');
 
 $contItems = $form->addContainer('items');
-$items = array(1, 3);
+$items = [1, 3];
 foreach ($items as $item) {
 	$contItem = $contItems->addContainer($item);
 	$contItem->addText('input', 'Input');
@@ -47,6 +47,6 @@ Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.formContainer.html',
 	$latte->renderToString(
 		__DIR__ . '/templates/forms.formContainer.latte',
-		array('_control' => array('myForm' => $form))
+		['_control' => ['myForm' => $form]]
 	)
 );

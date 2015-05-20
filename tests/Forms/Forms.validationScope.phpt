@@ -11,13 +11,13 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$datasets = array(
-	array('send1', array('name', 'age', 'age2')),
-	array('send2', array()),
-	array('send3', array('name')),
-	array('send4', array('age')),
-	array('send5', array('age', 'age2')),
-);
+$datasets = [
+	['send1', ['name', 'age', 'age2']],
+	['send2', []],
+	['send3', ['name']],
+	['send4', ['age']],
+	['send5', ['age', 'age2']],
+];
 
 foreach ($datasets as $case) {
 
@@ -30,9 +30,9 @@ foreach ($datasets as $case) {
 
 	$form->addSubmit('send1');
 	$form->addSubmit('send2')->setValidationScope(FALSE);
-	$form->addSubmit('send3')->setValidationScope(array($form['name']));
-	$form->addSubmit('send4')->setValidationScope(array($form['details']['age']));
-	$form->addSubmit('send5')->setValidationScope(array($form['details']));
+	$form->addSubmit('send3')->setValidationScope([$form['name']]);
+	$form->addSubmit('send4')->setValidationScope([$form['details']['age']]);
+	$form->addSubmit('send5')->setValidationScope([$form['details']]);
 
 	$form->setSubmittedBy($form[$case[0]]);
 

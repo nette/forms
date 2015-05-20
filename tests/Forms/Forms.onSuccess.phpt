@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
 
-$called = array();
+$called = [];
 $form = new Form;
 $form->addText('name');
 $form->addSubmit('submit');
@@ -34,10 +34,10 @@ $form->onError[] = function() use (& $called) {
 	$called[] = 'err';
 };
 $form->fireEvents();
-Assert::same(array(1, 2, 'err'), $called);
+Assert::same([1, 2, 'err'], $called);
 
 
-$called = array();
+$called = [];
 $form = new Form;
 $form->addText('name');
 $form->addSubmit('submit');
@@ -52,4 +52,4 @@ $form->onError[] = function() use (& $called) {
 	$called[] = 'err';
 };
 $form->fireEvents();
-Assert::same(array(1, 2, 'err'), $called);
+Assert::same([1, 2, 'err'], $called);

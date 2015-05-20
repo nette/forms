@@ -49,16 +49,16 @@ $form->addText('name', 'Your name:')
 $form->addText('age', 'Your age:')
 	->setRequired('Enter your age')
 	->addRule($form::INTEGER, 'Age must be numeric value')
-	->addRule($form::RANGE, 'Age must be in range from %d to %d', array(10, 100));
+	->addRule($form::RANGE, 'Age must be in range from %d to %d', [10, 100]);
 
-$countries = array(
-	'World' => array(
+$countries = [
+	'World' => [
 		'bu' => 'Buranda',
 		'qu' => 'Qumran',
 		'st' => 'Saint Georges Island',
-	),
+	],
 	'?'  => 'other',
-);
+];
 $form->addSelect('country', 'Country:', $countries)
 	->setPrompt('Select your country');
 

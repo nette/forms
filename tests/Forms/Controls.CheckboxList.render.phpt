@@ -23,10 +23,10 @@ class Translator implements Nette\Localization\ITranslator
 
 test(function() {
 	$form = new Form;
-	$input = $form->addCheckboxList('list', 'Label', array(
+	$input = $form->addCheckboxList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 
 	Assert::type('Nette\Utils\Html', $input->getLabel());
 	Assert::same('<label>Label</label>', (string) $input->getLabel());
@@ -45,10 +45,10 @@ test(function() {
 
 test(function() { // checked
 	$form = new Form;
-	$input = $form->addCheckboxList('list', 'Label', array(
+	$input = $form->addCheckboxList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setValue(0);
+	])->setValue(0);
 
 	Assert::same('<label><input type="checkbox" name="list[]" value="a">First</label><br><label><input type="checkbox" name="list[]" checked value="0">Second</label>', $input->getControl());
 });
@@ -56,10 +56,10 @@ test(function() { // checked
 
 test(function() { // translator
 	$form = new Form;
-	$input = $form->addCheckboxList('list', 'Label', array(
+	$input = $form->addCheckboxList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 	$input->setTranslator(new Translator);
 
 	Assert::same('<label>LABEL</label>', (string) $input->getLabel());
@@ -73,9 +73,9 @@ test(function() { // translator
 
 test(function() { // Html
 	$form = new Form;
-	$input = $form->addCheckboxList('list', Html::el('b', 'Label'), array(
+	$input = $form->addCheckboxList('list', Html::el('b', 'Label'), [
 		'a' => Html::el('b', 'First'),
-	));
+	]);
 	$input->setTranslator(new Translator);
 
 	Assert::same('<label><b>Label</b></label>', (string) $input->getLabel());
@@ -88,10 +88,10 @@ test(function() { // Html
 
 test(function() { // validation rules
 	$form = new Form;
-	$input = $form->addCheckboxList('list', 'Label', array(
+	$input = $form->addCheckboxList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setRequired('required');
+	])->setRequired('required');
 
 	Assert::same('<label><input type="checkbox" name="list[]" data-nette-rules=\'[{"op":":filled","msg":"required"}]\' value="a">First</label><br><label><input type="checkbox" name="list[]" value="0">Second</label>', $input->getControl());
 	Assert::same('<input type="checkbox" name="list[]" id="frm-list-0" data-nette-rules=\'[{"op":":filled","msg":"required"}]\' value="0">', (string) $input->getControlPart(0));
@@ -101,10 +101,10 @@ test(function() { // validation rules
 test(function() { // container
 	$form = new Form;
 	$container = $form->addContainer('container');
-	$input = $container->addCheckboxList('list', 'Label', array(
+	$input = $container->addCheckboxList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 
 	Assert::same('<label><input type="checkbox" name="container[list][]" value="a">First</label><br><label><input type="checkbox" name="container[list][]" value="0">Second</label>', $input->getControl());
 });
@@ -112,9 +112,9 @@ test(function() { // container
 
 test(function() { // separator prototype
 	$form = new Form;
-	$input = $form->addCheckboxList('list', NULL, array(
+	$input = $form->addCheckboxList('list', NULL, [
 		'a' => 'b',
-	));
+	]);
 	$input->getSeparatorPrototype()->setName('div');
 
 	Assert::same('<div><label><input type="checkbox" name="list[]" value="a">b</label></div>', $input->getControl());
@@ -123,10 +123,10 @@ test(function() { // separator prototype
 
 test(function() { // disabled all
 	$form = new Form;
-	$input = $form->addCheckboxList('list', 'Label', array(
+	$input = $form->addCheckboxList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setDisabled(TRUE);
+	])->setDisabled(TRUE);
 
 	Assert::same('<label><input type="checkbox" name="list[]" disabled value="a">First</label><br><label><input type="checkbox" name="list[]" disabled value="0">Second</label>', $input->getControl());
 });
@@ -134,10 +134,10 @@ test(function() { // disabled all
 
 test(function() { // disabled one
 	$form = new Form;
-	$input = $form->addCheckboxList('list', 'Label', array(
+	$input = $form->addCheckboxList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setDisabled(array('a'));
+	])->setDisabled(['a']);
 
 	Assert::same('<label><input type="checkbox" name="list[]" disabled value="a">First</label><br><label><input type="checkbox" name="list[]" value="0">Second</label>', $input->getControl());
 	Assert::same('<input type="checkbox" name="list[]" id="frm-list-a" disabled value="a">', (string) $input->getControlPart('a'));
@@ -146,10 +146,10 @@ test(function() { // disabled one
 
 test(function() { // numeric key as string & getControlPart
 	$form = new Form;
-	$input = $form->addCheckboxList('list', 'Label', array(
+	$input = $form->addCheckboxList('list', 'Label', [
 		1 => 'First',
 		2 => 'Second',
-	))->setDefaultValue(1);
+	])->setDefaultValue(1);
 
 	Assert::same('<input type="checkbox" name="list[]" id="frm-list-1" checked value="1">', (string) $input->getControlPart('1'));
 });

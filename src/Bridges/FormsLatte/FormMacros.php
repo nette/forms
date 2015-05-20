@@ -33,12 +33,12 @@ class FormMacros extends MacroSet
 	public static function install(Latte\Compiler $compiler)
 	{
 		$me = new static($compiler);
-		$me->addMacro('form', array($me, 'macroForm'), 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form)');
-		$me->addMacro('formContainer', array($me, 'macroFormContainer'), '$formContainer = $_form = array_pop($_formStack)');
-		$me->addMacro('label', array($me, 'macroLabel'), array($me, 'macroLabelEnd'));
-		$me->addMacro('input', array($me, 'macroInput'), NULL, array($me, 'macroInputAttr'));
-		$me->addMacro('name', array($me, 'macroName'), array($me, 'macroNameEnd'), array($me, 'macroNameAttr'));
-		$me->addMacro('inputError', array($me, 'macroInputError'));
+		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form)');
+		$me->addMacro('formContainer', [$me, 'macroFormContainer'], '$formContainer = $_form = array_pop($_formStack)');
+		$me->addMacro('label', [$me, 'macroLabel'], [$me, 'macroLabelEnd']);
+		$me->addMacro('input', [$me, 'macroInput'], NULL, [$me, 'macroInputAttr']);
+		$me->addMacro('name', [$me, 'macroName'], [$me, 'macroNameEnd'], [$me, 'macroNameAttr']);
+		$me->addMacro('inputError', [$me, 'macroInputError']);
 	}
 
 
@@ -97,7 +97,7 @@ class FormMacros extends MacroSet
 				. '->%1.raw) echo $_label'
 				. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : ''),
 			$name,
-			$words ? ('getLabelPart(' . implode(', ', array_map(array($writer, 'formatWord'), $words)) . ')') : 'getLabel()'
+			$words ? ('getLabelPart(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')') : 'getLabel()'
 		);
 	}
 
@@ -129,7 +129,7 @@ class FormMacros extends MacroSet
 				. '->%1.raw'
 				. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : ''),
 			$name,
-			$words ? 'getControlPart(' . implode(', ', array_map(array($writer, 'formatWord'), $words)) . ')' : 'getControl()'
+			$words ? 'getControlPart(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')' : 'getControl()'
 		);
 	}
 
@@ -172,7 +172,7 @@ class FormMacros extends MacroSet
 					. ($node->htmlNode->attrs ? '->addAttributes(%2.var)' : '') . '->attributes()',
 				$name,
 				$words
-					? $method . 'Part(' . implode(', ', array_map(array($writer, 'formatWord'), $words)) . ')'
+					? $method . 'Part(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')'
 					: "{method_exists(\$_input, '{$method}Part')?'{$method}Part':'{$method}'}()",
 				array_fill_keys(array_keys($node->htmlNode->attrs), NULL)
 			);

@@ -97,7 +97,7 @@ class RadioList extends ChoiceControl
 	{
 		$input = parent::getControl();
 		$items = $this->getItems();
-		$ids = array();
+		$ids = [];
 		if ($this->generateId) {
 			foreach ($items as $value => $label) {
 				$ids[$value] = $input->id . '-' . $value;
@@ -107,13 +107,13 @@ class RadioList extends ChoiceControl
 		return $this->container->setHtml(
 			Nette\Forms\Helpers::createInputList(
 				$this->translate($items),
-				array_merge($input->attrs, array(
+				array_merge($input->attrs, [
 					'id:' => $ids,
 					'checked?' => $this->value,
 					'disabled:' => $this->disabled,
-					'data-nette-rules:' => array(key($items) => $input->attrs['data-nette-rules']),
-				)),
-				array('for:' => $ids) + $this->itemLabel->attrs,
+					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
+				]),
+				['for:' => $ids] + $this->itemLabel->attrs,
 				$this->separator
 			)
 		);
@@ -136,13 +136,13 @@ class RadioList extends ChoiceControl
 	 */
 	public function getControlPart($key)
 	{
-		$key = key(array((string) $key => NULL));
-		return parent::getControl()->addAttributes(array(
+		$key = key([(string) $key => NULL]);
+		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, TRUE),
 			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
 			'value' => $key,
-		));
+		]);
 	}
 
 

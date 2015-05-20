@@ -53,7 +53,7 @@ class Runtime extends Nette\Object
 				$parts = explode('=', $param, 2);
 				$name = urldecode($parts[0]);
 				if (!isset($form[$name])) {
-					$s .= Html::el('input', array('type' => 'hidden', 'name' => $name, 'value' => urldecode($parts[1])));
+					$s .= Html::el('input', ['type' => 'hidden', 'name' => $name, 'value' => urldecode($parts[1])]);
 				}
 			}
 		}

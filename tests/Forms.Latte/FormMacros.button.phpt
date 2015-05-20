@@ -27,6 +27,6 @@ Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.button.html',
 	$latte->renderToString(
 		__DIR__ . '/templates/forms.button.latte',
-		array('_control' => array('myForm' => $form))
+		['_control' => ['myForm' => $form]]
 	)
 );

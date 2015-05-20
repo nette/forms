@@ -24,11 +24,11 @@ $container->onValidate[] = function (Container $container) {
 	$container['name']->addError('fail 2');
 };
 
-$form->setValues(array('name' => "invalid*input"));
+$form->setValues(['name' => "invalid*input"]);
 $form->validate();
 
-Assert::same(array(
+Assert::same([
 	'Please enter a valid integer.',
 	'fail 1',
 	'fail 2'
-), $form->getErrors());
+], $form->getErrors());

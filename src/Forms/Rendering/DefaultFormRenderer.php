@@ -55,35 +55,35 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 	 *  \--
 	 *
 	 * @var array of HTML tags */
-	public $wrappers = array(
-		'form' => array(
+	public $wrappers = [
+		'form' => [
 			'container' => NULL,
-		),
+		],
 
-		'error' => array(
+		'error' => [
 			'container' => 'ul class=error',
 			'item' => 'li',
-		),
+		],
 
-		'group' => array(
+		'group' => [
 			'container' => 'fieldset',
 			'label' => 'legend',
 			'description' => 'p',
-		),
+		],
 
-		'controls' => array(
+		'controls' => [
 			'container' => 'table',
-		),
+		],
 
-		'pair' => array(
+		'pair' => [
 			'container' => 'tr',
 			'.required' => 'required',
 			'.optional' => NULL,
 			'.odd' => NULL,
 			'.error' => NULL,
-		),
+		],
 
-		'control' => array(
+		'control' => [
 			'container' => 'td',
 			'.odd' => NULL,
 
@@ -99,18 +99,18 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 			'.submit' => 'button',
 			'.image' => 'imagebutton',
 			'.button' => 'button',
-		),
+		],
 
-		'label' => array(
+		'label' => [
 			'container' => 'th',
 			'suffix' => NULL,
 			'requiredsuffix' => '',
-		),
+		],
 
-		'hidden' => array(
+		'hidden' => [
 			'container' => 'div',
-		),
-	);
+		],
+	];
 
 	/** @var Nette\Forms\Form */
 	protected $form;
@@ -172,7 +172,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 				$parts = explode('=', $param, 2);
 				$name = urldecode($parts[0]);
 				if (!isset($this->form[$name])) {
-					$s .= Html::el('input', array('type' => 'hidden', 'name' => $name, 'value' => urldecode($parts[1])));
+					$s .= Html::el('input', ['type' => 'hidden', 'name' => $name, 'value' => urldecode($parts[1])]);
 				}
 			}
 			return $el->startTag() . ($s ? "\n\t" . $this->getWrapper('hidden container')->setHtml($s) : '');
@@ -369,7 +369,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 	 */
 	public function renderPairMulti(array $controls)
 	{
-		$s = array();
+		$s = [];
 		foreach ($controls as $control) {
 			if (!$control instanceof Nette\Forms\IControl) {
 				throw new Nette\InvalidArgumentException('Argument must be array of Nette\Forms\IControl instances.');

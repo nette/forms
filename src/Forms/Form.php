@@ -108,10 +108,10 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	private $translator;
 
 	/** @var ControlGroup[] */
-	private $groups = array();
+	private $groups = [];
 
 	/** @var array */
-	private $errors = array();
+	private $errors = [];
 
 	/** @var Nette\Http\IRequest  used only by standalone form */
 	public $httpRequest;
@@ -478,7 +478,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			return;
 		}
 		$maxSize = ini_get('post_max_size');
-		$units = array('k' => 10, 'm' => 20, 'g' => 30);
+		$units = ['k' => 10, 'm' => 20, 'g' => 30];
 		if (isset($units[$ch = strtolower(substr($maxSize, -1))])) {
 			$maxSize <<= $units[$ch];
 		}
@@ -523,7 +523,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function cleanErrors()
 	{
-		$this->errors = array();
+		$this->errors = [];
 	}
 
 
@@ -587,7 +587,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	{
 		$args = func_get_args();
 		array_unshift($args, $this);
-		echo call_user_func_array(array($this->getRenderer(), 'render'), $args);
+		echo call_user_func_array([$this->getRenderer(), 'render'], $args);
 	}
 
 
@@ -631,7 +631,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function getToggles()
 	{
-		$toggles = array();
+		$toggles = [];
 		foreach ($this->getControls() as $control) {
 			$toggles = $control->getRules()->getToggleStates($toggles);
 		}

@@ -13,13 +13,13 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_GET = $_POST = $_FILES = array();
+	$_GET = $_POST = $_FILES = [];
 });
 
 
 test(function() {
 	$name = 'name';
-	$_POST = array(Form::TRACKER_ID => $name, 'send2' => '');
+	$_POST = [Form::TRACKER_ID => $name, 'send2' => ''];
 
 	$form = new Form($name);
 	$btn1 = $form->addSubmit('send1');
@@ -33,7 +33,7 @@ test(function() {
 
 test(function() {
 	$name = 'name';
-	$_POST = array(Form::TRACKER_ID => $name, 'send2' => array('x' => 1, 'y' => 1));
+	$_POST = [Form::TRACKER_ID => $name, 'send2' => ['x' => 1, 'y' => 1]];
 
 	$form = new Form($name);
 	$btn1 = $form->addImage('send1');

@@ -18,4 +18,4 @@ $form->addText('input');
 $form->addText('omittedInput')
 	->setOmitted();
 
-Assert::same(array('input' => ''), $form->getValues(TRUE));
+Assert::same(['input' => ''], $form->getValues(TRUE));

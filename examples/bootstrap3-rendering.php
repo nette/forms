@@ -23,17 +23,17 @@ $form->addGroup('Personal data');
 $form->addText('name', 'Your name')
 	->setRequired('Enter your name');
 
-$form->addRadioList('gender', 'Your gender', array(
+$form->addRadioList('gender', 'Your gender', [
 	'male', 'female',
-));
+]);
 
-$form->addCheckboxList('colors', 'Favorite colors:', array(
+$form->addCheckboxList('colors', 'Favorite colors:', [
 	'red', 'green', 'blue',
-));
+]);
 
-$form->addSelect('country', 'Country', array(
+$form->addSelect('country', 'Country', [
 	'Buranda', 'Qumran', 'Saint Georges Island',
-));
+]);
 
 $form->addCheckbox('send', 'Ship to address');
 

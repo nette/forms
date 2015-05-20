@@ -23,10 +23,10 @@ class Translator implements Nette\Localization\ITranslator
 
 test(function() {
 	$form = new Form;
-	$input = $form->addSelect('list', 'Label', array(
+	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 
 	Assert::type('Nette\Utils\Html', $input->getLabel());
 	Assert::same('<label for="frm-list">Label</label>', (string) $input->getLabel());
@@ -39,10 +39,10 @@ test(function() {
 
 test(function() { // selected
 	$form = new Form;
-	$input = $form->addSelect('list', 'Label', array(
+	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setValue(0);
+	])->setValue(0);
 
 	Assert::same('<select name="list" id="frm-list"><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
 });
@@ -50,10 +50,10 @@ test(function() { // selected
 
 test(function() { // translator & groups
 	$form = new Form;
-	$input = $form->addSelect('list', 'Label', array(
+	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
-		'group' => array('Second', 'Third'),
-	))->setPrompt('Prompt');
+		'group' => ['Second', 'Third'],
+	])->setPrompt('Prompt');
 	$input->setTranslator(new Translator);
 
 	Assert::same('<label for="frm-list">LABEL</label>', (string) $input->getLabel());
@@ -64,10 +64,10 @@ test(function() { // translator & groups
 
 test(function() { // Html with translator & groups
 	$form = new Form;
-	$input = $form->addSelect('list', Html::el('b', 'Label'), array(
+	$input = $form->addSelect('list', Html::el('b', 'Label'), [
 		'a' => Html::el('option', 'First')->class('class'),
-		'group' => array(Html::el('option', 'Second')),
-	))->setPrompt(Html::el('option', 'Prompt')->class('class'));
+		'group' => [Html::el('option', 'Second')],
+	])->setPrompt(Html::el('option', 'Prompt')->class('class'));
 	$input->setTranslator(new Translator);
 
 	Assert::same('<label for="frm-list"><b>Label</b></label>', (string) $input->getLabel());
@@ -78,10 +78,10 @@ test(function() { // Html with translator & groups
 
 test(function() { // validation rules
 	$form = new Form;
-	$input = $form->addSelect('list', 'Label', array(
+	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setRequired('required');
+	])->setRequired('required');
 
 	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\'><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
@@ -90,10 +90,10 @@ test(function() { // validation rules
 test(function() { // container
 	$form = new Form;
 	$container = $form->addContainer('container');
-	$input = $container->addSelect('list', 'Label', array(
+	$input = $container->addSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 
 	Assert::same('<select name="container[list]" id="frm-container-list"><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
@@ -101,10 +101,10 @@ test(function() { // container
 
 test(function() { // disabled all
 	$form = new Form;
-	$input = $form->addSelect('list', 'Label', array(
+	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setDisabled(TRUE);
+	])->setDisabled(TRUE);
 
 	Assert::same('<select name="list" id="frm-list" disabled><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
@@ -112,10 +112,10 @@ test(function() { // disabled all
 
 test(function() { // disabled one
 	$form = new Form;
-	$input = $form->addSelect('list', 'Label', array(
+	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setDisabled(array('a'));
+	])->setDisabled(['a']);
 
 	Assert::same('<select name="list" id="frm-list"><option value="a" disabled>First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });

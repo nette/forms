@@ -14,20 +14,20 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_POST = $_FILES = array();
+	$_POST = $_FILES = [];
 });
 
 
-$series = array(
+$series = [
 	'red-dwarf' => 'Red Dwarf',
 	'the-simpsons' => 'The Simpsons',
 	0 => 'South Park',
 	'' => 'Family Guy',
-);
+];
 
 
 test(function() use ($series) { // Radio list
-	$_POST = array('radio' => 'red-dwarf');
+	$_POST = ['radio' => 'red-dwarf'];
 
 	$form = new Form;
 	$input = $form->addRadioList('radio', NULL, $series);
@@ -40,7 +40,7 @@ test(function() use ($series) { // Radio list
 
 
 test(function() use ($series) { // Radio list with invalid input
-	$_POST = array('radio' => 'days-of-our-lives');
+	$_POST = ['radio' => 'days-of-our-lives'];
 
 	$form = new Form;
 	$input = $form->addRadioList('radio', NULL, $series);
@@ -53,7 +53,7 @@ test(function() use ($series) { // Radio list with invalid input
 
 
 test(function() use ($series) { // Indexed arrays
-	$_POST = array('zero' => 0);
+	$_POST = ['zero' => 0];
 
 	$form = new Form;
 	$input = $form->addRadioList('zero', NULL, $series);
@@ -67,7 +67,7 @@ test(function() use ($series) { // Indexed arrays
 
 
 test(function() use ($series) { // empty key
-	$_POST = array('empty' => '');
+	$_POST = ['empty' => ''];
 
 	$form = new Form;
 	$input = $form->addRadioList('empty', NULL, $series);
@@ -91,7 +91,7 @@ test(function() use ($series) { // missing key
 
 
 test(function() use ($series) { // disabled key
-	$_POST = array('disabled' => 'red-dwarf');
+	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
 	$input = $form->addRadioList('disabled', NULL, $series)
@@ -104,7 +104,7 @@ test(function() use ($series) { // disabled key
 
 
 test(function() use ($series) { // malformed data
-	$_POST = array('malformed' => array(NULL));
+	$_POST = ['malformed' => [NULL]];
 
 	$form = new Form;
 	$input = $form->addRadioList('malformed', NULL, $series);
@@ -117,7 +117,7 @@ test(function() use ($series) { // malformed data
 
 
 test(function() use ($series) { // setItems without keys
-	$_POST = array('select' => 'red-dwarf');
+	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
 	$input = $form->addRadioList('select')->setItems(array_keys($series), FALSE);
@@ -142,7 +142,7 @@ test(function() use ($series) { // setValue() and invalid argument
 
 test(function() { // object as value
 	$form = new Form;
-	$input = $form->addRadioList('radio', NULL, array('2013-07-05 00:00:00' => 1))
+	$input = $form->addRadioList('radio', NULL, ['2013-07-05 00:00:00' => 1])
 		->setValue(new DateTime('2013-07-05'));
 
 	Assert::same( '2013-07-05 00:00:00', $input->getValue() );
@@ -152,7 +152,7 @@ test(function() { // object as value
 test(function() { // object as item
 	$form = new Form;
 	$input = $form->addRadioList('radio')
-		->setItems(array(new DateTime('2013-07-05')), FALSE)
+		->setItems([new DateTime('2013-07-05')], FALSE)
 		->setValue(new DateTime('2013-07-05'));
 
 	Assert::same( '2013-07-05 00:00:00', $input->getValue() );
@@ -160,17 +160,17 @@ test(function() { // object as item
 
 
 test(function() use ($series) { // disabled one
-	$_POST = array('radio' => 'red-dwarf');
+	$_POST = ['radio' => 'red-dwarf'];
 
 	$form = new Form;
 	$input = $form->addRadioList('radio', NULL, $series)
-		->setDisabled(array('red-dwarf'));
+		->setDisabled(['red-dwarf']);
 
 	Assert::null( $input->getValue() );
 
 	unset($form['radio']);
 	$input = new Nette\Forms\Controls\RadioList(NULL, $series);
-	$input->setDisabled(array('red-dwarf'));
+	$input->setDisabled(['red-dwarf']);
 	$form['radio'] = $input;
 
 	Assert::null( $input->getValue() );

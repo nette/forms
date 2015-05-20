@@ -23,10 +23,10 @@ class Translator implements Nette\Localization\ITranslator
 
 test(function() {
 	$form = new Form;
-	$input = $form->addRadioList('list', 'Label', array(
+	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 
 	Assert::type('Nette\Utils\Html', $input->getLabel());
 	Assert::same('<label>Label</label>', (string) $input->getLabel());
@@ -45,10 +45,10 @@ test(function() {
 
 test(function() { // checked
 	$form = new Form;
-	$input = $form->addRadioList('list', 'Label', array(
+	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setValue(0);
+	])->setValue(0);
 
 	Assert::same('<label><input type="radio" name="list" value="a">First</label><br><label><input type="radio" name="list" checked value="0">Second</label>', (string) $input->getControl());
 });
@@ -56,10 +56,10 @@ test(function() { // checked
 
 test(function() { // translator
 	$form = new Form;
-	$input = $form->addRadioList('list', 'Label', array(
+	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 	$input->setTranslator(new Translator);
 
 	Assert::same('<label>LABEL</label>', (string) $input->getLabel());
@@ -73,9 +73,9 @@ test(function() { // translator
 
 test(function() { // Html
 	$form = new Form;
-	$input = $form->addRadioList('list', Html::el('b', 'Label'), array(
+	$input = $form->addRadioList('list', Html::el('b', 'Label'), [
 		'a' => Html::el('b', 'First'),
-	));
+	]);
 	$input->setTranslator(new Translator);
 
 	Assert::same('<label><b>Label</b></label>', (string) $input->getLabel());
@@ -88,10 +88,10 @@ test(function() { // Html
 
 test(function() { // validation rules
 	$form = new Form;
-	$input = $form->addRadioList('list', 'Label', array(
+	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setRequired('required');
+	])->setRequired('required');
 
 	Assert::same('<label><input type="radio" name="list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\' value="a">First</label><br><label><input type="radio" name="list" required value="0">Second</label>', (string) $input->getControl());
 	Assert::same('<input type="radio" name="list" id="frm-list-0" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\' value="0">', (string) $input->getControlPart(0));
@@ -101,10 +101,10 @@ test(function() { // validation rules
 test(function() { // container
 	$form = new Form;
 	$container = $form->addContainer('container');
-	$input = $container->addRadioList('list', 'Label', array(
+	$input = $container->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 
 	Assert::same('<label><input type="radio" name="container[list]" value="a">First</label><br><label><input type="radio" name="container[list]" value="0">Second</label>', (string) $input->getControl());
 });
@@ -112,9 +112,9 @@ test(function() { // container
 
 test(function() { // container prototype
 	$form = new Form;
-	$input = $form->addRadioList('list', NULL, array(
+	$input = $form->addRadioList('list', NULL, [
 		'a' => 'b',
-	));
+	]);
 	$input->getSeparatorPrototype()->setName('hr');
 	$input->getContainerPrototype()->setName('div');
 
@@ -124,10 +124,10 @@ test(function() { // container prototype
 
 test(function() { // disabled all
 	$form = new Form;
-	$input = $form->addRadioList('list', 'Label', array(
+	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setDisabled(TRUE);
+	])->setDisabled(TRUE);
 
 	Assert::same('<label><input type="radio" name="list" disabled value="a">First</label><br><label><input type="radio" name="list" disabled value="0">Second</label>', (string) $input->getControl());
 });
@@ -135,10 +135,10 @@ test(function() { // disabled all
 
 test(function() { // disabled one
 	$form = new Form;
-	$input = $form->addRadioList('list', 'Label', array(
+	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	))->setDisabled(array('a'));
+	])->setDisabled(['a']);
 
 	Assert::same('<label><input type="radio" name="list" disabled value="a">First</label><br><label><input type="radio" name="list" value="0">Second</label>', (string) $input->getControl());
 	Assert::same('<input type="radio" name="list" id="frm-list-a" disabled value="a">', (string) $input->getControlPart('a'));
@@ -147,9 +147,9 @@ test(function() { // disabled one
 
 test(function() { // item label prototype
 	$form = new Form;
-	$input = $form->addRadioList('list', NULL, array(
+	$input = $form->addRadioList('list', NULL, [
 		'a' => 'b',
-	));
+	]);
 	$input->getItemLabelPrototype()->class("foo");
 
 	Assert::same('<label class="foo"><input type="radio" name="list" value="a">b</label>', (string) $input->getControl());
@@ -158,10 +158,10 @@ test(function() { // item label prototype
 
 test(function() { // forced ID
 	$form = new Form;
-	$input = $form->addRadioList('list', 'Label', array(
+	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	));
+	]);
 	$input->generateId = TRUE;
 
 	Assert::same('<label for="frm-list-a"><input type="radio" name="list" id="frm-list-a" value="a">First</label><br><label for="frm-list-0"><input type="radio" name="list" id="frm-list-0" value="0">Second</label>', (string) $input->getControl());
@@ -170,10 +170,10 @@ test(function() { // forced ID
 
 test(function() { // numeric key as string & getControlPart
 	$form = new Form;
-	$input = $form->addRadioList('list', 'Label', array(
+	$input = $form->addRadioList('list', 'Label', [
 		1 => 'First',
 		2 => 'Second',
-	))->setDefaultValue(1);
+	])->setDefaultValue(1);
 
 	Assert::same('<input type="radio" name="list" id="frm-list-1" checked value="1">', (string) $input->getControlPart('1'));
 });

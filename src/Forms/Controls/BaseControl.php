@@ -54,7 +54,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	protected $label;
 
 	/** @var array */
-	private $errors = array();
+	private $errors = [];
 
 	/** @var bool */
 	protected $disabled = FALSE;
@@ -69,7 +69,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	private $translator = TRUE; // means autodetect
 
 	/** @var array user options */
-	private $options = array();
+	private $options = [];
 
 
 	/**
@@ -79,7 +79,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	{
 		$this->monitor('Nette\Forms\Form');
 		parent::__construct();
-		$this->control = Html::el('input', array('type' => NULL, 'name' => NULL));
+		$this->control = Html::el('input', ['type' => NULL, 'name' => NULL]);
 		$this->label = Html::el('label');
 		$this->caption = $caption;
 		$this->rules = new Nette\Forms\Rules($this);
@@ -172,7 +172,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public function isFilled()
 	{
 		$value = $this->getValue();
-		return $value !== NULL && $value !== array() && $value !== '';
+		return $value !== NULL && $value !== [] && $value !== '';
 	}
 
 
@@ -248,13 +248,13 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	{
 		$this->setOption('rendered', TRUE);
 		$el = clone $this->control;
-		return $el->addAttributes(array(
+		return $el->addAttributes([
 			'name' => $this->getHtmlName(),
 			'id' => $this->getHtmlId(),
 			'required' => $this->isRequired(),
 			'disabled' => $this->isDisabled(),
 			'data-nette-rules' => Nette\Forms\Helpers::exportRules($this->rules) ?: NULL,
-		));
+		]);
 	}
 
 
@@ -366,7 +366,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public function translate($value, $count = NULL)
 	{
 		if ($translator = $this->getTranslator()) {
-			$tmp = is_array($value) ? array(& $value) : array(array(& $value));
+			$tmp = is_array($value) ? [& $value] : [[& $value]];
 			foreach ($tmp[0] as & $v) {
 				if ($v != NULL && !$v instanceof Html) { // intentionally ==
 					$v = $translator->translate($v, $count);
@@ -509,7 +509,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function cleanErrors()
 	{
-		$this->errors = array();
+		$this->errors = [];
 	}
 
 

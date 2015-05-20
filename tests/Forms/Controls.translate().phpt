@@ -69,10 +69,10 @@ test(function() {
 	$name = $form->addText('name', 'Your name');
 	$name->addError("Error message");
 	$name->addError($w = new StringWrapper('Your name'));
-	Assert::same(array(
+	Assert::same([
 		'Error message',
 		$w
-	), $name->getErrors());
+	], $name->getErrors());
 });
 
 
@@ -85,11 +85,11 @@ test(function() {
 		->addRule($form::EMAIL, 'error');
 	Assert::match('<input type="text" name="email" id="frm-email" data-nette-rules=\'[{"op":":email","msg":"error"}]\'>', (string) $email->getControl());
 	$email->validate();
-	Assert::same(array('error'), $email->getErrors());
+	Assert::same(['error'], $email->getErrors());
 
 	$email2 = $form->addText('email2')
 		->addRule($form::EMAIL, new StringWrapper('Your name'));
 	Assert::match('<input type="text" name="email2" id="frm-email2" data-nette-rules=\'[{"op":":email","msg":"StringWrapper"}]\'>', (string) $email2->getControl());
 	$email2->validate();
-	Assert::same(array('StringWrapper'), $email2->getErrors());
+	Assert::same(['StringWrapper'], $email2->getErrors());
 });

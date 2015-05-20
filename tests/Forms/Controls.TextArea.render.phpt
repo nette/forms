@@ -62,7 +62,7 @@ test(function() { // Html with translator
 test(function() { // validation rule LENGTH
 	$form = new Form;
 	$input = $form->addTextArea('text')
-		->addRule($form::LENGTH, NULL, array(10, 20));
+		->addRule($form::LENGTH, NULL, [10, 20]);
 
 	Assert::same('<textarea name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\'></textarea>', (string) $input->getControl());
 });

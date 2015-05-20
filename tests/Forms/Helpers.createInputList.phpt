@@ -15,50 +15,50 @@ require __DIR__ . '/../bootstrap.php';
 test(function() {
 	Assert::same(
 		'',
-		Helpers::createInputList(array())
+		Helpers::createInputList([])
 	);
 
 	Assert::same(
 		'<label><input value="0">a</label>',
-		Helpers::createInputList(array('a'))
+		Helpers::createInputList(['a'])
 	);
 
 	Assert::same(
 		'<label><input value="a">First</label><label><input value="b">Second</label>',
 		Helpers::createInputList(
-			array('a' => 'First', 'b' => 'Second')
+			['a' => 'First', 'b' => 'Second']
 		)
 	);
 
 	Assert::same(
 		'<label class="button"><input type="checkbox" value="a">First</label><label class="button"><input type="checkbox" value="b">Second</label>',
 		Helpers::createInputList(
-			array('a' => 'First', 'b' => 'Second'),
-			array('type' => 'checkbox'),
-			array('class' => 'button')
+			['a' => 'First', 'b' => 'Second'],
+			['type' => 'checkbox'],
+			['class' => 'button']
 		)
 	);
 
 	Assert::same(
 		'<label style="color:blue" class="class1 class2"><input title="Hello" type="checkbox" checked value="a">First</label><label style="color:blue"><input title="Hello" type="radio" value="b">Second</label>',
 		Helpers::createInputList(
-			array('a' => 'First', 'b' => 'Second'),
-			array(
-				'type:' => array('a' => 'checkbox', 'b' => 'radio'),
-				'checked?' => array('a'),
+			['a' => 'First', 'b' => 'Second'],
+			[
+				'type:' => ['a' => 'checkbox', 'b' => 'radio'],
+				'checked?' => ['a'],
 				'title' => 'Hello',
-			),
-			array(
-				'class:' => array('a' => array('class1', 'class2')),
-				'style' => array('color' => 'blue'),
-			)
+			],
+			[
+				'class:' => ['a' => ['class1', 'class2']],
+				'style' => ['color' => 'blue'],
+			]
 		)
 	);
 
 	Assert::same(
 		'<label><input value="a">First</label><br><label><input value="b">Second</label>',
 		Helpers::createInputList(
-			array('a' => 'First', 'b' => 'Second'),
+			['a' => 'First', 'b' => 'Second'],
 			NULL,
 			NULL,
 			'<br>'
@@ -68,7 +68,7 @@ test(function() {
 	Assert::same(
 		'<div><label><input value="a">First</label></div><div><label><input value="b">Second</label></div>',
 		Helpers::createInputList(
-			array('a' => 'First', 'b' => 'Second'),
+			['a' => 'First', 'b' => 'Second'],
 			NULL,
 			NULL,
 			Html::el('div')
@@ -78,7 +78,7 @@ test(function() {
 	Assert::same(
 		'<label><input value="a">First</label><label><input value="b">Second</label>',
 		Helpers::createInputList(
-			array('a' => 'First', 'b' => 'Second'),
+			['a' => 'First', 'b' => 'Second'],
 			NULL,
 			NULL,
 			Html::el(NULL)

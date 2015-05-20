@@ -82,7 +82,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 					$control->setValues($values[$name], $erase);
 
 				} elseif ($erase) {
-					$control->setValues(array(), $erase);
+					$control->setValues([], $erase);
 				}
 			}
 		}
@@ -97,7 +97,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getValues($asArray = FALSE)
 	{
-		$values = $asArray ? array() : new Nette\Utils\ArrayHash;
+		$values = $asArray ? [] : new Nette\Utils\ArrayHash;
 		foreach ($this->getComponents() as $name => $control) {
 			if ($control instanceof IControl && !$control->isOmitted()) {
 				$values[$name] = $control->getValue();
@@ -139,7 +139,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		foreach ($controls === NULL ? $this->getComponents() : $controls as $control) {
 			$control->validate();
 		}
-		foreach ($this->onValidate ?: array() as $handler) {
+		foreach ($this->onValidate ?: [] as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
 			$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : NULL;
 			Nette\Utils\Callback::invoke($handler, $this, $values);
@@ -154,7 +154,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getErrors()
 	{
-		$errors = array();
+		$errors = [];
 		foreach ($this->getControls() as $control) {
 			$errors = array_merge($errors, $control->getErrors());
 		}
