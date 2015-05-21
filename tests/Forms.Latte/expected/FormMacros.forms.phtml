@@ -1,11 +1,11 @@
 <?php
 %A%
-echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array('id' => 'myForm', 'class'=>"ajax")) ?>
+echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], ['id' => 'myForm', 'class'=>"ajax"]) ?>
 
-<?php $iterations = 0; foreach (array('id', 'username', 'select', 'area', 'send') as $name) { ?>
+<?php $iterations = 0; foreach (['id', 'username', 'select', 'area', 'send'] as $name) { ?>
 		<?php $_input = is_object($name) ? $name : $_form[$name]; if ($_label = $_input->getLabel()) echo $_label  ?>
 
-		<?php $_input = is_object($name) ? $name : $_form[$name]; echo $_input->getControl()->addAttributes(array('title' => 'Hello', 'size' => 10)) ?>
+		<?php $_input = is_object($name) ? $name : $_form[$name]; echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
 
 		<?php echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
 
@@ -14,8 +14,8 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 
 		<br>
 
-		<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; if ($_label = $_input->getLabel()) echo $_label->addAttributes(array('title' => 'hello'))->startTag() ?>
- <?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo $_input->getControl()->addAttributes(array('title' => 'Hello', 'size' => 10)) ?>
+		<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; if ($_label = $_input->getLabel()) echo $_label->addAttributes(['title' => 'hello'])->startTag() ?>
+ <?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
  <?php if ($_label) echo $_label->endTag() ?>
 
 		<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
@@ -45,7 +45,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 
 
 
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array()) ;echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], []) ;echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
 
 
 
