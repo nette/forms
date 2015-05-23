@@ -210,7 +210,7 @@ describe('Nette.getValue & validateRule', function() {
 			form = doc.forms[0],
 			el = form.input;
 
-		expect(Nette.getValue(el)).toBe(false);
+		expect(Nette.getValue(el)).toBe(null);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
 		expect(Nette.validateRule(el, 'blank')).toBe(true);
 		expect(Nette.validateRule(el, 'equal', ['f', 'm'])).toBe(false);
@@ -285,7 +285,7 @@ describe('Nette.getValue & validateRule', function() {
 
 	it('multi selectbox', function() {
 		fixtures.set('<form> \
-			<select name="input" multiple> \
+			<select name="input[]" multiple> \
 				<optgroup label="World"><option value="bu" id="option-2">Buranda</option></optgroup> \
 				<option value="?" id="option-3">other</option> \
 			</select> \
@@ -293,7 +293,7 @@ describe('Nette.getValue & validateRule', function() {
 
 		var doc = fixtures.window().document,
 			form = doc.forms[0],
-			el = form.input;
+			el = form['input[]'];
 
 		expect(Nette.getValue(el)).toEqual([]);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -319,5 +319,18 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.validateRule(el, 'equal', ['bu', '?', 'x'])).toBe(true);
 		expect(Nette.validateRule(el, 'minLength', 2)).toBe(true);
 		expect(Nette.validateRule(el, 'minLength', 3)).toBe(false);
+	});
+
+
+	it('missing name', function() {
+		fixtures.set('<form><input></form>');
+
+		var doc = fixtures.window().document,
+			form = doc.forms[0],
+			el = form.elements[0];
+
+		expect(Nette.getValue(el)).toEqual('');
+		el.value = ' hello ';
+		expect(Nette.getValue(el)).toBe('hello');
 	});
 });

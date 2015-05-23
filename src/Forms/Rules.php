@@ -24,13 +24,13 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	private $required;
 
 	/** @var Rule[] */
-	private $rules = array();
+	private $rules = [];
 
 	/** @var Rules */
 	private $parent;
 
 	/** @var array */
-	private $toggles = array();
+	private $toggles = [];
 
 	/** @var IControl */
 	private $control;
@@ -196,7 +196,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	 * @internal
 	 * @return array
 	 */
-	public function getToggleStates($toggles = array(), $success = TRUE)
+	public function getToggleStates($toggles = [], $success = TRUE)
 	{
 		foreach ($this->toggles as $id => $hide) {
 			$toggles[$id] = ($success xor !$hide) || !empty($toggles[$id]);
@@ -238,7 +238,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	 */
 	public static function validateRule(Rule $rule)
 	{
-		$args = is_array($rule->arg) ? $rule->arg : array($rule->arg);
+		$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
 		foreach ($args as & $val) {
 			$val = $val instanceof IControl ? $val->getValue() : $val;
 		}

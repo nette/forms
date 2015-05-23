@@ -13,24 +13,24 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_POST = array('name'=>'John Doe ','age'=>'','email'=>'  @ ','send'=>'on','street'=>'','city'=>'','country'=>'HU','password'=>'xxx','password2'=>'','note'=>'','submit1'=>'Send','userid'=>'231',);
+$_POST = ['name'=>'John Doe ','age'=>'','email'=>'  @ ','send'=>'on','street'=>'','city'=>'','country'=>'HU','password'=>'xxx','password2'=>'','note'=>'','submit1'=>'Send','userid'=>'231',];
 
 
-$countries = array(
-	'Europe' => array(
+$countries = [
+	'Europe' => [
 		'CZ' => 'Czech Republic',
 		'SK' => 'Slovakia',
 		'GB' => 'United Kingdom',
-	),
+	],
 	'CA' => 'Canada',
 	'US' => 'United States',
 	'?'  => 'other',
-);
+];
 
-$sex = array(
+$sex = [
 	'm' => 'male',
 	'f' => 'female',
-);
+];
 
 
 $form = new Form;
@@ -46,7 +46,7 @@ $form->addText('name', 'Your name:')
 $form->addText('age', 'Your age:')
 	->addRule(Form::FILLED, 'Enter your age')
 	->addRule(Form::INTEGER, 'Age must be numeric value')
-	->addRule(Form::RANGE, 'Age must be in range from %d to %d', array(10, 100));
+	->addRule(Form::RANGE, 'Age must be in range from %d to %d', [10, 100]);
 
 $form->addRadioList('gender', 'Your gender:', $sex);
 
@@ -113,11 +113,11 @@ $form->addSubmit('submit', 'Send');
 $form->addButton('cancel', 'Cancel');
 
 
-$defaults = array(
+$defaults = [
 	'name'    => 'John Doe',
 	'userid'  => 231,
 	'country' => 'CZ',
-);
+];
 
 $form->setDefaults($defaults);
 $form->fireEvents();

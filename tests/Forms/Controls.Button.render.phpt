@@ -92,7 +92,7 @@ test(function() { // SubmitButton with scope
 	$form = new Form;
 	$text = $form->addText('text');
 	$select = $form->addSelect('select');
-	$input = $form->addSubmit('button', 'Caption')->setValidationScope(array($text, $select));
+	$input = $form->addSubmit('button', 'Caption')->setValidationScope([$text, $select]);
 
 	Assert::same('<input type="submit" name="button" value="Caption" formnovalidate data-nette-validation-scope=\'["text","select"]\'>', (string) $input->getControl());
 });

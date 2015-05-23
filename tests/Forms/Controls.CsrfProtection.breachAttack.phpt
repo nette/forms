@@ -23,7 +23,7 @@ Assert::notSame($token, $input->getControl()->value);
 $charlist = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
 $charCount = strlen($charlist);
 
-$strings = array();
+$strings = [];
 for ($a = 0; $a < $charCount; $a++) {
 	for ($b = 0; $b < $charCount; $b++) {
 		$strings[] = $charlist[$a] . $charlist[$b];
@@ -33,14 +33,14 @@ for ($a = 0; $a < $charCount; $a++) {
 for ($i = 3; $i <= strlen($token); $i++) {
 	$code = (string) $input->getControl();
 	$shortest = NULL;
-	$adepts = array();
+	$adepts = [];
 	foreach ($strings as $string) {
 		for ($j = 0; $j < $charCount; $j++) {
 			$try = $string . $charlist[$j];
 			$length = strlen(gzdeflate($code . $try));
 			if ($shortest === NULL || $length < $shortest) {
 				$shortest = $length;
-				$adepts = array();
+				$adepts = [];
 			}
 			if ($shortest === $length) {
 				$adepts[] = $try;

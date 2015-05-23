@@ -22,7 +22,7 @@ use Nette;
 abstract class ChoiceControl extends BaseControl
 {
 	/** @var array */
-	private $items = array();
+	private $items = [];
 
 
 	public function __construct($label = NULL, array $items = NULL)
@@ -45,7 +45,7 @@ abstract class ChoiceControl extends BaseControl
 			if (is_array($this->disabled) && isset($this->disabled[$this->value])) {
 				$this->value = NULL;
 			} else {
-				$this->value = key(array($this->value => NULL));
+				$this->value = key([$this->value => NULL]);
 			}
 		}
 	}
@@ -62,7 +62,7 @@ abstract class ChoiceControl extends BaseControl
 			$range = Nette\Utils\Strings::truncate(implode(', ', array_map(function($s) { return var_export($s, TRUE); }, array_keys($this->items))), 70, '...');
 			throw new Nette\InvalidArgumentException("Value '$value' is out of allowed range [$range] in field '{$this->name}'.");
 		}
-		$this->value = $value === NULL ? NULL : key(array((string) $value => NULL));
+		$this->value = $value === NULL ? NULL : key([(string) $value => NULL]);
 		return $this;
 	}
 

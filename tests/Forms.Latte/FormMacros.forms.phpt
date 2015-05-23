@@ -29,11 +29,11 @@ class MyControl extends Nette\Forms\Controls\BaseControl
 $form = new Form;
 $form->addHidden('id');
 $form->addText('username', 'Username:'); // must have just one textfield to generate IE fix
-$form->addRadioList('sex', 'Sex:', array('m' => 'male', 'f' => 'female'));
-$form->addSelect('select', NULL, array('m' => 'male', 'f' => 'female'));
+$form->addRadioList('sex', 'Sex:', ['m' => 'male', 'f' => 'female']);
+$form->addSelect('select', NULL, ['m' => 'male', 'f' => 'female']);
 $form->addTextArea('area', NULL)->setValue('one<two');
 $form->addCheckbox('checkbox', NULL);
-$form->addCheckboxList('checklist', NULL, array('m' => 'male', 'f' => 'female'));
+$form->addCheckboxList('checklist', NULL, ['m' => 'male', 'f' => 'female']);
 $form->addSubmit('send', 'Sign in');
 $form['my'] = new MyControl;
 
@@ -50,6 +50,6 @@ Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.forms.html',
 	$latte->renderToString(
 		__DIR__ . '/templates/forms.latte',
-		array('_control' => array('myForm' => $form))
+		['_control' => ['myForm' => $form]]
 	)
 );

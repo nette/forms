@@ -35,13 +35,13 @@ test(function() {
 	$control = new TextInput();
 	$control->value = '';
 	Assert::true( Validator::validateLength($control, 0) );
-	Assert::true( Validator::validateLength($control, array(0, 0)) );
+	Assert::true( Validator::validateLength($control, [0, 0]) );
 
 	$control->value = 'aaa';
 	Assert::true( Validator::validateLength($control, 3) );
 	Assert::false( Validator::validateLength($control, 4) );
-	Assert::true( Validator::validateLength($control, array(3, )) );
-	Assert::false( Validator::validateLength($control, array(5, 6)) );
+	Assert::true( Validator::validateLength($control, [3, ]) );
+	Assert::false( Validator::validateLength($control, [5, 6]) );
 });
 
 

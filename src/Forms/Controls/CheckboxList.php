@@ -16,11 +16,11 @@ use Nette,
  *
  * @author     David Grudl
  *
- * @property-read Nette\Utils\Html $separatorPrototype
+ * @property-read Html $separatorPrototype
  */
 class CheckboxList extends MultiChoiceControl
 {
-	/** @var Nette\Utils\Html  separator element template */
+	/** @var Html  separator element template */
 	protected $separator;
 
 
@@ -43,13 +43,13 @@ class CheckboxList extends MultiChoiceControl
 		$input = parent::getControl();
 		return Nette\Forms\Helpers::createInputList(
 			$this->translate($items),
-			array_merge($input->attrs, array(
+			array_merge($input->attrs, [
 				'id' => NULL,
 				'checked?' => $this->value,
 				'disabled:' => $this->disabled,
 				'required' => NULL,
-				'data-nette-rules:' => array(key($items) => $input->attrs['data-nette-rules']),
-			)),
+				'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
+			]),
 			$this->label->attrs,
 			$this->separator
 		);
@@ -59,7 +59,7 @@ class CheckboxList extends MultiChoiceControl
 	/**
 	 * Generates label's HTML element.
 	 * @param  string
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getLabel($caption = NULL)
 	{
@@ -69,7 +69,7 @@ class CheckboxList extends MultiChoiceControl
 
 	/**
 	 * Returns separator HTML element template.
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getSeparatorPrototype()
 	{
@@ -78,22 +78,23 @@ class CheckboxList extends MultiChoiceControl
 
 
 	/**
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getControlPart($key)
 	{
-		return parent::getControl()->addAttributes(array(
+		$key = key([(string) $key => NULL]);
+		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, TRUE),
 			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
 			'required' => NULL,
 			'value' => $key,
-		));
+		]);
 	}
 
 
 	/**
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getLabelPart($key)
 	{

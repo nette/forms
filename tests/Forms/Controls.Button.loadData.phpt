@@ -13,14 +13,14 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_POST = $_FILES = array();
+	$_POST = $_FILES = [];
 });
 
 
 test(function() {
-	$_POST = array(
+	$_POST = [
 		'button' => 'x',
-	);
+	];
 
 	$form = new Form;
 	$input = $form->addSubmit('button');
@@ -30,10 +30,10 @@ test(function() {
 
 
 test(function() { // empty value
-	$_POST = array(
+	$_POST = [
 		'button1' => '',
 		'button2' => '0',
-	);
+	];
 
 	$form = new Form;
 	$input = $form->addSubmit('button1');
@@ -56,9 +56,9 @@ test(function() { // missing data
 
 
 test(function() { // malformed data
-	$_POST = array(
-		'malformed' => array(),
-	);
+	$_POST = [
+		'malformed' => [],
+	];
 
 	$form = new Form;
 	$input = $form->addSubmit('malformed');

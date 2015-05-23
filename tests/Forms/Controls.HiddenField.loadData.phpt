@@ -13,12 +13,12 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_POST = $_FILES = array();
+	$_POST = $_FILES = [];
 });
 
 
 test(function() {
-	$_POST = array('text' => "  a\r b \n c ");
+	$_POST = ['text' => "  a\r b \n c "];
 	$form = new Form;
 	$input = $form->addHidden('text');
 	Assert::same( "  a\n b \n c ", $input->getValue() );
@@ -35,7 +35,7 @@ test(function() {
 
 
 test(function() { // invalid data
-	$_POST = array('malformed' => array(NULL));
+	$_POST = ['malformed' => [NULL]];
 	$form = new Form;
 	$input = $form->addHidden('malformed');
 	Assert::same( '', $input->getValue() );
@@ -47,8 +47,8 @@ test(function() { // errors are moved to form
 	$form = new Form;
 	$input = $form->addHidden('hidden');
 	$input->addError('error');
-	Assert::same( array(), $input->getErrors() );
-	Assert::same( array('error'), $form->getErrors() );
+	Assert::same( [], $input->getErrors() );
+	Assert::same( ['error'], $form->getErrors() );
 });
 
 
@@ -58,7 +58,7 @@ test(function() { // setValue() and invalid argument
 	$input->setValue(NULL);
 
 	Assert::exception(function() use ($input) {
-		$input->setValue(array());
+		$input->setValue([]);
 	}, 'Nette\InvalidArgumentException', "Value must be scalar or NULL, array given in field 'hidden'.");
 });
 

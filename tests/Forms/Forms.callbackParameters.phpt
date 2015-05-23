@@ -17,11 +17,11 @@ $form = new Form();
 $form->addText('text');
 $form->addSubmit('submit');
 
-$types = array();
+$types = [];
 
 class TestFormCallbackParameters
 {
-	public static $results = array();
+	public static $results = [];
 
 	public static function doSomething($form, $values)
 	{
@@ -37,13 +37,13 @@ class TestFormCallbackParameters
 }
 
 // Test the method second parameter to be an ArrayHash instance by default
-$m1 = array('TestFormCallbackParameters', 'doSomething');
+$m1 = ['TestFormCallbackParameters', 'doSomething'];
 
 // Test the method second parameter to be an array by type-hint
-$m2 = array('TestFormCallbackParameters', 'doSomethingWithArray');
+$m2 = ['TestFormCallbackParameters', 'doSomethingWithArray'];
 
 // Test the method second parameter to be an ArrayHash instance by default again
-$m3 = array('TestFormCallbackParameters', 'doSomething');
+$m3 = ['TestFormCallbackParameters', 'doSomething'];
 
 // Test the closure second parameter to be an ArrayHash instance by default
 $f1 = function ($form, $values) use (& $types) {
@@ -67,19 +67,19 @@ $f3 = function ($form, $values) use (& $types) {
 $f4 = function ($form, $values) use (& $types) {
 	$values->text = 'b';
 };
-$arrayHashIsImmutable = array();
+$arrayHashIsImmutable = [];
 $f5 = function ($form, $values) use (& $arrayHashIsImmutable) {
 	$arrayHashIsImmutable[] = $values->text === 'a';
 };
 
-foreach (array($m1, $m2, $m3, $f1, $f2, $f3, $f4, $f5) as $f) {
+foreach ([$m1, $m2, $m3, $f1, $f2, $f3, $f4, $f5] as $f) {
 	$form->onSuccess[] = $f;
 }
-foreach (array($m1, $m2, $m3, $f1, $f2, $f3, $f4, $f5) as $f) {
+foreach ([$m1, $m2, $m3, $f1, $f2, $f3, $f4, $f5] as $f) {
 	$form->onValidate[] = $f;
 }
 $form->fireEvents();
 
-Assert::same(TestFormCallbackParameters::$results, array(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE));
-Assert::same($types, array(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE));
-Assert::same($arrayHashIsImmutable, array(TRUE, TRUE));
+Assert::same(TestFormCallbackParameters::$results, [TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE]);
+Assert::same($types, [TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE]);
+Assert::same($arrayHashIsImmutable, [TRUE, TRUE]);

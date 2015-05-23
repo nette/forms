@@ -17,13 +17,13 @@ test(function() { // error handling
 	$input = $form->addText('text')
 		->addRule($form::EMAIL, 'error');
 
-	Assert::same( array(), $input->getErrors() );
+	Assert::same( [], $input->getErrors() );
 	Assert::null( $input->getError() );
 	Assert::false( $input->hasErrors() );
 
 	$input->validate();
 
-	Assert::same( array('error'), $input->getErrors() );
+	Assert::same( ['error'], $input->getErrors() );
 	Assert::same( 'error', $input->getError() );
 	Assert::true( $input->hasErrors() );
 
@@ -39,8 +39,8 @@ test(function() { // validators
 
 	Assert::true( Validator::validateEqual($input, 123) );
 	Assert::true( Validator::validateEqual($input, '123') );
-	Assert::true( Validator::validateEqual($input, array(123, 3)) ); // "is in"
-	Assert::false( Validator::validateEqual($input, array('x')) );
+	Assert::true( Validator::validateEqual($input, [123, 3]) ); // "is in"
+	Assert::false( Validator::validateEqual($input, ['x']) );
 
 	Assert::true( Validator::validateFilled($input) );
 	Assert::true( Validator::validateValid($input) );
@@ -55,9 +55,9 @@ test(function() { // validators
 	Assert::true( Validator::validateMaxLength($input, 3) );
 	Assert::false( Validator::validateMaxLength($input, 2) );
 
-	Assert::true( Validator::validateRange($input, array(NULL, NULL)) );
-	Assert::true( Validator::validateRange($input, array(100, 1000)) );
-	Assert::false( Validator::validateRange($input, array(1000, NULL)) );
+	Assert::true( Validator::validateRange($input, [NULL, NULL]) );
+	Assert::true( Validator::validateRange($input, [100, 1000]) );
+	Assert::false( Validator::validateRange($input, [1000, NULL]) );
 
 	Assert::true( Validator::validateMin($input, 122) );
 	Assert::true( Validator::validateMin($input, 123) );
@@ -71,12 +71,12 @@ test(function() { // validators
 
 test(function() { // validators for array
 	$form = new Form;
-	$input = $form->addMultiSelect('select', NULL, array('a', 'b', 'c', 'd'));
-	$input->setValue(array(1, 2, 3));
+	$input = $form->addMultiSelect('select', NULL, ['a', 'b', 'c', 'd']);
+	$input->setValue([1, 2, 3]);
 
-	Assert::true( Validator::validateEqual($input, array(1, 2, 3, 4)) );
-	Assert::true( Validator::validateEqual($input, array('1', '2', '3')) );
-	Assert::false( Validator::validateEqual($input, array('x')) );
+	Assert::true( Validator::validateEqual($input, [1, 2, 3, 4]) );
+	Assert::true( Validator::validateEqual($input, ['1', '2', '3']) );
+	Assert::false( Validator::validateEqual($input, ['x']) );
 
 	Assert::true( Validator::validateFilled($input) );
 	Assert::true( Validator::validateValid($input) );
@@ -123,7 +123,7 @@ test(function() { // disabled
 
 test(function() { // disabled & submitted
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_POST = array('disabled' => 'submitted value');
+	$_POST = ['disabled' => 'submitted value'];
 
 	$form = new Form;
 	$form->addText('disabled')

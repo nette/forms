@@ -15,17 +15,17 @@ require __DIR__ . '/../bootstrap.php';
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
 
-$_POST = array(
+$_POST = [
 	'name' => 'jim',
-	'first' => array(
+	'first' => [
 		'name' => 'jim',
 		'age' => '40',
-		'second' => array(
+		'second' => [
 			'name' => 'david',
-		),
-	),
+		],
+	],
 	'invalid' => TRUE,
-);
+];
 
 
 $first = new Nette\Forms\Container;
@@ -35,22 +35,22 @@ $first->addText('age');
 $second = $first->addContainer('second');
 $second->addText('name');
 
-$first->setDefaults(array(
+$first->setDefaults([
 	'name' => 'xxx',
 	'age' => '50',
-	'second' => array(
+	'second' => [
 		'name' => 'yyy',
 		'age' => '30',
-	),
-));
+	],
+]);
 
-Assert::equal( ArrayHash::from(array(
+Assert::equal( ArrayHash::from([
 	'name' => 'xxx',
 	'age' => '50',
-	'second' => ArrayHash::from(array(
+	'second' => ArrayHash::from([
 		'name' => 'yyy',
-	)),
-)), $first->getValues() );
+	]),
+]), $first->getValues() );
 
 
 $form = new Form;
@@ -62,16 +62,16 @@ $form->addSubmit('send');
 
 
 Assert::truthy( $form->isSubmitted() );
-Assert::equal( ArrayHash::from(array(
+Assert::equal( ArrayHash::from([
 	'name' => 'jim',
-	'first' => ArrayHash::from(array(
+	'first' => ArrayHash::from([
 		'name' => 'jim',
 		'age' => '40',
-		'second' => ArrayHash::from(array(
+		'second' => ArrayHash::from([
 			'name' => 'david',
-		)),
-	)),
-	'invalid' => ArrayHash::from(array(
+		]),
+	]),
+	'invalid' => ArrayHash::from([
 		'name' => '',
-	)),
-)), $form->getValues() );
+	]),
+]), $form->getValues() );

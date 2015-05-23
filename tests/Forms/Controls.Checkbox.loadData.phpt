@@ -13,15 +13,15 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_POST = $_FILES = array();
+	$_POST = $_FILES = [];
 });
 
 
 test(function() {
-	$_POST = array(
+	$_POST = [
 		'off' => '',
 		'on' => 1,
-	);
+	];
 
 	$form = new Form;
 	$input = $form->addCheckbox('off');
@@ -37,7 +37,7 @@ test(function() {
 
 
 test(function() { // malformed data
-	$_POST = array('malformed' => array(NULL));
+	$_POST = ['malformed' => [NULL]];
 
 	$form = new Form;
 	$input = $form->addCheckbox('malformed');
@@ -53,6 +53,6 @@ test(function() { // setValue() and invalid argument
 	$input->setValue(NULL);
 
 	Assert::exception(function() use ($input) {
-		$input->setValue(array());
+		$input->setValue([]);
 	}, 'Nette\InvalidArgumentException', "Value must be scalar or NULL, array given in field 'checkbox'.");
 });

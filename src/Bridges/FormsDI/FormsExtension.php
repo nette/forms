@@ -18,9 +18,9 @@ use Nette;
  */
 class FormsExtension extends Nette\DI\CompilerExtension
 {
-	public $defaults = array(
-		'messages' => array()
-	);
+	public $defaults = [
+		'messages' => []
+	];
 
 
 	public function afterCompile(Nette\PhpGenerator\ClassType $class)
@@ -30,9 +30,9 @@ class FormsExtension extends Nette\DI\CompilerExtension
 
 		foreach ((array) $config['messages'] as $name => $text) {
 			if (defined('Nette\Forms\Form::' . $name)) {
-				$initialize->addBody('Nette\Forms\Validator::$messages[Nette\Forms\Form::?] = ?;', array($name, $text));
+				$initialize->addBody('Nette\Forms\Validator::$messages[Nette\Forms\Form::?] = ?;', [$name, $text]);
 			} elseif (defined($name)) {
-				$initialize->addBody('Nette\Forms\Validator::$messages[' . $name . '] = ?;', array($text));
+				$initialize->addBody('Nette\Forms\Validator::$messages[' . $name . '] = ?;', [$text]);
 			} else {
 				throw new Nette\InvalidArgumentException('Constant Nette\Forms\Form::' . $name . ' or constant ' . $name . ' does not exist.');
 			}

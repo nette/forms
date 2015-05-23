@@ -5,7 +5,23 @@
  * Copyright (c) 2004 David Grudl (http://davidgrudl.com)
  */
 
-var Nette = Nette || {};
+(function(global, factory) {
+	if (typeof define === 'function' && define.amd) {
+		define(function() {
+			return factory(global);
+		});
+	} else if (typeof module === 'object' && typeof module.exports === 'object') {
+		module.exports = factory(global);
+	} else {
+		global.Nette = factory(global);
+		global.Nette.initOnLoad();
+	}
+
+}(typeof window !== 'undefined' ? window : this, function(window) {
+
+'use strict';
+
+var Nette = {};
 Nette.errors = [];
 
 /**
@@ -26,33 +42,24 @@ Nette.addEvent = function(element, on, callback) {
  * Returns the value of form element.
  */
 Nette.getValue = function(elem) {
-	var i, len;
+	var i;
 	if (!elem) {
 		return null;
 
 	} else if (!elem.tagName) { // RadioNodeList, HTMLCollection, array
-		var multi = elem[0] && !!elem[0].name.match(/\[\]$/),
-			res = [];
+		return elem[0] ? Nette.getValue(elem[0]) : null;
 
-		for (i = 0, len = elem.length; i < len; i++) {
-			if (elem[i].type in {checkbox: 1, radio: 1} && !elem[i].checked) {
-				continue;
-			} else if (multi) {
-				res.push(elem[i].value);
-			} else {
-				return elem[i].value;
+	} else if (elem.type === 'radio') {
+		var elements = elem.form.elements; // prevents problem with name 'item' or 'namedItem'
+		for (i = 0; i < elements.length; i++) {
+			if (elements[i].name === elem.name && elements[i].checked) {
+				return elements[i].value;
 			}
 		}
-		return multi ? res : null;
-
-	} else if (!elem.form.elements[elem.name].tagName) { // multi element
-		return Nette.getValue(elem.form.elements[elem.name]);
+		return null;
 
 	} else if (elem.type === 'file') {
 		return elem.files || elem.value;
-
-	} else if (elem.name.match(/\[\]$/)) { // multi element with single option
-		return Nette.getValue([elem]);
 
 	} else if (elem.tagName.toLowerCase() === 'select') {
 		var index = elem.selectedIndex,
@@ -63,18 +70,26 @@ Nette.getValue = function(elem) {
 			return index < 0 ? null : options[index].value;
 		}
 
-		for (i = 0, len = options.length; i < len; i++) {
+		for (i = 0; i < options.length; i++) {
 			if (options[i].selected) {
 				values.push(options[i].value);
 			}
 		}
 		return values;
 
+	} else if (elem.name && elem.name.match(/\[\]$/)) { // multiple elements []
+		var elements = elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name],
+			values = [];
+
+		for (i = 0; i < elements.length; i++) {
+			if (elements[i].type !== 'checkbox' || elements[i].checked) {
+				values.push(elements[i].value);
+			}
+		}
+		return values;
+
 	} else if (elem.type === 'checkbox') {
 		return elem.checked;
-
-	} else if (elem.type === 'radio') {
-		return elem.checked && elem.value;
 
 	} else if (elem.tagName.toLowerCase() === 'textarea') {
 		return elem.value.replace("\r", '');
@@ -110,7 +125,11 @@ Nette.validateControl = function(elem, rules, onlyCheck, value) {
 	for (var id = 0, len = rules.length; id < len; id++) {
 		var rule = rules[id],
 			op = rule.op.match(/(~)?([^?]+)/),
-			curElem = rule.control ? elem.form.elements[rule.control] : elem;
+			curElem = rule.control ? elem.form.elements.namedItem(rule.control) : elem;
+
+		if (!curElem) {
+			continue;
+		}
 
 		rule.neg = op[1];
 		rule.op = op[2];
@@ -137,7 +156,7 @@ Nette.validateControl = function(elem, rules, onlyCheck, value) {
 			if (!onlyCheck) {
 				var arr = Nette.isArray(rule.arg) ? rule.arg : [rule.arg],
 					message = rule.msg.replace(/%(value|\d+)/g, function(foo, m) {
-						return Nette.getValue(m === 'value' ? curElem : elem.form.elements[arr[m].control]);
+						return Nette.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control));
 					});
 				Nette.addError(curElem, message);
 			}
@@ -194,9 +213,8 @@ Nette.validateForm = function(sender) {
  */
 Nette.isDisabled = function(elem) {
 	if (elem.type === 'radio') {
-		elem = elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name];
-		for (var i = 0; i < elem.length; i++) {
-			if (!elem[i].disabled) {
+		for (var i = 0, elements = elem.form.elements; i < elements.length; i++) {
+			if (elements[i].name === elem.name && !elements[i].disabled) {
 				return false;
 			}
 		}
@@ -269,7 +287,7 @@ Nette.alert = function(message) {
  */
 Nette.expandRuleArgument = function(form, arg) {
 	if (arg && arg.control) {
-		arg = Nette.getEffectiveValue(form.elements[arg.control]);
+		arg = Nette.getEffectiveValue(form.elements.namedItem(arg.control));
 	}
 	return arg;
 };
@@ -301,7 +319,7 @@ Nette.validators = {
 	filled: function(elem, arg, val) {
 		return val !== '' && val !== false && val !== null
 			&& (!Nette.isArray(val) || !!val.length)
-			&& (!window.FileList || !(val instanceof FileList) || val.length);
+			&& (!window.FileList || !(val instanceof window.FileList) || val.length);
 	},
 
 	blank: function(elem, arg, val) {
@@ -418,7 +436,7 @@ Nette.validators = {
 	},
 
 	image: function (elem, arg, val) {
-		if (window.FileList && val instanceof FileList) {
+		if (window.FileList && val instanceof window.FileList) {
 			for (var i = 0; i < val.length; i++) {
 				var type = val[i].type;
 				if (type && type !== 'image/gif' && type !== 'image/png' && type !== 'image/jpeg') {
@@ -460,32 +478,44 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 		handled = [],
 		handler = function () {
 			Nette.toggleForm(elem.form, elem);
-		};
+		},
+		curSuccess;
 
 	for (var id = 0, len = rules.length; id < len; id++) {
 		var rule = rules[id],
 			op = rule.op.match(/(~)?([^?]+)/),
-			curElem = rule.control ? elem.form.elements[rule.control] : elem;
+			curElem = rule.control ? elem.form.elements.namedItem(rule.control) : elem;
 
+		if (!curElem) {
+			continue;
+		}
+
+		curSuccess = success;
 		if (success !== false) {
 			rule.neg = op[1];
 			rule.op = op[2];
-			var curValue = elem === curElem ? value : {value: Nette.getEffectiveValue(curElem)},
-				res = Nette.validateRule(curElem, rule.op, rule.arg, curValue);
-			if (res === null) {
+			var curValue = elem === curElem ? value : {value: Nette.getEffectiveValue(curElem)};
+			curSuccess = Nette.validateRule(curElem, rule.op, rule.arg, curValue);
+			if (curSuccess === null) {
 				continue;
+
+			} else if (rule.neg) {
+				curSuccess = !curSuccess;
 			}
-			success = rule.neg ? !res : res;
+			if (!rule.rules) {
+				success = curSuccess;
+			}
 		}
 
-		if ((rule.rules && Nette.toggleControl(elem, rule.rules, success, firsttime, value)) || rule.toggle) {
+		if ((rule.rules && Nette.toggleControl(elem, rule.rules, curSuccess, firsttime, value)) || rule.toggle) {
 			has = true;
 			if (firsttime) {
 				var oldIE = !document.addEventListener, // IE < 9
-					els = curElem.tagName ? [curElem] : curElem; // is radiolist?
+					name = curElem.tagName ? curElem.name : curElem[0].name,
+					els = curElem.tagName ? curElem.form.elements : curElem;
 
 				for (var i = 0; i < els.length; i++) {
-					if (!Nette.inArray(handled, els[i])) {
+					if (els[i].name === name && !Nette.inArray(handled, els[i])) {
 						Nette.addEvent(els[i], oldIE && curElem.type in {checkbox: 1, radio: 1} ? 'click' : 'change', handler);
 						handled.push(els[i]);
 					}
@@ -493,7 +523,7 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 			}
 			for (var id2 in rule.toggle || []) {
 				if (Object.prototype.hasOwnProperty.call(rule.toggle, id2)) {
-					Nette.toggles[id2] = Nette.toggles[id2] || (rule.toggle[id2] ? success : !success);
+					Nette.toggles[id2] = Nette.toggles[id2] || (rule.toggle[id2] ? curSuccess : !curSuccess);
 				}
 			}
 		}
@@ -550,6 +580,18 @@ Nette.initForm = function(form) {
 
 
 /**
+ * @private
+ */
+Nette.initOnLoad = function() {
+	Nette.addEvent(window, 'load', function() {
+		for (var i = 0; i < document.forms.length; i++) {
+			Nette.initForm(document.forms[i]);
+		}
+	});
+};
+
+
+/**
  * Determines whether the argument is an array.
  */
 Nette.isArray = function(arg) {
@@ -574,13 +616,6 @@ Nette.inArray = function(arr, val) {
 };
 
 
-Nette.addEvent(window, 'load', function() {
-	for (var i = 0; i < document.forms.length; i++) {
-		Nette.initForm(document.forms[i]);
-	}
-});
-
-
 /**
  * Converts string to web safe characters [a-z0-9-] text.
  */
@@ -595,3 +630,6 @@ Nette.webalize = function(s) {
 };
 
 Nette.webalizeTable = {\u00e1: 'a', \u00e4: 'a', \u010d: 'c', \u010f: 'd', \u00e9: 'e', \u011b: 'e', \u00ed: 'i', \u013e: 'l', \u0148: 'n', \u00f3: 'o', \u00f4: 'o', \u0159: 'r', \u0161: 's', \u0165: 't', \u00fa: 'u', \u016f: 'u', \u00fd: 'y', \u017e: 'z'};
+
+return Nette;
+}));

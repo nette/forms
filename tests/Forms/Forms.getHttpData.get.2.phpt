@@ -13,12 +13,12 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'GET';
-	$_GET = $_POST = $_FILES = array();
+	$_GET = $_POST = $_FILES = [];
 });
 
 
 test(function() {
-	$_GET = array('item');
+	$_GET = ['item'];
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
 
 	$form = new Form;
@@ -26,6 +26,6 @@ test(function() {
 	$form->addSubmit('send', 'Send');
 
 	Assert::truthy( $form->isSubmitted() );
-	Assert::same( array('item'), $form->getHttpData() );
-	Assert::same( array(), $form->getValues(TRUE) );
+	Assert::same( ['item'], $form->getHttpData() );
+	Assert::same( [], $form->getValues(TRUE) );
 });

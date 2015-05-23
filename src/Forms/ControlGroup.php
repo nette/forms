@@ -24,7 +24,7 @@ class ControlGroup extends Nette\Object
 	protected $controls;
 
 	/** @var array user options */
-	private $options = array();
+	private $options = [];
 
 
 	public function __construct()

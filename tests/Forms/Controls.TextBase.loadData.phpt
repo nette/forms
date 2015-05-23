@@ -13,12 +13,12 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function() {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_POST = $_FILES = array();
+	$_POST = $_FILES = [];
 });
 
 
 test(function() { // trim & new lines
-	$_POST = array('text' => "  a\r b \n c ");
+	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
 	$input = $form->addText('text');
@@ -29,7 +29,7 @@ test(function() { // trim & new lines
 
 
 test(function() { // trim & new lines in textarea
-	$_POST = array('text' => "  a\r b \n c ");
+	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
 	$input = $form->addTextArea('text');
@@ -39,7 +39,7 @@ test(function() { // trim & new lines in textarea
 
 
 test(function() { // empty value
-	$_POST = array('url' => 'nette.org');
+	$_POST = ['url' => 'nette.org'];
 
 	$form = new Form;
 	$input = $form->addText('url')
@@ -50,7 +50,7 @@ test(function() { // empty value
 
 
 test(function() { // empty value
-	$_POST = array('phone' => '+420 ');
+	$_POST = ['phone' => '+420 '];
 
 	$form = new Form;
 	$input = $form->addText('phone')
@@ -61,7 +61,7 @@ test(function() { // empty value
 
 
 test(function() { // invalid UTF
-	$_POST = array('invalidutf' => "invalid\xAA\xAA\xAAutf");
+	$_POST = ['invalidutf' => "invalid\xAA\xAA\xAAutf"];
 
 	$form = new Form;
 	$input = $form->addText('invalidutf');
@@ -79,7 +79,7 @@ test(function() { // missing data
 
 
 test(function() { // malformed data
-	$_POST = array('malformed' => array(NULL));
+	$_POST = ['malformed' => [NULL]];
 
 	$form = new Form;
 	$input = $form->addText('malformed');
@@ -90,20 +90,20 @@ test(function() { // malformed data
 
 
 test(function() { // setValue() and invalid argument
-	$_POST = array('text' => "  a\r b \n c ");
+	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setValue(NULL);
 
 	Assert::exception(function() use ($input) {
-		$input->setValue(array());
+		$input->setValue([]);
 	}, 'Nette\InvalidArgumentException', "Value must be scalar or NULL, array given in field 'text'.");
 });
 
 
 test(function() { // float
-	$_POST = array('number' => ' 10,5 ');
+	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
 	$input = $form->addText('number')
@@ -117,7 +117,7 @@ test(function() { // float
 
 
 test(function() { // float in condition
-	$_POST = array('number' => ' 10,5 ');
+	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
 	$input = $form->addText('number');
@@ -130,7 +130,7 @@ test(function() { // float in condition
 
 
 test(function() { // non float
-	$_POST = array('number' => ' 10,5 ');
+	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
 	$input = $form->addText('number')
@@ -142,7 +142,7 @@ test(function() { // non float
 
 
 test(function() { // URL
-	$_POST = array('url' => 'nette.org');
+	$_POST = ['url' => 'nette.org'];
 
 	$form = new Form;
 	$input = $form->addText('url')
@@ -163,7 +163,7 @@ test(function() { // object
 
 
 test(function() { // filter
-	$_POST = array('text' => 'hello');
+	$_POST = ['text' => 'hello'];
 
 	$form = new Form;
 	$input = $form->addText('text')
@@ -176,7 +176,7 @@ test(function() { // filter
 
 
 test(function() { // filter in condition
-	$_POST = array('text' => 'hello');
+	$_POST = ['text' => 'hello'];
 
 	$form = new Form;
 	$input = $form->addText('text');

@@ -75,7 +75,7 @@ test(function() { // validation rule required & PATTERN
 		->setRequired('required')
 		->addRule($form::PATTERN, 'error message', '[0-9]+');
 
-	foreach (array('text', 'search', 'tel', 'url', 'email') as $type) {
+	foreach (['text', 'search', 'tel', 'url', 'email'] as $type) {
 		$input->setType($type);
 		Assert::same('<input type="' . $type . '" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\' pattern="[0-9]+">', (string) $input->getControl());
 	}
@@ -110,7 +110,7 @@ test(function() { // validation rule LENGTH
 	$form = new Form;
 	$input = $form->addText('text')
 		->setMaxLength(30)
-		->addRule($form::LENGTH, NULL, array(10, 20));
+		->addRule($form::LENGTH, NULL, [10, 20]);
 
 	Assert::same('<input type="text" name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\'>', (string) $input->getControl());
 });
@@ -130,10 +130,10 @@ test(function() { // validation rule RANGE without setType
 	$minInput = $form->addText('min');
 	$maxInput = $form->addText('max');
 	$input = $form->addText('count')
-		->addRule(Form::RANGE, 'Must be in range from %d to %d', array(0, 100))
+		->addRule(Form::RANGE, 'Must be in range from %d to %d', [0, 100])
 		->addRule(Form::MIN, 'Must be greater than or equal to %d', 1)
 		->addRule(Form::MAX, 'Must be less than or equal to %d', 101)
-		->addRule(Form::RANGE, 'Must be in range from %d to %d', array($minInput, $maxInput));
+		->addRule(Form::RANGE, 'Must be in range from %d to %d', [$minInput, $maxInput]);
 
 	Assert::same('<input type="text" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\'>', (string) $input->getControl());
 });
@@ -145,10 +145,10 @@ test(function() { // validation rule RANGE with setType
 	$maxInput = $form->addText('max');
 	$input = $form->addText('count')
 		->setType('number')
-		->addRule(Form::RANGE, 'Must be in range from %d to %d', array(0, 100))
+		->addRule(Form::RANGE, 'Must be in range from %d to %d', [0, 100])
 		->addRule(Form::MIN, 'Must be greater than or equal to %d', 1)
 		->addRule(Form::MAX, 'Must be less than or equal to %d', 101)
-		->addRule(Form::RANGE, 'Must be in range from %d to %d', array($minInput, $maxInput));
+		->addRule(Form::RANGE, 'Must be in range from %d to %d', [$minInput, $maxInput]);
 
 	Assert::same('<input type="number" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\' min="1" max="100">', (string) $input->getControl());
 });

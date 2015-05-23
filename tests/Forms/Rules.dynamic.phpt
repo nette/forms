@@ -11,12 +11,12 @@ use Nette\Forms\Form,
 require __DIR__ . '/../bootstrap.php';
 
 
-$datasets = array(
-	array(array('min' => '10', 'max' => '20', 'value' => 5), FALSE),
-	array(array('min' => '10', 'max' => '20', 'value' => 15), TRUE),
-	array(array('min' => '10', 'max' => '', 'value' => 15), TRUE),
-	array(array('min' => '10', 'max' => '', 'value' => 5), FALSE),
-);
+$datasets = [
+	[['min' => '10', 'max' => '20', 'value' => 5], FALSE],
+	[['min' => '10', 'max' => '20', 'value' => 15], TRUE],
+	[['min' => '10', 'max' => '', 'value' => 15], TRUE],
+	[['min' => '10', 'max' => '', 'value' => 5], FALSE],
+];
 
 foreach ($datasets as $case) {
 
@@ -24,7 +24,7 @@ foreach ($datasets as $case) {
 
 	$form->addText('min');
 	$form->addText('max');
-	$form->addText('value')->addRule(Form::RANGE, NULL, array($form['min'], $form['max']));
+	$form->addText('value')->addRule(Form::RANGE, NULL, [$form['min'], $form['max']]);
 	$form->setValues($case[0]);
 
 	Assert::equal($case[1], $form->isValid());

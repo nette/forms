@@ -11,11 +11,11 @@ use Nette\Forms\Form,
 require __DIR__ . '/../bootstrap.php';
 
 
-$datasets = array(
-	array(11, array('Value 11 is not allowed!')),
-	array(22, array()),
-	array(1, array('Value 22 is required!')),
-);
+$datasets = [
+	[11, ['Value 11 is not allowed!']],
+	[22, []],
+	[1, ['Value 22 is required!']],
+];
 
 function myValidator1($item, $arg)
 {

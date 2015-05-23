@@ -21,10 +21,10 @@ test(function() { // AND
 			->addConditionOn($form['2'], Form::EQUAL, 'x')
 				->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -38,10 +38,10 @@ test(function() {
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -55,10 +55,10 @@ test(function() {
 			->addConditionOn($form['2'], Form::EQUAL, 'x')
 				->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -72,10 +72,10 @@ test(function() {
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -90,10 +90,10 @@ test(function() { // OR
 		->addConditionOn($form['2'], Form::EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -108,10 +108,10 @@ test(function() {
 		->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -126,10 +126,10 @@ test(function() {
 		->addConditionOn($form['2'], Form::EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -144,10 +144,10 @@ test(function() {
 		->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -160,10 +160,10 @@ test(function() { // OR & two components
 		->addCondition(Form::EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -176,10 +176,10 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -192,10 +192,10 @@ test(function() {
 		->addCondition(Form::EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -208,10 +208,10 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -224,9 +224,9 @@ test(function() { // OR & multiple used ID
 		->addCondition(Form::EQUAL, 'x')
 			->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -239,9 +239,9 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -254,9 +254,9 @@ test(function() {
 		->addCondition(Form::EQUAL, 'x')
 			->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -269,9 +269,9 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -285,9 +285,9 @@ test(function() { // AND & multiple used ID
 			->addConditionOn($form['2'], Form::EQUAL, 'x')
 				->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -301,9 +301,9 @@ test(function() {
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -317,9 +317,9 @@ test(function() {
 			->addConditionOn($form['2'], Form::EQUAL, 'x')
 				->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -333,9 +333,9 @@ test(function() {
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -349,10 +349,10 @@ test(function() { // $hide = FALSE
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -366,10 +366,10 @@ test(function() {
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('b', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -383,10 +383,10 @@ test(function() {
 			->addConditionOn($form['2'], Form::EQUAL, 'x')
 				->toggle('b', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -399,10 +399,10 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -415,10 +415,10 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('b', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -431,10 +431,10 @@ test(function() {
 		->addCondition(Form::EQUAL, 'x')
 			->toggle('b', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -448,9 +448,9 @@ test(function() { // $hide = FALSE & multiple used ID
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('a');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -464,9 +464,9 @@ test(function() {
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('a', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -480,9 +480,9 @@ test(function() {
 			->addConditionOn($form['2'], Form::EQUAL, 'x')
 				->toggle('a', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -495,10 +495,10 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('b');
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
 		'b' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -511,10 +511,10 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('b', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => FALSE,
 		'b' => FALSE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -527,9 +527,9 @@ test(function() {
 		->addCondition(Form::EQUAL, 'x')
 			->toggle('a', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });
 
 
@@ -542,7 +542,7 @@ test(function() {
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('a', FALSE);
 
-	Assert::same( array(
+	Assert::same( [
 		'a' => TRUE,
-	), $form->getToggles() );
+	], $form->getToggles() );
 });

@@ -6,7 +6,7 @@
 
 
 if (@!include __DIR__ . '/../vendor/autoload.php') {
-	die('Install packages using `composer update --dev`');
+	die('Install packages using `composer install`');
 }
 
 use Nette\Forms\Form,
@@ -23,10 +23,10 @@ $form->addText('name')
 $form->addText('age')
 	->setRequired('Enter your age');
 
-$form->addRadioList('gender', NULL, array(
+$form->addRadioList('gender', NULL, [
 	'm' => 'male',
 	'f' => 'female',
-));
+]);
 
 $form->addText('email')
 	->addCondition($form::FILLED)
