@@ -271,15 +271,28 @@ Nette.addError = function(elem, message) {
  * Display error messages.
  */
 Nette.showFormErrors = function(form, errors) {
-	if (!errors.length) {
-		return;
+	var messages = [],
+		focusElem;
+
+	for (var i in errors) {
+		var elem = errors[i].element,
+			message = errors[i].message;
+
+		if (messages.indexOf(message) < 0) {
+			messages.push(message);
+
+			if (!focusElem && elem.focus) {
+				focusElem = elem;
+			}
+		}
 	}
-	var error = errors[0];
-	if (error.message) {
-		alert(error.message);
-	}
-	if (error.element.focus) {
-		error.element.focus();
+
+	if (messages.length) {
+		alert(messages.join('\n'));
+
+		if (focusElem) {
+			focusElem.focus();
+		}
 	}
 };
 
