@@ -541,7 +541,13 @@ Nette.initForm = function(form) {
 Nette.initOnLoad = function() {
 	Nette.addEvent(window, 'load', function() {
 		for (var i = 0; i < document.forms.length; i++) {
-			Nette.initForm(document.forms[i]);
+			var form = document.forms[i];
+			for (var j = 0; j < form.elements.length; j++) {
+				if (form.elements[j].getAttribute('data-nette-rules')) {
+					Nette.initForm(form);
+					break;
+				}
+			}
 		}
 	});
 };
