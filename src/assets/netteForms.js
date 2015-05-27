@@ -49,7 +49,7 @@ Nette.getValue = function(elem) {
 		return elem[0] ? Nette.getValue(elem[0]) : null;
 
 	} else if (elem.type === 'radio') {
-		var elements = elem.form.elements; // prevents problem with name 'item' or 'namedItem'
+		var elements = Nette.getFormElements(elem.form, elem.name);
 		for (i = 0; i < elements.length; i++) {
 			if (elements[i].name === elem.name && elements[i].checked) {
 				return elements[i].value;
@@ -77,7 +77,7 @@ Nette.getValue = function(elem) {
 		return values;
 
 	} else if (elem.name && elem.name.match(/\[\]$/)) { // multiple elements []
-		var elements = elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name],
+		var elements = Nette.getFormElements(elem.form, elem.name);elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name],
 			values = [];
 
 		for (i = 0; i < elements.length; i++) {
@@ -222,6 +222,21 @@ Nette.isDisabled = function(elem) {
 		return true;
 	}
 	return elem.disabled;
+};
+
+
+/**
+ * Check if input is disabled.
+ */
+Nette.getFormElements = function(form, name) {
+	var elements = typeof form.elements[name] === 'function' ? form.elements : form.elements[name], // item & namedItem
+		res = [];
+	for (i = 0; i < elements.length; i++) {
+		if (elements[i].name === name) {
+			res.push(elements[i]);
+		}
+	}
+	return res;
 };
 
 
