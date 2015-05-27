@@ -525,12 +525,6 @@ Nette.initForm = function(form) {
 		}
 	});
 
-	Nette.addEvent(form, 'click', function(e) {
-		e = e || event;
-		var target = e.target || e.srcElement;
-		form['nette-submittedBy'] = (target.type in {submit: 1, image: 1}) ? target : null;
-	});
-
 	Nette.toggleForm(form);
 };
 
@@ -549,6 +543,13 @@ Nette.initOnLoad = function() {
 				}
 			}
 		}
+
+		Nette.addEvent(document.body, 'click', function(e) {
+			var target = e ? e.target : event.srcElement;
+			if (target.form && target.type in {submit: 1, image: 1}) {
+				target.form['nette-submittedBy'] = target;
+			}
+		});
 	});
 };
 
