@@ -239,7 +239,7 @@ Nette.addError = function(elem, message) {
  * Display error messages.
  */
 Nette.showErrors = function() {
-	var messages = '';
+	var messages = [];
 	var focusElem;
 
 	for (var i in Nette.errors) {
@@ -247,21 +247,18 @@ Nette.showErrors = function() {
 		var elem = obj.elem;
 		var message = obj.message;
 
-		if (!focusElem && elem.focus) {
-			focusElem = elem;
-		}
+		if (messages.indexOf(message) === -1) {
+			messages.push(message);
 
-		if (message) {
-			if (messages) {
-				messages += '\n';
+			if (!focusElem && elem.focus) {
+				focusElem = elem;
 			}
-			messages += message;
 		}
 	}
 
 	Nette.errors = [];
-	if (messages) {
-		Nette.alert(messages);
+	if (messages.length) {
+		Nette.alert(messages.join('\n'));
 
 		if (focusElem) {
 			focusElem.focus();
