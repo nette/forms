@@ -431,7 +431,6 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 	value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
 
 	var has = false,
-		handled = [],
 		handler = function () {
 			Nette.toggleForm(elem.form, elem);
 		},
@@ -471,9 +470,11 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 					els = curElem.tagName ? curElem.form.elements : curElem;
 
 				for (var i = 0; i < els.length; i++) {
-					if (els[i].name === name && !Nette.inArray(handled, els[i])) {
-						Nette.addEvent(els[i], oldIE && els[i].type in {checkbox: 1, radio: 1} ? 'click' : 'change', handler);
-						handled.push(els[i]);
+					if (els[i].name === name) {
+						if (oldIE && !els[i]['nette-toggleForm']) { // change event fails to bubble in IE < 9
+							Nette.addEvent(els[i], els[i].type in {checkbox: 1, radio: 1} ? 'click' : 'change', handler);
+						}
+						els[i]['nette-toggleForm'] = true;
 					}
 				}
 			}
@@ -548,6 +549,12 @@ Nette.initOnLoad = function() {
 			var target = e ? e.target : event.srcElement;
 			if (target.form && target.type in {submit: 1, image: 1}) {
 				target.form['nette-submittedBy'] = target;
+			}
+		});
+
+		Nette.addEvent(document.body, 'change', function(e) {
+			if (e.target['nette-toggleForm']) {
+				Nette.toggleForm(e.target.form, e.target);
 			}
 		});
 	});
