@@ -472,7 +472,7 @@ Nette.toggleControl = function(elem, rules, success, firsttime, value) {
 
 				for (var i = 0; i < els.length; i++) {
 					if (els[i].name === name && !Nette.inArray(handled, els[i])) {
-						Nette.addEvent(els[i], oldIE && curElem.type in {checkbox: 1, radio: 1} ? 'click' : 'change', handler);
+						Nette.addEvent(els[i], oldIE && els[i].type in {checkbox: 1, radio: 1} ? 'click' : 'change', handler);
 						handled.push(els[i]);
 					}
 				}
