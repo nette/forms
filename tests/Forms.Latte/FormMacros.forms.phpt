@@ -32,7 +32,7 @@ $form->addText('username', 'Username:'); // must have just one textfield to gene
 $form->addRadioList('sex', 'Sex:', ['m' => 'male', 'f' => 'female']);
 $form->addSelect('select', NULL, ['m' => 'male', 'f' => 'female']);
 $form->addTextArea('area', NULL)->setValue('one<two');
-$form->addCheckbox('checkbox', NULL);
+$form->addCheckbox('checkbox', 'Checkbox');
 $form->addCheckboxList('checklist', 'CheckboxList:', ['m' => 'male', 'f' => 'female']);
 $form->addSubmit('send', 'Sign in');
 $form['my'] = new MyControl;
