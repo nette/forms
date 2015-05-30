@@ -36,7 +36,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 
 	<label<?php $_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
 	<label<?php $_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>
-><?php echo $_input->getLabel()->getHtml() ?></label>
+><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
 	<input<?php $_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
 
 	<?php if ($_label = $_form["my"]->getLabel()) echo $_label ; echo $_form["my"]->getControl() ?>
@@ -59,10 +59,10 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 <?php $iterations++; } ?>
 <label<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
 <label<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>
-><?php echo $_input->getLabel()->getHtml() ?></label>
+><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
 <label title="hello"<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
   'title' => NULL,
-))->attributes() ?>><?php echo $_input->getLabel()->getHtml() ?></label>
+))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
 
 
 <?php if ($_label = $_form["checkbox"]->getLabelPart("")) echo $_label->startTag() ?>
@@ -74,6 +74,11 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 <label title=hello<?php $_input = $_form["checkbox"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
   'title' => NULL,
 ))->attributes() ?>> <input<?php $_input = $_form["checkbox"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>> </label>
+<label<?php $_input = $_form["checkbox"]; echo $_input->getLabelPart("")->attributes() ?>
+><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+<label title=hello<?php $_input = $_form["checkbox"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+  'title' => NULL,
+))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
 
 
 <?php $iterations = 0; foreach ($form['checklist']->items as $key => $label) { ?>
@@ -87,10 +92,10 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 <?php $iterations++; } ?>
 <label<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
 <label<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>
-><?php echo $_input->getLabel()->getHtml() ?></label>
+><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
 <label title="hello"<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
   'title' => NULL,
-))->attributes() ?>><?php echo $_input->getLabel()->getHtml() ?></label>
+))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
 
 
 <?php if (1) { ?><form id="myForm" class="ajax"<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
