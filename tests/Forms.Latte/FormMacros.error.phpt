@@ -39,10 +39,6 @@ Assert::exception(function() use ($latte) {
 
 
 Assert::exception(function() use ($latte) {
-	$latte->compile('<input n:input>');
-}, 'Latte\CompileException', 'Use n:name instead of n:input.');
-
-Assert::exception(function() use ($latte) {
 	$latte->compile('<html>{label /}');
 }, 'Latte\CompileException', 'Missing name in {label}.');
 

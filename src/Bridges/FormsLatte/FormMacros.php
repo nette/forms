@@ -36,7 +36,7 @@ class FormMacros extends MacroSet
 		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form)');
 		$me->addMacro('formContainer', [$me, 'macroFormContainer'], '$formContainer = $_form = array_pop($_formStack)');
 		$me->addMacro('label', [$me, 'macroLabel'], [$me, 'macroLabelEnd']);
-		$me->addMacro('input', [$me, 'macroInput'], NULL, [$me, 'macroInputAttr']);
+		$me->addMacro('input', [$me, 'macroInput']);
 		$me->addMacro('name', [$me, 'macroName'], [$me, 'macroNameEnd'], [$me, 'macroNameAttr']);
 		$me->addMacro('inputError', [$me, 'macroInputError']);
 	}
@@ -131,15 +131,6 @@ class FormMacros extends MacroSet
 			$name,
 			$words ? 'getControlPart(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')' : 'getControl()'
 		);
-	}
-
-
-	/**
-	 * deprecated n:input
-	 */
-	public function macroInputAttr(MacroNode $node, PhpWriter $writer)
-	{
-		throw new CompileException('Use n:name instead of n:input.');
 	}
 
 
