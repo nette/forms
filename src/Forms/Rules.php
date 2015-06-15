@@ -96,7 +96,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	 * Adds a validation condition and returns new branch.
 	 * @param  mixed      condition type
 	 * @param  mixed      optional condition arguments
-	 * @return Rules      new branch
+	 * @return self       new branch
 	 */
 	public function addCondition($validator, $arg = NULL)
 	{
@@ -109,7 +109,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	 * @param  IControl form control
 	 * @param  mixed      condition type
 	 * @param  mixed      optional condition arguments
-	 * @return Rules      new branch
+	 * @return self       new branch
 	 */
 	public function addConditionOn(IControl $control, $validator, $arg = NULL)
 	{
@@ -128,7 +128,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 
 	/**
 	 * Adds a else statement.
-	 * @return Rules      else branch
+	 * @return self      else branch
 	 */
 	public function elseCondition()
 	{
