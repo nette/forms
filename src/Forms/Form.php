@@ -159,7 +159,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns self.
-	 * @return Form
+	 * @return self
 	 */
 	public function getForm($need = TRUE)
 	{
