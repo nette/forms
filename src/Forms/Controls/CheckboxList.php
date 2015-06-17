@@ -96,9 +96,11 @@ class CheckboxList extends MultiChoiceControl
 	/**
 	 * @return Html
 	 */
-	public function getLabelPart($key)
+	public function getLabelPart($key = NULL)
 	{
-		return parent::getLabel($this->items[$key])->for($this->getHtmlId() . '-' . $key);
+		return func_num_args()
+			? parent::getLabel($this->items[$key])->for($this->getHtmlId() . '-' . $key)
+			: $this->getLabel();
 	}
 
 }

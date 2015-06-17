@@ -57,6 +57,12 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
   'title' => NULL,
 ))->attributes() ?>> <input<?php $_input = $_form["sex"]; echo $_input->getControlPart($key)->attributes() ?>> </label>
 <?php $iterations++; } ?>
+<label<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
+<label<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>
+><?php echo $_input->getLabel()->getHtml() ?></label>
+<label title="hello"<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+  'title' => NULL,
+))->attributes() ?>><?php echo $_input->getLabel()->getHtml() ?></label>
 
 
 <?php if ($_label = $_form["checkbox"]->getLabelPart("")) echo $_label->startTag() ?>
@@ -79,6 +85,12 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
   'title' => NULL,
 ))->attributes() ?>> </label>
 <?php $iterations++; } ?>
+<label<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
+<label<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>
+><?php echo $_input->getLabel()->getHtml() ?></label>
+<label title="hello"<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+  'title' => NULL,
+))->attributes() ?>><?php echo $_input->getLabel()->getHtml() ?></label>
 
 
 <?php if (1) { ?><form id="myForm" class="ajax"<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
