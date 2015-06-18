@@ -7,9 +7,9 @@
 
 namespace Nette\Forms;
 
-use Nette,
-	Nette\Utils\Strings,
-	Nette\Utils\Validators;
+use Nette;
+use Nette\Utils\Strings;
+use Nette\Utils\Validators;
 
 
 /**
@@ -62,7 +62,7 @@ class Validator extends Nette\Object
 			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : NULL);
 		}
 
-		$message = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function($m) use ($rule, $withValue) {
+		$message = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function ($m) use ($rule, $withValue) {
 			static $i = -1;
 			switch ($m[1]) {
 				case 'name': return $rule->control->getName();

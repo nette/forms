@@ -9,8 +9,8 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 	die('Install packages using `composer install`');
 }
 
-use Nette\Forms\Form,
-	Nette\Utils\Html;
+use Nette\Forms\Form;
+use Nette\Utils\Html;
 
 
 class DateInput extends Nette\Forms\Controls\BaseControl

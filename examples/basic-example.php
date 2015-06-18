@@ -9,10 +9,10 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 	die('Install packages using `composer install`');
 }
 
-use Nette\Forms\Form,
-	Tracy\Debugger,
-	Tracy\Dumper,
-	Nette\Utils\Html;
+use Nette\Forms\Form;
+use Tracy\Debugger;
+use Tracy\Dumper;
+use Nette\Utils\Html;
 
 Debugger::enable();
 
@@ -73,7 +73,7 @@ $countries = array(
 		'qu' => 'Qumran',
 		'st' => 'Saint Georges Island',
 	),
-	'?'  => 'other',
+	'?' => 'other',
 );
 $form->addSelect('country', 'Country:', $countries)
 	->setPrompt('Select your country')
@@ -107,8 +107,8 @@ $form->addSubmit('submit', 'Send');
 
 
 $form->setDefaults(array(
-	'name'    => 'John Doe',
-	'userid'  => 231,
+	'name' => 'John Doe',
+	'userid' => 231,
 ));
 
 

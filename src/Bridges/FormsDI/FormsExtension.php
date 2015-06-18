@@ -19,7 +19,7 @@ use Nette;
 class FormsExtension extends Nette\DI\CompilerExtension
 {
 	public $defaults = array(
-		'messages' => array()
+		'messages' => array(),
 	);
 
 

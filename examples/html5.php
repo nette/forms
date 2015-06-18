@@ -9,9 +9,9 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 	die('Install packages using `composer install`');
 }
 
-use Nette\Forms\Form,
-	Tracy\Debugger,
-	Tracy\Dumper;
+use Nette\Forms\Form;
+use Tracy\Debugger;
+use Tracy\Dumper;
 
 Debugger::enable();
 

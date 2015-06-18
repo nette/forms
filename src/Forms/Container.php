@@ -24,7 +24,7 @@ use Nette;
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
-	/** @var callable[]  function(Container $sender); Occurs when the form is validated */
+	/** @var callable[]  function (Container $sender); Occurs when the form is validated */
 	public $onValidate;
 
 	/** @var ControlGroup */
@@ -77,7 +77,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 					$control->setValue(NULL);
 				}
 
-			} elseif ($control instanceof Container) {
+			} elseif ($control instanceof self) {
 				if (array_key_exists($name, $values)) {
 					$control->setValues($values[$name], $erase);
 
@@ -102,7 +102,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			if ($control instanceof IControl && !$control->isOmitted()) {
 				$values[$name] = $control->getValue();
 
-			} elseif ($control instanceof Container) {
+			} elseif ($control instanceof self) {
 				$values[$name] = $control->getValues($asArray);
 			}
 		}
@@ -429,7 +429,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addContainer($name)
 	{
-		$control = new Container;
+		$control = new self;
 		$control->currentGroup = $this->currentGroup;
 		return $this[$name] = $control;
 	}

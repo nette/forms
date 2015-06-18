@@ -4,9 +4,9 @@
  * Test: FormMacros: {formContainer}
  */
 
-use Nette\Forms\Form,
-	Nette\Bridges\FormsLatte\FormMacros,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Nette\Bridges\FormsLatte\FormMacros;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
