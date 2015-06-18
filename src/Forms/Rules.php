@@ -161,8 +161,8 @@ class Rules extends Nette\Object implements \IteratorAggregate
 		Nette\Utils\Callback::check($filter);
 		$this->rules[] = $rule = new Rule;
 		$rule->control = $this->control;
-		$rule->validator = function($control) use ($filter) {
-			$control->setValue( call_user_func($filter, $control->getValue()) );
+		$rule->validator = function (IControl $control) use ($filter) {
+			$control->setValue(call_user_func($filter, $control->getValue()));
 			return TRUE;
 		};
 		return $this;

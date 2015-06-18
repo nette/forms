@@ -4,9 +4,9 @@
  * Test: Nette\Forms ignored input.
  */
 
-use Nette\Forms\Form,
-	Nette\Utils\ArrayHash,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Nette\Utils\ArrayHash;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

@@ -4,9 +4,9 @@
  * Test: Nette\Forms\Controls\RadioList.
  */
 
-use Nette\Forms\Form,
-	Nette\Utils\Html,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Nette\Utils\Html;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -21,7 +21,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function() {
+test(function () {
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
@@ -43,7 +43,7 @@ test(function() {
 });
 
 
-test(function() { // checked
+test(function () { // checked
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
@@ -54,7 +54,7 @@ test(function() { // checked
 });
 
 
-test(function() { // translator
+test(function () { // translator
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
@@ -71,7 +71,7 @@ test(function() { // translator
 });
 
 
-test(function() { // Html
+test(function () { // Html
 	$form = new Form;
 	$input = $form->addRadioList('list', Html::el('b', 'Label'), [
 		'a' => Html::el('b', 'First'),
@@ -86,7 +86,7 @@ test(function() { // Html
 });
 
 
-test(function() { // validation rules
+test(function () { // validation rules
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
@@ -98,7 +98,7 @@ test(function() { // validation rules
 });
 
 
-test(function() { // container
+test(function () { // container
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addRadioList('list', 'Label', [
@@ -110,7 +110,7 @@ test(function() { // container
 });
 
 
-test(function() { // container prototype
+test(function () { // container prototype
 	$form = new Form;
 	$input = $form->addRadioList('list', NULL, [
 		'a' => 'b',
@@ -122,7 +122,7 @@ test(function() { // container prototype
 });
 
 
-test(function() { // disabled all
+test(function () { // disabled all
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
@@ -133,7 +133,7 @@ test(function() { // disabled all
 });
 
 
-test(function() { // disabled one
+test(function () { // disabled one
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
@@ -145,18 +145,18 @@ test(function() { // disabled one
 });
 
 
-test(function() { // item label prototype
+test(function () { // item label prototype
 	$form = new Form;
 	$input = $form->addRadioList('list', NULL, [
 		'a' => 'b',
 	]);
-	$input->getItemLabelPrototype()->class("foo");
+	$input->getItemLabelPrototype()->class('foo');
 
 	Assert::same('<label class="foo"><input type="radio" name="list" value="a">b</label>', (string) $input->getControl());
 });
 
 
-test(function() { // forced ID
+test(function () { // forced ID
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
@@ -168,7 +168,7 @@ test(function() { // forced ID
 });
 
 
-test(function() { // numeric key as string & getControlPart
+test(function () { // numeric key as string & getControlPart
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
 		1 => 'First',

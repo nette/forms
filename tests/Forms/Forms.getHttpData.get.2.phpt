@@ -4,20 +4,20 @@
  * Test: Nette\Forms HTTP data.
  */
 
-use Nette\Forms\Form,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
-before(function() {
+before(function () {
 	$_SERVER['REQUEST_METHOD'] = 'GET';
 	$_GET = $_POST = $_FILES = [];
 });
 
 
-test(function() {
+test(function () {
 	$_GET = ['item'];
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
 
@@ -25,7 +25,7 @@ test(function() {
 	$form->setMethod($form::GET);
 	$form->addSubmit('send', 'Send');
 
-	Assert::truthy( $form->isSubmitted() );
-	Assert::same( ['item'], $form->getHttpData() );
-	Assert::same( [], $form->getValues(TRUE) );
+	Assert::truthy($form->isSubmitted());
+	Assert::same(['item'], $form->getHttpData());
+	Assert::same([], $form->getValues(TRUE));
 });

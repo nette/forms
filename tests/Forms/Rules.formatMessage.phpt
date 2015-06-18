@@ -4,8 +4,8 @@
  * Test: Nette\Forms\Rules::formatMessage()
  */
 
-use Nette\Forms\Form,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -27,18 +27,18 @@ $form->addText('special', 'Label')
 
 $form->validate();
 
-Assert::true( $form->hasErrors() );
+Assert::true($form->hasErrors());
 
-Assert::same( ['1 5', '5 1', '1 ', 'Label xyz is invalid [field special] xyz'], $form->getErrors() );
+Assert::same(['1 5', '5 1', '1 ', 'Label xyz is invalid [field special] xyz'], $form->getErrors());
 
-Assert::same( [], $form->getOwnErrors() );
+Assert::same([], $form->getOwnErrors());
 
-Assert::same( ['1 5'], $form['args1']->getErrors() );
+Assert::same(['1 5'], $form['args1']->getErrors());
 
-Assert::same( ['5 1'], $form['args2']->getErrors() );
+Assert::same(['5 1'], $form['args2']->getErrors());
 
-Assert::same( ['1 '], $form['args3']->getErrors() );
+Assert::same(['1 '], $form['args3']->getErrors());
 
-Assert::same( ['Label xyz is invalid [field special] xyz'], $form['special']->getErrors() );
+Assert::same(['Label xyz is invalid [field special] xyz'], $form['special']->getErrors());
 
 Assert::match('%A%data-nette-rules=\'[{"op":":email","msg":"Label %value is invalid [field special] %0"%A%', $form->__toString(TRUE));

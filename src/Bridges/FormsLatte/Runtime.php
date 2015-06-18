@@ -7,9 +7,9 @@
 
 namespace Nette\Bridges\FormsLatte;
 
-use Nette,
-	Nette\Utils\Html,
-	Nette\Forms\Form;
+use Nette;
+use Nette\Utils\Html;
+use Nette\Forms\Form;
 
 
 /**

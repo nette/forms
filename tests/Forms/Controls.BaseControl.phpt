@@ -4,112 +4,112 @@
  * Test: Nette\Forms\Controls\BaseControl
  */
 
-use Nette\Forms\Form,
-	Nette\Forms\Validator,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Nette\Forms\Validator;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function() { // error handling
+test(function () { // error handling
 	$form = new Form;
 	$input = $form->addText('text')
 		->addRule($form::EMAIL, 'error');
 
-	Assert::same( [], $input->getErrors() );
-	Assert::null( $input->getError() );
-	Assert::false( $input->hasErrors() );
+	Assert::same([], $input->getErrors());
+	Assert::null($input->getError());
+	Assert::false($input->hasErrors());
 
 	$input->validate();
 
-	Assert::same( ['error'], $input->getErrors() );
-	Assert::same( 'error', $input->getError() );
-	Assert::true( $input->hasErrors() );
+	Assert::same(['error'], $input->getErrors());
+	Assert::same('error', $input->getError());
+	Assert::true($input->hasErrors());
 
 	$input->cleanErrors();
-	Assert::false( $input->hasErrors() );
+	Assert::false($input->hasErrors());
 });
 
 
-test(function() { // validators
+test(function () { // validators
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setValue(123);
 
-	Assert::true( Validator::validateEqual($input, 123) );
-	Assert::true( Validator::validateEqual($input, '123') );
-	Assert::true( Validator::validateEqual($input, [123, 3]) ); // "is in"
-	Assert::false( Validator::validateEqual($input, ['x']) );
+	Assert::true(Validator::validateEqual($input, 123));
+	Assert::true(Validator::validateEqual($input, '123'));
+	Assert::true(Validator::validateEqual($input, [123, 3])); // "is in"
+	Assert::false(Validator::validateEqual($input, ['x']));
 
-	Assert::true( Validator::validateFilled($input) );
-	Assert::true( Validator::validateValid($input) );
+	Assert::true(Validator::validateFilled($input));
+	Assert::true(Validator::validateValid($input));
 
-	Assert::true( Validator::validateLength($input, NULL) );
-	Assert::false( Validator::validateLength($input, 2) );
-	Assert::true( Validator::validateLength($input, 3) );
+	Assert::true(Validator::validateLength($input, NULL));
+	Assert::false(Validator::validateLength($input, 2));
+	Assert::true(Validator::validateLength($input, 3));
 
-	Assert::true( Validator::validateMinLength($input, 3) );
-	Assert::false( Validator::validateMinLength($input, 4) );
+	Assert::true(Validator::validateMinLength($input, 3));
+	Assert::false(Validator::validateMinLength($input, 4));
 
-	Assert::true( Validator::validateMaxLength($input, 3) );
-	Assert::false( Validator::validateMaxLength($input, 2) );
+	Assert::true(Validator::validateMaxLength($input, 3));
+	Assert::false(Validator::validateMaxLength($input, 2));
 
-	Assert::true( Validator::validateRange($input, [NULL, NULL]) );
-	Assert::true( Validator::validateRange($input, [100, 1000]) );
-	Assert::false( Validator::validateRange($input, [1000, NULL]) );
+	Assert::true(Validator::validateRange($input, [NULL, NULL]));
+	Assert::true(Validator::validateRange($input, [100, 1000]));
+	Assert::false(Validator::validateRange($input, [1000, NULL]));
 
-	Assert::true( Validator::validateMin($input, 122) );
-	Assert::true( Validator::validateMin($input, 123) );
-	Assert::false( Validator::validateMin($input, 124) );
+	Assert::true(Validator::validateMin($input, 122));
+	Assert::true(Validator::validateMin($input, 123));
+	Assert::false(Validator::validateMin($input, 124));
 
-	Assert::false( Validator::validateMax($input, 122) );
-	Assert::true( Validator::validateMax($input, 123) );
-	Assert::true( Validator::validateMax($input, 124) );
+	Assert::false(Validator::validateMax($input, 122));
+	Assert::true(Validator::validateMax($input, 123));
+	Assert::true(Validator::validateMax($input, 124));
 });
 
 
-test(function() { // validators for array
+test(function () { // validators for array
 	$form = new Form;
 	$input = $form->addMultiSelect('select', NULL, ['a', 'b', 'c', 'd']);
 	$input->setValue([1, 2, 3]);
 
-	Assert::true( Validator::validateEqual($input, [1, 2, 3, 4]) );
-	Assert::true( Validator::validateEqual($input, ['1', '2', '3']) );
-	Assert::false( Validator::validateEqual($input, ['x']) );
+	Assert::true(Validator::validateEqual($input, [1, 2, 3, 4]));
+	Assert::true(Validator::validateEqual($input, ['1', '2', '3']));
+	Assert::false(Validator::validateEqual($input, ['x']));
 
-	Assert::true( Validator::validateFilled($input) );
-	Assert::true( Validator::validateValid($input) );
+	Assert::true(Validator::validateFilled($input));
+	Assert::true(Validator::validateValid($input));
 
-	Assert::true( Validator::validateLength($input, NULL) );
-	Assert::false( Validator::validateLength($input, 2) );
-	Assert::true( Validator::validateLength($input, 3) );
+	Assert::true(Validator::validateLength($input, NULL));
+	Assert::false(Validator::validateLength($input, 2));
+	Assert::true(Validator::validateLength($input, 3));
 
-	Assert::true( Validator::validateMinLength($input, 3) );
-	Assert::false( Validator::validateMinLength($input, 4) );
+	Assert::true(Validator::validateMinLength($input, 3));
+	Assert::false(Validator::validateMinLength($input, 4));
 
-	Assert::true( Validator::validateMaxLength($input, 3) );
-	Assert::false( Validator::validateMaxLength($input, 2) );
+	Assert::true(Validator::validateMaxLength($input, 3));
+	Assert::false(Validator::validateMaxLength($input, 2));
 });
 
 
-test(function() { // setHtmlId
+test(function () { // setHtmlId
 	$form = new Form;
 	$input = $form->addText('text')->setHtmlId('myId');
 
-	Assert::same( '<input type="text" name="text" id="myId">', (string) $input->getControl() );
+	Assert::same('<input type="text" name="text" id="myId">', (string) $input->getControl());
 });
 
 
-test(function() { // special name
+test(function () { // special name
 	$form = new Form;
 	$input = $form->addText('submit');
 
-	Assert::same( '<input type="text" name="_submit" id="frm-submit">', (string) $input->getControl() );
+	Assert::same('<input type="text" name="_submit" id="frm-submit">', (string) $input->getControl());
 });
 
 
-test(function() { // disabled
+test(function () { // disabled
 	$form = new Form;
 	$form->addText('disabled')
 		->setDisabled()
@@ -121,7 +121,7 @@ test(function() { // disabled
 });
 
 
-test(function() { // disabled & submitted
+test(function () { // disabled & submitted
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = ['disabled' => 'submitted value'];
 

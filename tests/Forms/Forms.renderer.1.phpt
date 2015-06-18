@@ -4,16 +4,16 @@
  * Test: Nette\Forms default rendering.
  */
 
-use Nette\Forms\Form,
-	Nette\Utils\Html,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Nette\Utils\Html;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_POST = ['name'=>'John Doe ','age'=>'','email'=>'  @ ','send'=>'on','street'=>'','city'=>'','country'=>'HU','password'=>'xxx','password2'=>'','note'=>'','submit1'=>'Send','userid'=>'231',];
+$_POST = ['name' => 'John Doe ','age' => '','email' => '  @ ','send' => 'on','street' => '','city' => '','country' => 'HU','password' => 'xxx','password2' => '','note' => '','submit1' => 'Send','userid' => '231'];
 
 
 $countries = [
@@ -24,7 +24,7 @@ $countries = [
 	],
 	'CA' => 'Canada',
 	'US' => 'United States',
-	'?'  => 'other',
+	'?' => 'other',
 ];
 
 $sex = [
@@ -114,12 +114,12 @@ $form->addButton('cancel', 'Cancel');
 
 
 $defaults = [
-	'name'    => 'John Doe',
-	'userid'  => 231,
+	'name' => 'John Doe',
+	'userid' => 231,
 	'country' => 'CZ',
 ];
 
 $form->setDefaults($defaults);
 $form->fireEvents();
 
-Assert::matchFile(__DIR__ . '/Forms.renderer.1.expect', $form->__toString(TRUE) );
+Assert::matchFile(__DIR__ . '/Forms.renderer.1.expect', $form->__toString(TRUE));

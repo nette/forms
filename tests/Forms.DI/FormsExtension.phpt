@@ -4,17 +4,17 @@
  * Test: FormsExtension.
  */
 
-use Nette\DI,
-	Nette\Forms\Validator,
-	Nette\Forms\Form,
-	Nette\Bridges\FormsDI\FormsExtension,
-	Tester\Assert;
+use Nette\DI;
+use Nette\Forms\Validator;
+use Nette\Forms\Form;
+use Nette\Bridges\FormsDI\FormsExtension;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function() {
+test(function () {
 	$compiler = new DI\Compiler;
 	$compiler->addExtension('forms', new FormsExtension);
 
@@ -37,7 +37,7 @@ test(function() {
 });
 
 
-Assert::exception(function() {
+Assert::exception(function () {
 	$compiler = new DI\Compiler;
 	$compiler->addExtension('forms', new FormsExtension);
 

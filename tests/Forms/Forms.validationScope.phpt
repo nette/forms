@@ -4,9 +4,9 @@
  * Test: Nette\Forms validation scope.
  */
 
-use Nette\Forms\Container,
-	Nette\Forms\Form,
-	Tester\Assert;
+use Nette\Forms\Container;
+use Nette\Forms\Form;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';

@@ -4,10 +4,10 @@
  * Test: Nette\Forms naming container.
  */
 
-use Nette\Http,
-	Nette\Forms\Form,
-	Nette\Utils\ArrayHash,
-	Tester\Assert;
+use Nette\Http;
+use Nette\Forms\Form;
+use Nette\Utils\ArrayHash;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -44,13 +44,13 @@ $first->setDefaults([
 	],
 ]);
 
-Assert::equal( ArrayHash::from([
+Assert::equal(ArrayHash::from([
 	'name' => 'xxx',
 	'age' => '50',
 	'second' => ArrayHash::from([
 		'name' => 'yyy',
 	]),
-]), $first->getValues() );
+]), $first->getValues());
 
 
 $form = new Form;
@@ -61,8 +61,8 @@ $invalid->addText('name');
 $form->addSubmit('send');
 
 
-Assert::truthy( $form->isSubmitted() );
-Assert::equal( ArrayHash::from([
+Assert::truthy($form->isSubmitted());
+Assert::equal(ArrayHash::from([
 	'name' => 'jim',
 	'first' => ArrayHash::from([
 		'name' => 'jim',
@@ -74,4 +74,4 @@ Assert::equal( ArrayHash::from([
 	'invalid' => ArrayHash::from([
 		'name' => '',
 	]),
-]), $form->getValues() );
+]), $form->getValues());

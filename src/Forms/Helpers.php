@@ -7,9 +7,9 @@
 
 namespace Nette\Forms;
 
-use Nette,
-	Nette\Utils\Strings,
-	Nette\Utils\Html;
+use Nette;
+use Nette\Utils\Strings;
+use Nette\Utils\Html;
 
 
 /**
@@ -110,7 +110,7 @@ class Helpers extends Nette\Object
 				$item = [
 					'op' => ($rule->isNegative ? '~' : '') . $op,
 					'rules' => static::exportRules($rule->branch),
-					'control' => $rule->control->getHtmlName()
+					'control' => $rule->control->getHtmlName(),
 				];
 				if ($rule->branch->getToggles()) {
 					$item['toggle'] = $rule->branch->getToggles();

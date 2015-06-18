@@ -7,13 +7,13 @@
 
 namespace Nette\Bridges\FormsLatte;
 
-use Nette,
-	Latte,
-	Latte\MacroNode,
-	Latte\PhpWriter,
-	Latte\CompileException,
-	Latte\Macros\MacroSet,
-	Nette\Forms\Form;
+use Nette;
+use Latte;
+use Latte\MacroNode;
+use Latte\PhpWriter;
+use Latte\CompileException;
+use Latte\Macros\MacroSet;
+use Nette\Forms\Form;
 
 
 /**

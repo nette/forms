@@ -4,9 +4,9 @@
  * Test: Nette\Forms\Controls\HiddenField.
  */
 
-use Nette\Forms\Form,
-	Nette\Utils\Html,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Nette\Utils\Html;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -21,7 +21,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function() {
+test(function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden', 'value');
 
@@ -31,7 +31,7 @@ test(function() {
 });
 
 
-test(function() { // no validation rules
+test(function () { // no validation rules
 	$form = new Form;
 	$input = $form->addHidden('hidden')->setRequired('required');
 
@@ -39,7 +39,7 @@ test(function() { // no validation rules
 });
 
 
-test(function() { // container
+test(function () { // container
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addHidden('hidden');
@@ -48,10 +48,10 @@ test(function() { // container
 });
 
 
-test(function() { // forced ID
+test(function () { // forced ID
 	$form = new Form;
 	$input = $form->addHidden('hidden')->setRequired('required');
-	$input->setHtmlId( $input->getHtmlId() );
+	$input->setHtmlId($input->getHtmlId());
 
 	Assert::same('<input type="hidden" name="hidden" id="frm-hidden" value="">', (string) $input->getControl());
 });
