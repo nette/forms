@@ -4,9 +4,9 @@
  * Test: Nette\Forms\Container::validate().
  */
 
-use Nette\Forms\Form,
-	Nette\Forms\Container,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Nette\Forms\Container;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -17,7 +17,7 @@ $form->onValidate[] = function (Container $container) {
 	$container['name']->addError('just fail');
 };
 
-$form->setValues(array('name' => "invalid*input"));
+$form->setValues(array('name' => 'invalid*input'));
 $form->validate();
 
 Assert::same(array(

@@ -4,9 +4,9 @@
  * Test: Nette\Forms\Controls\TextInput.
  */
 
-use Nette\Forms\Form,
-	Nette\Utils\Html,
-	Tester\Assert;
+use Nette\Forms\Form;
+use Nette\Utils\Html;
+use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
@@ -21,7 +21,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function() {
+test(function () {
 	$form = new Form;
 	$input = $form->addText('text', 'Label')
 		->setValue('text')
@@ -36,7 +36,7 @@ test(function() {
 });
 
 
-test(function() { // translator
+test(function () { // translator
 	$form = new Form;
 	$input = $form->addText('text', 'Label')
 		->setAttribute('placeholder', 'place')
@@ -50,7 +50,7 @@ test(function() { // translator
 });
 
 
-test(function() { // Html with translator
+test(function () { // Html with translator
 	$form = new Form;
 	$input = $form->addText('text', Html::el('b', 'Label'))
 		->setTranslator(new Translator);
@@ -60,7 +60,7 @@ test(function() { // Html with translator
 });
 
 
-test(function() { // password
+test(function () { // password
 	$form = new Form;
 	$input = $form->addPassword('password')
 		->setValue('xxx');
@@ -69,7 +69,7 @@ test(function() { // password
 });
 
 
-test(function() { // validation rule required & PATTERN
+test(function () { // validation rule required & PATTERN
 	$form = new Form;
 	$input = $form->addText('text')
 		->setRequired('required')
@@ -87,7 +87,7 @@ test(function() { // validation rule required & PATTERN
 });
 
 
-test(function() { // conditional required
+test(function () { // conditional required
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addCondition($form::FILLED)
@@ -97,7 +97,7 @@ test(function() { // conditional required
 });
 
 
-test(function() { // maxlength without validation rule
+test(function () { // maxlength without validation rule
 	$form = new Form;
 	$input = $form->addText('text')
 		->setMaxLength(30);
@@ -106,7 +106,7 @@ test(function() { // maxlength without validation rule
 });
 
 
-test(function() { // validation rule LENGTH
+test(function () { // validation rule LENGTH
 	$form = new Form;
 	$input = $form->addText('text')
 		->setMaxLength(30)
@@ -116,7 +116,7 @@ test(function() { // validation rule LENGTH
 });
 
 
-test(function() { // validation rule MAX_LENGTH
+test(function () { // validation rule MAX_LENGTH
 	$form = new Form;
 	$input = $form->addText('text', NULL, NULL, 30)
 		->addRule($form::MAX_LENGTH, NULL, 10);
@@ -125,7 +125,7 @@ test(function() { // validation rule MAX_LENGTH
 });
 
 
-test(function() { // validation rule RANGE without setType
+test(function () { // validation rule RANGE without setType
 	$form = new Form;
 	$minInput = $form->addText('min');
 	$maxInput = $form->addText('max');
@@ -139,7 +139,7 @@ test(function() { // validation rule RANGE without setType
 });
 
 
-test(function() { // validation rule RANGE with setType
+test(function () { // validation rule RANGE with setType
 	$form = new Form;
 	$minInput = $form->addText('min');
 	$maxInput = $form->addText('max');
@@ -154,7 +154,7 @@ test(function() { // validation rule RANGE with setType
 });
 
 
-test(function() { // setEmptyValue
+test(function () { // setEmptyValue
 	$form = new Form;
 	$input = $form->addText('text')
 		->setEmptyValue('empty ');
@@ -163,7 +163,7 @@ test(function() { // setEmptyValue
 });
 
 
-test(function() { // setDefaultValue
+test(function () { // setDefaultValue
 	$form = new Form;
 	$input = $form->addText('text')
 		->setDefaultValue('default');
@@ -172,7 +172,7 @@ test(function() { // setDefaultValue
 });
 
 
-test(function() { // container
+test(function () { // container
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addText('text');

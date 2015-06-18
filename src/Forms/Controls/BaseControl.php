@@ -7,11 +7,11 @@
 
 namespace Nette\Forms\Controls;
 
-use Nette,
-	Nette\Forms\IControl,
-	Nette\Utils\Html,
-	Nette\Utils\Validators,
-	Nette\Forms\Form;
+use Nette;
+use Nette\Forms\IControl;
+use Nette\Utils\Html;
+use Nette\Utils\Validators;
+use Nette\Forms\Form;
 
 
 /**

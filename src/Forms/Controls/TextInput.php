@@ -7,8 +7,8 @@
 
 namespace Nette\Forms\Controls;
 
-use Nette,
-	Nette\Forms\Form;
+use Nette;
+use Nette\Forms\Form;
 
 
 /**
