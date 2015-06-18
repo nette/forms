@@ -4,27 +4,34 @@
  * Test: Nette\Forms validation scope.
  */
 
-use Nette\Forms\Form;
-use Tester\Assert;
+use Nette\Forms\Container,
+	Nette\Forms\Form,
+	Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 
 $datasets = [
-	['send1', ['name', 'age', 'age2']],
-	['send2', []],
-	['send3', ['name']],
-	['send4', ['age']],
-	['send5', ['age', 'age2']],
+	['send1', ['container',  'form', 'name', 'age', 'age2']],
+	['send2', ['form']],
+	['send3', ['form', 'name']],
+	['send4', ['form', 'age']],
+	['send5', ['container', 'form', 'age', 'age2']],
 ];
 
 foreach ($datasets as $case) {
 
 	$form = new Form;
+	$form->onValidate[] = function (Form $form) {
+		$form->addError('form');
+	};
 	$form->addText('name')->setRequired('name');
 
 	$details = $form->addContainer('details');
+	$details->onValidate[] = function (Container $container) {
+		$container->getForm()->addError('container');
+	};
 	$details->addText('age')->setRequired('age');
 	$details->addText('age2')->setRequired('age2');
 
