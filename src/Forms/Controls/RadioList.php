@@ -14,8 +14,6 @@ use Nette\Utils\Html;
 /**
  * Set of radio button controls.
  *
- * @author     David Grudl
- *
  * @property-read Html $separatorPrototype
  * @property-read Html $containerPrototype
  * @property-read Html $itemLabelPrototype

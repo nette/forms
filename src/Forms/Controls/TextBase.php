@@ -15,8 +15,6 @@ use Nette\Utils\Strings;
 /**
  * Implements the basic functionality common to text input controls.
  *
- * @author     David Grudl
- *
  * @property   string $emptyValue
  */
 abstract class TextBase extends BaseControl

@@ -11,7 +11,7 @@ use Nette;
 
 
 /**
- * @author Filip Procházka
+ * CSRF protection field.
  */
 class CsrfProtection extends HiddenField
 {

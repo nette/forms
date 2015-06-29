@@ -14,8 +14,6 @@ use Nette\Forms\Form;
 
 /**
  * Runtime helpers for Latte.
- *
- * @author     David Grudl
  * @internal
  */
 class Runtime extends Nette\Object

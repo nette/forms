@@ -14,8 +14,6 @@ use Nette\Utils\Validators;
 
 /**
  * Common validators.
- *
- * @author     David Grudl
  */
 class Validator extends Nette\Object
 {

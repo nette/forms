@@ -13,8 +13,6 @@ use Nette;
 /**
  * Choice control that allows multiple items selection.
  *
- * @author     David Grudl
- *
  * @property   array $items
  * @property-read array $selectedItems
  * @property-read array $rawValue

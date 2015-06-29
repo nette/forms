@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Defines method that must implement form renderer.
- *
- * @author     David Grudl
  */
 interface IFormRenderer
 {

@@ -14,8 +14,6 @@ use Nette\Utils\Html;
 /**
  * Set of checkboxes.
  *
- * @author     David Grudl
- *
  * @property-read Html $separatorPrototype
  */
 class CheckboxList extends MultiChoiceControl

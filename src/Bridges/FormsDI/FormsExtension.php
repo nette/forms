@@ -12,9 +12,6 @@ use Nette;
 
 /**
  * Forms extension for Nette DI.
- *
- * @author David Grudl
- * @author Miroslav Paulík
  */
 class FormsExtension extends Nette\DI\CompilerExtension
 {

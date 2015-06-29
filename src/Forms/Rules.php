@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * List of validation & condition rules.
- *
- * @author     David Grudl
  */
 class Rules extends Nette\Object implements \IteratorAggregate
 {

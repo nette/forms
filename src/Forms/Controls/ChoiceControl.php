@@ -13,8 +13,6 @@ use Nette;
 /**
  * Choice control that allows single item selection.
  *
- * @author     David Grudl
- *
  * @property   array $items
  * @property-read mixed $selectedItem
  * @property-read mixed $rawValue

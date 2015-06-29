@@ -14,8 +14,6 @@ use Nette\Utils\Html;
 
 /**
  * Forms helpers.
- *
- * @author     David Grudl
  */
 class Helpers extends Nette\Object
 {
