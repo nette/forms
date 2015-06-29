@@ -7,8 +7,6 @@
 
 namespace Nette\Forms;
 
-use Nette;
-
 
 /**
  * Defines method that must be implemented to allow a control to submit web form.

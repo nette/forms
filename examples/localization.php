@@ -13,7 +13,6 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 use Nette\Forms\Form;
 use Tracy\Debugger;
 use Tracy\Dumper;
-use Nette\Utils\Html;
 
 Debugger::enable();
 
