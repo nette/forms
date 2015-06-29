@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Select box control that allows multiple items selection.
- *
- * @author     David Grudl
  */
 class MultiSelectBox extends MultiChoiceControl
 {

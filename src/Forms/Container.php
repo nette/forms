@@ -13,8 +13,6 @@ use Nette;
 /**
  * Container for form controls.
  *
- * @author     David Grudl
- *
  * @property-write $defaults
  * @property   Nette\Utils\ArrayHash $values
  * @property-read bool $valid

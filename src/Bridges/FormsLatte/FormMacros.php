@@ -24,8 +24,6 @@ use Nette\Forms\Form;
  * - {label name /} or {label name}... {/label}
  * - {inputError name}
  * - {formContainer name} ... {/formContainer}
- *
- * @author     David Grudl
  */
 class FormMacros extends MacroSet
 {

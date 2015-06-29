@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Push button control with no default behavior.
- *
- * @author     David Grudl
  */
 class Button extends BaseControl
 {

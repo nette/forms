@@ -16,8 +16,6 @@ use Nette\Forms\Form;
 /**
  * Base class that implements the basic functionality common to form controls.
  *
- * @author     David Grudl
- *
  * @property-read Form $form
  * @property-read string $htmlName
  * @property   string $htmlId

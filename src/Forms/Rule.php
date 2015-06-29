@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Single validation rule or condition represented as value object.
- *
- * @author     David Grudl
  */
 class Rule extends Nette\Object
 {

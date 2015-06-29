@@ -13,8 +13,6 @@ use Nette;
 /**
  * Creates, validates and renders HTML forms.
  *
- * @author     David Grudl
- *
  * @property   mixed $action
  * @property   string $method
  * @property-read array $groups

@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Hidden form control used to store a non-displayed value.
- *
- * @author     David Grudl
  */
 class HiddenField extends BaseControl
 {

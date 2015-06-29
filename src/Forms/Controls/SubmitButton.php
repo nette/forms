@@ -13,8 +13,6 @@ use Nette;
 /**
  * Submittable button control.
  *
- * @author     David Grudl
- *
  * @property-read bool $submittedBy
  * @property   mixed $validationScope
  */

@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Check box control. Allows the user to select a true or false condition.
- *
- * @author     David Grudl
  */
 class Checkbox extends BaseControl
 {

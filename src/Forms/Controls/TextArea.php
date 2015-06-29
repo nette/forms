@@ -12,8 +12,6 @@ use Nette;
 
 /**
  * Multiline text input control.
- *
- * @author     David Grudl
  */
 class TextArea extends TextBase
 {
