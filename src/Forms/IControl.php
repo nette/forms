@@ -11,7 +11,7 @@ namespace Nette\Forms;
 /**
  * Defines method that must be implemented to allow a component to act like a form control.
  */
-interface IControl
+interface IControl extends IValidatable
 {
 
 	/**
@@ -26,11 +26,6 @@ interface IControl
 	 * @return mixed
 	 */
 	function getValue();
-
-	/**
-	 * @return void
-	 */
-	function validate();
 
 	/**
 	 * Returns errors corresponding to control.
