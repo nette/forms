@@ -136,7 +136,7 @@ test(function () use ($series) { // setValue() and invalid argument
 
 	Assert::exception(function () use ($input) {
 		$input->setValue('unknown');
-	}, 'Nette\InvalidArgumentException', "Value 'unknown' is out of allowed range ['red-dwarf', 'the-simpsons', 0, ''] in field 'radio'.");
+	}, 'Nette\InvalidArgumentException', "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'radio'.");
 });
 
 
