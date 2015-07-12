@@ -172,6 +172,23 @@ test(function () use ($series) { // setValue() and invalid argument
 });
 
 
+test(function () use ($series) { // setValue() and disabled $checkAllowedValues
+	$form = new Form;
+	$input = $form['select'] = new MultiChoiceControl(NULL, $series);
+	$input->checkAllowedValues = FALSE;
+	$input->setValue('unknown');
+	Assert::same([], $input->getValue());
+
+	Assert::exception(function () use ($input) {
+		$input->setValue(new stdClass);
+	}, 'Nette\InvalidArgumentException', "Value must be array or NULL, object given in field 'select'.");
+
+	Assert::exception(function () use ($input) {
+		$input->setValue([new stdClass]);
+	}, 'Nette\InvalidArgumentException', "Values must be scalar, object given in field 'select'.");
+});
+
+
 test(function () { // object as value
 	$form = new Form;
 	$input = $form['select'] = new MultiChoiceControl(NULL, ['2013-07-05 00:00:00' => 1]);
