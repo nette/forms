@@ -165,8 +165,11 @@ class Helpers extends Nette\Object
 	/**
 	 * @return Html
 	 */
-	public static function createSelectBox(array $items, array $optionAttrs = NULL)
+	public static function createSelectBox(array $items, array $optionAttrs = NULL, $selected = NULL)
 	{
+		if ($selected !== NULL) {
+			$optionAttrs['selected?'] = $selected;
+		}
 		list($optionAttrs, $optionTag) = self::prepareAttrs($optionAttrs, 'option');
 		$option = Html::el();
 		$res = $tmp = '';

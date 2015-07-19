@@ -75,4 +75,22 @@ test(function () {
 			['disabled:' => TRUE, 'selected?' => 'b']
 		)
 	);
+
+	Assert::same(
+		'<select><option value="a">First</option><option value="b" selected>Second</option></select>',
+		(string) Helpers::createSelectBox(
+			['a' => 'First', 'b' => 'Second'],
+			[],
+			'b'
+		)
+	);
+
+	Assert::same(
+		'<select><option value="a" selected>First</option><option value="b" selected>Second</option></select>',
+		(string) Helpers::createSelectBox(
+			['a' => 'First', 'b' => 'Second'],
+			[],
+			['a', 'b']
+		)
+	);
 });
