@@ -48,16 +48,6 @@ class RadioList extends ChoiceControl
 
 
 	/**
-	 * Returns selected radio value.
-	 * @return mixed
-	 */
-	public function getValue()
-	{
-		return parent::getValue();
-	}
-
-
-	/**
 	 * Returns separator HTML element template.
 	 * @return Html
 	 */
