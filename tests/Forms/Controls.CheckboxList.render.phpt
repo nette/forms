@@ -28,17 +28,17 @@ test(function () {
 		0 => 'Second',
 	]);
 
-	Assert::type('Nette\Utils\Html', $input->getLabel());
+	Assert::type(Nette\Utils\Html::class, $input->getLabel());
 	Assert::same('<label>Label</label>', (string) $input->getLabel());
 	Assert::same('<label>Another label</label>', (string) $input->getLabel('Another label'));
 
-	Assert::type('Nette\Utils\Html', $input->getLabelPart(0));
+	Assert::type(Nette\Utils\Html::class, $input->getLabelPart(0));
 	Assert::same('<label for="frm-list-0">Second</label>', (string) $input->getLabelPart(0));
 
 	Assert::type('string', $input->getControl());
 	Assert::same('<label><input type="checkbox" name="list[]" value="a">First</label><br><label><input type="checkbox" name="list[]" value="0">Second</label>', $input->getControl());
 
-	Assert::type('Nette\Utils\Html', $input->getControlPart(0));
+	Assert::type(Nette\Utils\Html::class, $input->getControlPart(0));
 	Assert::same('<input type="checkbox" name="list[]" id="frm-list-0" value="0">', (string) $input->getControlPart(0));
 });
 

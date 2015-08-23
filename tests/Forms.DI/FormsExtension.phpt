@@ -49,4 +49,4 @@ Assert::exception(function () {
 	', 'neon'));
 
 	eval($compiler->compile($config, 'Container2'));
-}, 'Nette\InvalidArgumentException', 'Constant Nette\Forms\Form::Foo\Bar or constant Foo\Bar does not exist.');
+}, Nette\InvalidArgumentException::class, 'Constant Nette\Forms\Form::Foo\Bar or constant Foo\Bar does not exist.');

@@ -75,7 +75,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function __construct($caption = NULL)
 	{
-		$this->monitor('Nette\Forms\Form');
+		$this->monitor(Form::class);
 		parent::__construct();
 		$this->control = Html::el('input', ['type' => NULL, 'name' => NULL]);
 		$this->label = Html::el('label');
@@ -105,7 +105,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function getForm($need = TRUE)
 	{
-		return $this->lookup('Nette\Forms\Form', $need);
+		return $this->lookup(Form::class, $need);
 	}
 
 
@@ -135,7 +135,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function getHtmlName()
 	{
-		return Nette\Forms\Helpers::generateHtmlName($this->lookupPath('Nette\Forms\Form'));
+		return Nette\Forms\Helpers::generateHtmlName($this->lookupPath(Form::class));
 	}
 
 

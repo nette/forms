@@ -56,13 +56,13 @@ class Runtime extends Nette\Object
 			}
 		}
 
-		foreach ($form->getComponents(TRUE, 'Nette\Forms\Controls\HiddenField') as $control) {
+		foreach ($form->getComponents(TRUE, Nette\Forms\Controls\HiddenField::class) as $control) {
 			if (!$control->getOption('rendered')) {
 				$s .= $control->getControl();
 			}
 		}
 
-		if (iterator_count($form->getComponents(TRUE, 'Nette\Forms\Controls\TextInput')) < 2) {
+		if (iterator_count($form->getComponents(TRUE, Nette\Forms\Controls\TextInput::class)) < 2) {
 			$s .= "<!--[if IE]><input type=IEbug disabled style=\"display:none\"><![endif]-->\n";
 		}
 

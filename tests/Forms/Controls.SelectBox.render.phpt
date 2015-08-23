@@ -28,11 +28,11 @@ test(function () {
 		0 => 'Second',
 	]);
 
-	Assert::type('Nette\Utils\Html', $input->getLabel());
+	Assert::type(Nette\Utils\Html::class, $input->getLabel());
 	Assert::same('<label for="frm-list">Label</label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-list">Another label</label>', (string) $input->getLabel('Another label'));
 
-	Assert::type('Nette\Utils\Html', $input->getControl());
+	Assert::type(Nette\Utils\Html::class, $input->getControl());
 	Assert::same('<select name="list" id="frm-list"><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
 

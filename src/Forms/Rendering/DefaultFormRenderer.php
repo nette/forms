@@ -193,7 +193,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 				$s .= $control->getControl();
 			}
 		}
-		if (iterator_count($this->form->getComponents(TRUE, 'Nette\Forms\Controls\TextInput')) < 2) {
+		if (iterator_count($this->form->getComponents(TRUE, Nette\Forms\Controls\TextInput::class)) < 2) {
 			$s .= '<!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->';
 		}
 		if ($s) {

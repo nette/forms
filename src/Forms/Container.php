@@ -207,7 +207,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getControls()
 	{
-		return $this->getComponents(TRUE, 'Nette\Forms\IControl');
+		return $this->getComponents(TRUE, IControl::class);
 	}
 
 
@@ -218,7 +218,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getForm($need = TRUE)
 	{
-		return $this->lookup('Nette\Forms\Form', $need);
+		return $this->lookup(Form::class, $need);
 	}
 
 

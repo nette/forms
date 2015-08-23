@@ -24,7 +24,7 @@ class HiddenField extends BaseControl
 		parent::__construct();
 		$this->control->type = 'hidden';
 		if ($persistentValue !== NULL) {
-			$this->unmonitor('Nette\Forms\Form');
+			$this->unmonitor(Nette\Forms\Form::class);
 			$this->persistValue = TRUE;
 			$this->value = (string) $persistentValue;
 		}
