@@ -136,7 +136,7 @@ test(function () use ($series) { // setValue() and invalid argument
 
 	Assert::exception(function () use ($input) {
 		$input->setValue('unknown');
-	}, 'Nette\InvalidArgumentException', "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'list'.");
+	}, Nette\InvalidArgumentException::class, "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'list'.");
 });
 
 

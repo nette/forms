@@ -27,11 +27,11 @@ test(function () {
 		->setValue('text')
 		->setAttribute('autocomplete', 'off');
 
-	Assert::type('Nette\Utils\Html', $input->getLabel());
+	Assert::type(Nette\Utils\Html::class, $input->getLabel());
 	Assert::same('<label for="frm-text">Label</label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-text">Another label</label>', (string) $input->getLabel('Another label'));
 
-	Assert::type('Nette\Utils\Html', $input->getControl());
+	Assert::type(Nette\Utils\Html::class, $input->getControl());
 	Assert::same('<input type="text" name="text" autocomplete="off" id="frm-text" value="text">', (string) $input->getControl());
 });
 

@@ -160,15 +160,15 @@ test(function () use ($series) { // setValue() and invalid argument
 
 	Assert::exception(function () use ($input) {
 		$input->setValue('unknown');
-	}, 'Nette\InvalidArgumentException', "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
 
 	Assert::exception(function () use ($input) {
 		$input->setValue(new stdClass);
-	}, 'Nette\InvalidArgumentException', "Value must be array or NULL, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Value must be array or NULL, object given in field 'select'.");
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([new stdClass]);
-	}, 'Nette\InvalidArgumentException', "Values must be scalar, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Values must be scalar, object given in field 'select'.");
 });
 
 
@@ -181,11 +181,11 @@ test(function () use ($series) { // setValue() and disabled $checkAllowedValues
 
 	Assert::exception(function () use ($input) {
 		$input->setValue(new stdClass);
-	}, 'Nette\InvalidArgumentException', "Value must be array or NULL, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Value must be array or NULL, object given in field 'select'.");
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([new stdClass]);
-	}, 'Nette\InvalidArgumentException', "Values must be scalar, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Values must be scalar, object given in field 'select'.");
 });
 
 

@@ -59,7 +59,7 @@ test(function () { // setValue() and invalid argument
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([]);
-	}, 'Nette\InvalidArgumentException', "Value must be scalar or NULL, array given in field 'hidden'.");
+	}, Nette\InvalidArgumentException::class, "Value must be scalar or NULL, array given in field 'hidden'.");
 });
 
 
