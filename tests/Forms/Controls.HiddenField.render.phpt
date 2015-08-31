@@ -26,7 +26,7 @@ test(function () {
 	$input = $form->addHidden('hidden', 'value');
 
 	Assert::null($input->getLabel());
-	Assert::type(Nette\Utils\Html::class, $input->getControl());
+	Assert::type(Html::class, $input->getControl());
 	Assert::same('<input type="hidden" name="hidden" value="value">', (string) $input->getControl());
 });
 

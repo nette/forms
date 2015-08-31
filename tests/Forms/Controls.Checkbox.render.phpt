@@ -27,13 +27,13 @@ test(function () {
 
 	Assert::null($input->getLabel());
 
-	Assert::type(Nette\Utils\Html::class, $input->getControl());
+	Assert::type(Html::class, $input->getControl());
 	Assert::same('<label for="frm-on"><input type="checkbox" name="on" id="frm-on">Label</label>', (string) $input->getControl());
 
-	Assert::type(Nette\Utils\Html::class, $input->getLabelPart());
+	Assert::type(Html::class, $input->getLabelPart());
 	Assert::same('<label for="frm-on">Label</label>', (string) $input->getLabelPart());
 
-	Assert::type(Nette\Utils\Html::class, $input->getControlPart());
+	Assert::type(Html::class, $input->getControlPart());
 	Assert::same('<input type="checkbox" name="on" id="frm-on">', (string) $input->getControlPart());
 
 	$input->setValue(TRUE);

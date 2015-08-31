@@ -25,11 +25,11 @@ test(function () {
 	$form = new Form;
 	$input = $form->addUpload('file', 'Label');
 
-	Assert::type(Nette\Utils\Html::class, $input->getLabel());
+	Assert::type(Html::class, $input->getLabel());
 	Assert::same('<label for="frm-file">Label</label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-file">Another label</label>', (string) $input->getLabel('Another label'));
 
-	Assert::type(Nette\Utils\Html::class, $input->getControl());
+	Assert::type(Html::class, $input->getControl());
 	Assert::same('<input type="file" name="file" id="frm-file">', (string) $input->getControl());
 });
 

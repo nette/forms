@@ -26,7 +26,7 @@ test(function () {
 	$input = $form->addImage('button', 'image.gif');
 
 	Assert::null($input->getLabel());
-	Assert::type(Nette\Utils\Html::class, $input->getControl());
+	Assert::type(Html::class, $input->getControl());
 	Assert::same('<input type="image" name="button[]" src="image.gif">', (string) $input->getControl());
 });
 
