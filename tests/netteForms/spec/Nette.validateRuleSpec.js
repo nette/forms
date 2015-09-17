@@ -1,5 +1,4 @@
 describe('Nette.getValue & validateRule', function() {
-	fixtures.path = 'spec/fixtures';
 
 	beforeEach(function() {
 		fixtures.cleanUp();
