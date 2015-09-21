@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $datasets = [
-	['send1', ['container',  'form', 'name', 'age', 'age2']],
+	['send1', ['container', 'form', 'name', 'age', 'age2']],
 	['send2', ['form']],
 	['send3', ['form', 'name']],
 	['send4', ['form', 'age']],
