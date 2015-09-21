@@ -581,11 +581,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * Renders form.
 	 * @return void
 	 */
-	public function render()
+	public function render(...$args)
 	{
-		$args = func_get_args();
-		array_unshift($args, $this);
-		echo call_user_func_array([$this->getRenderer(), 'render'], $args);
+		echo $this->getRenderer()->render($this, ...$args);
 	}
 
 
