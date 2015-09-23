@@ -14,8 +14,6 @@ use Nette;
  * Select box control that allows single item selection.
  *
  * @author     David Grudl
- *
- * @property   bool $prompt
  */
 class SelectBox extends ChoiceControl
 {

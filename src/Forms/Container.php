@@ -15,10 +15,7 @@ use Nette;
  *
  * @author     David Grudl
  *
- * @property-write $defaults
  * @property   Nette\Utils\ArrayHash $values
- * @property-read bool $valid
- * @property   ControlGroup $currentGroup
  * @property-read \ArrayIterator $controls
  * @property-read Form $form
  */
