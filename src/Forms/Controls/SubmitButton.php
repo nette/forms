@@ -14,7 +14,6 @@ use Nette;
  * Submittable button control.
  *
  * @property-read bool $submittedBy
- * @property   mixed $validationScope
  */
 class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 {
