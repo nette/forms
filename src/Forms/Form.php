@@ -13,17 +13,8 @@ use Nette;
 /**
  * Creates, validates and renders HTML forms.
  *
- * @property   mixed $action
- * @property   string $method
- * @property-read array $groups
- * @property   Nette\Localization\ITranslator|NULL $translator
- * @property-read bool $anchored
- * @property-read ISubmitterControl|FALSE $submitted
- * @property-read bool $success
- * @property-read array $httpData
  * @property-read array $errors
  * @property-read Nette\Utils\Html $elementPrototype
- * @property   IFormRenderer $renderer
  */
 class Form extends Container implements Nette\Utils\IHtmlString
 {

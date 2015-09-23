@@ -19,18 +19,13 @@ use Nette\Forms\Form;
  * @property-read Form $form
  * @property-read string $htmlName
  * @property   string $htmlId
- * @property-read array $options
- * @property   Nette\Localization\ITranslator|NULL $translator
  * @property   mixed $value
- * @property-read bool $filled
- * @property-write $defaultValue
  * @property   bool $disabled
  * @property   bool $omitted
  * @property-read Html $control
  * @property-read Html $label
  * @property-read Html $controlPrototype
  * @property-read Html $labelPrototype
- * @property-read Nette\Forms\Rules $rules
  * @property   bool $required
  * @property-read array $errors
  */

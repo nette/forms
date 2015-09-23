@@ -15,7 +15,6 @@ use Nette;
  *
  * @property   array $items
  * @property-read array $selectedItems
- * @property-read array $rawValue
  */
 abstract class MultiChoiceControl extends BaseControl
 {

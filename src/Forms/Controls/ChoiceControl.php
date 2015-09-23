@@ -15,7 +15,6 @@ use Nette;
  *
  * @property   array $items
  * @property-read mixed $selectedItem
- * @property-read mixed $rawValue
  */
 abstract class ChoiceControl extends BaseControl
 {

@@ -12,9 +12,6 @@ use Nette;
 
 /**
  * A user group of form controls.
- *
- * @property-read array $controls
- * @property-read array $options
  */
 class ControlGroup extends Nette\Object
 {
