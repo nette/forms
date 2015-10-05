@@ -58,10 +58,10 @@ if ($form->isSuccess()) {
 <meta charset="utf-8">
 <title>Nette Forms and HTML5</title>
 <link rel="stylesheet" media="screen" href="assets/style.css" />
-<script src="http://nette.github.io/resources/js/netteForms.js"></script>
+<script src="https://nette.github.io/resources/js/netteForms.js"></script>
 
 <h1>Nette Forms and HTML5</h1>
 
 <?php echo $form ?>
 
-<footer><a href="http://doc.nette.org/en/forms">see documentation</a></footer>
+<footer><a href="https://doc.nette.org/en/forms">see documentation</a></footer>

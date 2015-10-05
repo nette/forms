@@ -85,7 +85,7 @@ foreach ($form->getControls() as $control) {
 <meta charset="utf-8">
 <title>Nette Forms & Bootstrap 2 rendering example</title>
 
-<link rel="stylesheet" media="screen" href="http://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" />
+<link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" />
 
 <div class="container">
 	<div class="page-header">

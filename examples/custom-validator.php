@@ -51,7 +51,7 @@ if ($form->isSuccess()) {
 <meta charset="utf-8">
 <title>Nette Forms custom validator example</title>
 <link rel="stylesheet" media="screen" href="assets/style.css" />
-<script src="http://nette.github.io/resources/js/netteForms.js"></script>
+<script src="https://nette.github.io/resources/js/netteForms.js"></script>
 
 <script>
 	Nette.validators.MyValidators_divisibilityValidator = function(elem, args, val) {
@@ -63,4 +63,4 @@ if ($form->isSuccess()) {
 
 <?php echo $form ?>
 
-<footer><a href="http://doc.nette.org/en/forms">see documentation</a></footer>
+<footer><a href="https://doc.nette.org/en/forms">see documentation</a></footer>
