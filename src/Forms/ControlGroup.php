@@ -37,6 +37,10 @@ class ControlGroup extends Nette\Object
 			if ($item instanceof IControl) {
 				$this->controls->attach($item);
 
+			} elseif ($item instanceof Container) {
+				foreach ($item->getComponents() as $component) {
+					$this->add($component);
+				}
 			} elseif ($item instanceof \Traversable || is_array($item)) {
 				foreach ($item as $control) {
 					$this->controls->attach($control);

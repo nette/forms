@@ -191,7 +191,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addComponent(Nette\ComponentModel\IComponent $component, $name, $insertBefore = NULL)
 	{
 		parent::addComponent($component, $name, $insertBefore);
-		if ($this->currentGroup !== NULL && $component instanceof IControl) {
+		if ($this->currentGroup !== NULL) {
 			$this->currentGroup->add($component);
 		}
 		return $this;
