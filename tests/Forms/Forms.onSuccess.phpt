@@ -53,3 +53,10 @@ $form->onError[] = function () use (& $called) {
 };
 $form->fireEvents();
 Assert::same([1, 2, 'err'], $called);
+
+
+Assert::exception(function () {
+	$form = new Form;
+	$form->onSuccess = TRUE;
+	$form->fireEvents();
+}, Nette\UnexpectedValueException::class, 'Property Form::$onSuccess must be array or Traversable, boolean given.');

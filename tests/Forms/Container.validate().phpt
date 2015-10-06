@@ -32,3 +32,10 @@ Assert::same([
 	'fail 1',
 	'fail 2',
 ], $form->getErrors());
+
+
+Assert::exception(function () {
+	$form = new Form;
+	$form->onValidate = TRUE;
+	$form->validate();
+}, Nette\UnexpectedValueException::class, 'Property Form::$onValidate must be array or Traversable, boolean given.');
