@@ -37,12 +37,16 @@ class ControlGroup extends Nette\Object
 			if ($item instanceof IControl) {
 				$this->controls->attach($item);
 
+			} elseif ($item instanceof Container) {
+				foreach ($item->getComponents() as $component) {
+					$this->add($component);
+				}
 			} elseif ($item instanceof \Traversable || is_array($item)) {
 				$this->add(...$item);
 
 			} else {
 				$type = is_object($item) ? get_class($item) : gettype($item);
-				throw new Nette\InvalidArgumentException("IControl items expected, $type given.");
+				throw new Nette\InvalidArgumentException("IControl or Container items expected, $type given.");
 			}
 		}
 		return $this;
