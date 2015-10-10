@@ -426,6 +426,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		$control = new self;
 		$control->currentGroup = $this->currentGroup;
+		if ($this->currentGroup !== NULL) {
+			$this->currentGroup->add($control);
+		}
 		return $this[$name] = $control;
 	}
 
