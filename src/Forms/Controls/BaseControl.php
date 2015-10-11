@@ -142,7 +142,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	}
 
 
-	/********************* interface IFormControl ****************d*g**/
+	/********************* interface IControl ****************d*g**/
 
 
 	/**
