@@ -31,19 +31,18 @@ class ControlGroup extends Nette\Object
 	/**
 	 * @return self
 	 */
-	public function add()
+	public function add(...$items)
 	{
-		foreach (func_get_args() as $num => $item) {
+		foreach ($items as $item) {
 			if ($item instanceof IControl) {
 				$this->controls->attach($item);
 
 			} elseif ($item instanceof \Traversable || is_array($item)) {
-				foreach ($item as $control) {
-					$this->controls->attach($control);
-				}
+				$this->add(...$item);
 
 			} else {
-				throw new Nette\InvalidArgumentException("Only IFormControl items are allowed, the #$num parameter is invalid.");
+				$type = is_object($item) ? get_class($item) : gettype($item);
+				throw new Nette\InvalidArgumentException("IControl items expected, $type given.");
 			}
 		}
 		return $this;
@@ -51,7 +50,7 @@ class ControlGroup extends Nette\Object
 
 
 	/**
-	 * @return array IFormControl
+	 * @return IControl[]
 	 */
 	public function getControls()
 	{
