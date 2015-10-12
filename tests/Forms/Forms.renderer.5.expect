@@ -1,0 +1,123 @@
+<form action="" method="post">
+
+<fieldset>
+<table>
+<tr>
+	<th><label for="frm-name">Name</label></th>
+
+	<td><input type="text" name="name" id="frm-name" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-surname">Surname</label></th>
+
+	<td><input type="text" name="surname" id="frm-surname" class="text"></td>
+</tr>
+</table>
+</fieldset>
+
+<fieldset>
+<legend>Address</legend>
+
+<table>
+<tr>
+	<th><label for="frm-address-street">Street</label></th>
+
+	<td><input type="text" name="address[street]" id="frm-address-street" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-address-town">Town</label></th>
+
+	<td><input type="text" name="address[town]" id="frm-address-town" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-address-country">Country</label></th>
+
+	<td><input type="text" name="address[country]" id="frm-address-country" class="text"></td>
+</tr>
+</table>
+</fieldset>
+
+<fieldset>
+<legend>Shipping Address</legend>
+
+<table>
+<tr>
+	<th><label for="frm-shippingAddress-street">Street</label></th>
+
+	<td><input type="text" name="shippingAddress[street]" id="frm-shippingAddress-street" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-shippingAddress-town">Town</label></th>
+
+	<td><input type="text" name="shippingAddress[town]" id="frm-shippingAddress-town" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-shippingAddress-country">Country</label></th>
+
+	<td><input type="text" name="shippingAddress[country]" id="frm-shippingAddress-country" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-note">Note</label></th>
+
+	<td><textarea name="note" id="frm-note"></textarea></td>
+</tr>
+</table>
+</fieldset>
+
+<fieldset>
+<legend>Nested</legend>
+
+<table>
+<tr>
+	<th><label for="frm-parent-street">Street</label></th>
+
+	<td><input type="text" name="parent[street]" id="frm-parent-street" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-parent-town">Town</label></th>
+
+	<td><input type="text" name="parent[town]" id="frm-parent-town" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-parent-country">Country</label></th>
+
+	<td><input type="text" name="parent[country]" id="frm-parent-country" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-parent-child-street">Street</label></th>
+
+	<td><input type="text" name="parent[child][street]" id="frm-parent-child-street" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-parent-child-town">Town</label></th>
+
+	<td><input type="text" name="parent[child][town]" id="frm-parent-child-town" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-parent-child-country">Country</label></th>
+
+	<td><input type="text" name="parent[child][country]" id="frm-parent-child-country" class="text"></td>
+</tr>
+</table>
+</fieldset>
+
+<table>
+<tr>
+	<th></th>
+
+	<td><input type="submit" name="_submit" value="Order" class="button"></td>
+</tr>
+</table>
+
+</form>
