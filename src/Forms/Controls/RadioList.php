@@ -48,46 +48,6 @@ class RadioList extends ChoiceControl
 
 
 	/**
-	 * Returns selected radio value.
-	 * @return mixed
-	 */
-	public function getValue()
-	{
-		return parent::getValue();
-	}
-
-
-	/**
-	 * Returns separator HTML element template.
-	 * @return Html
-	 */
-	public function getSeparatorPrototype()
-	{
-		return $this->separator;
-	}
-
-
-	/**
-	 * Returns container HTML element template.
-	 * @return Html
-	 */
-	public function getContainerPrototype()
-	{
-		return $this->container;
-	}
-
-
-	/**
-	 * Returns item label HTML element template.
-	 * @return Html
-	 */
-	public function getItemLabelPrototype()
-	{
-		return $this->itemLabel;
-	}
-
-
-	/**
 	 * Generates control's HTML element.
 	 * @return Html
 	 */
@@ -152,6 +112,36 @@ class RadioList extends ChoiceControl
 		return func_num_args()
 			? parent::getLabel($this->items[$key])->for($this->getHtmlId() . '-' . $key)
 			: $this->getLabel();
+	}
+
+
+	/**
+	 * Returns separator HTML element template.
+	 * @return Html
+	 */
+	public function getSeparatorPrototype()
+	{
+		return $this->separator;
+	}
+
+
+	/**
+	 * Returns container HTML element template.
+	 * @return Html
+	 */
+	public function getContainerPrototype()
+	{
+		return $this->container;
+	}
+
+
+	/**
+	 * Returns item label HTML element template.
+	 * @return Html
+	 */
+	public function getItemLabelPrototype()
+	{
+		return $this->itemLabel;
 	}
 
 }
