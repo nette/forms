@@ -165,14 +165,3 @@ test(function () { // container prototype
 
 	Assert::same('<div><label><input type="checkbox" name="list[]" value="a">b</label></div>', (string) $input->getControl());
 });
-
-
-test(function () { // item label prototype
-	$form = new Form;
-	$input = $form->addCheckboxList('list', NULL, [
-		'a' => 'b',
-	]);
-	$input->getItemLabelPrototype()->class('foo');
-
-	Assert::same('<label class="foo"><input type="checkbox" name="list[]" value="a">b</label>', (string) $input->getControl());
-});
