@@ -15,7 +15,7 @@ Nette\Forms greatly facilitates creating and processing web forms. What it can r
 
 Why should you bother setting up framework for a simple web form? You won't have to take care about routine tasks such as writing two validation scripts (client and server) and your code will be safe against security breaches.
 
-Nette Framework puts a great effort to be safe and since forms are the most common user input, Nette forms are as good as impenetrable. All is maintained dynamically and transparently, nothing has to be set manually. Well known vulnerabilities such as Cross Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) are filtered, as well as special control characters. All inputs are checked for UTF-8 validity. Every multiple-choice, select boxe and similar are checked for forged values upon validating. Sounds good? Let's try it out.
+Nette Framework puts a great effort to be safe and since forms are the most common user input, Nette forms are as good as impenetrable. All is maintained dynamically and transparently, nothing has to be set manually. Well known vulnerabilities such as Cross Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) are filtered, as well as special control characters. All inputs are checked for UTF-8 validity. Every multiple-choice, select box and similar are checked for forged values upon validating. Sounds good? Let's try it out.
 
 [See documentation](https://doc.nette.org/en/forms).
 

@@ -39,7 +39,7 @@ test(function () use ($series) { // Select
 });
 
 
-test(function () use ($series) { // Empty select
+test(function () { // Empty select
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
@@ -65,7 +65,7 @@ test(function () use ($series) { // Select with prompt
 });
 
 
-test(function () use ($series) { // Select with optgroups
+test(function () { // Select with optgroups
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
@@ -192,7 +192,7 @@ test(function () use ($series) { // setItems without keys
 });
 
 
-test(function () use ($series) { // setItems without keys
+test(function () { // setItems without keys
 	$form = new Form;
 	$input = $form->addSelect('select')->setItems(range(1, 5), FALSE);
 	Assert::same([1 => 1, 2, 3, 4, 5], $input->getItems());
