@@ -1,5 +1,22 @@
 describe('Nette.validators', function() {
 
+	it('equal', function() {
+		expect(Nette.validators.equal(null, '', '')).toBe(true);
+		expect(Nette.validators.equal(null, '', 'a')).toBe(false);
+		expect(Nette.validators.equal(null, 'a', 'a')).toBe(true);
+		expect(Nette.validators.equal(null, 0, '0')).toBe(true);
+		expect(Nette.validators.equal(null, 'a', ['a'])).toBe(true);
+		expect(Nette.validators.equal(null, 'a', ['b'])).toBe(false);
+		expect(Nette.validators.equal(null, 'a', [])).toBe(true);
+		expect(Nette.validators.equal(null, ['a'], 'a')).toBe(true);
+		expect(Nette.validators.equal(null, ['a'], 'b')).toBe(false);
+		expect(Nette.validators.equal(null, [], 'b')).toBe(false);
+		expect(Nette.validators.equal(null, ['a'], ['a'])).toBe(true);
+		expect(Nette.validators.equal(null, ['a'], ['b'])).toBe(false);
+		expect(Nette.validators.equal(null, ['a'], [])).toBe(true);
+	});
+
+
 	it('email', function() {
 		expect(Nette.validators.email(null, null, '')).toBe(false);
 		expect(Nette.validators.email(null, null, 'hello')).toBe(false);
