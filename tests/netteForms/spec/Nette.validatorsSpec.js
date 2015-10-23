@@ -5,6 +5,11 @@ describe('Nette.validators', function() {
 		expect(Nette.validators.equal(null, '', 'a')).toBe(false);
 		expect(Nette.validators.equal(null, 'a', 'a')).toBe(true);
 		expect(Nette.validators.equal(null, 0, '0')).toBe(true);
+		expect(Nette.validators.equal(null, 0, '')).toBe(false);
+		expect(Nette.validators.equal(null, null, '')).toBe(true);
+		expect(Nette.validators.equal(null, false, '')).toBe(true);
+		expect(Nette.validators.equal(null, false, 0)).toBe(false);
+		expect(Nette.validators.equal(null, true, '1')).toBe(true);
 		expect(Nette.validators.equal(null, 'a', ['a'])).toBe(true);
 		expect(Nette.validators.equal(null, 'a', ['b'])).toBe(false);
 		expect(Nette.validators.equal(null, 'a', [])).toBe(true);

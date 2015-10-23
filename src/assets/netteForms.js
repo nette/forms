@@ -294,13 +294,21 @@ Nette.validators = {
 		if (arg === undefined) {
 			return null;
 		}
+
+		function toString(val) {
+			if (typeof val === 'number' || typeof val === 'string') {
+				return '' + val;
+			} else {
+				return val === true ? '1' : '';
+			}
+		}
+
 		val = Nette.isArray(val) ? val : [val];
 		arg = Nette.isArray(arg) ? arg : [arg];
 		loop:
 		for (var i1 = 0, len1 = val.length; i1 < len1; i1++) {
 			for (var i2 = 0, len2 = arg.length; i2 < len2; i2++) {
-				/* jshint eqeqeq: false */
-				if (val[i1] == arg[i2]) {
+				if (toString(val[i1]) === toString(arg[i2])) {
 					continue loop;
 				}
 			}
