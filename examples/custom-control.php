@@ -15,7 +15,11 @@ use Nette\Utils\Html;
 
 class DateInput extends Nette\Forms\Controls\BaseControl
 {
-	private $day, $month, $year;
+	/** @var string */
+	private
+		$day = '',
+		$month = '',
+		$year = '';
 
 
 	public function __construct($label = NULL)
@@ -28,7 +32,7 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	public function setValue($value)
 	{
 		if ($value === NULL) {
-			$this->day = $this->month = $this->year = NULL;
+			$this->day = $this->month = $this->year = '';
 		} else {
 			$date = Nette\Utils\DateTime::from($value);
 			$this->day = $date->format('j');
@@ -47,6 +51,15 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 		return self::validateDate($this)
 			? (new DateTime)->setDate($this->year, $this->month, $this->day)->setTime(0, 0)
 			: NULL;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isFilled()
+	{
+		return $this->day !== '' || $this->year !== '';
 	}
 
 
@@ -79,9 +92,9 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	 */
 	public static function validateDate(Nette\Forms\IControl $control)
 	{
-		return is_numeric($control->day)
-			&& is_numeric($control->month)
-			&& is_numeric($control->year)
+		return ctype_digit($control->day)
+			&& ctype_digit($control->month)
+			&& ctype_digit($control->year)
 			&& checkdate($control->month, $control->day, $control->year);
 	}
 
