@@ -23,7 +23,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 		<th>Checkboxes</th>
 		<td>
 <?php $_formStack[] = $_form; $formContainer = $_form = $_form["cont2"] ?>			<ol>
-<?php $iterations = 0; foreach ($formContainer->controls AS $name => $field) { ?>
+<?php %a% foreach ($formContainer->controls AS $name => $field) { ?>
 				<li><?php $_input = is_object($field) ? $field : $_form[$field]; echo $_input->getControl() ?></li>
 <?php $iterations++; } ?>			</ol>
 <?php $formContainer = $_form = array_pop($_formStack) ?>
@@ -37,7 +37,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 	<tr>
 		<th>Items</th>
 		<td>
-<?php $items = array(1, 2, 3) ;$iterations = 0; foreach ($items as $item) { if (!isset($formContainer[$item])) continue ;$_formStack[] = $_form; $formContainer = $_form = is_object($item) ? $item : $_form[$item] ?>
+<?php $items = array(1, 2, 3) ;%a% foreach ($items as $item) { if (!isset($formContainer[$item])) continue ;$_formStack[] = $_form; $formContainer = $_form = is_object($item) ? $item : $_form[$item] ?>
 				<?php echo $_form["input"]->getControl() ?>
 
 <?php $formContainer = $_form = array_pop($_formStack) ;$iterations++; } ?>

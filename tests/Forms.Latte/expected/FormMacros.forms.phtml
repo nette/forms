@@ -2,7 +2,7 @@
 %A%
 echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], ['id' => 'myForm', 'class'=>"ajax"]) ?>
 
-<?php $iterations = 0; foreach (['id', 'username', 'select', 'area', 'send'] as $name) { ?>
+<?php %a% foreach (['id', 'username', 'select', 'area', 'send'] as $name) { ?>
 		<?php $_input = is_object($name) ? $name : $_form[$name]; if ($_label = $_input->getLabel()) echo $_label  ?>
 
 		<?php $_input = is_object($name) ? $name : $_form[$name]; echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
@@ -49,7 +49,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 
 
 
-<?php $iterations = 0; foreach ($form['sex']->items as $key => $label) { ?>
+<?php %a% foreach ($form['sex']->items as $key => $label) { ?>
 	<?php if ($_label = $_form["sex"]->getLabelPart($key)) echo $_label->startTag() ?>
  <?php echo $_form["sex"]->getControlPart($key) ?> <?php echo Latte\Runtime\Filters::escapeHtml($label, ENT_NOQUOTES) ;if ($_label) echo $_label->endTag() ?>
 
@@ -81,7 +81,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 ))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
 
 
-<?php $iterations = 0; foreach ($form['checklist']->items as $key => $label) { ?>
+<?php %a% foreach ($form['checklist']->items as $key => $label) { ?>
 	<?php if ($_label = $_form["checklist"]->getLabelPart($key)) echo $_label->startTag() ?>
  <?php echo $_form["checklist"]->getControlPart($key) ?> <?php echo Latte\Runtime\Filters::escapeHtml($label, ENT_NOQUOTES) ;if ($_label) echo $_label->endTag() ?>
 
