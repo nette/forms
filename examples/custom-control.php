@@ -11,6 +11,7 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 
 use Nette\Forms\Form;
 use Nette\Utils\Html;
+use Nette\Forms\Helpers;
 
 
 class DateInput extends Nette\Forms\Controls\BaseControl
@@ -25,7 +26,8 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	public function __construct($label = NULL)
 	{
 		parent::__construct($label);
-		$this->addRule(__CLASS__ . '::validateDate', 'Date is invalid.');
+		$this->addCondition(Form::FILLED)
+			->addRule(__CLASS__ . '::validateDate', 'Date is invalid.');
 	}
 
 
@@ -77,13 +79,26 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	public function getControl()
 	{
 		$name = $this->getHtmlName();
-		return Html::el()
-			->add(Html::el('input')->name($name . '[day]')->id($this->getHtmlId())->value($this->day))
-			->add(Nette\Forms\Helpers::createSelectBox(
-				[1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-				['selected?' => $this->month]
-				)->name($name . '[month]'))
-			->add(Html::el('input')->name($name . '[year]')->value($this->year));
+		return Html::el('input', [
+				'name' => $name . '[day]',
+				'id' => $this->getHtmlId(),
+				'value' => $this->day,
+				'type' => 'number',
+				'min' => 1,
+				'max' => 31,
+				'data-nette-rules' => Helpers::exportRules($this->getRules()) ?: NULL,
+			])
+
+			. Helpers::createSelectBox(
+					[1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+					['selected?' => $this->month]
+				)->name($name . '[month]')
+
+			. Html::el('input', [
+				'name' => $name . '[year]',
+				'value' => $this->year,
+				'type' => 'number',
+			]);
 	}
 
 
@@ -123,6 +138,7 @@ if ($form->isSuccess()) {
 <meta charset="utf-8">
 <title>Nette Forms custom control example</title>
 <link rel="stylesheet" media="screen" href="assets/style.css" />
+<script src="https://nette.github.io/resources/js/netteForms.js"></script>
 
 <h1>Nette Forms custom control example</h1>
 
