@@ -49,7 +49,7 @@ class FormMacros extends MacroSet
 	public function macroForm(MacroNode $node, PhpWriter $writer)
 	{
 		if ($node->modifiers) {
-			trigger_error('Modifiers are not allowed here.', E_USER_WARNING);
+			trigger_error("Modifiers are not allowed in {{$node->name}}", E_USER_WARNING);
 		}
 		if ($node->prefix) {
 			throw new CompileException('Did you mean <form n:name=...> ?');
@@ -73,7 +73,7 @@ class FormMacros extends MacroSet
 	public function macroFormContainer(MacroNode $node, PhpWriter $writer)
 	{
 		if ($node->modifiers) {
-			trigger_error('Modifiers are not allowed here.', E_USER_WARNING);
+			trigger_error("Modifiers are not allowed in {{$node->name}}", E_USER_WARNING);
 		}
 		$name = $node->tokenizer->fetchWord();
 		if ($name === FALSE) {
@@ -92,7 +92,7 @@ class FormMacros extends MacroSet
 	public function macroLabel(MacroNode $node, PhpWriter $writer)
 	{
 		if ($node->modifiers) {
-			trigger_error('Modifiers are not allowed here.', E_USER_WARNING);
+			trigger_error("Modifiers are not allowed in {{$node->name}}", E_USER_WARNING);
 		}
 		$words = $node->tokenizer->fetchWords();
 		if (!$words) {
@@ -127,7 +127,7 @@ class FormMacros extends MacroSet
 	public function macroInput(MacroNode $node, PhpWriter $writer)
 	{
 		if ($node->modifiers) {
-			trigger_error('Modifiers are not allowed here.', E_USER_WARNING);
+			trigger_error("Modifiers are not allowed in {{$node->name}}", E_USER_WARNING);
 		}
 		$words = $node->tokenizer->fetchWords();
 		if (!$words) {
@@ -226,7 +226,7 @@ class FormMacros extends MacroSet
 	public function macroInputError(MacroNode $node, PhpWriter $writer)
 	{
 		if ($node->modifiers) {
-			trigger_error('Modifiers are not allowed here.', E_USER_WARNING);
+			trigger_error("Modifiers are not allowed in {{$node->name}}", E_USER_WARNING);
 		}
 		$name = $node->tokenizer->fetchWord();
 		if (!$name) {
