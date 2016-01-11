@@ -55,3 +55,13 @@ test(function () { // container
 
 	Assert::same('<input type="image" name="container[button][]" src="image.gif">', (string) $input->getControl());
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addImage('button');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});

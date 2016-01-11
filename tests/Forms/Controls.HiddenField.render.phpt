@@ -55,3 +55,13 @@ test(function () { // forced ID
 
 	Assert::same('<input type="hidden" name="hidden" id="frm-hidden" value="">', (string) $input->getControl());
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addHidden('hidden');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});

@@ -119,3 +119,13 @@ test(function () { // disabled one
 
 	Assert::same('<select name="list[]" id="frm-list" multiple><option value="a" disabled>First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addMultiSelect('list');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});

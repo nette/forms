@@ -66,3 +66,13 @@ test(function () { // container
 
 	Assert::same('<label for="frm-container-on"><input type="checkbox" name="container[on]" id="frm-container-on"></label>', (string) $input->getControl());
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addCheckbox('on');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});

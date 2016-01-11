@@ -179,3 +179,13 @@ test(function () { // container
 
 	Assert::same('<input type="text" name="container[text]" id="frm-container-text">', (string) $input->getControl());
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addText('text');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});

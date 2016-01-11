@@ -177,3 +177,13 @@ test(function () { // numeric key as string & getControlPart
 
 	Assert::same('<input type="radio" name="list" id="frm-list-1" checked value="1">', (string) $input->getControlPart('1'));
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addRadioList('list');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});

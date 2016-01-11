@@ -165,3 +165,13 @@ test(function () { // container prototype
 
 	Assert::same('<div><label><input type="checkbox" name="list[]" value="a">b</label></div>', (string) $input->getControl());
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addCheckboxList('list');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});

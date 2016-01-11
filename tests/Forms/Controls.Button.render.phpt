@@ -105,3 +105,13 @@ test(function () { // forced ID
 
 	Assert::same('<input type="button" name="button" id="frm-button" value="Caption">', (string) $input->getControl());
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addButton('button');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});

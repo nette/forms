@@ -68,3 +68,13 @@ test(function () { // container
 
 	Assert::same('<input type="file" name="container[file]" id="frm-container-file">', (string) $input->getControl());
 });
+
+
+test(function () { // rendering options
+	$form = new Form;
+	$input = $form->addUpload('file');
+
+	Assert::null($input->getOption('rendered'));
+	$input->getControl();
+	Assert::true($input->getOption('rendered'));
+});
