@@ -189,7 +189,7 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 	{
 		$s = '';
 		foreach ($this->form->getControls() as $control) {
-			if ($control instanceof Nette\Forms\Controls\HiddenField && !$control->getOption('rendered')) {
+			if ($control->getOption('type') === 'hidden' && !$control->getOption('rendered')) {
 				$s .= $control->getControl();
 			}
 		}
@@ -312,10 +312,10 @@ class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRende
 
 		$buttons = NULL;
 		foreach ($parent->getControls() as $control) {
-			if ($control->getOption('rendered') || $control instanceof Nette\Forms\Controls\HiddenField || $control->getForm(FALSE) !== $this->form) {
+			if ($control->getOption('rendered') || $control->getOption('type') === 'hidden' || $control->getForm(FALSE) !== $this->form) {
 				// skip
 
-			} elseif ($control instanceof Nette\Forms\Controls\Button) {
+			} elseif ($control->getOption('type') === 'button') {
 				$buttons[] = $control;
 
 			} else {

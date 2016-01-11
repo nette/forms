@@ -56,8 +56,8 @@ class Runtime extends Nette\Object
 			}
 		}
 
-		foreach ($form->getComponents(TRUE, Nette\Forms\Controls\HiddenField::class) as $control) {
-			if (!$control->getOption('rendered')) {
+		foreach ($form->getControls() as $control) {
+			if ($control->getOption('type') === 'hidden' && !$control->getOption('rendered')) {
 				$s .= $control->getControl();
 			}
 		}

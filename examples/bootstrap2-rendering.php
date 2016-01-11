@@ -10,7 +10,6 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 }
 
 use Nette\Forms\Form;
-use Nette\Forms\Controls;
 use Tracy\Debugger;
 use Tracy\Dumper;
 
@@ -69,11 +68,12 @@ $renderer->wrappers['control']['errorcontainer'] = 'span class=help-inline';
 $form->getElementPrototype()->class('form-horizontal');
 
 foreach ($form->getControls() as $control) {
-	if ($control instanceof Controls\Button) {
+	$type = $control->getOption('type');
+	if ($type === 'button') {
 		$control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn');
 		$usedPrimary = TRUE;
 
-	} elseif ($control instanceof Controls\Checkbox || $control instanceof Controls\CheckboxList || $control instanceof Controls\RadioList) {
+	} elseif (in_array($type, ['checkbox', 'radio'], TRUE)) {
 		$control->getLabelPrototype()->addClass($control->getControlPrototype()->type);
 		$control->getSeparatorPrototype()->setName(NULL);
 	}
