@@ -91,6 +91,8 @@ test(function () { // rendering options
 	$form = new Form;
 	$input = $form->addTextArea('text');
 
+	Assert::same('textarea', $input->getOption('type'));
+
 	Assert::null($input->getOption('rendered'));
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));

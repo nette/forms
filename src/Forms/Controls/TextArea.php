@@ -23,6 +23,7 @@ class TextArea extends TextBase
 	{
 		parent::__construct($label);
 		$this->control->setName('textarea');
+		$this->setOption('type', 'textarea');
 	}
 
 

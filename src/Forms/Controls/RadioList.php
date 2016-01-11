@@ -44,6 +44,7 @@ class RadioList extends ChoiceControl
 		$this->container = Html::el();
 		$this->separator = Html::el('br');
 		$this->itemLabel = Html::el();
+		$this->setOption('type', 'radio');
 	}
 
 

@@ -61,6 +61,8 @@ test(function () { // rendering options
 	$form = new Form;
 	$input = $form->addImage('button');
 
+	Assert::same('button', $input->getOption('type'));
+
 	Assert::null($input->getOption('rendered'));
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));

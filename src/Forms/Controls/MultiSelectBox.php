@@ -19,6 +19,13 @@ class MultiSelectBox extends MultiChoiceControl
 	private $options = [];
 
 
+	public function __construct($label = NULL, array $items = NULL)
+	{
+		parent::__construct($label, $items);
+		$this->setOption('type', 'select');
+	}
+
+
 	/**
 	 * Sets options and option groups from which to choose.
 	 * @return self

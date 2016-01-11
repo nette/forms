@@ -25,6 +25,7 @@ Assert::same(['Security token did not match. Possible CSRF attack.'], $form->get
 Assert::null($input->getOption('rendered'));
 Assert::match('<input type="hidden" name="_token_" value="%S%">', (string) $input->getControl());
 Assert::true($input->getOption('rendered'));
+Assert::same('hidden', $input->getOption('type'));
 
 $input->setValue(NULL);
 Assert::false(CsrfProtection::validateCsrf($input));

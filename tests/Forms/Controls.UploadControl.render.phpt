@@ -74,6 +74,8 @@ test(function () { // rendering options
 	$form = new Form;
 	$input = $form->addUpload('file');
 
+	Assert::same('file', $input->getOption('type'));
+
 	Assert::null($input->getOption('rendered'));
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));

@@ -61,6 +61,8 @@ test(function () { // rendering options
 	$form = new Form;
 	$input = $form->addHidden('hidden');
 
+	Assert::same('hidden', $input->getOption('type'));
+
 	Assert::null($input->getOption('rendered'));
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));

@@ -26,6 +26,7 @@ class TextInput extends TextBase
 		parent::__construct($label);
 		$this->control->type = 'text';
 		$this->control->maxlength = $maxLength;
+		$this->setOption('type', 'text');
 	}
 
 

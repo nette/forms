@@ -36,6 +36,7 @@ class CheckboxList extends MultiChoiceControl
 		$this->control->type = 'checkbox';
 		$this->container = Html::el();
 		$this->separator = Html::el('br');
+		$this->setOption('type', 'checkbox');
 	}
 
 

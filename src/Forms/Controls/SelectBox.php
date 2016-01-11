@@ -25,6 +25,13 @@ class SelectBox extends ChoiceControl
 	private $prompt = FALSE;
 
 
+	public function __construct($label = NULL, array $items = NULL)
+	{
+		parent::__construct($label, $items);
+		$this->setOption('type', 'select');
+	}
+
+
 	/**
 	 * Sets first prompt item in select box.
 	 * @param  string

@@ -26,6 +26,7 @@ class UploadControl extends BaseControl
 		parent::__construct($label);
 		$this->control->type = 'file';
 		$this->control->multiple = (bool) $multiple;
+		$this->setOption('type', 'file');
 	}
 
 

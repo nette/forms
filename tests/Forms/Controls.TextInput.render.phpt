@@ -185,6 +185,8 @@ test(function () { // rendering options
 	$form = new Form;
 	$input = $form->addText('text');
 
+	Assert::same('text', $input->getOption('type'));
+
 	Assert::null($input->getOption('rendered'));
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));

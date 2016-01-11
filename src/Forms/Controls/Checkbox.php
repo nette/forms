@@ -27,6 +27,7 @@ class Checkbox extends BaseControl
 		parent::__construct($label);
 		$this->control->type = 'checkbox';
 		$this->wrapper = Nette\Utils\Html::el();
+		$this->setOption('type', 'checkbox');
 	}
 
 
