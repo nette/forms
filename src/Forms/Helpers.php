@@ -118,6 +118,7 @@ class Helpers extends Nette\Object
 			}
 
 			if (is_array($rule->arg)) {
+				$item['arg'] = array();
 				foreach ($rule->arg as $key => $value) {
 					$item['arg'][$key] = $value instanceof IControl ? array('control' => $value->getHtmlName()) : $value;
 				}
