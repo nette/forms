@@ -245,7 +245,7 @@ class Validator extends Nette\Object
 	 */
 	public static function validatePattern(IControl $control, $pattern)
 	{
-		return (bool) Strings::match($control->getValue(), "\x01^($pattern)\\z\x01u");
+		return (bool) Strings::match($control->getValue(), "\x01^(?:$pattern)\\z\x01u");
 	}
 
 

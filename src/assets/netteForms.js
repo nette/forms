@@ -358,7 +358,7 @@ Nette.validators = {
 
 	pattern: function(elem, arg, val) {
 		try {
-			return typeof arg === 'string' ? (new RegExp('^(' + arg + ')$')).test(val) : null;
+			return typeof arg === 'string' ? (new RegExp('^(?:' + arg + ')$')).test(val) : null;
 		} catch (e) {}
 	},
 
