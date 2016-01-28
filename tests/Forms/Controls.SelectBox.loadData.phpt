@@ -65,6 +65,18 @@ test(function () use ($series) { // Select with prompt
 });
 
 
+test(function () use ($series) { // Select with more visible options and no input
+	$form = new Form;
+	$input = $form->addSelect('select', NULL, $series);
+	$input->getControlPrototype()->size = 2;
+
+	Assert::true($form->isValid());
+	Assert::same(NULL, $input->getValue());
+	Assert::same(NULL, $input->getSelectedItem());
+	Assert::false($input->isFilled());
+});
+
+
 test(function () { // Select with optgroups
 	$_POST = ['select' => 'red-dwarf'];
 
