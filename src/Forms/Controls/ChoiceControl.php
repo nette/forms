@@ -53,7 +53,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Sets selected item (by key).
-	 * @param  scalar
+	 * @param  int|float|bool|string
 	 * @return self
 	 */
 	public function setValue($value)
@@ -69,7 +69,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected key.
-	 * @return scalar
+	 * @return int|float|bool|string
 	 */
 	public function getValue()
 	{
@@ -79,7 +79,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected key (not checked).
-	 * @return scalar
+	 * @return int|float|bool|string
 	 */
 	public function getRawValue()
 	{
