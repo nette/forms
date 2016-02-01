@@ -7,7 +7,8 @@
 
 (function(global, factory) {
 	if (!global.JSON) {
-		return;
+		throw new Error("NetteForms: unsupported platform, no JSON parser available");
+
 	}
 
 	if (typeof define === 'function' && define.amd) {
@@ -17,8 +18,14 @@
 	} else if (typeof module === 'object' && typeof module.exports === 'object') {
 		module.exports = factory(global);
 	} else {
+		var config = global.Nette || {};
+
 		global.Nette = factory(global);
-		global.Nette.initOnLoad();
+
+		if (!config.noInit) {
+			global.Nette.initOnLoad();
+
+		}
 	}
 
 }(typeof window !== 'undefined' ? window : this, function(window) {
@@ -27,17 +34,31 @@
 
 var Nette = {};
 
+
+/**
+ * This is necessary to avoid a possible memory leak
+ * in the addEvent function
+ */
+function getEventHandler(callback) {
+	return function (evt) {
+		callback.call(this, evt || window.event);
+	};
+}
+
 /**
  * Attaches a handler to an event for the element.
  */
 Nette.addEvent = function(element, on, callback) {
-	var original = element['on' + on];
-	element['on' + on] = function() {
-		if (typeof original === 'function' && original.apply(element, arguments) === false) {
-			return false;
-		}
-		return callback.apply(element, arguments);
-	};
+	if ('addEventListener' in element) {
+		element.addEventListener(on, callback, false);
+
+	} else if ('attachEvent' in element) {
+		element.attachEvent('on' + on, getEventHandler(callback));
+
+	} else {
+		throw new Error('NetteForms: Unsupported platform, unable to add event listeners');
+
+	}
 };
 
 
