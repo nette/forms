@@ -25,7 +25,7 @@ before_script:
     - travis_retry composer install --no-interaction --prefer-dist
     - travis_retry composer create-project nette/code-checker code-checker ~2.5 --no-interaction
     - if [ $TRAVIS_PHP_VERSION  == "5.6" ]; then npm install -g grunt-cli; cd tests/netteForms; npm install; bower install; cd ../..; fi
-  
+
 sudo: false
 
 cache:
