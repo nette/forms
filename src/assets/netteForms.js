@@ -34,14 +34,19 @@ var Nette = {};
  * Attaches a handler to an event for the element.
  */
 Nette.addEvent = function(element, on, callback) {
-	var original = element['on' + on];
-	element['on' + on] = function() {
-		if (typeof original === 'function' && original.apply(element, arguments) === false) {
-			return false;
-		}
-		return callback.apply(element, arguments);
-	};
+	if (element.addEventListener) {
+		element.addEventListener(on, callback);
+	} else {
+		element.attachEvent('on' + on, getHandler(callback));
+	}
 };
+
+
+function getHandler(callback) {
+	return function(e) {
+		return callback.call(this, e);
+	};
+}
 
 
 /**
@@ -559,15 +564,16 @@ Nette.initOnLoad = function() {
 		}
 
 		Nette.addEvent(document.body, 'click', function(e) {
-			var target = e ? e.target : event.srcElement;
+			var target = e.target || e.srcElement;
 			if (target.form && target.type in {submit: 1, image: 1}) {
 				target.form['nette-submittedBy'] = target;
 			}
 		});
 
 		Nette.addEvent(document.body, 'change', function(e) {
-			if (e.target['nette-toggleForm']) {
-				Nette.toggleForm(e.target.form, e.target);
+			var target = e.target || e.srcElement;
+			if (target['nette-toggleForm']) {
+				Nette.toggleForm(target.form, target);
 			}
 		});
 	});
