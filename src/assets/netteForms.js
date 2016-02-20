@@ -17,8 +17,14 @@
 	} else if (typeof module === 'object' && typeof module.exports === 'object') {
 		module.exports = factory(global);
 	} else {
+		var config = global.Nette || {};
+
 		global.Nette = factory(global);
-		global.Nette.initOnLoad();
+
+		if (!config.noInit) {
+			global.Nette.initOnLoad();
+
+		}
 	}
 
 }(typeof window !== 'undefined' ? window : this, function(window) {
@@ -27,17 +33,27 @@
 
 var Nette = {};
 
+function getHandler(callback) {
+	return function(evt) {
+		callback.call(this, evt || window.event);
+
+	};
+}
+
 /**
  * Attaches a handler to an event for the element.
  */
 Nette.addEvent = function(element, on, callback) {
-	var original = element['on' + on];
-	element['on' + on] = function() {
-		if (typeof original === 'function' && original.apply(element, arguments) === false) {
-			return false;
-		}
-		return callback.apply(element, arguments);
-	};
+	if ('addEventListener' in element) {
+		element.addEventListener(on, callback, false);
+
+	} else if ('attachEvent' in element) {
+		element.attachEvent('on' + on, getHandler(callback));
+
+	} else {
+		throw new Error('NetteForms: Unsupported platform, unable to add event listeners');
+
+	}
 };
 
 
@@ -556,15 +572,16 @@ Nette.initOnLoad = function() {
 		}
 
 		Nette.addEvent(document.body, 'click', function(e) {
-			var target = e ? e.target : event.srcElement;
+			var target = e.target || e.srcElement;
 			if (target.form && target.type in {submit: 1, image: 1}) {
 				target.form['nette-submittedBy'] = target;
 			}
 		});
 
 		Nette.addEvent(document.body, 'change', function(e) {
-			if (e.target['nette-toggleForm']) {
-				Nette.toggleForm(e.target.form, e.target);
+			var target = e.target || e.srcElement;
+			if (target['nette-toggleForm']) {
+				Nette.toggleForm(target.form, target);
 			}
 		});
 	});
