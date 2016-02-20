@@ -17,8 +17,11 @@
 	} else if (typeof module === 'object' && typeof module.exports === 'object') {
 		module.exports = factory(global);
 	} else {
+		var init = !global.Nette || !global.Nette.noInit;
 		global.Nette = factory(global);
-		global.Nette.initOnLoad();
+		if (init) {
+			global.Nette.initOnLoad();
+		}
 	}
 
 }(typeof window !== 'undefined' ? window : this, function(window) {
