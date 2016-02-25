@@ -39,6 +39,7 @@ class Validator extends Nette\Object
 		Form::MIME_TYPE => 'The uploaded file is not in the expected format.',
 		Form::IMAGE => 'The uploaded file must be image in format JPEG, GIF or PNG.',
 		Controls\SelectBox::VALID => 'Please select a valid option.',
+		Controls\UploadControl::VALID => 'An error occurred during file upload.',
 	];
 
 

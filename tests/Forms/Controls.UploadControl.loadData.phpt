@@ -52,6 +52,13 @@ $_FILES = [
 		'size' => [NULL],
 	],
 	'invalid2' => '',
+	'partial' => [
+		'name' => 'license.txt',
+		'type' => 'text/plain',
+		'tmp_name' => __DIR__ . '/files/logo.gif',
+		'error' => UPLOAD_ERR_PARTIAL,
+		'size' => 3013,
+	],
 ];
 
 
@@ -167,6 +174,24 @@ test(function () { // malformed data
 	Assert::true($form->isValid());
 	Assert::equal(new FileUpload([]), $input->getValue());
 	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
+});
+
+
+test(function () { // partial uploaded (error)
+	$form = new Form;
+	$input = $form->addUpload('partial')
+		->setRequired();
+
+	Assert::false($form->isValid());
+	Assert::equal(new FileUpload([
+		'name' => 'license.txt',
+		'type' => '',
+		'tmp_name' => __DIR__ . '/files/logo.gif',
+		'error' => UPLOAD_ERR_PARTIAL,
+		'size' => 3013,
+	]), $input->getValue());
+	Assert::true($input->isFilled());
 	Assert::false($input->isOk());
 });
 
