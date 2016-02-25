@@ -112,6 +112,8 @@ class Helpers extends Nette\Object
 				];
 				if ($rule->branch->getToggles()) {
 					$item['toggle'] = $rule->branch->getToggles();
+				} elseif (!$item['rules']) {
+					continue;
 				}
 			} else {
 				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => Validator::formatMessage($rule, FALSE)];
