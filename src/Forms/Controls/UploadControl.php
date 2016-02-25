@@ -17,6 +17,9 @@ use Nette\Http\FileUpload;
 class UploadControl extends BaseControl
 {
 
+	/** validation rule */
+	const VALID = ':uploadControlValid';
+
 	/**
 	 * @param  string  label
 	 * @param  bool  allows to upload multiple files
@@ -86,7 +89,36 @@ class UploadControl extends BaseControl
 	 */
 	public function isFilled()
 	{
-		return $this->value instanceof FileUpload ? $this->value->isOk() : (bool) $this->value; // ignore NULL object
+		return $this->value instanceof FileUpload ? $this->value->getError() !== UPLOAD_ERR_NO_FILE : (bool) $this->value; // ignore NULL object
+	}
+
+
+	/**
+	 * Has been all files succesfully uploaded?
+	 * @return bool
+	 */
+	public function isOk()
+	{
+		if ($this->control->multiple) {
+			return !empty($this->value) && array_reduce($this->value, function($carry, $fileUpload){
+				return $carry && $fileUpload instanceof FileUpload && $fileUpload->isOk();
+			}, TRUE);
+		}
+
+		return $this->value instanceof FileUpload && $this->value->isOk();
+	}
+
+
+	/**
+	 * Performs the server side validation.
+	 * @return void
+	 */
+	public function validate()
+	{
+		parent::validate();
+		if (!$this->isDisabled() && $this->isFilled() && !$this->isOk()) {
+			$this->addError(Nette\Forms\Validator::$messages[self::VALID]);
+		}
 	}
 
 }
