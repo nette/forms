@@ -68,6 +68,7 @@ test(function () {
 		'error' => 0,
 	]), $input->getValue());
 	Assert::true($input->isFilled());
+	Assert::true($input->isOk());
 });
 
 
@@ -84,6 +85,7 @@ test(function () { // container
 		'error' => 0,
 	]), $input->getValue());
 	Assert::true($input->isFilled());
+	Assert::true($input->isOk());
 });
 
 
@@ -106,6 +108,7 @@ test(function () { // multiple (in container)
 		'error' => 0,
 	])], $input->getValue());
 	Assert::true($input->isFilled());
+	Assert::true($input->isOk());
 });
 
 
@@ -117,6 +120,7 @@ test(function () { // missing data
 	Assert::false($form->isValid());
 	Assert::equal([], $input->getValue());
 	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
 });
 
 
@@ -128,6 +132,7 @@ test(function () { // empty data
 	Assert::false($form->isValid());
 	Assert::equal(new FileUpload([]), $input->getValue());
 	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
 });
 
 
@@ -138,6 +143,7 @@ test(function () { // malformed data
 	Assert::true($form->isValid());
 	Assert::equal(new FileUpload([]), $input->getValue());
 	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
 
 	$form = new Form;
 	$input = $form->addUpload('invalid2');
@@ -145,6 +151,7 @@ test(function () { // malformed data
 	Assert::true($form->isValid());
 	Assert::equal(new FileUpload([]), $input->getValue());
 	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
 
 	$form = new Form;
 	$input = $form->addMultiUpload('avatar');
@@ -152,6 +159,7 @@ test(function () { // malformed data
 	Assert::true($form->isValid());
 	Assert::equal([], $input->getValue());
 	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
 
 	$form = new Form;
 	$input = $form->addContainer('multiple')->addUpload('avatar');
@@ -159,6 +167,7 @@ test(function () { // malformed data
 	Assert::true($form->isValid());
 	Assert::equal(new FileUpload([]), $input->getValue());
 	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
 });
 
 
