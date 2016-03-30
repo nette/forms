@@ -6,6 +6,7 @@
 
 use Nette\Forms\Form;
 use Nette\Utils\ArrayHash;
+use Nette\Forms\Controls\TextInput;
 use Tester\Assert;
 
 
@@ -19,3 +20,8 @@ $form->addText('omittedInput')
 	->setOmitted();
 
 Assert::same(['input' => ''], $form->getValues(TRUE));
+
+
+Assert::true((new TextInput)->setDisabled()->isOmitted());
+Assert::false((new TextInput)->setDisabled()->setDisabled(FALSE)->isOmitted());
+Assert::false((new TextInput)->setDisabled()->setOmitted(FALSE)->isOmitted());

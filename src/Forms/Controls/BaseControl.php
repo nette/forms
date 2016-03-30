@@ -52,8 +52,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var bool */
 	protected $disabled = FALSE;
 
-	/** @var bool */
-	private $omitted = FALSE;
+	/** @var bool|NULL */
+	private $omitted;
 
 	/** @var Nette\Forms\Rules */
 	private $rules;
@@ -225,7 +225,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function isOmitted()
 	{
-		return $this->omitted || $this->disabled;
+		return $this->omitted || ($this->disabled && $this->omitted === NULL);
 	}
 
 
