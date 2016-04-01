@@ -19,3 +19,22 @@ $form->addText('omittedInput')
 	->setOmitted();
 
 Assert::same(['input' => ''], $form->getValues(TRUE));
+
+
+$form = new Form('name');
+$form->addText('input')
+	->setDisabled()->setDisabled(FALSE);
+
+Assert::same(['input' => ''], $form->getValues(TRUE));
+
+$form = new Form('name');
+$form->addText('input')
+	->setDisabled()->setOmitted(FALSE);
+
+Assert::same(['input' => ''], $form->getValues(TRUE));
+
+$form = new Form('name');
+$form->addText('input')
+	->setDisabled();
+
+Assert::same([], $form->getValues(TRUE));
