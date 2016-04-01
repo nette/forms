@@ -389,11 +389,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Adds button used to submit form.
 	 * @param  string  control name
 	 * @param  string  caption
-	 * @return Nette\Forms\Controls\SubmitButton
+	 * @return Nette\Forms\Controls\Button
 	 */
 	public function addSubmit($name, $caption = NULL)
 	{
-		return $this[$name] = new Controls\SubmitButton($caption);
+		return $this[$name] = new Controls\Button($caption);
 	}
 
 
@@ -405,7 +405,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addButton($name, $caption = NULL)
 	{
-		return $this[$name] = new Controls\Button($caption);
+		$control = new Controls\Button($caption);
+		$control->setAttribute('type', 'button');
+		return $this[$name] = $control;
 	}
 
 

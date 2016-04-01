@@ -207,7 +207,7 @@ class Validator extends Nette\Object
 	 * Has been button pressed?
 	 * @return bool
 	 */
-	public static function validateSubmitted(Controls\SubmitButton $control)
+	public static function validateSubmitted(Controls\Button $control)
 	{
 		return $control->isSubmittedBy();
 	}
