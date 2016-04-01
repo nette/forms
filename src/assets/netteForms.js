@@ -29,6 +29,7 @@
 'use strict';
 
 var Nette = {};
+Nette.errors = [];
 
 /**
  * Attaches a handler to an event for the element.
@@ -213,11 +214,9 @@ Nette.validateForm = function(sender) {
 			continue;
 		}
 
-		if (!Nette.validateControl(elem)) {
-			return false;
-		}
+		Nette.validateControl(elem);
 	}
-	return true;
+	return Nette.showErrors();
 };
 
 
@@ -238,15 +237,57 @@ Nette.isDisabled = function(elem) {
 
 
 /**
- * Display error message.
+ * Adds error message to the queue.
  */
 Nette.addError = function(elem, message) {
-	if (message) {
-		alert(message);
+	Nette.errors.push({
+		elem: elem,
+		message: message
+	});
+};
+
+
+/**
+ * Display error messages.
+ */
+Nette.showErrors = function() {
+	var messages = [];
+	var focusElem;
+
+	for (var i in Nette.errors) {
+		var obj = Nette.errors[i];
+		var elem = obj.elem;
+		var message = obj.message;
+
+		if (messages.indexOf(message) === -1) {
+			messages.push(message);
+
+			if (!focusElem && elem.focus) {
+				focusElem = elem;
+			}
+		}
 	}
-	if (elem.focus) {
-		elem.focus();
+
+	Nette.errors = [];
+	if (messages.length) {
+		Nette.alert(messages.join('\n'));
+
+		if (focusElem) {
+			focusElem.focus();
+		}
+
+		return false;
 	}
+
+	return true;
+};
+
+
+/**
+ * Shows an alert.
+ */
+Nette.alert = function(message) {
+	alert(message);
 };
 
 
