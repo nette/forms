@@ -438,6 +438,27 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
+	/********************* extension methods ****************d*g**/
+
+
+	public function __call($name, $args)
+	{
+		if ($callback = Nette\Utils\ObjectMixin::getExtensionMethod(__CLASS__, $name)) {
+			return Nette\Utils\Callback::invoke($callback, $this, ...$args);
+		}
+		return parent::__call($name, $args);
+	}
+
+
+	public static function extensionMethod($name, $callback = NULL)
+	{
+		if (strpos($name, '::') !== FALSE) { // back compatibility
+			list(, $name) = explode('::', $name);
+		}
+		Nette\Utils\ObjectMixin::setExtensionMethod(__CLASS__, $name, $callback);
+	}
+
+
 	/********************* interface \ArrayAccess ****************d*g**/
 
 
