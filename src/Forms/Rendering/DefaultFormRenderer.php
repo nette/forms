@@ -14,8 +14,10 @@ use Nette\Utils\Html;
 /**
  * Converts a Form into the HTML output.
  */
-class DefaultFormRenderer extends Nette\Object implements Nette\Forms\IFormRenderer
+class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 {
+	use Nette\SmartObject;
+
 	/**
 	 *  /--- form.container
 	 *

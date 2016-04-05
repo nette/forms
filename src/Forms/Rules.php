@@ -13,8 +13,10 @@ use Nette;
 /**
  * List of validation & condition rules.
  */
-class Rules extends Nette\Object implements \IteratorAggregate
+class Rules implements \IteratorAggregate
 {
+	use Nette\SmartObject;
+
 	/** @deprecated */
 	public static $defaultMessages;
 

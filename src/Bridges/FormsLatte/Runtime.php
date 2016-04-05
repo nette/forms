@@ -16,8 +16,9 @@ use Nette\Forms\Form;
  * Runtime helpers for Latte.
  * @internal
  */
-class Runtime extends Nette\Object
+class Runtime
 {
+	use Nette\StaticClass;
 
 	/**
 	 * Renders form begin.

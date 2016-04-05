@@ -15,8 +15,10 @@ use Nette\Utils\Validators;
 /**
  * Common validators.
  */
-class Validator extends Nette\Object
+class Validator
 {
+	use Nette\StaticClass;
+
 	/** @var array */
 	public static $messages = [
 		Form::PROTECTION => 'Your session has expired. Please return to the home page and try again.',

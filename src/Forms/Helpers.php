@@ -15,8 +15,10 @@ use Nette\Utils\Html;
 /**
  * Forms helpers.
  */
-class Helpers extends Nette\Object
+class Helpers
 {
+	use Nette\StaticClass;
+
 	private static $unsafeNames = [
 		'attributes', 'children', 'elements', 'focus', 'length', 'reset', 'style', 'submit', 'onsubmit', 'form',
 		'presenter', 'action',

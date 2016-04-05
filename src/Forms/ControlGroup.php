@@ -13,8 +13,10 @@ use Nette;
 /**
  * A user group of form controls.
  */
-class ControlGroup extends Nette\Object
+class ControlGroup
 {
+	use Nette\SmartObject;
+
 	/** @var \SplObjectStorage */
 	protected $controls;
 

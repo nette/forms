@@ -13,8 +13,10 @@ use Nette;
 /**
  * Single validation rule or condition represented as value object.
  */
-class Rule extends Nette\Object
+class Rule
 {
+	use Nette\SmartObject;
+
 	/** @var IControl */
 	public $control;
 
