@@ -92,7 +92,7 @@ abstract class TextBase extends BaseControl
 	 */
 	public function addFilter($filter)
 	{
-		$this->rules->addFilter($filter);
+		$this->getRules()->addFilter($filter);
 		return $this;
 	}
 

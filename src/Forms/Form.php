@@ -15,6 +15,9 @@ use Nette;
  *
  * @property-read array $errors
  * @property-read Nette\Utils\Html $elementPrototype
+ * @property-read IFormRenderer $renderer
+ * @property string $action
+ * @property string $method
  */
 class Form extends Container implements Nette\Utils\IHtmlString
 {
