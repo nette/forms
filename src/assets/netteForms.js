@@ -255,7 +255,10 @@ Nette.addError = function(elem, message) {
  */
 Nette.expandRuleArgument = function(form, arg) {
 	if (arg && arg.control) {
-		arg = Nette.getEffectiveValue(form.elements.namedItem(arg.control));
+		var control = form.elements.namedItem(arg.control),
+			value = {value: Nette.getEffectiveValue(control)};
+		Nette.validateControl(control, null, true, value);
+		arg = value.value;
 	}
 	return arg;
 };
