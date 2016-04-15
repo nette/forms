@@ -28,6 +28,7 @@ use Nette\Forms\Form;
  * @property-read Html $labelPrototype
  * @property   bool $required
  * @property-read array $errors
+ * @property-read string $error
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements IControl
 {

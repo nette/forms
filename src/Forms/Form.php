@@ -14,6 +14,7 @@ use Nette;
  * Creates, validates and renders HTML forms.
  *
  * @property-read array $errors
+ * @property-read array $ownErrors
  * @property-read Nette\Utils\Html $elementPrototype
  * @property-read IFormRenderer $renderer
  * @property string $action
