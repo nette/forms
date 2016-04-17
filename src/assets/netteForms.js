@@ -537,10 +537,11 @@ Nette.initForm = function(form) {
 		if (!Nette.validateForm(form)) {
 			if (e && e.stopPropagation) {
 				e.stopPropagation();
+				e.preventDefault();
 			} else if (window.event) {
 				event.cancelBubble = true;
+				event.returnValue = false;
 			}
-			return false;
 		}
 	});
 
