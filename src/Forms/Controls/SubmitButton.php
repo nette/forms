@@ -15,7 +15,7 @@ use Nette;
  *
  * @property-read bool $submittedBy
  */
-class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
+class SubmitButton extends Button implements Nette\Forms\ISubmitterControl, Nette\Utils\IExtensibleMethods
 {
 	/** @var callable[]  function (SubmitButton $sender); Occurs when the button is clicked and form is successfully validated */
 	public $onClick;
@@ -28,7 +28,7 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 
 	/**
-	 * @param  string  caption
+	 * @param string $caption caption
 	 */
 	public function __construct($caption = NULL)
 	{
@@ -63,7 +63,8 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 	/**
 	 * Sets the validation scope. Clicking the button validates only the controls within the specified scope.
-	 * @return self
+	 * 
+	 * @return static
 	 */
 	public function setValidationScope(/*array*/$scope = NULL)
 	{
@@ -104,7 +105,7 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 	/**
 	 * Generates control's HTML element.
-	 * @param  string
+	 * @param  string $caption
 	 * @return Nette\Utils\Html
 	 */
 	public function getControl($caption = NULL)
