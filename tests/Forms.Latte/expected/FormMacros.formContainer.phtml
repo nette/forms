@@ -1,8 +1,12 @@
 <?php
+// source: %A%
+
+class Template%a% extends Latte\Template
+{
+
+	function render()
+	{
 %A%
-//
-// main template
-//
 echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], []) ?>
 
 <table>
@@ -23,7 +27,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 		<th>Checkboxes</th>
 		<td>
 <?php $_formStack[] = $_form; $formContainer = $_form = $_form["cont2"] ?>			<ol>
-<?php %a% foreach ($formContainer->controls AS $name => $field) { ?>
+<?php $%a% foreach ($formContainer->controls AS $name => $field) { ?>
 				<li><?php $_input = is_object($field) ? $field : $_form[$field]; echo $_input->getControl() ?></li>
 <?php $iterations++; } ?>			</ol>
 <?php $formContainer = $_form = array_pop($_formStack) ?>
@@ -52,4 +56,6 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 <?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
 
 <?php
-%A%
+	}
+
+}

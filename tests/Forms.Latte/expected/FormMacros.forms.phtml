@@ -1,4 +1,11 @@
 <?php
+// source: %A%
+
+class Template%a% extends Latte\Template
+{
+
+	function render()
+	{
 %A%
 echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], ['id' => 'myForm', 'class'=>"ajax"]) ?>
 
@@ -7,9 +14,9 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 
 		<?php $_input = is_object($name) ? $name : $_form[$name]; echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
 
-		<?php echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
+		<?php echo LFilters::escapeHtmlText($_input->getError()) ?>
 
-		<?php $_input = is_object($name) ? $name : $_form[$name]; echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
+		<?php $_input = is_object($name) ? $name : $_form[$name]; echo LFilters::escapeHtmlText($_input->getError()) ?>
 
 
 		<br>
@@ -18,7 +25,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
  <?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
  <?php if ($_label) echo $_label->endTag() ?>
 
-		<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo Latte\Runtime\Filters::escapeHtml($_input->getError(), ENT_NOQUOTES) ?>
+		<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo LFilters::escapeHtmlText($_input->getError()) ?>
 
 <?php $iterations++; } ?>
 
@@ -51,7 +58,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 
 <?php %a% foreach ($form['sex']->items as $key => $label) { ?>
 	<?php if ($_label = $_form["sex"]->getLabelPart($key)) echo $_label->startTag() ?>
- <?php echo $_form["sex"]->getControlPart($key) ?> <?php echo Latte\Runtime\Filters::escapeHtml($label, ENT_NOQUOTES) ;if ($_label) echo $_label->endTag() ?>
+ <?php echo $_form["sex"]->getControlPart($key) ?> <?php echo LFilters::escapeHtmlText($label) ;if ($_label) echo $_label->endTag() ?>
 
 	<label title=hello<?php $_input = $_form["sex"]; echo $_input->getLabelPart($key)->addAttributes(array (
   'title' => NULL,
@@ -83,7 +90,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 
 <?php %a% foreach ($form['checklist']->items as $key => $label) { ?>
 	<?php if ($_label = $_form["checklist"]->getLabelPart($key)) echo $_label->startTag() ?>
- <?php echo $_form["checklist"]->getControlPart($key) ?> <?php echo Latte\Runtime\Filters::escapeHtml($label, ENT_NOQUOTES) ;if ($_label) echo $_label->endTag() ?>
+ <?php echo $_form["checklist"]->getControlPart($key) ?> <?php echo LFilters::escapeHtmlText($label) ;if ($_label) echo $_label->endTag() ?>
 
 	<label<?php $_input = $_form["checklist"]; echo $_input->getLabelPart($key)->attributes() ?>
 > <input title=hello<?php $_input = $_form["checklist"]; echo $_input->getControlPart($key)->addAttributes(array (
@@ -117,8 +124,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 ><?php echo $_input->getControl()->getHtml() ?></select>
 
 
-<textarea title="<?php echo Latte\Runtime\Filters::escapeHtml(10, ENT_COMPAT) ?>
-"<?php $_input = $_form["area"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->addAttributes(array (
+<textarea title="<?php echo LFilters::escapeHtmlAttr(10) ?>"<?php $_input = $_form["area"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->addAttributes(array (
   'title' => NULL,
 ))->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></textarea>
 
@@ -126,4 +132,6 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 <select<?php $_input = $_form["select"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>
 ><?php echo $_input->getControl()->getHtml() ?></select>
 <?php
-%A%
+	}
+
+}
