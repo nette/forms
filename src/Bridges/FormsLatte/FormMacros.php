@@ -193,20 +193,19 @@ class FormMacros extends MacroSet
 
 	public function macroNameEnd(MacroNode $node, PhpWriter $writer)
 	{
-		preg_match('#^(.*? n:\w+>)(.*)(<[^?].*)\z#s', $node->content, $parts);
 		$tagName = strtolower($node->htmlNode->name);
 		if ($tagName === 'form') {
-			$node->content = $parts[1] . $parts[2] . '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?>' . $parts[3];
+			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?>';
 		} elseif ($tagName === 'label') {
 			if ($node->htmlNode->isEmpty) {
-				$node->content = $parts[1] . "<?php echo \$_input->{method_exists(\$_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?>" . $parts[3];
+				$node->innerContent = "<?php echo \$_input->{method_exists(\$_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?>";
 			}
 		} elseif ($tagName === 'button') {
 			if ($node->htmlNode->isEmpty) {
-				$node->content = $parts[1] . '<?php echo htmlspecialchars($_input->caption) ?>' . $parts[3];
+				$node->innerContent = '<?php echo htmlspecialchars($_input->caption) ?>';
 			}
 		} else { // select, textarea
-			$node->content = $parts[1] . '<?php echo $_input->getControl()->getHtml() ?>' . $parts[3];
+			$node->innerContent = '<?php echo $_input->getControl()->getHtml() ?>';
 		}
 	}
 
