@@ -6,50 +6,80 @@ class Template%a% extends Latte\Template
 
 	function render()
 	{
-%A%
-echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], []) ?>
+		extract($this->params);
+		// prolog Latte\Macros\CoreMacros
+		if ($this->initialize($_b, $_l, $_g)) return;
+
+		// main template
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], []) ?>
 
 <table>
 	<tr>
-		<th><?php if ($_label = $_form["input1"]->getLabel()) echo $_label  ?></th>
+		<th><?php if ($_label = $_form["input1"]->getLabel()) echo $_label ?></th>
 		<td><?php echo $_form["input1"]->getControl() ?></td>
 	</tr>
-<?php $_formStack[] = $_form; $formContainer = $_form = $_form["cont1"] ?>
+<?php
+		$_formStack[] = $_form;
+		$formContainer = $_form = $_form["cont1"] ?>
 	<tr>
-		<th><?php if ($_label = $_form["input2"]->getLabel()) echo $_label  ?></th>
+		<th><?php if ($_label = $_form["input2"]->getLabel()) echo $_label ?></th>
 		<td><?php echo $_form["input2"]->getControl() ?></td>
 	</tr>
 	<tr>
-		<th><?php if ($_label = $_form["input3"]->getLabel()) echo $_label  ?></th>
+		<th><?php if ($_label = $_form["input3"]->getLabel()) echo $_label ?></th>
 		<td><?php echo $_form["input3"]->getControl() ?></td>
 	</tr>
 	<tr>
 		<th>Checkboxes</th>
 		<td>
-<?php $_formStack[] = $_form; $formContainer = $_form = $_form["cont2"] ?>			<ol>
-<?php $%a% foreach ($formContainer->controls AS $name => $field) { ?>
-				<li><?php $_input = is_object($field) ? $field : $_form[$field]; echo $_input->getControl() ?></li>
-<?php $iterations++; } ?>			</ol>
+<?php
+		$_formStack[] = $_form;
+		$formContainer = $_form = $_form["cont2"] ?>			<ol>
+<?php
+		$iterations = 0;
+		if (isset($this->params['name'])) trigger_error('Variable $name overwritten in foreach.');
+		if (isset($this->params['field'])) trigger_error('Variable $field overwritten in foreach.');
+		foreach ($formContainer->controls AS $name => $field) {
+			?>				<li><?php
+			$_input = is_object($field) ? $field : $_form[$field];
+			echo $_input->getControl() ?></li>
+<?php
+			$iterations++;
+		}
+		?>			</ol>
 <?php $formContainer = $_form = array_pop($_formStack) ?>
 		</td>
 	</tr>
 	<tr>
-		<th><?php if ($_label = $_form["input7"]->getLabel()) echo $_label  ?></th>
+		<th><?php if ($_label = $_form["input7"]->getLabel()) echo $_label ?></th>
 		<td><?php echo $_form["input7"]->getControl() ?></td>
 	</tr>
-<?php $formContainer = $_form = array_pop($_formStack) ;$_formStack[] = $_form; $formContainer = $_form = $_form["items"] ?>
+<?php
+		$formContainer = $_form = array_pop($_formStack);
+		$_formStack[] = $_form;
+		$formContainer = $_form = $_form["items"] ?>
 	<tr>
 		<th>Items</th>
 		<td>
-<?php $items = array(1, 2, 3) ;%a% foreach ($items as $item) { if (!isset($formContainer[$item])) continue ;$_formStack[] = $_form; $formContainer = $_form = is_object($item) ? $item : $_form[$item] ?>
-				<?php echo $_form["input"]->getControl() ?>
+<?php
+		$items = array(1, 2, 3);
+		$iterations = 0;
+		if (isset($this->params['item'])) trigger_error('Variable $item overwritten in foreach.');
+		foreach ($items as $item) {
+			if (!isset($formContainer[$item])) continue;
+			$_formStack[] = $_form;
+			$formContainer = $_form = is_object($item) ? $item : $_form[$item] ?>				<?php echo $_form["input"]->getControl() ?>
 
-<?php $formContainer = $_form = array_pop($_formStack) ;$iterations++; } ?>
+<?php
+			$formContainer = $_form = array_pop($_formStack);
+			$iterations++;
+		}
+		?>
 		</td>
 	</tr>
 <?php $formContainer = $_form = array_pop($_formStack) ?>
 	<tr>
-		<th><?php if ($_label = $_form["input8"]->getLabel()) echo $_label  ?></th>
+		<th><?php if ($_label = $_form["input8"]->getLabel()) echo $_label ?></th>
 		<td><?php echo $_form["input8"]->getControl() ?></td>
 	</tr>
 </table>

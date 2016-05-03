@@ -7,130 +7,222 @@ class Template%a% extends Latte\Template
 	function render()
 	{
 %A%
-echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], ['id' => 'myForm', 'class'=>"ajax"]) ?>
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], ['id' => 'myForm', 'class'=>"ajax"]) ?>
 
-<?php %a% foreach (['id', 'username', 'select', 'area', 'send'] as $name) { ?>
-		<?php $_input = is_object($name) ? $name : $_form[$name]; if ($_label = $_input->getLabel()) echo $_label  ?>
+<?php
+		$iterations = 0;
+		if (isset($this->params['name'])) trigger_error('Variable $name overwritten in foreach.');
+		foreach (['id', 'username', 'select', 'area', 'send'] as $name) {
+			?>		<?php
+			$_input = is_object($name) ? $name : $_form[$name];
+			if ($_label = $_input->getLabel()) echo $_label ?>
 
-		<?php $_input = is_object($name) ? $name : $_form[$name]; echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
+		<?php
+			$_input = is_object($name) ? $name : $_form[$name];
+			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
 
 		<?php echo LFilters::escapeHtmlText($_input->getError()) ?>
 
-		<?php $_input = is_object($name) ? $name : $_form[$name]; echo LFilters::escapeHtmlText($_input->getError()) ?>
+		<?php
+			$_input = is_object($name) ? $name : $_form[$name];
+			echo LFilters::escapeHtmlText($_input->getError()) ?>
 
 
 		<br>
 
-		<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; if ($_label = $_input->getLabel()) echo $_label->addAttributes(['title' => 'hello'])->startTag() ?>
- <?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
- <?php if ($_label) echo $_label->endTag() ?>
+		<?php
+			$_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]];
+			if ($_label = $_input->getLabel()) echo $_label->addAttributes(['title' => 'hello'])->startTag() ?> <?php
+			$_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]];
+			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?> <?php if ($_label) echo $_label->endTag() ?>
 
-		<?php $_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]]; echo LFilters::escapeHtmlText($_input->getError()) ?>
+		<?php
+			$_input = is_object($form[$name]) ? $form[$name] : $_form[$form[$name]];
+			echo LFilters::escapeHtmlText($_input->getError()) ?>
 
-<?php $iterations++; } ?>
+<?php
+			$iterations++;
+		}
+		?>
 
-	<?php $_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']]; if ($_label = $_input->getLabel()) echo $_label  ?>
+	<?php
+		$_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']];
+		if ($_label = $_input->getLabel()) echo $_label ?>
 
 
-	<LABEL title=hello<?php $_input = $_form["username"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>>Name</LABEL>
-	<input value=val type class="hello"<?php $_input = $_form["username"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->addAttributes(array (
-  'value' => NULL,
-  'type' => NULL,
-  'class' => NULL,
-))->attributes() ?>>
+	<LABEL title=hello<?php
+		$_input = $_form["username"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		'title' => NULL,
+		))->attributes() ?>>Name</LABEL>
+	<input value=val type class="hello"<?php
+		$_input = $_form["username"];
+		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->addAttributes(array (
+		'value' => NULL,
+		'type' => NULL,
+		'class' => NULL,
+		))->attributes() ?>>
 
-	<label<?php $_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
-	<label<?php $_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>
-><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
-	<input<?php $_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
+	<label<?php
+		$_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
+	<label<?php
+		$_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>><?php
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+	<input<?php
+		$_input = is_object($form['username']) ? $form['username'] : $_form[$form['username']];
+		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
 
-	<?php if ($_label = $_form["my"]->getLabel()) echo $_label ; echo $_form["my"]->getControl() ?>
+	<?php
+		if ($_label = $_form["my"]->getLabel()) echo $_label;
+		echo $_form["my"]->getControl() ?>
 
 <?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
 
 
 
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], []) ;echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
+<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], []);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
 
 
 
-<?php %a% foreach ($form['sex']->items as $key => $label) { ?>
-	<?php if ($_label = $_form["sex"]->getLabelPart($key)) echo $_label->startTag() ?>
- <?php echo $_form["sex"]->getControlPart($key) ?> <?php echo LFilters::escapeHtmlText($label) ;if ($_label) echo $_label->endTag() ?>
+<?php
+		$iterations = 0;
+		if (isset($this->params['key'])) trigger_error('Variable $key overwritten in foreach.');
+		if (isset($this->params['label'])) trigger_error('Variable $label overwritten in foreach.');
+		foreach ($form['sex']->items as $key => $label) {
+			?>	<?php if ($_label = $_form["sex"]->getLabelPart($key)) echo $_label->startTag() ?> <?php echo $_form["sex"]->getControlPart($key) ?> <?php
+			echo LFilters::escapeHtmlText($label);
+			if ($_label) echo $_label->endTag() ?>
 
-	<label title=hello<?php $_input = $_form["sex"]; echo $_input->getLabelPart($key)->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>> <input<?php $_input = $_form["sex"]; echo $_input->getControlPart($key)->attributes() ?>> </label>
-<?php $iterations++; } ?>
-<label<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
-<label<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>
-><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
-<label title="hello"<?php $_input = $_form["sex"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
-
-
-<?php if ($_label = $_form["checkbox"]->getLabelPart("")) echo $_label->startTag() ?>
- <?php echo $_form["checkbox"]->getControlPart("") ?> Label<?php if ($_label) echo $_label->endTag() ?>
-
-<label title=hello<?php $_input = $_form["checkbox"]; echo $_input->getLabelPart("")->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>> <input<?php $_input = $_form["checkbox"]; echo $_input->getControlPart("")->attributes() ?>> </label>
-<label title=hello<?php $_input = $_form["checkbox"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>> <input<?php $_input = $_form["checkbox"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>> </label>
-<label<?php $_input = $_form["checkbox"]; echo $_input->getLabelPart("")->attributes() ?>
-><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
-<label title=hello<?php $_input = $_form["checkbox"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
-
-
-<?php %a% foreach ($form['checklist']->items as $key => $label) { ?>
-	<?php if ($_label = $_form["checklist"]->getLabelPart($key)) echo $_label->startTag() ?>
- <?php echo $_form["checklist"]->getControlPart($key) ?> <?php echo LFilters::escapeHtmlText($label) ;if ($_label) echo $_label->endTag() ?>
-
-	<label<?php $_input = $_form["checklist"]; echo $_input->getLabelPart($key)->attributes() ?>
-> <input title=hello<?php $_input = $_form["checklist"]; echo $_input->getControlPart($key)->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>> </label>
-<?php $iterations++; } ?>
-<label<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
-<label<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>
-><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
-<label title="hello"<?php $_input = $_form["checklist"]; echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+	<label title=hello<?php
+			$_input = $_form["sex"];
+			echo $_input->getLabelPart($key)->addAttributes(array (
+			'title' => NULL,
+			))->attributes() ?>> <input<?php
+			$_input = $_form["sex"];
+			echo $_input->getControlPart($key)->attributes() ?>> </label>
+<?php
+			$iterations++;
+		}
+		?><label<?php
+		$_input = $_form["sex"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
+<label<?php
+		$_input = $_form["sex"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>><?php
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+<label title="hello"<?php
+		$_input = $_form["sex"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		'title' => NULL,
+		))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
 
 
-<?php if (1) { ?><form id="myForm" class="ajax"<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
-  'id' => NULL,
-  'class' => NULL,
-), FALSE) ?>>
-	<input<?php $_input = $_form["username"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
+<?php if ($_label = $_form["checkbox"]->getLabelPart("")) echo $_label->startTag() ?> <?php echo $_form["checkbox"]->getControlPart("") ?> Label<?php
+		if ($_label) echo $_label->endTag() ?>
+
+<label title=hello<?php
+		$_input = $_form["checkbox"];
+		echo $_input->getLabelPart("")->addAttributes(array (
+		'title' => NULL,
+		))->attributes() ?>> <input<?php
+		$_input = $_form["checkbox"];
+		echo $_input->getControlPart("")->attributes() ?>> </label>
+<label title=hello<?php
+		$_input = $_form["checkbox"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		'title' => NULL,
+		))->attributes() ?>> <input<?php
+		$_input = $_form["checkbox"];
+		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>> </label>
+<label<?php
+		$_input = $_form["checkbox"];
+		echo $_input->getLabelPart("")->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+<label title=hello<?php
+		$_input = $_form["checkbox"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		'title' => NULL,
+		))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+
+
+<?php
+		$iterations = 0;
+		if (isset($this->params['key'])) trigger_error('Variable $key overwritten in foreach.');
+		if (isset($this->params['label'])) trigger_error('Variable $label overwritten in foreach.');
+		foreach ($form['checklist']->items as $key => $label) {
+			?>	<?php if ($_label = $_form["checklist"]->getLabelPart($key)) echo $_label->startTag() ?> <?php echo $_form["checklist"]->getControlPart($key) ?> <?php
+			echo LFilters::escapeHtmlText($label);
+			if ($_label) echo $_label->endTag() ?>
+
+	<label<?php
+			$_input = $_form["checklist"];
+			echo $_input->getLabelPart($key)->attributes() ?>> <input title=hello<?php
+			$_input = $_form["checklist"];
+			echo $_input->getControlPart($key)->addAttributes(array (
+			'title' => NULL,
+			))->attributes() ?>> </label>
+<?php
+			$iterations++;
+		}
+		?><label<?php
+		$_input = $_form["checklist"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
+<label<?php
+		$_input = $_form["checklist"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>><?php
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+<label title="hello"<?php
+		$_input = $_form["checklist"];
+		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		'title' => NULL,
+		))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+
+
+<?php
+		if (1) {
+			?><form id="myForm" class="ajax"<?php
+			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
+			'id' => NULL,
+			'class' => NULL,
+			), FALSE) ?>>
+	<input<?php
+			$_input = $_form["username"];
+			echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
 <?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?></form>
-<?php } ?>
+<?php
+		}
+		?>
 
 
-<FORM<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = is_object($_control['myForm']) ? $_control['myForm'] : $_control[$_control['myForm']], array (
-), FALSE) ?>>
-	<input<?php $_input = $_form["username"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
+<FORM<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = is_object($_control['myForm']) ? $_control['myForm'] : $_control[$_control['myForm']], array (
+		), FALSE) ?>>
+	<input<?php
+		$_input = $_form["username"];
+		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
 <?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?></FORM>
 
 
-<select<?php $_input = $_form["select"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>
-><?php echo $_input->getControl()->getHtml() ?></select>
+<select<?php
+		$_input = $_form["select"];
+		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>><?php
+		echo $_input->getControl()->getHtml() ?></select>
 
 
-<textarea title="<?php echo LFilters::escapeHtmlAttr(10) ?>"<?php $_input = $_form["area"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->addAttributes(array (
-  'title' => NULL,
-))->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></textarea>
+<textarea title="<?php echo LFilters::escapeHtmlAttr(10) ?>"<?php
+		$_input = $_form["area"];
+		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->addAttributes(array (
+		'title' => NULL,
+		))->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></textarea>
 
 
-<select<?php $_input = $_form["select"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>
-><?php echo $_input->getControl()->getHtml() ?></select>
+<select<?php
+		$_input = $_form["select"];
+		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>><?php
+		echo $_input->getControl()->getHtml() ?></select>
 <?php
 	}
 
