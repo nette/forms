@@ -58,6 +58,7 @@ class FormMacros extends MacroSet
 		if ($name === FALSE) {
 			throw new CompileException("Missing form name in {{$node->name}}.");
 		}
+		$node->replaced = true;
 		$node->tokenizer->reset();
 		return $writer->write(
 			'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = '
@@ -98,6 +99,7 @@ class FormMacros extends MacroSet
 		if (!$words) {
 			throw new CompileException("Missing name in {{$node->name}}.");
 		}
+		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
 			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : $_form[%0.word]; if ($_label = $_input' : 'if ($_label = $_form[%0.word]')
@@ -133,6 +135,7 @@ class FormMacros extends MacroSet
 		if (!$words) {
 			throw new CompileException("Missing name in {{$node->name}}.");
 		}
+		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
 			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : $_form[%0.word]; echo $_input' : 'echo $_form[%0.word]')
@@ -219,6 +222,7 @@ class FormMacros extends MacroSet
 			throw new CompileException("Modifiers are not allowed in {{$node->name}}");
 		}
 		$name = $node->tokenizer->fetchWord();
+		$node->replaced = true;
 		if (!$name) {
 			return $writer->write('echo %escape($_input->getError())');
 		} elseif ($name[0] === '$') {
