@@ -63,7 +63,7 @@ class FormMacros extends MacroSet
 		return $writer->write(
 			'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = '
 			. ($name[0] === '$' ? 'is_object(%node.word) ? %node.word : ' : '')
-			. '$_control[%node.word], %node.array)'
+			. '$this->global->uiControl[%node.word], %node.array)'
 		);
 	}
 
@@ -164,7 +164,7 @@ class FormMacros extends MacroSet
 			return $writer->write(
 				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = '
 					. ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
-					. '$_control[%0.word], %1.var, FALSE)',
+					. '$this->global->uiControl[%0.word], %1.var, FALSE)',
 				$name,
 				array_fill_keys(array_keys($node->htmlNode->attrs), NULL)
 			);

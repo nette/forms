@@ -39,6 +39,7 @@ $form['my'] = new MyControl;
 
 $latte = new Latte\Engine;
 FormMacros::install($latte->getCompiler());
+$latte->addProvider('uiControl', ['myForm' => $form]);
 
 $form['username']->addError('error');
 
@@ -48,8 +49,5 @@ Assert::matchFile(
 );
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.forms.html',
-	$latte->renderToString(
-		__DIR__ . '/templates/forms.latte',
-		['_control' => ['myForm' => $form]]
-	)
+	$latte->renderToString(__DIR__ . '/templates/forms.latte')
 );

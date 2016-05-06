@@ -38,6 +38,7 @@ $form->addSubmit('input8', 'Input 8');
 
 $latte = new Latte\Engine;
 FormMacros::install($latte->getCompiler());
+$latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.formContainer.phtml',
@@ -45,8 +46,5 @@ Assert::matchFile(
 );
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.formContainer.html',
-	$latte->renderToString(
-		__DIR__ . '/templates/forms.formContainer.latte',
-		['_control' => ['myForm' => $form]]
-	)
+	$latte->renderToString(__DIR__ . '/templates/forms.formContainer.latte')
 );

@@ -17,6 +17,7 @@ $form->addSubmit('send', 'Sign in');
 
 $latte = new Latte\Engine;
 FormMacros::install($latte->getCompiler());
+$latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.button.phtml',
@@ -25,8 +26,5 @@ Assert::matchFile(
 
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.button.html',
-	$latte->renderToString(
-		__DIR__ . '/templates/forms.button.latte',
-		['_control' => ['myForm' => $form]]
-	)
+	$latte->renderToString(__DIR__ . '/templates/forms.button.latte')
 );

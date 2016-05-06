@@ -7,7 +7,7 @@ class Template%a% extends Latte\Template
 	function render()
 	{
 %A%<form<?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array (
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->uiControl["myForm"], array (
 		), FALSE) ?>>
 	<button<?php
 		$_input = $_form["send"];
