@@ -7,53 +7,53 @@ class Template%a% extends Latte\Template
 	function render()
 	{
 %A%
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->uiControl["myForm"], []) ?>
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsCurrent = $this->global->uiControl["myForm"], []) ?>
 
 <table>
 	<tr>
-		<th><?php if ($_label = $_form["input1"]->getLabel()) echo $_label ?></th>
-		<td><?php echo $_form["input1"]->getControl() ?></td>
+		<th><?php if ($_label = $this->global->formsCurrent["input1"]->getLabel()) echo $_label ?></th>
+		<td><?php echo $this->global->formsCurrent["input1"]->getControl() ?></td>
 	</tr>
 <?php
-		$_formStack[] = $_form;
-		$formContainer = $_form = $_form["cont1"] ?>
+		$this->global->formsStack[] = $this->global->formsCurrent;
+		$formContainer = $_form = $this->global->formsCurrent = $this->global->formsCurrent["cont1"] ?>
 	<tr>
-		<th><?php if ($_label = $_form["input2"]->getLabel()) echo $_label ?></th>
-		<td><?php echo $_form["input2"]->getControl() ?></td>
+		<th><?php if ($_label = $this->global->formsCurrent["input2"]->getLabel()) echo $_label ?></th>
+		<td><?php echo $this->global->formsCurrent["input2"]->getControl() ?></td>
 	</tr>
 	<tr>
-		<th><?php if ($_label = $_form["input3"]->getLabel()) echo $_label ?></th>
-		<td><?php echo $_form["input3"]->getControl() ?></td>
+		<th><?php if ($_label = $this->global->formsCurrent["input3"]->getLabel()) echo $_label ?></th>
+		<td><?php echo $this->global->formsCurrent["input3"]->getControl() ?></td>
 	</tr>
 	<tr>
 		<th>Checkboxes</th>
 		<td>
 <?php
-		$_formStack[] = $_form;
-		$formContainer = $_form = $_form["cont2"] ?>			<ol>
+		$this->global->formsStack[] = $this->global->formsCurrent;
+		$formContainer = $_form = $this->global->formsCurrent = $this->global->formsCurrent["cont2"] ?>			<ol>
 <?php
 		$iterations = 0;
 		if (isset($this->params['name'])) trigger_error('Variable $name overwritten in foreach.');
 		if (isset($this->params['field'])) trigger_error('Variable $field overwritten in foreach.');
 		foreach ($formContainer->controls AS $name => $field) {
 			?>				<li><?php
-			$_input = is_object($field) ? $field : $_form[$field];
+			$_input = is_object($field) ? $field : $this->global->formsCurrent[$field];
 			echo $_input->getControl() ?></li>
 <?php
 			$iterations++;
 		}
 		?>			</ol>
-<?php $formContainer = $_form = array_pop($_formStack) ?>
+<?php $formContainer = $_form = $this->global->formsCurrent = array_pop($this->global->formsStack) ?>
 		</td>
 	</tr>
 	<tr>
-		<th><?php if ($_label = $_form["input7"]->getLabel()) echo $_label ?></th>
-		<td><?php echo $_form["input7"]->getControl() ?></td>
+		<th><?php if ($_label = $this->global->formsCurrent["input7"]->getLabel()) echo $_label ?></th>
+		<td><?php echo $this->global->formsCurrent["input7"]->getControl() ?></td>
 	</tr>
 <?php
-		$formContainer = $_form = array_pop($_formStack);
-		$_formStack[] = $_form;
-		$formContainer = $_form = $_form["items"] ?>
+		$formContainer = $_form = $this->global->formsCurrent = array_pop($this->global->formsStack);
+		$this->global->formsStack[] = $this->global->formsCurrent;
+		$formContainer = $_form = $this->global->formsCurrent = $this->global->formsCurrent["items"] ?>
 	<tr>
 		<th>Items</th>
 		<td>
@@ -63,23 +63,24 @@ class Template%a% extends Latte\Template
 		if (isset($this->params['item'])) trigger_error('Variable $item overwritten in foreach.');
 		foreach ($items as $item) {
 			if (!isset($formContainer[$item])) continue;
-			$_formStack[] = $_form;
-			$formContainer = $_form = is_object($item) ? $item : $_form[$item] ?>				<?php echo $_form["input"]->getControl() ?>
+			$this->global->formsStack[] = $this->global->formsCurrent;
+			$formContainer = $_form = $this->global->formsCurrent = is_object($item) ? $item : $this->global->formsCurrent[$item] ?>				<?php
+			echo $this->global->formsCurrent["input"]->getControl() ?>
 
 <?php
-			$formContainer = $_form = array_pop($_formStack);
+			$formContainer = $_form = $this->global->formsCurrent = array_pop($this->global->formsStack);
 			$iterations++;
 		}
 		?>
 		</td>
 	</tr>
-<?php $formContainer = $_form = array_pop($_formStack) ?>
+<?php $formContainer = $_form = $this->global->formsCurrent = array_pop($this->global->formsStack) ?>
 	<tr>
-		<th><?php if ($_label = $_form["input8"]->getLabel()) echo $_label ?></th>
-		<td><?php echo $_form["input8"]->getControl() ?></td>
+		<th><?php if ($_label = $this->global->formsCurrent["input8"]->getLabel()) echo $_label ?></th>
+		<td><?php echo $this->global->formsCurrent["input8"]->getControl() ?></td>
 	</tr>
 </table>
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent) ?>
 
 <?php
 	}

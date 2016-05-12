@@ -7,23 +7,23 @@ class Template%a% extends Latte\Template
 	function render()
 	{
 %A%<form<?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->uiControl["myForm"], array (
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsCurrent = $this->global->uiControl["myForm"], array (
 		), FALSE) ?>>
 	<button<?php
-		$_input = $_form["send"];
+		$_input = $this->global->formsCurrent["send"];
 		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
 		description of button
 	</button>
 
 	<button<?php
-		$_input = $_form["send"];
+		$_input = $this->global->formsCurrent["send"];
 		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>></button>
 
 	<button<?php
-		$_input = $_form["send"];
+		$_input = $this->global->formsCurrent["send"];
 		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>><?php
 		echo htmlspecialchars($_input->caption) ?></button>
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form, FALSE) ?></form>
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent, FALSE) ?></form>
 <?php
 	}
 
