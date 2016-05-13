@@ -266,6 +266,24 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 
 	/**
+	 * @return Nette\Utils\Html|NULL
+	 */
+	public function getControlPart()
+	{
+		return $this->getControl();
+	}
+
+
+	/**
+	 * @return Nette\Utils\Html|NULL
+	 */
+	public function getLabelPart()
+	{
+		return $this->getLabel();
+	}
+
+
+	/**
 	 * Returns control's HTML element template.
 	 * @return Html
 	 */

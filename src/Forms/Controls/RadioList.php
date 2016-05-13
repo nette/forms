@@ -93,7 +93,7 @@ class RadioList extends ChoiceControl
 	/**
 	 * @return Html
 	 */
-	public function getControlPart($key)
+	public function getControlPart($key = NULL)
 	{
 		$key = key([(string) $key => NULL]);
 		return parent::getControl()->addAttributes([

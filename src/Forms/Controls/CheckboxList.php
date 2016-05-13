@@ -81,7 +81,7 @@ class CheckboxList extends MultiChoiceControl
 	/**
 	 * @return Html
 	 */
-	public function getControlPart($key)
+	public function getControlPart($key = NULL)
 	{
 		$key = key([(string) $key => NULL]);
 		return parent::getControl()->addAttributes([
