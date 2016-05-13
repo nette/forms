@@ -52,12 +52,12 @@ class Template%a% extends Latte\Template
 
 	<LABEL title=hello<?php
 		$_input = $this->global->formsCurrent["username"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>>Name</LABEL>
 	<input value=val type class="hello"<?php
 		$_input = $this->global->formsCurrent["username"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->addAttributes(array (
+		echo $_input->getControlPart()->addAttributes(array (
 		'value' => NULL,
 		'type' => NULL,
 		'class' => NULL,
@@ -65,14 +65,13 @@ class Template%a% extends Latte\Template
 
 	<label<?php
 		$_input = is_object($form['username']) ? $form['username'] : $this->global->formsCurrent[$form['username']];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
+		echo $_input->getLabelPart()->attributes() ?>></label>
 	<label<?php
 		$_input = is_object($form['username']) ? $form['username'] : $this->global->formsCurrent[$form['username']];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>><?php
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 	<input<?php
 		$_input = is_object($form['username']) ? $form['username'] : $this->global->formsCurrent[$form['username']];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
+		echo $_input->getControlPart()->attributes() ?>>
 
 	<?php
 		if ($_label = $this->global->formsCurrent["my"]->getLabel()) echo $_label;
@@ -110,16 +109,15 @@ class Template%a% extends Latte\Template
 		}
 		?><label<?php
 		$_input = $this->global->formsCurrent["sex"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
+		echo $_input->getLabelPart()->attributes() ?>></label>
 <label<?php
 		$_input = $this->global->formsCurrent["sex"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>><?php
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title="hello"<?php
 		$_input = $this->global->formsCurrent["sex"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
-		))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 
 
 <?php if ($_label = $this->global->formsCurrent["checkbox"]->getLabelPart("")) echo $_label->startTag() ?> <?php
@@ -134,19 +132,19 @@ class Template%a% extends Latte\Template
 		echo $_input->getControlPart("")->attributes() ?>> </label>
 <label title=hello<?php
 		$_input = $this->global->formsCurrent["checkbox"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>> <input<?php
 		$_input = $this->global->formsCurrent["checkbox"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>> </label>
+		echo $_input->getControlPart()->attributes() ?>> </label>
 <label<?php
 		$_input = $this->global->formsCurrent["checkbox"];
-		echo $_input->getLabelPart("")->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+		echo $_input->getLabelPart("")->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title=hello<?php
 		$_input = $this->global->formsCurrent["checkbox"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
-		))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 
 
 <?php
@@ -171,16 +169,15 @@ class Template%a% extends Latte\Template
 		}
 		?><label<?php
 		$_input = $this->global->formsCurrent["checklist"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>></label>
+		echo $_input->getLabelPart()->attributes() ?>></label>
 <label<?php
 		$_input = $this->global->formsCurrent["checklist"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->attributes() ?>><?php
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title="hello"<?php
 		$_input = $this->global->formsCurrent["checklist"];
-		echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->addAttributes(array (
+		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
-		))->attributes() ?>><?php echo $_input->{method_exists($_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?></label>
+		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 
 
 <?php
@@ -192,7 +189,7 @@ class Template%a% extends Latte\Template
 			), FALSE) ?>>
 	<input<?php
 			$_input = $this->global->formsCurrent["username"];
-			echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
+			echo $_input->getControlPart()->attributes() ?>>
 <?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent, FALSE) ?></form>
 <?php
 		}
@@ -204,27 +201,25 @@ class Template%a% extends Latte\Template
 		), FALSE) ?>>
 	<input<?php
 		$_input = $this->global->formsCurrent["username"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
+		echo $_input->getControlPart()->attributes() ?>>
 <?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent, FALSE) ?></FORM>
 
 
 <select<?php
 		$_input = $this->global->formsCurrent["select"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>><?php
-		echo $_input->getControl()->getHtml() ?></select>
+		echo $_input->getControlPart()->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></select>
 
 
 <textarea title="<?php echo LR\Filters::escapeHtmlAttr(10) ?>"<?php
 		$_input = $this->global->formsCurrent["area"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->addAttributes(array (
+		echo $_input->getControlPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></textarea>
 
 
 <select<?php
 		$_input = $this->global->formsCurrent["select"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>><?php
-		echo $_input->getControl()->getHtml() ?></select>
+		echo $_input->getControlPart()->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></select>
 <?php
 	}
 

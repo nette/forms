@@ -11,18 +11,17 @@ class Template%a% extends Latte\Template
 		), FALSE) ?>>
 	<button<?php
 		$_input = $this->global->formsCurrent["send"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>>
+		echo $_input->getControlPart()->attributes() ?>>
 		description of button
 	</button>
 
 	<button<?php
 		$_input = $this->global->formsCurrent["send"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>></button>
+		echo $_input->getControlPart()->attributes() ?>></button>
 
 	<button<?php
 		$_input = $this->global->formsCurrent["send"];
-		echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>><?php
-		echo htmlspecialchars($_input->caption) ?></button>
+		echo $_input->getControlPart()->attributes() ?>><?php echo htmlspecialchars($_input->caption) ?></button>
 <?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent, FALSE) ?></form>
 <?php
 	}

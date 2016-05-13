@@ -177,9 +177,7 @@ class FormMacros extends MacroSet
 					. '$this->global->formsCurrent[%0.word]; echo $_input->%1.raw'
 					. ($node->htmlNode->attrs ? '->addAttributes(%2.var)' : '') . '->attributes()',
 				$name,
-				$words
-					? $method . 'Part(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')'
-					: "{method_exists(\$_input, '{$method}Part')?'{$method}Part':'{$method}'}()",
+				$method . 'Part(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')',
 				array_fill_keys(array_keys($node->htmlNode->attrs), NULL)
 			);
 		}
@@ -203,7 +201,7 @@ class FormMacros extends MacroSet
 			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent, FALSE) ?>';
 		} elseif ($tagName === 'label') {
 			if ($node->htmlNode->isEmpty) {
-				$node->innerContent = "<?php echo \$_input->{method_exists(\$_input, 'getLabelPart')?'getLabelPart':'getLabel'}()->getHtml() ?>";
+				$node->innerContent = "<?php echo \$_input->getLabelPart()->getHtml() ?>";
 			}
 		} elseif ($tagName === 'button') {
 			if ($node->htmlNode->isEmpty) {
