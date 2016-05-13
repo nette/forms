@@ -31,8 +31,8 @@ class FormMacros extends MacroSet
 	public static function install(Latte\Compiler $compiler)
 	{
 		$me = new static($compiler);
-		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent)');
-		$me->addMacro('formContainer', [$me, 'macroFormContainer'], '$formContainer = $_form = $this->global->formsCurrent = array_pop($this->global->formsStack)');
+		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));');
+		$me->addMacro('formContainer', [$me, 'macroFormContainer'], 'array_pop($this->global->formsStack); $formContainer = $_form = end($this->global->formsStack)');
 		$me->addMacro('label', [$me, 'macroLabel'], [$me, 'macroLabelEnd'], NULL, self::AUTO_EMPTY);
 		$me->addMacro('input', [$me, 'macroInput']);
 		$me->addMacro('name', [$me, 'macroName'], [$me, 'macroNameEnd'], [$me, 'macroNameAttr']);
@@ -61,7 +61,7 @@ class FormMacros extends MacroSet
 		$node->replaced = true;
 		$node->tokenizer->reset();
 		return $writer->write(
-			'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsCurrent = '
+			'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = '
 			. ($name[0] === '$' ? 'is_object(%node.word) ? %node.word : ' : '')
 			. '$this->global->uiControl[%node.word], %node.array)'
 		);
@@ -82,9 +82,9 @@ class FormMacros extends MacroSet
 		}
 		$node->tokenizer->reset();
 		return $writer->write(
-			'$this->global->formsStack[] = $this->global->formsCurrent; $formContainer = $_form = $this->global->formsCurrent = '
+			'$this->global->formsStack[] = $formContainer = $_form = '
 				. ($name[0] === '$' ? 'is_object(%node.word) ? %node.word : ' : '')
-				. '$this->global->formsCurrent[%node.word]'
+				. 'end($this->global->formsStack)[%node.word]'
 		);
 	}
 
@@ -104,7 +104,7 @@ class FormMacros extends MacroSet
 		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
-			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : $this->global->formsCurrent[%0.word]; if ($_label = $_input' : 'if ($_label = $this->global->formsCurrent[%0.word]')
+			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; if ($_label = $_input' : 'if ($_label = end($this->global->formsStack)[%0.word]')
 				. '->%1.raw) echo $_label'
 				. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : ''),
 			$name,
@@ -140,7 +140,7 @@ class FormMacros extends MacroSet
 		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
-			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : $this->global->formsCurrent[%0.word]; echo $_input' : 'echo $this->global->formsCurrent[%0.word]')
+			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; echo $_input' : 'echo end($this->global->formsStack)[%0.word]')
 				. '->%1.raw'
 				. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : ''),
 			$name,
@@ -164,7 +164,7 @@ class FormMacros extends MacroSet
 
 		if ($tagName === 'form') {
 			return $writer->write(
-				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsCurrent = '
+				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = '
 					. ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
 					. '$this->global->uiControl[%0.word], %1.var, FALSE)',
 				$name,
@@ -174,7 +174,7 @@ class FormMacros extends MacroSet
 			$method = $tagName === 'label' ? 'getLabel' : 'getControl';
 			return $writer->write(
 				'$_input = ' . ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
-					. '$this->global->formsCurrent[%0.word]; echo $_input->%1.raw'
+					. 'end($this->global->formsStack)[%0.word]; echo $_input->%1.raw'
 					. ($node->htmlNode->attrs ? '->addAttributes(%2.var)' : '') . '->attributes()',
 				$name,
 				$method . 'Part(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')',
@@ -198,7 +198,7 @@ class FormMacros extends MacroSet
 	{
 		$tagName = strtolower($node->htmlNode->name);
 		if ($tagName === 'form') {
-			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent, FALSE) ?>';
+			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE) ?>';
 		} elseif ($tagName === 'label') {
 			if ($node->htmlNode->isEmpty) {
 				$node->innerContent = "<?php echo \$_input->getLabelPart()->getHtml() ?>";
@@ -226,9 +226,9 @@ class FormMacros extends MacroSet
 		if (!$name) {
 			return $writer->write('echo %escape($_input->getError())');
 		} elseif ($name[0] === '$') {
-			return $writer->write('$_input = is_object(%0.word) ? %0.word : $this->global->formsCurrent[%0.word]; echo %escape($_input->getError())', $name);
+			return $writer->write('$_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; echo %escape($_input->getError())', $name);
 		} else {
-			return $writer->write('echo %escape($this->global->formsCurrent[%0.word]->getError())', $name);
+			return $writer->write('echo %escape(end($this->global->formsStack)[%0.word]->getError())', $name);
 		}
 	}
 

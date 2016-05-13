@@ -7,37 +7,37 @@ class Template%a% extends Latte\Template
 	function render()
 	{
 %A%
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsCurrent = $this->global->uiControl["myForm"], ['id' => 'myForm', 'class'=>"ajax"]) ?>
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], ['id' => 'myForm', 'class'=>"ajax"]) ?>
 
 <?php
 		$iterations = 0;
 		if (isset($this->params['name'])) trigger_error('Variable $name overwritten in foreach.');
 		foreach (['id', 'username', 'select', 'area', 'send'] as $name) {
 			?>		<?php
-			$_input = is_object($name) ? $name : $this->global->formsCurrent[$name];
+			$_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
 			if ($_label = $_input->getLabel()) echo $_label ?>
 
 		<?php
-			$_input = is_object($name) ? $name : $this->global->formsCurrent[$name];
+			$_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
 			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
 
 		<?php echo LR\Filters::escapeHtml($_input->getError()) ?>
 
 		<?php
-			$_input = is_object($name) ? $name : $this->global->formsCurrent[$name];
+			$_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
 			echo LR\Filters::escapeHtml($_input->getError()) ?>
 
 
 		<br>
 
 		<?php
-			$_input = is_object($form[$name]) ? $form[$name] : $this->global->formsCurrent[$form[$name]];
+			$_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
 			if ($_label = $_input->getLabel()) echo $_label->addAttributes(['title' => 'hello'])->startTag() ?> <?php
-			$_input = is_object($form[$name]) ? $form[$name] : $this->global->formsCurrent[$form[$name]];
+			$_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
 			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?> <?php if ($_label) echo $_label->endTag() ?>
 
 		<?php
-			$_input = is_object($form[$name]) ? $form[$name] : $this->global->formsCurrent[$form[$name]];
+			$_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
 			echo LR\Filters::escapeHtml($_input->getError()) ?>
 
 <?php
@@ -46,17 +46,17 @@ class Template%a% extends Latte\Template
 		?>
 
 	<?php
-		$_input = is_object($form['username']) ? $form['username'] : $this->global->formsCurrent[$form['username']];
+		$_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
 		if ($_label = $_input->getLabel()) echo $_label ?>
 
 
 	<LABEL title=hello<?php
-		$_input = $this->global->formsCurrent["username"];
+		$_input = end($this->global->formsStack)["username"];
 		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>>Name</LABEL>
 	<input value=val type class="hello"<?php
-		$_input = $this->global->formsCurrent["username"];
+		$_input = end($this->global->formsStack)["username"];
 		echo $_input->getControlPart()->addAttributes(array (
 		'value' => NULL,
 		'type' => NULL,
@@ -64,26 +64,29 @@ class Template%a% extends Latte\Template
 		))->attributes() ?>>
 
 	<label<?php
-		$_input = is_object($form['username']) ? $form['username'] : $this->global->formsCurrent[$form['username']];
+		$_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
 		echo $_input->getLabelPart()->attributes() ?>></label>
 	<label<?php
-		$_input = is_object($form['username']) ? $form['username'] : $this->global->formsCurrent[$form['username']];
+		$_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
 		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 	<input<?php
-		$_input = is_object($form['username']) ? $form['username'] : $this->global->formsCurrent[$form['username']];
+		$_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
 		echo $_input->getControlPart()->attributes() ?>>
 
 	<?php
-		if ($_label = $this->global->formsCurrent["my"]->getLabel()) echo $_label;
-		echo $this->global->formsCurrent["my"]->getControl() ?>
+		if ($_label = end($this->global->formsStack)["my"]->getLabel()) echo $_label;
+		echo end($this->global->formsStack)["my"]->getControl() ?>
 
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent) ?>
+<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
+		?>
 
 
 
 <?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsCurrent = $this->global->uiControl["myForm"], []);
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent) ?>
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
+		?>
 
 
 
@@ -92,56 +95,56 @@ class Template%a% extends Latte\Template
 		if (isset($this->params['key'])) trigger_error('Variable $key overwritten in foreach.');
 		if (isset($this->params['label'])) trigger_error('Variable $label overwritten in foreach.');
 		foreach ($form['sex']->items as $key => $label) {
-			?>	<?php if ($_label = $this->global->formsCurrent["sex"]->getLabelPart($key)) echo $_label->startTag() ?> <?php
-			echo $this->global->formsCurrent["sex"]->getControlPart($key) ?> <?php
+			?>	<?php if ($_label = end($this->global->formsStack)["sex"]->getLabelPart($key)) echo $_label->startTag() ?> <?php
+			echo end($this->global->formsStack)["sex"]->getControlPart($key) ?> <?php
 			echo LR\Filters::escapeHtml($label);
 			if ($_label) echo $_label->endTag() ?>
 
 	<label title=hello<?php
-			$_input = $this->global->formsCurrent["sex"];
+			$_input = end($this->global->formsStack)["sex"];
 			echo $_input->getLabelPart($key)->addAttributes(array (
 			'title' => NULL,
 			))->attributes() ?>> <input<?php
-			$_input = $this->global->formsCurrent["sex"];
+			$_input = end($this->global->formsStack)["sex"];
 			echo $_input->getControlPart($key)->attributes() ?>> </label>
 <?php
 			$iterations++;
 		}
 		?><label<?php
-		$_input = $this->global->formsCurrent["sex"];
+		$_input = end($this->global->formsStack)["sex"];
 		echo $_input->getLabelPart()->attributes() ?>></label>
 <label<?php
-		$_input = $this->global->formsCurrent["sex"];
+		$_input = end($this->global->formsStack)["sex"];
 		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title="hello"<?php
-		$_input = $this->global->formsCurrent["sex"];
+		$_input = end($this->global->formsStack)["sex"];
 		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 
 
-<?php if ($_label = $this->global->formsCurrent["checkbox"]->getLabelPart("")) echo $_label->startTag() ?> <?php
-		echo $this->global->formsCurrent["checkbox"]->getControlPart("") ?> Label<?php if ($_label) echo $_label->endTag() ?>
+<?php if ($_label = end($this->global->formsStack)["checkbox"]->getLabelPart("")) echo $_label->startTag() ?> <?php
+		echo end($this->global->formsStack)["checkbox"]->getControlPart("") ?> Label<?php if ($_label) echo $_label->endTag() ?>
 
 <label title=hello<?php
-		$_input = $this->global->formsCurrent["checkbox"];
+		$_input = end($this->global->formsStack)["checkbox"];
 		echo $_input->getLabelPart("")->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>> <input<?php
-		$_input = $this->global->formsCurrent["checkbox"];
+		$_input = end($this->global->formsStack)["checkbox"];
 		echo $_input->getControlPart("")->attributes() ?>> </label>
 <label title=hello<?php
-		$_input = $this->global->formsCurrent["checkbox"];
+		$_input = end($this->global->formsStack)["checkbox"];
 		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>> <input<?php
-		$_input = $this->global->formsCurrent["checkbox"];
+		$_input = end($this->global->formsStack)["checkbox"];
 		echo $_input->getControlPart()->attributes() ?>> </label>
 <label<?php
-		$_input = $this->global->formsCurrent["checkbox"];
+		$_input = end($this->global->formsStack)["checkbox"];
 		echo $_input->getLabelPart("")->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title=hello<?php
-		$_input = $this->global->formsCurrent["checkbox"];
+		$_input = end($this->global->formsStack)["checkbox"];
 		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
@@ -152,15 +155,15 @@ class Template%a% extends Latte\Template
 		if (isset($this->params['key'])) trigger_error('Variable $key overwritten in foreach.');
 		if (isset($this->params['label'])) trigger_error('Variable $label overwritten in foreach.');
 		foreach ($form['checklist']->items as $key => $label) {
-			?>	<?php if ($_label = $this->global->formsCurrent["checklist"]->getLabelPart($key)) echo $_label->startTag() ?> <?php
-			echo $this->global->formsCurrent["checklist"]->getControlPart($key) ?> <?php
+			?>	<?php if ($_label = end($this->global->formsStack)["checklist"]->getLabelPart($key)) echo $_label->startTag() ?> <?php
+			echo end($this->global->formsStack)["checklist"]->getControlPart($key) ?> <?php
 			echo LR\Filters::escapeHtml($label);
 			if ($_label) echo $_label->endTag() ?>
 
 	<label<?php
-			$_input = $this->global->formsCurrent["checklist"];
+			$_input = end($this->global->formsStack)["checklist"];
 			echo $_input->getLabelPart($key)->attributes() ?>> <input title=hello<?php
-			$_input = $this->global->formsCurrent["checklist"];
+			$_input = end($this->global->formsStack)["checklist"];
 			echo $_input->getControlPart($key)->addAttributes(array (
 			'title' => NULL,
 			))->attributes() ?>> </label>
@@ -168,13 +171,13 @@ class Template%a% extends Latte\Template
 			$iterations++;
 		}
 		?><label<?php
-		$_input = $this->global->formsCurrent["checklist"];
+		$_input = end($this->global->formsStack)["checklist"];
 		echo $_input->getLabelPart()->attributes() ?>></label>
 <label<?php
-		$_input = $this->global->formsCurrent["checklist"];
+		$_input = end($this->global->formsStack)["checklist"];
 		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title="hello"<?php
-		$_input = $this->global->formsCurrent["checklist"];
+		$_input = end($this->global->formsStack)["checklist"];
 		echo $_input->getLabelPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
@@ -183,42 +186,42 @@ class Template%a% extends Latte\Template
 <?php
 		if (1) {
 			?><form id="myForm" class="ajax"<?php
-			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsCurrent = $this->global->uiControl["myForm"], array (
+			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], array (
 			'id' => NULL,
 			'class' => NULL,
 			), FALSE) ?>>
 	<input<?php
-			$_input = $this->global->formsCurrent["username"];
+			$_input = end($this->global->formsStack)["username"];
 			echo $_input->getControlPart()->attributes() ?>>
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent, FALSE) ?></form>
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE) ?></form>
 <?php
 		}
 		?>
 
 
 <FORM<?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsCurrent = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']], array (
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']], array (
 		), FALSE) ?>>
 	<input<?php
-		$_input = $this->global->formsCurrent["username"];
+		$_input = end($this->global->formsStack)["username"];
 		echo $_input->getControlPart()->attributes() ?>>
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($this->global->formsCurrent, FALSE) ?></FORM>
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE) ?></FORM>
 
 
 <select<?php
-		$_input = $this->global->formsCurrent["select"];
+		$_input = end($this->global->formsStack)["select"];
 		echo $_input->getControlPart()->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></select>
 
 
 <textarea title="<?php echo LR\Filters::escapeHtmlAttr(10) ?>"<?php
-		$_input = $this->global->formsCurrent["area"];
+		$_input = end($this->global->formsStack)["area"];
 		echo $_input->getControlPart()->addAttributes(array (
 		'title' => NULL,
 		))->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></textarea>
 
 
 <select<?php
-		$_input = $this->global->formsCurrent["select"];
+		$_input = end($this->global->formsStack)["select"];
 		echo $_input->getControlPart()->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></select>
 <?php
 	}
