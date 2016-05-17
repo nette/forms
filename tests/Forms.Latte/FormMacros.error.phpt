@@ -22,7 +22,7 @@ Assert::exception(function () use ($latte) {
 
 Assert::exception(function () use ($latte) {
 	$latte->compile('<form n:name></form>');
-}, Latte\CompileException::class, 'Missing name in n:name.');
+}, Latte\CompileException::class, 'Missing name in n:name');
 
 Assert::exception(function () use ($latte) {
 	$latte->compile('<form n:inner-name></form>');
@@ -31,20 +31,20 @@ Assert::exception(function () use ($latte) {
 
 Assert::exception(function () use ($latte) {
 	$latte->compile('<html>{form /}');
-}, Latte\CompileException::class, 'Missing form name in {form}.');
+}, Latte\CompileException::class, 'Missing form name in {form}');
 
 Assert::exception(function () use ($latte) {
 	$latte->compile('<html>{formContainer /}');
-}, Latte\CompileException::class, 'Missing name in {formContainer}.');
+}, Latte\CompileException::class, 'Missing name in {formContainer}');
 
 
 Assert::exception(function () use ($latte) {
 	$latte->compile('<html>{label /}');
-}, Latte\CompileException::class, 'Missing name in {label}.');
+}, Latte\CompileException::class, 'Missing name in {label}');
 
 Assert::exception(function () use ($latte) {
 	$latte->compile('<html>{input /}');
-}, Latte\CompileException::class, 'Missing name in {input}.');
+}, Latte\CompileException::class, 'Missing name in {input}');
 
 Assert::exception(function () use ($latte) {
 	$latte->compile('<html>{name /}');

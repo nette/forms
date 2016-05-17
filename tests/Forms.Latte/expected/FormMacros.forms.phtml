@@ -7,11 +7,12 @@ class Template%a% extends Latte\Template
 	function render()
 	{
 %A%
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], ['id' => 'myForm', 'class'=>"ajax"]) ?>
+		/* line 1 */
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], ['id' => 'myForm', 'class'=>"ajax"]);
+?>
 
 <?php
 		$iterations = 0;
-		if (isset($this->params['name'])) trigger_error('Variable $name overwritten in foreach.');
 		foreach (['id', 'username', 'select', 'area', 'send'] as $name) {
 			?>		<?php
 			$_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
@@ -19,13 +20,16 @@ class Template%a% extends Latte\Template
 
 		<?php
 			$_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
-			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?>
+			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* line 4 */ ?>
 
-		<?php echo LR\Filters::escapeHtml($_input->getError()) ?>
+		<?php
+			echo LR\Filters::escapeHtml($_input->getError());
+?>
 
 		<?php
 			$_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
-			echo LR\Filters::escapeHtml($_input->getError()) ?>
+			echo LR\Filters::escapeHtml($_input->getError());
+?>
 
 
 		<br>
@@ -34,16 +38,18 @@ class Template%a% extends Latte\Template
 			$_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
 			if ($_label = $_input->getLabel()) echo $_label->addAttributes(['title' => 'hello'])->startTag() ?> <?php
 			$_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
-			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) ?> <?php if ($_label) echo $_label->endTag() ?>
+			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* line 10 */ ?> <?php
+			if ($_label) echo $_label->endTag() ?>
 
 		<?php
 			$_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
-			echo LR\Filters::escapeHtml($_input->getError()) ?>
+			echo LR\Filters::escapeHtml($_input->getError());
+?>
 
 <?php
 			$iterations++;
 		}
-		?>
+?>
 
 	<?php
 		$_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
@@ -75,30 +81,32 @@ class Template%a% extends Latte\Template
 
 	<?php
 		if ($_label = end($this->global->formsStack)["my"]->getLabel()) echo $_label;
-		echo end($this->global->formsStack)["my"]->getControl() ?>
+		echo end($this->global->formsStack)["my"]->getControl() /* line 23 */ ?>
 
 <?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
-		?>
+?>
 
 
 
 <?php
+		/* line 27 */
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
-		?>
+?>
 
 
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []) ?>
+<?php
+		/* line 29 */
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
+?>
 
 <?php
 		$iterations = 0;
-		if (isset($this->params['key'])) trigger_error('Variable $key overwritten in foreach.');
-		if (isset($this->params['label'])) trigger_error('Variable $label overwritten in foreach.');
 		foreach ($form['sex']->items as $key => $label) {
 			?>	<?php if ($_label = end($this->global->formsStack)["sex"]->getLabelPart($key)) echo $_label->startTag() ?> <?php
-			echo end($this->global->formsStack)["sex"]->getControlPart($key) ?> <?php
-			echo LR\Filters::escapeHtml($label);
+			echo end($this->global->formsStack)["sex"]->getControlPart($key) /* line 32 */ ?> <?php
+			echo LR\Filters::escapeHtml($label) /* line 32 */;
 			if ($_label) echo $_label->endTag() ?>
 
 	<label title=hello<?php
@@ -125,7 +133,7 @@ class Template%a% extends Latte\Template
 
 
 <?php if ($_label = end($this->global->formsStack)["checkbox"]->getLabelPart("")) echo $_label->startTag() ?> <?php
-		echo end($this->global->formsStack)["checkbox"]->getControlPart("") ?> Label<?php if ($_label) echo $_label->endTag() ?>
+		echo end($this->global->formsStack)["checkbox"]->getControlPart("") /* line 41 */ ?> Label<?php if ($_label) echo $_label->endTag() ?>
 
 <label title=hello<?php
 		$_input = end($this->global->formsStack)["checkbox"];
@@ -153,12 +161,10 @@ class Template%a% extends Latte\Template
 
 <?php
 		$iterations = 0;
-		if (isset($this->params['key'])) trigger_error('Variable $key overwritten in foreach.');
-		if (isset($this->params['label'])) trigger_error('Variable $label overwritten in foreach.');
 		foreach ($form['checklist']->items as $key => $label) {
 			?>	<?php if ($_label = end($this->global->formsStack)["checklist"]->getLabelPart($key)) echo $_label->startTag() ?> <?php
-			echo end($this->global->formsStack)["checklist"]->getControlPart($key) ?> <?php
-			echo LR\Filters::escapeHtml($label);
+			echo end($this->global->formsStack)["checklist"]->getControlPart($key) /* line 50 */ ?> <?php
+			echo LR\Filters::escapeHtml($label) /* line 50 */;
 			if ($_label) echo $_label->endTag() ?>
 
 	<label<?php
@@ -194,10 +200,12 @@ class Template%a% extends Latte\Template
 	<input<?php
 			$_input = end($this->global->formsStack)["username"];
 			echo $_input->getControlPart()->attributes() ?>>
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE) ?></form>
+<?php
+			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE);
+?></form>
 <?php
 		}
-		?>
+?>
 
 
 <FORM<?php
@@ -206,7 +214,9 @@ class Template%a% extends Latte\Template
 	<input<?php
 		$_input = end($this->global->formsStack)["username"];
 		echo $_input->getControlPart()->attributes() ?>>
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE) ?></FORM>
+<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE);
+?></FORM>
 
 
 <select<?php
@@ -214,7 +224,7 @@ class Template%a% extends Latte\Template
 		echo $_input->getControlPart()->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></select>
 
 
-<textarea title="<?php echo LR\Filters::escapeHtmlAttr(10) ?>"<?php
+<textarea title="<?php echo LR\Filters::escapeHtmlAttr(10) /* line 71 */ ?>"<?php
 		$_input = end($this->global->formsStack)["area"];
 		echo $_input->getControlPart()->addAttributes(array (
 		'title' => NULL,
@@ -226,7 +236,7 @@ class Template%a% extends Latte\Template
 		echo $_input->getControlPart()->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></select>
 <?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
-		?>
+?>
 
 <?php
 	}

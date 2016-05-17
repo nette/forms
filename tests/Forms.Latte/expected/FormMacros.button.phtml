@@ -22,7 +22,9 @@ class Template%a% extends Latte\Template
 	<button<?php
 		$_input = end($this->global->formsStack)["send"];
 		echo $_input->getControlPart()->attributes() ?>><?php echo htmlspecialchars($_input->caption) ?></button>
-<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE) ?></form>
+<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE);
+?></form>
 <?php
 	}
 
