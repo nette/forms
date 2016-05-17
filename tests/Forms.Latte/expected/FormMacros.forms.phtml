@@ -48,6 +48,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 <?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array()) ;echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
 
 
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_control["myForm"], array()) ?>
 
 <?php %a% foreach ($form['sex']->items as $key => $label) { ?>
 	<?php if ($_label = $_form["sex"]->getLabelPart($key)) echo $_label->startTag() ?>
@@ -125,5 +126,7 @@ echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $_contro
 
 <select<?php $_input = $_form["select"]; echo $_input->{method_exists($_input, 'getControlPart')?'getControlPart':'getControl'}()->attributes() ?>
 ><?php echo $_input->getControl()->getHtml() ?></select>
+<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd($_form) ?>
+
 <?php
 %A%

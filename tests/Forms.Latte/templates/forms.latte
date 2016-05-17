@@ -26,7 +26,7 @@
 
 {form myForm /}
 
-
+{form myForm}
 {* partial rendering of RadioList *}
 {foreach $form[sex]->items as $key => $label}
 	{label sex:$key} {input sex:$key} {$label}{/label}
@@ -72,3 +72,4 @@
 
 
 <select n:name="select" />
+{/form}
