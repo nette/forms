@@ -27,7 +27,7 @@ test(function () {
 			\'Nette\Forms\Controls\SelectBox::VALID\': "SelectBox test"
 	', 'neon'));
 
-	eval($compiler->compile($config, 'Container1'));
+	eval(@$compiler->compile($config, 'Container1')); // @ compatibility with DI 2.4
 
 	$container = new Container1;
 	$container->initialize();
@@ -48,5 +48,5 @@ Assert::exception(function () {
 			Foo\Bar: custom validator
 	', 'neon'));
 
-	eval($compiler->compile($config, 'Container2'));
+	eval(@$compiler->compile($config, 'Container2')); // @ compatibility with DI 2.4
 }, 'Nette\InvalidArgumentException', 'Constant Nette\Forms\Form::Foo\Bar or constant Foo\Bar does not exist.');
