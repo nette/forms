@@ -21,7 +21,7 @@
 	},
 	"require-dev": {
 		"nette/di": "~2.3",
-		"nette/tester": "~1.7",
+		"nette/tester": "~2.0",
 		"latte/latte": "~2.4",
 		"tracy/tracy": "^2.3"
 	},
