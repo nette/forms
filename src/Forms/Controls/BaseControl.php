@@ -226,7 +226,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function isOmitted()
 	{
-		return $this->omitted || ($this->disabled && $this->omitted === NULL);
+		return $this->omitted || ($this->isDisabled() && $this->omitted === NULL);
 	}
 
 
