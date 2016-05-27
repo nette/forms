@@ -13,7 +13,7 @@
 
 	<dt><label for="frm-age" class="required">Your age:</label></dt>
 
-	<dd class="odd"><input type="text" name="age" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Age must be numeric value"},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' value="9.9" class="text"> •
+	<dd class="odd"><input type="number" name="age" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Age must be numeric value"},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' min="10" max="100" value="9.9"> •
 
 	<span class="error">
 		Age must be numeric value

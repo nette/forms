@@ -83,13 +83,13 @@ test(function () {
 
 	$email = $form->addText('email')
 		->addRule($form::EMAIL, 'error');
-	Assert::match('<input type="text" name="email" id="frm-email" data-nette-rules=\'[{"op":":email","msg":"error"}]\'>', (string) $email->getControl());
+	Assert::match('<input type="email" name="email" id="frm-email" data-nette-rules=\'[{"op":":email","msg":"error"}]\'>', (string) $email->getControl());
 	$email->validate();
 	Assert::same(['error'], $email->getErrors());
 
 	$email2 = $form->addText('email2')
 		->addRule($form::EMAIL, new StringWrapper('Your name'));
-	Assert::match('<input type="text" name="email2" id="frm-email2" data-nette-rules=\'[{"op":":email","msg":"StringWrapper"}]\'>', (string) $email2->getControl());
+	Assert::match('<input type="email" name="email2" id="frm-email2" data-nette-rules=\'[{"op":":email","msg":"StringWrapper"}]\'>', (string) $email2->getControl());
 	$email2->validate();
 	Assert::same(['StringWrapper'], $email2->getErrors());
 });
