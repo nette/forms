@@ -561,4 +561,25 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 		return $this->options;
 	}
 
+
+	/********************* extension methods ****************d*g**/
+
+
+	public function __call($name, $args)
+	{
+		if ($callback = Nette\Utils\ObjectMixin::getExtensionMethod(get_class($this), $name)) {
+			return Nette\Utils\Callback::invoke($callback, $this, ...$args);
+		}
+		return parent::__call($name, $args);
+	}
+
+
+	public static function extensionMethod($name, $callback = NULL)
+	{
+		if (strpos($name, '::') !== FALSE) { // back compatibility
+			list(, $name) = explode('::', $name);
+		}
+		Nette\Utils\ObjectMixin::setExtensionMethod(get_called_class(), $name, $callback);
+	}
+
 }
