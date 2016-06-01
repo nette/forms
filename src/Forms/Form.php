@@ -86,6 +86,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var callable[]  function (Form $sender); Occurs when the form is submitted */
 	public $onSubmit;
 
+	/** @var callable[]  function (Form $sender); Occurs before the form is rendered */
+	public $onRender;
+
 	/** @var mixed or NULL meaning: not detected yet */
 	private $submittedBy;
 
@@ -109,6 +112,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/** @var Nette\Http\IRequest  used only by standalone form */
 	public $httpRequest;
+
+	/** @var bool */
+	private $beforeRenderCalled;
 
 
 	/**
@@ -579,11 +585,34 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 
 	/**
+	 * @return void
+	 */
+	protected function beforeRender()
+	{
+	}
+
+
+	/**
+	 * Must be called before form is rendered and render() is not used.
+	 * @return void
+	 */
+	public function fireRenderEvents()
+	{
+		if (!$this->beforeRenderCalled) {
+			$this->beforeRenderCalled = TRUE;
+			$this->beforeRender();
+			$this->onRender($this);
+		}
+	}
+
+
+	/**
 	 * Renders form.
 	 * @return void
 	 */
 	public function render(...$args)
 	{
+		$this->fireRenderEvents();
 		echo $this->getRenderer()->render($this, ...$args);
 	}
 
@@ -596,6 +625,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function __toString()
 	{
 		try {
+			$this->fireRenderEvents();
 			return $this->getRenderer()->render($this);
 
 		} catch (\Throwable $e) {

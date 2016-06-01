@@ -26,6 +26,7 @@ class Runtime
 	 */
 	public static function renderFormBegin(Form $form, array $attrs, $withTags = TRUE)
 	{
+		$form->fireRenderEvents();
 		foreach ($form->getControls() as $control) {
 			$control->setOption('rendered', FALSE);
 		}
