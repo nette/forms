@@ -5,8 +5,10 @@
 ?>
 
 
-<form<?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], array (
+<?php
+		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
+		?><form<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 		), FALSE) ?>>
 <?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE);

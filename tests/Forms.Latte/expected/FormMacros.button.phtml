@@ -6,8 +6,10 @@ class Template%a% extends Latte\Runtime\Template
 
 	function render()
 	{
-%A%<form<?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], array (
+%A%
+		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
+		?><form<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 		), FALSE) ?>>
 	<button<?php
 		$_input = end($this->global->formsStack)["send"];

@@ -165,11 +165,14 @@ class FormMacros extends MacroSet
 		$node->empty = $tagName === 'input';
 
 		if ($tagName === 'form') {
+			$node->openingCode = $writer->write(
+				'<?php $form = $_form = $this->global->formsStack[] = '
+				. ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
+				. '$this->global->uiControl[%0.word]; ?>',
+				$name
+			);
 			return $writer->write(
-				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = '
-					. ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
-					. '$this->global->uiControl[%0.word], %1.var, FALSE)',
-				$name,
+				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), %0.var, FALSE)',
 				array_fill_keys(array_keys($node->htmlNode->attrs), NULL)
 			);
 		} else {

@@ -191,9 +191,10 @@ class Template%a% extends Latte\Runtime\Template
 
 
 <?php
+		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
 		if (1) {
 			?><form id="myForm" class="ajax"<?php
-			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], array (
+			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 			'id' => NULL,
 			'class' => NULL,
 			), FALSE) ?>>
@@ -208,8 +209,10 @@ class Template%a% extends Latte\Runtime\Template
 ?>
 
 
-<FORM<?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']], array (
+<?php
+		$form = $_form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']];
+		?><FORM<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 		), FALSE) ?>>
 	<input<?php
 		$_input = end($this->global->formsStack)["username"];
