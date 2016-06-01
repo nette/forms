@@ -108,7 +108,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 		],
 
 		'hidden' => [
-			'container' => 'div',
+			'container' => NULL,
 		],
 	];
 

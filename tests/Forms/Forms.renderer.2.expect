@@ -119,5 +119,5 @@
 </dl>
 
 </div>
-<div><input type="hidden" name="userid" value="231"></div>
+<input type="hidden" name="userid" value="231">
 </form>
