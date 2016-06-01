@@ -33,7 +33,7 @@ class Runtime
 		$el = $form->getElementPrototype();
 		$el->action = (string) $el->action;
 		$el = clone $el;
-		if (strcasecmp($form->getMethod(), 'get') === 0) {
+		if ($form->isMethod('get')) {
 			$el->action = preg_replace('~\?[^#]*~', '', $el->action, 1);
 		}
 		$el->addAttributes($attrs);
@@ -48,7 +48,7 @@ class Runtime
 	public static function renderFormEnd(Form $form, $withTags = TRUE)
 	{
 		$s = '';
-		if (strcasecmp($form->getMethod(), 'get') === 0) {
+		if ($form->isMethod('get')) {
 			foreach (preg_split('#[;&]#', parse_url($form->getElementPrototype()->action, PHP_URL_QUERY), NULL, PREG_SPLIT_NO_EMPTY) as $param) {
 				$parts = explode('=', $param, 2);
 				$name = urldecode($parts[0]);

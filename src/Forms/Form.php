@@ -219,6 +219,17 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 
 	/**
+	 * Checks if the request method is the given one.
+	 * @param  string
+	 * @return bool
+	 */
+	public function isMethod($method)
+	{
+		return strcasecmp($this->getElementPrototype()->method, $method) === 0;
+	}
+
+
+	/**
 	 * Cross-Site Request Forgery (CSRF) form protection.
 	 * @param  string
 	 * @return Controls\CsrfProtection
@@ -483,7 +494,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @internal */
 	public function validateMaxPostSize()
 	{
-		if (!$this->submittedBy || strcasecmp($this->getMethod(), 'POST') || empty($_SERVER['CONTENT_LENGTH'])) {
+		if (!$this->submittedBy || !$this->isMethod('post') || empty($_SERVER['CONTENT_LENGTH'])) {
 			return;
 		}
 		$maxSize = ini_get('post_max_size');
