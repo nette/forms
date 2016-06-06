@@ -241,6 +241,7 @@ class FormMacros extends MacroSet
 	/** @deprecated */
 	public static function renderFormBegin(Form $form, array $attrs, $withTags = TRUE)
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use Nette\Bridges\FormsLatte\Runtime::renderFormBegin()', E_USER_DEPRECATED);
 		echo Runtime::renderFormBegin($form, $attrs, $withTags);
 	}
 
@@ -248,6 +249,7 @@ class FormMacros extends MacroSet
 	/** @deprecated */
 	public static function renderFormEnd(Form $form, $withTags = TRUE)
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use Nette\Bridges\FormsLatte\Runtime::renderFormEnd()', E_USER_DEPRECATED);
 		echo Runtime::renderFormEnd($form, $withTags);
 	}
 
