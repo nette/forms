@@ -24,7 +24,6 @@ class TextInput extends TextBase
 	public function __construct($label = NULL, $maxLength = NULL)
 	{
 		parent::__construct($label);
-		$this->control->type = 'text';
 		$this->control->maxlength = $maxLength;
 		$this->setOption('type', 'text');
 	}
@@ -63,7 +62,7 @@ class TextInput extends TextBase
 		foreach ($this->getRules() as $rule) {
 			if ($rule->isNegative || $rule->branch) {
 
-			} elseif ($input->type === 'text' && in_array($rule->validator, [Form::EMAIL, Form::URL, Form::INTEGER, Form::FLOAT], TRUE)) {
+			} elseif ($input->type === NULL && in_array($rule->validator, [Form::EMAIL, Form::URL, Form::INTEGER, Form::FLOAT], TRUE)) {
 				static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number', Form::FLOAT => 'number'];
 				$input->type = $types[$rule->validator];
 
@@ -85,7 +84,7 @@ class TextInput extends TextBase
 				}
 
 			} elseif ($rule->validator === Form::PATTERN && is_scalar($rule->arg)
-				&& in_array($input->type, ['text', 'search', 'tel', 'url', 'email', 'password'], TRUE)
+				&& in_array($input->type, [NULL, 'text', 'search', 'tel', 'url', 'email', 'password'], TRUE)
 			) {
 				$input->pattern = $rule->arg;
 			}
@@ -96,6 +95,7 @@ class TextInput extends TextBase
 				? $this->translate($this->emptyValue)
 				: $this->rawValue;
 		}
+		$input->type = $input->type ?: 'text';
 		return $input;
 	}
 
