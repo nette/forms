@@ -96,6 +96,8 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			'.text' => 'text',
 			'.password' => 'text',
 			'.file' => 'text',
+			'.email' => 'text',
+			'.number' => 'text',
 			'.submit' => 'button',
 			'.image' => 'imagebutton',
 			'.button' => 'button',
