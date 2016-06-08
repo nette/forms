@@ -274,6 +274,34 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
+	 * Adds input for email.
+	 * @param  string  control name
+	 * @param  string  label
+	 * @return Controls\TextInput
+	 */
+	public function addEmail($name, $label = NULL)
+	{
+		return $this[$name] = (new Controls\TextInput($label))
+			->setRequired(FALSE)
+			->addRule(Form::EMAIL);
+	}
+
+
+	/**
+	 * Adds input for integer.
+	 * @param  string  control name
+	 * @param  string  label
+	 * @return Controls\TextInput
+	 */
+	public function addInteger($name, $label = NULL)
+	{
+		return $this[$name] = (new Controls\TextInput($label))
+			->setRequired(FALSE)
+			->addRule(Form::INTEGER);
+	}
+
+
+	/**
 	 * Adds control that allows the user to upload files.
 	 * @param  string  control name
 	 * @param  string  label

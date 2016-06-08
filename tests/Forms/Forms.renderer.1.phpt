@@ -43,17 +43,14 @@ $form->addGroup('Personal data')
 $form->addText('name', 'Your name:')
 	->addRule(Form::FILLED, 'Enter your name');
 
-$form->addText('age', 'Your age:')
+$form->addInteger('age', 'Your age:')
 	->addRule(Form::FILLED, 'Enter your age')
-	->addRule(Form::INTEGER, 'Age must be numeric value')
 	->addRule(Form::RANGE, 'Age must be in range from %d to %d', [10, 100]);
 
 $form->addRadioList('gender', 'Your gender:', $sex);
 
-$form->addText('email', 'Email:')
-	->setEmptyValue('@')
-	->addCondition(Form::FILLED)
-		->addRule(Form::EMAIL, 'Incorrect email address');
+$form->addEmail('email', 'Email:')
+	->setEmptyValue('@');
 
 
 $form->addGroup('Shipping address')

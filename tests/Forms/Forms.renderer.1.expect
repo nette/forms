@@ -14,7 +14,7 @@
 <tr class="required">
 	<th><label for="frm-age" class="required">Your age:</label></th>
 
-	<td><input type="number" name="age" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Age must be numeric value"},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' min="10" max="100" class="text">
+	<td><input type="number" name="age" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Please enter a valid integer."},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' min="10" max="100" class="text">
 
 	<span class="error">
 		Enter your age
@@ -31,7 +31,7 @@
 <tr>
 	<th><label for="frm-email">Email:</label></th>
 
-	<td><input type="text" name="email" id="frm-email" data-nette-rules='[{"op":":filled","rules":[{"op":":email","msg":"Incorrect email address"}],"control":"email"}]' data-nette-empty-value="&#64;" value="&#64;" class="text"></td>
+	<td><input type="email" name="email" id="frm-email" data-nette-rules='[{"op":"optional"},{"op":":email","msg":"Please enter a valid email address."}]' data-nette-empty-value="&#64;" value="&#64;" class="text"></td>
 </tr>
 </table>
 </fieldset>
