@@ -412,6 +412,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function fireEvents()
 	{
 		$this->onReady($this);
+		$this->onReady = [];
 		if (!$this->isSubmitted()) {
 			return;
 
@@ -617,6 +618,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	{
 		if (!$this->beforeRenderCalled) {
 			$this->beforeRenderCalled = TRUE;
+			$this->onReady($this);
 			$this->beforeRender();
 			$this->onRender($this);
 		}
