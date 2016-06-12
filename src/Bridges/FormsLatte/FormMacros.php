@@ -58,7 +58,7 @@ class FormMacros extends MacroSet
 		if ($name === FALSE) {
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
-		$node->replaced = true;
+		$node->replaced = TRUE;
 		$node->tokenizer->reset();
 		return $writer->write(
 			"/* line $node->startLine */\n"

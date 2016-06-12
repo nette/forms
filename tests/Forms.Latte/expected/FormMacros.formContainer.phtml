@@ -1,11 +1,4 @@
 <?php
-// source: %A%
-
-class Template%a% extends Latte\Runtime\Template
-{
-
-	function render()
-	{
 %A%
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
 ?>
@@ -86,8 +79,4 @@ class Template%a% extends Latte\Runtime\Template
 <?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
 ?>
-
-<?php
-	}
-
-}
+%A%

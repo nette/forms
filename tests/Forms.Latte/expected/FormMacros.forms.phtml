@@ -1,11 +1,4 @@
 <?php
-// source: %A%
-
-class Template%a% extends Latte\Runtime\Template
-{
-
-	function render()
-	{
 %A%
 		/* line 1 */
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], ['id' => 'myForm', 'class'=>"ajax"]);
@@ -23,12 +16,12 @@ class Template%a% extends Latte\Runtime\Template
 			echo $_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* line 4 */ ?>
 
 		<?php
-			echo LR\Filters::escapeHtml($_input->getError());
+			echo LR\Filters::escapeHtmlText($_input->getError());
 ?>
 
 		<?php
 			$_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
-			echo LR\Filters::escapeHtml($_input->getError());
+			echo LR\Filters::escapeHtmlText($_input->getError());
 ?>
 
 
@@ -43,7 +36,7 @@ class Template%a% extends Latte\Runtime\Template
 
 		<?php
 			$_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
-			echo LR\Filters::escapeHtml($_input->getError());
+			echo LR\Filters::escapeHtmlText($_input->getError());
 ?>
 
 <?php
@@ -106,7 +99,7 @@ class Template%a% extends Latte\Runtime\Template
 		foreach ($form['sex']->items as $key => $label) {
 			?>	<?php if ($_label = end($this->global->formsStack)["sex"]->getLabelPart($key)) echo $_label->startTag() ?> <?php
 			echo end($this->global->formsStack)["sex"]->getControlPart($key) /* line 32 */ ?> <?php
-			echo LR\Filters::escapeHtml($label) /* line 32 */;
+			echo LR\Filters::escapeHtmlText($label) /* line 32 */;
 			if ($_label) echo $_label->endTag() ?>
 
 	<label title=hello<?php
@@ -164,7 +157,7 @@ class Template%a% extends Latte\Runtime\Template
 		foreach ($form['checklist']->items as $key => $label) {
 			?>	<?php if ($_label = end($this->global->formsStack)["checklist"]->getLabelPart($key)) echo $_label->startTag() ?> <?php
 			echo end($this->global->formsStack)["checklist"]->getControlPart($key) /* line 50 */ ?> <?php
-			echo LR\Filters::escapeHtml($label) /* line 50 */;
+			echo LR\Filters::escapeHtmlText($label) /* line 50 */;
 			if ($_label) echo $_label->endTag() ?>
 
 	<label<?php
@@ -240,8 +233,4 @@ class Template%a% extends Latte\Runtime\Template
 <?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
 ?>
-
-<?php
-	}
-
-}
+%A%
