@@ -86,9 +86,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var callable[]  function (Form $sender); Occurs when the form is submitted */
 	public $onSubmit;
 
-	/** @var callable[]  function (Form $sender); Occurs when the form is ready and before validation */
-	public $onReady;
-
 	/** @var callable[]  function (Form $sender); Occurs before the form is rendered */
 	public $onRender;
 
@@ -411,8 +408,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function fireEvents()
 	{
-		$this->onReady($this);
-		$this->onReady = [];
 		if (!$this->isSubmitted()) {
 			return;
 
@@ -618,7 +613,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	{
 		if (!$this->beforeRenderCalled) {
 			$this->beforeRenderCalled = TRUE;
-			$this->onReady($this);
 			$this->beforeRender();
 			$this->onRender($this);
 		}
