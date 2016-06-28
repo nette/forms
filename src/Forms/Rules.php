@@ -20,7 +20,7 @@ class Rules implements \IteratorAggregate
 	/** @deprecated */
 	public static $defaultMessages;
 
-	/** @var Rule */
+	/** @var Rule|FALSE|NULL */
 	private $required;
 
 	/** @var Rule[] */
@@ -52,7 +52,7 @@ class Rules implements \IteratorAggregate
 		if ($value) {
 			$this->addRule(Form::REQUIRED, $value === TRUE ? NULL : $value);
 		} else {
-			$this->required = NULL;
+			$this->required = FALSE;
 		}
 		return $this;
 	}
@@ -65,6 +65,15 @@ class Rules implements \IteratorAggregate
 	public function isRequired()
 	{
 		return (bool) $this->required;
+	}
+
+
+	/**
+	 * @internal
+	 */
+	public function isOptional()
+	{
+		return $this->required === FALSE;
 	}
 
 
@@ -208,7 +217,7 @@ class Rules implements \IteratorAggregate
 			$toggles[$id] = ($success xor !$hide) || !empty($toggles[$id]);
 		}
 
-		foreach ($this as $rule) {
+		foreach ($this->rules as $rule) {
 			if ($rule->branch) {
 				$toggles = $rule->branch->getToggleStates($toggles, $success && static::validateRule($rule));
 			}
@@ -221,12 +230,16 @@ class Rules implements \IteratorAggregate
 	 * Validates against ruleset.
 	 * @return bool
 	 */
-	public function validate()
+	public function validate($emptyOptional = FALSE)
 	{
+		$emptyOptional = $emptyOptional || $this->isOptional() && !$this->control->isFilled();
 		foreach ($this as $rule) {
-			$success = $this->validateRule($rule);
+			if (!$rule->branch && $emptyOptional && $rule->validator !== Form::FILLED) {
+				return TRUE;
+			}
 
-			if ($success && $rule->branch && !$rule->branch->validate()) {
+			$success = $this->validateRule($rule);
+			if ($success && $rule->branch && !$rule->branch->validate($rule->validator === Form::BLANK ? FALSE : $emptyOptional)) {
 				return FALSE;
 
 			} elseif (!$success && !$rule->branch) {

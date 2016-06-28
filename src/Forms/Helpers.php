@@ -132,6 +132,9 @@ class Helpers
 
 			$payload[] = $item;
 		}
+		if ($payload && $rules->isOptional()) {
+			array_unshift($payload, ['op' => 'optional']);
+		}
 		return $payload;
 	}
 

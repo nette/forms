@@ -79,8 +79,8 @@ test(function () { // setRequired(FALSE)
 	Assert::count(1, $items);
 	Assert::same(Form::EMAIL, $items[0]->validator);
 
-	Assert::false($rules->validate());
-	Assert::same(['Please enter a valid email address.'], $input->getErrors());
+	Assert::true($rules->validate());
+	Assert::same([], $input->getErrors());
 });
 
 

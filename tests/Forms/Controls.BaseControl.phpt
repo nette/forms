@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 test(function () { // error handling
 	$form = new Form;
 	$input = $form->addText('text')
-		->addRule($form::EMAIL, 'error');
+		->setRequired('error');
 
 	Assert::same([], $input->getErrors());
 	Assert::null($input->getError());
