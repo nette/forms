@@ -50,7 +50,7 @@ class Rules implements \IteratorAggregate
 	public function setRequired($value = TRUE)
 	{
 		if ($value) {
-			$this->addRule(Form::REQUIRED, is_string($value) ? $value : NULL);
+			$this->addRule(Form::REQUIRED, $value === TRUE ? NULL : $value);
 		} else {
 			$this->required = NULL;
 		}
