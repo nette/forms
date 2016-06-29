@@ -74,7 +74,7 @@ foreach ($form->getControls() as $control) {
 		$usedPrimary = TRUE;
 
 	} elseif (in_array($type, ['checkbox', 'radio'], TRUE)) {
-		$control->getLabelPrototype()->addClass($control->getControlPrototype()->type);
+		$control->getLabelPrototype()->addClass($type);
 		$control->getSeparatorPrototype()->setName(NULL);
 	}
 }

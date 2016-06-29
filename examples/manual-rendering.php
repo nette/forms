@@ -29,8 +29,8 @@ $form->addRadioList('gender', NULL, [
 ]);
 
 $form->addText('email')
-	->addCondition($form::FILLED)
-		->addRule($form::EMAIL, 'Incorrect email address');
+	->setRequired(FALSE)
+	->addRule($form::EMAIL, 'Incorrect email address');
 
 $form->addSubmit('submit');
 

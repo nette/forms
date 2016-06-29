@@ -36,12 +36,9 @@ $form->addText('precision', 'Precision:')
 	->addRule($form::INTEGER, 'Precision must be numeric value')
 	->addRule($form::RANGE, 'Precision must be in range from %d to %d', [0, 100]);
 
-$form->addText('email', 'Send to email:')
-	->setType('email')
+$form->addEmail('email', 'Send to email:')
 	->setAttribute('autocomplete', 'off')
-	->setAttribute('placeholder', 'Optional, but Recommended')
-	->addCondition($form::FILLED) // conditional rule: if is email filled, ...
-		->addRule($form::EMAIL, 'Incorrect email address'); // ... then check email
+	->setAttribute('placeholder', 'Optional, but Recommended');
 
 $form->addSubmit('submit', 'Send');
 

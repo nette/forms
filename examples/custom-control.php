@@ -46,12 +46,12 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 
 
 	/**
-	 * @return DateTime|NULL
+	 * @return DateTimeImmutable|NULL
 	 */
 	public function getValue()
 	{
 		return self::validateDate($this)
-			? (new DateTime)->setDate($this->year, $this->month, $this->day)->setTime(0, 0)
+			? (new DateTimeImmutable)->setDate($this->year, $this->month, $this->day)->setTime(0, 0)
 			: NULL;
 	}
 
