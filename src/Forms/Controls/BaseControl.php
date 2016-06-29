@@ -68,6 +68,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var array user options */
 	private $options = [];
 
+	/** @var bool */
+	private static $autoOptional = FALSE;
+
 
 	/**
 	 * @param  string  caption
@@ -80,6 +83,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 		$this->label = Html::el('label');
 		$this->caption = $caption;
 		$this->rules = new Rules($this);
+		if (self::$autoOptional) {
+			$this->setRequired(FALSE);
+		}
 		$this->setValue(NULL);
 	}
 
@@ -524,6 +530,16 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public function cleanErrors()
 	{
 		$this->errors = [];
+	}
+
+
+	/**
+	 * Globally enables new required/optional behavior.
+	 * This method will be deprecated in next version.
+	 */
+	public static function enableAutoOptionalMode()
+	{
+		self::$autoOptional = TRUE;
 	}
 
 
