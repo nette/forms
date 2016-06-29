@@ -612,6 +612,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function fireRenderEvents()
 	{
 		if (!$this->beforeRenderCalled) {
+			foreach ($this->getComponents(TRUE, Controls\BaseControl::class) as $control) {
+				$control->getRules()->check();
+			}
 			$this->beforeRenderCalled = TRUE;
 			$this->beforeRender();
 			$this->onRender($this);

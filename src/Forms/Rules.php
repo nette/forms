@@ -252,6 +252,29 @@ class Rules implements \IteratorAggregate
 
 
 	/**
+	 * @internal
+	 */
+	public function check()
+	{
+		if ($this->required !== NULL) {
+			return;
+		}
+		foreach ($this->rules as $rule) {
+			if ($rule->control === $this->control && ($rule->validator === Form::FILLED || $rule->validator === Form::BLANK)) {
+				// ignore
+			} elseif ($rule->branch) {
+				if ($rule->branch->check() === TRUE) {
+					return TRUE;
+				}
+			} else {
+				trigger_error("Missing setRequired(TRUE | FALSE) on field '{$rule->control->getName()}' in form '{$rule->control->getForm()->getName()}'.", E_USER_WARNING);
+				return TRUE;
+			}
+		}
+	}
+
+
+	/**
 	 * Validates single rule.
 	 * @return bool
 	 */
