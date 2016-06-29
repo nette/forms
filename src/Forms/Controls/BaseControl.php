@@ -8,9 +8,10 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use Nette\Forms\IControl;
-use Nette\Utils\Html;
 use Nette\Forms\Form;
+use Nette\Forms\IControl;
+use Nette\Forms\Rules;
+use Nette\Utils\Html;
 
 
 /**
@@ -58,7 +59,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var bool|NULL */
 	private $omitted;
 
-	/** @var Nette\Forms\Rules */
+	/** @var Rules */
 	private $rules;
 
 	/** @var Nette\Localization\ITranslator */
@@ -78,7 +79,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 		$this->control = Html::el('input', ['type' => NULL, 'name' => NULL]);
 		$this->label = Html::el('label');
 		$this->caption = $caption;
-		$this->rules = new Nette\Forms\Rules($this);
+		$this->rules = new Rules($this);
 		$this->setValue(NULL);
 	}
 
@@ -411,7 +412,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * Adds a validation condition a returns new branch.
 	 * @param  mixed     condition type
 	 * @param  mixed     optional condition arguments
-	 * @return Nette\Forms\Rules      new branch
+	 * @return Rules      new branch
 	 */
 	public function addCondition($validator, $value = NULL)
 	{
@@ -424,7 +425,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * @param  IControl form control
 	 * @param  mixed      condition type
 	 * @param  mixed      optional condition arguments
-	 * @return Nette\Forms\Rules      new branch
+	 * @return Rules      new branch
 	 */
 	public function addConditionOn(IControl $control, $validator, $value = NULL)
 	{
@@ -433,7 +434,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 
 	/**
-	 * @return Nette\Forms\Rules
+	 * @return Rules
 	 */
 	public function getRules()
 	{
