@@ -65,14 +65,14 @@ test(function () { // validation rules
 
 test(function () { // accepted files
 	$form = new Form;
-	$input = $form->addUpload('file1')->setRequired(false)->addRule(Form::MIME_TYPE, null, 'image/*');
-	Assert::same('<input type="file" name="file1" accept="image/*" id="frm-file1" data-nette-rules=\'[{"op":"optional"},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":"image/*"}]\'>', (string) $input->getControl());
+	$input = $form->addUpload('file1')->addRule(Form::MIME_TYPE, null, 'image/*');
+	Assert::same('<input type="file" name="file1" accept="image/*" id="frm-file1" data-nette-rules=\'[{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":"image/*"}]\'>', (string) $input->getControl());
 
-	$input = $form->addUpload('file2')->setRequired(false)->addRule(Form::MIME_TYPE, null, ['image/*', 'text/html']);
-	Assert::same('<input type="file" name="file2" accept="image/*, text/html" id="frm-file2" data-nette-rules=\'[{"op":"optional"},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["image/*","text/html"]}]\'>', (string) $input->getControl());
+	$input = $form->addUpload('file2')->addRule(Form::MIME_TYPE, null, ['image/*', 'text/html']);
+	Assert::same('<input type="file" name="file2" accept="image/*, text/html" id="frm-file2" data-nette-rules=\'[{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["image/*","text/html"]}]\'>', (string) $input->getControl());
 
-	$input = $form->addUpload('file3')->setRequired(false)->addRule(Form::IMAGE);
-	Assert::same('<input type="file" name="file3" accept="image/gif, image/png, image/jpeg, image/webp" id="frm-file3" data-nette-rules=\'[{"op":"optional"},{"op":":image","msg":"The uploaded file must be image in format JPEG, GIF, PNG or WebP."}]\'>', (string) $input->getControl());
+	$input = $form->addUpload('file3')->addRule(Form::IMAGE);
+	Assert::same('<input type="file" name="file3" accept="image/gif, image/png, image/jpeg, image/webp" id="frm-file3" data-nette-rules=\'[{"op":":image","msg":"The uploaded file must be image in format JPEG, GIF, PNG or WebP."}]\'>', (string) $input->getControl());
 });
 
 

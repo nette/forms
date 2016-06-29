@@ -32,8 +32,7 @@ class UploadControl extends BaseControl
 		$this->control->type = 'file';
 		$this->control->multiple = $multiple;
 		$this->setOption('type', 'file');
-		$this->addCondition(Forms\Form::FILLED)
-			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);
+		$this->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);
 
 		$this->monitor(Forms\Form::class, function (Forms\Form $form): void {
 			if (!$form->isMethod('post')) {

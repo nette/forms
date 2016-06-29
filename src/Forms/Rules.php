@@ -19,7 +19,7 @@ class Rules implements \IteratorAggregate
 {
 	use Nette\SmartObject;
 
-	/** @var Rule|false|null */
+	/** @var Rule|null */
 	private $required;
 
 	/** @var Rule[] */
@@ -51,7 +51,7 @@ class Rules implements \IteratorAggregate
 		if ($value) {
 			$this->addRule(Form::REQUIRED, $value === true ? null : $value);
 		} else {
-			$this->required = false;
+			$this->required = null;
 		}
 		return $this;
 	}
@@ -63,15 +63,6 @@ class Rules implements \IteratorAggregate
 	public function isRequired(): bool
 	{
 		return (bool) $this->required;
-	}
-
-
-	/**
-	 * @internal
-	 */
-	public function isOptional(): bool
-	{
-		return $this->required === false;
 	}
 
 
@@ -217,7 +208,7 @@ class Rules implements \IteratorAggregate
 	 */
 	public function validate(bool $emptyOptional = false): bool
 	{
-		$emptyOptional = $emptyOptional || $this->isOptional() && !$this->control->isFilled();
+		$emptyOptional = $emptyOptional || !$this->isRequired() && !$this->control->isFilled();
 		foreach ($this as $rule) {
 			if (!$rule->branch && $emptyOptional && $rule->validator !== Form::FILLED) {
 				continue;
@@ -233,30 +224,6 @@ class Rules implements \IteratorAggregate
 			}
 		}
 		return true;
-	}
-
-
-	/**
-	 * @internal
-	 */
-	public function check(): bool
-	{
-		if ($this->required !== null) {
-			return false;
-		}
-		foreach ($this->rules as $rule) {
-			if ($rule->control === $this->control && ($rule->validator === Form::FILLED || $rule->validator === Form::BLANK)) {
-				// ignore
-			} elseif ($rule->branch) {
-				if ($rule->branch->check() === true) {
-					return true;
-				}
-			} else {
-				trigger_error("Missing setRequired(true | false) on field '{$rule->control->getName()}' in form '{$rule->control->getForm()->getName()}'.", E_USER_WARNING);
-				return true;
-			}
-		}
-		return false;
 	}
 
 

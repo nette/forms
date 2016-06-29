@@ -263,7 +263,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addEmail(string $name, $label = null): Controls\TextInput
 	{
 		return $this[$name] = (new Controls\TextInput($label))
-			->setRequired(false)
 			->addRule(Form::EMAIL);
 	}
 
@@ -276,7 +275,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		return $this[$name] = (new Controls\TextInput($label))
 			->setNullable()
-			->setRequired(false)
 			->addRule(Form::INTEGER);
 	}
 

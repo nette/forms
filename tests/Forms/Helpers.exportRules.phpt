@@ -56,7 +56,6 @@ test(function () {
 	$input->setRequired(false);
 	$input->addRule(Form::EMAIL);
 	Assert::same([
-		['op' => 'optional'],
 		['op' => ':email', 'msg' => 'Please enter a valid email address.'],
 	], Helpers::exportRules($input->getRules()));
 });
@@ -75,7 +74,6 @@ test(function () {
 		->addRule($form::EMAIL);
 
 	Assert::same([
-		['op' => 'optional'],
 		[
 			'op' => ':email',
 			'rules' => [
@@ -87,7 +85,6 @@ test(function () {
 		[
 			'op' => ':integer',
 			'rules' => [
-				['op' => 'optional'],
 				['op' => ':email', 'msg' => 'Please enter a valid email address.'],
 			],
 			'control' => 'text1',
