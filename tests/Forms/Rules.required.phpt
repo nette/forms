@@ -57,13 +57,12 @@ test(function () { // 'required' is always the first rule
 
 	@$rules->addRule(~$form::REQUIRED); // @ - negative rules are deprecated
 	$items = iterator_to_array($rules);
-	Assert::count(2, $items);
-	Assert::same(Form::REQUIRED, $items[0]->validator);
-	Assert::true($items[0]->isNegative);
-	Assert::same(Form::EMAIL, $items[1]->validator);
+	Assert::count(3, $items);
+	Assert::same(Form::BLANK, $items[2]->validator);
+	Assert::false($items[2]->isNegative);
 
 	Assert::false($rules->validate());
-	Assert::same(['Please enter a valid email address.'], $input->getErrors());
+	Assert::same(['This field is required.'], $input->getErrors());
 });
 
 

@@ -64,7 +64,7 @@ class Rules implements \IteratorAggregate
 	 */
 	public function isRequired()
 	{
-		return $this->required instanceof Rule ? !$this->required->isNegative : FALSE;
+		return (bool) $this->required;
 	}
 
 
@@ -280,6 +280,11 @@ class Rules implements \IteratorAggregate
 			if (!$rule->branch) {
 				$name = strncmp($rule->validator, ':', 1) ? $rule->validator : 'Form:' . strtoupper($rule->validator);
 				trigger_error("Negative validation rules such as ~$name are deprecated.", E_USER_DEPRECATED);
+			}
+			if ($rule->validator === Form::FILLED) {
+				$rule->validator = Form::BLANK;
+				$rule->isNegative = FALSE;
+				trigger_error('Replace negative validation rule ~Form::FILLED with Form::BLANK.', E_USER_DEPRECATED);
 			}
 		}
 
