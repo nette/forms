@@ -114,7 +114,7 @@ $form->setDefaults(array(
 
 if ($form->isSuccess()) {
 	echo '<h2>Form was submitted and successfully validated</h2>';
-	Dumper::dump($form->getValues());
+	Dumper::dump($form->getValues(), [Dumper::COLLAPSE => FALSE]);
 	exit;
 }
 
