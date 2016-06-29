@@ -42,10 +42,8 @@ $form->addCheckboxList('colors', 'Favorite colors:', [
 	'b' => 'blue',
 ]);
 
-$form->addText('email', 'Email:')
-	->setEmptyValue('@')
-	->addCondition($form::FILLED) // conditional rule: if is email filled, ...
-		->addRule($form::EMAIL, 'Incorrect email address'); // ... then check email
+$form->addEmail('email', 'Email:')
+	->setEmptyValue('@');
 
 
 // group Shipping address
@@ -93,8 +91,8 @@ $form->addPassword('password2', 'Reenter password:')
 	->addRule($form::EQUAL, 'Passwords do not match', $form['password']);
 
 $form->addUpload('avatar', 'Picture:')
-	->addCondition($form::FILLED)
-		->addRule($form::IMAGE, 'Uploaded file is not image');
+	->setRequired(FALSE)
+	->addRule($form::IMAGE, 'Uploaded file is not image');
 
 $form->addHidden('userid');
 
@@ -114,7 +112,7 @@ $form->setDefaults([
 
 if ($form->isSuccess()) {
 	echo '<h2>Form was submitted and successfully validated</h2>';
-	Dumper::dump($form->getValues());
+	Dumper::dump($form->getValues(), [Dumper::COLLAPSE => FALSE]);
 	exit;
 }
 
