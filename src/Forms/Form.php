@@ -675,7 +675,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function getToggles()
 	{
 		$toggles = [];
-		foreach ($this->getControls() as $control) {
+		foreach ($this->getComponents(TRUE, Controls\BaseControl::class) as $control) {
 			$toggles = $control->getRules()->getToggleStates($toggles);
 		}
 		return $toggles;
