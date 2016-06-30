@@ -44,6 +44,7 @@ class CsrfProtection extends HiddenField
 
 	/**
 	 * @return self
+	 * @internal
 	 */
 	public function setValue($value)
 	{

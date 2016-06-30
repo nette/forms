@@ -140,6 +140,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/**
 	 * Sets control's value.
 	 * @return self
+	 * @internal
 	 */
 	public function setValue($value)
 	{

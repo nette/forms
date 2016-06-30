@@ -55,6 +55,7 @@ abstract class ChoiceControl extends BaseControl
 	 * Sets selected item (by key).
 	 * @param  string|int
 	 * @return self
+	 * @internal
 	 */
 	public function setValue($value)
 	{
