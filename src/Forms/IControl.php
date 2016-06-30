@@ -44,12 +44,4 @@ interface IControl
 	 */
 	function isOmitted();
 
-	/**
-	 * Returns translated string.
-	 * @param  string
-	 * @param  int      plural count
-	 * @return string
-	 */
-	function translate($s, $count = NULL);
-
 }

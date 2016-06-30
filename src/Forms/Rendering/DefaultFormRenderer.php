@@ -381,7 +381,10 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 				$description = ' ' . $control->getOption('description');
 
 			} elseif (is_string($description)) {
-				$description = ' ' . $this->getWrapper('control description')->setText($control->translate($description));
+				if ($control instanceof Nette\Forms\Controls\BaseControl) {
+					$description = $control->translate($description);
+				}
+				$description = ' ' . $this->getWrapper('control description')->setText($description);
 
 			} else {
 				$description = '';
@@ -437,7 +440,10 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			$description = ' ' . $description;
 
 		} elseif (is_string($description)) {
-			$description = ' ' . $this->getWrapper('control description')->setText($control->translate($description));
+			if ($control instanceof Nette\Forms\Controls\BaseControl) {
+				$description = $control->translate($description);
+			}
+			$description = ' ' . $this->getWrapper('control description')->setText($description);
 
 		} else {
 			$description = '';
