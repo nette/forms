@@ -34,7 +34,7 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	public function setValue($value)
+	public function setCurrentValue($value)
 	{
 		if ($value === null) {
 			$this->day = $this->month = $this->year = '';

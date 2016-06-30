@@ -54,21 +54,21 @@ test(function () { // errors are moved to form
 });
 
 
-test(function () { // setValue() and invalid argument
+test(function () { // setCurrentValue() and invalid argument
 	$form = new Form;
 	$input = $form->addHidden('hidden');
-	$input->setValue(null);
+	$input->setCurrentValue(null);
 
 	Assert::exception(function () use ($input) {
-		$input->setValue([]);
-	}, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'hidden'.");
+		$input->setCurrentValue([]);
+	}, Nette\InvalidArgumentException::class, "Value must be scalar or NULL, array given in field 'hidden'.");
 });
 
 
 test(function () { // object
 	$form = new Form;
 	$input = $form->addHidden('hidden')
-		->setValue(new Nette\Utils\DateTime('2013-07-05'));
+		->setCurrentValue(new Nette\Utils\DateTime('2013-07-05'));
 
 	Assert::same('2013-07-05 00:00:00', $input->getValue());
 });
@@ -77,7 +77,7 @@ test(function () { // object
 test(function () { // persistent
 	$form = new Form;
 	$input = $form['hidden'] = new Nette\Forms\Controls\HiddenField('persistent');
-	$input->setValue('other');
+	$input->setCurrentValue('other');
 
 	Assert::same('persistent', $input->getValue());
 });

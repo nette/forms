@@ -39,7 +39,7 @@ class HiddenField extends BaseControl
 	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setCurrentValue($value)
 	{
 		if (!is_scalar($value) && $value !== null && !method_exists($value, '__toString')) {
 			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));

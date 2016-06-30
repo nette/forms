@@ -26,7 +26,7 @@ class Translator implements Nette\Localization\ITranslator
 test(function () {
 	$form = new Form;
 	$input = $form->addTextArea('text', 'Label')
-		->setValue('&text')
+		->setCurrentValue('&text')
 		->setHtmlAttribute('autocomplete', 'off');
 
 	Assert::type(Html::class, $input->getLabel());
@@ -42,7 +42,7 @@ test(function () { // translator
 	$form = new Form;
 	$input = $form->addTextArea('text', 'Label')
 		->setHtmlAttribute('placeholder', 'place')
-		->setValue('text')
+		->setCurrentValue('text')
 		->setTranslator(new Translator);
 
 	Assert::same('<label for="frm-text">Label</label>', (string) $input->getLabel());

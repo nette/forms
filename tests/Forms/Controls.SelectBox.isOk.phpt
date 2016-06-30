@@ -27,9 +27,9 @@ $select->setPrompt('Empty');
 Assert::true($select->isOk());
 $select->setPrompt(false);
 
-$select->setValue('bar');
+$select->setCurrentValue('bar');
 Assert::true($select->isOk());
-$select->setValue(null);
+$select->setCurrentValue(null);
 
 $select->setItems([]);
 Assert::true($select->isOk());

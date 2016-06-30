@@ -18,7 +18,7 @@ require __DIR__ . '/../bootstrap.php';
 
 test(function () {
 	$control = new TextInput;
-	$control->value = '';
+	$control->setCurrentValue('');
 	Assert::true(Validator::validateMinLength($control, 0));
 	Assert::false(Validator::validateMinLength($control, 1));
 });
@@ -26,10 +26,10 @@ test(function () {
 
 test(function () {
 	$control = new TextInput;
-	$control->value = '';
+	$control->setCurrentValue('');
 	Assert::true(Validator::validateMaxLength($control, 0));
 
-	$control->value = 'aaa';
+	$control->setCurrentValue('aaa');
 	Assert::false(Validator::validateMaxLength($control, 2));
 	Assert::true(Validator::validateMaxLength($control, 3));
 });
@@ -37,11 +37,11 @@ test(function () {
 
 test(function () {
 	$control = new TextInput;
-	$control->value = '';
+	$control->setCurrentValue('');
 	Assert::true(Validator::validateLength($control, 0));
 	Assert::true(Validator::validateLength($control, [0, 0]));
 
-	$control->value = 'aaa';
+	$control->setCurrentValue('aaa');
 	Assert::true(Validator::validateLength($control, 3));
 	Assert::false(Validator::validateLength($control, 4));
 	Assert::true(Validator::validateLength($control, [3]));
@@ -51,45 +51,45 @@ test(function () {
 
 test(function () {
 	$control = new TextInput;
-	$control->value = '';
+	$control->setCurrentValue('');
 	Assert::false(Validator::validateEmail($control));
 
-	$control->value = '@.';
+	$control->setCurrentValue('@.');
 	Assert::false(Validator::validateEmail($control));
 
-	$control->value = 'name@a-b-c.cz';
+	$control->setCurrentValue('name@a-b-c.cz');
 	Assert::true(Validator::validateEmail($control));
 
-	$control->value = "name@\u{17E}lu\u{165}ou\u{10D}k\u{FD}.cz"; // name@žluťoučký.cz
+	$control->setCurrentValue("name@\u{17E}lu\u{165}ou\u{10D}k\u{FD}.cz"); // name@žluťoučký.cz
 	Assert::true(Validator::validateEmail($control));
 
-	$control->value = "\u{17E}name@\u{17E}lu\u{165}ou\u{10D}k\u{FD}.cz"; // žname@žluťoučký.cz
+	$control->setCurrentValue("\u{17E}name@\u{17E}lu\u{165}ou\u{10D}k\u{FD}.cz"); // žname@žluťoučký.cz
 	Assert::false(Validator::validateEmail($control));
 });
 
 
 test(function () {
 	$control = new TextInput;
-	$control->value = '';
+	$control->setCurrentValue('');
 	Assert::false(Validator::validateUrl($control));
 	Assert::same('', $control->value);
 
-	$control->value = 'localhost';
+	$control->setCurrentValue('localhost');
 	Assert::true(Validator::validateUrl($control));
 	Assert::same('http://localhost', $control->value);
 
-	$control->value = 'http://nette.org';
+	$control->setCurrentValue('http://nette.org');
 	Assert::true(Validator::validateUrl($control));
 	Assert::same('http://nette.org', $control->value);
 
-	$control->value = '/nette.org';
+	$control->setCurrentValue('/nette.org');
 	Assert::false(Validator::validateUrl($control));
 });
 
 
 test(function () {
 	$control = new TextInput;
-	$control->value = '123x';
+	$control->setCurrentValue('123x');
 	Assert::false(Validator::validatePattern($control, '[0-9]'));
 	Assert::true(Validator::validatePattern($control, '[0-9]+x'));
 	Assert::false(Validator::validatePattern($control, '[0-9]+X'));
@@ -117,7 +117,7 @@ test(function () {
 
 test(function () {
 	$control = new TextInput;
-	$control->value = '';
+	$control->setCurrentValue('');
 	Assert::false(Validator::validateNumeric($control));
 	Assert::same('', $control->value);
 
@@ -143,19 +143,19 @@ test(function () {
 	Assert::false(Validator::validateInteger($control));
 	Assert::same('', $control->value);
 
-	$control->value = '-123';
+	$control->setCurrentValue('-123');
 	Assert::true(Validator::validateInteger($control));
 	Assert::same(-123, $control->value);
 
-	$control->value = '123,5';
+	$control->setCurrentValue('123,5');
 	Assert::false(Validator::validateInteger($control));
 	Assert::same('123,5', $control->value);
 
-	$control->value = '123.5';
+	$control->setCurrentValue('123.5');
 	Assert::false(Validator::validateInteger($control));
 	Assert::same('123.5', $control->value);
 
-	$control->value = PHP_INT_MAX . PHP_INT_MAX;
+	$control->setCurrentValue(PHP_INT_MAX . PHP_INT_MAX);
 	Assert::true(Validator::validateInteger($control));
 	Assert::same(PHP_INT_MAX . PHP_INT_MAX, $control->value);
 });
@@ -163,23 +163,23 @@ test(function () {
 
 test(function () {
 	$control = new TextInput;
-	$control->value = '';
+	$control->setCurrentValue('');
 	Assert::false(Validator::validateFloat($control));
 	Assert::same('', $control->value);
 
-	$control->value = '-123';
+	$control->setCurrentValue('-123');
 	Assert::true(Validator::validateFloat($control));
 	Assert::same(-123.0, $control->value);
 
-	$control->value = '123,5';
+	$control->setCurrentValue('123,5');
 	Assert::true(Validator::validateFloat($control));
 	Assert::same(123.5, $control->value);
 
-	$control->value = '123.5';
+	$control->setCurrentValue('123.5');
 	Assert::true(Validator::validateFloat($control));
 	Assert::same(123.5, $control->value);
 
-	$control->value = PHP_INT_MAX . PHP_INT_MAX;
+	$control->setCurrentValue(PHP_INT_MAX . PHP_INT_MAX);
 	Assert::true(Validator::validateFloat($control));
 	Assert::same((float) (PHP_INT_MAX . PHP_INT_MAX), $control->value);
 });

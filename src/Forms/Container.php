@@ -17,16 +17,16 @@ use Nette;
  *
  * @property   Nette\Utils\ArrayHash $values
  * @property-read \Iterator $controls
- * @property-read Form|null $form
+ * @property-read Form|NULL $form
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
+
 	/** @var callable[]  function (Container $sender); Occurs when the form is validated */
 	public $onValidate;
 
-	/** @var ControlGroup|null */
+	/** @var ControlGroup|NULL */
 	protected $currentGroup;
-
 	/** @var callable[]  extension methods */
 	private static $extMethods = [];
 
@@ -45,7 +45,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		$form = $this->getForm(false);
 		if (!$form || !$form->isAnchored() || !$form->isSubmitted()) {
-			$this->setValues($values, $erase);
+			$this->setCurrentValues($values, $erase);
 		}
 		return $this;
 	}
@@ -56,7 +56,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @return static
 	 * @internal
 	 */
-	public function setValues(iterable $values, bool $erase = false)
+	public function setCurrentValues(iterable $values, bool $erase = false)
 	{
 		if ($values instanceof \Traversable) {
 			$values = iterator_to_array($values);
@@ -68,22 +68,32 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		foreach ($this->getComponents() as $name => $control) {
 			if ($control instanceof IControl) {
 				if (array_key_exists($name, $values)) {
-					$control->setValue($values[$name]);
+					$control->setCurrentValue($values[$name]);
 
 				} elseif ($erase) {
-					$control->setValue(null);
+					$control->setCurrentValue(null);
 				}
 
 			} elseif ($control instanceof self) {
 				if (array_key_exists($name, $values)) {
-					$control->setValues($values[$name], $erase);
+					$control->setCurrentValues($values[$name], $erase);
 
 				} elseif ($erase) {
-					$control->setValues([], $erase);
+					$control->setCurrentValues([], $erase);
 				}
 			}
 		}
 		return $this;
+	}
+
+
+	/**
+	 * @deprecated
+	 */
+	public function setValues($values, $erase = false)
+	{
+		trigger_error(__METHOD__ . '() is deprecated; use setCurrentValues() instead.', E_USER_DEPRECATED);
+		return $this->setCurrentValues($values, $erase);
 	}
 
 

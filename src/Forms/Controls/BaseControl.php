@@ -62,7 +62,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var array */
 	private $errors = [];
 
-	/** @var bool|null */
+	/** @var bool|NULL */
 	private $omitted;
 
 	/** @var Rules */
@@ -92,7 +92,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 		if (self::$autoOptional) {
 			$this->setRequired(false);
 		}
-		$this->setValue(null);
+		$this->setCurrentValue(null);
 	}
 
 
@@ -142,7 +142,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function loadHttpData(): void
 	{
-		$this->setValue($this->getHttpData(Form::DATA_TEXT));
+		$this->setCurrentValue($this->getHttpData(Form::DATA_TEXT));
 	}
 
 
@@ -173,10 +173,18 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * @return static
 	 * @internal
 	 */
+	public function setCurrentValue($value)
+	{
+		return $this->setValue($value);
+	}
+
+
+	/**
+	 * @deprecated
+	 */
 	public function setValue($value)
 	{
 		$this->value = $value;
-		return $this;
 	}
 
 
@@ -208,7 +216,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	{
 		$form = $this->getForm(false);
 		if ($this->isDisabled() || !$form || !$form->isAnchored() || !$form->isSubmitted()) {
-			$this->setValue($value);
+			$this->setCurrentValue($value);
 		}
 		return $this;
 	}
@@ -221,7 +229,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public function setDisabled($value = true)
 	{
 		if ($this->disabled = (bool) $value) {
-			$this->setValue(null);
+			$this->setCurrentValue(null);
 		} elseif (($form = $this->getForm(false)) && $form->isAnchored() && $form->isSubmitted()) {
 			$this->loadHttpData();
 		}
@@ -327,7 +335,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Changes control's HTML id.
-	 * @param  mixed  new ID, or false or null
+	 * @param  mixed  new ID, or FALSE or NULL
 	 * @return static
 	 */
 	public function setHtmlId($id)

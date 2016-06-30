@@ -16,9 +16,9 @@ require __DIR__ . '/../bootstrap.php';
 
 $form = new Form;
 $input = $form->addProtection('Security token did not match. Possible CSRF attack.');
-$token = $input->getControl()->value;
+$token = $input->getControl()->getValue();
 
-Assert::notSame($token, $input->getControl()->value);
+Assert::notSame($token, $input->getControl()->getValue());
 
 /* BREACH attack test: skipped because $input->getControl() always generates different token
 $charlist = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
@@ -52,7 +52,7 @@ for ($i = 3; $i <= strlen($token); $i++) {
 }
 
 foreach ($strings as $string) {
-	$input->setValue($string);
+	$input->setCurrentValue($string);
 	Assert::false(CsrfProtection::validateCsrf($input));
 }
 */

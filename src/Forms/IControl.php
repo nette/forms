@@ -21,7 +21,7 @@ interface IControl
 	 * @param  mixed
 	 * @return static
 	 */
-	function setValue($value);
+	//function setCurrentValue($value);
 
 	/**
 	 * Returns control's value.

@@ -24,11 +24,11 @@ test(function () {
 	$form->validate();
 	Assert::same(['fill foo'], $form->getErrors());
 
-	$form['foo']->setValue('abc');
+	$form['foo']->setDefaultValue('abc');
 	$form->validate();
 	Assert::same(['fill bar'], $form->getErrors());
 
-	$form['bar']->setValue('abc');
+	$form['bar']->setDefaultValue('abc');
 	$form->validate();
 	Assert::same([], $form->getErrors());
 });

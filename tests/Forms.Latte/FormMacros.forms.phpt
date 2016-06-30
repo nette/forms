@@ -36,7 +36,7 @@ $form->addText('username', 'Username:'); // must have just one textfield to gene
 $form['username']->getControlPrototype()->addClass('control-class');
 $form->addRadioList('sex', 'Sex:', ['m' => 'male', 'f' => 'female']);
 $form->addSelect('select', null, ['m' => 'male', 'f' => 'female']);
-$form->addTextArea('area', null)->setValue('one<two');
+$form->addTextArea('area', null)->setDefaultValue('one<two');
 $form->addCheckbox('checkbox', 'Checkbox');
 $form->addCheckboxList('checklist', 'CheckboxList:', ['m' => 'male', 'f' => 'female']);
 $form->addSubmit('send', 'Sign in');

@@ -91,16 +91,16 @@ test(function () { // malformed data
 });
 
 
-test(function () { // setValue() and invalid argument
+test(function () { // setCurrentValue() and invalid argument
 	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->setValue(null);
+	$input->setCurrentValue(null);
 
 	Assert::exception(function () use ($input) {
-		$input->setValue([]);
-	}, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'text'.");
+		$input->setCurrentValue([]);
+	}, Nette\InvalidArgumentException::class, "Value must be scalar or NULL, array given in field 'text'.");
 });
 
 
@@ -158,7 +158,7 @@ test(function () { // URL
 test(function () { // object
 	$form = new Form;
 	$input = $form->addText('text')
-		->setValue($date = new Nette\Utils\DateTime('2013-07-05'));
+		->setCurrentValue($date = new Nette\Utils\DateTime('2013-07-05'));
 
 	Assert::same($date, $input->getValue());
 });

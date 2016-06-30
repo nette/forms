@@ -236,7 +236,7 @@ class Validator
 			return true;
 
 		} elseif (Validators::isUrl($value = "http://$value")) {
-			$control->setValue($value);
+			$control->setCurrentValue($value);
 			return true;
 		}
 		return false;
@@ -269,7 +269,7 @@ class Validator
 	{
 		if (Validators::isNumericInt($value = $control->getValue())) {
 			if (!is_float($tmp = $value * 1)) { // bigint leave as string
-				$control->setValue($tmp);
+				$control->setCurrentValue($tmp);
 			}
 			return true;
 		}
@@ -284,7 +284,7 @@ class Validator
 	{
 		$value = str_replace([' ', ','], ['', '.'], $control->getValue());
 		if (Validators::isNumeric($value)) {
-			$control->setValue((float) $value);
+			$control->setCurrentValue((float) $value);
 			return true;
 		}
 		return false;

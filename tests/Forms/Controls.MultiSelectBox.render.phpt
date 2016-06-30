@@ -44,7 +44,7 @@ test(function () { // selected
 	$input = $form->addMultiSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	])->setValue(0);
+	])->setCurrentValue(0);
 
 	Assert::same('<select name="list[]" id="frm-list" multiple><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
 });
@@ -151,7 +151,7 @@ test(function () {
 	$input = $form->addMultiSelect('list', 'Label', [
 		1 => 'First',
 		2 => 'Second',
-	])->setValue(1);
+	])->setCurrentValue(1);
 	$input->addOptionAttributes(['bar' => 'b', 'selected?' => 2, 'foo:' => [1 => 'a', 2 => 'b']]);
 	$input->addOptionAttributes(['bar' => 'c']);
 	Assert::same('<select name="list[]" id="frm-list" multiple><option bar="c" value="1" selected foo="a">First</option><option bar="c" value="2" foo="b">Second</option></select>', (string) $input->getControl());

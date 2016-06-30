@@ -26,7 +26,7 @@ $container->onValidate[] = function (Container $container) {
 	$container['name']->addError('fail 2');
 };
 
-$form->setValues(['name' => 'invalid*input']);
+$form->setDefaults(['name' => 'invalid*input']);
 $form->validate();
 
 Assert::same([
