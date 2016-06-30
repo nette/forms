@@ -57,7 +57,7 @@ class CsrfProtection extends HiddenField
 	 * Loads HTTP data.
 	 * @return void
 	 */
-	public function loadHttpData()
+	protected function loadHttpData()
 	{
 		$this->value = $this->getHttpData(Nette\Forms\Form::DATA_TEXT);
 	}

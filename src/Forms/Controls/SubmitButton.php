@@ -42,7 +42,7 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 	 * Loads HTTP data.
 	 * @return void
 	 */
-	public function loadHttpData()
+	protected function loadHttpData()
 	{
 		parent::loadHttpData();
 		if ($this->isFilled()) {

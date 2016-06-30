@@ -38,7 +38,7 @@ abstract class MultiChoiceControl extends BaseControl
 	 * Loads HTTP data.
 	 * @return void
 	 */
-	public function loadHttpData()
+	protected function loadHttpData()
 	{
 		$this->value = array_keys(array_flip($this->getHttpData(Nette\Forms\Form::DATA_TEXT)));
 		if (is_array($this->disabled)) {

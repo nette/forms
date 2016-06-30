@@ -31,7 +31,7 @@ class ImageButton extends SubmitButton
 	 * Loads HTTP data.
 	 * @return void
 	 */
-	public function loadHttpData()
+	protected function loadHttpData()
 	{
 		parent::loadHttpData();
 		$this->value = $this->value
