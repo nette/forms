@@ -30,9 +30,6 @@
 
 var Nette = {};
 
-Nette.stopOnError = true;
-
-
 /**
  * Attaches a handler to an event for the element.
  */
@@ -208,7 +205,7 @@ Nette.validateForm = function(sender) {
 		}
 	}
 
-	var radios = {}, i, elem, success = true;
+	var radios = {}, i, elem;
 
 	for (i = 0; i < form.elements.length; i++) {
 		elem = form.elements[i];
@@ -227,12 +224,11 @@ Nette.validateForm = function(sender) {
 			continue;
 		}
 
-		success = Nette.validateControl(elem) && success;
-		if (!success && Nette.stopOnError) {
-			break;
+		if (!Nette.validateControl(elem)) {
+			return false;
 		}
 	}
-	return success;
+	return true;
 };
 
 
