@@ -132,7 +132,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function validate(array $controls = NULL)
 	{
 		foreach ($controls === NULL ? $this->getComponents() : $controls as $control) {
-			$control->validate();
+			if ($control instanceof IControl || $control instanceof self) {
+				$control->validate();
+			}
 		}
 		if ($this->onValidate !== NULL) {
 			if (!is_array($this->onValidate) && !$this->onValidate instanceof \Traversable) {
