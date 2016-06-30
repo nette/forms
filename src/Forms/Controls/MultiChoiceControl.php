@@ -51,6 +51,7 @@ abstract class MultiChoiceControl extends BaseControl
 	 * Sets selected items (by keys).
 	 * @param  array
 	 * @return self
+	 * @internal
 	 */
 	public function setValue($values)
 	{

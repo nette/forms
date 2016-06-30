@@ -373,6 +373,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/**
 	 * Sets the submittor control.
 	 * @return self
+	 * @internal
 	 */
 	public function setSubmittedBy(ISubmitterControl $by = NULL)
 	{

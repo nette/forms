@@ -53,6 +53,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @param  array|\Traversable  values used to fill the form
 	 * @param  bool     erase other controls?
 	 * @return self
+	 * @internal
 	 */
 	public function setValues($values, $erase = FALSE)
 	{

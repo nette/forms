@@ -35,6 +35,7 @@ class Checkbox extends BaseControl
 	 * Sets control's value.
 	 * @param  bool
 	 * @return self
+	 * @internal
 	 */
 	public function setValue($value)
 	{
