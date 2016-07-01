@@ -62,8 +62,8 @@ class TextInput extends TextBase
 		foreach ($this->getRules() as $rule) {
 			if ($rule->isNegative || $rule->branch) {
 
-			} elseif ($input->type === NULL && in_array($rule->validator, [Form::EMAIL, Form::URL, Form::INTEGER, Form::FLOAT], TRUE)) {
-				static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number', Form::FLOAT => 'number'];
+			} elseif ($input->type === NULL && in_array($rule->validator, [Form::EMAIL, Form::URL, Form::INTEGER], TRUE)) {
+				static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
 				$input->type = $types[$rule->validator];
 
 			} elseif (in_array($rule->validator, [Form::MIN, Form::MAX, Form::RANGE], TRUE)
