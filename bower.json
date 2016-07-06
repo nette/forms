@@ -15,7 +15,7 @@
 	"authors": [
 		"David Grudl (https://davidgrudl.com)"
 	],
-	"main": "src/assets/netteForms.js",
+	"main": "src/assets/netteForms.min.js",
 	"ignore": [
 		"src/Bridges",
 		"src/Forms",
