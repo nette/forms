@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 				jshintrc: '.jshintrc'
 			},
 			all: [
-				'../../src/assets/*.js'
+				'../../src/assets/*.js', '!../../src/assets/*.min.js'
 			]
 		},
 		jasmine: {
