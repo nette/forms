@@ -299,6 +299,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addInteger($name, $label = NULL)
 	{
 		return $this[$name] = (new Controls\TextInput($label))
+			->setNullable()
 			->setRequired(FALSE)
 			->addRule(Form::INTEGER);
 	}
