@@ -279,7 +279,7 @@ Nette.showFormErrors = function(form, errors) {
 		var elem = errors[i].element,
 			message = errors[i].message;
 
-		if (messages.indexOf(message) < 0) {
+		if (!Nette.inArray(messages, message)) {
 			messages.push(message);
 
 			if (!focusElem && elem.focus) {
