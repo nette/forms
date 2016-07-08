@@ -106,3 +106,14 @@ test(function () { // setEmptyValue
 
 	Assert::same('<textarea name="text" id="frm-text" data-nette-empty-value="empty">empty </textarea>', (string) $input->getControl());
 });
+
+
+test(function () { // setEmptyValue & setNullable
+	$form = new Form;
+	$input = $form->addTextArea('text')
+		->setEmptyValue('empty ')
+		->setNullable();
+
+	Assert::null($input->getValue());
+	Assert::same('<textarea name="text" id="frm-text" data-nette-empty-value="empty">empty </textarea>', (string) $input->getControl());
+});

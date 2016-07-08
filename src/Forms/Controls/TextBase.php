@@ -23,6 +23,9 @@ abstract class TextBase extends BaseControl
 	/** @var mixed unfiltered submitted value */
 	protected $rawValue = '';
 
+	/** @var bool */
+	private $nullable;
+
 
 	/**
 	 * Sets control's value.
@@ -48,7 +51,19 @@ abstract class TextBase extends BaseControl
 	 */
 	public function getValue()
 	{
-		return $this->value;
+		return $this->nullable && $this->value === '' ? NULL : $this->value;
+	}
+
+
+	/**
+	 * Sets whether getValue() returns NULL instead of empty string.
+	 * @param  bool
+	 * @return self
+	 */
+	public function setNullable($value = TRUE)
+	{
+		$this->nullable = (bool) $value;
+		return $this;
 	}
 
 
