@@ -211,3 +211,13 @@ test(function () { // rendering options
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));
 });
+
+
+test(function () { // addInteger
+	$form = new Form;
+	$input = $form->addInteger('text');
+
+	Assert::null($input->getValue());
+
+	Assert::same('<input type="number" name="text" id="frm-text" data-nette-rules=\'[{"op":"optional"},{"op":":integer","msg":"Please enter a valid integer."}]\'>', (string) $input->getControl());
+});
