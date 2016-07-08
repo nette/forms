@@ -24,7 +24,7 @@
 
 'use strict';
 
-var Nette = {};
+var Nette = {version: '2.3'};
 
 /**
  * Attaches a handler to an event for the element.
