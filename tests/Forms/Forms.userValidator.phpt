@@ -32,4 +32,6 @@ foreach ($datasets as $case) {
 
 	$control->setValue($case[0])->validate();
 	Assert::same($case[1], $control->getErrors());
+
+	$form->fireRenderEvents();
 }
