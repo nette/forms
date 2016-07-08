@@ -58,38 +58,6 @@ class TextInput extends TextBase
 	public function getControl()
 	{
 		$input = parent::getControl();
-
-		foreach ($this->getRules() as $rule) {
-			if ($rule->isNegative || $rule->branch) {
-
-			} elseif ($input->type === NULL && in_array($rule->validator, [Form::EMAIL, Form::URL, Form::INTEGER], TRUE)) {
-				static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
-				$input->type = $types[$rule->validator];
-
-			} elseif (in_array($rule->validator, [Form::MIN, Form::MAX, Form::RANGE], TRUE)
-				&& in_array($input->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], TRUE)
-			) {
-				if ($rule->validator === Form::MIN) {
-					$range = [$rule->arg, NULL];
-				} elseif ($rule->validator === Form::MAX) {
-					$range = [NULL, $rule->arg];
-				} else {
-					$range = $rule->arg;
-				}
-				if (isset($range[0]) && is_scalar($range[0])) {
-					$input->min = isset($input->min) ? max($input->min, $range[0]) : $range[0];
-				}
-				if (isset($range[1]) && is_scalar($range[1])) {
-					$input->max = isset($input->max) ? min($input->max, $range[1]) : $range[1];
-				}
-
-			} elseif ($rule->validator === Form::PATTERN && is_scalar($rule->arg)
-				&& in_array($input->type, [NULL, 'text', 'search', 'tel', 'url', 'email', 'password'], TRUE)
-			) {
-				$input->pattern = $rule->arg;
-			}
-		}
-
 		if ($input->type !== 'password' && ($this->rawValue !== '' || $this->emptyValue !== '')) {
 			$input->value = $this->rawValue === ''
 				? $this->translate($this->emptyValue)
@@ -97,6 +65,39 @@ class TextInput extends TextBase
 		}
 		$input->type = $input->type ?: 'text';
 		return $input;
+	}
+
+
+	public function addRule($validator, $message = NULL, $arg = NULL)
+	{
+		if ($this->control->type === NULL && in_array($validator, [Form::EMAIL, Form::URL, Form::INTEGER], TRUE)) {
+			static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
+			$this->control->type = $types[$validator];
+
+		} elseif (in_array($validator, [Form::MIN, Form::MAX, Form::RANGE], TRUE)
+			&& in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], TRUE)
+		) {
+			if ($validator === Form::MIN) {
+				$range = [$arg, NULL];
+			} elseif ($validator === Form::MAX) {
+				$range = [NULL, $arg];
+			} else {
+				$range = $arg;
+			}
+			if (isset($range[0]) && is_scalar($range[0])) {
+				$this->control->min = isset($this->control->min) ? max($this->control->min, $range[0]) : $range[0];
+			}
+			if (isset($range[1]) && is_scalar($range[1])) {
+				$this->control->max = isset($this->control->max) ? min($this->control->max, $range[1]) : $range[1];
+			}
+
+		} elseif ($validator === Form::PATTERN && is_scalar($arg)
+			&& in_array($this->control->type, [NULL, 'text', 'search', 'tel', 'url', 'email', 'password'], TRUE)
+		) {
+			$this->control->pattern = $arg;
+		}
+
+		return parent::addRule($validator, $message, $arg);
 	}
 
 }

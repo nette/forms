@@ -14,7 +14,7 @@
 <tr class="required">
 	<th><label for="frm-age" class="required">Your age:</label></th>
 
-	<td><input type="number" name="age" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Please enter a valid integer."},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' min="10" max="100" class="text">
+	<td><input type="number" name="age" min="10" max="100" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Please enter a valid integer."},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' class="text">
 
 	<span class="error">
 		Enter your age

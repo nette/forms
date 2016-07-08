@@ -77,13 +77,13 @@ test(function () { // validation rule required & PATTERN
 
 	foreach (['text', 'search', 'tel', 'url', 'email'] as $type) {
 		$input->setType($type);
-		Assert::same('<input type="' . $type . '" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\' pattern="[0-9]+">', (string) $input->getControl());
+		Assert::same('<input type="' . $type . '" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 	}
 	$input->setType('password');
-	Assert::same('<input type="password" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\' pattern="[0-9]+">', (string) $input->getControl());
+	Assert::same('<input type="password" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 
 	$input->setType('number');
-	Assert::same('<input type="number" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
+	Assert::same('<input type="number" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 });
 
 
@@ -150,7 +150,7 @@ test(function () { // validation rule RANGE with setType
 		->addRule(Form::MAX, 'Must be less than or equal to %d', 101)
 		->addRule(Form::RANGE, 'Must be in range from %d to %d', [$minInput, $maxInput]);
 
-	Assert::same('<input type="number" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\' min="1" max="100">', (string) $input->getControl());
+	Assert::same('<input type="number" name="count" min="1" max="100" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\'>', (string) $input->getControl());
 });
 
 
