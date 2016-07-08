@@ -266,7 +266,7 @@ class Rules implements \IteratorAggregate
 				if ($rule->branch->check() === TRUE) {
 					return TRUE;
 				}
-			} else {
+			} else if ($rule->validator === Form::REQUIRED) {
 				trigger_error("Missing setRequired(TRUE | FALSE) on field '{$rule->control->getName()}' in form '{$rule->control->getForm()->getName()}'.", E_USER_WARNING);
 				return TRUE;
 			}
