@@ -31,6 +31,7 @@
 var Nette = {};
 
 Nette.formErrors = [];
+Nette.version = '2.4';
 
 
 /**
