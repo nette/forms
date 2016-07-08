@@ -163,6 +163,26 @@ test(function () { // setEmptyValue
 });
 
 
+test(function () { // setNullable
+	$form = new Form;
+	$input = $form->addText('text')
+		->setNullable();
+
+	Assert::null($input->getValue());
+});
+
+
+test(function () { // setEmptyValue & setNullable
+	$form = new Form;
+	$input = $form->addText('text')
+		->setEmptyValue('empty ')
+		->setNullable();
+
+	Assert::null($input->getValue());
+	Assert::same('<input type="text" name="text" id="frm-text" data-nette-empty-value="empty" value="empty ">', (string) $input->getControl());
+});
+
+
 test(function () { // setDefaultValue
 	$form = new Form;
 	$input = $form->addText('text')
