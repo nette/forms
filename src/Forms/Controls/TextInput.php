@@ -57,14 +57,10 @@ class TextInput extends TextBase
 	 */
 	public function getControl()
 	{
-		$input = parent::getControl();
-		if ($input->type !== 'password' && ($this->rawValue !== '' || $this->emptyValue !== '')) {
-			$input->value = $this->rawValue === ''
-				? $this->translate($this->emptyValue)
-				: $this->rawValue;
-		}
-		$input->type = $input->type ?: 'text';
-		return $input;
+		return parent::getControl()->addAttributes([
+			'value' => $this->control->type === 'password' ? $this->control->value : $this->getRenderedValue(),
+			'type' => $this->control->type ?: 'text',
+		]);
 	}
 
 

@@ -111,6 +111,17 @@ abstract class TextBase extends BaseControl
 	}
 
 
+	/**
+	 * @return string|NULL
+	 */
+	protected function getRenderedValue()
+	{
+		return $this->rawValue === ''
+			? ($this->emptyValue === '' ? NULL : $this->translate($this->emptyValue))
+			: $this->rawValue;
+	}
+
+
 	public function addRule($validator, $message = NULL, $arg = NULL)
 	{
 		if ($validator === Form::LENGTH || $validator === Form::MAX_LENGTH) {
