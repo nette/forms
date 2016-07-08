@@ -97,3 +97,12 @@ test(function () { // rendering options
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));
 });
+
+
+test(function () { // setEmptyValue
+	$form = new Form;
+	$input = $form->addTextArea('text')
+		->setEmptyValue('empty ');
+
+	Assert::same('<textarea name="text" id="frm-text" data-nette-empty-value="empty">empty </textarea>', (string) $input->getControl());
+});
