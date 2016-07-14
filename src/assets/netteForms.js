@@ -281,7 +281,7 @@ Nette.showFormErrors = function(form, errors) {
 	var messages = [],
 		focusElem;
 
-	for (var i in errors) {
+	for (var i = 0; i < errors.length; i++) {
 		var elem = errors[i].element,
 			message = errors[i].message;
 
