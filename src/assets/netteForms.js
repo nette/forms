@@ -158,7 +158,7 @@ Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
 			emptyOptional = !Nette.validateRule(elem, ':filled', null, value);
 			continue;
 		} else if (emptyOptional && !rule.condition && rule.op !== ':filled') {
-			return true;
+			continue;
 		}
 
 		curElem = curElem.tagName ? curElem : curElem[0]; // RadioNodeList

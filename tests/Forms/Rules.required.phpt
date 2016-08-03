@@ -84,6 +84,20 @@ test(function () { // setRequired(FALSE)
 });
 
 
+test(function () { // setRequired(FALSE) and addConditionOn
+	$form = new Form;
+	$form->addCheckbox('checkbox');
+	$input = $form->addText('text');
+	$input->setRequired(FALSE)
+		->addRule($form::EMAIL)
+		->addConditionOn($form['checkbox'], $form::EQUAL, FALSE)
+			->addRule($form::REQUIRED);
+
+	Assert::false($input->getRules()->validate());
+	Assert::same(['This field is required.'], $input->getErrors());
+});
+
+
 test(function () { // addRule(~Form::REQUIRED)
 	$form = new Form;
 	$input = $form->addText('text');

@@ -235,7 +235,7 @@ class Rules implements \IteratorAggregate
 		$emptyOptional = $emptyOptional || $this->isOptional() && !$this->control->isFilled();
 		foreach ($this as $rule) {
 			if (!$rule->branch && $emptyOptional && $rule->validator !== Form::FILLED) {
-				return TRUE;
+				continue;
 			}
 
 			$success = $this->validateRule($rule);
