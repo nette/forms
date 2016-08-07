@@ -672,7 +672,7 @@ Nette.initOnLoad = function() {
 		}
 
 		Nette.addEvent(document.body, 'click', function(e) {
-			var target = e.target || e.srcElement;
+			var target = e ? e.target : window.event.srcElement;
 			if (target.form && target.type in {submit: 1, image: 1}) {
 				target.form['nette-submittedBy'] = target;
 			}
