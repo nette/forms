@@ -190,8 +190,10 @@ Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
 		}
 	}
 
-	if (!onlyCheck && elem.type === 'number' && !elem.validity.valid) {
-		Nette.addError(elem, 'Please enter a valid value.');
+	if (elem.type === 'number' && !elem.validity.valid) {
+		if (!onlyCheck) {
+			Nette.addError(elem, 'Please enter a valid value.');
+		}
 		return false;
 	}
 
