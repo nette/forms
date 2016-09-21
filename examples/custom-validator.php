@@ -32,10 +32,6 @@ $form->addText('num1', 'Multiple of 8:')
 	->setDefaultValue(5)
 	->addRule('MyValidators::divisibilityValidator', 'First number must be %d multiple', 8);
 
-$form->addText('num2', 'Not multiple of 5:')
-	->setDefaultValue(5)
-	->addRule(~'MyValidators::divisibilityValidator', 'Second number must not be %d multiple', 5); // negative
-
 $form->addSubmit('submit', 'Send');
 
 

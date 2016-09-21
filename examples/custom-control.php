@@ -26,8 +26,8 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	public function __construct($label = NULL)
 	{
 		parent::__construct($label);
-		$this->addCondition(Form::FILLED)
-			->addRule(__CLASS__ . '::validateDate', 'Date is invalid.');
+		$this->setRequired(FALSE)
+			->addRule([__CLASS__, 'validateDate'], 'Date is invalid.');
 	}
 
 
