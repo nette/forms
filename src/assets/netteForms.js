@@ -480,7 +480,7 @@ Nette.validators = {
 				return null;
 			}
 		}
-		return Nette.validators.range(elem, [arg, null], val);
+		return arg === null || parseFloat(val) >= arg;
 	},
 
 	max: function(elem, arg, val) {
@@ -491,7 +491,7 @@ Nette.validators = {
 				return null;
 			}
 		}
-		return Nette.validators.range(elem, [null, arg], val);
+		return arg === null || parseFloat(val) <= arg;
 	},
 
 	range: function(elem, arg, val) {
