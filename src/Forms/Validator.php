@@ -49,7 +49,7 @@ class Validator
 	public static function formatMessage(Rule $rule, $withValue = TRUE)
 	{
 		$message = $rule->message;
-		if ($message instanceof Nette\Utils\Html) {
+		if ($message instanceof Nette\Utils\IHtmlString) {
 			return $message;
 
 		} elseif ($message === NULL && is_string($rule->validator) && isset(static::$messages[$rule->validator])) {
