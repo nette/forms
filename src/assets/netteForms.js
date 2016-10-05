@@ -640,7 +640,13 @@ Nette.toggle = function(id, visible, srcElement) {
  * Setup handlers.
  */
 Nette.initForm = function(form) {
-	form.noValidate = 'novalidate';
+	Nette.toggleForm(form);
+
+	if (form.noValidate) {
+		return;
+	}
+
+	form.noValidate = true;
 
 	Nette.addEvent(form, 'submit', function(e) {
 		if (!Nette.validateForm(form)) {
@@ -653,8 +659,6 @@ Nette.initForm = function(form) {
 			}
 		}
 	});
-
-	Nette.toggleForm(form);
 };
 
 
