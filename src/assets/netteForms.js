@@ -682,7 +682,7 @@ Nette.initOnLoad = function() {
 			while(target && !(target.type in {submit: 1, image: 1} || target.form)){
 				target = target.parentNode;
 			}
-			if (target.form && target.type in {submit: 1, image: 1}) {
+			if (target && target.form && target.type in {submit: 1, image: 1}) {
 				target.form['nette-submittedBy'] = target;
 			}
 		});
