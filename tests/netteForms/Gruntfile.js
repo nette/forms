@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 				src: '../../src/assets/*.js',
 				options: {
 					vendor: [
-						'bower_components/fixtures/fixtures.js'
+						'node_modules/js-fixtures/fixtures.js'
 					],
 					specs: 'spec/*Spec.js'
 				}
