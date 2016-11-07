@@ -215,15 +215,22 @@ class Rules implements \IteratorAggregate
 
 
 	/** @internal */
-	public function getToggleStates(array $toggles = [], bool $success = true): array
+	public function getToggleStates(array $toggles = [], bool $success = true, bool $emptyOptional = null): array
 	{
 		foreach ($this->toggles as $id => $hide) {
 			$toggles[$id] = ($success xor !$hide) || !empty($toggles[$id]);
 		}
 
-		foreach ($this->rules as $rule) {
+		$emptyOptional = $emptyOptional ?? (!$this->isRequired() && !$this->control->isFilled());
+		foreach ($this as $rule) {
 			if ($rule->branch) {
-				$toggles = $rule->branch->getToggleStates($toggles, $success && static::validateRule($rule));
+				$toggles = $rule->branch->getToggleStates(
+					$toggles,
+					$success && static::validateRule($rule),
+					$rule->validator === Form::BLANK ? false : $emptyOptional
+				);
+			} elseif (!$emptyOptional || $rule->validator === Form::FILLED) {
+				$success = $success && static::validateRule($rule);
 			}
 		}
 		return $toggles;
