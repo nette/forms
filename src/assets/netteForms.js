@@ -187,6 +187,15 @@ Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
 				Nette.addError(curElem, message);
 			}
 			return false;
+		} else if (elem.type === 'number' && !elem.validity.valid) {
+			if (!onlyCheck) {
+				var arr = Nette.isArray(rule.arg) ? rule.arg : [rule.arg],
+					message = rule.msg.replace(/%(value|\d+)/g, function(foo, m) {
+						return Nette.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control));
+					});
+				Nette.addError(curElem, message);
+			}
+			return false;
 		}
 	}
 
