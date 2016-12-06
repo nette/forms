@@ -20,7 +20,7 @@ use Nette;
  * @property string $action
  * @property string $method
  */
-class Form extends Container implements Nette\Utils\IHtmlString
+class Form extends Container implements Nette\Utils\IHtmlString, Nette\Utils\IExtensibleMethods
 {
 	/** validator */
 	const EQUAL = ':equal',
