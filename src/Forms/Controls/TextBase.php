@@ -30,7 +30,7 @@ abstract class TextBase extends BaseControl
 	/**
 	 * Sets control's value.
 	 * @param  string
-	 * @return self
+	 * @return static
 	 * @internal
 	 */
 	public function setValue($value)
@@ -58,7 +58,7 @@ abstract class TextBase extends BaseControl
 	/**
 	 * Sets whether getValue() returns NULL instead of empty string.
 	 * @param  bool
-	 * @return self
+	 * @return static
 	 */
 	public function setNullable($value = TRUE)
 	{
@@ -70,7 +70,7 @@ abstract class TextBase extends BaseControl
 	/**
 	 * Sets the special value which is treated as empty string.
 	 * @param  string
-	 * @return self
+	 * @return static
 	 */
 	public function setEmptyValue($value)
 	{
@@ -92,7 +92,7 @@ abstract class TextBase extends BaseControl
 	/**
 	 * Sets the maximum number of allowed characters.
 	 * @param  int
-	 * @return self
+	 * @return static
 	 */
 	public function setMaxLength($length)
 	{
@@ -104,7 +104,7 @@ abstract class TextBase extends BaseControl
 	/**
 	 * Appends input string filter callback.
 	 * @param  callable
-	 * @return self
+	 * @return static
 	 */
 	public function addFilter($filter)
 	{

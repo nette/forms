@@ -31,7 +31,7 @@ class MultiSelectBox extends MultiChoiceControl
 
 	/**
 	 * Sets options and option groups from which to choose.
-	 * @return self
+	 * @return static
 	 */
 	public function setItems(array $items, $useKeys = TRUE)
 	{
@@ -76,7 +76,7 @@ class MultiSelectBox extends MultiChoiceControl
 
 
 	/**
-	 * @return self
+	 * @return static
 	 */
 	public function addOptionAttributes(array $attributes)
 	{

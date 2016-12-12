@@ -31,7 +31,7 @@ class ControlGroup
 
 
 	/**
-	 * @return self
+	 * @return static
 	 */
 	public function add(...$items)
 	{
@@ -75,7 +75,7 @@ class ControlGroup
 	 *
 	 * @param  string key
 	 * @param  mixed  value
-	 * @return self
+	 * @return static
 	 */
 	public function setOption($key, $value)
 	{

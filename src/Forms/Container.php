@@ -36,7 +36,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Fill-in with default values.
 	 * @param  array|\Traversable  values used to fill the form
 	 * @param  bool     erase other default values?
-	 * @return self
+	 * @return static
 	 */
 	public function setDefaults($values, $erase = FALSE)
 	{
@@ -52,7 +52,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Fill-in with values.
 	 * @param  array|\Traversable  values used to fill the form
 	 * @param  bool     erase other controls?
-	 * @return self
+	 * @return static
 	 * @internal
 	 */
 	public function setValues($values, $erase = FALSE)
@@ -169,7 +169,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * @return self
+	 * @return static
 	 */
 	public function setCurrentGroup(ControlGroup $group = NULL)
 	{
@@ -193,7 +193,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @param  Nette\ComponentModel\IComponent
 	 * @param  string
 	 * @param  string
-	 * @return self
+	 * @return static
 	 * @throws Nette\InvalidStateException
 	 */
 	public function addComponent(Nette\ComponentModel\IComponent $component, $name, $insertBefore = NULL)
@@ -448,7 +448,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Adds naming container to the form.
 	 * @param  string  name
-	 * @return Container
+	 * @return self
 	 */
 	public function addContainer($name)
 	{
