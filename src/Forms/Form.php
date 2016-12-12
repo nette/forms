@@ -150,7 +150,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns self.
-	 * @return self
+	 * @return static
 	 */
 	public function getForm($need = TRUE)
 	{
@@ -161,7 +161,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/**
 	 * Sets form's action.
 	 * @param  mixed URI
-	 * @return self
+	 * @return static
 	 */
 	public function setAction($url)
 	{
@@ -183,7 +183,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/**
 	 * Sets form's method.
 	 * @param  string get | post
-	 * @return self
+	 * @return static
 	 */
 	public function setMethod($method)
 	{
@@ -292,7 +292,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Sets translate adapter.
-	 * @return self
+	 * @return static
 	 */
 	public function setTranslator(Nette\Localization\ITranslator $translator = NULL)
 	{
@@ -349,7 +349,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Sets the submittor control.
-	 * @return self
+	 * @return static
 	 * @internal
 	 */
 	public function setSubmittedBy(ISubmitterControl $by = NULL)
@@ -553,7 +553,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Sets form renderer.
-	 * @return self
+	 * @return static
 	 */
 	public function setRenderer(IFormRenderer $renderer = NULL)
 	{

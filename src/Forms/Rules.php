@@ -43,7 +43,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	/**
 	 * Makes control mandatory.
 	 * @param  mixed  state or error message
-	 * @return self
+	 * @return static
 	 */
 	public function setRequired($value = TRUE)
 	{
@@ -71,7 +71,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	 * @param  mixed      rule type
 	 * @param  string     message to display for invalid data
 	 * @param  mixed      optional rule arguments
-	 * @return self
+	 * @return static
 	 */
 	public function addRule($validator, $message = NULL, $arg = NULL)
 	{
@@ -97,7 +97,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	 * Adds a validation condition and returns new branch.
 	 * @param  mixed      condition type
 	 * @param  mixed      optional condition arguments
-	 * @return self       new branch
+	 * @return static       new branch
 	 */
 	public function addCondition($validator, $arg = NULL)
 	{
@@ -113,7 +113,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	 * @param  IControl form control
 	 * @param  mixed      condition type
 	 * @param  mixed      optional condition arguments
-	 * @return self       new branch
+	 * @return static     new branch
 	 */
 	public function addConditionOn(IControl $control, $validator, $arg = NULL)
 	{
@@ -132,7 +132,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 
 	/**
 	 * Adds a else statement.
-	 * @return self      else branch
+	 * @return static      else branch
 	 */
 	public function elseCondition()
 	{
@@ -158,7 +158,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	/**
 	 * Adds a filter callback.
 	 * @param  callable
-	 * @return self
+	 * @return static
 	 */
 	public function addFilter($filter)
 	{
@@ -177,7 +177,7 @@ class Rules extends Nette\Object implements \IteratorAggregate
 	 * Toggles HTML element visibility.
 	 * @param  string     element id
 	 * @param  bool       hide element?
-	 * @return self
+	 * @return static
 	 */
 	public function toggle($id, $hide = TRUE)
 	{

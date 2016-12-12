@@ -29,7 +29,7 @@ class ControlGroup extends Nette\Object
 
 
 	/**
-	 * @return self
+	 * @return static
 	 */
 	public function add()
 	{
@@ -69,7 +69,7 @@ class ControlGroup extends Nette\Object
 	 *
 	 * @param  string key
 	 * @param  mixed  value
-	 * @return self
+	 * @return static
 	 */
 	public function setOption($key, $value)
 	{

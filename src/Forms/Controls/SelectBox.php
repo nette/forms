@@ -28,7 +28,7 @@ class SelectBox extends ChoiceControl
 	/**
 	 * Sets first prompt item in select box.
 	 * @param  string
-	 * @return self
+	 * @return static
 	 */
 	public function setPrompt($prompt)
 	{
@@ -49,7 +49,7 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Sets options and option groups from which to choose.
-	 * @return self
+	 * @return static
 	 */
 	public function setItems(array $items, $useKeys = TRUE)
 	{
