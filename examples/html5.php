@@ -21,25 +21,25 @@ $form = new Form;
 $form->addGroup();
 
 $form->addText('query', 'Search:')
-	->setType('search')
-	->setAttribute('autofocus');
+	->setHtmlType('search')
+	->setHtmlAttribute('autofocus');
 
 $form->addText('count', 'Number of results:')
-	->setType('number')
+	->setHtmlType('number')
 	->setDefaultValue(10)
 	->addRule($form::INTEGER, 'Must be numeric value')
 	->addRule($form::RANGE, 'Must be in range from %d to %d', array(1, 100));
 
 $form->addText('precision', 'Precision:')
-	->setType('range')
+	->setHtmlType('range')
 	->setDefaultValue(50)
 	->addRule($form::INTEGER, 'Precision must be numeric value')
 	->addRule($form::RANGE, 'Precision must be in range from %d to %d', array(0, 100));
 
 $form->addText('email', 'Send to email:')
-	->setType('email')
-	->setAttribute('autocomplete', 'off')
-	->setAttribute('placeholder', 'Optional, but Recommended')
+	->setHtmlType('email')
+	->setHtmlAttribute('autocomplete', 'off')
+	->setHtmlAttribute('placeholder', 'Optional, but Recommended');
 	->addCondition($form::FILLED) // conditional rule: if is email filled, ...
 		->addRule($form::EMAIL, 'Incorrect email address'); // ... then check email
 

@@ -241,7 +241,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addText($name, $label = NULL, $cols = NULL, $maxLength = NULL)
 	{
 		$control = new Controls\TextInput($label, $maxLength);
-		$control->setAttribute('size', $cols);
+		$control->setHtmlAttribute('size', $cols);
 		return $this[$name] = $control;
 	}
 
@@ -257,8 +257,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addPassword($name, $label = NULL, $cols = NULL, $maxLength = NULL)
 	{
 		$control = new Controls\TextInput($label, $maxLength);
-		$control->setAttribute('size', $cols);
-		return $this[$name] = $control->setType('password');
+		$control->setHtmlAttribute('size', $cols);
+		return $this[$name] = $control->setHtmlType('password');
 	}
 
 
@@ -273,7 +273,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addTextArea($name, $label = NULL, $cols = NULL, $rows = NULL)
 	{
 		$control = new Controls\TextArea($label);
-		$control->setAttribute('cols', $cols)->setAttribute('rows', $rows);
+		$control->setHtmlAttribute('cols', $cols)->setHtmlAttribute('rows', $rows);
 		return $this[$name] = $control;
 	}
 
@@ -364,7 +364,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		$control = new Controls\SelectBox($label, $items);
 		if ($size > 1) {
-			$control->setAttribute('size', (int) $size);
+			$control->setHtmlAttribute('size', (int) $size);
 		}
 		return $this[$name] = $control;
 	}
@@ -382,7 +382,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		$control = new Controls\MultiSelectBox($label, $items);
 		if ($size > 1) {
-			$control->setAttribute('size', (int) $size);
+			$control->setHtmlAttribute('size', (int) $size);
 		}
 		return $this[$name] = $control;
 	}
