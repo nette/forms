@@ -16,6 +16,7 @@ use Nette\Utils\Html;
  *
  * @property-read Html $separatorPrototype
  * @property-read Html $containerPrototype
+ * @property-read Html $itemLabelPrototype
  */
 class CheckboxList extends MultiChoiceControl
 {
@@ -24,6 +25,9 @@ class CheckboxList extends MultiChoiceControl
 
 	/** @var Html  container element template */
 	protected $container;
+
+	/** @var Html  item label template */
+	protected $itemLabel;
 
 
 	/**
@@ -36,6 +40,7 @@ class CheckboxList extends MultiChoiceControl
 		$this->control->type = 'checkbox';
 		$this->container = Html::el();
 		$this->separator = Html::el('br');
+		// $this->itemLabel = Html::el('label'); back compatiblity
 		$this->setOption('type', 'checkbox');
 	}
 
@@ -60,7 +65,7 @@ class CheckboxList extends MultiChoiceControl
 					'required' => NULL,
 					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
 				]),
-				$this->label->attrs,
+				$this->itemLabel ? $this->itemLabel->attrs : $this->label->attrs,
 				$this->separator
 			)
 		);
@@ -99,8 +104,9 @@ class CheckboxList extends MultiChoiceControl
 	 */
 	public function getLabelPart($key = NULL)
 	{
+		$itemLabel = $this->itemLabel ? clone $this->itemLabel : clone $this->label;
 		return func_num_args()
-			? parent::getLabel($this->items[$key])->for($this->getHtmlId() . '-' . $key)
+			? $itemLabel->setText($this->translate($this->items[$key]))->for($this->getHtmlId() . '-' . $key)
 			: $this->getLabel();
 	}
 
@@ -122,6 +128,16 @@ class CheckboxList extends MultiChoiceControl
 	public function getContainerPrototype()
 	{
 		return $this->container;
+	}
+
+
+	/**
+	 * Returns item label HTML element template.
+	 * @return Html
+	 */
+	public function getItemLabelPrototype()
+	{
+		return $this->itemLabel ?: $this->itemLabel = Html::el('label');
 	}
 
 }
