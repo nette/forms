@@ -192,16 +192,3 @@ test(function () { // item label prototype
 	Assert::same('<label class="foo" for="frm-list-a">b</label>', (string) $input->getLabelPart('a'));
 	Assert::same('<label class="foo"><input type="checkbox" name="list[]" value="a">b</label>', (string) $input->getControl());
 });
-
-
-test(function () { // item label prototype (back compatiblity)
-	$form = new Form;
-	$input = $form->addCheckboxList('list', NULL, [
-		'a' => 'b',
-	]);
-	$input->getLabelPrototype()->class('foo');
-
-	Assert::same('<label class="foo"></label>', (string) $input->getLabel());
-	Assert::same('<label class="foo" for="frm-list-a">b</label>', (string) $input->getLabelPart('a'));
-	Assert::same('<label class="foo"><input type="checkbox" name="list[]" value="a">b</label>', (string) $input->getControl());
-});

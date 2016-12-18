@@ -41,7 +41,7 @@ class CheckboxList extends MultiChoiceControl
 		$this->control->type = 'checkbox';
 		$this->container = Html::el();
 		$this->separator = Html::el('br');
-		// $this->itemLabel = Html::el('label'); back compatiblity
+		$this->itemLabel = Html::el('label');
 		$this->setOption('type', 'checkbox');
 	}
 
@@ -65,7 +65,7 @@ class CheckboxList extends MultiChoiceControl
 					'required' => NULL,
 					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
 				]),
-				$this->itemLabel ? $this->itemLabel->attrs : $this->label->attrs,
+				$this->itemLabel->attrs,
 				$this->separator
 			)
 		);
@@ -97,7 +97,7 @@ class CheckboxList extends MultiChoiceControl
 
 	public function getLabelPart($key = NULL): Html
 	{
-		$itemLabel = $this->itemLabel ? clone $this->itemLabel : clone $this->label;
+		$itemLabel = clone $this->itemLabel;
 		return func_num_args()
 			? $itemLabel->setText($this->translate($this->items[$key]))->for($this->getHtmlId() . '-' . $key)
 			: $this->getLabel();
@@ -127,7 +127,7 @@ class CheckboxList extends MultiChoiceControl
 	 */
 	public function getItemLabelPrototype(): Html
 	{
-		return $this->itemLabel ?: $this->itemLabel = Html::el('label');
+		return $this->itemLabel;
 	}
 
 }
