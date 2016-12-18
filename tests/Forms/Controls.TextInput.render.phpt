@@ -25,7 +25,7 @@ test(function () {
 	$form = new Form;
 	$input = $form->addText('text', 'Label')
 		->setValue('text')
-		->setAttribute('autocomplete', 'off');
+		->setHtmlAttribute('autocomplete', 'off');
 
 	Assert::type(Html::class, $input->getLabel());
 	Assert::same('<label for="frm-text">Label</label>', (string) $input->getLabel());
@@ -39,7 +39,7 @@ test(function () {
 test(function () { // translator
 	$form = new Form;
 	$input = $form->addText('text', 'Label')
-		->setAttribute('placeholder', 'place')
+		->setHtmlAttribute('placeholder', 'place')
 		->setValue('text')
 		->setTranslator(new Translator)
 		->setEmptyValue('xxx');
@@ -76,13 +76,13 @@ test(function () { // validation rule required & PATTERN
 		->addRule($form::PATTERN, 'error message', '[0-9]+');
 
 	foreach (['text', 'search', 'tel', 'url', 'email'] as $type) {
-		$input->setType($type);
+		$input->setHtmlType($type);
 		Assert::same('<input type="' . $type . '" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 	}
-	$input->setType('password');
+	$input->setHtmlType('password');
 	Assert::same('<input type="password" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 
-	$input->setType('number');
+	$input->setHtmlType('number');
 	Assert::same('<input type="number" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 });
 
@@ -125,7 +125,7 @@ test(function () { // validation rule MAX_LENGTH
 });
 
 
-test(function () { // validation rule RANGE without setType
+test(function () { // validation rule RANGE without setHtmlType
 	$form = new Form;
 	$minInput = $form->addText('min');
 	$maxInput = $form->addText('max');
@@ -139,12 +139,12 @@ test(function () { // validation rule RANGE without setType
 });
 
 
-test(function () { // validation rule RANGE with setType
+test(function () { // validation rule RANGE with setHtmlType
 	$form = new Form;
 	$minInput = $form->addText('min');
 	$maxInput = $form->addText('max');
 	$input = $form->addText('count')
-		->setType('number')
+		->setHtmlType('number')
 		->addRule(Form::RANGE, 'Must be in range from %d to %d', [0, 100])
 		->addRule(Form::MIN, 'Must be greater than or equal to %d', 1)
 		->addRule(Form::MAX, 'Must be less than or equal to %d', 101)

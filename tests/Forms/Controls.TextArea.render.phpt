@@ -25,7 +25,7 @@ test(function () {
 	$form = new Form;
 	$input = $form->addTextArea('text', 'Label')
 		->setValue('&text')
-		->setAttribute('autocomplete', 'off');
+		->setHtmlAttribute('autocomplete', 'off');
 
 	Assert::type(Html::class, $input->getLabel());
 	Assert::same('<label for="frm-text">Label</label>', (string) $input->getLabel());
@@ -39,7 +39,7 @@ test(function () {
 test(function () { // translator
 	$form = new Form;
 	$input = $form->addTextArea('text', 'Label')
-		->setAttribute('placeholder', 'place')
+		->setHtmlAttribute('placeholder', 'place')
 		->setValue('text')
 		->setTranslator(new Translator);
 
