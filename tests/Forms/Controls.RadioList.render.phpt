@@ -152,6 +152,8 @@ test(function () { // item label prototype
 	]);
 	$input->getItemLabelPrototype()->class('foo');
 
+	Assert::same('<label></label>', (string) $input->getLabel());
+	Assert::same('<label class="foo" for="frm-list-a">b</label>', (string) $input->getLabelPart('a'));
 	Assert::same('<label class="foo"><input type="radio" name="list" value="a">b</label>', (string) $input->getControl());
 });
 

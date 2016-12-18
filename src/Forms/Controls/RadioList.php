@@ -43,7 +43,7 @@ class RadioList extends ChoiceControl
 		$this->control->type = 'radio';
 		$this->container = Html::el();
 		$this->separator = Html::el('br');
-		$this->itemLabel = Html::el();
+		$this->itemLabel = Html::el('label');
 		$this->setOption('type', 'radio');
 	}
 
@@ -110,8 +110,9 @@ class RadioList extends ChoiceControl
 	 */
 	public function getLabelPart($key = NULL)
 	{
+		$itemLabel = clone $this->itemLabel;
 		return func_num_args()
-			? parent::getLabel($this->items[$key])->for($this->getHtmlId() . '-' . $key)
+			? $itemLabel->setText($this->translate($this->items[$key]))->for($this->getHtmlId() . '-' . $key)
 			: $this->getLabel();
 	}
 
