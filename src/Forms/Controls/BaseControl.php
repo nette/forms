@@ -350,20 +350,17 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function setHtmlAttribute($name, $value = TRUE)
 	{
-		return $this->setAttribute($name, $value);
+		$this->control->$name = $value;
+		return $this;
 	}
 
 
 	/**
-	 * Alias for setHtmlAttribute()
-	 * @param  string name
-	 * @param  mixed  value
-	 * @return static
+	 * @deprecated  use setHtmlAttribute()
 	 */
 	public function setAttribute($name, $value = TRUE)
 	{
-		$this->control->$name = $value;
-		return $this;
+		return $this->setHtmlAttribute($name, $value);
 	}
 
 

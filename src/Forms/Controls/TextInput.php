@@ -48,19 +48,17 @@ class TextInput extends TextBase
 	 */
 	public function setHtmlType($type)
 	{
-		return $this->setType($type);
+		$this->control->type = $type;
+		return $this;
 	}
 
 
 	/**
-	 * Alias for setHtmlType()
-	 * @param  string
-	 * @return static
+	 * @deprecated  use setHtmlType()
 	 */
 	public function setType($type)
 	{
-		$this->control->type = $type;
-		return $this;
+		return $this->setHtmlType($type);
 	}
 
 
