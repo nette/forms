@@ -498,7 +498,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		}
 		$maxSize = ini_get('post_max_size');
 		$units = ['k' => 10, 'm' => 20, 'g' => 30];
-		if (isset($units[$ch = strtolower(substr($maxSize, -1))])) {
+		if (isset($units[$ch = (int) strtolower(substr($maxSize, -1))])) {
 			$maxSize = (int) $maxSize << $units[$ch];
 		}
 		if ($maxSize > 0 && $maxSize < $_SERVER['CONTENT_LENGTH']) {
