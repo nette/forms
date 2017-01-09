@@ -170,7 +170,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Sets form's action.
-	 * @param  mixed URI
+	 * @param  string|object
 	 * @return static
 	 */
 	public function setAction($url)
@@ -182,7 +182,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns form's action.
-	 * @return mixed URI
+	 * @return mixed
 	 */
 	public function getAction()
 	{
@@ -191,8 +191,8 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 
 	/**
-	 * Sets form's method.
-	 * @param  string get | post
+	 * Sets form's method GET or POST.
+	 * @param  string
 	 * @return static
 	 */
 	public function setMethod($method)
@@ -207,7 +207,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns form's method.
-	 * @return string get | post
+	 * @return string
 	 */
 	public function getMethod()
 	{
@@ -241,8 +241,8 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Adds fieldset group to the form.
-	 * @param  string  caption
-	 * @param  bool    set this group as current
+	 * @param  string
+	 * @param  bool
 	 * @return ControlGroup
 	 */
 	public function addGroup($caption = NULL, $setAsCurrent = TRUE)
@@ -265,7 +265,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Removes fieldset group from form.
-	 * @param  string|ControlGroup
+	 * @param  string|int|ControlGroup
 	 * @return void
 	 */
 	public function removeGroup($name)
@@ -301,8 +301,8 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns the specified group.
-	 * @param  string  name
-	 * @return ControlGroup
+	 * @param  string|int
+	 * @return ControlGroup|NULL
 	 */
 	public function getGroup($name)
 	{
@@ -384,6 +384,8 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns submitted HTTP data.
+	 * @param  int
+	 * @param  string
 	 * @return mixed
 	 */
 	public function getHttpData($type = NULL, $htmlName = NULL)
@@ -479,6 +481,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/********************* validation ****************d*g**/
 
 
+	/**
+	 * @return void
+	 */
 	public function validate(array $controls = NULL)
 	{
 		$this->cleanErrors();
@@ -509,7 +514,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Adds global error message.
-	 * @param  string  error message
+	 * @param  string|object
 	 * @return void
 	 */
 	public function addError($message)

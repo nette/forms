@@ -73,8 +73,8 @@ class ControlGroup
 	 * - 'description' - textual or IHtmlString object description
 	 * - 'embedNext' - describes how render next group
 	 *
-	 * @param  string key
-	 * @param  mixed  value
+	 * @param  string
+	 * @param  mixed
 	 * @return static
 	 */
 	public function setOption($key, $value)
@@ -91,8 +91,8 @@ class ControlGroup
 
 	/**
 	 * Returns user-specific option.
-	 * @param  string key
-	 * @param  mixed  default value
+	 * @param  string
+	 * @param  mixed
 	 * @return mixed
 	 */
 	public function getOption($key, $default = NULL)

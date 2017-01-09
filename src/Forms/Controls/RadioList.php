@@ -34,8 +34,7 @@ class RadioList extends ChoiceControl
 
 
 	/**
-	 * @param  string  label
-	 * @param  array   options from which to choose
+	 * @param  string|object
 	 */
 	public function __construct($label = NULL, array $items = NULL)
 	{
@@ -81,7 +80,7 @@ class RadioList extends ChoiceControl
 
 	/**
 	 * Generates label's HTML element.
-	 * @param  string
+	 * @param  string|object
 	 * @return Html
 	 */
 	public function getLabel($caption = NULL)

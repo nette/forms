@@ -23,12 +23,12 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 	/** @var callable[]  function (SubmitButton $sender); Occurs when the button is clicked and form is not validated */
 	public $onInvalidClick;
 
-	/** @var array */
+	/** @var array|NULL */
 	private $validationScope;
 
 
 	/**
-	 * @param  string  caption
+	 * @param  string|object
 	 */
 	public function __construct($caption = NULL)
 	{
@@ -104,7 +104,7 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 	/**
 	 * Generates control's HTML element.
-	 * @param  string
+	 * @param  string|object
 	 * @return Nette\Utils\Html
 	 */
 	public function getControl($caption = NULL)

@@ -17,7 +17,7 @@ class Button extends BaseControl
 {
 
 	/**
-	 * @param  string  caption
+	 * @param  string|object
 	 */
 	public function __construct($caption = NULL)
 	{
@@ -44,13 +44,12 @@ class Button extends BaseControl
 	 */
 	public function getLabel($caption = NULL)
 	{
-		return NULL;
 	}
 
 
 	/**
 	 * Generates control's HTML element.
-	 * @param  string
+	 * @param  string|object
 	 * @return Nette\Utils\Html
 	 */
 	public function getControl($caption = NULL)

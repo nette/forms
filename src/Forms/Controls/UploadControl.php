@@ -21,8 +21,8 @@ class UploadControl extends BaseControl
 	const VALID = ':uploadControlValid';
 
 	/**
-	 * @param  string  label
-	 * @param  bool  allows to upload multiple files
+	 * @param  string|object
+	 * @param  bool
 	 */
 	public function __construct($label = NULL, $multiple = FALSE)
 	{

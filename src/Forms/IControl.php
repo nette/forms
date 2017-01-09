@@ -17,7 +17,7 @@ interface IControl
 	/**
 	 * Sets control's value.
 	 * @param  mixed
-	 * @return void
+	 * @return static
 	 */
 	function setValue($value);
 

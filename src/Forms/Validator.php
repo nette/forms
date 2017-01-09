@@ -143,6 +143,8 @@ class Validator
 
 	/**
 	 * Is a control's value number in specified range?
+	 * @param  IControl
+	 * @param  array
 	 * @return bool
 	 */
 	public static function validateRange(IControl $control, $range)
@@ -153,6 +155,8 @@ class Validator
 
 	/**
 	 * Is a control's value number greater than or equal to the specified minimum?
+	 * @param  IControl
+	 * @param  float
 	 * @return bool
 	 */
 	public static function validateMin(IControl $control, $minimum)
@@ -163,6 +167,8 @@ class Validator
 
 	/**
 	 * Is a control's value number less than or equal to the specified maximum?
+	 * @param  IControl
+	 * @param  float
 	 * @return bool
 	 */
 	public static function validateMax(IControl $control, $maximum)
@@ -173,6 +179,8 @@ class Validator
 
 	/**
 	 * Count/length validator. Range is array, min and max length pair.
+	 * @param  IControl
+	 * @param  array|int
 	 * @return bool
 	 */
 	public static function validateLength(IControl $control, $range)
@@ -187,6 +195,8 @@ class Validator
 
 	/**
 	 * Has control's value minimal count/length?
+	 * @param  IControl
+	 * @param  int
 	 * @return bool
 	 */
 	public static function validateMinLength(IControl $control, $length)
@@ -197,6 +207,8 @@ class Validator
 
 	/**
 	 * Is control's value count/length in limit?
+	 * @param  IControl
+	 * @param  int
 	 * @return bool
 	 */
 	public static function validateMaxLength(IControl $control, $length)
@@ -244,6 +256,7 @@ class Validator
 
 	/**
 	 * Matches control's value regular expression?
+	 * @param  string
 	 * @return bool
 	 */
 	public static function validatePattern(IControl $control, $pattern)
@@ -285,6 +298,7 @@ class Validator
 
 	/**
 	 * Is file size in limit?
+	 * @param  int
 	 * @return bool
 	 */
 	public static function validateFileSize(Controls\UploadControl $control, $limit)
@@ -300,6 +314,8 @@ class Validator
 
 	/**
 	 * Has file specified mime type?
+	 * @param  IControl
+	 * @param  string|string[]
 	 * @return bool
 	 */
 	public static function validateMimeType(Controls\UploadControl $control, $mimeType)

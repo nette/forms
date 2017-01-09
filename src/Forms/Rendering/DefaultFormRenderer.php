@@ -219,7 +219,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			? $control->getErrors()
 			: ($own ? $this->form->getOwnErrors() : $this->form->getErrors());
 		if (!$errors) {
-			return;
+			return '';
 		}
 		$container = $this->getWrapper($control ? 'control errorcontainer' : 'error container');
 		$item = $this->getWrapper($control ? 'control erroritem' : 'error item');
@@ -407,7 +407,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 	/**
 	 * Renders 'label' part of visual row of controls.
-	 * @return string
+	 * @return Html
 	 */
 	public function renderLabel(Nette\Forms\IControl $control)
 	{
@@ -427,7 +427,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 	/**
 	 * Renders 'control' part of visual row of controls.
-	 * @return string
+	 * @return Html
 	 */
 	public function renderControl(Nette\Forms\IControl $control)
 	{
@@ -476,7 +476,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 	/**
 	 * @param  string
-	 * @return string
+	 * @return mixed
 	 */
 	protected function getValue($name)
 	{

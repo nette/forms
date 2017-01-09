@@ -39,7 +39,7 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Sets first prompt item in select box.
-	 * @param  string
+	 * @param  string|object
 	 * @return static
 	 */
 	public function setPrompt($prompt)
