@@ -34,7 +34,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with default values.
-	 * @param  array|\Traversable  values used to fill the form
+	 * @param  iterable  values used to fill the form
 	 * @param  bool     erase other default values?
 	 * @return static
 	 */
@@ -50,7 +50,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with values.
-	 * @param  array|\Traversable  values used to fill the form
+	 * @param  iterable  values used to fill the form
 	 * @param  bool     erase other controls?
 	 * @return static
 	 * @internal
