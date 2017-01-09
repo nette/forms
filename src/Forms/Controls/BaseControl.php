@@ -401,8 +401,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public function translate($value, $count = NULL)
 	{
 		if ($translator = $this->getTranslator()) {
-			$tmp = is_array($value) ? [& $value] : [[& $value]];
-			foreach ($tmp[0] as & $v) {
+			$tmp = is_array($value) ? [&$value] : [[&$value]];
+			foreach ($tmp[0] as &$v) {
 				if ($v != NULL && !$v instanceof Html) { // intentionally ==
 					$v = $translator->translate($v, $count);
 				}

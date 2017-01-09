@@ -15,7 +15,7 @@ $called = [];
 $form = new Form;
 $form->addText('name');
 $form->addSubmit('submit');
-$form->onRender[] = function (Form $form) use (& $called) {
+$form->onRender[] = function (Form $form) use (&$called) {
 	$called[] = 1;
 };
 $form->fireRenderEvents();
@@ -27,7 +27,7 @@ $called = [];
 $form = new Form;
 $form->addText('name');
 $form->addSubmit('submit');
-$form->onRender[] = function (Form $form) use (& $called) {
+$form->onRender[] = function (Form $form) use (&$called) {
 	$called[] = 1;
 };
 $form->render();
@@ -39,7 +39,7 @@ $called = [];
 $form = new Form;
 $form->addText('name');
 $form->addSubmit('submit');
-$form->onRender[] = function (Form $form) use (& $called) {
+$form->onRender[] = function (Form $form) use (&$called) {
 	$called[] = 1;
 };
 $form->__toString();

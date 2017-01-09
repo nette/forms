@@ -481,7 +481,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 	protected function getValue($name)
 	{
 		$name = explode(' ', $name);
-		$data = & $this->wrappers[$name[0]][$name[1]];
+		$data = &$this->wrappers[$name[0]][$name[1]];
 		return $data;
 	}
 

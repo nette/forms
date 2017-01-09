@@ -281,7 +281,7 @@ class Rules implements \IteratorAggregate
 	public static function validateRule(Rule $rule)
 	{
 		$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
-		foreach ($args as & $val) {
+		foreach ($args as &$val) {
 			$val = $val instanceof IControl ? $val->getValue() : $val;
 		}
 		return $rule->isNegative
