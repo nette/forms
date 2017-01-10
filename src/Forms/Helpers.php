@@ -65,7 +65,7 @@ class Helpers
 			return is_scalar($value) ? Strings::normalizeNewLines($value) : NULL;
 
 		} elseif ($type === Form::DATA_LINE) {
-			return is_scalar($value) ? Strings::trim(strtr($value, "\r\n", '  ')) : NULL;
+			return is_scalar($value) ? Strings::trim(strtr((string) $value, "\r\n", '  ')) : NULL;
 
 		} elseif ($type === Form::DATA_FILE) {
 			return $value instanceof Nette\Http\FileUpload ? $value : NULL;
@@ -198,7 +198,7 @@ class Helpers
 					$res .= $caption->setName('option')->addAttributes($option->attrs);
 				} else {
 					$res .= $optionTag . $option->attributes() . '>'
-						. htmlspecialchars($caption, ENT_NOQUOTES, 'UTF-8')
+						. htmlspecialchars((string) $caption, ENT_NOQUOTES, 'UTF-8')
 						. '</option>';
 				}
 			}

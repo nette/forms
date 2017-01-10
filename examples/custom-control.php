@@ -51,7 +51,7 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	public function getValue()
 	{
 		return self::validateDate($this)
-			? (new DateTimeImmutable)->setDate($this->year, $this->month, $this->day)->setTime(0, 0)
+			? (new DateTimeImmutable)->setDate((int) $this->year, (int) $this->month, (int) $this->day)->setTime(0, 0)
 			: NULL;
 	}
 
@@ -110,7 +110,7 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 		return ctype_digit($control->day)
 			&& ctype_digit($control->month)
 			&& ctype_digit($control->year)
-			&& checkdate($control->month, $control->day, $control->year);
+			&& checkdate((int) $control->month, (int) $control->day, (int) $control->year);
 	}
 
 }
