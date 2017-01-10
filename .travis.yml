@@ -31,12 +31,17 @@ jobs:
                 - travis_retry composer create-project nette/code-checker temp/code-checker ~2 --no-progress
                 # Install Nette Coding Standard
                 - travis_retry composer create-project nette/coding-standard temp/coding-standard --no-progress
-                # Install Grunt
+                # Install new Node.js
+                - . $HOME/.nvm/nvm.sh
+                - nvm install stable
+                - nvm use stable
+                # Install Grunt and Eslint
                 - npm install -g grunt-cli; cd tests/netteForms; npm install; cd ../..
             script:
                 - php temp/code-checker/src/code-checker.php --short-arrays --strict-types
                 - php temp/coding-standard/ecs check src tests examples --config temp/coding-standard/coding-standard-php71.neon
                 - grunt --gruntfile=tests/netteForms/Gruntfile.js test
+                - tests/netteForms/node_modules/.bin/eslint src/assets/netteForms.js --config tests/.eslintrc.js
 
 
         -   stage: Code Coverage

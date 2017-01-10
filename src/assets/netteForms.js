@@ -99,8 +99,8 @@
 			return values;
 
 		} else if (elem.name && elem.name.match(/\[\]$/)) { // multiple elements []
-			var elements = elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name],
-				values = [];
+			elements = elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name];
+			values = [];
 
 			for (i = 0; i < elements.length; i++) {
 				if (elements[i].type !== 'checkbox' || elements[i].checked) {
@@ -425,7 +425,7 @@
 		},
 
 		email: function(elem, arg, val) {
-			return (/^("([ !#-[\]-~]|\\[ -~])+"|[-a-z0-9!#$%&'*+\/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+\/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?$/i).test(val);
+			return (/^("([ !#-[\]-~]|\\[ -~])+"|[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?$/i).test(val);
 		},
 
 		url: function(elem, arg, val, value) {
@@ -443,13 +443,13 @@
 			var parts = typeof arg === 'string' ? arg.match(/^\/(.*)\/([imu]*)$/) : false;
 			try {
 				return parts && (new RegExp(parts[1], parts[2].replace('u', ''))).test(val);
-			} catch (e) {}
+			} catch (e) {} // eslint-disable-line no-empty
 		},
 
 		pattern: function(elem, arg, val) {
 			try {
 				return typeof arg === 'string' ? (new RegExp('^(?:' + arg + ')$')).test(val) : null;
-			} catch (e) {}
+			} catch (e) {} // eslint-disable-line no-empty
 		},
 
 		numeric: function(elem, arg, val) {
@@ -539,7 +539,7 @@
 			return true;
 		},
 
-		'static': function (elem, arg, val) {
+		'static': function (elem, arg) {
 			return arg;
 		}
 	};
@@ -637,7 +637,7 @@
 	/**
 	 * Displays or hides HTML element.
 	 */
-	Nette.toggle = function(id, visible, srcElement) {
+	Nette.toggle = function(id, visible, srcElement) { // eslint-disable-line no-unused-vars
 		var elem = document.getElementById(id);
 		if (elem) {
 			elem.style.display = visible ? '' : 'none';
