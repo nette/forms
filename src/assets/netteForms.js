@@ -113,10 +113,10 @@ Nette.getValue = function(elem) {
 		return elem.checked;
 
 	} else if (elem.tagName.toLowerCase() === 'textarea') {
-		return elem.value.replace("\r", '');
+		return elem.value.replace('\r', '');
 
 	} else {
-		return elem.value.replace("\r", '').replace(/^\s+|\s+$/g, '');
+		return elem.value.replace('\r', '').replace(/^\s+|\s+$/g, '');
 	}
 };
 
@@ -356,7 +356,7 @@ Nette.validators = {
 		return !Nette.validators.filled(elem, arg, val);
 	},
 
-	valid: function(elem, arg, val) {
+	valid: function(elem) {
 		return Nette.validateControl(elem, null, true);
 	},
 
@@ -394,7 +394,7 @@ Nette.validators = {
 	minLength: function(elem, arg, val) {
 		if (elem.type === 'number') {
 			if (elem.validity.tooShort) {
-				return false
+				return false;
 			} else if (elem.validity.badInput) {
 				return null;
 			}
@@ -405,7 +405,7 @@ Nette.validators = {
 	maxLength: function(elem, arg, val) {
 		if (elem.type === 'number') {
 			if (elem.validity.tooLong) {
-				return false
+				return false;
 			} else if (elem.validity.badInput) {
 				return null;
 			}
@@ -416,7 +416,7 @@ Nette.validators = {
 	length: function(elem, arg, val) {
 		if (elem.type === 'number') {
 			if (elem.validity.tooShort || elem.validity.tooLong) {
-				return false
+				return false;
 			} else if (elem.validity.badInput) {
 				return null;
 			}
@@ -475,7 +475,7 @@ Nette.validators = {
 	min: function(elem, arg, val) {
 		if (elem.type === 'number') {
 			if (elem.validity.rangeUnderflow) {
-				return false
+				return false;
 			} else if (elem.validity.badInput) {
 				return null;
 			}
@@ -486,7 +486,7 @@ Nette.validators = {
 	max: function(elem, arg, val) {
 		if (elem.type === 'number') {
 			if (elem.validity.rangeOverflow) {
-				return false
+				return false;
 			} else if (elem.validity.badInput) {
 				return null;
 			}
@@ -497,7 +497,7 @@ Nette.validators = {
 	range: function(elem, arg, val) {
 		if (elem.type === 'number') {
 			if (elem.validity.rangeUnderflow || elem.validity.rangeOverflow) {
-				return false
+				return false;
 			} else if (elem.validity.badInput) {
 				return null;
 			}
@@ -506,7 +506,7 @@ Nette.validators = {
 			((arg[0] === null || parseFloat(val) >= arg[0]) && (arg[1] === null || parseFloat(val) <= arg[1])) : null;
 	},
 
-	submitted: function(elem, arg, val) {
+	submitted: function(elem) {
 		return elem.form['nette-submittedBy'] === elem;
 	},
 
