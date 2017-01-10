@@ -181,7 +181,7 @@ class Validator
 			$range = [$range, $range];
 		}
 		$value = $control->getValue();
-		return Validators::isInRange(is_array($value) ? count($value) : Strings::length($value), $range);
+		return Validators::isInRange(is_array($value) ? count($value) : Strings::length((string) $value), $range);
 	}
 
 
