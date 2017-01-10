@@ -423,7 +423,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 		} elseif ($label != NULL) { // @intentionally ==
 			$label .= $suffix;
 		}
-		return $this->getWrapper('label container')->setHtml($label);
+		return $this->getWrapper('label container')->setHtml((string) $label);
 	}
 
 

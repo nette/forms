@@ -644,7 +644,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * @param can throw exceptions? (hidden parameter)
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		try {
 			$this->fireRenderEvents();
