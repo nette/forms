@@ -15,7 +15,7 @@
 	],
 	"require": {
 		"php": ">=7.1",
-		"nette/component-model": "^2.3",
+		"nette/component-model": "^3.0",
 		"nette/http": "^2.2 || ~3.0.0",
 		"nette/utils": "^3.0"
 	},

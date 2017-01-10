@@ -36,7 +36,7 @@ class CsrfProtection extends HiddenField
 	}
 
 
-	protected function attached($parent)
+	protected function attached(Nette\ComponentModel\IComponent $parent): void
 	{
 		parent::attached($parent);
 		if (!$this->session && $parent instanceof Nette\Application\UI\Presenter) {
