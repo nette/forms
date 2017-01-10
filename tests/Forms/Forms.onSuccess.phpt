@@ -4,6 +4,8 @@
  * Test: Nette\Forms onSuccess.
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Form;
 use Tester\Assert;
 

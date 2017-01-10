@@ -4,6 +4,8 @@
  * Test: Nette\Bridges\FormsLatte\FormMacros: GET form
  */
 
+declare(strict_types=1);
+
 use Nette\Bridges\FormsLatte\Runtime;
 use Nette\Forms\Form;
 use Tester\Assert;

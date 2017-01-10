@@ -4,6 +4,8 @@
  * Test: Nette\Forms translating controls with translatable strings wrapped in objects
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Form;
 use Tester\Assert;
 

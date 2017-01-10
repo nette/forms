@@ -4,6 +4,8 @@
  * Test: Nette\Forms validation of range depends on another control.
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Form;
 use Tester\Assert;
 

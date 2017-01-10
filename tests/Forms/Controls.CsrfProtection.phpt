@@ -4,6 +4,8 @@
  * Test: Nette\Forms\Controls\CsrfProtection.
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Controls\CsrfProtection;
 use Nette\Forms\Form;
 use Tester\Assert;

@@ -4,6 +4,8 @@
  * Test: Nette\Forms\Controls\TextBase validators.
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Validator;
 use Tester\Assert;

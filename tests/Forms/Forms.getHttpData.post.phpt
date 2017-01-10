@@ -4,6 +4,8 @@
  * Test: Nette\Forms HTTP data.
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Form;
 use Nette\Forms\Validator;
 use Tester\Assert;

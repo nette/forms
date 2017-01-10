@@ -4,6 +4,8 @@
  * Test: Nette\Forms\Controls\ChoiceControl.
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Form;
 use Nette\Utils\DateTime;
 use Tester\Assert;

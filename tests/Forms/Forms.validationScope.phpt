@@ -4,6 +4,8 @@
  * Test: Nette\Forms validation scope.
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Container;
 use Nette\Forms\Form;
 use Tester\Assert;
