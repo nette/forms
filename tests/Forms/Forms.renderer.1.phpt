@@ -4,6 +4,8 @@
  * Test: Nette\Forms default rendering.
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Tester\Assert;

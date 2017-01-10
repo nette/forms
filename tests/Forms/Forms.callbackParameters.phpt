@@ -4,6 +4,8 @@
  * Test: Nette\Forms success and validate callback takes $form and $values parameters.
  */
 
+declare(strict_types=1);
+
 use Nette\Utils\ArrayHash;
 use Nette\Forms\Form;
 use Tester\Assert;

@@ -4,6 +4,8 @@
  * Test: Nette\Forms\Helpers::createSelectBox()
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Helpers;
 use Nette\Utils\Html;
 use Tester\Assert;

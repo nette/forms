@@ -4,6 +4,8 @@
  * Test: Nette\Forms\Container::validate().
  */
 
+declare(strict_types=1);
+
 use Nette\Forms\Form;
 use Nette\Forms\Container;
 use Tester\Assert;
