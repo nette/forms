@@ -19,9 +19,6 @@ class Rules implements \IteratorAggregate
 {
 	use Nette\SmartObject;
 
-	/** @deprecated */
-	public static $defaultMessages;
-
 	/** @var Rule|FALSE|NULL */
 	private $required;
 
@@ -344,5 +341,3 @@ class Rules implements \IteratorAggregate
 	}
 
 }
-
-Rules::$defaultMessages = & Validator::$messages;

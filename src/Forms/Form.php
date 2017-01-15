@@ -34,9 +34,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		REQUIRED = self::FILLED,
 		VALID = ':valid';
 
-	/** @deprecated CSRF protection */
-	const PROTECTION = Controls\CsrfProtection::PROTECTION;
-
 	// button
 	const SUBMITTED = ':submitted';
 
