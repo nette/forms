@@ -648,9 +648,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			return $this->getRenderer()->render($this);
 
 		} catch (\Throwable $e) {
-		} catch (\Exception $e) {
-		}
-		if (isset($e)) {
 			if (func_num_args()) {
 				throw $e;
 			}

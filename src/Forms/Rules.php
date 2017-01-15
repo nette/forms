@@ -179,7 +179,7 @@ class Rules implements \IteratorAggregate
 		$this->rules[] = $rule = new Rule;
 		$rule->control = $this->control;
 		$rule->validator = function (IControl $control) use ($filter) {
-			$control->setValue(call_user_func($filter, $control->getValue()));
+			$control->setValue($filter($control->getValue()));
 			return TRUE;
 		};
 		return $this;
@@ -287,7 +287,7 @@ class Rules implements \IteratorAggregate
 			$val = $val instanceof IControl ? $val->getValue() : $val;
 		}
 		return $rule->isNegative
-			xor call_user_func(self::getCallback($rule), $rule->control, is_array($rule->arg) ? $args : $args[0]);
+			xor self::getCallback($rule)($rule->control, is_array($rule->arg) ? $args : $args[0]);
 	}
 
 
