@@ -99,7 +99,7 @@ class ControlGroup
 	 */
 	public function getOption($key, $default = NULL)
 	{
-		return isset($this->options[$key]) ? $this->options[$key] : $default;
+		return $this->options[$key] ?? $default;
 	}
 
 

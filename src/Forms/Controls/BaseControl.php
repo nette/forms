@@ -581,7 +581,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function getOption($key, $default = NULL)
 	{
-		return isset($this->options[$key]) ? $this->options[$key] : $default;
+		return $this->options[$key] ?? $default;
 	}
 
 

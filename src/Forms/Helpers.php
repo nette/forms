@@ -155,10 +155,10 @@ class Helpers
 
 		foreach ($items as $value => $caption) {
 			foreach ($inputAttrs as $k => $v) {
-				$input->attrs[$k] = isset($v[$value]) ? $v[$value] : NULL;
+				$input->attrs[$k] = $v[$value] ?? NULL;
 			}
 			foreach ($labelAttrs as $k => $v) {
-				$label->attrs[$k] = isset($v[$value]) ? $v[$value] : NULL;
+				$label->attrs[$k] = $v[$value] ?? NULL;
 			}
 			$input->value = $value;
 			$res .= ($res === '' && $wrapperEnd === '' ? '' : $wrapper)
@@ -193,7 +193,7 @@ class Helpers
 			foreach ($subitems as $value => $caption) {
 				$option->value = $value;
 				foreach ($optionAttrs as $k => $v) {
-					$option->attrs[$k] = isset($v[$value]) ? $v[$value] : NULL;
+					$option->attrs[$k] = $v[$value] ?? NULL;
 				}
 				if ($caption instanceof Html) {
 					$caption = clone $caption;

@@ -305,7 +305,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function getGroup($name)
 	{
-		return isset($this->groups[$name]) ? $this->groups[$name] : NULL;
+		return $this->groups[$name] ?? NULL;
 	}
 
 
