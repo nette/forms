@@ -56,10 +56,10 @@ test(function () {
 	$control->value = 'name@a-b-c.cz';
 	Assert::true(Validator::validateEmail($control));
 
-	$control->value = "name@\xc5\xbelu\xc5\xa5ou\xc4\x8dk\xc3\xbd.cz"; // name@žluťoučký.cz
+	$control->value = "name@\u{17E}lu\u{165}ou\u{10D}k\u{FD}.cz"; // name@žluťoučký.cz
 	Assert::true(Validator::validateEmail($control));
 
-	$control->value = "\xc5\xbename@\xc5\xbelu\xc5\xa5ou\xc4\x8dk\xc3\xbd.cz"; // žname@žluťoučký.cz
+	$control->value = "\u{17E}name@\u{17E}lu\u{165}ou\u{10D}k\u{FD}.cz"; // žname@žluťoučký.cz
 	Assert::false(Validator::validateEmail($control));
 });
 

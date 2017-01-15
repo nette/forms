@@ -47,7 +47,7 @@ $renderer->wrappers['control']['.odd'] = 'odd';
 $renderer->wrappers['control']['errors'] = TRUE;
 $renderer->wrappers['label']['container'] = 'dt';
 $renderer->wrappers['label']['suffix'] = ':';
-$renderer->wrappers['control']['requiredsuffix'] = " \xE2\x80\xA2";
+$renderer->wrappers['control']['requiredsuffix'] = " \u{2022}";
 
 
 $form->addGroup('Personal data');

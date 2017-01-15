@@ -477,7 +477,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public static function extensionMethod($name, $callback = NULL)
 	{
 		if (strpos($name, '::') !== FALSE) { // back compatibility
-			list(, $name) = explode('::', $name);
+			[, $name] = explode('::', $name);
 		}
 		Nette\Utils\ObjectMixin::setExtensionMethod(__CLASS__, $name, $callback);
 	}

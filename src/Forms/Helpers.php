@@ -144,19 +144,19 @@ class Helpers
 	 */
 	public static function createInputList(array $items, array $inputAttrs = NULL, array $labelAttrs = NULL, $wrapper = NULL)
 	{
-		list($inputAttrs, $inputTag) = self::prepareAttrs($inputAttrs, 'input');
-		list($labelAttrs, $labelTag) = self::prepareAttrs($labelAttrs, 'label');
+		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
+		[$labelAttrs, $labelTag] = self::prepareAttrs($labelAttrs, 'label');
 		$res = '';
 		$input = Html::el();
 		$label = Html::el();
-		list($wrapper, $wrapperEnd) = $wrapper instanceof Html ? [$wrapper->startTag(), $wrapper->endTag()] : [(string) $wrapper, ''];
+		[$wrapper, $wrapperEnd] = $wrapper instanceof Html ? [$wrapper->startTag(), $wrapper->endTag()] : [(string) $wrapper, ''];
 
 		foreach ($items as $value => $caption) {
 			foreach ($inputAttrs as $k => $v) {
-				$input->attrs[$k] = isset($v[$value]) ? $v[$value] : NULL;
+				$input->attrs[$k] = $v[$value] ?? NULL;
 			}
 			foreach ($labelAttrs as $k => $v) {
-				$label->attrs[$k] = isset($v[$value]) ? $v[$value] : NULL;
+				$label->attrs[$k] = $v[$value] ?? NULL;
 			}
 			$input->value = $value;
 			$res .= ($res === '' && $wrapperEnd === '' ? '' : $wrapper)
@@ -178,7 +178,7 @@ class Helpers
 		if ($selected !== NULL) {
 			$optionAttrs['selected?'] = $selected;
 		}
-		list($optionAttrs, $optionTag) = self::prepareAttrs($optionAttrs, 'option');
+		[$optionAttrs, $optionTag] = self::prepareAttrs($optionAttrs, 'option');
 		$option = Html::el();
 		$res = $tmp = '';
 		foreach ($items as $group => $subitems) {
@@ -191,7 +191,7 @@ class Helpers
 			foreach ($subitems as $value => $caption) {
 				$option->value = $value;
 				foreach ($optionAttrs as $k => $v) {
-					$option->attrs[$k] = isset($v[$value]) ? $v[$value] : NULL;
+					$option->attrs[$k] = $v[$value] ?? NULL;
 				}
 				if ($caption instanceof Html) {
 					$caption = clone $caption;

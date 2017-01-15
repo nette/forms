@@ -582,7 +582,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function getOption($key, $default = NULL)
 	{
-		return isset($this->options[$key]) ? $this->options[$key] : $default;
+		return $this->options[$key] ?? $default;
 	}
 
 
@@ -611,7 +611,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public static function extensionMethod($name, $callback = NULL)
 	{
 		if (strpos($name, '::') !== FALSE) { // back compatibility
-			list(, $name) = explode('::', $name);
+			[, $name] = explode('::', $name);
 		}
 		Nette\Utils\ObjectMixin::setExtensionMethod(get_called_class(), $name, $callback);
 	}
