@@ -62,9 +62,6 @@ class UploadControl extends BaseControl
 	public function loadHttpData()
 	{
 		$this->value = $this->getHttpData(Nette\Forms\Form::DATA_FILE);
-		if ($this->value === NULL) {
-			$this->value = new FileUpload(NULL);
-		}
 	}
 
 
@@ -85,18 +82,6 @@ class UploadControl extends BaseControl
 	public function setValue($value)
 	{
 		return $this;
-	}
-
-
-	/**
-	 * Has been any file uploaded?
-	 * @return bool
-	 */
-	public function isFilled()
-	{
-		return $this->value instanceof FileUpload
-			? $this->value->getError() !== UPLOAD_ERR_NO_FILE // ignore NULL object
-			: (bool) $this->value;
 	}
 
 
