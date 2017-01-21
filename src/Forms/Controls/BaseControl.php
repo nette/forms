@@ -40,6 +40,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var string */
 	public static $idMask = 'frm-%s';
 
+	/** @var callable[][]  extension methods */
+	private static $extMethods = [];
+
 	/** @var string|object textual caption or label */
 	public $caption;
 
@@ -556,19 +559,28 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	public function __call(string $name, array $args)
 	{
-		if ($callback = Nette\Utils\ObjectMixin::getExtensionMethod(get_class($this), $name)) {
+		$class = static::class;
+		do {
+			if (isset(self::$extMethods[$name][$class])) {
+				return (self::$extMethods[$name][$class])($this, ...$args);
+			}
+			$class = get_parent_class($class);
+		} while ($class);
+
+		if ($callback = Nette\Utils\ObjectMixin::getExtensionMethod($class = static::class, $name)) {
+			trigger_error("Define extension method '$name' via $class::extensionMethod('$name', ...), don't use Nette\\Object or Nette\\Utils\\ObjectMixin.", E_USER_DEPRECATED);
 			return Nette\Utils\Callback::invoke($callback, $this, ...$args);
 		}
 		return parent::__call($name, $args);
 	}
 
 
-	public static function extensionMethod(string $name, /*callable*/ $callback = NULL): void
+	public static function extensionMethod($name, /*callable*/ $callback): void
 	{
 		if (strpos($name, '::') !== FALSE) { // back compatibility
 			[, $name] = explode('::', $name);
 		}
-		Nette\Utils\ObjectMixin::setExtensionMethod(get_called_class(), $name, $callback);
+		self::$extMethods[$name][static::class] = $callback;
 	}
 
 }

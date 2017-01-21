@@ -21,6 +21,9 @@ use Nette;
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
+	/** @var callable[]  extension methods */
+	private static $extMethods = [];
+
 	/** @var callable[]  function (Container $sender); Occurs when the form is validated */
 	public $onValidate;
 
@@ -410,19 +413,22 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	public function __call(string $name, array $args)
 	{
-		if ($callback = Nette\Utils\ObjectMixin::getExtensionMethod(__CLASS__, $name)) {
+		if (isset(self::$extMethods[$name])) {
+			return (self::$extMethods[$name])($this, ...$args);
+		} elseif ($callback = Nette\Utils\ObjectMixin::getExtensionMethod($class = __CLASS__, $name)) {
+			trigger_error("Define extension method '$name' via $class::extensionMethod('$name', ...), don't use Nette\\Object or Nette\\Utils\\ObjectMixin.", E_USER_DEPRECATED);
 			return Nette\Utils\Callback::invoke($callback, $this, ...$args);
 		}
 		return parent::__call($name, $args);
 	}
 
 
-	public static function extensionMethod($name, /*callable*/ $callback = NULL): void
+	public static function extensionMethod($name, /*callable*/ $callback): void
 	{
 		if (strpos($name, '::') !== FALSE) { // back compatibility
 			[, $name] = explode('::', $name);
 		}
-		Nette\Utils\ObjectMixin::setExtensionMethod(__CLASS__, $name, $callback);
+		self::$extMethods[$name] = $callback;
 	}
 
 
