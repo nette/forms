@@ -79,9 +79,9 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation rule for the current control.
-	 * @param  mixed      rule type
-	 * @param  string     message to display for invalid data
-	 * @param  mixed      optional rule arguments
+	 * @param  mixed
+	 * @param  string|object
+	 * @param  mixed
 	 * @return static
 	 */
 	public function addRule($validator, $errorMessage = NULL, $arg = NULL)
@@ -106,8 +106,8 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation condition and returns new branch.
-	 * @param  mixed      condition type
-	 * @param  mixed      optional condition arguments
+	 * @param  mixed
+	 * @param  mixed
 	 * @return static       new branch
 	 */
 	public function addCondition($validator, $arg = NULL)
@@ -121,9 +121,9 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation condition on specified control a returns new branch.
-	 * @param  IControl form control
-	 * @param  mixed      condition type
-	 * @param  mixed      optional condition arguments
+	 * @param  IControl
+	 * @param  mixed
+	 * @param  mixed
 	 * @return static     new branch
 	 */
 	public function addConditionOn(IControl $control, $validator, $arg = NULL)
@@ -186,8 +186,8 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Toggles HTML element visibility.
-	 * @param  string     element id
-	 * @param  bool       hide element?
+	 * @param  string
+	 * @param  bool
 	 * @return static
 	 */
 	public function toggle($id, $hide = TRUE)
@@ -291,7 +291,7 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Iterates over complete ruleset.
-	 * @return \ArrayIterator
+	 * @return \Iterator
 	 */
 	public function getIterator()
 	{
@@ -305,10 +305,9 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Process 'operation' string.
-	 * @param  Rule
 	 * @return void
 	 */
-	private function adjustOperation($rule)
+	private function adjustOperation(Rule $rule)
 	{
 		if (is_string($rule->validator) && ord($rule->validator[0]) > 127) {
 			$rule->isNegative = TRUE;
@@ -331,7 +330,7 @@ class Rules implements \IteratorAggregate
 	}
 
 
-	private static function getCallback($rule)
+	private static function getCallback(Rule $rule)
 	{
 		$op = $rule->validator;
 		if (is_string($op) && strncmp($op, ':', 1) === 0) {

@@ -68,17 +68,17 @@ class HiddenField extends BaseControl
 
 	/**
 	 * Bypasses label generation.
+	 * @param  string|object
 	 * @return void
 	 */
 	public function getLabel($caption = NULL)
 	{
-		return NULL;
 	}
 
 
 	/**
 	 * Adds error message to the list.
-	 * @param  string  error message
+	 * @param  string|object
 	 * @return void
 	 */
 	public function addError($message)

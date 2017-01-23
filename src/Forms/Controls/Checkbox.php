@@ -20,7 +20,7 @@ class Checkbox extends BaseControl
 
 
 	/**
-	 * @param  string  label
+	 * @param  string|object
 	 */
 	public function __construct($label = NULL)
 	{
@@ -73,7 +73,6 @@ class Checkbox extends BaseControl
 	 */
 	public function getLabel($caption = NULL)
 	{
-		return NULL;
 	}
 
 

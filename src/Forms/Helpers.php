@@ -27,9 +27,9 @@ class Helpers
 
 	/**
 	 * Extracts and sanitizes submitted form data for single control.
-	 * @param  array   submitted data
-	 * @param  string  control HTML name
-	 * @param  string  type Form::DATA_TEXT, DATA_LINE, DATA_FILE, DATA_KEYS
+	 * @param  array
+	 * @param  string
+	 * @param  int  type Form::DATA_TEXT, DATA_LINE, DATA_FILE, DATA_KEYS
 	 * @return string|string[]
 	 * @internal
 	 */

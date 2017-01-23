@@ -29,7 +29,6 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets control's value.
-	 * @param  string
 	 * @return static
 	 * @internal
 	 */
@@ -48,7 +47,7 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Returns control's value.
-	 * @return string
+	 * @return mixed
 	 */
 	public function getValue()
 	{
@@ -138,6 +137,9 @@ abstract class TextBase extends BaseControl
 	}
 
 
+	/**
+	 * @return static
+	 */
 	public function addRule($validator, $errorMessage = NULL, $arg = NULL)
 	{
 		if ($validator === Form::LENGTH || $validator === Form::MAX_LENGTH) {

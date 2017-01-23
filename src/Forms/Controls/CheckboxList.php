@@ -31,8 +31,7 @@ class CheckboxList extends MultiChoiceControl
 
 
 	/**
-	 * @param  string  label
-	 * @param  array   options from which to choose
+	 * @param  string|object
 	 */
 	public function __construct($label = NULL, array $items = NULL)
 	{
@@ -74,7 +73,7 @@ class CheckboxList extends MultiChoiceControl
 
 	/**
 	 * Generates label's HTML element.
-	 * @param  string
+	 * @param  string|object
 	 * @return Html
 	 */
 	public function getLabel($caption = NULL)
