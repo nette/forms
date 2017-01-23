@@ -162,7 +162,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * Returns self.
 	 * @return static
 	 */
-	public function getForm($need = TRUE)
+	public function getForm($throw = TRUE)
 	{
 		return $this;
 	}
@@ -231,9 +231,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * @param  string
 	 * @return Controls\CsrfProtection
 	 */
-	public function addProtection($message = NULL)
+	public function addProtection($errorMessage = NULL)
 	{
-		$control = new Controls\CsrfProtection($message);
+		$control = new Controls\CsrfProtection($errorMessage);
 		$this->addComponent($control, self::PROTECTOR_ID, key($this->getComponents()));
 		return $control;
 	}

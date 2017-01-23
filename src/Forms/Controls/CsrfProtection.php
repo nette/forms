@@ -25,12 +25,12 @@ class CsrfProtection extends HiddenField
 	 * @param string
 	 * @param int
 	 */
-	public function __construct($message)
+	public function __construct($errorMessage)
 	{
 		parent::__construct();
 		$this->setOmitted()
 			->setRequired()
-			->addRule(self::PROTECTION, $message);
+			->addRule(self::PROTECTION, $errorMessage);
 		$this->monitor(Nette\Application\UI\Presenter::class);
 	}
 
