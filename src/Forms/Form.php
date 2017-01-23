@@ -8,6 +8,7 @@
 namespace Nette\Forms;
 
 use Nette;
+use Nette\Utils\Html;
 
 
 /**
@@ -15,7 +16,7 @@ use Nette;
  *
  * @property-read array $errors
  * @property-read array $ownErrors
- * @property-read Nette\Utils\Html $elementPrototype
+ * @property-read Html $elementPrototype
  * @property-read IFormRenderer $renderer
  * @property string $action
  * @property string $method
@@ -95,7 +96,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var array */
 	private $httpData;
 
-	/** @var Nette\Utils\Html  <form> element */
+	/** @var Html  <form> element */
 	private $element;
 
 	/** @var IFormRenderer */
@@ -566,12 +567,12 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns form's HTML element template.
-	 * @return Nette\Utils\Html
+	 * @return Html
 	 */
 	public function getElementPrototype()
 	{
 		if (!$this->element) {
-			$this->element = Nette\Utils\Html::el('form');
+			$this->element = Html::el('form');
 			$this->element->action = ''; // RFC 1808 -> empty uri means 'this'
 			$this->element->method = self::POST;
 		}
