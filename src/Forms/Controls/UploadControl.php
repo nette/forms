@@ -29,7 +29,7 @@ class UploadControl extends BaseControl
 	{
 		parent::__construct($label);
 		$this->control->type = 'file';
-		$this->control->multiple = (bool) $multiple;
+		$this->control->multiple = $multiple;
 		$this->setOption('type', 'file');
 		$this->addCondition(Forms\Form::FILLED)
 			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);

@@ -63,7 +63,7 @@ abstract class TextBase extends BaseControl
 	 */
 	public function setNullable(bool $value = TRUE)
 	{
-		$this->nullable = (bool) $value;
+		$this->nullable = $value;
 		return $this;
 	}
 
@@ -74,7 +74,7 @@ abstract class TextBase extends BaseControl
 	 */
 	public function setEmptyValue(string $value)
 	{
-		$this->emptyValue = (string) $value;
+		$this->emptyValue = $value;
 		return $this;
 	}
 

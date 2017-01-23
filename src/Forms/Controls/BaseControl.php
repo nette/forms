@@ -219,7 +219,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function setOmitted(bool $value = TRUE)
 	{
-		$this->omitted = (bool) $value;
+		$this->omitted = $value;
 		return $this;
 	}
 

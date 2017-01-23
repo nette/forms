@@ -164,7 +164,6 @@ class Rules implements \IteratorAggregate
 	 */
 	public function addFilter(callable $filter)
 	{
-		Nette\Utils\Callback::check($filter);
 		$this->rules[] = $rule = new Rule;
 		$rule->control = $this->control;
 		$rule->validator = function (IControl $control) use ($filter) {
