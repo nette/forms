@@ -60,7 +60,7 @@ class ControlGroup
 	/**
 	 * @return IControl[]
 	 */
-	public function getControls()
+	public function getControls(): array
 	{
 		return iterator_to_array($this->controls);
 	}
@@ -75,11 +75,9 @@ class ControlGroup
 	 * - 'description' - textual or IHtmlString object description
 	 * - 'embedNext' - describes how render next group
 	 *
-	 * @param  string
-	 * @param  mixed
 	 * @return static
 	 */
-	public function setOption($key, $value)
+	public function setOption(string $key, $value)
 	{
 		if ($value === NULL) {
 			unset($this->options[$key]);
@@ -93,11 +91,9 @@ class ControlGroup
 
 	/**
 	 * Returns user-specific option.
-	 * @param  string
-	 * @param  mixed
 	 * @return mixed
 	 */
-	public function getOption($key, $default = NULL)
+	public function getOption(string $key, $default = NULL)
 	{
 		return $this->options[$key] ?? $default;
 	}
@@ -105,9 +101,8 @@ class ControlGroup
 
 	/**
 	 * Returns user-specific options.
-	 * @return array
 	 */
-	public function getOptions()
+	public function getOptions(): array
 	{
 		return $this->options;
 	}

@@ -59,10 +59,9 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets whether getValue() returns NULL instead of empty string.
-	 * @param  bool
 	 * @return static
 	 */
-	public function setNullable($value = TRUE)
+	public function setNullable(bool $value = TRUE)
 	{
 		$this->nullable = (bool) $value;
 		return $this;
@@ -71,10 +70,9 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets the special value which is treated as empty string.
-	 * @param  string
 	 * @return static
 	 */
-	public function setEmptyValue($value)
+	public function setEmptyValue(string $value)
 	{
 		$this->emptyValue = (string) $value;
 		return $this;
@@ -83,9 +81,8 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Returns the special value which is treated as empty string.
-	 * @return string
 	 */
-	public function getEmptyValue()
+	public function getEmptyValue(): string
 	{
 		return $this->emptyValue;
 	}
@@ -93,10 +90,9 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets the maximum number of allowed characters.
-	 * @param  int
 	 * @return static
 	 */
-	public function setMaxLength($length)
+	public function setMaxLength(int $length)
 	{
 		$this->control->maxlength = $length;
 		return $this;
@@ -105,17 +101,16 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Appends input string filter callback.
-	 * @param  callable
 	 * @return static
 	 */
-	public function addFilter($filter)
+	public function addFilter(callable $filter)
 	{
 		$this->getRules()->addFilter($filter);
 		return $this;
 	}
 
 
-	public function getControl()
+	public function getControl(): Nette\Utils\Html
 	{
 		$el = parent::getControl();
 		if ($this->emptyValue !== '') {
@@ -128,10 +123,7 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	/**
-	 * @return string|NULL
-	 */
-	protected function getRenderedValue()
+	protected function getRenderedValue(): ?string
 	{
 		return $this->rawValue === ''
 			? ($this->emptyValue === '' ? NULL : $this->translate($this->emptyValue))
@@ -156,9 +148,8 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Performs the server side validation.
-	 * @return void
 	 */
-	public function validate()
+	public function validate(): void
 	{
 		if ($this->value === Strings::trim($this->translate($this->emptyValue))) {
 			$this->value = '';

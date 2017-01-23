@@ -48,9 +48,8 @@ class CheckboxList extends MultiChoiceControl
 
 	/**
 	 * Generates control's HTML element.
-	 * @return Html
 	 */
-	public function getControl()
+	public function getControl(): Html
 	{
 		$input = parent::getControl();
 		$items = $this->getItems();
@@ -76,18 +75,14 @@ class CheckboxList extends MultiChoiceControl
 	/**
 	 * Generates label's HTML element.
 	 * @param  string|object
-	 * @return Html
 	 */
-	public function getLabel($caption = NULL)
+	public function getLabel($caption = NULL): Html
 	{
 		return parent::getLabel($caption)->for(NULL);
 	}
 
 
-	/**
-	 * @return Html
-	 */
-	public function getControlPart($key = NULL)
+	public function getControlPart($key = NULL): Html
 	{
 		$key = key([(string) $key => NULL]);
 		return parent::getControl()->addAttributes([
@@ -100,10 +95,7 @@ class CheckboxList extends MultiChoiceControl
 	}
 
 
-	/**
-	 * @return Html
-	 */
-	public function getLabelPart($key = NULL)
+	public function getLabelPart($key = NULL): Html
 	{
 		$itemLabel = $this->itemLabel ? clone $this->itemLabel : clone $this->label;
 		return func_num_args()
@@ -114,9 +106,8 @@ class CheckboxList extends MultiChoiceControl
 
 	/**
 	 * Returns separator HTML element template.
-	 * @return Html
 	 */
-	public function getSeparatorPrototype()
+	public function getSeparatorPrototype(): Html
 	{
 		return $this->separator;
 	}
@@ -124,9 +115,8 @@ class CheckboxList extends MultiChoiceControl
 
 	/**
 	 * Returns container HTML element template.
-	 * @return Html
 	 */
-	public function getContainerPrototype()
+	public function getContainerPrototype(): Html
 	{
 		return $this->container;
 	}
@@ -134,9 +124,8 @@ class CheckboxList extends MultiChoiceControl
 
 	/**
 	 * Returns item label HTML element template.
-	 * @return Html
 	 */
-	public function getItemLabelPrototype()
+	public function getItemLabelPrototype(): Html
 	{
 		return $this->itemLabel ?: $this->itemLabel = Html::el('label');
 	}

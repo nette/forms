@@ -29,21 +29,16 @@ interface IControl
 	 */
 	function getValue();
 
-	/**
-	 * @return void
-	 */
-	function validate();
+	function validate(): void;
 
 	/**
 	 * Returns errors corresponding to control.
-	 * @return array
 	 */
-	function getErrors();
+	function getErrors(): array;
 
 	/**
 	 * Is control value excluded from $form->getValues() result?
-	 * @return bool
 	 */
-	function isOmitted();
+	function isOmitted(): bool;
 
 }

@@ -29,13 +29,11 @@ class Helpers
 
 	/**
 	 * Extracts and sanitizes submitted form data for single control.
-	 * @param  array
-	 * @param  string
-	 * @param  int  type Form::DATA_TEXT, DATA_LINE, DATA_FILE, DATA_KEYS
+	 * @param  int $type  type Form::DATA_TEXT, DATA_LINE, DATA_FILE, DATA_KEYS
 	 * @return string|string[]
 	 * @internal
 	 */
-	public static function extractHttpData(array $data, $htmlName, $type)
+	public static function extractHttpData(array $data, string $htmlName, int $type)
 	{
 		$name = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName));
 		$data = Nette\Utils\Arrays::get($data, $name, NULL);
@@ -61,7 +59,7 @@ class Helpers
 	}
 
 
-	private static function sanitize($type, $value)
+	private static function sanitize(int $type, $value)
 	{
 		if ($type === Form::DATA_TEXT) {
 			return is_scalar($value) ? Strings::normalizeNewLines($value) : NULL;
@@ -80,9 +78,8 @@ class Helpers
 
 	/**
 	 * Converts control name to HTML name.
-	 * @return string
 	 */
-	public static function generateHtmlName($id)
+	public static function generateHtmlName(string $id): string
 	{
 		$name = str_replace(Nette\ComponentModel\IComponent::NAME_SEPARATOR, '][', $id, $count);
 		if ($count) {
@@ -95,10 +92,7 @@ class Helpers
 	}
 
 
-	/**
-	 * @return array
-	 */
-	public static function exportRules(Rules $rules)
+	public static function exportRules(Rules $rules): array
 	{
 		$payload = [];
 		foreach ($rules as $rule) {
@@ -141,10 +135,7 @@ class Helpers
 	}
 
 
-	/**
-	 * @return string
-	 */
-	public static function createInputList(array $items, array $inputAttrs = NULL, array $labelAttrs = NULL, $wrapper = NULL)
+	public static function createInputList(array $items, array $inputAttrs = NULL, array $labelAttrs = NULL, $wrapper = NULL): string
 	{
 		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
 		[$labelAttrs, $labelTag] = self::prepareAttrs($labelAttrs, 'label');
@@ -172,10 +163,7 @@ class Helpers
 	}
 
 
-	/**
-	 * @return Html
-	 */
-	public static function createSelectBox(array $items, array $optionAttrs = NULL, $selected = NULL)
+	public static function createSelectBox(array $items, array $optionAttrs = NULL, $selected = NULL): Html
 	{
 		if ($selected !== NULL) {
 			$optionAttrs['selected?'] = $selected;
@@ -211,7 +199,7 @@ class Helpers
 	}
 
 
-	private static function prepareAttrs($attrs, $name)
+	private static function prepareAttrs(?array $attrs, string $name): array
 	{
 		$dynamic = [];
 		foreach ((array) $attrs as $k => $v) {

@@ -65,7 +65,7 @@ class SelectBox extends ChoiceControl
 	 * Sets options and option groups from which to choose.
 	 * @return static
 	 */
-	public function setItems(array $items, $useKeys = TRUE)
+	public function setItems(array $items, bool $useKeys = TRUE)
 	{
 		if (!$useKeys) {
 			$res = [];
@@ -88,9 +88,8 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Generates control's HTML element.
-	 * @return Nette\Utils\Html
 	 */
-	public function getControl()
+	public function getControl(): Nette\Utils\Html
 	{
 		$items = $this->prompt === FALSE ? [] : ['' => $this->translate($this->prompt)];
 		foreach ($this->options as $key => $value) {
@@ -117,10 +116,7 @@ class SelectBox extends ChoiceControl
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function isOk()
+	public function isOk(): bool
 	{
 		return $this->isDisabled()
 			|| $this->prompt !== FALSE

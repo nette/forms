@@ -38,9 +38,8 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Loads HTTP data.
-	 * @return void
 	 */
-	public function loadHttpData()
+	public function loadHttpData(): void
 	{
 		$this->value = $this->getHttpData(Nette\Forms\Form::DATA_TEXT);
 		if ($this->value !== NULL) {
@@ -92,9 +91,8 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Is any item selected?
-	 * @return bool
 	 */
-	public function isFilled()
+	public function isFilled(): bool
 	{
 		return $this->getValue() !== NULL;
 	}
@@ -102,11 +100,9 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Sets items from which to choose.
-	 * @param  array
-	 * @param  bool
 	 * @return static
 	 */
-	public function setItems(array $items, $useKeys = TRUE)
+	public function setItems(array $items, bool $useKeys = TRUE)
 	{
 		$this->items = $useKeys ? $items : array_combine($items, $items);
 		return $this;
@@ -115,9 +111,8 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns items from which to choose.
-	 * @return array
 	 */
-	public function getItems()
+	public function getItems(): array
 	{
 		return $this->items;
 	}

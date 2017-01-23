@@ -105,10 +105,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns form.
-	 * @param  bool
-	 * @return Form|NULL
 	 */
-	public function getForm($throw = TRUE)
+	public function getForm(bool $throw = TRUE): ?Form
 	{
 		return $this->lookup(Form::class, $throw);
 	}
@@ -116,9 +114,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Loads HTTP data.
-	 * @return void
 	 */
-	public function loadHttpData()
+	public function loadHttpData(): void
 	{
 		$this->setValue($this->getHttpData(Form::DATA_TEXT));
 	}
@@ -136,9 +133,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns HTML name of control.
-	 * @return string
 	 */
-	public function getHtmlName()
+	public function getHtmlName(): string
 	{
 		return Nette\Forms\Helpers::generateHtmlName($this->lookupPath(Form::class));
 	}
@@ -171,9 +167,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Is control filled?
-	 * @return bool
 	 */
-	public function isFilled()
+	public function isFilled(): bool
 	{
 		$value = $this->getValue();
 		return $value !== NULL && $value !== [] && $value !== '';
@@ -196,7 +191,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Disables or enables control.
-	 * @param  bool
 	 * @return static
 	 */
 	public function setDisabled($value = TRUE)
@@ -212,9 +206,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Is control disabled?
-	 * @return bool
 	 */
-	public function isDisabled()
+	public function isDisabled(): bool
 	{
 		return $this->disabled === TRUE;
 	}
@@ -222,10 +215,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Sets whether control value is excluded from $form->getValues() result.
-	 * @param  bool
 	 * @return static
 	 */
-	public function setOmitted($value = TRUE)
+	public function setOmitted(bool $value = TRUE)
 	{
 		$this->omitted = (bool) $value;
 		return $this;
@@ -234,9 +226,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Is control value excluded from $form->getValues() result?
-	 * @return bool
 	 */
-	public function isOmitted()
+	public function isOmitted(): bool
 	{
 		return $this->omitted || ($this->isDisabled() && $this->omitted === NULL);
 	}
@@ -277,19 +268,13 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	}
 
 
-	/**
-	 * @return Nette\Utils\Html|NULL
-	 */
-	public function getControlPart()
+	public function getControlPart(): ?Html
 	{
 		return $this->getControl();
 	}
 
 
-	/**
-	 * @return Nette\Utils\Html|NULL
-	 */
-	public function getLabelPart()
+	public function getLabelPart(): ?Html
 	{
 		return $this->getLabel();
 	}
@@ -297,9 +282,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns control's HTML element template.
-	 * @return Html
 	 */
-	public function getControlPrototype()
+	public function getControlPrototype(): Html
 	{
 		return $this->control;
 	}
@@ -307,9 +291,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns label's HTML element template.
-	 * @return Html
 	 */
-	public function getLabelPrototype()
+	public function getLabelPrototype(): Html
 	{
 		return $this->label;
 	}
@@ -342,11 +325,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Changes control's HTML attribute.
-	 * @param  string
-	 * @param  mixed
 	 * @return static
 	 */
-	public function setHtmlAttribute($name, $value = TRUE)
+	public function setHtmlAttribute(string $name, $value = TRUE)
 	{
 		return $this->setAttribute($name, $value);
 	}
@@ -354,11 +335,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Alias for setHtmlAttribute()
-	 * @param  string
-	 * @param  mixed
 	 * @return static
 	 */
-	public function setAttribute($name, $value = TRUE)
+	public function setAttribute(string $name, $value = TRUE)
 	{
 		$this->control->$name = $value;
 		return $this;
@@ -372,7 +351,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * Sets translate adapter.
 	 * @return static
 	 */
-	public function setTranslator(Nette\Localization\ITranslator $translator = NULL)
+	public function setTranslator(?Nette\Localization\ITranslator $translator)
 	{
 		$this->translator = $translator;
 		return $this;
@@ -381,9 +360,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns translate adapter.
-	 * @return Nette\Localization\ITranslator|NULL
 	 */
-	public function getTranslator()
+	public function getTranslator(): ?Nette\Localization\ITranslator
 	{
 		if ($this->translator === TRUE) {
 			return $this->getForm(FALSE) ? $this->getForm()->getTranslator() : NULL;
@@ -394,11 +372,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns translated string.
-	 * @param  mixed
-	 * @param  int      plural count
 	 * @return mixed
 	 */
-	public function translate($value, $count = NULL)
+	public function translate($value, int $count = NULL)
 	{
 		if ($translator = $this->getTranslator()) {
 			$tmp = is_array($value) ? [&$value] : [[&$value]];
@@ -419,7 +395,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * Adds a validation rule.
 	 * @param  mixed
 	 * @param  string|object
-	 * @param  mixed
 	 * @return static
 	 */
 	public function addRule($validator, $errorMessage = NULL, $arg = NULL)
@@ -431,11 +406,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Adds a validation condition a returns new branch.
-	 * @param  mixed
-	 * @param  mixed
 	 * @return Rules      new branch
 	 */
-	public function addCondition($validator, $value = NULL)
+	public function addCondition($validator, $value = NULL): Rules
 	{
 		return $this->rules->addCondition($validator, $value);
 	}
@@ -443,21 +416,15 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Adds a validation condition based on another control a returns new branch.
-	 * @param  IControl
-	 * @param  mixed
-	 * @param  mixed
 	 * @return Rules      new branch
 	 */
-	public function addConditionOn(IControl $control, $validator, $value = NULL)
+	public function addConditionOn(IControl $control, $validator, $value = NULL): Rules
 	{
 		return $this->rules->addConditionOn($control, $validator, $value);
 	}
 
 
-	/**
-	 * @return Rules
-	 */
-	public function getRules()
+	public function getRules(): Rules
 	{
 		return $this->rules;
 	}
@@ -477,9 +444,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Is control mandatory?
-	 * @return bool
 	 */
-	public function isRequired()
+	public function isRequired(): bool
 	{
 		return $this->rules->isRequired();
 	}
@@ -487,9 +453,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Performs the server side validation.
-	 * @return void
 	 */
-	public function validate()
+	public function validate(): void
 	{
 		if ($this->isDisabled()) {
 			return;
@@ -502,9 +467,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/**
 	 * Adds error message to the list.
 	 * @param  string|object
-	 * @return void
 	 */
-	public function addError($message)
+	public function addError($message): void
 	{
 		$this->errors[] = $message;
 	}
@@ -512,9 +476,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns errors corresponding to control.
-	 * @return string|NULL
 	 */
-	public function getError()
+	public function getError(): ?string
 	{
 		return $this->errors ? implode(' ', array_unique($this->errors)) : NULL;
 	}
@@ -522,27 +485,20 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns errors corresponding to control.
-	 * @return array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
 		return array_unique($this->errors);
 	}
 
 
-	/**
-	 * @return bool
-	 */
-	public function hasErrors()
+	public function hasErrors(): bool
 	{
 		return (bool) $this->errors;
 	}
 
 
-	/**
-	 * @return void
-	 */
-	public function cleanErrors()
+	public function cleanErrors(): void
 	{
 		$this->errors = [];
 	}
@@ -552,7 +508,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * Globally enables new required/optional behavior.
 	 * This method will be deprecated in next version.
 	 */
-	public static function enableAutoOptionalMode()
+	public static function enableAutoOptionalMode(): void
 	{
 		self::$autoOptional = TRUE;
 	}
@@ -588,9 +544,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns user-specific options.
-	 * @return array
 	 */
-	public function getOptions()
+	public function getOptions(): array
 	{
 		return $this->options;
 	}
@@ -599,7 +554,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/********************* extension methods ****************d*g**/
 
 
-	public function __call($name, $args)
+	public function __call(string $name, array $args)
 	{
 		if ($callback = Nette\Utils\ObjectMixin::getExtensionMethod(get_class($this), $name)) {
 			return Nette\Utils\Callback::invoke($callback, $this, ...$args);
@@ -608,7 +563,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	}
 
 
-	public static function extensionMethod($name, $callback = NULL)
+	public static function extensionMethod(string $name, /*callable*/ $callback = NULL): void
 	{
 		if (strpos($name, '::') !== FALSE) { // back compatibility
 			[, $name] = explode('::', $name);

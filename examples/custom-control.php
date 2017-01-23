@@ -61,13 +61,13 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	/**
 	 * @return bool
 	 */
-	public function isFilled()
+	public function isFilled(): bool
 	{
 		return $this->day !== '' || $this->year !== '';
 	}
 
 
-	public function loadHttpData()
+	public function loadHttpData(): void
 	{
 		$this->day = $this->getHttpData(Form::DATA_LINE, '[day]');
 		$this->month = $this->getHttpData(Form::DATA_LINE, '[month]');

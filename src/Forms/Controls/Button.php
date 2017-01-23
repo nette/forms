@@ -31,9 +31,8 @@ class Button extends BaseControl
 
 	/**
 	 * Is button pressed?
-	 * @return bool
 	 */
-	public function isFilled()
+	public function isFilled(): bool
 	{
 		$value = $this->getValue();
 		return $value !== NULL && $value !== [];
@@ -42,9 +41,8 @@ class Button extends BaseControl
 
 	/**
 	 * Bypasses label generation.
-	 * @return void
 	 */
-	public function getLabel($caption = NULL)
+	public function getLabel($caption = NULL): void
 	{
 	}
 
@@ -52,9 +50,8 @@ class Button extends BaseControl
 	/**
 	 * Generates control's HTML element.
 	 * @param  string|object
-	 * @return Nette\Utils\Html
 	 */
-	public function getControl($caption = NULL)
+	public function getControl($caption = NULL): Nette\Utils\Html
 	{
 		$this->setOption('rendered', TRUE);
 		$el = clone $this->control;

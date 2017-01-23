@@ -35,7 +35,7 @@ class MultiSelectBox extends MultiChoiceControl
 	 * Sets options and option groups from which to choose.
 	 * @return static
 	 */
-	public function setItems(array $items, $useKeys = TRUE)
+	public function setItems(array $items, bool $useKeys = TRUE)
 	{
 		if (!$useKeys) {
 			$res = [];
@@ -58,9 +58,8 @@ class MultiSelectBox extends MultiChoiceControl
 
 	/**
 	 * Generates control's HTML element.
-	 * @return Nette\Utils\Html
 	 */
-	public function getControl()
+	public function getControl(): Nette\Utils\Html
 	{
 		$items = [];
 		foreach ($this->options as $key => $value) {

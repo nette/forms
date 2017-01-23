@@ -24,9 +24,8 @@ class Runtime
 
 	/**
 	 * Renders form begin.
-	 * @return string
 	 */
-	public static function renderFormBegin(Form $form, array $attrs, $withTags = TRUE)
+	public static function renderFormBegin(Form $form, array $attrs, bool $withTags = TRUE): string
 	{
 		$form->fireRenderEvents();
 		foreach ($form->getControls() as $control) {
@@ -45,9 +44,8 @@ class Runtime
 
 	/**
 	 * Renders form end.
-	 * @return string
 	 */
-	public static function renderFormEnd(Form $form, $withTags = TRUE)
+	public static function renderFormEnd(Form $form, bool $withTags = TRUE): string
 	{
 		$s = '';
 		if ($form->isMethod('get')) {

@@ -41,7 +41,7 @@ $container = createContainer();
 $container->addComponent(createContainer(), 'child');
 $form->addComponent($container, 'parent');
 
-$form->setCurrentGroup();
+$form->setCurrentGroup(NULL);
 $form->addSubmit('submit', 'Order');
 
 $form->fireEvents();

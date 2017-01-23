@@ -42,9 +42,8 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 	/**
 	 * Loads HTTP data.
-	 * @return void
 	 */
-	public function loadHttpData()
+	public function loadHttpData(): void
 	{
 		parent::loadHttpData();
 		if ($this->isFilled()) {
@@ -55,9 +54,8 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 	/**
 	 * Tells if the form was submitted by this button.
-	 * @return bool
 	 */
-	public function isSubmittedBy()
+	public function isSubmittedBy(): bool
 	{
 		return $this->getForm()->isSubmitted() === $this;
 	}
@@ -86,9 +84,8 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 	/**
 	 * Gets the validation scope.
-	 * @return array|NULL
 	 */
-	public function getValidationScope()
+	public function getValidationScope(): ?array
 	{
 		return $this->validationScope;
 	}
@@ -96,9 +93,8 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 	/**
 	 * Fires click event.
-	 * @return void
 	 */
-	public function click()
+	public function click(): void
 	{
 		$this->onClick($this);
 	}
@@ -107,9 +103,8 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 	/**
 	 * Generates control's HTML element.
 	 * @param  string|object
-	 * @return Nette\Utils\Html
 	 */
-	public function getControl($caption = NULL)
+	public function getControl($caption = NULL): Nette\Utils\Html
 	{
 		$scope = [];
 		foreach ((array) $this->validationScope as $control) {

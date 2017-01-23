@@ -18,8 +18,7 @@ interface IFormRenderer
 
 	/**
 	 * Provides complete form rendering.
-	 * @return string
 	 */
-	function render(Form $form);
+	function render(Form $form): string;
 
 }

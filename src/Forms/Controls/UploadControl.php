@@ -24,9 +24,8 @@ class UploadControl extends BaseControl
 
 	/**
 	 * @param  string|object
-	 * @param  bool
 	 */
-	public function __construct($label = NULL, $multiple = FALSE)
+	public function __construct($label = NULL, bool $multiple = FALSE)
 	{
 		parent::__construct($label);
 		$this->control->type = 'file';
@@ -55,9 +54,8 @@ class UploadControl extends BaseControl
 
 	/**
 	 * Loads HTTP data.
-	 * @return void
 	 */
-	public function loadHttpData()
+	public function loadHttpData(): void
 	{
 		$this->value = $this->getHttpData(Nette\Forms\Form::DATA_FILE);
 		if ($this->value === NULL) {
@@ -68,9 +66,8 @@ class UploadControl extends BaseControl
 
 	/**
 	 * Returns HTML name of control.
-	 * @return string
 	 */
-	public function getHtmlName()
+	public function getHtmlName(): string
 	{
 		return parent::getHtmlName() . ($this->control->multiple ? '[]' : '');
 	}
@@ -88,9 +85,8 @@ class UploadControl extends BaseControl
 
 	/**
 	 * Has been any file uploaded?
-	 * @return bool
 	 */
-	public function isFilled()
+	public function isFilled(): bool
 	{
 		return $this->value instanceof FileUpload
 			? $this->value->getError() !== UPLOAD_ERR_NO_FILE // ignore NULL object
@@ -100,9 +96,8 @@ class UploadControl extends BaseControl
 
 	/**
 	 * Have been all files succesfully uploaded?
-	 * @return bool
 	 */
-	public function isOk()
+	public function isOk(): bool
 	{
 		return $this->value instanceof FileUpload
 			? $this->value->isOk()

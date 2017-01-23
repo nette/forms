@@ -21,9 +21,8 @@ class TextInput extends TextBase
 
 	/**
 	 * @param  string|object
-	 * @param  int
 	 */
-	public function __construct($label = NULL, $maxLength = NULL)
+	public function __construct($label = NULL, int $maxLength = NULL)
 	{
 		parent::__construct($label);
 		$this->control->maxlength = $maxLength;
@@ -33,9 +32,8 @@ class TextInput extends TextBase
 
 	/**
 	 * Loads HTTP data.
-	 * @return void
 	 */
-	public function loadHttpData()
+	public function loadHttpData(): void
 	{
 		$this->setValue($this->getHttpData(Form::DATA_LINE));
 	}
@@ -43,10 +41,9 @@ class TextInput extends TextBase
 
 	/**
 	 * Changes control's type attribute.
-	 * @param  string
 	 * @return static
 	 */
-	public function setHtmlType($type)
+	public function setHtmlType(string $type)
 	{
 		return $this->setType($type);
 	}
@@ -54,10 +51,9 @@ class TextInput extends TextBase
 
 	/**
 	 * Alias for setHtmlType()
-	 * @param  string
 	 * @return static
 	 */
-	public function setType($type)
+	public function setType(string $type)
 	{
 		$this->control->type = $type;
 		return $this;
@@ -66,9 +62,8 @@ class TextInput extends TextBase
 
 	/**
 	 * Generates control's HTML element.
-	 * @return Nette\Utils\Html
 	 */
-	public function getControl()
+	public function getControl(): Nette\Utils\Html
 	{
 		return parent::getControl()->addAttributes([
 			'value' => $this->control->type === 'password' ? $this->control->value : $this->getRenderedValue(),
