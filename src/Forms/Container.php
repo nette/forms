@@ -218,12 +218,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns form.
-	 * @param  bool   throw exception if form doesn't exist?
+	 * @param  bool
 	 * @return Form
 	 */
-	public function getForm($need = TRUE)
+	public function getForm($throw = TRUE)
 	{
-		return $this->lookup(Form::class, $need);
+		return $this->lookup(Form::class, $throw);
 	}
 
 

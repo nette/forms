@@ -84,7 +84,7 @@ class Rules implements \IteratorAggregate
 	 * @param  mixed      optional rule arguments
 	 * @return static
 	 */
-	public function addRule($validator, $message = NULL, $arg = NULL)
+	public function addRule($validator, $errorMessage = NULL, $arg = NULL)
 	{
 		if ($validator === Form::VALID || $validator === ~Form::VALID) {
 			throw new Nette\InvalidArgumentException('You cannot use Form::VALID in the addRule method.');
@@ -94,7 +94,7 @@ class Rules implements \IteratorAggregate
 		$rule->validator = $validator;
 		$this->adjustOperation($rule);
 		$rule->arg = $arg;
-		$rule->message = $message;
+		$rule->message = $errorMessage;
 		if ($rule->validator === Form::REQUIRED) {
 			$this->required = $rule;
 		} else {

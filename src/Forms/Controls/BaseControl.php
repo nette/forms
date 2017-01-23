@@ -105,12 +105,12 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Returns form.
-	 * @param  bool   throw exception if form doesn't exist?
+	 * @param  bool
 	 * @return Form
 	 */
-	public function getForm($need = TRUE)
+	public function getForm($throw = TRUE)
 	{
-		return $this->lookup(Form::class, $need);
+		return $this->lookup(Form::class, $throw);
 	}
 
 
@@ -422,9 +422,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * @param  mixed      optional rule arguments
 	 * @return static
 	 */
-	public function addRule($validator, $message = NULL, $arg = NULL)
+	public function addRule($validator, $errorMessage = NULL, $arg = NULL)
 	{
-		$this->rules->addRule($validator, $message, $arg);
+		$this->rules->addRule($validator, $errorMessage, $arg);
 		return $this;
 	}
 

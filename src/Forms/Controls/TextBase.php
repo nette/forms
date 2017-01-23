@@ -138,7 +138,7 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	public function addRule($validator, $message = NULL, $arg = NULL)
+	public function addRule($validator, $errorMessage = NULL, $arg = NULL)
 	{
 		if ($validator === Form::LENGTH || $validator === Form::MAX_LENGTH) {
 			$tmp = is_array($arg) ? $arg[1] : $arg;
@@ -146,7 +146,7 @@ abstract class TextBase extends BaseControl
 				$this->control->maxlength = isset($this->control->maxlength) ? min($this->control->maxlength, $tmp) : $tmp;
 			}
 		}
-		return parent::addRule($validator, $message, $arg);
+		return parent::addRule($validator, $errorMessage, $arg);
 	}
 
 
