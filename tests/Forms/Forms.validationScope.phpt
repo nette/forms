@@ -38,7 +38,7 @@ foreach ($datasets as $case) {
 	$details->addText('age2')->setRequired('age2');
 
 	$form->addSubmit('send1');
-	$form->addSubmit('send2')->setValidationScope(FALSE);
+	$form->addSubmit('send2')->setValidationScope([]);
 	$form->addSubmit('send3')->setValidationScope([$form['name']]);
 	$form->addSubmit('send4')->setValidationScope([$form['details']['age']]);
 	$form->addSubmit('send5')->setValidationScope([$form['details']]);

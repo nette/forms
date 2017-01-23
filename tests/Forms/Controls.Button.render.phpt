@@ -84,7 +84,7 @@ test(function () { // SubmitButton
 
 test(function () { // SubmitButton with scope
 	$form = new Form;
-	$input = $form->addSubmit('button', 'Caption')->setValidationScope(FALSE);
+	$input = $form->addSubmit('button', 'Caption')->setValidationScope([]);
 
 	Assert::same('<input type="submit" name="button" value="Caption" formnovalidate>', (string) $input->getControl());
 });
