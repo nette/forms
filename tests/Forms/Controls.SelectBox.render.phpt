@@ -76,6 +76,21 @@ test(function () { // Html with translator & groups
 });
 
 
+test(function () { // disabled translation
+	$form = new Form;
+	$input = $form->addSelect('list', 'Label', [
+		'a' => 'First',
+		'group' => ['Second', 'Third'],
+	])->setPrompt('Prompt');
+	$input->setTranslator(new Translator);
+	$input->setTranslateOptions(FALSE);
+
+	Assert::same('<label for="frm-list">LABEL</label>', (string) $input->getLabel());
+	Assert::same('<label for="frm-list">ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<select name="list" id="frm-list"><option value="">PROMPT</option><option value="a">First</option><optgroup label="group"><option value="0">Second</option><option value="1">Third</option></optgroup></select>', (string) $input->getControl());
+});
+
+
 test(function () { // validation rules
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [

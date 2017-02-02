@@ -18,6 +18,9 @@ class MultiSelectBox extends MultiChoiceControl
 	/** @var array of option / optgroup */
 	private $options = [];
 
+	/** @var bool */
+	private $translateOptions = TRUE;
+
 	/** @var array */
 	private $optionAttributes = [];
 
@@ -26,6 +29,18 @@ class MultiSelectBox extends MultiChoiceControl
 	{
 		parent::__construct($label, $items);
 		$this->setOption('type', 'select');
+	}
+
+
+	/**
+	 * Disable translation of select options.
+	 * @param  bool
+	 * @return static
+	 */
+	public function setTranslateOptions($translateOptions = TRUE)
+	{
+		$this->translateOptions = (bool) $translateOptions;
+		return $this;
 	}
 
 
@@ -62,7 +77,11 @@ class MultiSelectBox extends MultiChoiceControl
 	{
 		$items = [];
 		foreach ($this->options as $key => $value) {
-			$items[is_array($value) ? $this->translate($key) : $key] = $this->translate($value);
+			if (is_array($value) && $this->translateOptions) {
+				$key = $this->translate($key);
+			}
+
+			$items[$key] = $this->translateOptions ? $this->translate($value) : $value;
 		}
 
 		return Nette\Forms\Helpers::createSelectBox(
