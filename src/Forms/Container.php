@@ -187,10 +187,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Adds the specified component to the IContainer.
 	 * @param  string|int $name
+	 * @param  string|int $insertBefore
 	 * @return static
 	 * @throws Nette\InvalidStateException
 	 */
-	public function addComponent(Nette\ComponentModel\IComponent $component, $name, string $insertBefore = NULL)
+	public function addComponent(Nette\ComponentModel\IComponent $component, $name, $insertBefore = NULL)
 	{
 		parent::addComponent($component, $name, $insertBefore);
 		if ($this->currentGroup !== NULL) {
