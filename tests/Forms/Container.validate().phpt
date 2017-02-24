@@ -40,4 +40,4 @@ Assert::exception(function () {
 	$form = new Form;
 	$form->onValidate = TRUE;
 	$form->validate();
-}, Nette\UnexpectedValueException::class, 'Property Form::$onValidate must be array or Traversable, boolean given.');
+}, Nette\UnexpectedValueException::class, 'Property Form::$onValidate must be iterable, boolean given.');

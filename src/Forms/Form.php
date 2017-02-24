@@ -407,8 +407,8 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			$this->onError($this);
 
 		} elseif ($this->onSuccess !== NULL) {
-			if (!is_array($this->onSuccess) && !$this->onSuccess instanceof \Traversable) {
-				throw new Nette\UnexpectedValueException('Property Form::$onSuccess must be array or Traversable, ' . gettype($this->onSuccess) . ' given.');
+			if (!is_iterable($this->onSuccess)) {
+				throw new Nette\UnexpectedValueException('Property Form::$onSuccess must be iterable, ' . gettype($this->onSuccess) . ' given.');
 			}
 			foreach ($this->onSuccess as $handler) {
 				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();

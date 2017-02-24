@@ -45,7 +45,7 @@ class ControlGroup
 				foreach ($item->getComponents() as $component) {
 					$this->add($component);
 				}
-			} elseif ($item instanceof \Traversable || is_array($item)) {
+			} elseif (is_iterable($item)) {
 				$this->add(...$item);
 
 			} else {

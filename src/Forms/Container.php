@@ -136,8 +136,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			}
 		}
 		if ($this->onValidate !== NULL) {
-			if (!is_array($this->onValidate) && !$this->onValidate instanceof \Traversable) {
-				throw new Nette\UnexpectedValueException('Property Form::$onValidate must be array or Traversable, ' . gettype($this->onValidate) . ' given.');
+			if (!is_iterable($this->onValidate)) {
+				throw new Nette\UnexpectedValueException('Property Form::$onValidate must be iterable, ' . gettype($this->onValidate) . ' given.');
 			}
 			foreach ($this->onValidate as $handler) {
 				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();

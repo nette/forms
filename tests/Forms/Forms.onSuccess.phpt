@@ -61,4 +61,4 @@ Assert::exception(function () {
 	$form = new Form;
 	$form->onSuccess = TRUE;
 	$form->fireEvents();
-}, Nette\UnexpectedValueException::class, 'Property Form::$onSuccess must be array or Traversable, boolean given.');
+}, Nette\UnexpectedValueException::class, 'Property Form::$onSuccess must be iterable, boolean given.');
