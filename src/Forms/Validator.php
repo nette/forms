@@ -112,6 +112,15 @@ class Validator
 
 
 	/**
+	 * Returns argument.
+	 */
+	public static function validateStatic(IControl $control, bool $arg): bool
+	{
+		return $arg;
+	}
+
+
+	/**
 	 * Is control filled?
 	 */
 	public static function validateFilled(IControl $control): bool

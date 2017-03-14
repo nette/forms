@@ -109,6 +109,9 @@ class Rules implements \IteratorAggregate
 	{
 		if ($validator === Form::VALID || $validator === ~Form::VALID) {
 			throw new Nette\InvalidArgumentException('You cannot use Form::VALID in the addCondition method.');
+		} elseif (is_bool($validator)) {
+			$arg = $validator;
+			$validator = ':static';
 		}
 		return $this->addConditionOn($this->control, $validator, $arg);
 	}
