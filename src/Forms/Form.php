@@ -26,20 +26,21 @@ use Nette\Utils\Html;
 class Form extends Container implements Nette\Utils\IHtmlString
 {
 	/** validator */
-	const EQUAL = ':equal',
+	public const
+		EQUAL = ':equal',
 		IS_IN = self::EQUAL,
 		NOT_EQUAL = ':notEqual',
 		IS_NOT_IN = self::NOT_EQUAL,
 		FILLED = ':filled',
 		BLANK = ':blank',
 		REQUIRED = self::FILLED,
-		VALID = ':valid';
+		VALID = ':valid',
 
-	// button
-	const SUBMITTED = ':submitted';
+		// button
+		SUBMITTED = ':submitted',
 
-	// text
-	const MIN_LENGTH = ':minLength',
+		// text
+		MIN_LENGTH = ':minLength',
 		MAX_LENGTH = ':maxLength',
 		LENGTH = ':length',
 		EMAIL = ':email',
@@ -50,32 +51,34 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		FLOAT = ':float',
 		MIN = ':min',
 		MAX = ':max',
-		RANGE = ':range';
+		RANGE = ':range',
 
-	// multiselect
-	const COUNT = self::LENGTH;
+		// multiselect
+		COUNT = self::LENGTH,
 
-	// file upload
-	const MAX_FILE_SIZE = ':fileSize',
+		// file upload
+		MAX_FILE_SIZE = ':fileSize',
 		MIME_TYPE = ':mimeType',
 		IMAGE = ':image',
 		MAX_POST_SIZE = ':maxPostSize';
 
 	/** method */
-	const GET = 'get',
+	public const
+		GET = 'get',
 		POST = 'post';
 
 	/** submitted data types */
-	const DATA_TEXT = 1;
-	const DATA_LINE = 2;
-	const DATA_FILE = 3;
-	const DATA_KEYS = 8;
+	public const
+		DATA_TEXT = 1,
+		DATA_LINE = 2,
+		DATA_FILE = 3,
+		DATA_KEYS = 8;
 
 	/** @internal tracker ID */
-	const TRACKER_ID = '_form_';
+	public const TRACKER_ID = '_form_';
 
 	/** @internal protection token ID */
-	const PROTECTOR_ID = '_token_';
+	public const PROTECTOR_ID = '_token_';
 
 	/** @var callable[]  function (Form $sender); Occurs when the form is submitted and successfully validated */
 	public $onSuccess;

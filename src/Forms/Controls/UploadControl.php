@@ -20,7 +20,7 @@ use Nette\Http\FileUpload;
 class UploadControl extends BaseControl
 {
 	/** validation rule */
-	const VALID = ':uploadControlValid';
+	public const VALID = ':uploadControlValid';
 
 	/**
 	 * @param  string|object

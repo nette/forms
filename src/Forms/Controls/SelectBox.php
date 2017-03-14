@@ -18,7 +18,7 @@ use Nette;
 class SelectBox extends ChoiceControl
 {
 	/** validation rule */
-	const VALID = ':selectBoxValid';
+	public const VALID = ':selectBoxValid';
 
 	/** @var array of option / optgroup */
 	private $options = [];

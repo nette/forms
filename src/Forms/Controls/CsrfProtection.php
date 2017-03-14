@@ -17,7 +17,7 @@ use Nette;
  */
 class CsrfProtection extends HiddenField
 {
-	const PROTECTION = 'Nette\Forms\Controls\CsrfProtection::validateCsrf';
+	public const PROTECTION = 'Nette\Forms\Controls\CsrfProtection::validateCsrf';
 
 	/** @var Nette\Http\Session */
 	public $session;
