@@ -531,6 +531,10 @@
 				}
 			}
 			return true;
+		},
+
+		'static': function (elem, arg, val) {
+			return arg;
 		}
 	};
 

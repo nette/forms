@@ -16,6 +16,8 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
 		expect(Nette.validateRule(el, 'blank')).toBe(true);
 		expect(Nette.validateRule(el, 'equal', '')).toBe(true);
+		expect(Nette.validateRule(el, 'static', true)).toBe(true);
+		expect(Nette.validateRule(el, 'static', false)).toBe(false);
 
 		el.value = ' hello ';
 		expect(Nette.getValue(el)).toBe('hello');

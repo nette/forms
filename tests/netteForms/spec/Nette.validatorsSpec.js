@@ -68,4 +68,9 @@ describe('Nette.validators', function() {
 		expect(Nette.validators.url(null, null, 'http://_e_.example.com', v)).toBe(true);
 	});
 
+
+	it('static', function() {
+		expect(Nette.validators.static(null, true)).toBe(true);
+		expect(Nette.validators.static(null, false)).toBe(false);
+	});
 });
