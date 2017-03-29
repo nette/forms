@@ -51,7 +51,8 @@ abstract class TextBase extends BaseControl
 	 */
 	public function getValue()
 	{
-		return $this->nullable && $this->value === '' ? NULL : $this->value;
+		$value = $this->value === Strings::trim($this->translate($this->emptyValue)) ? '' : $this->value;
+		return $this->nullable && $value === '' ? NULL : $value;
 	}
 
 
@@ -149,19 +150,6 @@ abstract class TextBase extends BaseControl
 			}
 		}
 		return parent::addRule($validator, $errorMessage, $arg);
-	}
-
-
-	/**
-	 * Performs the server side validation.
-	 * @return void
-	 */
-	public function validate()
-	{
-		if ($this->value === Strings::trim($this->translate($this->emptyValue))) {
-			$this->value = '';
-		}
-		parent::validate();
 	}
 
 }
