@@ -159,7 +159,7 @@ class Validator
 	/**
 	 * Is a control's value number greater than or equal to the specified minimum?
 	 */
-	public static function validateMin(IControl $control, float $minimum): bool
+	public static function validateMin(IControl $control, $minimum): bool
 	{
 		return Validators::isInRange($control->getValue(), [$minimum, NULL]);
 	}
@@ -168,7 +168,7 @@ class Validator
 	/**
 	 * Is a control's value number less than or equal to the specified maximum?
 	 */
-	public static function validateMax(IControl $control, float $maximum): bool
+	public static function validateMax(IControl $control, $maximum): bool
 	{
 		return Validators::isInRange($control->getValue(), [NULL, $maximum]);
 	}
@@ -191,7 +191,7 @@ class Validator
 	/**
 	 * Has control's value minimal count/length?
 	 */
-	public static function validateMinLength(IControl $control, int $length): bool
+	public static function validateMinLength(IControl $control, $length): bool
 	{
 		return static::validateLength($control, [$length, NULL]);
 	}
@@ -200,7 +200,7 @@ class Validator
 	/**
 	 * Is control's value count/length in limit?
 	 */
-	public static function validateMaxLength(IControl $control, int $length): bool
+	public static function validateMaxLength(IControl $control, $length): bool
 	{
 		return static::validateLength($control, [NULL, $length]);
 	}
@@ -243,7 +243,7 @@ class Validator
 	/**
 	 * Matches control's value regular expression?
 	 */
-	public static function validatePattern(IControl $control, $pattern): bool
+	public static function validatePattern(IControl $control, string $pattern): bool
 	{
 		return (bool) Strings::match($control->getValue(), "\x01^(?:$pattern)\\z\x01u");
 	}
