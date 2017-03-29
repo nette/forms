@@ -159,6 +159,9 @@ class Validator
 	 */
 	public static function validateRange(IControl $control, $range)
 	{
+		$range = array_map(function ($v) {
+			return $v === '' ? NULL : $v;
+		}, $range);
 		return Validators::isInRange($control->getValue(), $range);
 	}
 
@@ -171,7 +174,7 @@ class Validator
 	 */
 	public static function validateMin(IControl $control, $minimum)
 	{
-		return Validators::isInRange($control->getValue(), [$minimum, NULL]);
+		return Validators::isInRange($control->getValue(), [$minimum === '' ? NULL : $minimum, NULL]);
 	}
 
 
@@ -183,7 +186,7 @@ class Validator
 	 */
 	public static function validateMax(IControl $control, $maximum)
 	{
-		return Validators::isInRange($control->getValue(), [NULL, $maximum]);
+		return Validators::isInRange($control->getValue(), [NULL, $maximum === '' ? NULL : $maximum]);
 	}
 
 
