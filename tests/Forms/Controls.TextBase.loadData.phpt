@@ -47,7 +47,6 @@ test(function () { // empty value
 	$input = $form->addText('url')
 		->setEmptyValue('nette.org');
 
-	$input->validate();
 	Assert::same('', $input->getValue());
 });
 
@@ -59,7 +58,6 @@ test(function () { // empty value
 	$input = $form->addText('phone')
 		->setEmptyValue('+420 ');
 
-	$input->validate();
 	Assert::same('', $input->getValue());
 });
 
