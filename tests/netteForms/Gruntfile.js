@@ -10,7 +10,9 @@ module.exports = function(grunt) {
 		},
 		jasmine: {
 			test: {
-				src: '../../src/assets/*.js',
+				src: [
+					'../../src/assets/*.js', '!../../src/assets/*.min.js'
+				],
 				options: {
 					vendor: [
 						'node_modules/js-fixtures/fixtures.js'
