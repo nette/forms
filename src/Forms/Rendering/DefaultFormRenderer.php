@@ -212,6 +212,8 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 	 */
 	public function renderErrors(Nette\Forms\IControl $control = NULL, bool $own = TRUE): string
 	{
+		$translator = $this->form->getTranslator();
+
 		$errors = $control
 			? $control->getErrors()
 			: ($own ? $this->form->getOwnErrors() : $this->form->getErrors());
@@ -226,7 +228,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			if ($error instanceof IHtmlString) {
 				$item->addHtml($error);
 			} else {
-				$item->setText($error);
+				$item->setText($translator ? $translator->translate($error) : $error);
 			}
 			$container->addHtml($item);
 		}
