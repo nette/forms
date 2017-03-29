@@ -320,6 +320,8 @@
 	};
 
 
+	var preventFiltering = false;
+
 	/**
 	 * Validates single rule.
 	 */
@@ -333,8 +335,12 @@
 		op = op.replace(/\\/g, '');
 
 		var arr = Nette.isArray(arg) ? arg.slice(0) : [arg];
-		for (var i = 0, len = arr.length; i < len; i++) {
-			arr[i] = Nette.expandRuleArgument(elem.form, arr[i]);
+		if (!preventFiltering) {
+			preventFiltering = true;
+			for (var i = 0, len = arr.length; i < len; i++) {
+				arr[i] = Nette.expandRuleArgument(elem.form, arr[i]);
+			}
+			preventFiltering = false;
 		}
 		return Nette.validators[op]
 			? Nette.validators[op](elem, Nette.isArray(arg) ? arr : arr[0], value.value, value)
