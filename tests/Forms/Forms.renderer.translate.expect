@@ -1,0 +1,33 @@
+<form action="test" method="post">
+
+<ul class="error">
+	<li>Přihlášení selhalo</li>
+</ul>
+
+
+<table>
+<tr class="required">
+	<th><label for="frm-username" class="required">Uživatelské jméno</label></th>
+
+	<td><input type="text" name="username" id="frm-username" required data-nette-rules='[{"op":":filled","msg":"Vložte prosím své uživatelské jméno"}]' class="text"> <small>nebo e-mail</small></td>
+</tr>
+
+<tr class="required">
+	<th><label for="frm-password" class="required">Heslo</label></th>
+
+	<td><input type="password" name="password" id="frm-password" required data-nette-rules='[{"op":":filled","msg":"This field is required."},{"op":":minLength","msg":"Minimální délka je 8 znaků","arg":8}]' class="text">
+
+	<span class="error">
+		Slabé heslo
+	</span>
+</td>
+</tr>
+
+<tr>
+	<th></th>
+
+	<td><input type="submit" name="_submit" value="Odeslat" class="button"></td>
+</tr>
+</table>
+
+</form>
