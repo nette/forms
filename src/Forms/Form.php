@@ -119,6 +119,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var bool */
 	private $beforeRenderCalled;
 
+	/** @var string */
+	public static $defaultRenderer = Rendering\DefaultFormRenderer::class;
+
 
 	/**
 	 * Form constructor.
@@ -562,7 +565,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function getRenderer(): IFormRenderer
 	{
 		if ($this->renderer === NULL) {
-			$this->renderer = new Rendering\DefaultFormRenderer;
+			$this->renderer = new static::$defaultRenderer;
 		}
 		return $this->renderer;
 	}
