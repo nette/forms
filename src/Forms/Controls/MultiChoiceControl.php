@@ -160,4 +160,24 @@ abstract class MultiChoiceControl extends BaseControl
 		return parent::getHtmlName() . '[]';
 	}
 
+
+	/**
+	 * @param bool $checkAllowedValues
+	 * @return MultiChoiceControl
+	 */
+	public function setCheckAllowedValues($checkAllowedValues)
+	{
+		$this->checkAllowedValues = $checkAllowedValues;
+		return $this;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isCheckAllowedValues() : bool
+	{
+		return $this->checkAllowedValues;
+	}
+
 }

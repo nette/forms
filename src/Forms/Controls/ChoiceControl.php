@@ -148,4 +148,24 @@ abstract class ChoiceControl extends BaseControl
 		return $this;
 	}
 
+
+	/**
+	 * @param bool $checkAllowedValues
+	 * @return ChoiceControl
+	 */
+	public function setCheckAllowedValues($checkAllowedValues)
+	{
+		$this->checkAllowedValues = $checkAllowedValues;
+		return $this;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isCheckAllowedValues() : bool
+	{
+		return $this->checkAllowedValues;
+	}
+
 }
