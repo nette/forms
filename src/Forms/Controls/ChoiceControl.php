@@ -75,7 +75,8 @@ abstract class ChoiceControl extends BaseControl
 	 */
 	public function getValue()
 	{
-		return array_key_exists($this->value, $this->items) ? $this->value : NULL;
+		$items = array_combine(array_keys($this->items), array_values($this->items));
+		return array_key_exists($this->value, $items) ? $this->value : NULL;
 	}
 
 
