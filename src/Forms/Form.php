@@ -462,7 +462,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	public function validate(array $controls = NULL): void
 	{
-		$this->cleanErrors();
 		if ($controls === NULL && $this->submittedBy instanceof ISubmitterControl) {
 			$controls = $this->submittedBy->getValidationScope();
 		}
