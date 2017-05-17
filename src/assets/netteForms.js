@@ -675,6 +675,15 @@
 				}
 			}
 		});
+
+		Nette.addEvent(form, 'blur', function() {
+			e = e || event;
+			var target = e.target || e.srcElement;
+			alert(target);
+			if ((target.nodeName.toLowerCase() in {input: 1, select: 1, textarea: 1}) && !target.disabled && !target.readonly) {
+				Nette.validateControl(target);
+			}
+		});
 	};
 
 
