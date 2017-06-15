@@ -93,7 +93,8 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 
 			. Helpers::createSelectBox(
 					[1 => 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-					['selected?' => $this->month]
+					[],
+					$this->month
 				)->name($name . '[month]')
 
 			. Html::el('input', [

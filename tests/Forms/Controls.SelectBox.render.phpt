@@ -50,6 +50,17 @@ test(function () { // selected
 });
 
 
+test(function () { // selected 2x
+	$form = new Form;
+	$input = $form->addSelect('list', 'Label', [
+		['a' => 'First'],
+		['a' => 'First'],
+	])->setValue('a');
+
+	Assert::same('<select name="list" id="frm-list"><optgroup label="0"><option value="a" selected>First</option></optgroup><optgroup label="1"><option value="a">First</option></optgroup></select>', (string) $input->getControl());
+});
+
+
 test(function () { // translator & groups
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [

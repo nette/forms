@@ -88,9 +88,27 @@ test(function () {
 	);
 
 	Assert::same(
+		'<select><optgroup label="0"><option value="a" selected>First</option></optgroup><optgroup label="1"><option value="a">First</option></optgroup></select>',
+		(string) Helpers::createSelectBox(
+			[['a' => 'First'], ['a' => 'First']],
+			[],
+			'a'
+		)
+	);
+
+	Assert::same(
 		'<select><option value="a" selected>First</option><option value="b" selected>Second</option></select>',
 		(string) Helpers::createSelectBox(
 			['a' => 'First', 'b' => 'Second'],
+			[],
+			['a', 'b']
+		)
+	);
+
+	Assert::same(
+		'<select><optgroup label="0"><option value="a" selected>First</option></optgroup><optgroup label="1"><option value="a" selected>First</option></optgroup></select>',
+		(string) Helpers::createSelectBox(
+			[['a' => 'First'], ['a' => 'First']],
 			[],
 			['a', 'b']
 		)
