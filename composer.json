@@ -1,6 +1,6 @@
 {
 	"name": "nette/forms",
-	"description": "📝 Generating, validating and processing secure forms in PHP. Handy API, fully customizable, server & client side validation and mature design.",
+	"description": "?? Generating, validating and processing secure forms in PHP. Handy API, fully customizable, server & client side validation and mature design.",
 	"keywords": ["nette", "forms", "validation", "csrf", "javascript", "bootstrap"],
 	"homepage": "https://nette.org",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
@@ -17,7 +17,7 @@
 	"require": {
 		"php": ">=7.1",
 		"nette/component-model": "^3.0",
-		"nette/http": "^2.2 || ~3.0.0",
+		"nette/http": "^2.3.8 || ~3.0.0",
 		"nette/utils": "^3.0"
 	},
 	"require-dev": {

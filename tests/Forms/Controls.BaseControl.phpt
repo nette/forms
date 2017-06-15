@@ -47,7 +47,7 @@ test(function () { // validators
 	Assert::true(Validator::validateFilled($input));
 	Assert::true(Validator::validateValid($input));
 
-	Assert::true(Validator::validateLength($input, NULL));
+	Assert::false(Validator::validateLength($input, NULL));
 	Assert::false(Validator::validateLength($input, 2));
 	Assert::true(Validator::validateLength($input, 3));
 
@@ -57,7 +57,7 @@ test(function () { // validators
 	Assert::true(Validator::validateMaxLength($input, 3));
 	Assert::false(Validator::validateMaxLength($input, 2));
 
-	Assert::true(Validator::validateRange($input, [NULL, NULL]));
+	Assert::false(Validator::validateRange($input, [NULL, NULL]));
 	Assert::true(Validator::validateRange($input, [100, 1000]));
 	Assert::false(Validator::validateRange($input, [1000, NULL]));
 
@@ -83,7 +83,7 @@ test(function () { // validators for array
 	Assert::true(Validator::validateFilled($input));
 	Assert::true(Validator::validateValid($input));
 
-	Assert::true(Validator::validateLength($input, NULL));
+	Assert::false(Validator::validateLength($input, NULL));
 	Assert::false(Validator::validateLength($input, 2));
 	Assert::true(Validator::validateLength($input, 3));
 
