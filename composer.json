@@ -16,8 +16,8 @@
 	"require": {
 		"php": ">=5.6.0",
 		"nette/component-model": "~2.3",
-		"nette/http": "~2.2",
-		"nette/utils": "~2.4"
+		"nette/http": "^2.3.8",
+		"nette/utils": "^2.4.6"
 	},
 	"require-dev": {
 		"nette/di": "~2.4",
