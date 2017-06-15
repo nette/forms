@@ -201,6 +201,9 @@ class Helpers
 						. htmlspecialchars((string) $caption, ENT_NOQUOTES, 'UTF-8')
 						. '</option>';
 				}
+				if ($selected === $value) {
+					unset($optionAttrs['selected'], $option->attrs['selected']);
+				}
 			}
 			$res .= $tmp;
 			$tmp = '';
