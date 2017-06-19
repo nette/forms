@@ -83,3 +83,26 @@ Assert::equal(1, count($group->getControls()));
 Assert::equal([$form['outer']['inner']['text']], $group->getControls());
 
 Assert::equal(6, count($form->getGroups()));
+
+
+// remove()
+$form = new Nette\Forms\Form;
+$group = $form->addGroup();
+$form->addText('name');
+
+Assert::equal(1, count($group->getControls()));
+$group->remove($form['name']);
+Assert::equal(0, count($group->getControls()));
+
+
+// removeOrphans()
+$form = new Nette\Forms\Form;
+$group = $form->addGroup();
+$form->addText('orphan');
+$form->addText('name');
+unset($form['orphan']);
+
+Assert::equal(2, count($group->getControls()));
+$group->removeOrphans();
+Assert::equal(1, count($group->getControls()));
+Assert::same($form['name'], $group->getControls()[0]);

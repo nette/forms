@@ -57,6 +57,22 @@ class ControlGroup
 	}
 
 
+	public function remove(IControl $control): void
+	{
+		$this->controls->detach($control);
+	}
+
+
+	public function removeOrphans(): void
+	{
+		foreach ($this->controls as $control) {
+			if (!$control->getForm(FALSE)) {
+				$this->controls->detach($control);
+			}
+		}
+	}
+
+
 	/**
 	 * @return IControl[]
 	 */
