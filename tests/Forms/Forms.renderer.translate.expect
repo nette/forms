@@ -1,0 +1,33 @@
+<form action="test" method="post">
+
+<ul class="error">
+	<li>LOGIN FAILED</li>
+</ul>
+
+
+<table>
+<tr class="required">
+	<th><label for="frm-username" class="required">USERNAME</label></th>
+
+	<td><input type="text" name="username" id="frm-username" required data-nette-rules='[{"op":":filled","msg":"PLEASE ENTER YOUR USERNAME"}]' class="text"> <small>OR EMAIL</small></td>
+</tr>
+
+<tr class="required">
+	<th><label for="frm-password" class="required">PASSWORD</label></th>
+
+	<td><input type="password" name="password" id="frm-password" required data-nette-rules='[{"op":":filled","msg":"THIS FIELD IS REQUIRED."},{"op":":minLength","msg":"MINIMAL LENGTH IS %D CHARS","arg":8}]' class="text">
+
+	<span class="error">
+		WEAK PASSWORD
+	</span>
+</td>
+</tr>
+
+<tr>
+	<th></th>
+
+	<td><input type="submit" name="_submit" value="SEND" class="button"></td>
+</tr>
+</table>
+
+</form>
