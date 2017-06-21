@@ -267,7 +267,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			if ($text instanceof IHtmlString) {
 				$s .= $this->getWrapper('group label')->addHtml($text);
 
-			} elseif (is_string($text)) {
+			} elseif ($text != NULL) { // intentionally ==
 				if ($translator !== NULL) {
 					$text = $translator->translate($text);
 				}
@@ -278,7 +278,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			if ($text instanceof IHtmlString) {
 				$s .= $text;
 
-			} elseif (is_string($text)) {
+			} elseif ($text != NULL) { // intentionally ==
 				if ($translator !== NULL) {
 					$text = $translator->translate($text);
 				}
@@ -378,7 +378,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			if ($description instanceof IHtmlString) {
 				$description = ' ' . $description;
 
-			} elseif (is_string($description)) {
+			} elseif ($description != NULL) { // intentionally ==
 				if ($control instanceof Nette\Forms\Controls\BaseControl) {
 					$description = $control->translate($description);
 				}
@@ -435,7 +435,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 		if ($description instanceof IHtmlString) {
 			$description = ' ' . $description;
 
-		} elseif (is_string($description)) {
+		} elseif ($description != NULL) { // intentionally ==
 			if ($control instanceof Nette\Forms\Controls\BaseControl) {
 				$description = $control->translate($description);
 			}
