@@ -73,4 +73,4 @@ Assert::exception(function () {
 	$form = new Form;
 	$form->addSubmit('btn')->onClick = TRUE;
 	$form->fireEvents();
-}, Nette\UnexpectedValueException::class, 'Property Nette\Forms\Controls\SubmitButton::$onClick must be array or NULL, boolean given.');
+}, Nette\UnexpectedValueException::class, "Property \$onClick in button 'btn' must be iterable, boolean given.");
