@@ -16,7 +16,7 @@
 
 	<button<?php
 		$_input = end($this->global->formsStack)["send"];
-		echo $_input->getControlPart()->attributes() ?>><?php echo htmlspecialchars($_input->caption) ?></button>
+		echo $_input->getControlPart()->attributes() ?>><?php echo htmlspecialchars($_input->getCaption()) ?></button>
 <?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE);
 ?></form>

@@ -23,6 +23,7 @@ use Nette\Utils\Html;
  * @property-read string $htmlName
  * @property   mixed $htmlId
  * @property   mixed $value
+ * @property   string|object $caption
  * @property   bool $disabled
  * @property   bool $omitted
  * @property-read Html $control
@@ -44,7 +45,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	private static $extMethods = [];
 
 	/** @var string|object textual caption or label */
-	public $caption;
+	private $caption;
 
 	/** @var mixed current control value */
 	protected $value;
@@ -92,6 +93,27 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 			$this->setRequired(FALSE);
 		}
 		$this->setValue(NULL);
+	}
+
+
+	/**
+	 * Sets textual caption or label.
+	 * @param object|string
+	 * @return static
+	 */
+	public function setCaption($caption)
+	{
+		$this->caption = $caption;
+		return $this;
+	}
+
+
+	/**
+	 * @return object|string
+	 */
+	public function getCaption()
+	{
+		return $this->caption;
 	}
 
 

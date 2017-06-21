@@ -69,7 +69,7 @@ class Validator
 			static $i = -1;
 			switch ($m[1]) {
 				case 'name': return $rule->control->getName();
-				case 'label': return $rule->control instanceof Controls\BaseControl ? $rule->control->translate($rule->control->caption) : NULL;
+				case 'label': return $rule->control instanceof Controls\BaseControl ? $rule->control->translate($rule->control->getCaption()) : NULL;
 				case 'value': return $withValue ? $rule->control->getValue() : $m[0];
 				default:
 					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
