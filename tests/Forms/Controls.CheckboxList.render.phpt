@@ -64,8 +64,8 @@ test(function () { // translator
 	]);
 	$input->setTranslator(new Translator);
 
-	Assert::same('<label>LABEL</label>', (string) $input->getLabel());
-	Assert::same('<label>ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<label>Label</label>', (string) $input->getLabel());
+	Assert::same('<label>Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<label for="frm-list-0">SECOND</label>', (string) $input->getLabelPart(0));
 
 	Assert::same('<label><input type="checkbox" name="list[]" value="a">FIRST</label><br><label><input type="checkbox" name="list[]" value="0">SECOND</label>', (string) $input->getControl());

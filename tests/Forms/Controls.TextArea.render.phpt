@@ -45,8 +45,8 @@ test(function () { // translator
 		->setValue('text')
 		->setTranslator(new Translator);
 
-	Assert::same('<label for="frm-text">LABEL</label>', (string) $input->getLabel());
-	Assert::same('<label for="frm-text">ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<label for="frm-text">Label</label>', (string) $input->getLabel());
+	Assert::same('<label for="frm-text">Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<textarea name="text" placeholder="PLACE" id="frm-text">text</textarea>', (string) $input->getControl());
 });
 

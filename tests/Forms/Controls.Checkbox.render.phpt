@@ -49,7 +49,7 @@ test(function () { // Html with translator
 	$input = $form->addCheckbox('on', 'Label');
 	$input->setTranslator(new Translator);
 
-	Assert::same('<label for="frm-on"><input type="checkbox" name="on" id="frm-on">LABEL</label>', (string) $input->getControl());
+	Assert::same('<label for="frm-on"><input type="checkbox" name="on" id="frm-on">Label</label>', (string) $input->getControl());
 });
 
 

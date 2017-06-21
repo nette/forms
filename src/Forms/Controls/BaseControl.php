@@ -288,7 +288,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	{
 		$label = clone $this->label;
 		$label->for = $this->getHtmlId();
-		$label->setText($this->translate($caption === NULL ? $this->caption : $caption));
+		$caption = $caption === NULL ? $this->caption : $caption;
+		$translator = $this->getForm()->getTranslator();
+		$label->setText($translator ? $translator->translate($caption) : $caption);
 		return $label;
 	}
 
