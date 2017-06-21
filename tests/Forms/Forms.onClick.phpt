@@ -1,0 +1,76 @@
+<?php
+
+declare(strict_types=1);
+
+use Nette\Forms\Form;
+use Nette\Forms\Controls\SubmitButton;
+use Tester\Assert;
+
+
+require __DIR__ . '/../bootstrap.php';
+
+
+test(function () { // valid
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST = ['btn' => ''];
+
+	$called = [];
+	$form = new Form;
+	$form->addText('name');
+	$button = $form->addSubmit('btn');
+
+	$button->onClick[] = function (SubmitButton $button) use (&$called) {
+		$called[] = 'click';
+	};
+	$button->onInvalidClick[] = function (SubmitButton $button) use (&$called) {
+		$called[] = 'invalidClick';
+	};
+	$form->onSuccess[] = function (Form $form) use (&$called) {
+		$called[] = 'success';
+	};
+	$form->onError[] = function (Form $form) use (&$called) {
+		$called[] = 'error';
+	};
+	$form->onSubmit[] = function (Form $form) use (&$called) {
+		$called[] = 'submit';
+	};
+	$form->fireEvents();
+	Assert::same(['click', 'success', 'submit'], $called);
+});
+
+
+test(function () { // invalid
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST = ['btn' => ''];
+
+	$called = [];
+	$form = new Form;
+	$form->addText('name')
+		->setRequired();
+	$button = $form->addSubmit('btn');
+
+	$button->onClick[] = function (SubmitButton $button) use (&$called) {
+		$called[] = 'click';
+	};
+	$button->onInvalidClick[] = function (SubmitButton $button) use (&$called) {
+		$called[] = 'invalidClick';
+	};
+	$form->onSuccess[] = function (Form $form) use (&$called) {
+		$called[] = 'success';
+	};
+	$form->onError[] = function (Form $form) use (&$called) {
+		$called[] = 'error';
+	};
+	$form->onSubmit[] = function (Form $form) use (&$called) {
+		$called[] = 'submit';
+	};
+	$form->fireEvents();
+	Assert::same(['invalidClick', 'error', 'submit'], $called);
+});
+
+
+Assert::exception(function () {
+	$form = new Form;
+	$form->addSubmit('btn')->onClick = TRUE;
+	$form->fireEvents();
+}, Nette\UnexpectedValueException::class, 'Property Nette\Forms\Controls\SubmitButton::$onClick must be array or NULL, boolean given.');
