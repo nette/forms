@@ -212,7 +212,9 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 	 */
 	public function renderErrors(Nette\Forms\IControl $control = NULL, bool $own = TRUE): string
 	{
-		$translator = $this->form->getTranslator();
+		$translator = $control
+			? ($control instanceof \Nette\Forms\Controls\BaseControl ? $control->getTranslator() : NULL)
+			: $this->form->getTranslator();
 
 		$errors = $control
 			? $control->getErrors()
