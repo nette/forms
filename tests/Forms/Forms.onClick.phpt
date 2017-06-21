@@ -39,6 +39,42 @@ test(function () { // valid
 });
 
 
+test(function () { // valid -> invalid
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST = ['btn' => ''];
+
+	$called = [];
+	$form = new Form;
+	$form->addText('name');
+	$button = $form->addSubmit('btn');
+
+	$button->onClick[] = function (SubmitButton $button) use (&$called) {
+		$called[] = 'click1';
+	};
+	$button->onClick[] = function (SubmitButton $button) use (&$called) {
+		$called[] = 'click2';
+		$button->getForm()->addError('error');
+	};
+	$button->onClick[] = function (SubmitButton $button) use (&$called) {
+		$called[] = 'click3';
+	};
+	$button->onInvalidClick[] = function (SubmitButton $button) use (&$called) {
+		$called[] = 'invalidClick';
+	};
+	$form->onSuccess[] = function (Form $form) use (&$called) {
+		$called[] = 'success';
+	};
+	$form->onError[] = function (Form $form) use (&$called) {
+		$called[] = 'error';
+	};
+	$form->onSubmit[] = function (Form $form) use (&$called) {
+		$called[] = 'submit';
+	};
+	$form->fireEvents();
+	Assert::same(['click1', 'click2', 'error', 'submit'], $called);
+});
+
+
 test(function () { // invalid
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = ['btn' => ''];

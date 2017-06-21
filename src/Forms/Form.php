@@ -434,7 +434,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
 			$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : NULL;
 			Nette\Utils\Callback::invoke($handler, $button ?: $this, $values);
-			if (!$button && !$this->isValid()) {
+			if (!$this->isValid()) {
 				return;
 			}
 		}
