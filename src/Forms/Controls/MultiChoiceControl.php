@@ -165,9 +165,9 @@ abstract class MultiChoiceControl extends BaseControl
 	 * @param bool $checkAllowedValues
 	 * @return MultiChoiceControl
 	 */
-	public function setCheckAllowedValues($checkAllowedValues)
+	public function shouldCheckAllowedValues(bool $check = TRUE)
 	{
-		$this->checkAllowedValues = $checkAllowedValues;
+		$this->checkAllowedValues = $check;
 		return $this;
 	}
 
@@ -175,7 +175,7 @@ abstract class MultiChoiceControl extends BaseControl
 	/**
 	 * @return bool
 	 */
-	public function isCheckAllowedValues() : bool
+	public function hasCheckAllowedValues() : bool
 	{
 		return $this->checkAllowedValues;
 	}
