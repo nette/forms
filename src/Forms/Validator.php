@@ -123,7 +123,7 @@ class Validator
 	/**
 	 * Is control filled?
 	 */
-	public static function validateFilled(IControl $control): bool
+	public static function validateFilled(Controls\BaseControl $control): bool
 	{
 		return $control->isFilled();
 	}
@@ -132,7 +132,7 @@ class Validator
 	/**
 	 * Is control not filled?
 	 */
-	public static function validateBlank(IControl $control): bool
+	public static function validateBlank(Controls\BaseControl $control): bool
 	{
 		return !$control->isFilled();
 	}
