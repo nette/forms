@@ -16,9 +16,14 @@ Nette\Forms greatly facilitates creating and processing web forms. What it can r
 
 Why should you bother setting up framework for a simple web form? You won't have to take care about routine tasks such as writing two validation scripts (client and server) and your code will be safe against security breaches.
 
-Nette Framework puts a great effort to be safe and since forms are the most common user input, Nette forms are as good as impenetrable. All is maintained dynamically and transparently, nothing has to be set manually. Well known vulnerabilities such as Cross Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) are filtered, as well as special control characters. All inputs are checked for UTF-8 validity. Every multiple-choice, select box and similar are checked for forged values upon validating. Sounds good? Let's try it out.
+Nette Framework puts a great effort to be safe and since forms are the most common user input, Nette forms are as good as impenetrable. All is maintained dynamically and transparently, nothing has to be set manually. Well-known vulnerabilities such as Cross Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) are filtered, as well as special control characters. All inputs are checked for UTF-8 validity. Every multiple-choice, select boxes and similar are checked for forged values upon validating. Sounds good? Let's try it out.
 
-[See documentation](https://doc.nette.org/en/forms).
+
+Documentation
+-------------
+
+This is just a piece of documentation. [Please see our website](https://doc.nette.org/forms).
+
 
 First form
 ----------
@@ -36,14 +41,18 @@ $form->addSubmit('send', 'Register');
 
 echo $form; // renders the form
 ```
-Though we mentioned validation, yet our form has none. Let's fix it. We require users to tell us their name, so we should call a `setRequired()` method, which optional argument is an error message to show, if user does not fill his name in:
+
+Although we mentioned validation, our form has none. Let's fix it. In order to require user's name, call `setRequired()` method on the form item. You can pass an error message as optional argument and it will be displayed if user does not fill his name in:
+
 
 ```php
 $form->addText('name', 'Name:')
 	->setRequired('Please fill your name.');
 ```
 
-Try submitting a form without the name - you will keep seeing this message until you meet the validation rules. All that is left for us is setting up JavaScript rules. Luckily it's a piece of cake. We only have to link `netteForms.js`, which is located at `/client-side/forms` in the distribution package.
+Try submitting a form without the name - the message is displayed unless you meet the validation rules.
+
+The form is validated on both the client and server side. You only need to link `netteForms.js`, which is located at `/src/assets` in the distribution package.
 
 ```html
 <script src="netteForms.js"></script>
@@ -57,4 +66,4 @@ Nette Framework adds `required` class to all mandatory elements. Adding the foll
 </style>
 ```
 
-[Continue…](https://doc.nette.org/en/forms).
+[Continue…](https://doc.nette.org/forms).
