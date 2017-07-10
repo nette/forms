@@ -18,6 +18,14 @@ Why should you bother setting up framework for a simple web form? You won't have
 
 Nette Framework puts a great effort to be safe and since forms are the most common user input, Nette forms are as good as impenetrable. All is maintained dynamically and transparently, nothing has to be set manually. Well known vulnerabilities such as Cross Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) are filtered, as well as special control characters. All inputs are checked for UTF-8 validity. Every multiple-choice, select box and similar are checked for forged values upon validating. Sounds good? Let's try it out.
 
+Install it using Composer:
+
+```
+composer require nette/forms
+```
+
+The last stable release requires PHP version 5.6 or newer (is compatible with PHP 7.0 and 7.1). The dev-master version requires PHP 7.1.
+
 [See documentation](https://doc.nette.org/en/forms).
 
 First form
