@@ -5,7 +5,6 @@
  */
 
 use Nette\Forms\Form;
-use Nette\Forms\Rule;
 use Tester\Assert;
 
 

@@ -62,5 +62,4 @@ class Button extends BaseControl
 			'value' => $this->translate($caption === NULL ? $this->caption : $caption),
 		]);
 	}
-
 }

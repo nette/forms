@@ -48,5 +48,4 @@ class ImageButton extends SubmitButton
 	{
 		return parent::getHtmlName() . '[]';
 	}
-
 }

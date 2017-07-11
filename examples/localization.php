@@ -21,10 +21,12 @@ class MyTranslator implements Nette\Localization\ITranslator
 {
 	private $table;
 
+
 	function __construct(array $table)
 	{
 		$this->table = $table;
 	}
+
 
 	/**
 	 * Translates the given string.

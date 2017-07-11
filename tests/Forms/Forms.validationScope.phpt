@@ -21,7 +21,6 @@ $datasets = [
 ];
 
 foreach ($datasets as $case) {
-
 	$form = new Form;
 	$form->onValidate[] = function (Form $form) {
 		$form->addError('form');
@@ -46,5 +45,4 @@ foreach ($datasets as $case) {
 	Assert::truthy($form->isSubmitted());
 	$form->validate();
 	Assert::equal($case[1], $form->getErrors());
-
 }

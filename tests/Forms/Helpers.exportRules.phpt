@@ -4,7 +4,6 @@
  * Test: Nette\Forms\Helpers::exportRules()
  */
 
-use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Nette\Forms\Helpers;
 use Tester\Assert;

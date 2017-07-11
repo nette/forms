@@ -4,18 +4,20 @@
  * Test: Nette\Forms\ControlGroup.
  */
 
-use Tester\Assert;
 use Nette\Forms\ControlGroup;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
 
-function createContainer() {
+function createContainer()
+{
 	$container = new Nette\Forms\Container;
 	$container->addText('street', 'Street');
 	$container->addText('town', 'Town');
 	return $container;
 }
+
 
 $form = new Nette\Forms\Form;
 

@@ -126,5 +126,4 @@ class SelectBox extends ChoiceControl
 			|| !$this->options
 			|| $this->control->size > 1;
 	}
-
 }

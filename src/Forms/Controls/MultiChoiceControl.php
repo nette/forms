@@ -167,5 +167,4 @@ abstract class MultiChoiceControl extends BaseControl
 	{
 		return parent::getHtmlName() . '[]';
 	}
-
 }

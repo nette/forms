@@ -43,5 +43,4 @@ interface IControl
 	 * @return bool
 	 */
 	function isOmitted();
-
 }

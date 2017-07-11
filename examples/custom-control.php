@@ -10,8 +10,8 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 }
 
 use Nette\Forms\Form;
-use Nette\Utils\Html;
 use Nette\Forms\Helpers;
+use Nette\Utils\Html;
 
 
 class DateInput extends Nette\Forms\Controls\BaseControl
@@ -113,7 +113,6 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 			&& ctype_digit($control->year)
 			&& checkdate((int) $control->month, (int) $control->day, (int) $control->year);
 	}
-
 }
 
 

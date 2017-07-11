@@ -35,5 +35,4 @@ class FormsExtension extends Nette\DI\CompilerExtension
 			}
 		}
 	}
-
 }

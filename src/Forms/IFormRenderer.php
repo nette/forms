@@ -19,5 +19,4 @@ interface IFormRenderer
 	 * @return string
 	 */
 	function render(Form $form);
-
 }

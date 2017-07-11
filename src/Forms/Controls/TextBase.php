@@ -151,5 +151,4 @@ abstract class TextBase extends BaseControl
 		}
 		return parent::addRule($validator, $errorMessage, $arg);
 	}
-
 }

@@ -4,9 +4,9 @@
  * Test: Nette\Forms success and validate callback takes $form and $values parameters.
  */
 
-use Nette\Utils\ArrayHash;
-use Nette\Forms\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Forms\Form;
+use Nette\Utils\ArrayHash;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';

@@ -19,5 +19,4 @@ interface ISubmitterControl extends IControl
 	 * @return array|NULL
 	 */
 	function getValidationScope();
-
 }

@@ -20,6 +20,7 @@ class UploadControl extends BaseControl
 	/** validation rule */
 	const VALID = ':uploadControlValid';
 
+
 	/**
 	 * @param  string|object
 	 * @param  bool
@@ -110,5 +111,4 @@ class UploadControl extends BaseControl
 				return $carry && $fileUpload->isOk();
 			}, TRUE);
 	}
-
 }

@@ -1,7 +1,7 @@
 <?php
 
-use Nette\Forms\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Forms\Form;
 use Tester\Assert;
 
 

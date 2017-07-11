@@ -4,8 +4,8 @@
  * Test: FormMacros.
  */
 
-use Nette\Forms\Form;
 use Nette\Bridges\FormsLatte\FormMacros;
+use Nette\Forms\Form;
 use Tester\Assert;
 
 
@@ -18,6 +18,7 @@ class MyControl extends Nette\Forms\Controls\BaseControl
 	{
 		return '<label>My</label>';
 	}
+
 
 	function getControl()
 	{

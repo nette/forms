@@ -342,7 +342,6 @@ class Rules implements \IteratorAggregate
 			return $op;
 		}
 	}
-
 }
 
 Rules::$defaultMessages = & Validator::$messages;

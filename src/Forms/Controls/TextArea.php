@@ -36,5 +36,4 @@ class TextArea extends TextBase
 		return parent::getControl()
 			->setText($this->getRenderedValue());
 	}
-
 }

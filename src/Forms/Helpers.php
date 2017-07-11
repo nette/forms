@@ -8,8 +8,8 @@
 namespace Nette\Forms;
 
 use Nette;
-use Nette\Utils\Strings;
 use Nette\Utils\Html;
+use Nette\Utils\Strings;
 
 
 /**
@@ -230,5 +230,4 @@ class Helpers
 		}
 		return [$dynamic, '<' . $name . Html::el(NULL, $attrs)->attributes()];
 	}
-
 }

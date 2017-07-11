@@ -4,7 +4,6 @@
  * Test: FormMacros errors.
  */
 
-use Nette\Forms\Form;
 use Nette\Bridges\FormsLatte\FormMacros;
 use Tester\Assert;
 

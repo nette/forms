@@ -4,7 +4,6 @@
  * Test: Nette\Forms naming container.
  */
 
-use Nette\Http;
 use Nette\Forms\Form;
 use Nette\Utils\ArrayHash;
 use Tester\Assert;

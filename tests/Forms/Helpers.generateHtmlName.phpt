@@ -4,7 +4,6 @@
  * Test: Nette\Forms\Helpers::generateHtmlName()
  */
 
-use Nette\Forms\Form;
 use Nette\Forms\Helpers;
 use Tester\Assert;
 

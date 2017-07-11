@@ -138,5 +138,4 @@ class CheckboxList extends MultiChoiceControl
 	{
 		return $this->itemLabel ?: $this->itemLabel = Html::el('label');
 	}
-
 }

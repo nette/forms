@@ -4,7 +4,6 @@
  * Test: Nette\Forms\Controls\CsrfProtection and BREACH attack.
  */
 
-use Nette\Forms\Controls\CsrfProtection;
 use Nette\Forms\Form;
 use Tester\Assert;
 

@@ -542,5 +542,4 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		throw new Nette\NotImplementedException('Form cloning is not supported yet.');
 	}
-
 }
