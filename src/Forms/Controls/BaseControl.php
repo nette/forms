@@ -606,5 +606,4 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 		}
 		self::$extMethods[$name][static::class] = $callback;
 	}
-
 }

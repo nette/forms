@@ -112,5 +112,4 @@ class CsrfProtection extends HiddenField
 		}
 		return $this->session;
 	}
-
 }

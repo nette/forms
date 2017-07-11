@@ -94,5 +94,4 @@ class Checkbox extends BaseControl
 	{
 		return $this->wrapper;
 	}
-
 }

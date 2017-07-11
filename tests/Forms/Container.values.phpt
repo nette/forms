@@ -6,7 +6,6 @@
 
 declare(strict_types=1);
 
-use Nette\Http;
 use Nette\Forms\Form;
 use Nette\Utils\ArrayHash;
 use Tester\Assert;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
+use Nette\Forms\Controls\Button;
+use Nette\Forms\Controls\Checkbox;
 use Nette\Forms\Controls\TextBase;
 use Nette\Forms\Controls\TextInput;
-use Nette\Forms\Controls\Checkbox;
-use Nette\Forms\Controls\Button;
 use Tester\Assert;
 
 

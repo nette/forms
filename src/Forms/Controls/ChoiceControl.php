@@ -147,5 +147,4 @@ abstract class ChoiceControl extends BaseControl
 		}
 		return $this;
 	}
-
 }

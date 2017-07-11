@@ -122,5 +122,4 @@ class ControlGroup
 	{
 		return $this->options;
 	}
-
 }

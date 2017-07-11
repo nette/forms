@@ -6,9 +6,8 @@
 
 declare(strict_types=1);
 
-use Nette\Forms\Form;
-use Nette\Utils\ArrayHash;
 use Nette\Forms\Controls\TextInput;
+use Nette\Forms\Form;
 use Tester\Assert;
 
 

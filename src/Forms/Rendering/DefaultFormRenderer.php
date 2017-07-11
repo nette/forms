@@ -474,5 +474,4 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 		$data = &$this->wrappers[$name[0]][$name[1]];
 		return $data;
 	}
-
 }

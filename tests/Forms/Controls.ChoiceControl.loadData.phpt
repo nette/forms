@@ -15,7 +15,8 @@ require __DIR__ . '/../bootstrap.php';
 
 
 class ChoiceControl extends Nette\Forms\Controls\ChoiceControl
-{}
+{
+}
 
 
 before(function () {

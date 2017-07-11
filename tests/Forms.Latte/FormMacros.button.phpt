@@ -6,8 +6,8 @@
 
 declare(strict_types=1);
 
-use Nette\Forms\Form;
 use Nette\Bridges\FormsLatte\FormMacros;
+use Nette\Forms\Form;
 use Tester\Assert;
 
 

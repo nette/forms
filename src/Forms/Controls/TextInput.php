@@ -106,5 +106,4 @@ class TextInput extends TextBase
 
 		return parent::addRule($validator, $errorMessage, $arg);
 	}
-
 }

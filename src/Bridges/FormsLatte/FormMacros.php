@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Nette\Bridges\FormsLatte;
 
-use Nette;
 use Latte;
-use Latte\MacroNode;
-use Latte\PhpWriter;
 use Latte\CompileException;
+use Latte\MacroNode;
 use Latte\Macros\MacroSet;
+use Latte\PhpWriter;
+use Nette;
 use Nette\Forms\Form;
 
 
@@ -29,7 +29,6 @@ use Nette\Forms\Form;
  */
 class FormMacros extends MacroSet
 {
-
 	public static function install(Latte\Compiler $compiler)
 	{
 		$me = new static($compiler);
@@ -238,5 +237,4 @@ class FormMacros extends MacroSet
 			return $writer->write('echo %escape(end($this->global->formsStack)[%0.word]->getError());', $name);
 		}
 	}
-
 }

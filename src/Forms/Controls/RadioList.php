@@ -135,5 +135,4 @@ class RadioList extends ChoiceControl
 	{
 		return $this->itemLabel;
 	}
-
 }

@@ -36,5 +36,4 @@ class Rule
 
 	/** @var Rules  for conditions */
 	public $branch;
-
 }
