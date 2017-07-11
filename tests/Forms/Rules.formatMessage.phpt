@@ -50,4 +50,4 @@ Assert::same(['1 '], $form['args3']->getErrors());
 
 Assert::same(['Label xyz is invalid [field special] xyz'], $form['special']->getErrors());
 
-Assert::match('%A%data-nette-rules=\'%A%{"op":":email","msg":"Label %value is invalid [field special] %0"%A%', $form->__toString(TRUE));
+Assert::match('%A%data-nette-rules=\'%A%{"op":":email","msg":"Label %value is invalid [field special] %0"%A%', $form->__toString(true));

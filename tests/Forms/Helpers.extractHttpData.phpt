@@ -60,7 +60,7 @@ test(function () { // multiple
 test(function () { // files
 	$file = new Nette\Http\FileUpload([
 		'name' => 'license.txt',
-		'type' => NULL,
+		'type' => null,
 		'size' => 3013,
 		'tmpName' => 'tmp',
 		'error' => 0,
@@ -69,15 +69,15 @@ test(function () { // files
 	Assert::equal($file, Helpers::extractHttpData(['avatar' => $file], 'avatar', Form::DATA_FILE));
 
 	Assert::null(Helpers::extractHttpData([], 'missing', Form::DATA_FILE));
-	Assert::null(Helpers::extractHttpData(['invalid' => NULL], 'invalid', Form::DATA_FILE));
-	Assert::null(Helpers::extractHttpData(['invalid' => [NULL]], 'invalid', Form::DATA_FILE));
+	Assert::null(Helpers::extractHttpData(['invalid' => null], 'invalid', Form::DATA_FILE));
+	Assert::null(Helpers::extractHttpData(['invalid' => [null]], 'invalid', Form::DATA_FILE));
 	Assert::null(Helpers::extractHttpData([
 		'multiple' => ['avatar' => [$file, $file]],
 	], 'multiple[avatar]', Form::DATA_FILE));
 
 
 	Assert::equal([$file, $file], Helpers::extractHttpData([
-		'multiple' => ['avatar' => ['x' => $file, NULL, $file]],
+		'multiple' => ['avatar' => ['x' => $file, null, $file]],
 	], 'multiple[avatar][]', Form::DATA_FILE));
 
 	Assert::equal(['x' => $file, $file], Helpers::extractHttpData([
@@ -85,7 +85,7 @@ test(function () { // files
 	], 'multiple[avatar][]', Form::DATA_KEYS | Form::DATA_FILE));
 
 	Assert::same([], Helpers::extractHttpData([], 'missing[]', Form::DATA_FILE));
-	Assert::same([], Helpers::extractHttpData(['invalid' => NULL], 'invalid[]', Form::DATA_FILE));
+	Assert::same([], Helpers::extractHttpData(['invalid' => null], 'invalid[]', Form::DATA_FILE));
 	Assert::same([], Helpers::extractHttpData(['invalid' => $file], 'invalid[]', Form::DATA_FILE));
-	Assert::same([], Helpers::extractHttpData(['invalid' => [NULL]], 'invalid[]', Form::DATA_FILE));
+	Assert::same([], Helpers::extractHttpData(['invalid' => [null]], 'invalid[]', Form::DATA_FILE));
 });

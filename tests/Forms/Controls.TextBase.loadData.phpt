@@ -81,7 +81,7 @@ test(function () { // missing data
 
 
 test(function () { // malformed data
-	$_POST = ['malformed' => [NULL]];
+	$_POST = ['malformed' => [null]];
 
 	$form = new Form;
 	$input = $form->addText('malformed');
@@ -96,11 +96,11 @@ test(function () { // setValue() and invalid argument
 
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->setValue(NULL);
+	$input->setValue(null);
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([]);
-	}, Nette\InvalidArgumentException::class, "Value must be scalar or NULL, array given in field 'text'.");
+	}, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'text'.");
 });
 
 

@@ -190,12 +190,12 @@
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
 			'id' => NULL,
 			'class' => NULL,
-			), FALSE) ?>>
+			), false) ?>>
 	<input<?php
 			$_input = end($this->global->formsStack)["username"];
 			echo $_input->getControlPart()->attributes() ?>>
 <?php
-			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE);
+			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
 ?></form>
 <?php
 		}
@@ -206,12 +206,12 @@
 		$form = $_form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']];
 		?><FORM<?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
-		), FALSE) ?>>
+		), false) ?>>
 	<input<?php
 		$_input = end($this->global->formsStack)["username"];
 		echo $_input->getControlPart()->attributes() ?>>
 <?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
 ?></FORM>
 
 

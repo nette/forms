@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, int $count = NULL): string
+	function translate($s, int $count = null): string
 	{
 		return strtoupper($s);
 	}
@@ -114,7 +114,7 @@ test(function () { // container
 
 test(function () { // container prototype
 	$form = new Form;
-	$input = $form->addRadioList('list', NULL, [
+	$input = $form->addRadioList('list', null, [
 		'a' => 'b',
 	]);
 	$input->getSeparatorPrototype()->setName('hr');
@@ -129,7 +129,7 @@ test(function () { // disabled all
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	])->setDisabled(TRUE);
+	])->setDisabled(true);
 
 	Assert::same('<label><input type="radio" name="list" disabled value="a">First</label><br><label><input type="radio" name="list" disabled value="0">Second</label>', (string) $input->getControl());
 });
@@ -149,7 +149,7 @@ test(function () { // disabled one
 
 test(function () { // item label prototype
 	$form = new Form;
-	$input = $form->addRadioList('list', NULL, [
+	$input = $form->addRadioList('list', null, [
 		'a' => 'b',
 	]);
 	$input->getItemLabelPrototype()->class('foo');
@@ -166,7 +166,7 @@ test(function () { // forced ID
 		'a' => 'First',
 		0 => 'Second',
 	]);
-	$input->generateId = TRUE;
+	$input->generateId = true;
 
 	Assert::same('<label for="frm-list-a"><input type="radio" name="list" id="frm-list-a" value="a">First</label><br><label for="frm-list-0"><input type="radio" name="list" id="frm-list-0" value="0">Second</label>', (string) $input->getControl());
 });

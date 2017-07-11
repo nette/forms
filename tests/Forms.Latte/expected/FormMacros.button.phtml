@@ -3,7 +3,7 @@
 		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
 		?><form<?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
-		), FALSE) ?>>
+		), false) ?>>
 	<button<?php
 		$_input = end($this->global->formsStack)["send"];
 		echo $_input->getControlPart()->attributes() ?>>
@@ -18,6 +18,6 @@
 		$_input = end($this->global->formsStack)["send"];
 		echo $_input->getControlPart()->attributes() ?>><?php echo htmlspecialchars($_input->getCaption()) ?></button>
 <?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
 ?></form>
 %A%

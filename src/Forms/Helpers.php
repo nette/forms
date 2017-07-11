@@ -36,7 +36,7 @@ class Helpers
 	public static function extractHttpData(array $data, string $htmlName, int $type)
 	{
 		$name = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName));
-		$data = Nette\Utils\Arrays::get($data, $name, NULL);
+		$data = Nette\Utils\Arrays::get($data, $name, null);
 		$itype = $type & ~Form::DATA_KEYS;
 
 		if (substr($htmlName, -2) === '[]') {
@@ -45,7 +45,7 @@ class Helpers
 			}
 			foreach ($data as $k => $v) {
 				$data[$k] = $v = static::sanitize($itype, $v);
-				if ($v === NULL) {
+				if ($v === null) {
 					unset($data[$k]);
 				}
 			}
@@ -62,13 +62,13 @@ class Helpers
 	private static function sanitize(int $type, $value)
 	{
 		if ($type === Form::DATA_TEXT) {
-			return is_scalar($value) ? Strings::normalizeNewLines($value) : NULL;
+			return is_scalar($value) ? Strings::normalizeNewLines($value) : null;
 
 		} elseif ($type === Form::DATA_LINE) {
-			return is_scalar($value) ? Strings::trim(strtr((string) $value, "\r\n", '  ')) : NULL;
+			return is_scalar($value) ? Strings::trim(strtr((string) $value, "\r\n", '  ')) : null;
 
 		} elseif ($type === Form::DATA_FILE) {
-			return $value instanceof Nette\Http\FileUpload ? $value : NULL;
+			return $value instanceof Nette\Http\FileUpload ? $value : null;
 
 		} else {
 			throw new Nette\InvalidArgumentException('Unknown data type');
@@ -85,7 +85,7 @@ class Helpers
 		if ($count) {
 			$name = substr_replace($name, '', strpos($name, ']'), 1) . ']';
 		}
-		if (is_numeric($name) || in_array($name, self::$unsafeNames, TRUE)) {
+		if (is_numeric($name) || in_array($name, self::$unsafeNames, true)) {
 			$name = '_' . $name;
 		}
 		return $name;
@@ -114,7 +114,7 @@ class Helpers
 					continue;
 				}
 			} else {
-				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => Validator::formatMessage($rule, FALSE)];
+				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => Validator::formatMessage($rule, false)];
 			}
 
 			if (is_array($rule->arg)) {
@@ -122,7 +122,7 @@ class Helpers
 				foreach ($rule->arg as $key => $value) {
 					$item['arg'][$key] = $value instanceof IControl ? ['control' => $value->getHtmlName()] : $value;
 				}
-			} elseif ($rule->arg !== NULL) {
+			} elseif ($rule->arg !== null) {
 				$item['arg'] = $rule->arg instanceof IControl ? ['control' => $rule->arg->getHtmlName()] : $rule->arg;
 			}
 
@@ -135,7 +135,7 @@ class Helpers
 	}
 
 
-	public static function createInputList(array $items, array $inputAttrs = NULL, array $labelAttrs = NULL, $wrapper = NULL): string
+	public static function createInputList(array $items, array $inputAttrs = null, array $labelAttrs = null, $wrapper = null): string
 	{
 		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
 		[$labelAttrs, $labelTag] = self::prepareAttrs($labelAttrs, 'label');
@@ -146,10 +146,10 @@ class Helpers
 
 		foreach ($items as $value => $caption) {
 			foreach ($inputAttrs as $k => $v) {
-				$input->attrs[$k] = $v[$value] ?? NULL;
+				$input->attrs[$k] = $v[$value] ?? null;
 			}
 			foreach ($labelAttrs as $k => $v) {
-				$label->attrs[$k] = $v[$value] ?? NULL;
+				$label->attrs[$k] = $v[$value] ?? null;
 			}
 			$input->value = $value;
 			$res .= ($res === '' && $wrapperEnd === '' ? '' : $wrapper)
@@ -163,9 +163,9 @@ class Helpers
 	}
 
 
-	public static function createSelectBox(array $items, array $optionAttrs = NULL, $selected = NULL): Html
+	public static function createSelectBox(array $items, array $optionAttrs = null, $selected = null): Html
 	{
-		if ($selected !== NULL) {
+		if ($selected !== null) {
 			$optionAttrs['selected?'] = $selected;
 		}
 		[$optionAttrs, $optionTag] = self::prepareAttrs($optionAttrs, 'option');
@@ -181,7 +181,7 @@ class Helpers
 			foreach ($subitems as $value => $caption) {
 				$option->value = $value;
 				foreach ($optionAttrs as $k => $v) {
-					$option->attrs[$k] = $v[$value] ?? NULL;
+					$option->attrs[$k] = $v[$value] ?? null;
 				}
 				if ($caption instanceof Html) {
 					$caption = clone $caption;
@@ -210,7 +210,7 @@ class Helpers
 			if ($p[1] === '?' || $p[1] === ':') {
 				unset($attrs[$k], $attrs[$p[0]]);
 				if ($p[1] === '?') {
-					$dynamic[$p[0]] = array_fill_keys((array) $v, TRUE);
+					$dynamic[$p[0]] = array_fill_keys((array) $v, true);
 				} elseif (is_array($v) && $v) {
 					$dynamic[$p[0]] = $v;
 				} else {
@@ -218,6 +218,6 @@ class Helpers
 				}
 			}
 		}
-		return [$dynamic, '<' . $name . Html::el(NULL, $attrs)->attributes()];
+		return [$dynamic, '<' . $name . Html::el(null, $attrs)->attributes()];
 	}
 }

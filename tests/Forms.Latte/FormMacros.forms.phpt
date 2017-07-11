@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class MyControl extends Nette\Forms\Controls\BaseControl
 {
-	function getLabel($c = NULL)
+	function getLabel($c = null)
 	{
 		return '<label>My</label>';
 	}
@@ -33,8 +33,8 @@ $form = new Form;
 $form->addHidden('id');
 $form->addText('username', 'Username:'); // must have just one textfield to generate IE fix
 $form->addRadioList('sex', 'Sex:', ['m' => 'male', 'f' => 'female']);
-$form->addSelect('select', NULL, ['m' => 'male', 'f' => 'female']);
-$form->addTextArea('area', NULL)->setValue('one<two');
+$form->addSelect('select', null, ['m' => 'male', 'f' => 'female']);
+$form->addTextArea('area', null)->setValue('one<two');
 $form->addCheckbox('checkbox', 'Checkbox');
 $form->addCheckboxList('checklist', 'CheckboxList:', ['m' => 'male', 'f' => 'female']);
 $form->addSubmit('send', 'Sign in');

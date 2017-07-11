@@ -33,7 +33,7 @@ test(function () use ($series) { // Select with optgroups
 	$_POST = ['multi' => ['red-dwarf']];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('multi', NULL, [
+	$input = $form->addMultiSelect('multi', null, [
 		'usa' => [
 			'the-simpsons' => 'The Simpsons',
 			0 => 'South Park',
@@ -54,7 +54,7 @@ test(function () use ($series) { // invalid input
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('select', NULL, $series);
+	$input = $form->addMultiSelect('select', null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same([], $input->getValue());
@@ -67,7 +67,7 @@ test(function () use ($series) { // multiple selected items, zero item
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('multi', NULL, $series);
+	$input = $form->addMultiSelect('multi', null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same(['red-dwarf', 0], $input->getValue());
@@ -81,7 +81,7 @@ test(function () use ($series) { // empty key
 	$_POST = ['empty' => ['']];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('empty', NULL, $series);
+	$input = $form->addMultiSelect('empty', null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same([''], $input->getValue());
@@ -92,7 +92,7 @@ test(function () use ($series) { // empty key
 
 test(function () use ($series) { // missing key
 	$form = new Form;
-	$input = $form->addMultiSelect('missing', NULL, $series);
+	$input = $form->addMultiSelect('missing', null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same([], $input->getValue());
@@ -105,7 +105,7 @@ test(function () use ($series) { // disabled key
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('disabled', NULL, $series)
+	$input = $form->addMultiSelect('disabled', null, $series)
 		->setDisabled();
 
 	Assert::true($form->isValid());
@@ -114,10 +114,10 @@ test(function () use ($series) { // disabled key
 
 
 test(function () use ($series) { // malformed data
-	$_POST = ['malformed' => [[NULL]]];
+	$_POST = ['malformed' => [[null]]];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('malformed', NULL, $series);
+	$input = $form->addMultiSelect('malformed', null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same([], $input->getValue());
@@ -130,7 +130,7 @@ test(function () use ($series) { // validateLength
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('multi', NULL, $series);
+	$input = $form->addMultiSelect('multi', null, $series);
 
 	Assert::true(Validator::validateLength($input, 2));
 	Assert::false(Validator::validateLength($input, 3));
@@ -143,7 +143,7 @@ test(function () use ($series) { // validateEqual
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('multi', NULL, $series);
+	$input = $form->addMultiSelect('multi', null, $series);
 
 	Assert::true(Validator::validateEqual($input, ['red-dwarf', 0]));
 	Assert::false(Validator::validateEqual($input, 'unknown'));
@@ -156,7 +156,7 @@ test(function () use ($series) { // setItems without keys
 	$_POST = ['multi' => ['red-dwarf']];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('multi')->setItems(array_keys($series), FALSE);
+	$input = $form->addMultiSelect('multi')->setItems(array_keys($series), false);
 	Assert::same([
 		'red-dwarf' => 'red-dwarf',
 		'the-simpsons' => 'the-simpsons',
@@ -173,7 +173,7 @@ test(function () use ($series) { // setItems without keys
 
 test(function () use ($series) { // setItems without keys
 	$form = new Form;
-	$input = $form->addMultiSelect('select')->setItems(range(1, 5), FALSE);
+	$input = $form->addMultiSelect('select')->setItems(range(1, 5), false);
 	Assert::same([1 => 1, 2, 3, 4, 5], $input->getItems());
 });
 
@@ -185,7 +185,7 @@ test(function () { // setItems without keys with optgroups
 	$input = $form->addMultiSelect('multi')->setItems([
 		'usa' => ['the-simpsons', 0],
 		'uk' => ['red-dwarf'],
-	], FALSE);
+	], false);
 
 	Assert::true($form->isValid());
 	Assert::same(['red-dwarf'], $input->getValue());
@@ -196,8 +196,8 @@ test(function () { // setItems without keys with optgroups
 
 test(function () use ($series) { // setValue() and invalid argument
 	$form = new Form;
-	$input = $form->addMultiSelect('select', NULL, $series);
-	$input->setValue(NULL);
+	$input = $form->addMultiSelect('select', null, $series);
+	$input->setValue(null);
 
 	Assert::exception(function () use ($input) {
 		$input->setValue('unknown');
@@ -207,7 +207,7 @@ test(function () use ($series) { // setValue() and invalid argument
 
 test(function () { // object as value
 	$form = new Form;
-	$input = $form->addMultiSelect('select', NULL, ['2013-07-05 00:00:00' => 1])
+	$input = $form->addMultiSelect('select', null, ['2013-07-05 00:00:00' => 1])
 		->setValue([new DateTime('2013-07-05')]);
 
 	Assert::same(['2013-07-05 00:00:00'], $input->getValue());
@@ -220,7 +220,7 @@ test(function () { // object as item
 		->setItems([
 			'group' => [new DateTime('2013-07-05')],
 			new DateTime('2013-07-06'),
-		], FALSE)
+		], false)
 		->setValue('2013-07-05 00:00:00');
 
 	Assert::equal(['2013-07-05 00:00:00' => new DateTime('2013-07-05')], $input->getSelectedItems());
@@ -231,13 +231,13 @@ test(function () use ($series) { // disabled one
 	$_POST = ['select' => ['red-dwarf', 0]];
 
 	$form = new Form;
-	$input = $form->addMultiSelect('select', NULL, $series)
+	$input = $form->addMultiSelect('select', null, $series)
 		->setDisabled(['red-dwarf']);
 
 	Assert::same([0], $input->getValue());
 
 	unset($form['select']);
-	$input = new Nette\Forms\Controls\MultiSelectBox(NULL, $series);
+	$input = new Nette\Forms\Controls\MultiSelectBox(null, $series);
 	$input->setDisabled(['red-dwarf']);
 	$form['select'] = $input;
 

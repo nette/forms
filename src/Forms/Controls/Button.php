@@ -21,7 +21,7 @@ class Button extends BaseControl
 	/**
 	 * @param  string|object
 	 */
-	public function __construct($caption = NULL)
+	public function __construct($caption = null)
 	{
 		parent::__construct($caption);
 		$this->control->type = 'button';
@@ -35,14 +35,14 @@ class Button extends BaseControl
 	public function isFilled(): bool
 	{
 		$value = $this->getValue();
-		return $value !== NULL && $value !== [];
+		return $value !== null && $value !== [];
 	}
 
 
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = NULL): void
+	public function getLabel($caption = null): void
 	{
 	}
 
@@ -51,14 +51,14 @@ class Button extends BaseControl
 	 * Generates control's HTML element.
 	 * @param  string|object
 	 */
-	public function getControl($caption = NULL): Nette\Utils\Html
+	public function getControl($caption = null): Nette\Utils\Html
 	{
-		$this->setOption('rendered', TRUE);
+		$this->setOption('rendered', true);
 		$el = clone $this->control;
 		return $el->addAttributes([
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
-			'value' => $this->translate($caption === NULL ? $this->getCaption() : $caption),
+			'value' => $this->translate($caption === null ? $this->getCaption() : $caption),
 		]);
 	}
 }

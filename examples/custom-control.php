@@ -25,17 +25,17 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 		$year = '';
 
 
-	public function __construct($label = NULL)
+	public function __construct($label = null)
 	{
 		parent::__construct($label);
-		$this->setRequired(FALSE)
+		$this->setRequired(false)
 			->addRule([__CLASS__, 'validateDate'], 'Date is invalid.');
 	}
 
 
 	public function setValue($value)
 	{
-		if ($value === NULL) {
+		if ($value === null) {
 			$this->day = $this->month = $this->year = '';
 		} else {
 			$date = Nette\Utils\DateTime::from($value);
@@ -48,13 +48,13 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 
 
 	/**
-	 * @return DateTimeImmutable|NULL
+	 * @return DateTimeImmutable|null
 	 */
 	public function getValue()
 	{
 		return self::validateDate($this)
 			? (new DateTimeImmutable)->setDate((int) $this->year, (int) $this->month, (int) $this->day)->setTime(0, 0)
-			: NULL;
+			: null;
 	}
 
 
@@ -88,7 +88,7 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 				'type' => 'number',
 				'min' => 1,
 				'max' => 31,
-				'data-nette-rules' => Helpers::exportRules($this->getRules()) ?: NULL,
+				'data-nette-rules' => Helpers::exportRules($this->getRules()) ?: null,
 			])
 
 			. Helpers::createSelectBox(

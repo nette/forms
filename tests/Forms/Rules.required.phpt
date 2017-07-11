@@ -67,14 +67,14 @@ test(function () { // 'required' is always the first rule
 });
 
 
-test(function () { // setRequired(FALSE)
+test(function () { // setRequired(false)
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
 
 	$rules->addRule($form::EMAIL);
 	$rules->addRule($form::REQUIRED);
-	$rules->setRequired(FALSE);
+	$rules->setRequired(false);
 
 	$items = iterator_to_array($rules);
 	Assert::count(1, $items);
@@ -85,13 +85,13 @@ test(function () { // setRequired(FALSE)
 });
 
 
-test(function () { // setRequired(FALSE) and addConditionOn
+test(function () { // setRequired(false) and addConditionOn
 	$form = new Form;
 	$form->addCheckbox('checkbox');
 	$input = $form->addText('text');
-	$input->setRequired(FALSE)
+	$input->setRequired(false)
 		->addRule($form::EMAIL)
-		->addConditionOn($form['checkbox'], $form::EQUAL, FALSE)
+		->addConditionOn($form['checkbox'], $form::EQUAL, false)
 			->addRule($form::REQUIRED);
 
 	Assert::false($input->getRules()->validate());
