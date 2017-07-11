@@ -24,11 +24,11 @@ class Runtime
 	 * Renders form begin.
 	 * @return string
 	 */
-	public static function renderFormBegin(Form $form, array $attrs, $withTags = TRUE)
+	public static function renderFormBegin(Form $form, array $attrs, $withTags = true)
 	{
 		$form->fireRenderEvents();
 		foreach ($form->getControls() as $control) {
-			$control->setOption('rendered', FALSE);
+			$control->setOption('rendered', false);
 		}
 		$el = $form->getElementPrototype();
 		$el->action = (string) $el->action;
@@ -45,7 +45,7 @@ class Runtime
 	 * Renders form end.
 	 * @return string
 	 */
-	public static function renderFormEnd(Form $form, $withTags = TRUE)
+	public static function renderFormEnd(Form $form, $withTags = true)
 	{
 		$s = '';
 		if ($form->isMethod('get')) {
@@ -64,7 +64,7 @@ class Runtime
 			}
 		}
 
-		if (iterator_count($form->getComponents(TRUE, Nette\Forms\Controls\TextInput::class)) < 2) {
+		if (iterator_count($form->getComponents(true, Nette\Forms\Controls\TextInput::class)) < 2) {
 			$s .= "<!--[if IE]><input type=IEbug disabled style=\"display:none\"><![endif]-->\n";
 		}
 

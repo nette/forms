@@ -18,7 +18,7 @@ class ImageButton extends SubmitButton
 	 * @param  string  URI of the image
 	 * @param  string  alternate text for the image
 	 */
-	public function __construct($src = NULL, $alt = NULL)
+	public function __construct($src = null, $alt = null)
 	{
 		parent::__construct();
 		$this->control->type = 'image';
@@ -36,7 +36,7 @@ class ImageButton extends SubmitButton
 		parent::loadHttpData();
 		$this->value = $this->value
 			? [(int) array_shift($this->value), (int) array_shift($this->value)]
-			: NULL;
+			: null;
 	}
 
 

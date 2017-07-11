@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, $plural = NULL)
+	function translate($s, $plural = null)
 	{
 		return strtoupper($s);
 	}
@@ -36,7 +36,7 @@ test(function () {
 	Assert::type(Html::class, $input->getControlPart());
 	Assert::same('<input type="checkbox" name="on" id="frm-on">', (string) $input->getControlPart());
 
-	$input->setValue(TRUE);
+	$input->setValue(true);
 	Assert::same('<label for="frm-on"><input type="checkbox" name="on" id="frm-on" checked>Label</label>', (string) $input->getControl());
 	Assert::same('<input type="checkbox" name="on" id="frm-on" checked>', (string) $input->getControlPart());
 });

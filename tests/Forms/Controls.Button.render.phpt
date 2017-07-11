@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, $plural = NULL)
+	function translate($s, $plural = null)
 	{
 		return strtoupper($s);
 	}
@@ -82,7 +82,7 @@ test(function () { // SubmitButton
 
 test(function () { // SubmitButton with scope
 	$form = new Form;
-	$input = $form->addSubmit('button', 'Caption')->setValidationScope(FALSE);
+	$input = $form->addSubmit('button', 'Caption')->setValidationScope(false);
 
 	Assert::same('<input type="submit" name="button" value="Caption" formnovalidate>', (string) $input->getControl());
 });

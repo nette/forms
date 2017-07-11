@@ -35,7 +35,7 @@ test(function () {
 
 
 test(function () { // invalid data
-	$_POST = ['malformed' => [NULL]];
+	$_POST = ['malformed' => [null]];
 	$form = new Form;
 	$input = $form->addHidden('malformed');
 	Assert::same('', $input->getValue());
@@ -55,11 +55,11 @@ test(function () { // errors are moved to form
 test(function () { // setValue() and invalid argument
 	$form = new Form;
 	$input = $form->addHidden('hidden');
-	$input->setValue(NULL);
+	$input->setValue(null);
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([]);
-	}, Nette\InvalidArgumentException::class, "Value must be scalar or NULL, array given in field 'hidden'.");
+	}, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'hidden'.");
 });
 
 

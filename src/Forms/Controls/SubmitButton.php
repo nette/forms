@@ -23,18 +23,18 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 	/** @var callable[]  function (SubmitButton $sender); Occurs when the button is clicked and form is not validated */
 	public $onInvalidClick;
 
-	/** @var array|NULL */
+	/** @var array|null */
 	private $validationScope;
 
 
 	/**
 	 * @param  string|object
 	 */
-	public function __construct($caption = NULL)
+	public function __construct($caption = null)
 	{
 		parent::__construct($caption);
 		$this->control->type = 'submit';
-		$this->setOmitted(TRUE);
+		$this->setOmitted(true);
 	}
 
 
@@ -65,10 +65,10 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 	 * Sets the validation scope. Clicking the button validates only the controls within the specified scope.
 	 * @return static
 	 */
-	public function setValidationScope(/*array*/$scope = NULL)
+	public function setValidationScope(/*array*/$scope = null)
 	{
-		if ($scope === NULL || $scope === TRUE) {
-			$this->validationScope = NULL;
+		if ($scope === null || $scope === true) {
+			$this->validationScope = null;
 		} else {
 			$this->validationScope = [];
 			foreach ($scope ?: [] as $control) {
@@ -84,7 +84,7 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 
 	/**
 	 * Gets the validation scope.
-	 * @return array|NULL
+	 * @return array|null
 	 */
 	public function getValidationScope()
 	{
@@ -107,15 +107,15 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 	 * @param  string|object
 	 * @return Nette\Utils\Html
 	 */
-	public function getControl($caption = NULL)
+	public function getControl($caption = null)
 	{
 		$scope = [];
 		foreach ((array) $this->validationScope as $control) {
 			$scope[] = $control->lookupPath(Nette\Forms\Form::class);
 		}
 		return parent::getControl($caption)->addAttributes([
-			'formnovalidate' => $this->validationScope !== NULL,
-			'data-nette-validation-scope' => $scope ?: NULL,
+			'formnovalidate' => $this->validationScope !== null,
+			'data-nette-validation-scope' => $scope ?: null,
 		]);
 	}
 }

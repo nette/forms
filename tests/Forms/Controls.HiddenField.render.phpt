@@ -14,7 +14,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, $plural = NULL)
+	function translate($s, $plural = null)
 	{
 		return strtoupper($s);
 	}

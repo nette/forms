@@ -45,7 +45,7 @@ test(function () { // validators
 	Assert::true(Validator::validateFilled($input));
 	Assert::true(Validator::validateValid($input));
 
-	Assert::false(Validator::validateLength($input, NULL));
+	Assert::false(Validator::validateLength($input, null));
 	Assert::false(Validator::validateLength($input, 2));
 	Assert::true(Validator::validateLength($input, 3));
 
@@ -55,9 +55,9 @@ test(function () { // validators
 	Assert::true(Validator::validateMaxLength($input, 3));
 	Assert::false(Validator::validateMaxLength($input, 2));
 
-	Assert::false(Validator::validateRange($input, [NULL, NULL]));
+	Assert::false(Validator::validateRange($input, [null, null]));
 	Assert::true(Validator::validateRange($input, [100, 1000]));
-	Assert::false(Validator::validateRange($input, [1000, NULL]));
+	Assert::false(Validator::validateRange($input, [1000, null]));
 
 	Assert::true(Validator::validateMin($input, 122));
 	Assert::true(Validator::validateMin($input, 123));
@@ -71,7 +71,7 @@ test(function () { // validators
 
 test(function () { // validators for array
 	$form = new Form;
-	$input = $form->addMultiSelect('select', NULL, ['a', 'b', 'c', 'd']);
+	$input = $form->addMultiSelect('select', null, ['a', 'b', 'c', 'd']);
 	$input->setValue([1, 2, 3]);
 
 	Assert::true(Validator::validateEqual($input, [1, 2, 3, 4]));
@@ -81,7 +81,7 @@ test(function () { // validators for array
 	Assert::true(Validator::validateFilled($input));
 	Assert::true(Validator::validateValid($input));
 
-	Assert::false(Validator::validateLength($input, NULL));
+	Assert::false(Validator::validateLength($input, null));
 	Assert::false(Validator::validateLength($input, 2));
 	Assert::true(Validator::validateLength($input, 3));
 

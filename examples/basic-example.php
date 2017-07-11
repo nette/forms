@@ -48,7 +48,7 @@ $form->addEmail('email', 'Email:')
 
 // group Shipping address
 $form->addGroup('Shipping address')
-	->setOption('embedNext', TRUE);
+	->setOption('embedNext', true);
 
 $form->addCheckbox('send', 'Ship to address')
 	->addCondition($form::FILLED) // conditional rule: if is checkbox checked...
@@ -91,7 +91,7 @@ $form->addPassword('password2', 'Reenter password:')
 	->addRule($form::EQUAL, 'Passwords do not match', $form['password']);
 
 $form->addUpload('avatar', 'Picture:')
-	->setRequired(FALSE)
+	->setRequired(false)
 	->addRule($form::IMAGE, 'Uploaded file is not image');
 
 $form->addHidden('userid');
@@ -112,7 +112,7 @@ $form->setDefaults([
 
 if ($form->isSuccess()) {
 	echo '<h2>Form was submitted and successfully validated</h2>';
-	Dumper::dump($form->getValues(), [Dumper::COLLAPSE => FALSE]);
+	Dumper::dump($form->getValues(), [Dumper::COLLAPSE => false]);
 	exit;
 }
 

@@ -93,7 +93,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var callable[]  function (Form $sender); Occurs before the form is rendered */
 	public $onRender;
 
-	/** @var mixed or NULL meaning: not detected yet */
+	/** @var mixed or null meaning: not detected yet */
 	private $submittedBy;
 
 	/** @var array */
@@ -125,15 +125,15 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * Form constructor.
 	 * @param  string
 	 */
-	public function __construct($name = NULL)
+	public function __construct($name = null)
 	{
 		parent::__construct();
-		if ($name !== NULL) {
+		if ($name !== null) {
 			$this->getElementPrototype()->id = 'frm-' . $name;
 			$tracker = new Controls\HiddenField($name);
 			$tracker->setOmitted();
 			$this[self::TRACKER_ID] = $tracker;
-			$this->setParent(NULL, $name);
+			$this->setParent(null, $name);
 		}
 	}
 
@@ -166,7 +166,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * Returns self.
 	 * @return static
 	 */
-	public function getForm($throw = TRUE)
+	public function getForm($throw = true)
 	{
 		return $this;
 	}
@@ -201,7 +201,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function setMethod($method)
 	{
-		if ($this->httpData !== NULL) {
+		if ($this->httpData !== null) {
 			throw new Nette\InvalidStateException(__METHOD__ . '() must be called until the form is empty.');
 		}
 		$this->getElementPrototype()->method = strtolower($method);
@@ -235,7 +235,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * @param  string
 	 * @return Controls\CsrfProtection
 	 */
-	public function addProtection($errorMessage = NULL)
+	public function addProtection($errorMessage = null)
 	{
 		$control = new Controls\CsrfProtection($errorMessage);
 		$this->addComponent($control, self::PROTECTOR_ID, key($this->getComponents()));
@@ -249,11 +249,11 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * @param  bool
 	 * @return ControlGroup
 	 */
-	public function addGroup($caption = NULL, $setAsCurrent = TRUE)
+	public function addGroup($caption = null, $setAsCurrent = true)
 	{
 		$group = new ControlGroup;
 		$group->setOption('label', $caption);
-		$group->setOption('visual', TRUE);
+		$group->setOption('visual', true);
 
 		if ($setAsCurrent) {
 			$this->setCurrentGroup($group);
@@ -277,9 +277,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		if (is_string($name) && isset($this->groups[$name])) {
 			$group = $this->groups[$name];
 
-		} elseif ($name instanceof ControlGroup && in_array($name, $this->groups, TRUE)) {
+		} elseif ($name instanceof ControlGroup && in_array($name, $this->groups, true)) {
 			$group = $name;
-			$name = array_search($group, $this->groups, TRUE);
+			$name = array_search($group, $this->groups, true);
 
 		} else {
 			throw new Nette\InvalidArgumentException("Group not found in form '$this->name'");
@@ -306,11 +306,11 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/**
 	 * Returns the specified group.
 	 * @param  string|int
-	 * @return ControlGroup|NULL
+	 * @return ControlGroup|null
 	 */
 	public function getGroup($name)
 	{
-		return isset($this->groups[$name]) ? $this->groups[$name] : NULL;
+		return isset($this->groups[$name]) ? $this->groups[$name] : null;
 	}
 
 
@@ -321,7 +321,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * Sets translate adapter.
 	 * @return static
 	 */
-	public function setTranslator(Nette\Localization\ITranslator $translator = NULL)
+	public function setTranslator(Nette\Localization\ITranslator $translator = null)
 	{
 		$this->translator = $translator;
 		return $this;
@@ -330,7 +330,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns translate adapter.
-	 * @return Nette\Localization\ITranslator|NULL
+	 * @return Nette\Localization\ITranslator|null
 	 */
 	public function getTranslator()
 	{
@@ -347,17 +347,17 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function isAnchored()
 	{
-		return TRUE;
+		return true;
 	}
 
 
 	/**
 	 * Tells if the form was submitted.
-	 * @return ISubmitterControl|FALSE  submittor control
+	 * @return ISubmitterControl|false  submittor control
 	 */
 	public function isSubmitted()
 	{
-		if ($this->submittedBy === NULL) {
+		if ($this->submittedBy === null) {
 			$this->getHttpData();
 		}
 		return $this->submittedBy;
@@ -379,9 +379,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * @return static
 	 * @internal
 	 */
-	public function setSubmittedBy(ISubmitterControl $by = NULL)
+	public function setSubmittedBy(ISubmitterControl $by = null)
 	{
-		$this->submittedBy = $by === NULL ? FALSE : $by;
+		$this->submittedBy = $by === null ? false : $by;
 		return $this;
 	}
 
@@ -392,9 +392,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * @param  string
 	 * @return mixed
 	 */
-	public function getHttpData($type = NULL, $htmlName = NULL)
+	public function getHttpData($type = null, $htmlName = null)
 	{
-		if ($this->httpData === NULL) {
+		if ($this->httpData === null) {
 			if (!$this->isAnchored()) {
 				throw new Nette\InvalidStateException('Form is not anchored and therefore can not determine whether it was submitted.');
 			}
@@ -402,7 +402,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			$this->httpData = (array) $data;
 			$this->submittedBy = is_array($data);
 		}
-		if ($htmlName === NULL) {
+		if ($htmlName === null) {
 			return $this->httpData;
 		}
 		return Helpers::extractHttpData($this->httpData, $htmlName, $type);
@@ -438,7 +438,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		if (!$this->isValid()) {
 			$this->onError($this);
 
-		} elseif ($this->onSuccess !== NULL) {
+		} elseif ($this->onSuccess !== null) {
 			if (!is_array($this->onSuccess) && !$this->onSuccess instanceof \Traversable) {
 				throw new Nette\UnexpectedValueException('Property Form::$onSuccess must be array or Traversable, ' . gettype($this->onSuccess) . ' given.');
 			}
@@ -452,11 +452,11 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	}
 
 
-	private function invokeHandlers($handlers, $button = NULL)
+	private function invokeHandlers($handlers, $button = null)
 	{
 		foreach ($handlers as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : NULL;
+			$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : null;
 			Nette\Utils\Callback::invoke($handler, $button ?: $this, $values);
 			if (!$button && !$this->isValid()) {
 				return;
@@ -466,8 +466,8 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 
 	/**
-	 * Internal: returns submitted HTTP data or NULL when form was not submitted.
-	 * @return array|NULL
+	 * Internal: returns submitted HTTP data or null when form was not submitted.
+	 * @return array|null
 	 */
 	protected function receiveHttpData()
 	{
@@ -485,7 +485,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			}
 		}
 
-		if ($tracker = $this->getComponent(self::TRACKER_ID, FALSE)) {
+		if ($tracker = $this->getComponent(self::TRACKER_ID, false)) {
 			if (!isset($data[self::TRACKER_ID]) || $data[self::TRACKER_ID] !== $tracker->getValue()) {
 				return;
 			}
@@ -501,10 +501,10 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/**
 	 * @return void
 	 */
-	public function validate(array $controls = NULL)
+	public function validate(array $controls = null)
 	{
 		$this->cleanErrors();
-		if ($controls === NULL && $this->submittedBy instanceof ISubmitterControl) {
+		if ($controls === null && $this->submittedBy instanceof ISubmitterControl) {
 			$controls = $this->submittedBy->getValidationScope();
 		}
 		$this->validateMaxPostSize();
@@ -600,7 +600,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * Sets form renderer.
 	 * @return static
 	 */
-	public function setRenderer(IFormRenderer $renderer = NULL)
+	public function setRenderer(IFormRenderer $renderer = null)
 	{
 		$this->renderer = $renderer;
 		return $this;
@@ -613,7 +613,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function getRenderer()
 	{
-		if ($this->renderer === NULL) {
+		if ($this->renderer === null) {
 			$this->renderer = new Rendering\DefaultFormRenderer;
 		}
 		return $this->renderer;
@@ -635,10 +635,10 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function fireRenderEvents()
 	{
 		if (!$this->beforeRenderCalled) {
-			foreach ($this->getComponents(TRUE, Controls\BaseControl::class) as $control) {
+			foreach ($this->getComponents(true, Controls\BaseControl::class) as $control) {
 				$control->getRules()->check();
 			}
-			$this->beforeRenderCalled = TRUE;
+			$this->beforeRenderCalled = true;
 			$this->beforeRender();
 			$this->onRender($this);
 		}
@@ -701,7 +701,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function getToggles()
 	{
 		$toggles = [];
-		foreach ($this->getComponents(TRUE, Controls\BaseControl::class) as $control) {
+		foreach ($this->getComponents(true, Controls\BaseControl::class) as $control) {
 			$toggles = $control->getRules()->getToggleStates($toggles);
 		}
 		return $toggles;

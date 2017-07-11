@@ -22,7 +22,7 @@ class MultiSelectBox extends MultiChoiceControl
 	private $optionAttributes = [];
 
 
-	public function __construct($label = NULL, array $items = NULL)
+	public function __construct($label = null, array $items = null)
 	{
 		parent::__construct($label, $items);
 		$this->setOption('type', 'select');
@@ -33,7 +33,7 @@ class MultiSelectBox extends MultiChoiceControl
 	 * Sets options and option groups from which to choose.
 	 * @return static
 	 */
-	public function setItems(array $items, $useKeys = TRUE)
+	public function setItems(array $items, $useKeys = true)
 	{
 		if (!$useKeys) {
 			$res = [];
@@ -50,7 +50,7 @@ class MultiSelectBox extends MultiChoiceControl
 			$items = $res;
 		}
 		$this->options = $items;
-		return parent::setItems(Nette\Utils\Arrays::flatten($items, TRUE));
+		return parent::setItems(Nette\Utils\Arrays::flatten($items, true));
 	}
 
 
@@ -68,10 +68,10 @@ class MultiSelectBox extends MultiChoiceControl
 		return Nette\Forms\Helpers::createSelectBox(
 			$items,
 			[
-				'disabled:' => is_array($this->disabled) ? $this->disabled : NULL,
+				'disabled:' => is_array($this->disabled) ? $this->disabled : null,
 			] + $this->optionAttributes,
 			$this->value
-		)->addAttributes(parent::getControl()->attrs)->multiple(TRUE);
+		)->addAttributes(parent::getControl()->attrs)->multiple(true);
 	}
 
 

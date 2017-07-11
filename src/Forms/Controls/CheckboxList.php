@@ -33,7 +33,7 @@ class CheckboxList extends MultiChoiceControl
 	/**
 	 * @param  string|object
 	 */
-	public function __construct($label = NULL, array $items = NULL)
+	public function __construct($label = null, array $items = null)
 	{
 		parent::__construct($label, $items);
 		$this->control->type = 'checkbox';
@@ -58,10 +58,10 @@ class CheckboxList extends MultiChoiceControl
 			Nette\Forms\Helpers::createInputList(
 				$this->translate($items),
 				array_merge($input->attrs, [
-					'id' => NULL,
+					'id' => null,
 					'checked?' => $this->value,
 					'disabled:' => $this->disabled,
-					'required' => NULL,
+					'required' => null,
 					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
 				]),
 				$this->itemLabel ? $this->itemLabel->attrs : $this->label->attrs,
@@ -76,23 +76,23 @@ class CheckboxList extends MultiChoiceControl
 	 * @param  string|object
 	 * @return Html
 	 */
-	public function getLabel($caption = NULL)
+	public function getLabel($caption = null)
 	{
-		return parent::getLabel($caption)->for(NULL);
+		return parent::getLabel($caption)->for(null);
 	}
 
 
 	/**
 	 * @return Html
 	 */
-	public function getControlPart($key = NULL)
+	public function getControlPart($key = null)
 	{
-		$key = key([(string) $key => NULL]);
+		$key = key([(string) $key => null]);
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
-			'checked' => in_array($key, (array) $this->value, TRUE),
+			'checked' => in_array($key, (array) $this->value, true),
 			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
-			'required' => NULL,
+			'required' => null,
 			'value' => $key,
 		]);
 	}
@@ -101,7 +101,7 @@ class CheckboxList extends MultiChoiceControl
 	/**
 	 * @return Html
 	 */
-	public function getLabelPart($key = NULL)
+	public function getLabelPart($key = null)
 	{
 		$itemLabel = $this->itemLabel ? clone $this->itemLabel : clone $this->label;
 		return func_num_args()

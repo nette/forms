@@ -23,7 +23,7 @@ $_POST = [
 			'name' => 'david',
 		],
 	],
-	'invalid' => TRUE,
+	'invalid' => true,
 ];
 
 

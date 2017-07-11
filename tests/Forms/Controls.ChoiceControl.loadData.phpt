@@ -35,7 +35,7 @@ test(function () use ($series) { // Select
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
-	$input = $form['select'] = new ChoiceControl(NULL, $series);
+	$input = $form['select'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same('red-dwarf', $input->getValue());
@@ -48,7 +48,7 @@ test(function () use ($series) { // Select with invalid input
 	$_POST = ['select' => 'days-of-our-lives'];
 
 	$form = new Form;
-	$input = $form['select'] = new ChoiceControl(NULL, $series);
+	$input = $form['select'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::null($input->getValue());
@@ -61,7 +61,7 @@ test(function () use ($series) { // Indexed arrays
 	$_POST = ['zero' => 0];
 
 	$form = new Form;
-	$input = $form['zero'] = new ChoiceControl(NULL, $series);
+	$input = $form['zero'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same(0, $input->getValue());
@@ -75,7 +75,7 @@ test(function () use ($series) { // empty key
 	$_POST = ['empty' => ''];
 
 	$form = new Form;
-	$input = $form['empty'] = new ChoiceControl(NULL, $series);
+	$input = $form['empty'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same('', $input->getValue());
@@ -86,7 +86,7 @@ test(function () use ($series) { // empty key
 
 test(function () use ($series) { // missing key
 	$form = new Form;
-	$input = $form['missing'] = new ChoiceControl(NULL, $series);
+	$input = $form['missing'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::null($input->getValue());
@@ -99,7 +99,7 @@ test(function () use ($series) { // disabled key
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
-	$input = $form['disabled'] = new ChoiceControl(NULL, $series);
+	$input = $form['disabled'] = new ChoiceControl(null, $series);
 	$input->setDisabled();
 
 	Assert::true($form->isValid());
@@ -109,10 +109,10 @@ test(function () use ($series) { // disabled key
 
 
 test(function () use ($series) { // malformed data
-	$_POST = ['malformed' => [NULL]];
+	$_POST = ['malformed' => [null]];
 
 	$form = new Form;
-	$input = $form['malformed'] = new ChoiceControl(NULL, $series);
+	$input = $form['malformed'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::null($input->getValue());
@@ -126,7 +126,7 @@ test(function () use ($series) { // setItems without keys
 
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl;
-	$input->setItems(array_keys($series), FALSE);
+	$input->setItems(array_keys($series), false);
 	Assert::same([
 		'red-dwarf' => 'red-dwarf',
 		'the-simpsons' => 'the-simpsons',
@@ -143,8 +143,8 @@ test(function () use ($series) { // setItems without keys
 
 test(function () use ($series) { // setValue() and invalid argument
 	$form = new Form;
-	$input = $form['select'] = new ChoiceControl(NULL, $series);
-	$input->setValue(NULL);
+	$input = $form['select'] = new ChoiceControl(null, $series);
+	$input->setValue(null);
 
 	Assert::exception(function () use ($input) {
 		$input->setValue('unknown');
@@ -154,8 +154,8 @@ test(function () use ($series) { // setValue() and invalid argument
 
 test(function () use ($series) { // setValue() and disabled $checkAllowedValues
 	$form = new Form;
-	$input = $form['select'] = new ChoiceControl(NULL, $series);
-	$input->checkAllowedValues = FALSE;
+	$input = $form['select'] = new ChoiceControl(null, $series);
+	$input->checkAllowedValues = false;
 	$input->setValue('unknown');
 	Assert::null($input->getValue());
 });
@@ -163,7 +163,7 @@ test(function () use ($series) { // setValue() and disabled $checkAllowedValues
 
 test(function () { // object as value
 	$form = new Form;
-	$input = $form['select'] = new ChoiceControl(NULL, ['2013-07-05 00:00:00' => 1]);
+	$input = $form['select'] = new ChoiceControl(null, ['2013-07-05 00:00:00' => 1]);
 	$input->setValue(new DateTime('2013-07-05'));
 
 	Assert::same('2013-07-05 00:00:00', $input->getValue());
@@ -173,7 +173,7 @@ test(function () { // object as value
 test(function () { // object as item
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl;
-	$input->setItems([new DateTime('2013-07-05')], FALSE)
+	$input->setItems([new DateTime('2013-07-05')], false)
 		->setValue(new DateTime('2013-07-05'));
 
 	Assert::same('2013-07-05 00:00:00', $input->getValue());
@@ -184,13 +184,13 @@ test(function () use ($series) { // disabled one
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
-	$input = $form['select'] = new ChoiceControl(NULL, $series);
+	$input = $form['select'] = new ChoiceControl(null, $series);
 	$input->setDisabled(['red-dwarf']);
 
 	Assert::null($input->getValue());
 
 	unset($form['select']);
-	$input = new ChoiceControl(NULL, $series);
+	$input = new ChoiceControl(null, $series);
 	$input->setDisabled(['red-dwarf']);
 	$form['select'] = $input;
 
@@ -201,9 +201,9 @@ test(function () {
 	$_POST = ['select' => 1];
 
 	$form = new Form;
-	$input = $form['select'] = new ChoiceControl(NULL);
+	$input = $form['select'] = new ChoiceControl(null);
 	$input->setItems([
-		1 => NULL,
+		1 => null,
 		2 => 'Red dwarf',
 	]);
 

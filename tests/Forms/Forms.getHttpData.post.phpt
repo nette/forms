@@ -25,7 +25,7 @@ test(function () {
 	Assert::truthy($form->isSubmitted());
 	Assert::true($form->isSuccess());
 	Assert::same([], $form->getHttpData());
-	Assert::same([], $form->getValues(TRUE));
+	Assert::same([], $form->getValues(true));
 });
 
 
@@ -37,7 +37,7 @@ test(function () {
 	Assert::false($form->isSubmitted());
 	Assert::false($form->isSuccess());
 	Assert::same([], $form->getHttpData());
-	Assert::same([], $form->getValues(TRUE));
+	Assert::same([], $form->getValues(true));
 });
 
 
@@ -50,7 +50,7 @@ test(function () {
 
 	Assert::truthy($form->isSubmitted());
 	Assert::same([Form::TRACKER_ID => $name], $form->getHttpData());
-	Assert::same([], $form->getValues(TRUE));
+	Assert::same([], $form->getValues(true));
 	Assert::same($name, $form[Form::TRACKER_ID]->getValue());
 });
 

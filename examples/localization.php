@@ -31,7 +31,7 @@ class MyTranslator implements Nette\Localization\ITranslator
 	/**
 	 * Translates the given string.
 	 */
-	public function translate($message, $count = NULL)
+	public function translate($message, $count = null)
 	{
 		return isset($this->table[$message]) ? $this->table[$message] : $message;
 	}

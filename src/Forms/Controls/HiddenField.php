@@ -19,14 +19,14 @@ class HiddenField extends BaseControl
 	private $persistValue;
 
 
-	public function __construct($persistentValue = NULL)
+	public function __construct($persistentValue = null)
 	{
 		parent::__construct();
 		$this->control->type = 'hidden';
 		$this->setOption('type', 'hidden');
-		if ($persistentValue !== NULL) {
+		if ($persistentValue !== null) {
 			$this->unmonitor(Nette\Forms\Form::class);
-			$this->persistValue = TRUE;
+			$this->persistValue = true;
 			$this->value = (string) $persistentValue;
 		}
 	}
@@ -40,8 +40,8 @@ class HiddenField extends BaseControl
 	 */
 	public function setValue($value)
 	{
-		if (!is_scalar($value) && $value !== NULL && !method_exists($value, '__toString')) {
-			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or NULL, %s given in field '%s'.", gettype($value), $this->name));
+		if (!is_scalar($value) && $value !== null && !method_exists($value, '__toString')) {
+			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
 		}
 		if (!$this->persistValue) {
 			$this->value = (string) $value;
@@ -56,7 +56,7 @@ class HiddenField extends BaseControl
 	 */
 	public function getControl()
 	{
-		$this->setOption('rendered', TRUE);
+		$this->setOption('rendered', true);
 		$el = clone $this->control;
 		return $el->addAttributes([
 			'name' => $this->getHtmlName(),
@@ -71,7 +71,7 @@ class HiddenField extends BaseControl
 	 * @param  string|object
 	 * @return void
 	 */
-	public function getLabel($caption = NULL)
+	public function getLabel($caption = null)
 	{
 	}
 
