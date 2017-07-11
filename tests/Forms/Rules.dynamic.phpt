@@ -21,7 +21,6 @@ $datasets = [
 ];
 
 foreach ($datasets as $case) {
-
 	$form = new Form;
 
 	$form->addText('min');

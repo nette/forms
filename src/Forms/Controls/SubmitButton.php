@@ -115,5 +115,4 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 			'data-nette-validation-scope' => $scope ?: NULL,
 		]);
 	}
-
 }

@@ -322,5 +322,4 @@ class Rules implements \IteratorAggregate
 			return $op;
 		}
 	}
-
 }

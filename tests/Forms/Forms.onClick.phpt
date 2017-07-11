@@ -1,9 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
-use Nette\Forms\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Forms\Form;
 use Tester\Assert;
 
 

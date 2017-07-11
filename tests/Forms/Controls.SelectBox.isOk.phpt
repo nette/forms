@@ -6,8 +6,8 @@
 
 declare(strict_types=1);
 
-use Nette\Forms\Validator;
 use Nette\Forms\Form;
+use Nette\Forms\Validator;
 use Tester\Assert;
 
 

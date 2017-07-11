@@ -83,5 +83,4 @@ class HiddenField extends BaseControl
 	{
 		$this->getForm()->addError($message);
 	}
-
 }

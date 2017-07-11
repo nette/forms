@@ -7,8 +7,8 @@
 declare(strict_types=1);
 
 use Nette\Forms\Form;
-use Nette\Http\FileUpload;
 use Nette\Forms\Validator;
+use Nette\Http\FileUpload;
 use Tester\Assert;
 
 

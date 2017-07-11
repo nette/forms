@@ -655,5 +655,4 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		}
 		return $toggles;
 	}
-
 }

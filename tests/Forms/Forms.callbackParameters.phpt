@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-use Nette\Utils\ArrayHash;
-use Nette\Forms\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Forms\Form;
+use Nette\Utils\ArrayHash;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';

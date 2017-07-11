@@ -6,7 +6,6 @@
 
 declare(strict_types=1);
 
-use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Nette\Forms\Helpers;
 use Tester\Assert;

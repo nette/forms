@@ -40,5 +40,4 @@ interface IControl
 	 * Is control value excluded from $form->getValues() result?
 	 */
 	function isOmitted(): bool;
-
 }

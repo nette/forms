@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Nette\Bridges\FormsLatte;
 
 use Nette;
-use Nette\Utils\Html;
 use Nette\Forms\Form;
+use Nette\Utils\Html;
 
 
 /**
@@ -70,5 +70,4 @@ class Runtime
 
 		return $s . ($withTags ? $form->getElementPrototype()->endTag() . "\n" : '');
 	}
-
 }

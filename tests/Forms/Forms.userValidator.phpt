@@ -19,6 +19,7 @@ $datasets = [
 	[1, ['Value 22 is required!']],
 ];
 
+
 function myValidator1($item, $arg)
 {
 	return $item->getValue() != $arg;
@@ -26,7 +27,6 @@ function myValidator1($item, $arg)
 
 
 foreach ($datasets as $case) {
-
 	$form = new Form;
 	$control = @$form->addText('value', 'Value:')
 		->addRule('myValidator1', 'Value %d is not allowed!', 11)

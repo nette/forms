@@ -330,5 +330,4 @@ class Validator
 	{
 		return $value instanceof Nette\Http\FileUpload ? [$value] : (array) $value;
 	}
-
 }

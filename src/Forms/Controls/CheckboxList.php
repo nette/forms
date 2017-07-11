@@ -129,5 +129,4 @@ class CheckboxList extends MultiChoiceControl
 	{
 		return $this->itemLabel;
 	}
-
 }
