@@ -92,6 +92,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var callable[]  function (Form $sender); Occurs before the form is rendered */
 	public $onRender;
 
+	/** @var Nette\Http\IRequest  used only by standalone form */
+	public $httpRequest;
+
 	/** @var mixed or null meaning: not detected yet */
 	private $submittedBy;
 
@@ -112,9 +115,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/** @var array */
 	private $errors = [];
-
-	/** @var Nette\Http\IRequest  used only by standalone form */
-	public $httpRequest;
 
 	/** @var bool */
 	private $beforeRenderCalled;
@@ -629,7 +629,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			if (func_num_args()) {
 				throw $e;
 			}
-			trigger_error("Exception in " . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
+			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
 		}
 	}
 

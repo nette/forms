@@ -21,7 +21,7 @@ Debugger::enable();
 // Define custom validator
 class MyValidators
 {
-	static function divisibilityValidator($item, $arg)
+	public static function divisibilityValidator($item, $arg)
 	{
 		return $item->value % $arg === 0;
 	}

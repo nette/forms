@@ -41,12 +41,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var string */
 	public static $idMask = 'frm-%s';
 
-	/** @var callable[][]  extension methods */
-	private static $extMethods = [];
-
-	/** @var string|object textual caption or label */
-	private $caption;
-
 	/** @var mixed current control value */
 	protected $value;
 
@@ -56,11 +50,17 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var Html  label element template */
 	protected $label;
 
-	/** @var array */
-	private $errors = [];
-
 	/** @var bool */
 	protected $disabled = false;
+
+	/** @var callable[][]  extension methods */
+	private static $extMethods = [];
+
+	/** @var string|object textual caption or label */
+	private $caption;
+
+	/** @var array */
+	private $errors = [];
 
 	/** @var bool|null */
 	private $omitted;

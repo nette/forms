@@ -56,7 +56,6 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 	 *      \---
 	 *    \---
 	 *  \--
-	 *
 	 * @var array of HTML tags */
 	public $wrappers = [
 		'form' => [

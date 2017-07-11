@@ -207,7 +207,7 @@ class FormMacros extends MacroSet
 			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false); ?>';
 		} elseif ($tagName === 'label') {
 			if ($node->htmlNode->empty) {
-				$node->innerContent = "<?php echo \$_input->getLabelPart()->getHtml() ?>";
+				$node->innerContent = '<?php echo $_input->getLabelPart()->getHtml() ?>';
 			}
 		} elseif ($tagName === 'button') {
 			if ($node->htmlNode->empty) {

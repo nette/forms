@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_POST = ['name' => 'John Doe ','age' => '9.9','email' => '@','street' => '','city' => 'Troubsko','country' => '0','password' => 'xx','password2' => 'xx','note' => '','submit1' => 'Send','userid' => '231'];
+$_POST = ['name' => 'John Doe ', 'age' => '9.9', 'email' => '@', 'street' => '', 'city' => 'Troubsko', 'country' => '0', 'password' => 'xx', 'password2' => 'xx', 'note' => '', 'submit1' => 'Send', 'userid' => '231'];
 
 
 $countries = [
