@@ -50,11 +50,11 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var Html  label element template */
 	protected $label;
 
-	/** @var array */
-	private $errors = [];
-
 	/** @var bool */
 	protected $disabled = false;
+
+	/** @var array */
+	private $errors = [];
 
 	/** @var bool|null */
 	private $omitted;

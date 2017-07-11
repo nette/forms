@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements ITranslator
 {
-	function translate($message, $count = null)
+	public function translate($message, $count = null)
 	{
 		return strtoupper($message);
 	}

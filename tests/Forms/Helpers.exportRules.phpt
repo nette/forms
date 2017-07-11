@@ -31,7 +31,7 @@ test(function () {
 	$input = $form->addText('text');
 	$input->addRule(Form::EMAIL);
 	Assert::same([
-		['op' => ':email', 'msg' => 'Please enter a valid email address.']
+		['op' => ':email', 'msg' => 'Please enter a valid email address.'],
 	], Helpers::exportRules($input->getRules()));
 });
 

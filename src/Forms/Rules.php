@@ -344,4 +344,4 @@ class Rules implements \IteratorAggregate
 	}
 }
 
-Rules::$defaultMessages = & Validator::$messages;
+Rules::$defaultMessages = &Validator::$messages;
