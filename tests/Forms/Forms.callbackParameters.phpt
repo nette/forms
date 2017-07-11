@@ -61,5 +61,5 @@ $form->onValidate = [$f1, $f2, $f1, $f4, $f5];
 $form['btn']->onClick = [$b1, $b2, $b1, $f4, $f5];
 $form->fireEvents();
 
-Assert::same([TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE], $types);
-Assert::same([TRUE, TRUE, TRUE], $arrayHashIsImmutable);
+Assert::same([true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true], $types);
+Assert::same([true, true, true], $arrayHashIsImmutable);

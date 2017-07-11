@@ -29,7 +29,7 @@ Assert::match('<input type="hidden" name="_token_" value="%S%">', (string) $inpu
 Assert::true($input->getOption('rendered'));
 Assert::same('hidden', $input->getOption('type'));
 
-$input->setValue(NULL);
+$input->setValue(null);
 Assert::false(CsrfProtection::validateCsrf($input));
 
 call_user_func([$input, 'Nette\Forms\Controls\BaseControl::setValue'], '12345678901234567890123456789012345678');

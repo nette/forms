@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, int $count = NULL): string
+	function translate($s, int $count = null): string
 	{
 		return strtoupper($s);
 	}
@@ -64,7 +64,7 @@ test(function () { // Html with translator
 test(function () { // validation rule LENGTH
 	$form = new Form;
 	$input = $form->addTextArea('text')
-		->addRule($form::LENGTH, NULL, [10, 20]);
+		->addRule($form::LENGTH, null, [10, 20]);
 
 	Assert::same('<textarea name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\'></textarea>', (string) $input->getControl());
 });
@@ -73,8 +73,8 @@ test(function () { // validation rule LENGTH
 test(function () { // validation rule MAX_LENGTH
 	$form = new Form;
 	$input = $form->addTextArea('text')
-		->addRule($form::MAX_LENGTH, NULL, 30)
-		->addRule($form::MAX_LENGTH, NULL, 10);
+		->addRule($form::MAX_LENGTH, null, 30)
+		->addRule($form::MAX_LENGTH, null, 10);
 
 	Assert::same('<textarea name="text" maxlength="10" id="frm-text" data-nette-rules=\'[{"op":":maxLength","msg":"Please enter no more than 30 characters.","arg":30},{"op":":maxLength","msg":"Please enter no more than 10 characters.","arg":10}]\'></textarea>', (string) $input->getControl());
 });

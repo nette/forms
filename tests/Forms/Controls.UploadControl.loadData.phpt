@@ -47,11 +47,11 @@ $_FILES = [
 		'size' => [0],
 	],
 	'invalid1' => [
-		'name' => [NULL],
-		'type' => [NULL],
-		'tmp_name' => [NULL],
-		'error' => [NULL],
-		'size' => [NULL],
+		'name' => [null],
+		'type' => [null],
+		'tmp_name' => [null],
+		'error' => [null],
+		'size' => [null],
 	],
 	'invalid2' => '',
 	'partial' => [
@@ -201,7 +201,7 @@ test(function () { // partial uploaded (error)
 test(function () { // validators
 	$form = new Form;
 	$input = $form->addUpload('avatar')
-		->addRule($form::MAX_FILE_SIZE, NULL, 3000);
+		->addRule($form::MAX_FILE_SIZE, null, 3000);
 
 	Assert::false(Validator::validateFileSize($input, 3012));
 	Assert::true(Validator::validateFileSize($input, 3013));
@@ -220,7 +220,7 @@ test(function () { // validators
 test(function () { // validators on multiple files
 	$form = new Form;
 	$input = $form->addContainer('multiple')->addMultiUpload('avatar')
-		->addRule($form::MAX_FILE_SIZE, NULL, 3000);
+		->addRule($form::MAX_FILE_SIZE, null, 3000);
 
 	Assert::false(Validator::validateFileSize($input, 150));
 	Assert::true(Validator::validateFileSize($input, 300));

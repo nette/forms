@@ -21,7 +21,7 @@ class TextArea extends TextBase
 	/**
 	 * @param  string|object
 	 */
-	public function __construct($label = NULL)
+	public function __construct($label = null)
 	{
 		parent::__construct($label);
 		$this->control->setName('textarea');

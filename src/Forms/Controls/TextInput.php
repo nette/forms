@@ -22,7 +22,7 @@ class TextInput extends TextBase
 	/**
 	 * @param  string|object
 	 */
-	public function __construct($label = NULL, int $maxLength = NULL)
+	public function __construct($label = null, int $maxLength = null)
 	{
 		parent::__construct($label);
 		$this->control->maxlength = $maxLength;
@@ -75,19 +75,19 @@ class TextInput extends TextBase
 	/**
 	 * @return static
 	 */
-	public function addRule($validator, $errorMessage = NULL, $arg = NULL)
+	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
-		if ($this->control->type === NULL && in_array($validator, [Form::EMAIL, Form::URL, Form::INTEGER], TRUE)) {
+		if ($this->control->type === null && in_array($validator, [Form::EMAIL, Form::URL, Form::INTEGER], true)) {
 			static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
 			$this->control->type = $types[$validator];
 
-		} elseif (in_array($validator, [Form::MIN, Form::MAX, Form::RANGE], TRUE)
-			&& in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], TRUE)
+		} elseif (in_array($validator, [Form::MIN, Form::MAX, Form::RANGE], true)
+			&& in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], true)
 		) {
 			if ($validator === Form::MIN) {
-				$range = [$arg, NULL];
+				$range = [$arg, null];
 			} elseif ($validator === Form::MAX) {
-				$range = [NULL, $arg];
+				$range = [null, $arg];
 			} else {
 				$range = $arg;
 			}
@@ -99,7 +99,7 @@ class TextInput extends TextBase
 			}
 
 		} elseif ($validator === Form::PATTERN && is_scalar($arg)
-			&& in_array($this->control->type, [NULL, 'text', 'search', 'tel', 'url', 'email', 'password'], TRUE)
+			&& in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], true)
 		) {
 			$this->control->pattern = $arg;
 		}

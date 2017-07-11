@@ -39,14 +39,14 @@ $form = new Form;
 
 $renderer = $form->renderer;
 $renderer->wrappers['form']['container'] = Html::el('div')->id('form');
-$renderer->wrappers['form']['errors'] = FALSE;
-$renderer->wrappers['group']['container'] = NULL;
+$renderer->wrappers['form']['errors'] = false;
+$renderer->wrappers['group']['container'] = null;
 $renderer->wrappers['group']['label'] = 'h3';
-$renderer->wrappers['pair']['container'] = NULL;
+$renderer->wrappers['pair']['container'] = null;
 $renderer->wrappers['controls']['container'] = 'dl';
 $renderer->wrappers['control']['container'] = 'dd';
 $renderer->wrappers['control']['.odd'] = 'odd';
-$renderer->wrappers['control']['errors'] = TRUE;
+$renderer->wrappers['control']['errors'] = true;
 $renderer->wrappers['label']['container'] = 'dt';
 $renderer->wrappers['label']['suffix'] = ':';
 $renderer->wrappers['control']['requiredsuffix'] = " \u{2022}";
@@ -70,10 +70,10 @@ $form->addText('email', 'Email')
 
 
 $form->addGroup('Shipping address')
-	->setOption('embedNext', TRUE);
+	->setOption('embedNext', true);
 
 $form->addCheckbox('send', 'Ship to address')
-	->addCondition(Form::EQUAL, TRUE)
+	->addCondition(Form::EQUAL, true)
 		->toggle('sendBox');
 
 
@@ -83,12 +83,12 @@ $form->addGroup()
 $form->addText('street', 'Street');
 
 $form->addText('city', 'City')
-	->addConditionOn($form['send'], Form::EQUAL, TRUE)
+	->addConditionOn($form['send'], Form::EQUAL, true)
 		->addRule(Form::FILLED, 'Enter your shipping address');
 
 $form->addSelect('country', 'Country', $countries)
 	->setPrompt('Select your country')
-	->addConditionOn($form['send'], Form::EQUAL, TRUE)
+	->addConditionOn($form['send'], Form::EQUAL, true)
 		->addRule(Form::FILLED, 'Select your country');
 
 
@@ -125,4 +125,4 @@ $defaults = [
 $form->setDefaults($defaults);
 $form->fireEvents();
 
-Assert::matchFile(__DIR__ . '/Forms.renderer.2.expect', $form->__toString(TRUE));
+Assert::matchFile(__DIR__ . '/Forms.renderer.2.expect', $form->__toString(true));

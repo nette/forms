@@ -38,7 +38,7 @@ test(function () use ($series) { // invalid input
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
-	$input = $form['select'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['select'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same([], $input->getValue());
@@ -51,7 +51,7 @@ test(function () use ($series) { // multiple selected items, zero item
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
-	$input = $form['multi'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['multi'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same(['red-dwarf', 0], $input->getValue());
@@ -65,7 +65,7 @@ test(function () use ($series) { // empty key
 	$_POST = ['empty' => ['']];
 
 	$form = new Form;
-	$input = $form['empty'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['empty'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same([''], $input->getValue());
@@ -76,7 +76,7 @@ test(function () use ($series) { // empty key
 
 test(function () use ($series) { // missing key
 	$form = new Form;
-	$input = $form['missing'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['missing'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same([], $input->getValue());
@@ -89,7 +89,7 @@ test(function () use ($series) { // disabled key
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
-	$input = $form['disabled'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['disabled'] = new MultiChoiceControl(null, $series);
 	$input->setDisabled();
 
 	Assert::true($form->isValid());
@@ -98,10 +98,10 @@ test(function () use ($series) { // disabled key
 
 
 test(function () use ($series) { // malformed data
-	$_POST = ['malformed' => [[NULL]]];
+	$_POST = ['malformed' => [[null]]];
 
 	$form = new Form;
-	$input = $form['malformed'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['malformed'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
 	Assert::same([], $input->getValue());
@@ -115,7 +115,7 @@ test(function () use ($series) { // setItems without keys
 
 	$form = new Form;
 	$input = $form['multi'] = new MultiChoiceControl;
-	$input->setItems(array_keys($series), FALSE);
+	$input->setItems(array_keys($series), false);
 	Assert::same([
 		'red-dwarf' => 'red-dwarf',
 		'the-simpsons' => 'the-simpsons',
@@ -134,7 +134,7 @@ test(function () use ($series) { // validateLength
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
-	$input = $form['multi'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['multi'] = new MultiChoiceControl(null, $series);
 
 	Assert::true(Validator::validateLength($input, 2));
 	Assert::false(Validator::validateLength($input, 3));
@@ -147,7 +147,7 @@ test(function () use ($series) { // validateEqual
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
-	$input = $form['multi'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['multi'] = new MultiChoiceControl(null, $series);
 
 	Assert::true(Validator::validateEqual($input, ['red-dwarf', 0]));
 	Assert::false(Validator::validateEqual($input, 'unknown'));
@@ -158,8 +158,8 @@ test(function () use ($series) { // validateEqual
 
 test(function () use ($series) { // setValue() and invalid argument
 	$form = new Form;
-	$input = $form['select'] = new MultiChoiceControl(NULL, $series);
-	$input->setValue(NULL);
+	$input = $form['select'] = new MultiChoiceControl(null, $series);
+	$input->setValue(null);
 
 	Assert::exception(function () use ($input) {
 		$input->setValue('unknown');
@@ -167,7 +167,7 @@ test(function () use ($series) { // setValue() and invalid argument
 
 	Assert::exception(function () use ($input) {
 		$input->setValue(new stdClass);
-	}, Nette\InvalidArgumentException::class, "Value must be array or NULL, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Value must be array or null, object given in field 'select'.");
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([new stdClass]);
@@ -177,14 +177,14 @@ test(function () use ($series) { // setValue() and invalid argument
 
 test(function () use ($series) { // setValue() and disabled $checkAllowedValues
 	$form = new Form;
-	$input = $form['select'] = new MultiChoiceControl(NULL, $series);
-	$input->checkAllowedValues = FALSE;
+	$input = $form['select'] = new MultiChoiceControl(null, $series);
+	$input->checkAllowedValues = false;
 	$input->setValue('unknown');
 	Assert::same([], $input->getValue());
 
 	Assert::exception(function () use ($input) {
 		$input->setValue(new stdClass);
-	}, Nette\InvalidArgumentException::class, "Value must be array or NULL, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Value must be array or null, object given in field 'select'.");
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([new stdClass]);
@@ -194,7 +194,7 @@ test(function () use ($series) { // setValue() and disabled $checkAllowedValues
 
 test(function () { // object as value
 	$form = new Form;
-	$input = $form['select'] = new MultiChoiceControl(NULL, ['2013-07-05 00:00:00' => 1]);
+	$input = $form['select'] = new MultiChoiceControl(null, ['2013-07-05 00:00:00' => 1]);
 	$input->setValue([new DateTime('2013-07-05')]);
 
 	Assert::same(['2013-07-05 00:00:00'], $input->getValue());
@@ -205,13 +205,13 @@ test(function () use ($series) { // disabled one
 	$_POST = ['select' => ['red-dwarf', 0]];
 
 	$form = new Form;
-	$input = $form['select'] = new MultiChoiceControl(NULL, $series);
+	$input = $form['select'] = new MultiChoiceControl(null, $series);
 	$input->setDisabled(['red-dwarf']);
 
 	Assert::same([0], $input->getValue());
 
 	unset($form['select']);
-	$input = new Nette\Forms\Controls\MultiSelectBox(NULL, $series);
+	$input = new Nette\Forms\Controls\MultiSelectBox(null, $series);
 	$input->setDisabled(['red-dwarf']);
 	$form['select'] = $input;
 

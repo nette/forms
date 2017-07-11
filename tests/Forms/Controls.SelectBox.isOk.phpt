@@ -15,21 +15,21 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $form = new Form;
-$select = $form->addSelect('foo', NULL, ['bar' => 'Bar']);
+$select = $form->addSelect('foo', null, ['bar' => 'Bar']);
 
 Assert::false($select->isOk());
 
-$select->setDisabled(TRUE);
+$select->setDisabled(true);
 Assert::true($select->isOk());
-$select->setDisabled(FALSE);
+$select->setDisabled(false);
 
 $select->setPrompt('Empty');
 Assert::true($select->isOk());
-$select->setPrompt(FALSE);
+$select->setPrompt(false);
 
 $select->setValue('bar');
 Assert::true($select->isOk());
-$select->setValue(NULL);
+$select->setValue(null);
 
 $select->setItems([]);
 Assert::true($select->isOk());

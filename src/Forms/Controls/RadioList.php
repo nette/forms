@@ -23,7 +23,7 @@ use Nette\Utils\Html;
 class RadioList extends ChoiceControl
 {
 	/** @var bool */
-	public $generateId = FALSE;
+	public $generateId = false;
 
 	/** @var Html  separator element template */
 	protected $separator;
@@ -38,7 +38,7 @@ class RadioList extends ChoiceControl
 	/**
 	 * @param  string|object
 	 */
-	public function __construct($label = NULL, array $items = NULL)
+	public function __construct($label = null, array $items = null)
 	{
 		parent::__construct($label, $items);
 		$this->control->type = 'radio';
@@ -83,25 +83,25 @@ class RadioList extends ChoiceControl
 	 * Generates label's HTML element.
 	 * @param  string|object
 	 */
-	public function getLabel($caption = NULL): Html
+	public function getLabel($caption = null): Html
 	{
-		return parent::getLabel($caption)->for(NULL);
+		return parent::getLabel($caption)->for(null);
 	}
 
 
-	public function getControlPart($key = NULL): Html
+	public function getControlPart($key = null): Html
 	{
-		$key = key([(string) $key => NULL]);
+		$key = key([(string) $key => null]);
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
-			'checked' => in_array($key, (array) $this->value, TRUE),
+			'checked' => in_array($key, (array) $this->value, true),
 			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
 			'value' => $key,
 		]);
 	}
 
 
-	public function getLabelPart($key = NULL): Html
+	public function getLabelPart($key = null): Html
 	{
 		$itemLabel = clone $this->itemLabel;
 		return func_num_args()

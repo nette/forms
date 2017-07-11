@@ -56,10 +56,10 @@ $form->addEmail('email', 'Email:')
 
 
 $form->addGroup('Shipping address')
-	->setOption('embedNext', TRUE);
+	->setOption('embedNext', true);
 
 $form->addCheckbox('send', 'Ship to address')
-	->addCondition(Form::EQUAL, FALSE)
+	->addCondition(Form::EQUAL, false)
 	->elseCondition()
 		->toggle('sendBox');
 
@@ -70,12 +70,12 @@ $form->addGroup()
 $form->addText('street', 'Street:');
 
 $form->addText('city', 'City:')
-	->addConditionOn($form['send'], Form::EQUAL, TRUE)
+	->addConditionOn($form['send'], Form::EQUAL, true)
 		->addRule(Form::FILLED, 'Enter your shipping address');
 
 $form->addSelect('country', 'Country:', $countries)
 	->setPrompt('Select your country')
-	->addConditionOn($form['send'], Form::EQUAL, TRUE)
+	->addConditionOn($form['send'], Form::EQUAL, true)
 		->addRule(Form::FILLED, 'Select your country');
 
 $form->addSelect('countrySetItems', 'Country:')
@@ -121,4 +121,4 @@ $defaults = [
 $form->setDefaults($defaults);
 $form->fireEvents();
 
-Assert::matchFile(__DIR__ . '/Forms.renderer.1.expect', $form->__toString(TRUE));
+Assert::matchFile(__DIR__ . '/Forms.renderer.1.expect', $form->__toString(true));

@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, int $count = NULL): string
+	function translate($s, int $count = null): string
 	{
 		return strtoupper($s);
 	}
@@ -117,7 +117,7 @@ test(function () { // disabled all
 	$input = $form->addMultiSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	])->setDisabled(TRUE);
+	])->setDisabled(true);
 
 	Assert::same('<select name="list[]" id="frm-list" disabled multiple><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });

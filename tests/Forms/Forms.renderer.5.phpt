@@ -43,9 +43,9 @@ $container = createContainer();
 $container->addComponent(createContainer(), 'child');
 $form->addComponent($container, 'parent');
 
-$form->setCurrentGroup(NULL);
+$form->setCurrentGroup(null);
 $form->addSubmit('submit', 'Order');
 
 $form->fireEvents();
 
-Assert::matchFile(__DIR__ . '/Forms.renderer.5.expect', $form->__toString(TRUE));
+Assert::matchFile(__DIR__ . '/Forms.renderer.5.expect', $form->__toString(true));

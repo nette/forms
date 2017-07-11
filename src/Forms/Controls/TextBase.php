@@ -36,10 +36,10 @@ abstract class TextBase extends BaseControl
 	 */
 	public function setValue($value)
 	{
-		if ($value === NULL) {
+		if ($value === null) {
 			$value = '';
 		} elseif (!is_scalar($value) && !method_exists($value, '__toString')) {
-			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or NULL, %s given in field '%s'.", gettype($value), $this->name));
+			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
 		}
 		$this->value = $value;
 		$this->rawValue = (string) $value;
@@ -54,15 +54,15 @@ abstract class TextBase extends BaseControl
 	public function getValue()
 	{
 		$value = $this->value === Strings::trim($this->translate($this->emptyValue)) ? '' : $this->value;
-		return $this->nullable && $value === '' ? NULL : $value;
+		return $this->nullable && $value === '' ? null : $value;
 	}
 
 
 	/**
-	 * Sets whether getValue() returns NULL instead of empty string.
+	 * Sets whether getValue() returns null instead of empty string.
 	 * @return static
 	 */
-	public function setNullable(bool $value = TRUE)
+	public function setNullable(bool $value = true)
 	{
 		$this->nullable = $value;
 		return $this;
@@ -127,7 +127,7 @@ abstract class TextBase extends BaseControl
 	protected function getRenderedValue(): ?string
 	{
 		return $this->rawValue === ''
-			? ($this->emptyValue === '' ? NULL : $this->translate($this->emptyValue))
+			? ($this->emptyValue === '' ? null : $this->translate($this->emptyValue))
 			: $this->rawValue;
 	}
 
@@ -135,7 +135,7 @@ abstract class TextBase extends BaseControl
 	/**
 	 * @return static
 	 */
-	public function addRule($validator, $errorMessage = NULL, $arg = NULL)
+	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
 		if ($validator === Form::LENGTH || $validator === Form::MAX_LENGTH) {
 			$tmp = is_array($arg) ? $arg[1] : $arg;

@@ -89,6 +89,6 @@ test(function () { // invalid
 
 Assert::exception(function () {
 	$form = new Form;
-	$form->onSuccess = TRUE;
+	$form->onSuccess = true;
 	$form->fireEvents();
 }, Nette\UnexpectedValueException::class, 'Property Form::$onSuccess must be iterable, boolean given.');

@@ -66,7 +66,7 @@ class ControlGroup
 	public function removeOrphans(): void
 	{
 		foreach ($this->controls as $control) {
-			if (!$control->getForm(FALSE)) {
+			if (!$control->getForm(false)) {
 				$this->controls->detach($control);
 			}
 		}
@@ -95,7 +95,7 @@ class ControlGroup
 	 */
 	public function setOption(string $key, $value)
 	{
-		if ($value === NULL) {
+		if ($value === null) {
 			unset($this->options[$key]);
 
 		} else {
@@ -109,7 +109,7 @@ class ControlGroup
 	 * Returns user-specific option.
 	 * @return mixed
 	 */
-	public function getOption(string $key, $default = NULL)
+	public function getOption(string $key, $default = null)
 	{
 		return $this->options[$key] ?? $default;
 	}

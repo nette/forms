@@ -61,8 +61,8 @@ test(function () {
 		'<label><input value="a">First</label><br><label><input value="b">Second</label>',
 		Helpers::createInputList(
 			['a' => 'First', 'b' => 'Second'],
-			NULL,
-			NULL,
+			null,
+			null,
 			'<br>'
 		)
 	);
@@ -71,8 +71,8 @@ test(function () {
 		'<div><label><input value="a">First</label></div><div><label><input value="b">Second</label></div>',
 		Helpers::createInputList(
 			['a' => 'First', 'b' => 'Second'],
-			NULL,
-			NULL,
+			null,
+			null,
 			Html::el('div')
 		)
 	);
@@ -81,9 +81,9 @@ test(function () {
 		'<label><input value="a">First</label><label><input value="b">Second</label>',
 		Helpers::createInputList(
 			['a' => 'First', 'b' => 'Second'],
-			NULL,
-			NULL,
-			Html::el(NULL)
+			null,
+			null,
+			Html::el(null)
 		)
 	);
 });

@@ -31,6 +31,6 @@ Assert::match('<form action="link" method="get">
 </table>
 
 <input type="hidden" name="userid" value=""><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
-</form>', $form->__toString(TRUE));
+</form>', $form->__toString(true));
 
 Assert::same('link?a=b&c[]=d', $form->getAction());

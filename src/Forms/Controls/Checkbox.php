@@ -25,7 +25,7 @@ class Checkbox extends BaseControl
 	/**
 	 * @param  string|object
 	 */
-	public function __construct($label = NULL)
+	public function __construct($label = null)
 	{
 		parent::__construct($label);
 		$this->control->type = 'checkbox';
@@ -41,8 +41,8 @@ class Checkbox extends BaseControl
 	 */
 	public function setValue($value)
 	{
-		if (!is_scalar($value) && $value !== NULL) {
-			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or NULL, %s given in field '%s'.", gettype($value), $this->name));
+		if (!is_scalar($value) && $value !== null) {
+			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
 		}
 		$this->value = (bool) $value;
 		return $this;
@@ -54,7 +54,7 @@ class Checkbox extends BaseControl
 	 */
 	public function isFilled(): bool
 	{
-		return $this->getValue() !== FALSE; // back compatibility
+		return $this->getValue() !== false; // back compatibility
 	}
 
 
@@ -70,7 +70,7 @@ class Checkbox extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = NULL): void
+	public function getLabel($caption = null): void
 	{
 	}
 

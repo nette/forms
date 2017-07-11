@@ -48,28 +48,28 @@ class Validator
 
 
 	/** @internal */
-	public static function formatMessage(Rule $rule, bool $withValue = TRUE)
+	public static function formatMessage(Rule $rule, bool $withValue = true)
 	{
 		$message = $rule->message;
 		if ($message instanceof Nette\Utils\IHtmlString) {
 			return $message;
 
-		} elseif ($message === NULL && is_string($rule->validator) && isset(static::$messages[$rule->validator])) {
+		} elseif ($message === null && is_string($rule->validator) && isset(static::$messages[$rule->validator])) {
 			$message = static::$messages[$rule->validator];
 
-		} elseif ($message == NULL) { // intentionally ==
+		} elseif ($message == null) { // intentionally ==
 			trigger_error("Missing validation message for control '{$rule->control->getName()}'.", E_USER_WARNING);
 		}
 
 		if ($translator = $rule->control->getForm()->getTranslator()) {
-			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : NULL);
+			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : null);
 		}
 
 		$message = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function ($m) use ($rule, $withValue) {
 			static $i = -1;
 			switch ($m[1]) {
 				case 'name': return $rule->control->getName();
-				case 'label': return $rule->control instanceof Controls\BaseControl ? $rule->control->translate($rule->control->getCaption()) : NULL;
+				case 'label': return $rule->control instanceof Controls\BaseControl ? $rule->control->translate($rule->control->getCaption()) : null;
 				case 'value': return $withValue ? $rule->control->getValue() : $m[0];
 				default:
 					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
@@ -96,9 +96,9 @@ class Validator
 					continue 2;
 				}
 			}
-			return FALSE;
+			return false;
 		}
-		return TRUE;
+		return true;
 	}
 
 
@@ -153,7 +153,7 @@ class Validator
 	public static function validateRange(IControl $control, array $range): bool
 	{
 		$range = array_map(function ($v) {
-			return $v === '' ? NULL : $v;
+			return $v === '' ? null : $v;
 		}, $range);
 		return Validators::isInRange($control->getValue(), $range);
 	}
@@ -164,7 +164,7 @@ class Validator
 	 */
 	public static function validateMin(IControl $control, $minimum): bool
 	{
-		return Validators::isInRange($control->getValue(), [$minimum === '' ? NULL : $minimum, NULL]);
+		return Validators::isInRange($control->getValue(), [$minimum === '' ? null : $minimum, null]);
 	}
 
 
@@ -173,7 +173,7 @@ class Validator
 	 */
 	public static function validateMax(IControl $control, $maximum): bool
 	{
-		return Validators::isInRange($control->getValue(), [NULL, $maximum === '' ? NULL : $maximum]);
+		return Validators::isInRange($control->getValue(), [null, $maximum === '' ? null : $maximum]);
 	}
 
 
@@ -196,7 +196,7 @@ class Validator
 	 */
 	public static function validateMinLength(IControl $control, $length): bool
 	{
-		return static::validateLength($control, [$length, NULL]);
+		return static::validateLength($control, [$length, null]);
 	}
 
 
@@ -205,7 +205,7 @@ class Validator
 	 */
 	public static function validateMaxLength(IControl $control, $length): bool
 	{
-		return static::validateLength($control, [NULL, $length]);
+		return static::validateLength($control, [null, $length]);
 	}
 
 
@@ -233,13 +233,13 @@ class Validator
 	public static function validateUrl(IControl $control): bool
 	{
 		if (Validators::isUrl($value = $control->getValue())) {
-			return TRUE;
+			return true;
 
 		} elseif (Validators::isUrl($value = "http://$value")) {
 			$control->setValue($value);
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 
@@ -261,9 +261,9 @@ class Validator
 			if (!is_float($tmp = $value * 1)) { // bigint leave as string
 				$control->setValue($tmp);
 			}
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 
@@ -275,9 +275,9 @@ class Validator
 		$value = str_replace([' ', ','], ['', '.'], $control->getValue());
 		if (Validators::isNumeric($value)) {
 			$control->setValue((float) $value);
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 
@@ -288,10 +288,10 @@ class Validator
 	{
 		foreach (static::toArray($control->getValue()) as $file) {
 			if ($file->getSize() > $limit || $file->getError() === UPLOAD_ERR_INI_SIZE) {
-				return FALSE;
+				return false;
 			}
 		}
-		return TRUE;
+		return true;
 	}
 
 
@@ -304,11 +304,11 @@ class Validator
 		$mimeTypes = is_array($mimeType) ? $mimeType : explode(',', $mimeType);
 		foreach (static::toArray($control->getValue()) as $file) {
 			$type = strtolower($file->getContentType());
-			if (!in_array($type, $mimeTypes, TRUE) && !in_array(preg_replace('#/.*#', '/*', $type), $mimeTypes, TRUE)) {
-				return FALSE;
+			if (!in_array($type, $mimeTypes, true) && !in_array(preg_replace('#/.*#', '/*', $type), $mimeTypes, true)) {
+				return false;
 			}
 		}
-		return TRUE;
+		return true;
 	}
 
 
@@ -319,10 +319,10 @@ class Validator
 	{
 		foreach (static::toArray($control->getValue()) as $file) {
 			if (!$file->isImage()) {
-				return FALSE;
+				return false;
 			}
 		}
-		return TRUE;
+		return true;
 	}
 
 

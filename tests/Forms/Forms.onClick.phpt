@@ -106,6 +106,6 @@ test(function () { // invalid
 
 Assert::exception(function () {
 	$form = new Form;
-	$form->addSubmit('btn')->onClick = TRUE;
+	$form->addSubmit('btn')->onClick = true;
 	$form->fireEvents();
 }, Nette\UnexpectedValueException::class, "Property \$onClick in button 'btn' must be iterable, boolean given.");

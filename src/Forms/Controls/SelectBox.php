@@ -24,13 +24,13 @@ class SelectBox extends ChoiceControl
 	private $options = [];
 
 	/** @var mixed */
-	private $prompt = FALSE;
+	private $prompt = false;
 
 	/** @var array */
 	private $optionAttributes = [];
 
 
-	public function __construct($label = NULL, array $items = NULL)
+	public function __construct($label = null, array $items = null)
 	{
 		parent::__construct($label, $items);
 		$this->setOption('type', 'select');
@@ -65,7 +65,7 @@ class SelectBox extends ChoiceControl
 	 * Sets options and option groups from which to choose.
 	 * @return static
 	 */
-	public function setItems(array $items, bool $useKeys = TRUE)
+	public function setItems(array $items, bool $useKeys = true)
 	{
 		if (!$useKeys) {
 			$res = [];
@@ -82,7 +82,7 @@ class SelectBox extends ChoiceControl
 			$items = $res;
 		}
 		$this->options = $items;
-		return parent::setItems(Nette\Utils\Arrays::flatten($items, TRUE));
+		return parent::setItems(Nette\Utils\Arrays::flatten($items, true));
 	}
 
 
@@ -91,7 +91,7 @@ class SelectBox extends ChoiceControl
 	 */
 	public function getControl(): Nette\Utils\Html
 	{
-		$items = $this->prompt === FALSE ? [] : ['' => $this->translate($this->prompt)];
+		$items = $this->prompt === false ? [] : ['' => $this->translate($this->prompt)];
 		foreach ($this->options as $key => $value) {
 			$items[is_array($value) ? $this->translate($key) : $key] = $this->translate($value);
 		}
@@ -99,7 +99,7 @@ class SelectBox extends ChoiceControl
 		return Nette\Forms\Helpers::createSelectBox(
 			$items,
 			[
-				'disabled:' => is_array($this->disabled) ? $this->disabled : NULL,
+				'disabled:' => is_array($this->disabled) ? $this->disabled : null,
 			] + $this->optionAttributes,
 			$this->value
 		)->addAttributes(parent::getControl()->attrs);
@@ -119,8 +119,8 @@ class SelectBox extends ChoiceControl
 	public function isOk(): bool
 	{
 		return $this->isDisabled()
-			|| $this->prompt !== FALSE
-			|| $this->getValue() !== NULL
+			|| $this->prompt !== false
+			|| $this->getValue() !== null
 			|| !$this->options
 			|| $this->control->size > 1;
 	}
