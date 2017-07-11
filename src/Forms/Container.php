@@ -21,14 +21,14 @@ use Nette;
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
-	/** @var callable[]  extension methods */
-	private static $extMethods = [];
-
 	/** @var callable[]  function (Container $sender); Occurs when the form is validated */
 	public $onValidate;
 
 	/** @var ControlGroup|null */
 	protected $currentGroup;
+
+	/** @var callable[]  extension methods */
+	private static $extMethods = [];
 
 	/** @var bool */
 	private $validated;
