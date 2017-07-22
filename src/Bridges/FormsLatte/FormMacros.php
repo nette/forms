@@ -163,6 +163,11 @@ class FormMacros extends MacroSet
 		$tagName = strtolower($node->htmlNode->name);
 		$node->empty = $tagName === 'input';
 
+		$definedHtmlAttributes = array_keys($node->htmlNode->attrs);
+		if (isset($node->htmlNode->macroAttrs['class'])) {
+			$definedHtmlAttributes[] = 'class';
+		}
+
 		if ($tagName === 'form') {
 			$node->openingCode = $writer->write(
 				'<?php $form = $_form = $this->global->formsStack[] = '
@@ -172,17 +177,17 @@ class FormMacros extends MacroSet
 			);
 			return $writer->write(
 				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), %0.var, false)',
-				array_fill_keys(array_keys($node->htmlNode->attrs), null)
+				array_fill_keys($definedHtmlAttributes, null)
 			);
 		} else {
 			$method = $tagName === 'label' ? 'getLabel' : 'getControl';
 			return $writer->write(
 				'$_input = ' . ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
 					. 'end($this->global->formsStack)[%0.word]; echo $_input->%1.raw'
-					. ($node->htmlNode->attrs ? '->addAttributes(%2.var)' : '') . '->attributes()',
+					. ($definedHtmlAttributes ? '->addAttributes(%2.var)' : '') . '->attributes()',
 				$name,
 				$method . 'Part(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')',
-				array_fill_keys(array_keys($node->htmlNode->attrs), null)
+				array_fill_keys($definedHtmlAttributes, null)
 			);
 		}
 	}
