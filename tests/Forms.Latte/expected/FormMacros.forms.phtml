@@ -203,6 +203,24 @@
 
 
 <?php
+		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
+		?><form<?php
+		if ($_tmp = array_filter(['nclass'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"';
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
+		'class' => NULL,
+		), false) ?>>
+	<input<?php
+		$_input = end($this->global->formsStack)["username"];
+		echo $_input->getControlPart()->addAttributes(array (
+		'class' => NULL,
+		))->attributes();
+		if ($_tmp = array_filter(['nclass'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+<?php
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
+?></form>
+
+
+<?php
 		$form = $_form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']];
 		?><FORM<?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
@@ -220,7 +238,7 @@
 		echo $_input->getControlPart()->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></select>
 
 
-<textarea title="<?php echo LR\Filters::escapeHtmlAttr(10) /* line 71 */ ?>"<?php
+<textarea title="<?php echo LR\Filters::escapeHtmlAttr(10) /* line 76 */ ?>"<?php
 		$_input = end($this->global->formsStack)["area"];
 		echo $_input->getControlPart()->addAttributes(array (
 		'title' => NULL,

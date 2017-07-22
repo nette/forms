@@ -30,8 +30,10 @@ class MyControl extends Nette\Forms\Controls\BaseControl
 
 
 $form = new Form;
+$form->getElementPrototype()->addClass('form-class');
 $form->addHidden('id');
 $form->addText('username', 'Username:'); // must have just one textfield to generate IE fix
+$form['username']->getControlPrototype()->addClass('control-class');
 $form->addRadioList('sex', 'Sex:', ['m' => 'male', 'f' => 'female']);
 $form->addSelect('select', null, ['m' => 'male', 'f' => 'female']);
 $form->addTextArea('area', null)->setValue('one<two');
