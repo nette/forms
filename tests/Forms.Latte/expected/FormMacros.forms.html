@@ -1,4 +1,4 @@
-<form action="" method="post" id="myForm" class="ajax">
+<form action="" method="post" class="ajax" id="myForm">
 
 		<input type="hidden" name="id" value="" title="Hello" size="10">
 
@@ -9,13 +9,13 @@
 		 <input type="hidden" name="id" value="" title="Hello" size="10">
 
 		<label for="frm-username">Username:</label>
-		<input type="text" name="username" size="10" id="frm-username" title="Hello">
+		<input type="text" name="username" size="10" class="control-class" id="frm-username" title="Hello">
 		error
 		error
 
 		<br>
 
-		<label for="frm-username" title="hello"> <input type="text" name="username" size="10" id="frm-username" title="Hello"> </label>
+		<label for="frm-username" title="hello"> <input type="text" name="username" size="10" class="control-class" id="frm-username" title="Hello"> </label>
 		error
 		<label for="frm-select"></label>
 		<select name="select" size="10" id="frm-select" title="Hello"><option value="m">male</option><option value="f">female</option></select>
@@ -52,7 +52,7 @@
 
 	<label for="frm-username"></label>
 	<label for="frm-username">Username:</label>
-	<input type="text" name="username" id="frm-username">
+	<input type="text" name="username" class="control-class" id="frm-username">
 
 	<label>My</label><input name=My>
 <!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
@@ -60,11 +60,11 @@
 
 
 
-<form action="" method="post"><input type="hidden" name="id" value=""><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
+<form action="" method="post" class="form-class"><input type="hidden" name="id" value=""><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>
 
 
-<form action="" method="post">
+<form action="" method="post" class="form-class">
 	<label for="frm-sex-m"> <input type="radio" name="sex" id="frm-sex-m" value="m"> male</label>
 	<label title=hello for="frm-sex-m"> <input type="radio" name="sex" id="frm-sex-m" value="m"> </label>
 	<label for="frm-sex-f"> <input type="radio" name="sex" id="frm-sex-f" value="f"> female</label>
@@ -91,13 +91,19 @@
 
 
 <form id="myForm" class="ajax" action="" method="post">
-	<input type="text" name="username" id="frm-username">
+	<input type="text" name="username" class="control-class" id="frm-username">
 <input type="hidden" name="id" value=""><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>
 
 
-<FORM action="" method="post">
-	<input type="text" name="username" id="frm-username">
+<form class="nclass" action="" method="post">
+	<input type="text" name="username" id="frm-username" class="nclass">
+<input type="hidden" name="id" value=""><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
+</form>
+
+
+<FORM action="" method="post" class="form-class">
+	<input type="text" name="username" class="control-class" id="frm-username">
 <input type="hidden" name="id" value=""><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </FORM>
 
