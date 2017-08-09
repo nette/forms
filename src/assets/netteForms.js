@@ -452,6 +452,13 @@
 			} catch (e) {}
 		},
 
+		numeric: function(elem, arg, val) {
+			if (elem.type === 'number' && elem.validity.badInput) {
+				return false;
+			}
+			return (/^[0-9]+$/).test(val);
+		},
+
 		integer: function(elem, arg, val) {
 			if (elem.type === 'number' && elem.validity.badInput) {
 				return false;

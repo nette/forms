@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 $form = new Form;
-$form->addText('name')->addRule($form::NUMERIC);
+$form->addText('name')->addRule($form::INTEGER);
 
 $form->onValidate[] = function (Container $container) {
 	$container['name']->addError('fail 1');

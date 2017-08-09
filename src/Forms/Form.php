@@ -47,7 +47,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		URL = ':url',
 		PATTERN = ':pattern',
 		INTEGER = ':integer',
-		NUMERIC = ':integer',
+		NUMERIC = ':numeric',
 		FLOAT = ':float',
 		MIN = ':min',
 		MAX = ':max',

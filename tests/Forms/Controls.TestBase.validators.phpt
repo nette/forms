@@ -97,6 +97,28 @@ test(function () {
 test(function () {
 	$control = new TextInput();
 	$control->value = '';
+	Assert::false(Validator::validateNumeric($control));
+	Assert::same('', $control->value);
+
+	$control->value = '123';
+	Assert::true(Validator::validateNumeric($control));
+	Assert::same('123', $control->value);
+
+	$control->value = '0123';
+	Assert::true(Validator::validateNumeric($control));
+	Assert::same('0123', $control->value);
+
+	$control->value = '-123';
+	Assert::false(Validator::validateNumeric($control));
+
+	$control->value = '123.5';
+	Assert::false(Validator::validateNumeric($control));
+});
+
+
+test(function () {
+	$control = new TextInput();
+	$control->value = '';
 	Assert::false(Validator::validateInteger($control));
 	Assert::same('', $control->value);
 

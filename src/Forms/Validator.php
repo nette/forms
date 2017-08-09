@@ -253,6 +253,15 @@ class Validator
 
 
 	/**
+	 * Is a control's value numeric?
+	 */
+	public static function validateNumeric(IControl $control): bool
+	{
+		return (bool) Strings::match($control->getValue(), '#^\d+\z#');
+	}
+
+
+	/**
 	 * Is a control's value decimal number?
 	 */
 	public static function validateInteger(IControl $control): bool
