@@ -17,7 +17,7 @@ $_SERVER['REQUEST_METHOD'] = 'POST';
 $_POST['text'] = 'a';
 $_POST['btn'] = 'b';
 
-$form = new Form();
+$form = new Form;
 $form->addText('text');
 $form->addSubmit('btn');
 
