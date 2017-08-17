@@ -442,6 +442,18 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 
 	/**
+	 * Resets form.
+	 * @return static
+	 */
+	public function reset()
+	{
+		$this->setSubmittedBy(null);
+		$this->setValues([], true);
+		return $this;
+	}
+
+
+	/**
 	 * Internal: returns submitted HTTP data or null when form was not submitted.
 	 */
 	protected function receiveHttpData(): ?array

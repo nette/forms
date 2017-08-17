@@ -76,3 +76,86 @@ Assert::equal(ArrayHash::from([
 		'name' => '',
 	]),
 ]), $form->getValues());
+
+
+$form->setValues([
+	'name' => 'new1',
+	'first' => [
+		'name' => 'new2',
+	],
+]);
+
+Assert::truthy($form->isSubmitted());
+Assert::equal(ArrayHash::from([
+	'name' => 'new1',
+	'first' => ArrayHash::from([
+		'name' => 'new2',
+		'age' => '40',
+		'second' => ArrayHash::from([
+			'name' => 'david',
+		]),
+	]),
+	'invalid' => ArrayHash::from([
+		'name' => '',
+	]),
+]), $form->getValues());
+
+
+$form->setValues([
+	'name' => 'new1',
+	'first' => [
+		'name' => 'new2',
+	],
+], true);
+
+Assert::truthy($form->isSubmitted());
+Assert::equal(ArrayHash::from([
+	'name' => 'new1',
+	'first' => ArrayHash::from([
+		'name' => 'new2',
+		'age' => '',
+		'second' => ArrayHash::from([
+			'name' => '',
+		]),
+	]),
+	'invalid' => ArrayHash::from([
+		'name' => '',
+	]),
+]), $form->getValues());
+
+
+$form->reset();
+
+Assert::false($form->isSubmitted());
+Assert::equal(ArrayHash::from([
+	'name' => '',
+	'first' => ArrayHash::from([
+		'name' => '',
+		'age' => '',
+		'second' => ArrayHash::from([
+			'name' => '',
+		]),
+	]),
+	'invalid' => ArrayHash::from([
+		'name' => '',
+	]),
+]), $form->getValues());
+
+
+$form->setDefaults([
+	'name' => 'new3',
+]);
+
+Assert::equal(ArrayHash::from([
+	'name' => 'new3',
+	'first' => ArrayHash::from([
+		'name' => '',
+		'age' => '',
+		'second' => ArrayHash::from([
+			'name' => '',
+		]),
+	]),
+	'invalid' => ArrayHash::from([
+		'name' => '',
+	]),
+]), $form->getValues());
