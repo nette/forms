@@ -81,8 +81,8 @@ class HiddenField extends BaseControl
 	 * @param  string|object
 	 * @return void
 	 */
-	public function addError($message)
+	public function addError($message, $translate = true)
 	{
-		$this->getForm()->addError($message);
+		$this->getForm()->addError($message, $translate);
 	}
 }

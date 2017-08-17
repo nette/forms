@@ -504,9 +504,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * @param  string|object
 	 * @return void
 	 */
-	public function addError($message)
+	public function addError($message, $translate = true)
 	{
-		$this->errors[] = $message;
+		$this->errors[] = $translate ? $this->translate($message) : $message;
 	}
 
 
