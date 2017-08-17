@@ -79,8 +79,8 @@ class HiddenField extends BaseControl
 	 * Adds error message to the list.
 	 * @param  string|object
 	 */
-	public function addError($message): void
+	public function addError($message, bool $translate = true): void
 	{
-		$this->getForm()->addError($message);
+		$this->getForm()->addError($message, $translate);
 	}
 }

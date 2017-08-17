@@ -228,7 +228,7 @@ class Rules implements \IteratorAggregate
 				return false;
 
 			} elseif (!$success && !$rule->branch) {
-				$rule->control->addError(Validator::formatMessage($rule, true));
+				$rule->control->addError(Validator::formatMessage($rule, true), false);
 				return false;
 			}
 		}

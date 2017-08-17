@@ -72,10 +72,10 @@ test(function () {
 
 	$name = $form->addText('name', 'Your name');
 	$name->addError('Error message');
-	$name->addError($w = new StringWrapper('Your name'));
+	$name->addError(new StringWrapper('Your name'));
 	Assert::same([
 		'Error message',
-		$w,
+		'StringWrapper',
 	], $name->getErrors());
 });
 
