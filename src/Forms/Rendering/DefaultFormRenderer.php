@@ -222,8 +222,10 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 		foreach ($errors as $error) {
 			$item = clone $item;
-			if ($error instanceof IHtmlString) {
+			if ($error instanceof Html) {
 				$item->addHtml($error);
+			} elseif ($error instanceof IHtmlString) {
+				$item->addHtml((string) $error);
 			} else {
 				$item->setText($error);
 			}
