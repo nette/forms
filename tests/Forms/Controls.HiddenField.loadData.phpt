@@ -81,3 +81,12 @@ test(function () { // persistent
 
 	Assert::same('persistent', $input->getValue());
 });
+
+
+test(function () { // nullable
+	$form = new Form;
+	$input = $form['hidden'] = new Nette\Forms\Controls\HiddenField();
+	$input->setNullable();
+
+	Assert::null($input->getValue());
+});
