@@ -285,9 +285,13 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Adds control that allows the user to upload files.
 	 * @param  string|object $label
 	 */
-	public function addUpload(string $name, $label = null, bool $multiple = false): Controls\UploadControl
+	public function addUpload(string $name, $label = null): Controls\UploadControl
 	{
-		return $this[$name] = new Controls\UploadControl($label, $multiple);
+		if (func_num_args() > 2) {
+			trigger_error(__METHOD__ . '() parameter $multiple is deprecated, use addMultiUpload()', E_USER_DEPRECATED);
+			$multiple = func_get_arg(2);
+		}
+		return $this[$name] = new Controls\UploadControl($label, $multiple ?? false);
 	}
 
 
