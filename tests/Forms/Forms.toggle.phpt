@@ -24,8 +24,8 @@ test(function () { // AND
 				->toggle('b');
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => FALSE,
+		'a' => false,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -41,8 +41,8 @@ test(function () {
 				->toggle('b');
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => FALSE,
+		'a' => false,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -58,8 +58,8 @@ test(function () {
 				->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => FALSE,
+		'a' => true,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -75,8 +75,8 @@ test(function () {
 				->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => TRUE,
+		'a' => true,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -93,8 +93,8 @@ test(function () { // OR
 			->toggle('b');
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => FALSE,
+		'a' => false,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -111,8 +111,8 @@ test(function () {
 			->toggle('b');
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => TRUE,
+		'a' => false,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -129,8 +129,8 @@ test(function () {
 			->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => FALSE,
+		'a' => true,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -147,8 +147,8 @@ test(function () {
 			->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => TRUE,
+		'a' => true,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -163,8 +163,8 @@ test(function () { // OR & two components
 			->toggle('b');
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => FALSE,
+		'a' => false,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -179,8 +179,8 @@ test(function () {
 			->toggle('b');
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => TRUE,
+		'a' => false,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -195,8 +195,8 @@ test(function () {
 			->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => FALSE,
+		'a' => true,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -211,8 +211,8 @@ test(function () {
 			->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => TRUE,
+		'a' => true,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -227,7 +227,7 @@ test(function () { // OR & multiple used ID
 			->toggle('a');
 
 	Assert::same([
-		'a' => FALSE,
+		'a' => false,
 	], $form->getToggles());
 });
 
@@ -242,7 +242,7 @@ test(function () {
 			->toggle('a');
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
@@ -257,7 +257,7 @@ test(function () {
 			->toggle('a');
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
@@ -272,7 +272,7 @@ test(function () {
 			->toggle('a');
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
@@ -288,7 +288,7 @@ test(function () { // AND & multiple used ID
 				->toggle('a');
 
 	Assert::same([
-		'a' => FALSE,
+		'a' => false,
 	], $form->getToggles());
 });
 
@@ -304,7 +304,7 @@ test(function () {
 				->toggle('a');
 
 	Assert::same([
-		'a' => FALSE,
+		'a' => false,
 	], $form->getToggles());
 });
 
@@ -320,7 +320,7 @@ test(function () {
 				->toggle('a');
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
@@ -336,24 +336,24 @@ test(function () {
 				->toggle('a');
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
 
-test(function () { // $hide = FALSE
+test(function () { // $hide = false
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
 		->addConditionOn($form['1'], Form::EQUAL, 'x')
-			->toggle('a', FALSE)
+			->toggle('a', false)
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => FALSE,
+		'a' => true,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -364,13 +364,13 @@ test(function () {
 	$form->addText('2');
 	$form->addText('3')
 		->addConditionOn($form['1'], Form::EQUAL, 'x')
-			->toggle('a', FALSE)
+			->toggle('a', false)
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
-				->toggle('b', FALSE);
+				->toggle('b', false);
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => TRUE,
+		'a' => true,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -381,13 +381,13 @@ test(function () {
 	$form->addText('2');
 	$form->addText('3')
 		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
-			->toggle('a', FALSE)
+			->toggle('a', false)
 			->addConditionOn($form['2'], Form::EQUAL, 'x')
-				->toggle('b', FALSE);
+				->toggle('b', false);
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => TRUE,
+		'a' => false,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -396,14 +396,14 @@ test(function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
-			->toggle('a', FALSE);
+			->toggle('a', false);
 	$form->addText('2')
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => TRUE,
+		'a' => true,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -415,11 +415,11 @@ test(function () {
 			->toggle('a');
 	$form->addText('2')
 		->addCondition(Form::NOT_EQUAL, 'x')
-			->toggle('b', FALSE);
+			->toggle('b', false);
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => FALSE,
+		'a' => false,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -428,30 +428,30 @@ test(function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
-			->toggle('a', FALSE);
+			->toggle('a', false);
 	$form->addText('2')
 		->addCondition(Form::EQUAL, 'x')
-			->toggle('b', FALSE);
+			->toggle('b', false);
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => TRUE,
+		'a' => true,
+		'b' => true,
 	], $form->getToggles());
 });
 
 
-test(function () { // $hide = FALSE & multiple used ID
+test(function () { // $hide = false & multiple used ID
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
 		->addConditionOn($form['1'], Form::EQUAL, 'x')
-			->toggle('a', FALSE)
+			->toggle('a', false)
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
 				->toggle('a');
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
@@ -462,12 +462,12 @@ test(function () {
 	$form->addText('2');
 	$form->addText('3')
 		->addConditionOn($form['1'], Form::EQUAL, 'x')
-			->toggle('a', FALSE)
+			->toggle('a', false)
 			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
-				->toggle('a', FALSE);
+				->toggle('a', false);
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
@@ -478,12 +478,12 @@ test(function () {
 	$form->addText('2');
 	$form->addText('3')
 		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
-			->toggle('a', FALSE)
+			->toggle('a', false)
 			->addConditionOn($form['2'], Form::EQUAL, 'x')
-				->toggle('a', FALSE);
+				->toggle('a', false);
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
@@ -492,14 +492,14 @@ test(function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
-			->toggle('a', FALSE);
+			->toggle('a', false);
 	$form->addText('2')
 		->addCondition(Form::NOT_EQUAL, 'x')
 			->toggle('b');
 
 	Assert::same([
-		'a' => TRUE,
-		'b' => TRUE,
+		'a' => true,
+		'b' => true,
 	], $form->getToggles());
 });
 
@@ -511,11 +511,11 @@ test(function () {
 			->toggle('a');
 	$form->addText('2')
 		->addCondition(Form::NOT_EQUAL, 'x')
-			->toggle('b', FALSE);
+			->toggle('b', false);
 
 	Assert::same([
-		'a' => FALSE,
-		'b' => FALSE,
+		'a' => false,
+		'b' => false,
 	], $form->getToggles());
 });
 
@@ -524,13 +524,13 @@ test(function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
-			->toggle('a', FALSE);
+			->toggle('a', false);
 	$form->addText('2')
 		->addCondition(Form::EQUAL, 'x')
-			->toggle('a', FALSE);
+			->toggle('a', false);
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });
 
@@ -539,12 +539,12 @@ test(function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
-			->toggle('a', FALSE);
+			->toggle('a', false);
 	$form->addText('2')
 		->addCondition(Form::NOT_EQUAL, 'x')
-			->toggle('a', FALSE);
+			->toggle('a', false);
 
 	Assert::same([
-		'a' => TRUE,
+		'a' => true,
 	], $form->getToggles());
 });

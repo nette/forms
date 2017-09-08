@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use Nette\Forms\Form;
@@ -13,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 test(function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->addCondition(FALSE)
+	$input->addCondition(false)
 		->setRequired();
 
 	$rules = $input->getRules();
@@ -30,7 +29,7 @@ test(function () {
 test(function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->addCondition(TRUE)
+	$input->addCondition(true)
 		->setRequired();
 
 	$rules = $input->getRules();

@@ -30,4 +30,4 @@ Assert::match('<form action="" method="post">
 </table>
 
 <input type="hidden" name="userid" value=""><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
-</form>', $form->__toString(TRUE));
+</form>', $form->__toString(true));

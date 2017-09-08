@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements \Nette\Localization\ITranslator
 {
-	function translate($message, int $count = NULL): string
+	public function translate($message, int $count = null): string
 	{
 		return is_object($message) ? get_class($message) : $message;
 	}
@@ -25,10 +25,12 @@ class StringWrapper
 {
 	public $message;
 
+
 	public function __construct($message)
 	{
 		$this->message = $message;
 	}
+
 
 	public function __toString()
 	{
@@ -70,10 +72,10 @@ test(function () {
 
 	$name = $form->addText('name', 'Your name');
 	$name->addError('Error message');
-	$name->addError($w = new StringWrapper('Your name'));
+	$name->addError(new StringWrapper('Your name'));
 	Assert::same([
 		'Error message',
-		$w,
+		'StringWrapper',
 	], $name->getErrors());
 });
 

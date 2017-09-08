@@ -11,13 +11,15 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-function createContainer() {
+function createContainer()
+{
 	$container = new Nette\Forms\Container;
 	$container->addText('street', 'Street');
 	$container->addText('town', 'Town');
 	$container->addText('country', 'Country');
 	return $container;
 }
+
 
 $form = new Nette\Forms\Form;
 
@@ -41,9 +43,9 @@ $container = createContainer();
 $container->addComponent(createContainer(), 'child');
 $form->addComponent($container, 'parent');
 
-$form->setCurrentGroup(NULL);
+$form->setCurrentGroup(null);
 $form->addSubmit('submit', 'Order');
 
 $form->fireEvents();
 
-Assert::matchFile(__DIR__ . '/Forms.renderer.5.expect', $form->__toString(TRUE));
+Assert::matchFile(__DIR__ . '/Forms.renderer.5.expect', $form->__toString(true));

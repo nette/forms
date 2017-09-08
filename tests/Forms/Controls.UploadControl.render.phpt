@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, int $count = NULL): string
+	public function translate($s, int $count = null): string
 	{
 		return strtoupper($s);
 	}
@@ -38,7 +38,7 @@ test(function () {
 
 test(function () { // multiple
 	$form = new Form;
-	$input = $form->addUpload('file', 'Label', TRUE);
+	$input = $form->addUpload('file', 'Label', true);
 
 	Assert::same('<input type="file" name="file[]" multiple id="frm-file">', (string) $input->getControl());
 });
@@ -49,8 +49,8 @@ test(function () { // Html with translator
 	$input = $form->addUpload('file', 'Label');
 	$input->setTranslator(new Translator);
 
-	Assert::same('<label for="frm-file">LABEL</label>', (string) $input->getLabel());
-	Assert::same('<label for="frm-file">ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<label for="frm-file">Label</label>', (string) $input->getLabel());
+	Assert::same('<label for="frm-file">Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<label for="frm-file"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
 });
 

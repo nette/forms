@@ -17,7 +17,7 @@ use Nette;
  */
 class FormsExtension extends Nette\DI\CompilerExtension
 {
-	public $defaults = [
+	private $defaults = [
 		'messages' => [],
 	];
 
@@ -37,5 +37,4 @@ class FormsExtension extends Nette\DI\CompilerExtension
 			}
 		}
 	}
-
 }

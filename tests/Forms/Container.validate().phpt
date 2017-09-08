@@ -6,15 +6,15 @@
 
 declare(strict_types=1);
 
-use Nette\Forms\Form;
 use Nette\Forms\Container;
+use Nette\Forms\Form;
 use Tester\Assert;
 
 
 require __DIR__ . '/../bootstrap.php';
 
 $form = new Form;
-$form->addText('name')->addRule($form::NUMERIC);
+$form->addText('name')->addRule($form::INTEGER);
 
 $form->onValidate[] = function (Container $container) {
 	$container['name']->addError('fail 1');
@@ -38,6 +38,6 @@ Assert::same([
 
 Assert::exception(function () {
 	$form = new Form;
-	$form->onValidate = TRUE;
+	$form->onValidate = true;
 	$form->validate();
 }, Nette\UnexpectedValueException::class, 'Property Form::$onValidate must be iterable, boolean given.');

@@ -6,18 +6,20 @@
 
 declare(strict_types=1);
 
-use Tester\Assert;
 use Nette\Forms\ControlGroup;
+use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
 
-function createContainer() {
+function createContainer()
+{
 	$container = new Nette\Forms\Container;
 	$container->addText('street', 'Street');
 	$container->addText('town', 'Town');
 	return $container;
 }
+
 
 $form = new Nette\Forms\Form;
 
@@ -83,3 +85,26 @@ Assert::equal(1, count($group->getControls()));
 Assert::equal([$form['outer']['inner']['text']], $group->getControls());
 
 Assert::equal(6, count($form->getGroups()));
+
+
+// remove()
+$form = new Nette\Forms\Form;
+$group = $form->addGroup();
+$form->addText('name');
+
+Assert::equal(1, count($group->getControls()));
+$group->remove($form['name']);
+Assert::equal(0, count($group->getControls()));
+
+
+// removeOrphans()
+$form = new Nette\Forms\Form;
+$group = $form->addGroup();
+$form->addText('orphan');
+$form->addText('name');
+unset($form['orphan']);
+
+Assert::equal(2, count($group->getControls()));
+$group->removeOrphans();
+Assert::equal(1, count($group->getControls()));
+Assert::same($form['name'], $group->getControls()[0]);

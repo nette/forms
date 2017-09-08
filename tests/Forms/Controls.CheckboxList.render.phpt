@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, int $count = NULL): string
+	public function translate($s, int $count = null): string
 	{
 		return strtoupper($s);
 	}
@@ -64,8 +64,8 @@ test(function () { // translator
 	]);
 	$input->setTranslator(new Translator);
 
-	Assert::same('<label>LABEL</label>', (string) $input->getLabel());
-	Assert::same('<label>ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<label>Label</label>', (string) $input->getLabel());
+	Assert::same('<label>Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<label for="frm-list-0">SECOND</label>', (string) $input->getLabelPart(0));
 
 	Assert::same('<label><input type="checkbox" name="list[]" value="a">FIRST</label><br><label><input type="checkbox" name="list[]" value="0">SECOND</label>', (string) $input->getControl());
@@ -114,7 +114,7 @@ test(function () { // container
 
 test(function () { // separator prototype
 	$form = new Form;
-	$input = $form->addCheckboxList('list', NULL, [
+	$input = $form->addCheckboxList('list', null, [
 		'a' => 'b',
 	]);
 	$input->getSeparatorPrototype()->setName('div');
@@ -128,7 +128,7 @@ test(function () { // disabled all
 	$input = $form->addCheckboxList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	])->setDisabled(TRUE);
+	])->setDisabled(true);
 
 	Assert::same('<label><input type="checkbox" name="list[]" disabled value="a">First</label><br><label><input type="checkbox" name="list[]" disabled value="0">Second</label>', (string) $input->getControl());
 });
@@ -159,7 +159,7 @@ test(function () { // numeric key as string & getControlPart
 
 test(function () { // container prototype
 	$form = new Form;
-	$input = $form->addCheckboxList('list', NULL, [
+	$input = $form->addCheckboxList('list', null, [
 		'a' => 'b',
 	]);
 	$input->getSeparatorPrototype()->setName('hr');
@@ -183,7 +183,7 @@ test(function () { // rendering options
 
 test(function () { // item label prototype
 	$form = new Form;
-	$input = $form->addCheckboxList('list', NULL, [
+	$input = $form->addCheckboxList('list', null, [
 		'a' => 'b',
 	]);
 	$input->getItemLabelPrototype()->class('foo');

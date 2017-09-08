@@ -12,9 +12,9 @@ if (@!include __DIR__ . '/../vendor/autoload.php') {
 }
 
 use Nette\Forms\Form;
+use Nette\Utils\Html;
 use Tracy\Debugger;
 use Tracy\Dumper;
-use Nette\Utils\Html;
 
 Debugger::enable();
 
@@ -23,9 +23,9 @@ $form = new Form;
 // setup custom rendering
 $renderer = $form->getRenderer();
 $renderer->wrappers['form']['container'] = Html::el('div')->id('form');
-$renderer->wrappers['group']['container'] = NULL;
+$renderer->wrappers['group']['container'] = null;
 $renderer->wrappers['group']['label'] = 'h3';
-$renderer->wrappers['pair']['container'] = NULL;
+$renderer->wrappers['pair']['container'] = null;
 $renderer->wrappers['controls']['container'] = 'dl';
 $renderer->wrappers['control']['container'] = 'dd';
 $renderer->wrappers['control']['.odd'] = 'odd';

@@ -9,12 +9,12 @@ declare(strict_types=1);
 
 namespace Nette\Bridges\FormsLatte;
 
-use Nette;
 use Latte;
-use Latte\MacroNode;
-use Latte\PhpWriter;
 use Latte\CompileException;
+use Latte\MacroNode;
 use Latte\Macros\MacroSet;
+use Latte\PhpWriter;
+use Nette;
 use Nette\Forms\Form;
 
 
@@ -29,13 +29,12 @@ use Nette\Forms\Form;
  */
 class FormMacros extends MacroSet
 {
-
 	public static function install(Latte\Compiler $compiler)
 	{
 		$me = new static($compiler);
 		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));');
 		$me->addMacro('formContainer', [$me, 'macroFormContainer'], 'array_pop($this->global->formsStack); $formContainer = $_form = end($this->global->formsStack)');
-		$me->addMacro('label', [$me, 'macroLabel'], [$me, 'macroLabelEnd'], NULL, self::AUTO_EMPTY);
+		$me->addMacro('label', [$me, 'macroLabel'], [$me, 'macroLabelEnd'], null, self::AUTO_EMPTY);
 		$me->addMacro('input', [$me, 'macroInput']);
 		$me->addMacro('name', [$me, 'macroName'], [$me, 'macroNameEnd'], [$me, 'macroNameAttr']);
 		$me->addMacro('inputError', [$me, 'macroInputError']);
@@ -57,10 +56,10 @@ class FormMacros extends MacroSet
 			throw new CompileException('Did you mean <form n:name=...> ?');
 		}
 		$name = $node->tokenizer->fetchWord();
-		if ($name === FALSE) {
+		if ($name === false) {
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
-		$node->replaced = TRUE;
+		$node->replaced = true;
 		$node->tokenizer->reset();
 		return $writer->write(
 			"/* line $node->startLine */\n"
@@ -80,7 +79,7 @@ class FormMacros extends MacroSet
 			throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
 		}
 		$name = $node->tokenizer->fetchWord();
-		if ($name === FALSE) {
+		if ($name === false) {
 			throw new CompileException('Missing name in ' . $node->getNotation());
 		}
 		$node->tokenizer->reset();
@@ -121,7 +120,7 @@ class FormMacros extends MacroSet
 	 */
 	public function macroLabelEnd(MacroNode $node, PhpWriter $writer)
 	{
-		if ($node->content != NULL) {
+		if ($node->content != null) {
 			$node->openingCode = rtrim($node->openingCode, '?> ') . '->startTag() ?>';
 			return $writer->write('if ($_label) echo $_label->endTag()');
 		}
@@ -166,6 +165,11 @@ class FormMacros extends MacroSet
 		$tagName = strtolower($node->htmlNode->name);
 		$node->empty = $tagName === 'input';
 
+		$definedHtmlAttributes = array_keys($node->htmlNode->attrs);
+		if (isset($node->htmlNode->macroAttrs['class'])) {
+			$definedHtmlAttributes[] = 'class';
+		}
+
 		if ($tagName === 'form') {
 			$node->openingCode = $writer->write(
 				'<?php $form = $_form = $this->global->formsStack[] = '
@@ -174,18 +178,18 @@ class FormMacros extends MacroSet
 				$name
 			);
 			return $writer->write(
-				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), %0.var, FALSE)',
-				array_fill_keys(array_keys($node->htmlNode->attrs), NULL)
+				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), %0.var, false)',
+				array_fill_keys($definedHtmlAttributes, null)
 			);
 		} else {
 			$method = $tagName === 'label' ? 'getLabel' : 'getControl';
 			return $writer->write(
 				'$_input = ' . ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
 					. 'end($this->global->formsStack)[%0.word]; echo $_input->%1.raw'
-					. ($node->htmlNode->attrs ? '->addAttributes(%2.var)' : '') . '->attributes()',
+					. ($definedHtmlAttributes ? '->addAttributes(%2.var)' : '') . '->attributes()',
 				$name,
 				$method . 'Part(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')',
-				array_fill_keys(array_keys($node->htmlNode->attrs), NULL)
+				array_fill_keys($definedHtmlAttributes, null)
 			);
 		}
 	}
@@ -205,14 +209,14 @@ class FormMacros extends MacroSet
 	{
 		$tagName = strtolower($node->htmlNode->name);
 		if ($tagName === 'form') {
-			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), FALSE); ?>';
+			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false); ?>';
 		} elseif ($tagName === 'label') {
 			if ($node->htmlNode->empty) {
-				$node->innerContent = "<?php echo \$_input->getLabelPart()->getHtml() ?>";
+				$node->innerContent = '<?php echo $_input->getLabelPart()->getHtml() ?>';
 			}
 		} elseif ($tagName === 'button') {
 			if ($node->htmlNode->empty) {
-				$node->innerContent = '<?php echo htmlspecialchars($_input->caption) ?>';
+				$node->innerContent = '<?php echo htmlspecialchars($_input->getCaption()) ?>';
 			}
 		} else { // select, textarea
 			$node->innerContent = '<?php echo $_input->getControl()->getHtml() ?>';
@@ -238,5 +242,4 @@ class FormMacros extends MacroSet
 			return $writer->write('echo %escape(end($this->global->formsStack)[%0.word]->getError());', $name);
 		}
 	}
-
 }

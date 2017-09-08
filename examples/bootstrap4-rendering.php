@@ -21,7 +21,7 @@ Debugger::enable();
 function makeBootstrap4(Form $form)
 {
 	$renderer = $form->getRenderer();
-	$renderer->wrappers['controls']['container'] = NULL;
+	$renderer->wrappers['controls']['container'] = null;
 	$renderer->wrappers['pair']['container'] = 'div class="form-group row"';
 	$renderer->wrappers['pair']['.error'] = 'has-danger';
 	$renderer->wrappers['control']['container'] = 'div class=col-sm-9';
@@ -34,15 +34,15 @@ function makeBootstrap4(Form $form)
 			$type = $control->getOption('type');
 			if ($type === 'button') {
 				$control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-secondary');
-				$usedPrimary = TRUE;
+				$usedPrimary = true;
 
-			} elseif (in_array($type, ['text', 'textarea', 'select'], TRUE)) {
+			} elseif (in_array($type, ['text', 'textarea', 'select'], true)) {
 				$control->getControlPrototype()->addClass('form-control');
 
 			} elseif ($type === 'file') {
 				$control->getControlPrototype()->addClass('form-control-file');
 
-			} elseif (in_array($type, ['checkbox', 'radio'], TRUE)) {
+			} elseif (in_array($type, ['checkbox', 'radio'], true)) {
 				if ($control instanceof Nette\Forms\Controls\Checkbox) {
 					$control->getLabelPrototype()->addClass('form-check-label');
 				} else {

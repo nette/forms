@@ -6,7 +6,6 @@
 
 declare(strict_types=1);
 
-use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Nette\Forms\Helpers;
 use Tester\Assert;
@@ -18,7 +17,7 @@ require __DIR__ . '/../bootstrap.php';
 test(function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->addRule(Form::FILLED, NULL, []);
+	$input->addRule(Form::FILLED, null, []);
 	Assert::same([
 		[
 			'op' => ':filled',
@@ -34,7 +33,7 @@ test(function () {
 	$input = $form->addText('text');
 	$input->addRule(Form::EMAIL);
 	Assert::same([
-		['op' => ':email', 'msg' => 'Please enter a valid email address.']
+		['op' => ':email', 'msg' => 'Please enter a valid email address.'],
 	], Helpers::exportRules($input->getRules()));
 });
 
@@ -42,7 +41,7 @@ test(function () {
 test(function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->setRequired(FALSE);
+	$input->setRequired(false);
 	$input->addRule(Form::EMAIL);
 	Assert::same([
 		['op' => 'optional'],
@@ -55,12 +54,12 @@ test(function () {
 	$form = new Form;
 	$input1 = $form->addText('text1');
 	$input2 = $form->addText('text2');
-	$input2->setRequired(FALSE);
+	$input2->setRequired(false);
 	$input2->addConditionOn($input1, Form::EMAIL)
-		->setRequired(TRUE)
+		->setRequired(true)
 		->addRule($form::EMAIL);
 	$input2->addConditionOn($input1, Form::INTEGER)
-		->setRequired(FALSE)
+		->setRequired(false)
 		->addRule($form::EMAIL);
 
 	Assert::same([

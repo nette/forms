@@ -39,7 +39,7 @@ test(function () {
 
 
 test(function () { // malformed data
-	$_POST = ['malformed' => [NULL]];
+	$_POST = ['malformed' => [null]];
 
 	$form = new Form;
 	$input = $form->addCheckbox('malformed');
@@ -52,9 +52,9 @@ test(function () { // malformed data
 test(function () { // setValue() and invalid argument
 	$form = new Form;
 	$input = $form->addCheckbox('checkbox');
-	$input->setValue(NULL);
+	$input->setValue(null);
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([]);
-	}, Nette\InvalidArgumentException::class, "Value must be scalar or NULL, array given in field 'checkbox'.");
+	}, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'checkbox'.");
 });

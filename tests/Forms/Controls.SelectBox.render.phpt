@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements Nette\Localization\ITranslator
 {
-	function translate($s, int $count = NULL): string
+	public function translate($s, int $count = null): string
 	{
 		return strtoupper($s);
 	}
@@ -50,6 +50,17 @@ test(function () { // selected
 });
 
 
+test(function () { // selected 2x
+	$form = new Form;
+	$input = $form->addSelect('list', 'Label', [
+		['a' => 'First'],
+		['a' => 'First'],
+	])->setValue('a');
+
+	Assert::same('<select name="list" id="frm-list"><optgroup label="0"><option value="a" selected>First</option></optgroup><optgroup label="1"><option value="a">First</option></optgroup></select>', (string) $input->getControl());
+});
+
+
 test(function () { // translator & groups
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
@@ -58,8 +69,8 @@ test(function () { // translator & groups
 	])->setPrompt('Prompt');
 	$input->setTranslator(new Translator);
 
-	Assert::same('<label for="frm-list">LABEL</label>', (string) $input->getLabel());
-	Assert::same('<label for="frm-list">ANOTHER LABEL</label>', (string) $input->getLabel('Another label'));
+	Assert::same('<label for="frm-list">Label</label>', (string) $input->getLabel());
+	Assert::same('<label for="frm-list">Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<select name="list" id="frm-list"><option value="">PROMPT</option><option value="a">FIRST</option><optgroup label="GROUP"><option value="0">SECOND</option><option value="1">THIRD</option></optgroup></select>', (string) $input->getControl());
 });
 
@@ -106,7 +117,7 @@ test(function () { // disabled all
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	])->setDisabled(TRUE);
+	])->setDisabled(true);
 
 	Assert::same('<select name="list" id="frm-list" disabled><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });

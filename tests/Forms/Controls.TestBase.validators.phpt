@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 test(function () {
-	$control = new TextInput();
+	$control = new TextInput;
 	$control->value = '';
 	Assert::true(Validator::validateMinLength($control, 0));
 	Assert::false(Validator::validateMinLength($control, 1));
@@ -23,7 +23,7 @@ test(function () {
 
 
 test(function () {
-	$control = new TextInput();
+	$control = new TextInput;
 	$control->value = '';
 	Assert::true(Validator::validateMaxLength($control, 0));
 
@@ -34,7 +34,7 @@ test(function () {
 
 
 test(function () {
-	$control = new TextInput();
+	$control = new TextInput;
 	$control->value = '';
 	Assert::true(Validator::validateLength($control, 0));
 	Assert::true(Validator::validateLength($control, [0, 0]));
@@ -48,7 +48,7 @@ test(function () {
 
 
 test(function () {
-	$control = new TextInput();
+	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateEmail($control));
 
@@ -67,7 +67,7 @@ test(function () {
 
 
 test(function () {
-	$control = new TextInput();
+	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateUrl($control));
 	Assert::same('', $control->value);
@@ -86,7 +86,7 @@ test(function () {
 
 
 test(function () {
-	$control = new TextInput();
+	$control = new TextInput;
 	$control->value = '123x';
 	Assert::false(Validator::validatePattern($control, '[0-9]'));
 	Assert::true(Validator::validatePattern($control, '[0-9]+x'));
@@ -95,7 +95,29 @@ test(function () {
 
 
 test(function () {
-	$control = new TextInput();
+	$control = new TextInput;
+	$control->value = '';
+	Assert::false(Validator::validateNumeric($control));
+	Assert::same('', $control->value);
+
+	$control->value = '123';
+	Assert::true(Validator::validateNumeric($control));
+	Assert::same('123', $control->value);
+
+	$control->value = '0123';
+	Assert::true(Validator::validateNumeric($control));
+	Assert::same('0123', $control->value);
+
+	$control->value = '-123';
+	Assert::false(Validator::validateNumeric($control));
+
+	$control->value = '123.5';
+	Assert::false(Validator::validateNumeric($control));
+});
+
+
+test(function () {
+	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateInteger($control));
 	Assert::same('', $control->value);
@@ -119,7 +141,7 @@ test(function () {
 
 
 test(function () {
-	$control = new TextInput();
+	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateFloat($control));
 	Assert::same('', $control->value);

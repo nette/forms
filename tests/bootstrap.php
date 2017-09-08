@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 // The Nette Tester command-line runner can be
@@ -15,11 +14,11 @@ Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 
 
-function before(\Closure $function = NULL)
+function before(\Closure $function = null)
 {
 	static $val;
 	if (!func_num_args()) {
-		return ($val ? $val() : NULL);
+		return $val ? $val() : null;
 	}
 	$val = $function;
 }
