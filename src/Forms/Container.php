@@ -142,7 +142,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			foreach ($this->onValidate as $handler) {
 				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
 				$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : null;
-				Nette\Utils\Callback::invoke($handler, $this, $values);
+				$handler($this, $values);
 			}
 		}
 		$this->validated = true;
@@ -418,7 +418,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			return (self::$extMethods[$name])($this, ...$args);
 		} elseif ($callback = Nette\Utils\ObjectMixin::getExtensionMethod($class = __CLASS__, $name)) {
 			trigger_error("Define extension method '$name' via $class::extensionMethod('$name', ...), don't use Nette\\Object or Nette\\Utils\\ObjectMixin.", E_USER_DEPRECATED);
-			return Nette\Utils\Callback::invoke($callback, $this, ...$args);
+			return $callback($this, ...$args);
 		}
 		return parent::__call($name, $args);
 	}
