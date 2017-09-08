@@ -20,7 +20,10 @@ use Nette;
  */
 abstract class MultiChoiceControl extends BaseControl
 {
-	/** @var bool */
+	/**
+	 * @var bool
+	 * @deprecated use checkDefaultValue()
+	 */
 	public $checkAllowedValues = true;
 
 	/** @var array */
@@ -158,5 +161,15 @@ abstract class MultiChoiceControl extends BaseControl
 	public function getHtmlName(): string
 	{
 		return parent::getHtmlName() . '[]';
+	}
+
+
+	/**
+	 * @return static
+	 */
+	public function checkDefaultValue(bool $value = true)
+	{
+		$this->checkAllowedValues = $value;
+		return $this;
 	}
 }

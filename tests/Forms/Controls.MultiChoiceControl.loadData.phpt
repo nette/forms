@@ -175,10 +175,10 @@ test(function () use ($series) { // setValue() and invalid argument
 });
 
 
-test(function () use ($series) { // setValue() and disabled $checkAllowedValues
+test(function () use ($series) { // setValue() and disabled checkDefaultValue()
 	$form = new Form;
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
-	$input->checkAllowedValues = false;
+	$input->checkDefaultValue(false);
 	$input->setValue('unknown');
 	Assert::same([], $input->getValue());
 
