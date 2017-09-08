@@ -18,7 +18,10 @@ use Nette;
  */
 abstract class ChoiceControl extends BaseControl
 {
-	/** @var bool */
+	/**
+	 * @var bool
+	 * @deprecated use checkDefaultValue()
+	 */
 	public $checkAllowedValues = true;
 
 	/** @var array */
@@ -148,6 +151,16 @@ abstract class ChoiceControl extends BaseControl
 		if (isset($this->disabled[$this->value])) {
 			$this->value = null;
 		}
+		return $this;
+	}
+
+
+	/**
+	 * @return static
+	 */
+	public function checkDefaultValue($value = true)
+	{
+		$this->checkAllowedValues = $value;
 		return $this;
 	}
 }
