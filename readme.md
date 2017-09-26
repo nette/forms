@@ -7,6 +7,10 @@ Nette Forms: greatly facilitates web forms
 [![Latest Stable Version](https://poser.pugx.org/nette/forms/v/stable)](https://github.com/nette/forms/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/forms/blob/master/license.md)
 
+
+Introduction
+------------
+
 Nette\Forms greatly facilitates creating and processing web forms. What it can really do?
 
 - validate sent data both client-side (JavaScript) and server-side
@@ -18,18 +22,23 @@ Why should you bother setting up framework for a simple web form? You won't have
 
 Nette Framework puts a great effort to be safe and since forms are the most common user input, Nette forms are as good as impenetrable. All is maintained dynamically and transparently, nothing has to be set manually. Well known vulnerabilities such as Cross Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) are filtered, as well as special control characters. All inputs are checked for UTF-8 validity. Every multiple-choice, select box and similar are checked for forged values upon validating. Sounds good? Let's try it out.
 
-Install it using Composer:
+Documentation can be found on the [website](https://doc.nette.org/forms).
+
+
+Installation
+------------
+
+The recommended way to install is via Composer:
 
 ```
 composer require nette/forms
 ```
 
-The last stable release requires PHP version 5.6 or newer (is compatible with PHP 7.0 and 7.1). The dev-master version requires PHP 7.1.
+It requires PHP version 5.6 and supports PHP up to 7.2. The dev-master version requires PHP 7.1.
 
-[See documentation](https://doc.nette.org/en/forms).
 
-First form
-----------
+Usage
+-----
 
 Let's create a simple registration form:
 
