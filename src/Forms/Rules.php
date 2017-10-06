@@ -155,7 +155,7 @@ class Rules implements \IteratorAggregate
 	 * Ends current validation condition.
 	 * @return Rules      parent branch
 	 */
-	public function endCondition(): Rules
+	public function endCondition(): self
 	{
 		return $this->parent;
 	}

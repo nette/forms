@@ -95,7 +95,7 @@ class CsrfProtection extends HiddenField
 	/**
 	 * @internal
 	 */
-	public static function validateCsrf(CsrfProtection $control): bool
+	public static function validateCsrf(self $control): bool
 	{
 		$value = (string) $control->getValue();
 		return $control->generateToken(substr($value, 0, 10)) === $value;
