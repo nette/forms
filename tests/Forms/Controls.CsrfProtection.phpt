@@ -32,15 +32,15 @@ Assert::same('hidden', $input->getOption('type'));
 $input->setValue(null);
 Assert::false(CsrfProtection::validateCsrf($input));
 
-call_user_func([$input, 'Nette\Forms\Controls\BaseControl::setValue'], '12345678901234567890123456789012345678');
+call_user_func([$input, 'Nette\Forms\Controls\HiddenField::setValue'], '12345678901234567890123456789012345678');
 Assert::false(CsrfProtection::validateCsrf($input));
 
 $value = $input->getControl()->value;
-call_user_func([$input, 'Nette\Forms\Controls\BaseControl::setValue'], $value);
+call_user_func([$input, 'Nette\Forms\Controls\HiddenField::setValue'], $value);
 Assert::true(CsrfProtection::validateCsrf($input));
 
 session_regenerate_id();
-call_user_func([$input, 'Nette\Forms\Controls\BaseControl::setValue'], $value);
+call_user_func([$input, 'Nette\Forms\Controls\HiddenField::setValue'], $value);
 Assert::false(CsrfProtection::validateCsrf($input));
 
 

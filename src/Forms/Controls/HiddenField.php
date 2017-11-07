@@ -17,8 +17,14 @@ use Nette;
  */
 class HiddenField extends BaseControl
 {
+	/** @var mixed unfiltered submitted value */
+	protected $rawValue = '';
+
 	/** @var bool */
 	private $persistValue;
+
+	/** @var bool */
+	private $nullable;
 
 
 	public function __construct($persistentValue = null)
@@ -29,7 +35,8 @@ class HiddenField extends BaseControl
 		if ($persistentValue !== null) {
 			$this->unmonitor(Nette\Forms\Form::class);
 			$this->persistValue = true;
-			$this->value = (string) $persistentValue;
+			$this->value = $persistentValue;
+			$this->rawValue = (string) $persistentValue;
 		}
 	}
 
@@ -41,12 +48,47 @@ class HiddenField extends BaseControl
 	 */
 	public function setValue($value)
 	{
-		if (!is_scalar($value) && $value !== null && !method_exists($value, '__toString')) {
+		if ($value === null) {
+			$value = '';
+		} elseif (!is_scalar($value) && !method_exists($value, '__toString')) {
 			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
 		}
 		if (!$this->persistValue) {
-			$this->value = (string) $value;
+			$this->rawValue = (string) $value;
+			$this->value = $value;
 		}
+		return $this;
+	}
+
+
+	/**
+	 * Returns control's value.
+	 * @return mixed
+	 */
+	public function getValue()
+	{
+		return $this->nullable && $this->value === '' ? null : $this->value;
+	}
+
+
+	/**
+	 * Sets whether getValue() returns NULL instead of empty string.
+	 * @return static
+	 */
+	public function setNullable(bool $value = true)
+	{
+		$this->nullable = $value;
+		return $this;
+	}
+
+
+	/**
+	 * Appends input string filter callback.
+	 * @return static
+	 */
+	public function addFilter(callable $filter)
+	{
+		$this->getRules()->addFilter($filter);
 		return $this;
 	}
 
@@ -61,7 +103,7 @@ class HiddenField extends BaseControl
 		return $el->addAttributes([
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
-			'value' => $this->value,
+			'value' => $this->rawValue,
 		]);
 	}
 

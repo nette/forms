@@ -68,9 +68,36 @@ test(function () { // setValue() and invalid argument
 test(function () { // object
 	$form = new Form;
 	$input = $form->addHidden('hidden')
-		->setValue(new Nette\Utils\DateTime('2013-07-05'));
+		->setValue($data = new Nette\Utils\DateTime('2013-07-05'));
 
-	Assert::same('2013-07-05 00:00:00', $input->getValue());
+	Assert::same($data, $input->getValue());
+});
+
+
+test(function () { // object from string by filter
+	$date = new Nette\Utils\DateTime('2013-07-05');
+	$_POST = ['text' => (string) $date];
+	$form = new Form;
+	$input = $form->addHidden('text');
+	$input->addFilter(function ($value) {
+		return $value ? new \Nette\Utils\DateTime($value) : $value;
+	});
+
+	Assert::same((string) $date, $input->getValue());
+	$input->validate();
+	Assert::equal($date, $input->getValue());
+});
+
+
+test(function () { // int from string
+	$_POST = ['text' => '10'];
+	$form = new Form;
+	$input = $form->addHidden('text');
+	$input->addRule($form::INTEGER);
+
+	Assert::same('10', $input->getValue());
+	$input->validate();
+	Assert::equal(10, $input->getValue());
 });
 
 
@@ -80,4 +107,21 @@ test(function () { // persistent
 	$input->setValue('other');
 
 	Assert::same('persistent', $input->getValue());
+});
+
+
+test(function () { // nullable
+	$form = new Form;
+	$input = $form['hidden'] = new Nette\Forms\Controls\HiddenField();
+	$input->setNullable();
+	Assert::null($input->getValue());
+});
+
+
+test(function () { // nullable
+	$form = new Form;
+	$input = $form['hidden'] = new Nette\Forms\Controls\HiddenField();
+	$input->setValue(null);
+	$input->setNullable();
+	Assert::null($input->getValue());
 });
