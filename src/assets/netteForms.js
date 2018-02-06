@@ -470,8 +470,8 @@
 			if (elem.type === 'number' && elem.validity.badInput) {
 				return false;
 			}
-			val = val.replace(' ', '').replace(',', '.');
-			if ((/^-?[0-9]*[.,]?[0-9]+$/).test(val)) {
+			val = val.replace(/ +/g, '').replace(/,/g, '.');
+			if ((/^-?[0-9]*\.?[0-9]+$/).test(val)) {
 				value.value = val;
 				return true;
 			}
