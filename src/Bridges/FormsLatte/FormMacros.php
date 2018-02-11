@@ -14,8 +14,6 @@ use Latte\CompileException;
 use Latte\MacroNode;
 use Latte\Macros\MacroSet;
 use Latte\PhpWriter;
-use Nette;
-use Nette\Forms\Form;
 
 
 /**
