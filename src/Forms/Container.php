@@ -420,9 +420,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		if (isset(self::$extMethods[$name])) {
 			return (self::$extMethods[$name])($this, ...$args);
-		} elseif ($callback = Nette\Utils\ObjectMixin::getExtensionMethod($class = __CLASS__, $name)) {
-			trigger_error("Define extension method '$name' via $class::extensionMethod('$name', ...), don't use Nette\\Object or Nette\\Utils\\ObjectMixin.", E_USER_DEPRECATED);
-			return $callback($this, ...$args);
 		}
 		return parent::__call($name, $args);
 	}

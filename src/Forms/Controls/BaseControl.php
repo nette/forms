@@ -590,11 +590,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 			}
 			$class = get_parent_class($class);
 		} while ($class);
-
-		if ($callback = Nette\Utils\ObjectMixin::getExtensionMethod($class = static::class, $name)) {
-			trigger_error("Define extension method '$name' via $class::extensionMethod('$name', ...), don't use Nette\\Object or Nette\\Utils\\ObjectMixin.", E_USER_DEPRECATED);
-			return $callback($this, ...$args);
-		}
 		return parent::__call($name, $args);
 	}
 
