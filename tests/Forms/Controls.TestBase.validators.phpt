@@ -7,7 +7,9 @@
 declare(strict_types=1);
 
 use Nette\Forms\Controls\TextInput;
+use Nette\Forms\Controls\UploadControl;
 use Nette\Forms\Validator;
+use Nette\Http\FileUpload;
 use Tester\Assert;
 
 
@@ -91,6 +93,21 @@ test(function () {
 	Assert::false(Validator::validatePattern($control, '[0-9]'));
 	Assert::true(Validator::validatePattern($control, '[0-9]+x'));
 	Assert::false(Validator::validatePattern($control, '[0-9]+X'));
+
+
+	$control = new class extends UploadControl {
+		public function setValue($value)
+		{
+			$this->value = $value;
+			return $this;
+		}
+	};
+
+	$control->value = new FileUpload([
+		'name' => '123x', 'size' => 1, 'tmp_name' => '456y', 'error' => UPLOAD_ERR_OK, 'type' => '',
+	]);
+	Assert::false(Validator::validatePattern($control, '[4-6]+y'));
+	Assert::true(Validator::validatePattern($control, '[1-3]+x'));
 });
 
 
