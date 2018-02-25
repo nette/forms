@@ -248,7 +248,8 @@ class Validator
 	 */
 	public static function validatePattern(IControl $control, string $pattern): bool
 	{
-		return (bool) Strings::match($control->getValue(), "\x01^(?:$pattern)\\z\x01u");
+		$value = $control->getValue() instanceof Nette\Http\FileUpload ? $control->getValue()->getName() : $control->getValue();
+		return (bool) Strings::match($value, "\x01^(?:$pattern)\\z\x01u");
 	}
 
 
