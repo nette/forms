@@ -37,7 +37,7 @@ test(function () { // error handling
 test(function () { // validators
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->setValue(123);
+	$input->setCurrentValue(123);
 
 	Assert::true(Validator::validateEqual($input, 123));
 	Assert::true(Validator::validateEqual($input, '123'));
@@ -74,7 +74,7 @@ test(function () { // validators
 test(function () { // validators for array
 	$form = new Form;
 	$input = $form->addMultiSelect('select', null, ['a', 'b', 'c', 'd']);
-	$input->setValue([1, 2, 3]);
+	$input->setCurrentValue([1, 2, 3]);
 
 	Assert::true(Validator::validateEqual($input, [1, 2, 3, 4]));
 	Assert::true(Validator::validateEqual($input, ['1', '2', '3']));

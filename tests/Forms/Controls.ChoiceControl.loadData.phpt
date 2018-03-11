@@ -143,22 +143,22 @@ test(function () use ($series) { // setItems without keys
 });
 
 
-test(function () use ($series) { // setValue() and invalid argument
+test(function () use ($series) { // setCurrentValue() and invalid argument
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(null, $series);
-	$input->setValue(null);
+	$input->setCurrentValue(null);
 
 	Assert::exception(function () use ($input) {
-		$input->setValue('unknown');
+		$input->setCurrentValue('unknown');
 	}, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
 });
 
 
-test(function () use ($series) { // setValue() and disabled checkDefaultValue()
+test(function () use ($series) { // setCurrentValue() and disabled checkDefaultValue()
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(null, $series);
 	$input->checkDefaultValue(false);
-	$input->setValue('unknown');
+	$input->setCurrentValue('unknown');
 	Assert::null($input->getValue());
 });
 
@@ -166,7 +166,7 @@ test(function () use ($series) { // setValue() and disabled checkDefaultValue()
 test(function () { // object as value
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(null, ['2013-07-05 00:00:00' => 1]);
-	$input->setValue(new DateTime('2013-07-05'));
+	$input->setCurrentValue(new DateTime('2013-07-05'));
 
 	Assert::same('2013-07-05 00:00:00', $input->getValue());
 });
@@ -176,7 +176,7 @@ test(function () { // object as item
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl;
 	$input->setItems([new DateTime('2013-07-05')], false)
-		->setValue(new DateTime('2013-07-05'));
+		->setCurrentValue(new DateTime('2013-07-05'));
 
 	Assert::same('2013-07-05 00:00:00', $input->getValue());
 });

@@ -78,7 +78,7 @@ class UploadControl extends BaseControl
 	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setCurrentValue($value)
 	{
 		return $this;
 	}

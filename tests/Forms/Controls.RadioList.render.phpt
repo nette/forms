@@ -50,7 +50,7 @@ test(function () { // checked
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	])->setValue(0);
+	])->setCurrentValue(0);
 
 	Assert::same('<label><input type="radio" name="list" value="a">First</label><br><label><input type="radio" name="list" checked value="0">Second</label>', (string) $input->getControl());
 });

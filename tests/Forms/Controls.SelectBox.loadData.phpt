@@ -229,13 +229,13 @@ test(function () { // setItems without keys with optgroups
 });
 
 
-test(function () use ($series) { // setValue() and invalid argument
+test(function () use ($series) { // setCurrentValue() and invalid argument
 	$form = new Form;
 	$input = $form->addSelect('select', null, $series);
-	$input->setValue(null);
+	$input->setCurrentValue(null);
 
 	Assert::exception(function () use ($input) {
-		$input->setValue('unknown');
+		$input->setCurrentValue('unknown');
 	}, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
 });
 
@@ -243,7 +243,7 @@ test(function () use ($series) { // setValue() and invalid argument
 test(function () { // object as value
 	$form = new Form;
 	$input = $form->addSelect('select', null, ['2013-07-05 00:00:00' => 1])
-		->setValue(new DateTime('2013-07-05'));
+		->setCurrentValue(new DateTime('2013-07-05'));
 
 	Assert::same('2013-07-05 00:00:00', $input->getValue());
 });
@@ -256,7 +256,7 @@ test(function () { // object as item
 			'group' => [new DateTime('2013-07-05')],
 			new DateTime('2013-07-06'),
 		], false)
-		->setValue('2013-07-05 00:00:00');
+		->setCurrentValue('2013-07-05 00:00:00');
 
 	Assert::equal(new DateTime('2013-07-05'), $input->getSelectedItem());
 });

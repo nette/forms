@@ -156,38 +156,39 @@ test(function () use ($series) { // validateEqual
 });
 
 
-test(function () use ($series) { // setValue() and invalid argument
+test(function () use ($series) { // setCurrentValue() and invalid argument
 	$form = new Form;
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
-	$input->setValue(null);
+	$input->setCurrentValue(null);
 
 	Assert::exception(function () use ($input) {
-		$input->setValue('unknown');
+		$input->setCurrentValue('unknown');
 	}, Nette\InvalidArgumentException::class, "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
 
 	Assert::exception(function () use ($input) {
-		$input->setValue(new stdClass);
-	}, Nette\InvalidArgumentException::class, "Value must be array or null, object given in field 'select'.");
+		$input->setCurrentValue(new stdClass);
+	}, Nette\InvalidArgumentException::class, "Value must be array or NULL, object given in field 'select'.");
 
 	Assert::exception(function () use ($input) {
-		$input->setValue([new stdClass]);
+		$input->setCurrentValue([new stdClass]);
 	}, Nette\InvalidArgumentException::class, "Values must be scalar, object given in field 'select'.");
 });
 
 
-test(function () use ($series) { // setValue() and disabled checkDefaultValue()
+test(function () use ($series) { // setCurrentValue() and disabled checkDefaultValue()
 	$form = new Form;
+	$input->setCurrentValue('unknown');
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
 	$input->checkDefaultValue(false);
-	$input->setValue('unknown');
+	$input->setCurrentValue('unknown');
 	Assert::same([], $input->getValue());
 
 	Assert::exception(function () use ($input) {
-		$input->setValue(new stdClass);
-	}, Nette\InvalidArgumentException::class, "Value must be array or null, object given in field 'select'.");
+		$input->setCurrentValue(new stdClass);
+	}, Nette\InvalidArgumentException::class, "Value must be array or NULL, object given in field 'select'.");
 
 	Assert::exception(function () use ($input) {
-		$input->setValue([new stdClass]);
+		$input->setCurrentValue([new stdClass]);
 	}, Nette\InvalidArgumentException::class, "Values must be scalar, object given in field 'select'.");
 });
 
@@ -195,7 +196,7 @@ test(function () use ($series) { // setValue() and disabled checkDefaultValue()
 test(function () { // object as value
 	$form = new Form;
 	$input = $form['select'] = new MultiChoiceControl(null, ['2013-07-05 00:00:00' => 1]);
-	$input->setValue([new DateTime('2013-07-05')]);
+	$input->setCurrentValue([new DateTime('2013-07-05')]);
 
 	Assert::same(['2013-07-05 00:00:00'], $input->getValue());
 });
