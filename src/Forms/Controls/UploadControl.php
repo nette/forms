@@ -34,22 +34,13 @@ class UploadControl extends BaseControl
 		$this->setOption('type', 'file');
 		$this->addCondition(Forms\Form::FILLED)
 			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);
-	}
 
-
-	/**
-	 * This method will be called when the component (or component's parent)
-	 * becomes attached to a monitored object. Do not call this method yourself.
-	 */
-	protected function attached(Nette\ComponentModel\IComponent $form): void
-	{
-		if ($form instanceof Nette\Forms\Form) {
+		$this->monitor(Forms\Form::class, function (Forms\Form $form) {
 			if (!$form->isMethod('post')) {
 				throw new Nette\InvalidStateException('File upload requires method POST.');
 			}
 			$form->getElementPrototype()->enctype = 'multipart/form-data';
-		}
-		parent::attached($form);
+		});
 	}
 
 

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Nette\Application\UI\Presenter;
 
 
 /**
@@ -32,16 +33,12 @@ class CsrfProtection extends HiddenField
 		$this->setOmitted()
 			->setRequired()
 			->addRule(self::PROTECTION, $errorMessage);
-		$this->monitor(Nette\Application\UI\Presenter::class);
-	}
 
-
-	protected function attached(Nette\ComponentModel\IComponent $parent): void
-	{
-		parent::attached($parent);
-		if (!$this->session && $parent instanceof Nette\Application\UI\Presenter) {
-			$this->session = $parent->getSession();
-		}
+		$this->monitor(Presenter::class, function (Presenter $presenter) {
+			if (!$this->session) {
+				$this->session = $presenter->getSession();
+			}
+		});
 	}
 
 

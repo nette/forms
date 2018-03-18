@@ -133,25 +133,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			$this[self::TRACKER_ID] = $tracker;
 			$this->setParent(null, $name);
 		}
-	}
-
-
-	protected function validateParent(Nette\ComponentModel\IContainer $parent): void
-	{
-		parent::validateParent($parent);
-		$this->monitor(__CLASS__);
-	}
-
-
-	/**
-	 * This method will be called when the component (or component's parent)
-	 * becomes attached to a monitored object. Do not call this method yourself.
-	 */
-	protected function attached(Nette\ComponentModel\IComponent $obj): void
-	{
-		if ($obj instanceof self) {
+		$this->monitor(__CLASS__, function () {
 			throw new Nette\InvalidStateException('Nested forms are forbidden.');
-		}
+		});
 	}
 
 

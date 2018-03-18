@@ -83,7 +83,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function __construct($caption = null)
 	{
-		$this->monitor(Form::class);
 		parent::__construct();
 		$this->control = Html::el('input', ['type' => null, 'name' => null]);
 		$this->label = Html::el('label');
@@ -93,6 +92,11 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 			$this->setRequired(false);
 		}
 		$this->setValue(null);
+		$this->monitor(Form::class, function (Form $form) {
+			if (!$this->isDisabled() && $form->isAnchored() && $form->isSubmitted()) {
+				$this->loadHttpData();
+			}
+		});
 	}
 
 
@@ -114,17 +118,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public function getCaption()
 	{
 		return $this->caption;
-	}
-
-
-	/**
-	 * This method will be called when the component becomes attached to Form.
-	 */
-	protected function attached(Nette\ComponentModel\IComponent $form): void
-	{
-		if (!$this->isDisabled() && $form instanceof Form && $form->isAnchored() && $form->isSubmitted()) {
-			$this->loadHttpData();
-		}
 	}
 
 
