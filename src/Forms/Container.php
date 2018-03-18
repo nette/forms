@@ -21,6 +21,8 @@ use Nette;
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
+	use Nette\ComponentModel\ArrayAccess;
+
 	/** @var callable[]  function (Container $sender); Occurs when the form is validated */
 	public $onValidate;
 
@@ -431,54 +433,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			[, $name] = explode('::', $name);
 		}
 		self::$extMethods[$name] = $callback;
-	}
-
-
-	/********************* interface \ArrayAccess ****************d*g**/
-
-
-	/**
-	 * Adds the component to the container.
-	 * @param  string|int
-	 * @param  Nette\ComponentModel\IComponent
-	 */
-	public function offsetSet($name, $component): void
-	{
-		$this->addComponent($component, $name);
-	}
-
-
-	/**
-	 * Returns component specified by name. Throws exception if component doesn't exist.
-	 * @param  string|int
-	 * @throws Nette\InvalidArgumentException
-	 */
-	public function offsetGet($name): Nette\ComponentModel\IComponent
-	{
-		return $this->getComponent($name, true);
-	}
-
-
-	/**
-	 * Does component specified by name exists?
-	 * @param  string|int
-	 */
-	public function offsetExists($name): bool
-	{
-		return $this->getComponent($name, false) !== null;
-	}
-
-
-	/**
-	 * Removes component from the container.
-	 * @param  string|int
-	 */
-	public function offsetUnset($name): void
-	{
-		$component = $this->getComponent($name, false);
-		if ($component !== null) {
-			$this->removeComponent($component);
-		}
 	}
 
 
