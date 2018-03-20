@@ -179,7 +179,7 @@ class Validator
 
 	/**
 	 * Count/length validator. Range is array, min and max length pair.
-	 * @param  array|int $range
+	 * @param  array|int  $range
 	 */
 	public static function validateLength(IControl $control, $range): bool
 	{
@@ -307,7 +307,7 @@ class Validator
 
 	/**
 	 * Has file specified mime type?
-	 * @param  string|string[] $mimeType
+	 * @param  string|string[]  $mimeType
 	 */
 	public static function validateMimeType(Controls\UploadControl $control, $mimeType): bool
 	{

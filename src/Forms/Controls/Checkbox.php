@@ -23,7 +23,7 @@ class Checkbox extends BaseControl
 
 
 	/**
-	 * @param  string|object
+	 * @param  string|object  $label
 	 */
 	public function __construct($label = null)
 	{

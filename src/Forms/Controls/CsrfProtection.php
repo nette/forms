@@ -25,7 +25,7 @@ class CsrfProtection extends HiddenField
 
 
 	/**
-	 * @param string|object
+	 * @param string|object  $errorMessage
 	 */
 	public function __construct($errorMessage)
 	{

@@ -19,7 +19,7 @@ class TextArea extends TextBase
 {
 
 	/**
-	 * @param  string|object
+	 * @param  string|object  $label
 	 */
 	public function __construct($label = null)
 	{

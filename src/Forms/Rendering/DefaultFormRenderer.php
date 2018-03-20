@@ -125,7 +125,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 	/**
 	 * Provides complete form rendering.
-	 * @param  string $mode 'begin', 'errors', 'ownerrors', 'body', 'end' or empty to render all
+	 * @param  string  $mode  'begin', 'errors', 'ownerrors', 'body', 'end' or empty to render all
 	 */
 	public function render(Nette\Forms\Form $form, string $mode = null): string
 	{
@@ -299,7 +299,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 	/**
 	 * Renders group of controls.
-	 * @param  Nette\Forms\Container|Nette\Forms\ControlGroup
+	 * @param  Nette\Forms\Container|Nette\Forms\ControlGroup  $parent
 	 */
 	public function renderControls($parent): string
 	{
@@ -360,7 +360,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 	/**
 	 * Renders single visual row of multiple controls.
-	 * @param  Nette\Forms\IControl[]
+	 * @param  Nette\Forms\IControl[]  $controls
 	 */
 	public function renderPairMulti(array $controls): string
 	{

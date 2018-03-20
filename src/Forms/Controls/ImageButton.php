@@ -17,8 +17,8 @@ class ImageButton extends SubmitButton
 {
 
 	/**
-	 * @param  string  URI of the image
-	 * @param  string  alternate text for the image
+	 * @param  string  $src  URI of the image
+	 * @param  string  $alt  alternate text for the image
 	 */
 	public function __construct(string $src = null, string $alt = null)
 	{

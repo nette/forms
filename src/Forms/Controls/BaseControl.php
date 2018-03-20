@@ -79,7 +79,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 
 	/**
-	 * @param  string|object
+	 * @param  string|object  $caption
 	 */
 	public function __construct($caption = null)
 	{
@@ -102,7 +102,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Sets textual caption or label.
-	 * @param object|string
+	 * @param object|string  $caption
 	 * @return static
 	 */
 	public function setCaption($caption)
@@ -274,7 +274,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Generates label's HTML element.
-	 * @param  string|object
+	 * @param  string|object  $caption
 	 * @return Html|string
 	 */
 	public function getLabel($caption = null)
@@ -320,7 +320,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Changes control's HTML id.
-	 * @param  mixed  new ID, or false or null
+	 * @param  string|bool|null  $id
 	 * @return static
 	 */
 	public function setHtmlId($id)
@@ -413,8 +413,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Adds a validation rule.
-	 * @param  mixed
-	 * @param  string|object
+	 * @param  callable|string  $validator
+	 * @param  string|object  $errorMessage
 	 * @return static
 	 */
 	public function addRule($validator, $errorMessage = null, $arg = null)
@@ -452,7 +452,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Makes control mandatory.
-	 * @param  mixed  state or error message
+	 * @param  boo|string|object  $value
 	 * @return static
 	 */
 	public function setRequired($value = true)
@@ -486,7 +486,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Adds error message to the list.
-	 * @param  string|object
+	 * @param  string|object  $message
 	 */
 	public function addError($message, bool $translate = true): void
 	{

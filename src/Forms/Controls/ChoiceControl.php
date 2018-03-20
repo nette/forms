@@ -57,7 +57,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Sets selected item (by key).
-	 * @param  string|int
+	 * @param  string|int  $value
 	 * @return static
 	 * @internal
 	 */
@@ -134,7 +134,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Disables or enables control or items.
-	 * @param  bool|array
+	 * @param  bool|array  $value
 	 * @return static
 	 */
 	public function setDisabled($value = true)

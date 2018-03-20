@@ -29,7 +29,7 @@ class Helpers
 
 	/**
 	 * Extracts and sanitizes submitted form data for single control.
-	 * @param  int $type  type Form::DATA_TEXT, DATA_LINE, DATA_FILE, DATA_KEYS
+	 * @param  int  $type  type Form::DATA_TEXT, DATA_LINE, DATA_FILE, DATA_KEYS
 	 * @return string|string[]
 	 * @internal
 	 */

@@ -43,7 +43,7 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Makes control mandatory.
-	 * @param  mixed  state or error message
+	 * @param  string|bool  $value
 	 * @return static
 	 */
 	public function setRequired($value = true)
@@ -77,8 +77,8 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation rule for the current control.
-	 * @param  mixed
-	 * @param  string|object
+	 * @param  callable|string  $validator
+	 * @param  string|object  $errorMessage
 	 * @return static
 	 */
 	public function addRule($validator, $errorMessage = null, $arg = null)

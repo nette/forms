@@ -151,7 +151,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Sets form's action.
-	 * @param  string|object
+	 * @param  string|object  $url
 	 * @return static
 	 */
 	public function setAction($url)
@@ -237,7 +237,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Removes fieldset group from form.
-	 * @param  string|int|ControlGroup
+	 * @param  string|int|ControlGroup  $name
 	 */
 	public function removeGroup($name): void
 	{
@@ -272,7 +272,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Returns the specified group.
-	 * @param  string|int
+	 * @param  string|int  $name
 	 */
 	public function getGroup($name): ?ControlGroup
 	{
@@ -499,7 +499,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Adds global error message.
-	 * @param  string|object
+	 * @param  string|object  $message
 	 */
 	public function addError($message, bool $translate = true): void
 	{

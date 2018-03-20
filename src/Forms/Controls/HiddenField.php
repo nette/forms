@@ -68,7 +68,7 @@ class HiddenField extends BaseControl
 
 	/**
 	 * Bypasses label generation.
-	 * @param  string|object
+	 * @param  string|object  $caption
 	 */
 	public function getLabel($caption = null): void
 	{
@@ -77,7 +77,7 @@ class HiddenField extends BaseControl
 
 	/**
 	 * Adds error message to the list.
-	 * @param  string|object
+	 * @param  string|object  $message
 	 */
 	public function addError($message, bool $translate = true): void
 	{

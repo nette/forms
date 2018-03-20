@@ -19,7 +19,7 @@ class Button extends BaseControl
 {
 
 	/**
-	 * @param  string|object
+	 * @param  string|object  $caption
 	 */
 	public function __construct($caption = null)
 	{
@@ -49,7 +49,7 @@ class Button extends BaseControl
 
 	/**
 	 * Generates control's HTML element.
-	 * @param  string|object
+	 * @param  string|object  $caption
 	 */
 	public function getControl($caption = null): Nette\Utils\Html
 	{
