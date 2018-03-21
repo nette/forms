@@ -54,7 +54,7 @@ class FormMacros extends MacroSet
 			throw new CompileException('Did you mean <form n:name=...> ?');
 		}
 		$name = $node->tokenizer->fetchWord();
-		if ($name === false) {
+		if ($name == null) { // null or false
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
 		$node->replaced = true;
@@ -77,7 +77,7 @@ class FormMacros extends MacroSet
 			throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
 		}
 		$name = $node->tokenizer->fetchWord();
-		if ($name === false) {
+		if ($name == null) { // null or false
 			throw new CompileException('Missing name in ' . $node->getNotation());
 		}
 		$node->tokenizer->reset();
