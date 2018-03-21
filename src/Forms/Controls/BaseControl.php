@@ -143,7 +143,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * Loads HTTP data.
 	 * @return mixed
 	 */
-	protected function getHttpData($type, $htmlTail = null)
+	protected function getHttpData($type, string $htmlTail = null)
 	{
 		return $this->getForm()->getHttpData($type, $this->getHtmlName() . $htmlTail);
 	}
@@ -211,7 +211,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * Disables or enables control.
 	 * @return static
 	 */
-	public function setDisabled($value = true)
+	public function setDisabled(/*bool*/ $value = true)
 	{
 		if ($this->disabled = (bool) $value) {
 			$this->setValue(null);
@@ -587,7 +587,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	}
 
 
-	public static function extensionMethod($name, /*callable*/ $callback): void
+	public static function extensionMethod(string $name, /*callable*/ $callback): void
 	{
 		if (strpos($name, '::') !== false) { // back compatibility
 			[, $name] = explode('::', $name);

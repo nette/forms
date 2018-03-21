@@ -18,7 +18,7 @@ use Tracy\Dumper;
 Debugger::enable();
 
 
-function makeBootstrap4(Form $form)
+function makeBootstrap4(Form $form): void
 {
 	$renderer = $form->getRenderer();
 	$renderer->wrappers['controls']['container'] = null;

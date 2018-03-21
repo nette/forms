@@ -425,7 +425,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	public static function extensionMethod($name, /*callable*/ $callback): void
+	public static function extensionMethod(string $name, /*callable*/ $callback): void
 	{
 		if (strpos($name, '::') !== false) { // back compatibility
 			[, $name] = explode('::', $name);

@@ -580,9 +580,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	}
 
 
-	/**
-	 * @return void
-	 */
 	protected function beforeRender()
 	{
 	}
