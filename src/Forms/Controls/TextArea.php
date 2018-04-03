@@ -35,6 +35,6 @@ class TextArea extends TextBase
 	public function getControl(): Nette\Utils\Html
 	{
 		return parent::getControl()
-			->setText($this->getRenderedValue());
+			->setText((string) $this->getRenderedValue());
 	}
 }
