@@ -7,6 +7,7 @@
 declare(strict_types=1);
 
 use Nette\Forms\Form;
+use Nette\Forms\ScalarValue;
 use Nette\Forms\Validator;
 use Tester\Assert;
 
@@ -144,4 +145,31 @@ test(function () { // disabled & submitted
 	$form['disabled'] = $input;
 
 	Assert::same('default', $input->getValue());
+});
+
+
+test(function () { // scalarValue
+	$form = new Form;
+	$input = $form->addText('text');
+	$input->setValue(new ScalarValue( 'scalarValue', null));
+
+	Assert::null($input->getValue());
+	Assert::same('<input type="text" name="text" id="frm-text" value="scalarValue">', (string) $input->getControl());
+});
+
+
+test(function () { // scalarValue from filter
+	$form = new Form;
+
+	$input = $form->addText('text');
+	$input->setValue('scalarValue');
+	$input->addFilter(function (string $scalarValue): ScalarValue {
+		return new ScalarValue($scalarValue, 'mixedValue');
+	});
+
+	$form->validate();
+
+	Assert::same('mixedValue', $input->getValue());
+	Assert::same('<input type="text" name="text" id="frm-text" value="scalarValue">', (string) $input->getControl());
+	Assert::true(Validator::validateFilled($input));
 });
