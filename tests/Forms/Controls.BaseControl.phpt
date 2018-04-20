@@ -151,7 +151,7 @@ test(function () { // disabled & submitted
 test(function () { // scalarValue
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->setValue(new ScalarValue( 'scalarValue', null));
+	$input->setValue(new ScalarValue('scalarValue', null));
 
 	Assert::null($input->getValue());
 	Assert::same('<input type="text" name="text" id="frm-text" value="scalarValue">', (string) $input->getControl());
