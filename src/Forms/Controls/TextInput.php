@@ -84,7 +84,8 @@ class TextInput extends TextBase
 			static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
 			$this->control->type = $types[$validator];
 
-		} elseif (in_array($validator, [Form::MIN, Form::MAX, Form::RANGE], true)
+		} elseif (
+			in_array($validator, [Form::MIN, Form::MAX, Form::RANGE], true)
 			&& in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], true)
 		) {
 			if ($validator === Form::MIN) {
@@ -101,7 +102,9 @@ class TextInput extends TextBase
 				$this->control->max = isset($this->control->max) ? min($this->control->max, $range[1]) : $range[1];
 			}
 
-		} elseif ($validator === Form::PATTERN && is_scalar($arg)
+		} elseif (
+			$validator === Form::PATTERN
+			&& is_scalar($arg)
 			&& in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], true)
 		) {
 			$this->control->pattern = $arg;
