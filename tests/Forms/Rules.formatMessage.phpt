@@ -29,7 +29,7 @@ $form->addText('args3')
 	->addRule(Form::LENGTH, '%d %d', 1)
 	->setDefaultValue('xyz');
 
-$form->addText('special', 'Label')
+$form->addText('special', 'Label:')
 	->setRequired()
 	->addRule(Form::EMAIL, '%label %value is invalid [field %name] %d', $form['special'])
 	->setDefaultValue('xyz');
