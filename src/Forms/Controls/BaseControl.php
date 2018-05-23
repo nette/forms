@@ -452,7 +452,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Makes control mandatory.
-	 * @param  boo|string|object  $value
+	 * @param  bool|string|object  $value
 	 * @return static
 	 */
 	public function setRequired($value = true)
