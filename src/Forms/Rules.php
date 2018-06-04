@@ -261,6 +261,15 @@ class Rules implements \IteratorAggregate
 
 
 	/**
+	 * Clear all validation rules.
+	 */
+	public function reset(): void
+	{
+		$this->rules = [];
+	}
+
+
+	/**
 	 * Validates single rule.
 	 */
 	public static function validateRule(Rule $rule): bool
