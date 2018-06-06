@@ -83,7 +83,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function __construct($caption = null)
 	{
-		parent::__construct();
 		$this->control = Html::el('input', ['type' => null, 'name' => null]);
 		$this->label = Html::el('label');
 		$this->caption = $caption;

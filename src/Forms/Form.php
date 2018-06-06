@@ -125,7 +125,6 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function __construct(string $name = null)
 	{
-		parent::__construct();
 		if ($name !== null) {
 			$this->getElementPrototype()->id = 'frm-' . $name;
 			$tracker = new Controls\HiddenField($name);
