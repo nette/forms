@@ -173,7 +173,8 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			foreach (preg_split('#[;&]#', $query, -1, PREG_SPLIT_NO_EMPTY) as $param) {
 				$parts = explode('=', $param, 2);
 				$name = urldecode($parts[0]);
-				if (!isset($this->form[$name])) {
+				$prefix = explode('[', $name, 2)[0];
+				if (!isset($this->form[$prefix])) {
 					$s .= Html::el('input', ['type' => 'hidden', 'name' => $name, 'value' => urldecode($parts[1])]);
 				}
 			}
