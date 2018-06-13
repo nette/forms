@@ -13,7 +13,9 @@ require __DIR__ . '/../bootstrap.php';
 
 $form = new Nette\Forms\Form;
 $form->setMethod('GET');
-$form->setAction('link?a=b&c[]=d');
+$form->setAction('link?a=b&c[]=d&list[0]=1');
+$form->addCheckboxList('list')
+	->setItems(['First', 'Second']);
 $form->addHidden('userid');
 $form->addSubmit('submit', 'Send');
 
@@ -24,6 +26,12 @@ Assert::match('<form action="link" method="get">
 
 <table>
 <tr>
+	<th><label></label></th>
+
+	<td><label><input type="checkbox" name="list[]" value="0">First</label><br><label><input type="checkbox" name="list[]" value="1">Second</label></td>
+</tr>
+
+<tr>
 	<th></th>
 
 	<td><input type="submit" name="_submit" value="Send" class="button"></td>
@@ -33,4 +41,4 @@ Assert::match('<form action="link" method="get">
 <input type="hidden" name="userid" value=""><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
 </form>', $form->__toString(true));
 
-Assert::same('link?a=b&c[]=d', $form->getAction());
+Assert::same('link?a=b&c[]=d&list[0]=1', $form->getAction());
