@@ -15,7 +15,9 @@ require __DIR__ . '/../bootstrap.php';
 
 $form = new Form;
 $form->setMethod('GET');
-$form->action = 'http://example.com/?do=foo-submit#toc';
+$form->addText('arg1');
+$form->addText('arg2');
+$form->setAction('http://example.com/?do=foo-submit&arg0=1&arg1=1&arg2[x]=1#toc');
 
 Assert::same(
 	'<form action="http://example.com/#toc" method="get">',
@@ -23,7 +25,6 @@ Assert::same(
 );
 
 Assert::match(
-	'<input type="hidden" name="do" value="foo-submit"><!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->
-</form>',
+	'<input type="hidden" name="do" value="foo-submit"><input type="hidden" name="arg0" value="1"></form>',
 	Runtime::renderFormEnd($form)
 );
