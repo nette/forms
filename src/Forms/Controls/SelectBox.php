@@ -27,7 +27,7 @@ class SelectBox extends ChoiceControl
 	private $prompt = false;
 
 	/** @var bool */
-	private $lockAutoDefault = false;
+	private $autoDefault = false;
 
 	/** @var array */
 	private $optionAttributes = [];
@@ -67,7 +67,7 @@ class SelectBox extends ChoiceControl
 
 	public function setDefaultValue($value)
 	{
-		$this->lockAutoDefault = true;
+		$this->autoDefault = true;
 		return parent::setDefaultValue($value);
 	}
 
@@ -143,11 +143,11 @@ class SelectBox extends ChoiceControl
 	}
 
 
-	private function setDefaultValueAuto($value, $lock = false)
+	private function setDefaultValueAuto($value, bool $autoDefault = false)
 	{
-		if ($this->lockAutoDefault === false) {
+		if ($this->autoDefault === false) {
 			$this->setDefaultValue($value);
-			$this->lockAutoDefault = $lock;
+			$this->autoDefault = $autoDefault;
 		}
 		return $this;
 	}
