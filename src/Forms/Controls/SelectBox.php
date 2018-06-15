@@ -123,6 +123,15 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	public function setHtmlAttribute(string $name, $value = true)
+	{
+		if ($name === 'size' && $value > 1) {
+			$this->setDefaultValueAuto(null, true);
+		}
+		return parent::setHtmlAttribute($name, $value);
+	}
+
+
 	/**
 	 * @return static
 	 */
