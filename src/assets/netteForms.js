@@ -38,7 +38,9 @@
 	 * Attaches a handler to an event for the element.
 	 */
 	Nette.addEvent = function(element, on, callback) {
-		if (element.addEventListener) {
+		if (on === 'DOMContentLoaded' && element.readyState !== 'loading') {
+			callback.call(this);
+		} else if (element.addEventListener) {
 			element.addEventListener(on, callback);
 		} else if (on === 'DOMContentLoaded') {
 			element.attachEvent('onreadystatechange', function() {
