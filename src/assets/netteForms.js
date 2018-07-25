@@ -454,7 +454,11 @@
 			}
 
 			try {
-				var regExp = new RegExp('^(?:' + arg + ')$');
+				try {
+					var regExp = new RegExp('^(?:' + arg + ')$', 'u');
+				} catch (e) {
+					regExp = new RegExp('^(?:' + arg + ')$');
+				}
 
 				if (window.FileList && val instanceof FileList) {
 					for (var i = 0; i < val.length; i++) {
