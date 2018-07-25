@@ -449,8 +449,24 @@
 		},
 
 		pattern: function(elem, arg, val) {
+			if (typeof arg !== 'string') {
+				return null;
+			}
+
 			try {
-				return typeof arg === 'string' ? (new RegExp('^(?:' + arg + ')$')).test(val) : null;
+				var regExp = new RegExp('^(?:' + arg + ')$');
+
+				if (window.FileList && val instanceof FileList) {
+					for (var i = 0; i < val.length; i++) {
+						if (!regExp.test(val[i].name)) {
+							return false;
+						}
+					}
+
+					return true;
+				}
+
+				return regExp.test(val);
 			} catch (e) {} // eslint-disable-line no-empty
 		},
 
