@@ -147,7 +147,7 @@
 	 */
 	Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
 		elem = elem.tagName ? elem : elem[0]; // RadioNodeList
-		rules = rules || Nette.parseJSON(elem.getAttribute('data-nette-rules'));
+		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
 		value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
 
 		for (var id = 0, len = rules.length; id < len; id++) {
@@ -217,7 +217,7 @@
 		Nette.formErrors = [];
 
 		if (form['nette-submittedBy'] && form['nette-submittedBy'].getAttribute('formnovalidate') !== null) {
-			var scopeArr = Nette.parseJSON(form['nette-submittedBy'].getAttribute('data-nette-validation-scope'));
+			var scopeArr = JSON.parse(form['nette-submittedBy'].getAttribute('data-nette-validation-scope') || '[]');
 			if (scopeArr.length) {
 				scope = new RegExp('^(' + scopeArr.join('-|') + '-)');
 			} else {
@@ -585,7 +585,7 @@
 	 * Process toggles on form element.
 	 */
 	Nette.toggleControl = function(elem, rules, success, firsttime, value) {
-		rules = rules || Nette.parseJSON(elem.getAttribute('data-nette-rules'));
+		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
 		value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
 
 		var has = false,
@@ -642,13 +642,6 @@
 			}
 		}
 		return has;
-	};
-
-
-	Nette.parseJSON = function(s) {
-		return (s || '').substr(0, 3) === '{op'
-			? eval('[' + s + ']') // backward compatibility with Nette 2.0.x
-			: JSON.parse(s || '[]');
 	};
 
 
