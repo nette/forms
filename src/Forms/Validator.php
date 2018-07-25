@@ -246,12 +246,20 @@ class Validator
 
 
 	/**
-	 * Matches control's value regular expression?
+	 * Does the control's value match the regular expression?
+	 * Case-sensitive to comply with the HTML5 <input /> pattern attribute behaviour
 	 */
-	public static function validatePattern(IControl $control, string $pattern): bool
+	public static function validatePattern(IControl $control, string $pattern, bool $caseInsensitive = false): bool
 	{
 		$value = $control->getValue() instanceof Nette\Http\FileUpload ? $control->getValue()->getName() : $control->getValue();
-		return (bool) Strings::match($value, "\x01^(?:$pattern)\\z\x01u");
+		$modifiers = 'u' . ($caseInsensitive ? 'i' : '');
+		return (bool) Strings::match($value, "\x01^(?:$pattern)\\z\x01" . $modifiers);
+	}
+
+
+	public static function validatePatternCaseInsensitive(IControl $control, string $pattern): bool
+	{
+		return self::validatePattern($control, $pattern, true);
 	}
 
 

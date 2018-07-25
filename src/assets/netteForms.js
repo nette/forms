@@ -448,16 +448,17 @@
 			} catch (e) {} // eslint-disable-line no-empty
 		},
 
-		pattern: function(elem, arg, val) {
+		pattern: function(elem, arg, val, value, caseInsensitive) {
 			if (typeof arg !== 'string') {
 				return null;
 			}
 
+			var extraModifiers = (caseInsensitive ? 'i' : '');
 			try {
 				try {
-					var regExp = new RegExp('^(?:' + arg + ')$', 'u');
+					var regExp = new RegExp('^(?:' + arg + ')$', 'u' + extraModifiers);
 				} catch (e) {
-					regExp = new RegExp('^(?:' + arg + ')$');
+					regExp = new RegExp('^(?:' + arg + ')$', extraModifiers);
 				}
 
 				if (window.FileList && val instanceof FileList) {
@@ -472,6 +473,10 @@
 
 				return regExp.test(val);
 			} catch (e) {} // eslint-disable-line no-empty
+		},
+
+		patternCaseInsensitive: function(elem, arg, val) {
+			return Nette.validators.pattern(elem, arg, val, null, true);
 		},
 
 		numeric: function(elem, arg, val) {
