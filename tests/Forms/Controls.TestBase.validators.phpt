@@ -95,6 +95,14 @@ test(function () {
 	Assert::false(Validator::validatePattern($control, '[0-9]+X'));
 });
 
+test(function () {
+	$control = new TextInput;
+	$control->value = '123x';
+	Assert::false(Validator::validatePatternCaseInsensitive($control, '[0-9]'));
+	Assert::true(Validator::validatePatternCaseInsensitive($control, '[0-9]+x'));
+	Assert::true(Validator::validatePatternCaseInsensitive($control, '[0-9]+X'));
+});
+
 
 test(function () {
 	class MockUploadControl extends UploadControl

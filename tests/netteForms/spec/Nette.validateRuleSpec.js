@@ -45,6 +45,14 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.validateRule(el, 'pattern', '\\d')).toBe(false);
 		expect(Nette.validateRule(el, 'pattern', '\\w')).toBe(false);
 		expect(Nette.validateRule(el, 'pattern', '\\w+')).toBe(true);
+		expect(Nette.validateRule(el, 'pattern', 'hello')).toBe(true);
+		expect(Nette.validateRule(el, 'pattern', 'HELLO')).toBe(false);
+		expect(Nette.validateRule(el, 'patternCaseInsensitive', '\\d+')).toBe(false);
+		expect(Nette.validateRule(el, 'patternCaseInsensitive', '\\d')).toBe(false);
+		expect(Nette.validateRule(el, 'patternCaseInsensitive', '\\w')).toBe(false);
+		expect(Nette.validateRule(el, 'patternCaseInsensitive', '\\w+')).toBe(true);
+		expect(Nette.validateRule(el, 'patternCaseInsensitive', 'hello')).toBe(true);
+		expect(Nette.validateRule(el, 'patternCaseInsensitive', 'HELLO')).toBe(true);
 		expect(Nette.validateRule(el, 'integer')).toBe(false);
 		expect(Nette.validateRule(el, 'float')).toBe(false);
 
