@@ -40,17 +40,13 @@ test(function () {
 
 
 test(function () {
-	Nette\Forms\Controls\BaseControl::$idMask = 'frm-%s-%s';
-
 	$form = new Form;
 	$input = $form->addText('name');
-	Assert::same('frm-name-', $input->getHtmlId());
+	Assert::same('frm-name', $input->getHtmlId());
 });
 
 
 test(function () {
-	Nette\Forms\Controls\BaseControl::$idMask = 'frm-%2$s-%1$s';
-
 	$form = new Form('signForm');
 	$input = $form->addText('name');
 	Assert::same('frm-signForm-name', $input->getHtmlId());

@@ -337,7 +337,10 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	{
 		if (!isset($this->control->id)) {
 			$form = $this->getForm();
-			$this->control->id = sprintf(self::$idMask, $this->lookupPath(), $form->getName());
+			$prefix = $form instanceof Nette\Application\UI\Form || $form->getName() === null
+				? ''
+				: $form->getName() . '-';
+			$this->control->id = sprintf(self::$idMask, $prefix . $this->lookupPath());
 		}
 		return $this->control->id;
 	}
