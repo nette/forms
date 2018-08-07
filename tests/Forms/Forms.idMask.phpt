@@ -13,15 +13,15 @@ require __DIR__ . '/../bootstrap.php';
 Assert::exception(function () {
 	$input = new TextInput('name');
 	$input->getHtmlId();
-}, Nette\InvalidStateException::class, "Component '' is not attached to ''.");
+}, Nette\InvalidStateException::class, "Component '' is not attached to 'Nette\\Forms\\Form'.");
 
 
-test(function () {
+Assert::exception(function () {
 	$container = new Nette\Forms\Container;
 	$container->setParent(null, 'second');
 	$input = $container->addText('name');
-	Assert::same('frm-name', $input->getHtmlId());
-});
+	$input->getHtmlId();
+}, Nette\InvalidStateException::class, "Component 'name' is not attached to 'Nette\\Forms\\Form'.");
 
 
 test(function () {
