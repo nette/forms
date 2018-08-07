@@ -334,7 +334,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public function getHtmlId()
 	{
 		if (!isset($this->control->id)) {
-			$this->control->id = sprintf(self::$idMask, $this->lookupPath());
+			$form = $this->getForm(false);
+			$this->control->id = sprintf(self::$idMask, $this->lookupPath(), $form ? $form->getName() : '');
 		}
 		return $this->control->id;
 	}
