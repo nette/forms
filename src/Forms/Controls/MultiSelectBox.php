@@ -85,7 +85,8 @@ class MultiSelectBox extends MultiChoiceControl
 		return $this;
 	}
 
-	public function getOptionAttributes(): array{
+	public function getOptionAttributes(): array
+    {
 	    return $this->optionAttributes;
     }
 }
