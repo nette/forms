@@ -124,4 +124,9 @@ class SelectBox extends ChoiceControl
 			|| !$this->options
 			|| $this->control->size > 1;
 	}
+
+	public function getOptionAttributes(): array
+    {
+	    return $this->optionAttributes;
+    }
 }
