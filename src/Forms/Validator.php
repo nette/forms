@@ -61,7 +61,7 @@ class Validator
 			trigger_error("Missing validation message for control '{$rule->control->getName()}'.", E_USER_WARNING);
 		}
 
-		if ($translator = $rule->control->getForm()->getTranslator()) {
+		if ($translator = $rule->control->getTranslator()) {
 			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : null);
 		}
 
