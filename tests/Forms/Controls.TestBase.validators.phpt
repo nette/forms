@@ -120,6 +120,18 @@ test(function () {
 	]);
 	Assert::false(Validator::validatePattern($control, '[4-6]+y'));
 	Assert::true(Validator::validatePattern($control, '[1-3]+x'));
+
+	$control = new MockUploadControl(null, true);
+	$control->value = [new FileUpload([
+		'name' => 'foo.jpg', 'size' => 1, 'tmp_name' => 'foo1', 'error' => UPLOAD_ERR_OK, 'type' => '',
+	])];
+	Assert::true(Validator::validatePattern($control, '.*jpg'));
+
+	$control = new MockUploadControl(null, true);
+	$control->value = [new FileUpload([
+		'name' => 'bar.png', 'size' => 1, 'tmp_name' => 'bar1', 'error' => UPLOAD_ERR_OK, 'type' => '',
+	])];
+	Assert::false(Validator::validatePattern($control, '.*jpg'));
 });
 
 
