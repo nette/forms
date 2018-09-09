@@ -35,7 +35,7 @@ test(function () {
 
 test(function () {
 	$choiceCOntrol = new ChoiceControl(null, ['A' => 'A']);
-	$choiceCOntrol->prependItem('B');
+	$choiceCOntrol->prependItems(['B'], false);
 
 	Assert::same(['B' => 'B', 'A' => 'A'], $choiceCOntrol->getItems());
 });
@@ -43,15 +43,15 @@ test(function () {
 
 test(function () {
 	$choiceCOntrol = new ChoiceControl(null, ['A' => 'A']);
-	$choiceCOntrol->prependItem('B', 'C');
+	$choiceCOntrol->prependItems(['B' => 'C']);
 
-	Assert::same(['C' => 'B', 'A' => 'A'], $choiceCOntrol->getItems());
+	Assert::same(['B' => 'C', 'A' => 'A'], $choiceCOntrol->getItems());
 });
 
 
 test(function () {
 	$choiceCOntrol = new ChoiceControl(null, ['A']);
-	$choiceCOntrol->prependItem('B', null, true);
+	$choiceCOntrol->prependItems(['B']);
 
 	Assert::same([0 => 'B', 1 => 'A'], $choiceCOntrol->getItems());
 });
@@ -59,7 +59,7 @@ test(function () {
 
 test(function () {
 	$choiceCOntrol = new ChoiceControl(null, ['A' => 'A']);
-	$choiceCOntrol->appendItem('B');
+	$choiceCOntrol->appendItems(['B'], false);
 
 	Assert::same(['A' => 'A', 'B' => 'B'], $choiceCOntrol->getItems());
 });
@@ -67,15 +67,15 @@ test(function () {
 
 test(function () {
 	$choiceCOntrol = new ChoiceControl(null, ['A' => 'A']);
-	$choiceCOntrol->appendItem('B', 'C');
+	$choiceCOntrol->appendItems(['B' => 'C']);
 
-	Assert::same(['A' => 'A', 'C' => 'B'], $choiceCOntrol->getItems());
+	Assert::same(['A' => 'A', 'B' => 'C'], $choiceCOntrol->getItems());
 });
 
 
 test(function () {
 	$choiceCOntrol = new ChoiceControl(null, ['A']);
-	$choiceCOntrol->appendItem('B', null, true);
+	$choiceCOntrol->appendItems(['B']);
 
 	Assert::same([0 => 'A', 1 => 'B'], $choiceCOntrol->getItems());
 });

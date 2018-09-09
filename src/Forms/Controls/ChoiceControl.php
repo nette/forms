@@ -113,38 +113,23 @@ abstract class ChoiceControl extends BaseControl
 
 
 	/**
-	 * Prepend one item to the item list.
-	 * @param  mixed           $item
-	 * @param  string|int|null $key
+	 * Prepends items from which to choose.
 	 * @return static
 	 */
-	public function prependItem($item, $key = null, bool $reindexKeys = false)
+	public function prependItems(array $items, bool $useKeys = true)
 	{
-		if ($key === null && $reindexKeys) {
-			array_unshift($this->items, $item);
-			return $this;
-		}
-
-		$this->items = [($key === null ? $item : $key) => $item] + $this->items;
+		$this->items = array_merge($useKeys ? $items : array_combine($items, $items), $this->items);
 		return $this;
 	}
 
 
 	/**
-	 * Append one item to the item list.
-	 * @param  mixed           $item
-	 * @param  string|int|null $key
-	 * @param  bool            $numericKey
+	 * Appends items from which to choose.
 	 * @return static
 	 */
-	public function appendItem($item, $key = null, bool $numericKeys = false)
+	public function appendItems(array $items, bool $useKeys = true)
 	{
-		if ($key === null && $numericKeys) {
-			$this->items[] = $item;
-			return $this;
-		}
-
-		$this->items[$key !== null ? $key : $item] = $item;
+		$this->items = array_merge($this->items, $useKeys ? $items : array_combine($items, $items));
 		return $this;
 	}
 
