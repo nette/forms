@@ -30,9 +30,9 @@ jobs:
             php: 7.1
             install:
                 # Install Nette Code Checker
-                - travis_retry composer create-project nette/code-checker temp/code-checker ~2 --no-progress
+                - travis_retry composer create-project nette/code-checker temp/code-checker ^3 --no-progress
                 # Install Nette Coding Standard
-                - travis_retry composer create-project nette/coding-standard temp/coding-standard --no-progress
+                - travis_retry composer create-project nette/coding-standard temp/coding-standard ^2 --no-progress
                 # Install new Node.js
                 - . $HOME/.nvm/nvm.sh
                 - nvm install stable
@@ -40,8 +40,8 @@ jobs:
                 # Install Grunt and Eslint
                 - npm install -g grunt-cli; cd tests/netteForms; npm install; cd ../..
             script:
-                - php temp/code-checker/src/code-checker.php --short-arrays
-                - php temp/coding-standard/ecs check src tests examples --config temp/coding-standard/coding-standard-php56.neon
+                - php temp/code-checker/code-checker
+                - php temp/coding-standard/ecs check src tests examples --config temp/coding-standard/coding-standard-php56.yml
                 - grunt --gruntfile=tests/netteForms/Gruntfile.js test
                 - tests/netteForms/node_modules/.bin/eslint src/assets/netteForms.js --config tests/.eslintrc.js
 
