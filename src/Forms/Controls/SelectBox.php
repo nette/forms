@@ -26,6 +26,9 @@ class SelectBox extends ChoiceControl
 	/** @var mixed */
 	private $prompt = false;
 
+	/** @var bool */
+	private $autoDefault = false;
+
 	/** @var array */
 	private $optionAttributes = [];
 
@@ -47,6 +50,7 @@ class SelectBox extends ChoiceControl
 	public function setPrompt($prompt)
 	{
 		$this->prompt = $prompt;
+		$this->setDefaultValueAuto(null, true);
 		return $this;
 	}
 
@@ -58,6 +62,13 @@ class SelectBox extends ChoiceControl
 	public function getPrompt()
 	{
 		return $this->prompt;
+	}
+
+
+	public function setDefaultValue($value)
+	{
+		$this->autoDefault = true;
+		return parent::setDefaultValue($value);
 	}
 
 
@@ -82,7 +93,13 @@ class SelectBox extends ChoiceControl
 			$items = $res;
 		}
 		$this->options = $items;
-		return parent::setItems(Nette\Utils\Arrays::flatten($items, true));
+		parent::setItems(Nette\Utils\Arrays::flatten($items, true));
+
+		if ($this->prompt === false && $this->items) {
+			reset($this->items);
+			$this->setDefaultValueAuto(key($this->items));
+		}
+		return $this;
 	}
 
 
@@ -106,6 +123,15 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	public function setHtmlAttribute(string $name, $value = true)
+	{
+		if ($name === 'size' && $value > 1) {
+			$this->setDefaultValueAuto(null, true);
+		}
+		return parent::setHtmlAttribute($name, $value);
+	}
+
+
 	/**
 	 * @return static
 	 */
@@ -123,5 +149,15 @@ class SelectBox extends ChoiceControl
 			|| $this->getValue() !== null
 			|| !$this->options
 			|| $this->control->size > 1;
+	}
+
+
+	private function setDefaultValueAuto($value, bool $autoDefault = false)
+	{
+		if ($this->autoDefault === false) {
+			$this->setDefaultValue($value);
+			$this->autoDefault = $autoDefault;
+		}
+		return $this;
 	}
 }

@@ -140,9 +140,9 @@ class FormMacros extends MacroSet
 		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
-			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; echo $_input' : 'echo end($this->global->formsStack)[%0.word]')
-				. '->%1.raw'
-				. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : '')
+			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; ' : 'echo end($this->global->formsStack)[%0.word]; ')
+				. ($node->tokenizer->isNext() ? 'foreach(%node.array as $_k => $_v) {$_input->setHtmlAttribute($_k, $_v);} ' : '')
+				. 'echo $_input->%1.raw'
 				. " /* line $node->startLine */",
 			$name,
 			$words ? 'getControlPart(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')' : 'getControl()'

@@ -17,7 +17,7 @@ require __DIR__ . '/../bootstrap.php';
 $form = new Form;
 $select = $form->addSelect('foo', null, ['bar' => 'Bar']);
 
-Assert::false($select->isOk());
+Assert::true($select->isOk());
 
 $select->setDisabled(true);
 Assert::true($select->isOk());

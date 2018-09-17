@@ -35,7 +35,7 @@ test(function () {
 	Assert::same('<label for="frm-list">Another label</label>', (string) $input->getLabel('Another label'));
 
 	Assert::type(Html::class, $input->getControl());
-	Assert::same('<select name="list" id="frm-list"><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list"><option value="a" selected>First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
 
 
@@ -96,7 +96,7 @@ test(function () { // validation rules
 		0 => 'Second',
 	])->setRequired('required');
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\'><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\'><option value="a" selected>First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
 
 
@@ -108,7 +108,7 @@ test(function () { // container
 		0 => 'Second',
 	]);
 
-	Assert::same('<select name="container[list]" id="frm-container-list"><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="container[list]" id="frm-container-list"><option value="a" selected>First</option><option value="0">Second</option></select>', (string) $input->getControl());
 });
 
 
