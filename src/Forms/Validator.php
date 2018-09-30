@@ -277,8 +277,14 @@ class Validator
 	 */
 	public static function validatePattern(IControl $control, $pattern, $caseInsensitive = false)
 	{
-		$value = $control->getValue() instanceof Nette\Http\FileUpload ? $control->getValue()->getName() : $control->getValue();
-		return (bool) Strings::match($value, "\x01^(?:$pattern)\\z\x01u" . ($caseInsensitive ? 'i' : ''));
+		$regexp = "\x01^(?:$pattern)\\z\x01u" . ($caseInsensitive ? 'i' : '');
+		foreach (static::toArray($control->getValue()) as $item) {
+			$value = $item instanceof Nette\Http\FileUpload ? $item->getName() : $item;
+			if (!Strings::match($value, $regexp)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 
