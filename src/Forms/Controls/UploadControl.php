@@ -76,6 +76,20 @@ class UploadControl extends BaseControl
 
 
 	/**
+	 * @param string|object $errorMessage
+	 * @param string|array $arg
+	 * @return static
+	 */
+	public function setAllowedType($errorMessage = null, $arg = null)
+	{
+		$types = is_array($arg) ? implode(',', $arg) : $arg;
+		$this->setHtmlAttribute('accept', $types);
+		$this->addRule(Forms\Form::MIME_TYPE, $errorMessage, $arg);
+		return $this;
+	}
+
+
+	/**
 	 * Has been any file uploaded?
 	 */
 	public function isFilled(): bool
