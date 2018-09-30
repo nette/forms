@@ -97,4 +97,18 @@ class UploadControl extends BaseControl
 				return $carry && $fileUpload->isOk();
 			}, true);
 	}
+
+
+	/**
+	 * @return static
+	 */
+	public function addRule($validator, $errorMessage = null, $arg = null)
+	{
+		if ($validator === Forms\Form::IMAGE) {
+			$this->control->accept = implode(FileUpload::IMAGE_MIME_TYPES, ', ');
+		} elseif ($validator === Forms\Form::MIME_TYPE) {
+			$this->control->accept = implode((array) $arg, ', ');
+		}
+		return parent::addRule($validator, $errorMessage, $arg);
+	}
 }
