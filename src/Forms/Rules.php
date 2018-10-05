@@ -169,7 +169,7 @@ class Rules implements \IteratorAggregate
 	{
 		$this->rules[] = $rule = new Rule;
 		$rule->control = $this->control;
-		$rule->validator = function (IControl $control) use ($filter) {
+		$rule->validator = function (IControl $control) use ($filter): bool {
 			$control->setValue($filter($control->getValue()));
 			return true;
 		};

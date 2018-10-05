@@ -48,10 +48,7 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	/**
-	 * @return DateTimeImmutable|null
-	 */
-	public function getValue()
+	public function getValue(): ?DateTimeImmutable
 	{
 		return self::validateDate($this)
 			? (new DateTimeImmutable)->setDate((int) $this->year, (int) $this->month, (int) $this->day)->setTime(0, 0)
@@ -59,9 +56,6 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	/**
-	 * @return bool
-	 */
 	public function isFilled(): bool
 	{
 		return $this->day !== '' || $this->year !== '';

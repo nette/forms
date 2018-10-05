@@ -35,7 +35,7 @@ class UploadControl extends BaseControl
 		$this->addCondition(Forms\Form::FILLED)
 			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);
 
-		$this->monitor(Forms\Form::class, function (Forms\Form $form) {
+		$this->monitor(Forms\Form::class, function (Forms\Form $form): void {
 			if (!$form->isMethod('post')) {
 				throw new Nette\InvalidStateException('File upload requires method POST.');
 			}
@@ -93,7 +93,7 @@ class UploadControl extends BaseControl
 	{
 		return $this->value instanceof FileUpload
 			? $this->value->isOk()
-			: $this->value && array_reduce($this->value, function ($carry, $fileUpload) {
+			: $this->value && array_reduce($this->value, function (bool $carry, FileUpload $fileUpload): bool {
 				return $carry && $fileUpload->isOk();
 			}, true);
 	}

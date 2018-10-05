@@ -91,7 +91,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 			$this->setRequired(false);
 		}
 		$this->setValue(null);
-		$this->monitor(Form::class, function (Form $form) {
+		$this->monitor(Form::class, function (Form $form): void {
 			if (!$this->isDisabled() && $form->isAnchored() && $form->isSubmitted()) {
 				$this->loadHttpData();
 			}

@@ -34,7 +34,7 @@ class CsrfProtection extends HiddenField
 			->setRequired()
 			->addRule(self::PROTECTION, $errorMessage);
 
-		$this->monitor(Presenter::class, function (Presenter $presenter) {
+		$this->monitor(Presenter::class, function (Presenter $presenter): void {
 			if (!$this->session) {
 				$this->session = $presenter->getSession();
 			}
