@@ -18,7 +18,7 @@ class Translator implements ITranslator
 	public $counter = [];
 
 
-	public function translate($message, int $count = null): string
+	public function translate($message, ...$parameters): string
 	{
 		@$this->counter[$message]++; // @ intentionally
 		return strtoupper($message);
