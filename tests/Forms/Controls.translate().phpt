@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class Translator implements \Nette\Localization\ITranslator
 {
-	public function translate($message, int $count = null): string
+	public function translate($message, ...$parameters): string
 	{
 		return is_object($message) ? get_class($message) : $message;
 	}
