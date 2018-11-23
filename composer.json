@@ -16,12 +16,12 @@
 	],
 	"require": {
 		"php": ">=7.1",
-		"nette/component-model": "^3.0.0-beta2",
-		"nette/http": "^3.0.0-beta2",
-		"nette/utils": "^3.0-beta2"
+		"nette/component-model": "^3.0.0-RC1",
+		"nette/http": "^3.0.0-RC1",
+		"nette/utils": "^3.0.0-RC1"
 	},
 	"require-dev": {
-		"nette/di": "^2.4 || ~3.0.0",
+		"nette/di": "^3.0",
 		"nette/tester": "^2.0",
 		"latte/latte": "^2.4.1",
 		"tracy/tracy": "^2.4"
