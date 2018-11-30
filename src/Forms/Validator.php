@@ -225,7 +225,7 @@ class Validator
 	 */
 	public static function validateEmail(IControl $control): bool
 	{
-		return Validators::isEmail($control->getValue());
+		return Validators::isEmail((string) $control->getValue());
 	}
 
 
@@ -234,10 +234,12 @@ class Validator
 	 */
 	public static function validateUrl(IControl $control): bool
 	{
-		if (Validators::isUrl($value = $control->getValue())) {
+		$value = (string) $control->getValue();
+		if (Validators::isUrl($value)) {
 			return true;
-
-		} elseif (Validators::isUrl($value = "http://$value")) {
+		}
+		$value = "http://$value";
+		if (Validators::isUrl($value)) {
 			$control->setValue($value);
 			return true;
 		}
