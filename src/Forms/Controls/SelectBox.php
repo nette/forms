@@ -32,8 +32,11 @@ class SelectBox extends ChoiceControl
 	{
 		parent::__construct($label, $items);
 		$this->setOption('type', 'select');
-		$this->addCondition(Nette\Forms\Form::BLANK)
-			->addRule([$this, 'isOk'], Nette\Forms\Validator::$messages[self::VALID]);
+		$this->addCondition(function () {
+			return $this->prompt === false
+				&& $this->options
+				&& $this->control->size < 2;
+		})->addRule(Nette\Forms\Form::FILLED, Nette\Forms\Validator::$messages[self::VALID]);
 	}
 
 
