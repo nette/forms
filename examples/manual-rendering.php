@@ -30,9 +30,7 @@ $form->addRadioList('gender', null, [
 	'f' => 'female',
 ]);
 
-$form->addText('email')
-	->setRequired(false)
-	->addRule($form::EMAIL, 'Incorrect email address');
+$form->addEmail('email');
 
 $form->addSubmit('submit');
 

@@ -41,6 +41,18 @@ test(function () {
 test(function () {
 	$form = new Form;
 	$input = $form->addText('text');
+	$input->setRequired(true);
+	$input->addRule(Form::EMAIL);
+	Assert::same([
+		['op' => ':filled', 'msg' => 'This field is required.'],
+		['op' => ':email', 'msg' => 'Please enter a valid email address.'],
+	], Helpers::exportRules($input->getRules()));
+});
+
+
+test(function () {
+	$form = new Form;
+	$input = $form->addText('text');
 	$input->setRequired(false);
 	$input->addRule(Form::EMAIL);
 	Assert::same([
