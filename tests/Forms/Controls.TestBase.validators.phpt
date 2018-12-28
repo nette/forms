@@ -97,6 +97,26 @@ test(function () {
 
 test(function () {
 	$control = new TextInput;
+
+
+	$control->value = new class () {
+		public $lorem = 'ipsum';
+
+
+		public function __toString(): string
+		{
+			return '123x';
+		}
+	};
+
+
+	Assert::false(Validator::validatePattern($control, '[0-9]'));
+	Assert::true(Validator::validatePattern($control, '[0-9]+x'));
+	Assert::false(Validator::validatePattern($control, '[0-9]+X'));
+});
+
+test(function () {
+	$control = new TextInput;
 	$control->value = '123x';
 	Assert::false(Validator::validatePatternCaseInsensitive($control, '[0-9]'));
 	Assert::true(Validator::validatePatternCaseInsensitive($control, '[0-9]+x'));
