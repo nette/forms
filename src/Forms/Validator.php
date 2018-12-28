@@ -256,7 +256,7 @@ class Validator
 		$regexp = "\x01^(?:$pattern)\\z\x01u" . ($caseInsensitive ? 'i' : '');
 		foreach (static::toArray($control->getValue()) as $item) {
 			$value = $item instanceof Nette\Http\FileUpload ? $item->getName() : $item;
-			if (!Strings::match($value, $regexp)) {
+			if (!Strings::match((string) $value, $regexp)) {
 				return false;
 			}
 		}
@@ -355,6 +355,6 @@ class Validator
 
 	private static function toArray($value): array
 	{
-		return $value instanceof Nette\Http\FileUpload ? [$value] : (array) $value;
+		return is_object($value) ? [$value] : (array) $value;
 	}
 }
