@@ -21,7 +21,7 @@ class Helpers
 {
 	use Nette\StaticClass;
 
-	private static $unsafeNames = [
+	private const UNSAFE_NAMES = [
 		'attributes', 'children', 'elements', 'focus', 'length', 'reset', 'style', 'submit', 'onsubmit', 'form',
 		'presenter', 'action',
 	];
@@ -85,7 +85,7 @@ class Helpers
 		if ($count) {
 			$name = substr_replace($name, '', strpos($name, ']'), 1) . ']';
 		}
-		if (is_numeric($name) || in_array($name, self::$unsafeNames, true)) {
+		if (is_numeric($name) || in_array($name, self::UNSAFE_NAMES, true)) {
 			$name = '_' . $name;
 		}
 		return $name;
