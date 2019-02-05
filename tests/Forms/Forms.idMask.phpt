@@ -13,7 +13,7 @@ require __DIR__ . '/../bootstrap.php';
 Assert::exception(function () {
 	$input = new TextInput('name');
 	$input->getHtmlId();
-}, Nette\InvalidStateException::class, "Component '' is not attached to 'Nette\\Forms\\Form'.");
+}, Nette\InvalidStateException::class, "Component %a% is not attached to 'Nette\\Forms\\Form'.");
 
 
 Assert::exception(function () {
