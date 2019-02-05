@@ -20,11 +20,8 @@ use Nette;
  */
 abstract class MultiChoiceControl extends BaseControl
 {
-	/**
-	 * @var bool
-	 * @deprecated use checkDefaultValue()
-	 */
-	public $checkAllowedValues = true;
+	/** @var bool */
+	private $checkDefaultValue = true;
 
 	/** @var array */
 	private $items = [];
@@ -71,7 +68,7 @@ abstract class MultiChoiceControl extends BaseControl
 			$flip[(string) $value] = true;
 		}
 		$values = array_keys($flip);
-		if ($this->checkAllowedValues && ($diff = array_diff($values, array_keys($this->items)))) {
+		if ($this->checkDefaultValue && ($diff = array_diff($values, array_keys($this->items)))) {
 			$set = Nette\Utils\Strings::truncate(implode(', ', array_map(function ($s) { return var_export($s, true); }, array_keys($this->items))), 70, '...');
 			$vals = (count($diff) > 1 ? 's' : '') . " '" . implode("', '", $diff) . "'";
 			throw new Nette\InvalidArgumentException("Value$vals are out of allowed set [$set] in field '{$this->name}'.");
@@ -169,7 +166,7 @@ abstract class MultiChoiceControl extends BaseControl
 	 */
 	public function checkDefaultValue(bool $value = true)
 	{
-		$this->checkAllowedValues = $value;
+		$this->checkDefaultValue = $value;
 		return $this;
 	}
 }
