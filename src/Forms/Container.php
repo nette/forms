@@ -41,13 +41,14 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with default values.
+	 * @param  array|object  $data
 	 * @return static
 	 */
-	public function setDefaults(iterable $values, bool $erase = false)
+	public function setDefaults($data, bool $erase = false)
 	{
 		$form = $this->getForm(false);
 		if (!$form || !$form->isAnchored() || !$form->isSubmitted()) {
-			$this->setValues($values, $erase);
+			$this->setValues($data, $erase);
 		}
 		return $this;
 	}
@@ -55,16 +56,20 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with values.
+	 * @param  array|object  $data
 	 * @return static
 	 * @internal
 	 */
-	public function setValues(iterable $values, bool $erase = false)
+	public function setValues($data, bool $erase = false)
 	{
-		if ($values instanceof \Traversable) {
-			$values = iterator_to_array($values);
+		if ($data instanceof \Traversable) {
+			$values = iterator_to_array($data);
 
-		} elseif (!is_array($values)) {
-			throw new Nette\InvalidArgumentException(sprintf('First parameter must be an array, %s given.', gettype($values)));
+		} elseif (is_object($data) || is_array($data) || $data === null) {
+			$values = (array) $data;
+
+		} else {
+			throw new Nette\InvalidArgumentException(sprintf('First parameter must be an array or object, %s given.', gettype($data)));
 		}
 
 		foreach ($this->getComponents() as $name => $control) {
