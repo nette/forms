@@ -92,16 +92,16 @@ test(function () { // setDefaults() test
 		]),
 	]));
 
-	Assert::same([
+	Assert::equal(ArrayHash::from([
 		'name' => 'xxx',
-		'first' => [
+		'first' => ArrayHash::from([
 			'name' => 'yyy',
 			'age' => '30',
-			'second' => [
+			'second' => ArrayHash::from([
 				'name' => 'zzz',
-			],
-		],
-	], $form->getValues(true));
+			]),
+		]),
+	]), $form->getValues());
 });
 
 
@@ -109,8 +109,10 @@ test(function () { // submitted form
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
+	$form->setMappedType(FormData::class);
+
 	Assert::truthy($form->isSubmitted());
-	Assert::equal(ArrayHash::from([
+	Assert::equal(hydrate(FormData::class, [
 		'name' => 'jim',
 		'first' => ArrayHash::from([
 			'name' => '',
@@ -124,10 +126,10 @@ test(function () { // submitted form
 
 
 test(function () { // setValues() test
-	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_SERVER['REQUEST_METHOD'] = null;
 
 	$form = createForm();
-	Assert::truthy($form->isSubmitted());
+	$form->setMappedType(FormData::class);
 
 	$form->setValues(hydrate(FormData::class, [
 		'name' => 'new1',
@@ -136,13 +138,13 @@ test(function () { // setValues() test
 		]),
 	]));
 
-	Assert::equal(ArrayHash::from([
+	Assert::equal(hydrate(FormData::class, [
 		'name' => 'new1',
 		'first' => ArrayHash::from([
 			'name' => 'new2',
 			'age' => '',
 			'second' => ArrayHash::from([
-				'name' => 'jack',
+				'name' => '',
 			]),
 		]),
 	]), $form->getValues());
@@ -156,7 +158,7 @@ test(function () { // setValues() test
 		]),
 	]), true);
 
-	Assert::equal(ArrayHash::from([
+	Assert::equal(hydrate(FormData::class, [
 		'name' => 'new1',
 		'first' => ArrayHash::from([
 			'name' => 'new2',
@@ -169,16 +171,70 @@ test(function () { // setValues() test
 });
 
 
+test(function () { // getValues() test
+	$_SERVER['REQUEST_METHOD'] = null;
+
+	$form = createForm();
+
+	$form->setValues([
+		'name' => 'new1',
+		'first' => [
+			'name' => 'new2',
+		],
+	]);
+
+	Assert::equal(hydrate(FormData::class, [
+		'name' => 'new1',
+		'first' => ArrayHash::from([
+			'name' => 'new2',
+			'age' => '',
+			'second' => ArrayHash::from([
+				'name' => '',
+			]),
+		]),
+	]), $form->getValues(FormData::class));
+
+
+	$form->setMappedType(FormData::class);
+	$form['first']->setMappedType(FormFirstData::class);
+	$form['first-second']->setMappedType(FormSecondData::class);
+
+	Assert::equal(hydrate(FormData::class, [
+		'name' => 'new1',
+		'first' => hydrate(FormFirstData::class, [
+			'name' => 'new2',
+			'age' => '',
+			'second' => hydrate(FormSecondData::class, [
+				'name' => '',
+			]),
+		]),
+	]), $form->getValues());
+
+	Assert::equal([
+		'name' => 'new1',
+		'first' => [
+			'name' => 'new2',
+			'age' => '',
+			'second' => [
+				'name' => '',
+			],
+		],
+	], $form->getValues(true));
+});
+
+
 test(function () { // reset() test
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
+	$form->setMappedType(FormData::class);
+
 	Assert::truthy($form->isSubmitted());
 
 	$form->reset();
 
 	Assert::false($form->isSubmitted());
-	Assert::equal(ArrayHash::from([
+	Assert::equal(hydrate(FormData::class, [
 		'name' => '',
 		'first' => ArrayHash::from([
 			'name' => '',
@@ -195,6 +251,8 @@ test(function () { // onSuccess test
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
+	$form->setMappedType(FormData::class);
+
 	$form->onSuccess[] = function (Form $form, array $values) {
 		Assert::same([
 			'name' => 'jim',
@@ -222,7 +280,20 @@ test(function () { // onSuccess test
 	};
 
 	$form->onSuccess[] = function (Form $form, $values) {
-		Assert::equal(ArrayHash::from([
+		Assert::equal(hydrate(FormData::class, [
+			'name' => 'jim',
+			'first' => ArrayHash::from([
+				'name' => '',
+				'age' => '40',
+				'second' => ArrayHash::from([
+					'name' => 'jack',
+				]),
+			]),
+		]), $values);
+	};
+
+	$form->onSuccess[] = function (Form $form, FormData $values) {
+		Assert::equal(hydrate(FormData::class, [
 			'name' => 'jim',
 			'first' => ArrayHash::from([
 				'name' => '',

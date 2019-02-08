@@ -128,6 +128,61 @@ test(function () { // setValues() test
 });
 
 
+test(function () { // getValues() test
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+
+	$form = createForm();
+
+	Assert::truthy($form->isSubmitted());
+
+	$form->setValues([
+		'name' => 'new1',
+		'first' => [
+			'name' => 'new2',
+		],
+	]);
+
+	Assert::equal([
+		'name' => 'new1',
+		'first' => [
+			'name' => 'new2',
+			'age' => '40',
+			'second' => [
+				'name' => 'jack',
+			],
+		],
+	], $form->getValues('array'));
+});
+
+
+test(function () { // setMappedType() test
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+
+	$form = createForm();
+	$form->setMappedType('array');
+
+	Assert::truthy($form->isSubmitted());
+
+	$form->setValues([
+		'name' => 'new1',
+		'first' => [
+			'name' => 'new2',
+		],
+	]);
+
+	Assert::equal([
+		'name' => 'new1',
+		'first' => [
+			'name' => 'new2',
+			'age' => '40',
+			'second' => [
+				'name' => 'jack',
+			],
+		],
+	], $form->getValues());
+});
+
+
 test(function () { // reset() test
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
