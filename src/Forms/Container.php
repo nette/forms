@@ -10,18 +10,21 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
+use Nette\Utils\ArrayHash;
 
 
 /**
  * Container for form controls.
  *
- * @property   Nette\Utils\ArrayHash $values
+ * @property   ArrayHash $values
  * @property-read \Iterator $controls
  * @property-read Form|null $form
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
 	use Nette\ComponentModel\ArrayAccess;
+
+	private const ARRAY = 'array';
 
 	/** @var callable[]  function (Container $sender): void; Occurs when the form is validated */
 	public $onValidate;
@@ -34,6 +37,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/** @var bool */
 	private $validated;
+
+	/** @var string */
+	private $mappedType = ArrayHash::class;
 
 
 	/********************* data exchange ****************d*g**/
@@ -96,20 +102,36 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns the values submitted by the form.
-	 * @return Nette\Utils\ArrayHash|array
+	 * @param  string|null  $returnType  'array' for array
+	 * @return object|array
 	 */
-	public function getValues(bool $asArray = false)
+	public function getValues($returnType = null)
 	{
-		$values = $asArray ? [] : new Nette\Utils\ArrayHash;
+		$returnType = $returnType
+			? ($returnType === true ? self::ARRAY : $returnType) // back compatibility
+			: $this->mappedType;
+
+		$isArray = $returnType === self::ARRAY;
+		$obj = $isArray ? new \stdClass : new $returnType;
+
 		foreach ($this->getComponents() as $name => $control) {
 			if ($control instanceof IControl && !$control->isOmitted()) {
-				$values[$name] = $control->getValue();
-
+				$obj->$name = $control->getValue();
 			} elseif ($control instanceof self) {
-				$values[$name] = $control->getValues($asArray);
+				$obj->$name = $control->getValues($isArray ? self::ARRAY : null);
 			}
 		}
-		return $values;
+		return $isArray ? (array) $obj : $obj;
+	}
+
+
+	/**
+	 * @return static
+	 */
+	public function setMappedType(string $type)
+	{
+		$this->mappedType = $type;
+		return $this;
 	}
 
 
@@ -148,7 +170,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			}
 			foreach ($this->onValidate as $handler) {
 				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-				$values = isset($params[1]) ? $this->getValues($params[1]->isArray()) : null;
+				$values = isset($params[1]) ? $this->getValues((string) $params[1]->getType()) : null;
 				$handler($this, $values);
 			}
 		}
