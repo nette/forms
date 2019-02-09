@@ -13,7 +13,7 @@
 
 	<dt><label for="frm-age" class="required">Your age:</label></dt>
 
-	<dd class="odd"><input type="number" name="age" min="10" max="100" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Age must be numeric value"},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' value="9.9" class="text"> •
+	<dd class="odd"><input type="number" name="age" min="10" max="100" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Age must be numeric value"},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' value="9.9" class="text is-invalid"> •
 
 	<span class="error">
 		Age must be numeric value
@@ -24,7 +24,7 @@
 
 	<dt><label for="frm-gender">Your gender:</label></dt>
 
-	<dd><select name="gender" id="frm-gender"><option style="color: #248bd3" value="m">male</option><option style="color: #e948d4" value="f">female</option></select>
+	<dd><select name="gender" id="frm-gender" class="is-invalid"><option style="color: #248bd3" value="m">male</option><option style="color: #e948d4" value="f">female</option></select>
 
 	<span class="error">
 		Please select a valid option.
@@ -81,7 +81,7 @@
 
 	<dt><label for="frm-password" class="required">Choose password:</label></dt>
 
-	<dd><input type="password" name="password" id="frm-password" required data-nette-rules='[{"op":":filled","msg":"Choose your password"},{"op":":minLength","msg":"The password is too short: it must be at least 3 characters","arg":3}]' class="text"> • <small>(at least 3 characters)</small>
+	<dd><input type="password" name="password" id="frm-password" required data-nette-rules='[{"op":":filled","msg":"Choose your password"},{"op":":minLength","msg":"The password is too short: it must be at least 3 characters","arg":3}]' class="text is-invalid"> • <small>(at least 3 characters)</small>
 
 	<span class="error">
 		The password is too short: it must be at least 3 characters

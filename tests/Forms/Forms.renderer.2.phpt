@@ -46,6 +46,7 @@ $renderer->wrappers['pair']['container'] = null;
 $renderer->wrappers['controls']['container'] = 'dl';
 $renderer->wrappers['control']['container'] = 'dd';
 $renderer->wrappers['control']['.odd'] = 'odd';
+$renderer->wrappers['control']['.error'] = 'is-invalid';
 $renderer->wrappers['control']['errors'] = true;
 $renderer->wrappers['label']['container'] = 'dt';
 $renderer->wrappers['label']['suffix'] = ':';
