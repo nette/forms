@@ -28,6 +28,7 @@ function makeBootstrap4(Form $form): void
 	$renderer->wrappers['label']['container'] = 'div class="col-sm-3 col-form-label"';
 	$renderer->wrappers['control']['description'] = 'span class=form-text';
 	$renderer->wrappers['control']['errorcontainer'] = 'span class=form-control-feedback';
+	$renderer->wrappers['control']['.error'] = 'is-invalid';
 
 	foreach ($form->getControls() as $control) {
 		$type = $control->getOption('type');

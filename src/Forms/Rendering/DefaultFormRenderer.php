@@ -47,7 +47,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 	 *          \---
 	 *
 	 *          /--- control.container [.odd]
-	 *            .... CONTROL [.required .text .password .file .submit .button]
+	 *            .... CONTROL [.required .error .text .password .file .submit .button]
 	 *            .... control.requiredsuffix
 	 *            .... control.description
 	 *            .... control.errorcontainer + control.erroritem
@@ -95,6 +95,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			'erroritem' => '',
 
 			'.required' => 'required',
+			'.error' => null,
 			'.text' => 'text',
 			'.password' => 'text',
 			'.file' => 'text',
@@ -386,8 +387,11 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 			$control->setOption('rendered', true);
 			$el = $control->getControl();
-			if ($el instanceof Html && $el->getName() === 'input') {
-				$el->class($this->getValue("control .$el->type"), true);
+			if ($el instanceof Html) {
+				if ($el->getName() === 'input') {
+					$el->class($this->getValue("control .$el->type"), true);
+				}
+				$el->class($this->getValue('control .error'), $control->hasErrors());
 			}
 			$s[] = $el . $description;
 		}
@@ -447,8 +451,11 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 		$control->setOption('rendered', true);
 		$el = $control->getControl();
-		if ($el instanceof Html && $el->getName() === 'input') {
-			$el->class($this->getValue("control .$el->type"), true);
+		if ($el instanceof Html) {
+			if ($el->getName() === 'input') {
+				$el->class($this->getValue("control .$el->type"), true);
+			}
+			$el->class($this->getValue('control .error'), $control->hasErrors());
 		}
 		return $body->setHtml($el . $description . $this->renderErrors($control));
 	}
