@@ -281,30 +281,37 @@
 
 
 	/**
+	 * CSS class.
+	 */
+	Nette.formErrorClass = 'nette-form-error';
+
+
+	/**
 	 * Display error messages.
 	 */
 	Nette.showFormErrors = function(form, errors) {
-		var messages = [],
-			focusElem;
-
-		for (var i = 0; i < errors.length; i++) {
-			var elem = errors[i].element,
-				message = errors[i].message;
-
-			if (!Nette.inArray(messages, message)) {
-				messages.push(message);
-
-				if (!focusElem && elem.focus) {
-					focusElem = elem;
-				}
+		var boxes = form.getElementsByTagName('span');
+		for (var i = boxes.length - 1; i >= 0; i--) {
+			if (boxes[i].getAttribute('class') === Nette.formErrorClass) {
+				boxes[i].parentNode.removeChild(boxes[i]);
 			}
 		}
 
-		if (messages.length) {
-			alert(messages.join('\n'));
+		for (var i = 0; i < errors.length; i++) {
+			if (i === 0 && errors[i].element.focus) {
+				errors[i].element.focus();
+			}
 
-			if (focusElem) {
-				focusElem.focus();
+			if (errors[i].message) {
+				var box = document.createElement('span');
+				box.setAttribute('class', Nette.formErrorClass);
+				box.textContent = errors[i].message;
+				errors[i].element.parentNode.insertBefore(box, errors[i].element.nextSibling);
+				Nette.addEvent(errors[i].element, 'keypress', function() {
+					if (this.nextSibling && this.nextSibling.getAttribute('class') === Nette.formErrorClass) {
+						this.parentNode.removeChild(this.nextSibling);
+					}
+				});
 			}
 		}
 	};
@@ -683,6 +690,15 @@
 					event.cancelBubble = true;
 					event.returnValue = false;
 				}
+			}
+		});
+
+		Nette.addEvent(form, 'blur', function() {
+			e = e || event;
+			var target = e.target || e.srcElement;
+			alert(target);
+			if ((target.nodeName.toLowerCase() in {input: 1, select: 1, textarea: 1}) && !target.disabled && !target.readonly) {
+				Nette.validateControl(target);
 			}
 		});
 	};
