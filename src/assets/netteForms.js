@@ -654,10 +654,13 @@
 	/**
 	 * Displays or hides HTML element.
 	 */
-	Nette.toggle = function(id, visible, srcElement) { // eslint-disable-line no-unused-vars
-		var elem = document.getElementById(id);
-		if (elem) {
-			elem.style.display = visible ? '' : 'none';
+	Nette.toggle = function(selector, visible, srcElement) { // eslint-disable-line no-unused-vars
+		if (/^\w+$/.test(selector)) { // id
+			selector = '#' + selector;
+		}
+		var elems = document.querySelectorAll(selector);
+		for (var i = 0; i < elems.length; i++) {
+			elems[i].style.display = visible ? '' : 'none';
 		}
 	};
 
