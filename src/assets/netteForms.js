@@ -655,9 +655,16 @@
 	 * Displays or hides HTML element.
 	 */
 	Nette.toggle = function(id, visible, srcElement) { // eslint-disable-line no-unused-vars
-		var elem = document.getElementById(id);
-		if (elem) {
-			elem.style.display = visible ? '' : 'none';
+		if (id.indexOf('.') === 0) {
+			var elems = document.getElementsByClassName(id.substr(1));
+			for (var i = 0; i < elems.length; i++) {
+				elems[i].style.display = visible ? '' : 'none';
+			}
+		} else {
+			var elem = document.getElementById(id);
+			if (elem) {
+				elem.style.display = visible ? '' : 'none';
+			}
 		}
 	};
 
