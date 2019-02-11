@@ -660,7 +660,7 @@
 		}
 		var elems = document.querySelectorAll(selector);
 		for (var i = 0; i < elems.length; i++) {
-			elems[i].style.display = visible ? '' : 'none';
+			elems[i].hidden = !visible;
 		}
 	};
 
