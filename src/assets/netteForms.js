@@ -35,30 +35,16 @@
 
 
 	/**
-	 * Attaches a handler to an event for the element.
+	 * Function to execute when the DOM is fully loaded.
+	 * @private
 	 */
-	Nette.addEvent = function(element, on, callback) {
-		if (on === 'DOMContentLoaded' && element.readyState !== 'loading') {
+	Nette.onDocumentReady = function(callback) {
+		if (document.readyState !== 'loading') {
 			callback.call(this);
-		} else if (element.addEventListener) {
-			element.addEventListener(on, callback);
-		} else if (on === 'DOMContentLoaded') {
-			element.attachEvent('onreadystatechange', function() {
-				if (element.readyState === 'complete') {
-					callback.call(this);
-				}
-			});
 		} else {
-			element.attachEvent('on' + on, getHandler(callback));
+			document.addEventListener('DOMContentLoaded', callback);
 		}
 	};
-
-
-	function getHandler(callback) {
-		return function(e) {
-			return callback.call(this, e);
-		};
-	}
 
 
 	/**
@@ -634,7 +620,7 @@
 
 					for (var i = 0; i < els.length; i++) {
 						if (els[i].name === name && handled.indexOf(els[i]) < 0) {
-							Nette.addEvent(els[i], 'change', handler);
+							els[i].addEventListener('change', handler);
 							handled.push(els[i]);
 						}
 					}
@@ -676,7 +662,7 @@
 
 		form.noValidate = true;
 
-		Nette.addEvent(form, 'submit', function(e) {
+		form.addEventListener('submit', function(e) {
 			if (!Nette.validateForm(form)) {
 				e.stopPropagation();
 				e.preventDefault();
@@ -689,7 +675,7 @@
 	 * @private
 	 */
 	Nette.initOnLoad = function() {
-		Nette.addEvent(document, 'DOMContentLoaded', function() {
+		Nette.onDocumentReady(function() {
 			for (var i = 0; i < document.forms.length; i++) {
 				var form = document.forms[i];
 				for (var j = 0; j < form.elements.length; j++) {
@@ -700,7 +686,7 @@
 				}
 			}
 
-			Nette.addEvent(document.body, 'click', function(e) {
+			document.body.addEventListener('click', function(e) {
 				var target = e.target;
 				while (target) {
 					if (target.form && target.type in {submit: 1, image: 1}) {
