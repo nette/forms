@@ -184,7 +184,7 @@
 					continue;
 				}
 				if (!onlyCheck) {
-					var arr = Nette.isArray(rule.arg) ? rule.arg : [rule.arg],
+					var arr = Array.isArray(rule.arg) ? rule.arg : [rule.arg],
 						message = rule.msg.replace(/%(value|\d+)/g, function(foo, m) {
 							return Nette.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control));
 						});
@@ -291,7 +291,7 @@
 			var elem = errors[i].element,
 				message = errors[i].message;
 
-			if (!Nette.inArray(messages, message)) {
+			if (messages.indexOf(message) < 0) {
 				messages.push(message);
 
 				if (!focusElem && elem.focus) {
@@ -324,7 +324,7 @@
 		op = op.replace('::', '_');
 		op = op.replace(/\\/g, '');
 
-		var arr = Nette.isArray(arg) ? arg.slice(0) : [arg];
+		var arr = Array.isArray(arg) ? arg.slice(0) : [arg];
 		if (!preventFiltering) {
 			preventFiltering = true;
 			for (var i = 0, len = arr.length; i < len; i++) {
@@ -336,7 +336,7 @@
 			preventFiltering = false;
 		}
 		return Nette.validators[op]
-			? Nette.validators[op](elem, Nette.isArray(arg) ? arr : arr[0], value.value, value)
+			? Nette.validators[op](elem, Array.isArray(arg) ? arr : arr[0], value.value, value)
 			: null;
 	};
 
@@ -347,7 +347,7 @@
 				return true;
 			}
 			return val !== '' && val !== false && val !== null
-				&& (!Nette.isArray(val) || !!val.length)
+				&& (!Array.isArray(val) || !!val.length)
 				&& (!window.FileList || !(val instanceof window.FileList) || val.length);
 		},
 
@@ -372,8 +372,8 @@
 				}
 			}
 
-			val = Nette.isArray(val) ? val : [val];
-			arg = Nette.isArray(arg) ? arg : [arg];
+			val = Array.isArray(val) ? val : [val];
+			arg = Array.isArray(arg) ? arg : [arg];
 			loop:
 			for (var i1 = 0, len1 = val.length; i1 < len1; i1++) {
 				for (var i2 = 0, len2 = arg.length; i2 < len2; i2++) {
@@ -420,7 +420,7 @@
 					return null;
 				}
 			}
-			arg = Nette.isArray(arg) ? arg : [arg, arg];
+			arg = Array.isArray(arg) ? arg : [arg, arg];
 			return (arg[0] === null || val.length >= arg[0]) && (arg[1] === null || val.length <= arg[1]);
 		},
 
@@ -532,7 +532,7 @@
 					return null;
 				}
 			}
-			return Nette.isArray(arg) ?
+			return Array.isArray(arg) ?
 				((arg[0] === null || parseFloat(val) >= arg[0]) && (arg[1] === null || parseFloat(val) <= arg[1])) : null;
 		},
 
@@ -629,13 +629,12 @@
 			if ((rule.rules && Nette.toggleControl(elem, rule.rules, curSuccess, firsttime, value)) || rule.toggle) {
 				has = true;
 				if (firsttime) {
-					var oldIE = !document.addEventListener, // IE < 9
-						name = curElem.tagName ? curElem.name : curElem[0].name,
+					var name = curElem.tagName ? curElem.name : curElem[0].name,
 						els = curElem.tagName ? curElem.form.elements : curElem;
 
 					for (var i = 0; i < els.length; i++) {
-						if (els[i].name === name && !Nette.inArray(handled, els[i])) {
-							Nette.addEvent(els[i], oldIE && els[i].type in {checkbox: 1, radio: 1} ? 'click' : 'change', handler);
+						if (els[i].name === name && handled.indexOf(els[i]) < 0) {
+							Nette.addEvent(els[i], 'change', handler);
 							handled.push(els[i]);
 						}
 					}
@@ -679,13 +678,8 @@
 
 		Nette.addEvent(form, 'submit', function(e) {
 			if (!Nette.validateForm(form)) {
-				if (e && e.stopPropagation) {
-					e.stopPropagation();
-					e.preventDefault();
-				} else if (window.event) {
-					event.cancelBubble = true;
-					event.returnValue = false;
-				}
+				e.stopPropagation();
+				e.preventDefault();
 			}
 		});
 	};
@@ -707,7 +701,7 @@
 			}
 
 			Nette.addEvent(document.body, 'click', function(e) {
-				var target = e.target || e.srcElement;
+				var target = e.target;
 				while (target) {
 					if (target.form && target.type in {submit: 1, image: 1}) {
 						target.form['nette-submittedBy'] = target;
@@ -717,31 +711,6 @@
 				}
 			});
 		});
-	};
-
-
-	/**
-	 * Determines whether the argument is an array.
-	 */
-	Nette.isArray = function(arg) {
-		return Object.prototype.toString.call(arg) === '[object Array]';
-	};
-
-
-	/**
-	 * Search for a specified value within an array.
-	 */
-	Nette.inArray = function(arr, val) {
-		if ([].indexOf) {
-			return arr.indexOf(val) > -1;
-		} else {
-			for (var i = 0; i < arr.length; i++) {
-				if (arr[i] === val) {
-					return true;
-				}
-			}
-			return false;
-		}
 	};
 
 
