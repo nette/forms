@@ -293,7 +293,7 @@ class Rules implements \IteratorAggregate
 	{
 		$op = $rule->validator;
 		if (is_string($op) && strncmp($op, ':', 1) === 0) {
-			return 'Nette\Forms\Validator::validate' . ltrim($op, ':');
+			return [Validator::class, 'validate' . ltrim($op, ':')];
 		} else {
 			return $op;
 		}
