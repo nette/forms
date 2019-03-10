@@ -640,7 +640,7 @@
 	 * Displays or hides HTML element.
 	 */
 	Nette.toggle = function(selector, visible, srcElement) { // eslint-disable-line no-unused-vars
-		if (/^\w+$/.test(selector)) { // id
+		if (/^\w[\w.:-]*$/.test(selector)) { // id
 			selector = '#' + selector;
 		}
 		var elems = document.querySelectorAll(selector);
