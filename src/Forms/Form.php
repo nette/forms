@@ -237,7 +237,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Removes fieldset group from form.
-	 * @param  string|int|ControlGroup  $name
+	 * @param  string|ControlGroup  $name
 	 */
 	public function removeGroup($name): void
 	{
