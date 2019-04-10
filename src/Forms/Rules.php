@@ -69,7 +69,7 @@ class Rules implements \IteratorAggregate
 	/**
 	 * Adds a validation rule for the current control.
 	 * @param  callable|string  $validator
-	 * @param  string|object  $errorMessage
+	 * @param  string|callable|object  $errorMessage
 	 * @return static
 	 */
 	public function addRule($validator, $errorMessage = null, $arg = null)

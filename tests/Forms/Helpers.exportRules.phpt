@@ -6,6 +6,7 @@
 
 declare(strict_types=1);
 
+use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Nette\Forms\Helpers;
 use Tester\Assert;
@@ -90,4 +91,14 @@ test(function () {
 			'control' => 'text1',
 		],
 	], Helpers::exportRules($input2->getRules()));
+});
+
+
+test(function () {
+	$form = new Form;
+	$input = $form->addText('text');
+	$input->addRule(Form::EMAIL, function (TextInput $input, $arg) {
+		return $input->getValue() . ' is not valid e-mail address.';
+	});
+	Assert::same([], Helpers::exportRules($input->getRules()));
 });

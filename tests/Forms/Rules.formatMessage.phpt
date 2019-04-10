@@ -6,6 +6,7 @@
 
 declare(strict_types=1);
 
+use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Tester\Assert;
 
@@ -34,11 +35,36 @@ $form->addText('special', 'Label:')
 	->addRule(Form::EMAIL, '%label %value is invalid [field %name] %d', $form['special'])
 	->setDefaultValue('xyz');
 
+$form->addText('function', 'Label:')
+	->setRequired()
+	->addRule(function (TextInput $input, string $arg) {
+		return strpos($input->getValue(), $arg) === false;
+	}, function (TextInput $input, string $arg) {
+		return "String “{$input->getValue()}” contains a letter “{$arg}”, which is not allowed";
+	}, 'a')
+	->setDefaultValue('banana');
+
+$form->addText('functionWithoutArg', 'Label:')
+	->setRequired()
+	->addRule(function (TextInput $input) {
+		return strpos($input->getValue(), 'e') === false;
+	}, function (TextInput $input) {
+		return "String “{$input->getValue()}” contains a letter “e”, which is not allowed";
+	})
+	->setDefaultValue('orange');
+
 $form->validate();
 
 Assert::true($form->hasErrors());
 
-Assert::same(['1 5', '5 1', '1 ', 'Label xyz is invalid [field special] xyz'], $form->getErrors());
+Assert::same([
+	'1 5',
+	'5 1',
+	'1 ',
+	'Label xyz is invalid [field special] xyz',
+	'String “banana” contains a letter “a”, which is not allowed',
+	'String “orange” contains a letter “e”, which is not allowed',
+], $form->getErrors());
 
 Assert::same([], $form->getOwnErrors());
 
