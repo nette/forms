@@ -415,9 +415,24 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	private function invokeHandlers(iterable $handlers, $button = null): void
 	{
 		foreach ($handlers as $handler) {
-			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$values = isset($params[1]) ? $this->getValues((string) $params[1]->getType()) : null;
-			$handler($button ?: $this, $values);
+			$args = [];
+			foreach (Nette\Utils\Callback::toReflection($handler)->getParameters() as $pos => $parameter) {
+				if ($parameter->hasType()) {
+					$type = (string) $parameter->getType();
+					if ($this instanceof $type) {
+						$args[] = $this;
+					} elseif ($button instanceof $type) {
+						$args[] = $button;
+					} else {
+						$args[] = $this->getValues($type);
+					}
+
+				} else {
+					$args[] = $pos === 0 ? ($button ?: $this) : $this->getValues();
+				}
+			}
+			$handler(...$args);
+
 			if (!$this->isValid()) {
 				return;
 			}
