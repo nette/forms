@@ -167,7 +167,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 		if ($this->form->isMethod('get')) {
 			$el = clone $this->form->getElementPrototype();
-			$query = parse_url($el->action, PHP_URL_QUERY);
+			$query = parse_url($el->action, PHP_URL_QUERY) ?: '';
 			$el->action = str_replace("?$query", '', $el->action);
 			$s = '';
 			foreach (preg_split('#[;&]#', $query, -1, PREG_SPLIT_NO_EMPTY) as $param) {
