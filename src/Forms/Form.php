@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
-use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
 
 
@@ -82,7 +81,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @internal protection token ID */
 	public const PROTECTOR_ID = '_token_';
 
-	/** @var callable[]&((callable(Form, array): void)|(callable(Form, ArrayHash): void))[]; Occurs when the form is submitted and successfully validated */
+	/** @var callable[]&((callable(Form, array): void)|(callable(Form, Nette\Utils\ArrayHash): void))[]; Occurs when the form is submitted and successfully validated */
 	public $onSuccess;
 
 	/** @var callable[]&(callable(Form): void)[]; Occurs when the form is submitted and is not valid */
