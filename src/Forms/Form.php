@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
+use Nette\Utils\ArrayHash;
 use Nette\Utils\Html;
 
 
