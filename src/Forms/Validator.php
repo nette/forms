@@ -253,7 +253,7 @@ class Validator
 	 */
 	public static function validatePattern(IControl $control, string $pattern, bool $caseInsensitive = false): bool
 	{
-		$regexp = "\x01^(?:$pattern)\\z\x01u" . ($caseInsensitive ? 'i' : '');
+		$regexp = "\x01^(?:$pattern)$\x01Du" . ($caseInsensitive ? 'i' : '');
 		foreach (static::toArray($control->getValue()) as $item) {
 			$value = $item instanceof Nette\Http\FileUpload ? $item->getName() : $item;
 			if (!Strings::match((string) $value, $regexp)) {
@@ -275,7 +275,7 @@ class Validator
 	 */
 	public static function validateNumeric(IControl $control): bool
 	{
-		return (bool) Strings::match($control->getValue(), '#^\d+\z#');
+		return (bool) Strings::match($control->getValue(), '#^\d+$#D');
 	}
 
 
