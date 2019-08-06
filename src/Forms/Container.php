@@ -170,7 +170,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			}
 			foreach ($this->onValidate as $handler) {
 				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-				$values = isset($params[1]) ? $this->getValues((string) $params[1]->getType()) : null;
+				$values = isset($params[1]) ? $this->getValues($params[1]->getType() ? $params[1]->getType()->getName() : null) : null;
 				$handler($this, $values);
 			}
 		}
