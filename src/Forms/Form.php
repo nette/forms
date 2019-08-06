@@ -209,7 +209,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function addProtection(string $errorMessage = null): Controls\CsrfProtection
 	{
 		$control = new Controls\CsrfProtection($errorMessage);
-		$this->addComponent($control, self::PROTECTOR_ID, key($this->getComponents()));
+		$this->addComponent($control, self::PROTECTOR_ID, key((array) $this->getComponents()));
 		return $control;
 	}
 
@@ -416,7 +416,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	{
 		foreach ($handlers as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$values = isset($params[1]) ? $this->getValues((string) $params[1]->getType()) : null;
+			$values = isset($params[1]) ? $this->getValues($params[1]->getType() ? $params[1]->getType()->getName() : null) : null;
 			$handler($button ?: $this, $values);
 			if (!$this->isValid()) {
 				return;
