@@ -26,6 +26,11 @@ test(function () {
 	);
 
 	Assert::same(
+		'<label><input value="0">1</label>',
+		Helpers::createInputList([1])
+	);
+
+	Assert::same(
 		'<label><input value="a">First</label><label><input value="b">Second</label>',
 		Helpers::createInputList(
 			['a' => 'First', 'b' => 'Second']
