@@ -256,9 +256,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addText(string $name, $label = null, int $cols = null, int $maxLength = null): Controls\TextInput
 	{
 		if (class_exists(Debugger::class) && in_array($name, Debugger::getBlueScreen()->keysToHide, true)) {
-			trigger_error('Text input "'. $name . '" should be type of password.', E_USER_WARNING);
+			trigger_error('Text input "' . $name . '" should be type of password.', E_USER_WARNING);
 		}
-
 		return $this[$name] = (new Controls\TextInput($label, $maxLength))
 			->setHtmlAttribute('size', $cols);
 	}
