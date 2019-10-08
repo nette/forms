@@ -687,7 +687,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		} catch (\Throwable $e) {
 		}
 		if (isset($e)) {
-			if (func_num_args()) {
+			if (func_num_args() || PHP_VERSION_ID >= 70400) {
 				throw $e;
 			}
 			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
