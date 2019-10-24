@@ -11,6 +11,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Forms\Form;
+use Nette\Forms\ScalarValue;
 use Nette\Utils\Strings;
 
 
@@ -41,7 +42,7 @@ abstract class TextBase extends BaseControl
 		} elseif (!is_scalar($value) && !method_exists($value, '__toString')) {
 			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
 		}
-		$this->value = $value;
+		$this->value = $value instanceof ScalarValue ? $value->getMixedValue() : $value;
 		$this->rawValue = (string) $value;
 		return $this;
 	}
