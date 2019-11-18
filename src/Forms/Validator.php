@@ -69,9 +69,12 @@ class Validator
 			static $i = -1;
 			switch ($m[1]) {
 				case 'name': return $rule->control->getName();
-				case 'label': return $rule->control instanceof Controls\BaseControl
-					? rtrim($rule->control->translate($rule->control->getCaption()), ':')
-					: null;
+				case 'label':
+					if ($rule->control instanceof Controls\BaseControl) {
+						$caption = $rule->control->translate($rule->control->getCaption());
+						return rtrim($caption instanceof Nette\Utils\Html ? $caption->getText() : $caption, ':');
+					}
+					return '';
 				case 'value': return $withValue ? $rule->control->getValue() : $m[0];
 				default:
 					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
