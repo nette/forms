@@ -62,6 +62,17 @@ test(function () { // Html with translator
 });
 
 
+test(function () { // Html with label placeholder in validation rule message
+	$form = new Form;
+	$input = $form->addText('text', Html::el('b', 'Label'))
+		->addRule(Form::REQUIRED, 'Please fill in %label');
+
+	Assert::same('<label for="frm-text"><b>Label</b></label>', (string) $input->getLabel());
+	Assert::same('<label for="frm-text"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
+	Assert::type(Html::class, $input->getControlPart());
+});
+
+
 test(function () { // password
 	$form = new Form;
 	$input = $form->addPassword('password')
