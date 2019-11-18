@@ -69,7 +69,9 @@ test(function () { // Html with label placeholder in validation rule message
 
 	Assert::same('<label for="frm-text"><b>Label</b></label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-text"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
-	Assert::type(Html::class, $input->getControlPart());
+	Assert::type(Html::class, $input->getControl());
+	Assert::same('<input type="text" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"Please fill in <b>Label</b>"}]\'>', (string) $input->getControl());
+
 });
 
 
