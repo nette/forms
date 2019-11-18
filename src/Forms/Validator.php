@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
+use Nette\Utils\Html;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
 
@@ -69,9 +70,14 @@ class Validator
 			static $i = -1;
 			switch ($m[1]) {
 				case 'name': return $rule->control->getName();
-				case 'label': return $rule->control instanceof Controls\BaseControl
-					? rtrim($rule->control->translate($rule->control->getCaption()), ':')
-					: null;
+				case 'label':
+					if ($rule->control instanceof Controls\BaseControl) {
+						$caption = $rule->control->translate($rule->control->getCaption());
+						return $caption instanceof Html
+							? $caption
+							: rtrim($caption, ':');
+					}
+					return null;
 				case 'value': return $withValue ? $rule->control->getValue() : $m[0];
 				default:
 					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
