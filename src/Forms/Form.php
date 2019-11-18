@@ -239,7 +239,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function addProtection($errorMessage = null)
 	{
 		$control = new Controls\CsrfProtection($errorMessage);
-		$this->addComponent($control, self::PROTECTOR_ID, key($this->getComponents()));
+		$this->addComponent($control, self::PROTECTOR_ID, key((array) $this->getComponents()));
 		return $control;
 	}
 
