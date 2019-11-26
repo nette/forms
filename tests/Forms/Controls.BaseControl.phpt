@@ -145,3 +145,37 @@ test(function () { // disabled & submitted
 
 	Assert::same('default', $input->getValue());
 });
+
+
+test(function () {
+	$form = new Form;
+	$form->setTranslator(new class implements Nette\Localization\ITranslator {
+		public function translate($s, ...$parameters): string
+		{
+			return strtolower($s);
+		}
+	});
+
+	Validator::$messages[Form::FILLED] = '"%label" field is required.';
+
+	$input = $form->addSelect('list1', 'LIST', [
+		'a' => 'First',
+		0 => 'Second',
+	])->setRequired();
+
+	$input->validate();
+
+	Assert::match('<label for="frm-list1">list</label>', (string) $input->getLabel());
+	Assert::same(['"list" field is required.'], $input->getErrors());
+
+	$input = $form->addSelect('list2', 'LIST', [
+		'a' => 'First',
+		0 => 'Second',
+	])->setTranslator(null)
+		->setRequired();
+
+	$input->validate();
+
+	Assert::match('<label for="frm-list2">list</label>', (string) $input->getLabel());
+	Assert::same(['"list" field is required.'], $input->getErrors());
+});

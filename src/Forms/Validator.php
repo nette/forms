@@ -65,14 +65,17 @@ class Validator
 			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : null);
 		}
 
-		$message = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function (array $m) use ($rule, $withValue) {
+		$message = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function (array $m) use ($rule, $withValue, $translator) {
 			static $i = -1;
 			switch ($m[1]) {
 				case 'name': return $rule->control->getName();
 				case 'label':
 					if ($rule->control instanceof Controls\BaseControl) {
-						$caption = $rule->control->translate($rule->control->getCaption());
-						return rtrim($caption instanceof Nette\Utils\Html ? $caption->getText() : $caption, ':');
+						$caption = $rule->control->getCaption();
+						$caption = $caption instanceof Nette\Utils\IHtmlString
+							? $caption->getText()
+							: ($translator ? $translator->translate($caption) : $caption);
+						return rtrim($caption, ':');
 					}
 					return '';
 				case 'value': return $withValue ? $rule->control->getValue() : $m[0];
