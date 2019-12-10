@@ -25,7 +25,7 @@ use Latte\PhpWriter;
  * - {inputError name}
  * - {formContainer name} ... {/formContainer}
  */
-class FormMacros extends MacroSet
+final class FormMacros extends MacroSet
 {
 	public static function install(Latte\Compiler $compiler): void
 	{
