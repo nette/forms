@@ -179,3 +179,17 @@ test(function () {
 	Assert::match('<label for="frm-list2">list</label>', (string) $input->getLabel());
 	Assert::same(['"list" field is required.'], $input->getErrors());
 });
+
+
+test(function () { // change HTML name
+	$_POST = ['b' => '123', 'send' => ''];
+	$form = new Form;
+	$form->addSubmit('send', 'Send');
+	$input = $form->addText('a');
+
+	Assert::same('', $input->getValue());
+	$input->setHtmlAttribute('name', 'b');
+	Assert::same('123', $input->getValue());
+
+	Assert::match('<input type="text" name="b" id="frm-a" value="123">', (string) $input->getControl());
+});

@@ -147,7 +147,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 */
 	public function getHtmlName(): string
 	{
-		return Nette\Forms\Helpers::generateHtmlName($this->lookupPath(Form::class));
+		return $this->control->name ?? Nette\Forms\Helpers::generateHtmlName($this->lookupPath(Form::class));
 	}
 
 
@@ -347,6 +347,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	public function setHtmlAttribute(string $name, $value = true)
 	{
 		$this->control->$name = $value;
+		if ($name === 'name' && ($form = $this->getForm(false)) && !$this->isDisabled() && $form->isAnchored() && $form->isSubmitted()) {
+			$this->loadHttpData();
+		}
 		return $this;
 	}
 
