@@ -204,6 +204,17 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 
 	/**
+	 * Changes forms's HTML attribute.
+	 * @return static
+	 */
+	public function setHtmlAttribute(string $name, $value = true)
+	{
+		$this->getElementPrototype()->$name = $value;
+		return $this;
+	}
+
+
+	/**
 	 * Cross-Site Request Forgery (CSRF) form protection.
 	 */
 	public function addProtection(string $errorMessage = null): Controls\CsrfProtection
