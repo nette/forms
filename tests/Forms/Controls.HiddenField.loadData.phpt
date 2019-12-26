@@ -74,6 +74,21 @@ test(function () { // object
 });
 
 
+test(function () { // object from string by filter
+	$date = new Nette\Utils\DateTime('2013-07-05');
+	$_POST = ['text' => (string) $date];
+	$form = new Form;
+	$input = $form->addHidden('text');
+	$input->addFilter(function ($value) {
+		return $value ? new \Nette\Utils\DateTime($value) : $value;
+	});
+
+	Assert::same((string) $date, $input->getValue());
+	$input->validate();
+	Assert::equal($date, $input->getValue());
+});
+
+
 test(function () { // int from string
 	$_POST = ['text' => '10'];
 	$form = new Form;
@@ -92,4 +107,22 @@ test(function () { // persistent
 	$input->setValue('other');
 
 	Assert::same('persistent', $input->getValue());
+});
+
+
+test(function () { // nullable
+	$form = new Form;
+	$input = $form->addHidden('hidden');
+	$input->setValue('');
+	$input->setNullable();
+	Assert::null($input->getValue());
+});
+
+
+test(function () { // nullable
+	$form = new Form;
+	$input = $form->addHidden('hidden');
+	$input->setValue(null);
+	$input->setNullable();
+	Assert::null($input->getValue());
 });

@@ -20,6 +20,9 @@ class HiddenField extends BaseControl
 	/** @var bool */
 	private $persistValue;
 
+	/** @var bool */
+	private $nullable = false;
+
 
 	public function __construct($persistentValue = null)
 	{
@@ -49,6 +52,38 @@ class HiddenField extends BaseControl
 		if (!$this->persistValue) {
 			$this->value = $value;
 		}
+		return $this;
+	}
+
+
+	/**
+	 * Returns control's value.
+	 * @return mixed
+	 */
+	public function getValue()
+	{
+		return $this->nullable && $this->value === '' ? null : $this->value;
+	}
+
+
+	/**
+	 * Sets whether getValue() returns null instead of empty string.
+	 * @return static
+	 */
+	public function setNullable(bool $value = true)
+	{
+		$this->nullable = $value;
+		return $this;
+	}
+
+
+	/**
+	 * Appends input string filter callback.
+	 * @return static
+	 */
+	public function addFilter(callable $filter)
+	{
+		$this->getRules()->addFilter($filter);
 		return $this;
 	}
 
