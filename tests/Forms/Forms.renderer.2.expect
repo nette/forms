@@ -98,7 +98,7 @@
 
 	<dt><label for="frm-avatar">Picture:</label></dt>
 
-	<dd><input type="file" name="avatar" id="frm-avatar" class="text"></dd>
+	<dd><input type="file" name="avatar" id="frm-avatar" data-nette-rules='[{"op":":fileSize","msg":"The size of the uploaded file can be up to %d% bytes.","arg":%d%}]' class="text"></dd>
 
 
 

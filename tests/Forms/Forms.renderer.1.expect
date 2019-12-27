@@ -110,7 +110,7 @@
 <tr>
 	<th><label for="frm-avatar">Picture:</label></th>
 
-	<td><input type="file" name="avatar" id="frm-avatar" data-nette-rules='[{"op":":filled","rules":[{"op":":image","msg":"Uploaded file is not image"}],"control":"avatar"}]' class="text"></td>
+	<td><input type="file" name="avatar" id="frm-avatar" data-nette-rules='[{"op":":fileSize","msg":"The size of the uploaded file can be up to %d% bytes.","arg":%d%},{"op":":filled","rules":[{"op":":image","msg":"Uploaded file is not image"}],"control":"avatar"}]' class="text"></td>
 </tr>
 
 <tr>
