@@ -217,4 +217,15 @@ class Helpers
 		}
 		return [$dynamic, '<' . $name . Html::el(null, $attrs)->attributes()];
 	}
+
+
+	/** @internal */
+	public static function iniGetSize(string $name): int
+	{
+		$value = ini_get($name);
+		$units = ['k' => 10, 'm' => 20, 'g' => 30];
+		return isset($units[$ch = strtolower(substr($value, -1))])
+			? (int) $value << $units[$ch]
+			: (int) $value;
+	}
 }

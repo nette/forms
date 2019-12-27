@@ -497,11 +497,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 		if (!$this->submittedBy || !$this->isMethod('post') || empty($_SERVER['CONTENT_LENGTH'])) {
 			return;
 		}
-		$maxSize = ini_get('post_max_size');
-		$units = ['k' => 10, 'm' => 20, 'g' => 30];
-		if (isset($units[$ch = strtolower(substr($maxSize, -1))])) {
-			$maxSize = (int) $maxSize << $units[$ch];
-		}
+		$maxSize = Helpers::iniGetSize('post_max_size');
 		if ($maxSize > 0 && $maxSize < $_SERVER['CONTENT_LENGTH']) {
 			$this->addError(sprintf(Validator::$messages[self::MAX_FILE_SIZE], $maxSize));
 		}
