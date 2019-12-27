@@ -110,6 +110,10 @@ class UploadControl extends BaseControl
 		} elseif ($validator === Form::MIME_TYPE) {
 			$this->control->accept = implode(', ', (array) $arg);
 		} elseif ($validator === Form::MAX_FILE_SIZE) {
+			if ($arg > Forms\Helpers::iniGetSize('upload_max_filesize')) {
+				$ini = ini_get('upload_max_filesize');
+				trigger_error("Value of MAX_FILE_SIZE ($arg) is greater than value of directive upload_max_filesize ($ini).", E_USER_WARNING);
+			}
 			$this->getRules()->removeRule($validator);
 		}
 		return parent::addRule($validator, $errorMessage, $arg);

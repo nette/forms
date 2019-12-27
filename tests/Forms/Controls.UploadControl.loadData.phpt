@@ -234,3 +234,13 @@ test(function () { // validators on multiple files
 
 	Assert::true(Validator::validateImage($input));
 });
+
+
+test(function () { // validators on multiple files
+	$form = new Form;
+	$input = $form->addUpload('invalid1');
+
+	$rules = iterator_to_array($input->getRules());
+	Assert::count(2, $rules);
+	Assert::same($form::MAX_FILE_SIZE, $rules[1]->validator);
+});
