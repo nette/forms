@@ -69,3 +69,12 @@ test(function () { // rendering options
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));
 });
+
+
+test(function () { // object
+	$form = new Form;
+	$input = $form->addHidden('hidden')
+		->setValue(new Nette\Utils\DateTime('2013-07-05'));
+
+	Assert::same('<input type="hidden" name="hidden" value="2013-07-05 00:00:00">', (string) $input->getControl());
+});

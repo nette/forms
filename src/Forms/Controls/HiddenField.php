@@ -41,11 +41,13 @@ class HiddenField extends BaseControl
 	 */
 	public function setValue($value)
 	{
-		if (!is_scalar($value) && $value !== null && !method_exists($value, '__toString')) {
+		if ($value === null) {
+			$value = '';
+		} elseif (!is_scalar($value) && !method_exists($value, '__toString')) {
 			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
 		}
 		if (!$this->persistValue) {
-			$this->value = (string) $value;
+			$this->value = $value;
 		}
 		return $this;
 	}
@@ -61,7 +63,7 @@ class HiddenField extends BaseControl
 		return $el->addAttributes([
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
-			'value' => $this->value,
+			'value' => (string) $this->value,
 		]);
 	}
 

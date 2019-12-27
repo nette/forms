@@ -68,9 +68,21 @@ test(function () { // setValue() and invalid argument
 test(function () { // object
 	$form = new Form;
 	$input = $form->addHidden('hidden')
-		->setValue(new Nette\Utils\DateTime('2013-07-05'));
+		->setValue($data = new Nette\Utils\DateTime('2013-07-05'));
 
-	Assert::same('2013-07-05 00:00:00', $input->getValue());
+	Assert::same($data, $input->getValue());
+});
+
+
+test(function () { // int from string
+	$_POST = ['text' => '10'];
+	$form = new Form;
+	$input = $form->addHidden('text');
+	$input->addRule($form::INTEGER);
+
+	Assert::same('10', $input->getValue());
+	$input->validate();
+	Assert::equal(10, $input->getValue());
 });
 
 
