@@ -93,6 +93,26 @@ class Rules implements \IteratorAggregate
 
 
 	/**
+	 * Removes a validation rule for the current control.
+	 * @param  callable|string  $validator
+	 * @return static
+	 */
+	public function removeRule($validator)
+	{
+		if ($validator === Form::REQUIRED) {
+			$this->required = null;
+		} else {
+			foreach ($this->rules as $i => $rule) {
+				if (!$rule->branch && $rule->validator === $validator) {
+					unset($this->rules[$i]);
+				}
+			}
+		}
+		return $this;
+	}
+
+
+	/**
 	 * Adds a validation condition and returns new branch.
 	 * @return static       new branch
 	 */
