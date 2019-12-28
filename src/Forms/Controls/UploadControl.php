@@ -11,6 +11,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Forms;
+use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 
 
@@ -34,7 +35,7 @@ class UploadControl extends BaseControl
 		$this->setOption('type', 'file');
 		$this->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);
 
-		$this->monitor(Forms\Form::class, function (Forms\Form $form): void {
+		$this->monitor(Form::class, function (Form $form): void {
 			if (!$form->isMethod('post')) {
 				throw new Nette\InvalidStateException('File upload requires method POST.');
 			}
@@ -48,7 +49,7 @@ class UploadControl extends BaseControl
 	 */
 	public function loadHttpData(): void
 	{
-		$this->value = $this->getHttpData(Nette\Forms\Form::DATA_FILE);
+		$this->value = $this->getHttpData(Form::DATA_FILE);
 		if ($this->value === null) {
 			$this->value = new FileUpload(null);
 		}
@@ -103,9 +104,9 @@ class UploadControl extends BaseControl
 	 */
 	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
-		if ($validator === Forms\Form::IMAGE) {
+		if ($validator === Form::IMAGE) {
 			$this->control->accept = implode(', ', FileUpload::IMAGE_MIME_TYPES);
-		} elseif ($validator === Forms\Form::MIME_TYPE) {
+		} elseif ($validator === Form::MIME_TYPE) {
 			$this->control->accept = implode(', ', (array) $arg);
 		}
 		return parent::addRule($validator, $errorMessage, $arg);
