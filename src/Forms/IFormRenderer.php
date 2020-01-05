@@ -15,7 +15,6 @@ namespace Nette\Forms;
  */
 interface IFormRenderer
 {
-
 	/**
 	 * Provides complete form rendering.
 	 */

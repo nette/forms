@@ -15,7 +15,6 @@ namespace Nette\Forms\Controls;
  */
 class ImageButton extends SubmitButton
 {
-
 	/**
 	 * @param  string  $src  URI of the image
 	 * @param  string  $alt  alternate text for the image

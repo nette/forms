@@ -17,7 +17,6 @@ use Nette;
  */
 class TextArea extends TextBase
 {
-
 	/**
 	 * @param  string|object  $label
 	 */

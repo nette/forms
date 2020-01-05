@@ -125,9 +125,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function setMappedType(string $type)
 	{
 		$this->mappedType = $type;
@@ -194,9 +192,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/********************* form building ****************d*g**/
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function setCurrentGroup(ControlGroup $group = null)
 	{
 		$this->currentGroup = $group;

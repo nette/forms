@@ -109,9 +109,7 @@ class SelectBox extends ChoiceControl
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function addOptionAttributes(array $attributes)
 	{
 		$this->optionAttributes = $attributes + $this->optionAttributes;

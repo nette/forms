@@ -17,7 +17,6 @@ use Nette;
  */
 class Button extends BaseControl
 {
-
 	/**
 	 * @param  string|object  $caption
 	 */

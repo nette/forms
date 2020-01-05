@@ -469,9 +469,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 	}
 
 
-	/**
-	 * @return mixed
-	 */
+	/** @return mixed */
 	protected function getValue(string $name)
 	{
 		$name = explode(' ', $name);

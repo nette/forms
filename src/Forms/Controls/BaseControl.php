@@ -105,9 +105,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	}
 
 
-	/**
-	 * @return object|string
-	 */
+	/** @return object|string */
 	public function getCaption()
 	{
 		return $this->caption;
@@ -524,9 +522,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	}
 
 
-	/**
-	 * @deprecated
-	 */
+	/** @deprecated */
 	public static function enableAutoOptionalMode(): void
 	{
 		trigger_error(__METHOD__ . '() is deprecated.', E_USER_DEPRECATED);

@@ -149,9 +149,7 @@ abstract class ChoiceControl extends BaseControl
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function checkDefaultValue(bool $value = true)
 	{
 		$this->checkDefaultValue = $value;

@@ -205,9 +205,7 @@ class Rules implements \IteratorAggregate
 	}
 
 
-	/**
-	 * @internal
-	 */
+	/** @internal */
 	public function getToggleStates(array $toggles = [], bool $success = true): array
 	{
 		foreach ($this->toggles as $id => $hide) {

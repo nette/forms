@@ -100,9 +100,7 @@ class UploadControl extends BaseControl
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
 		if ($validator === Form::IMAGE) {

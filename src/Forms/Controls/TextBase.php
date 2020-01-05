@@ -132,9 +132,7 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
 		if ($validator === Form::LENGTH || $validator === Form::MAX_LENGTH) {

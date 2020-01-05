@@ -15,7 +15,6 @@ namespace Nette\Forms;
  */
 interface IControl
 {
-
 	/**
 	 * Sets control's value.
 	 * @param  mixed  $value

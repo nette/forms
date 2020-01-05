@@ -32,9 +32,7 @@ class ControlGroup
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function add(...$items)
 	{
 		foreach ($items as $item) {
@@ -73,9 +71,7 @@ class ControlGroup
 	}
 
 
-	/**
-	 * @return IControl[]
-	 */
+	/** @return IControl[] */
 	public function getControls(): array
 	{
 		return iterator_to_array($this->controls);
