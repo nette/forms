@@ -36,6 +36,7 @@ final class FormMacros extends MacroSet
 		$me->addMacro('input', [$me, 'macroInput']);
 		$me->addMacro('name', [$me, 'macroName'], [$me, 'macroNameEnd'], [$me, 'macroNameAttr']);
 		$me->addMacro('inputError', [$me, 'macroInputError']);
+		$me->addMacro('formPrint', [$me, 'macroFormPrint']);
 	}
 
 
@@ -239,5 +240,23 @@ final class FormMacros extends MacroSet
 		} else {
 			return $writer->write('echo %escape(end($this->global->formsStack)[%0.word]->getError());', $name);
 		}
+	}
+
+
+	/**
+	 * {formPrint [ClassName]}
+	 */
+	public function macroFormPrint(MacroNode $node, PhpWriter $writer)
+	{
+		$name = $node->tokenizer->fetchWord();
+		if ($name == null) { // null or false
+			throw new CompileException('Missing form name in ' . $node->getNotation());
+		}
+		$node->tokenizer->reset();
+		return $writer->write(
+			'Nette\Bridges\FormsLatte\Runtime::renderBlueprint('
+			. ($name[0] === '$' ? 'is_object(%node.word) ? %node.word : ' : '')
+			. '$this->global->uiControl[%node.word]); exit;'
+		);
 	}
 }

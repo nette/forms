@@ -462,7 +462,7 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 	}
 
 
-	protected function getWrapper(string $name): Html
+	public function getWrapper(string $name): Html
 	{
 		$data = $this->getValue($name);
 		return $data instanceof Html ? clone $data : Html::el($data);
