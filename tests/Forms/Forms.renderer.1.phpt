@@ -86,10 +86,12 @@ $form->addSelect('countrySetItems', 'Country:')
 $form->addGroup('Your account');
 
 $form->addPassword('password', 'Choose password:')
+	->setOption('nextTo', 'password2')
 	->addRule(Form::FILLED, 'Choose your password')
 	->addRule(Form::MIN_LENGTH, 'The password is too short: it must be at least %d characters', 3);
 
 $form->addPassword('password2', 'Reenter password:')
+	->setOption('nextTo', 'avatar')
 	->addConditionOn($form['password'], Form::VALID)
 		->addRule(Form::FILLED, 'Reenter your password')
 		->addRule(Form::EQUAL, 'Passwords do not match', $form['password']);

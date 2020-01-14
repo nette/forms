@@ -46,6 +46,7 @@ $renderer->wrappers['pair']['container'] = null;
 $renderer->wrappers['controls']['container'] = 'dl';
 $renderer->wrappers['control']['container'] = 'dd';
 $renderer->wrappers['control']['.odd'] = 'odd';
+$renderer->wrappers['control']['.multi'] = 'multi';
 $renderer->wrappers['control']['.error'] = 'is-invalid';
 $renderer->wrappers['control']['errors'] = true;
 $renderer->wrappers['label']['container'] = 'dt';
@@ -96,6 +97,7 @@ $form->addSelect('country', 'Country', $countries)
 $form->addGroup('Your account');
 
 $form->addPassword('password', 'Choose password')
+	->setOption('nextTo', 'password2')
 	->addRule(Form::FILLED, 'Choose your password')
 	->addRule(Form::MIN_LENGTH, 'The password is too short: it must be at least %d characters', 3)
 	->setOption('description', '(at least 3 characters)');
