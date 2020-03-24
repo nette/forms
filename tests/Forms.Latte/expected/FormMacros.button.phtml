@@ -1,9 +1,7 @@
 <?php
 %A%
 		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
-		?><form<?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
-		), false) ?>>
+		?><form<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) ?>>
 	<button<?php
 		$_input = end($this->global->formsStack)["send"];
 		echo $_input->getControlPart()->attributes() ?>>
