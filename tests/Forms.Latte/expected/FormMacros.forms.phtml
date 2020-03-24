@@ -51,16 +51,10 @@
 
 	<LABEL title=hello<?php
 		$_input = end($this->global->formsStack)["username"];
-		echo $_input->getLabelPart()->addAttributes(array (
-		'title' => NULL,
-		))->attributes() ?>>Name</LABEL>
+		echo $_input->getLabelPart()->addAttributes(['title' => null])->attributes() ?>>Name</LABEL>
 	<input value=val type class="hello"<?php
 		$_input = end($this->global->formsStack)["username"];
-		echo $_input->getControlPart()->addAttributes(array (
-		'value' => NULL,
-		'type' => NULL,
-		'class' => NULL,
-		))->attributes() ?>>
+		echo $_input->getControlPart()->addAttributes(['value' => null, 'type' => null, 'class' => null])->attributes() ?>>
 
 	<label<?php
 		$_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
@@ -104,9 +98,7 @@
 
 	<label title=hello<?php
 			$_input = end($this->global->formsStack)["sex"];
-			echo $_input->getLabelPart($key)->addAttributes(array (
-			'title' => NULL,
-			))->attributes() ?>> <input<?php
+			echo $_input->getLabelPart($key)->addAttributes(['title' => null])->attributes() ?>> <input<?php
 			$_input = end($this->global->formsStack)["sex"];
 			echo $_input->getControlPart($key)->attributes() ?>> </label>
 <?php
@@ -120,9 +112,7 @@
 		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title="hello"<?php
 		$_input = end($this->global->formsStack)["sex"];
-		echo $_input->getLabelPart()->addAttributes(array (
-		'title' => NULL,
-		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
+		echo $_input->getLabelPart()->addAttributes(['title' => null])->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 
 
 <?php if ($_label = end($this->global->formsStack)["checkbox"]->getLabelPart("")) echo $_label->startTag() ?> <?php
@@ -130,16 +120,12 @@
 
 <label title=hello<?php
 		$_input = end($this->global->formsStack)["checkbox"];
-		echo $_input->getLabelPart("")->addAttributes(array (
-		'title' => NULL,
-		))->attributes() ?>> <input<?php
+		echo $_input->getLabelPart("")->addAttributes(['title' => null])->attributes() ?>> <input<?php
 		$_input = end($this->global->formsStack)["checkbox"];
 		echo $_input->getControlPart("")->attributes() ?>> </label>
 <label title=hello<?php
 		$_input = end($this->global->formsStack)["checkbox"];
-		echo $_input->getLabelPart()->addAttributes(array (
-		'title' => NULL,
-		))->attributes() ?>> <input<?php
+		echo $_input->getLabelPart()->addAttributes(['title' => null])->attributes() ?>> <input<?php
 		$_input = end($this->global->formsStack)["checkbox"];
 		echo $_input->getControlPart()->attributes() ?>> </label>
 <label<?php
@@ -147,9 +133,7 @@
 		echo $_input->getLabelPart("")->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title=hello<?php
 		$_input = end($this->global->formsStack)["checkbox"];
-		echo $_input->getLabelPart()->addAttributes(array (
-		'title' => NULL,
-		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
+		echo $_input->getLabelPart()->addAttributes(['title' => null])->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 
 
 <?php
@@ -164,9 +148,7 @@
 			$_input = end($this->global->formsStack)["checklist"];
 			echo $_input->getLabelPart($key)->attributes() ?>> <input title=hello<?php
 			$_input = end($this->global->formsStack)["checklist"];
-			echo $_input->getControlPart($key)->addAttributes(array (
-			'title' => NULL,
-			))->attributes() ?>> </label>
+			echo $_input->getControlPart($key)->addAttributes(['title' => null])->attributes() ?>> </label>
 <?php
 			$iterations++;
 		}
@@ -178,19 +160,13 @@
 		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 <label title="hello"<?php
 		$_input = end($this->global->formsStack)["checklist"];
-		echo $_input->getLabelPart()->addAttributes(array (
-		'title' => NULL,
-		))->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
+		echo $_input->getLabelPart()->addAttributes(['title' => null])->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
 
 
 <?php
 		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
 		if (1) {
-			?><form id="myForm" class="ajax"<?php
-			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
-			'id' => NULL,
-			'class' => NULL,
-			), false) ?>>
+			?><form id="myForm" class="ajax"<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), ['id' => null, 'class' => null], false) ?>>
 	<input<?php
 			$_input = end($this->global->formsStack)["username"];
 			echo $_input->getControlPart()->attributes() ?>>
@@ -205,16 +181,13 @@
 <?php
 		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
 		?><form<?php
-		if ($_tmp = array_filter(['nclass'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"';
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
-		'class' => NULL,
-		), false) ?>>
+		echo ($_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))) . '"' : "";
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), ['class' => null], false) ?>>
 	<input<?php
 		$_input = end($this->global->formsStack)["username"];
-		echo $_input->getControlPart()->addAttributes(array (
-		'class' => NULL,
-		))->attributes();
-		if ($_tmp = array_filter(['nclass'])) echo ' class="', LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))), '"' ?>>
+		echo $_input->getControlPart()->addAttributes(['class' => null])->attributes();
+		echo ($_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($_tmp))) . '"' : "";
+?>>
 <?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
 ?></form>
@@ -222,9 +195,7 @@
 
 <?php
 		$form = $_form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']];
-		?><FORM<?php
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), array (
-		), false) ?>>
+		?><FORM<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) ?>>
 	<input<?php
 		$_input = end($this->global->formsStack)["username"];
 		echo $_input->getControlPart()->attributes() ?>>
@@ -240,9 +211,7 @@
 
 <textarea title="<?php echo LR\Filters::escapeHtmlAttr(10) /* line 76 */ ?>"<?php
 		$_input = end($this->global->formsStack)["area"];
-		echo $_input->getControlPart()->addAttributes(array (
-		'title' => NULL,
-		))->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></textarea>
+		echo $_input->getControlPart()->addAttributes(['title' => null])->attributes() ?>><?php echo $_input->getControl()->getHtml() ?></textarea>
 
 
 <select<?php
