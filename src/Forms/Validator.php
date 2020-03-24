@@ -290,10 +290,11 @@ class Validator
 	 */
 	public static function validateInteger(IControl $control): bool
 	{
-		if (Validators::isNumericInt($value = $control->getValue())) {
-			if (!is_float($tmp = $value * 1)) { // bigint leave as string
-				$control->setValue($tmp);
-			}
+		if (
+			Validators::isNumericInt($value = $control->getValue())
+			&& !is_float($tmp = $value * 1) // too big for int?
+		) {
+			$control->setValue($tmp);
 			return true;
 		}
 		return false;

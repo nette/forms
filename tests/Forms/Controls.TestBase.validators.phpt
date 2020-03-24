@@ -196,7 +196,7 @@ test(function () {
 	Assert::same('123.5', $control->value);
 
 	$control->value = PHP_INT_MAX . PHP_INT_MAX;
-	Assert::true(Validator::validateInteger($control));
+	Assert::false(Validator::validateInteger($control));
 	Assert::same(PHP_INT_MAX . PHP_INT_MAX, $control->value);
 });
 
