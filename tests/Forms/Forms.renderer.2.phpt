@@ -56,7 +56,9 @@ $renderer->wrappers['control']['requiredsuffix'] = " \u{2022}";
 
 $form->addGroup('Personal data');
 $form->addText('name', 'Your name')
-	->addRule(Form::FILLED, 'Enter your name');
+	->addRule(Form::FILLED, 'Enter your name')
+	->setOption('class', 'myclass')
+	->setOption('id', 'myid');
 
 $form->addText('age', 'Your age')
 	->addRule(Form::FILLED, 'Enter your age')

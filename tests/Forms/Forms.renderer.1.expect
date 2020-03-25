@@ -5,7 +5,7 @@
 <p>We value your privacy and we ensure that the information you give to us will not be shared to other entities.</p>
 
 <table>
-<tr class="required">
+<tr class="required myclass" id="myid">
 	<th><label for="frm-name" class="required">Your name:</label></th>
 
 	<td><input type="text" name="name" id="frm-name" required data-nette-rules='[{"op":":filled","msg":"Enter your name"}]' value="John Doe" class="text"></td>

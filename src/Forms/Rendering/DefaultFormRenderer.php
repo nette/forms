@@ -438,6 +438,10 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 		if ($this->counter % 2) {
 			$body->class($this->getValue('control .odd'), true);
 		}
+		if (!$this->getWrapper('pair container')->getName()) {
+			$body->class($control->getOption('class'), true);
+			$body->id = $control->getOption('id');
+		}
 
 		$description = $control->getOption('description');
 		if ($description instanceof IHtmlString) {

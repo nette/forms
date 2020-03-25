@@ -43,7 +43,9 @@ $form->addGroup('Personal data')
 	->setOption('id', 'test-group-id-set-via-option');
 
 $form->addText('name', 'Your name:')
-	->addRule(Form::FILLED, 'Enter your name');
+	->addRule(Form::FILLED, 'Enter your name')
+	->setOption('class', 'myclass')
+	->setOption('id', 'myid');
 
 $form->addInteger('age', 'Your age:')
 	->addRule(Form::FILLED, 'Enter your age')

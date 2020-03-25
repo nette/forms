@@ -7,7 +7,7 @@
 
 	<dt><label for="frm-name" class="required">Your name:</label></dt>
 
-	<dd><input type="text" name="name" id="frm-name" required data-nette-rules='[{"op":":filled","msg":"Enter your name"}]' value="John Doe" class="text"> •</dd>
+	<dd class="myclass" id="myid"><input type="text" name="name" id="frm-name" required data-nette-rules='[{"op":":filled","msg":"Enter your name"}]' value="John Doe" class="text"> •</dd>
 
 
 
