@@ -238,13 +238,13 @@ test(function () { // getValues(...arguments...)
 
 	Assert::equal([
 		'title' => 'new1',
-		'first' => [
+		'first' => hydrate(FormFirstLevel::class, [
 			'name' => 'new2',
 			'age' => null,
-			'second' => [
+			'second' => hydrate(FormSecondLevel::class, [
 				'city' => '',
-			],
-		],
+			]),
+		]),
 	], $form->getValues(true));
 });
 

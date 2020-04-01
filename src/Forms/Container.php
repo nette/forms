@@ -38,8 +38,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/** @var bool */
 	private $validated;
 
-	/** @var string */
-	private $mappedType = ArrayHash::class;
+	/** @var ?string */
+	private $mappedType;
 
 
 	/********************* data exchange ****************d*g**/
@@ -109,7 +109,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		$returnType = $returnType
 			? ($returnType === true ? self::ARRAY : $returnType) // back compatibility
-			: $this->mappedType;
+			: ($this->mappedType ?? ArrayHash::class);
 
 		$isArray = $returnType === self::ARRAY;
 		$obj = $isArray ? new \stdClass : new $returnType;
@@ -118,7 +118,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			if ($control instanceof IControl && !$control->isOmitted()) {
 				$obj->$name = $control->getValue();
 			} elseif ($control instanceof self) {
-				$obj->$name = $control->getValues($isArray ? self::ARRAY : null);
+				$obj->$name = $control->getValues($isArray && !$control->mappedType ? self::ARRAY : null);
 			}
 		}
 		return $isArray ? (array) $obj : $obj;
