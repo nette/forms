@@ -131,18 +131,23 @@ class Validator
 	/**
 	 * Is control filled?
 	 */
-	public static function validateFilled(Controls\BaseControl $control): bool
+	public static function validateFilled(IControl $control): bool
 	{
-		return $control->isFilled();
+		if ($control instanceof Controls\BaseControl || method_exists($control, 'isFilled')) {
+			return $control->isFilled();
+		}
+
+		$value = $control->getValue();
+		return $value !== null && $value !== [] && $value !== '';
 	}
 
 
 	/**
 	 * Is control not filled?
 	 */
-	public static function validateBlank(Controls\BaseControl $control): bool
+	public static function validateBlank(IControl $control): bool
 	{
-		return !$control->isFilled();
+		return !static::validateFilled($control);
 	}
 
 
