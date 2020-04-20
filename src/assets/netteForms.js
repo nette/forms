@@ -536,16 +536,27 @@
 			return true;
 		},
 
-		image: function (elem, arg, val) {
-			if (window.FileList && val instanceof window.FileList) {
-				for (var i = 0; i < val.length; i++) {
-					var type = val[i].type;
-					if (type && type !== 'image/gif' && type !== 'image/png' && type !== 'image/jpeg' && type !== 'image/webp') {
+		mimeType: function (elem, arg, val) {
+			arg = Array.isArray(arg) ? arg : [arg];
+			for (var i = 0, len = arg.length, re = []; i < len; i++) {
+				re.push('^' + arg[i].replace(/([^\w])/g, '\\$1').replace('\\*', '.*') + '$');
+			}
+			re = new RegExp(re.join('|'));
+
+			if (window.FileList && val instanceof FileList) {
+				for (i = 0; i < val.length; i++) {
+					if (val[i].type && !re.test(val[i].type)) {
 						return false;
+					} else if (elem.validity.badInput) {
+						return null;
 					}
 				}
 			}
 			return true;
+		},
+
+		image: function (elem, arg, val) {
+			return Nette.validators.mimeType(elem, ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
 		},
 
 		'static': function (elem, arg) {
