@@ -266,7 +266,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/**
 	 * Generates label's HTML element.
 	 * @param  string|object  $caption
-	 * @return Html|string
+	 * @return Html|string|null
 	 */
 	public function getLabel($caption = null)
 	{
