@@ -540,7 +540,7 @@
 			if (window.FileList && val instanceof window.FileList) {
 				for (var i = 0; i < val.length; i++) {
 					var type = val[i].type;
-					if (type && type !== 'image/gif' && type !== 'image/png' && type !== 'image/jpeg') {
+					if (type && type !== 'image/gif' && type !== 'image/png' && type !== 'image/jpeg' && type !== 'image/webp') {
 						return false;
 					}
 				}
