@@ -28,9 +28,6 @@ class ImageButton extends SubmitButton
 	}
 
 
-	/**
-	 * Loads HTTP data.
-	 */
 	public function loadHttpData(): void
 	{
 		parent::loadHttpData();
@@ -40,9 +37,6 @@ class ImageButton extends SubmitButton
 	}
 
 
-	/**
-	 * Returns HTML name of control.
-	 */
 	public function getHtmlName(): string
 	{
 		return parent::getHtmlName() . '[]';

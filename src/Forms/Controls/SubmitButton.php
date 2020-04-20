@@ -40,9 +40,6 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 	}
 
 
-	/**
-	 * Loads HTTP data.
-	 */
 	public function loadHttpData(): void
 	{
 		parent::loadHttpData();
@@ -100,10 +97,6 @@ class SubmitButton extends Button implements Nette\Forms\ISubmitterControl
 	}
 
 
-	/**
-	 * Generates control's HTML element.
-	 * @param  string|object  $caption
-	 */
 	public function getControl($caption = null): Nette\Utils\Html
 	{
 		$scope = [];

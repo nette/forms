@@ -56,10 +56,6 @@ class HiddenField extends BaseControl
 	}
 
 
-	/**
-	 * Returns control's value.
-	 * @return mixed
-	 */
 	public function getValue()
 	{
 		return $this->nullable && $this->value === '' ? null : $this->value;
@@ -88,9 +84,6 @@ class HiddenField extends BaseControl
 	}
 
 
-	/**
-	 * Generates control's HTML element.
-	 */
 	public function getControl(): Nette\Utils\Html
 	{
 		$this->setOption('rendered', true);
@@ -105,7 +98,6 @@ class HiddenField extends BaseControl
 
 	/**
 	 * Bypasses label generation.
-	 * @param  string|object  $caption
 	 */
 	public function getLabel($caption = null)
 	{

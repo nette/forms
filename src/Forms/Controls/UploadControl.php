@@ -45,9 +45,6 @@ class UploadControl extends BaseControl
 	}
 
 
-	/**
-	 * Loads HTTP data.
-	 */
 	public function loadHttpData(): void
 	{
 		$this->value = $this->getHttpData(Form::DATA_FILE);
@@ -57,9 +54,6 @@ class UploadControl extends BaseControl
 	}
 
 
-	/**
-	 * Returns HTML name of control.
-	 */
 	public function getHtmlName(): string
 	{
 		return parent::getHtmlName() . ($this->control->multiple ? '[]' : '');

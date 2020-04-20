@@ -89,9 +89,6 @@ class SelectBox extends ChoiceControl
 	}
 
 
-	/**
-	 * Generates control's HTML element.
-	 */
 	public function getControl(): Nette\Utils\Html
 	{
 		$items = $this->prompt === false ? [] : ['' => $this->translate($this->prompt)];

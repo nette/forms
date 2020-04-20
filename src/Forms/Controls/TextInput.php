@@ -29,9 +29,6 @@ class TextInput extends TextBase
 	}
 
 
-	/**
-	 * Loads HTTP data.
-	 */
 	public function loadHttpData(): void
 	{
 		$this->setValue($this->getHttpData(Form::DATA_LINE));
@@ -59,9 +56,6 @@ class TextInput extends TextBase
 	}
 
 
-	/**
-	 * Generates control's HTML element.
-	 */
 	public function getControl(): Nette\Utils\Html
 	{
 		return parent::getControl()->addAttributes([

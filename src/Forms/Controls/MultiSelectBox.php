@@ -56,9 +56,6 @@ class MultiSelectBox extends MultiChoiceControl
 	}
 
 
-	/**
-	 * Generates control's HTML element.
-	 */
 	public function getControl(): Nette\Utils\Html
 	{
 		$items = [];
