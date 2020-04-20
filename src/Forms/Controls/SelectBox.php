@@ -23,7 +23,7 @@ class SelectBox extends ChoiceControl
 	/** @var array of option / optgroup */
 	private $options = [];
 
-	/** @var mixed */
+	/** @var string|object|false */
 	private $prompt = false;
 
 	/** @var array */
@@ -44,7 +44,7 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Sets first prompt item in select box.
-	 * @param  string|object  $prompt
+	 * @param  string|object|false  $prompt
 	 * @return static
 	 */
 	public function setPrompt($prompt)
@@ -56,7 +56,7 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Returns first prompt item?
-	 * @return mixed
+	 * @return string|object|false
 	 */
 	public function getPrompt()
 	{
