@@ -47,7 +47,10 @@ class Validator
 	];
 
 
-	/** @internal */
+	/**
+	 * @return string|Nette\Utils\IHtmlString
+	 * @internal
+	 */
 	public static function formatMessage(Rule $rule, bool $withValue = true)
 	{
 		$message = $rule->message;

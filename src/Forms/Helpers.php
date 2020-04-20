@@ -114,7 +114,11 @@ class Helpers
 					continue;
 				}
 			} else {
-				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => Validator::formatMessage($rule, false)];
+				$msg = Validator::formatMessage($rule, false);
+				if ($msg instanceof Nette\Utils\IHtmlString) {
+					$msg = html_entity_decode(strip_tags((string) $msg), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+				}
+				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => $msg];
 			}
 
 			if (is_array($rule->arg)) {
