@@ -152,7 +152,8 @@ test(function () {
 		1 => 'First',
 		2 => 'Second',
 	])->setValue(1);
-	$input->addOptionAttributes(['bar' => 'b', 'selected?' => 2, 'foo:' => [1 => 'a', 2 => 'b']]);
+	$input->addOptionAttributes(['bar' => 'b', 'selected?' => 2]);
 	$input->addOptionAttributes(['bar' => 'c']);
+	$input->setOptionAttribute('foo:', [1 => 'a', 2 => 'b']);
 	Assert::same('<select name="list[]" id="frm-list" multiple><option bar="c" value="1" selected foo="a">First</option><option bar="c" value="2" foo="b">Second</option></select>', (string) $input->getControl());
 });

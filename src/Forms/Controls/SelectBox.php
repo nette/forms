@@ -117,6 +117,14 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	/** @return static */
+	public function setOptionAttribute(string $name, $value = true)
+	{
+		$this->optionAttributes[$name] = $value;
+		return $this;
+	}
+
+
 	public function isOk(): bool
 	{
 		return $this->isDisabled()

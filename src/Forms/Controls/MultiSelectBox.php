@@ -84,6 +84,14 @@ class MultiSelectBox extends MultiChoiceControl
 	}
 
 
+	/** @return static */
+	public function setOptionAttribute(string $name, $value = true)
+	{
+		$this->optionAttributes[$name] = $value;
+		return $this;
+	}
+
+
 	public function getOptionAttributes(): array
 	{
 		return $this->optionAttributes;
