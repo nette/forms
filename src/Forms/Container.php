@@ -329,7 +329,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Adds hidden form control used to store a non-displayed value.
 	 */
-	public function addHidden(string $name, string $default = null): Controls\HiddenField
+	public function addHidden(string $name, $default = null): Controls\HiddenField
 	{
 		return $this[$name] = (new Controls\HiddenField)
 			->setDefaultValue($default);
