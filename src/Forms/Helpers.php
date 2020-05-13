@@ -207,15 +207,15 @@ class Helpers
 	{
 		$dynamic = [];
 		foreach ((array) $attrs as $k => $v) {
-			$p = str_split($k, strlen($k) - 1);
-			if ($p[1] === '?' || $p[1] === ':') {
-				unset($attrs[$k], $attrs[$p[0]]);
-				if ($p[1] === '?') {
-					$dynamic[$p[0]] = array_fill_keys((array) $v, true);
+			if ($k[-1] === '?' || $k[-1] === ':') {
+				$p = substr($k, 0, -1);
+				unset($attrs[$k], $attrs[$p]);
+				if ($k[-1] === '?') {
+					$dynamic[$p] = array_fill_keys((array) $v, true);
 				} elseif (is_array($v) && $v) {
-					$dynamic[$p[0]] = $v;
+					$dynamic[$p] = $v;
 				} else {
-					$attrs[$p[0]] = $v;
+					$attrs[$p] = $v;
 				}
 			}
 		}
