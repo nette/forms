@@ -29,8 +29,8 @@ $series = [
 ];
 
 
-test(function () use ($series) { // invalid input
-	$_POST = ['list' => 'red-dwarf'];
+test(function () use ($series) { // empty input
+	$_POST = [];
 
 	$form = new Form;
 	$input = $form->addCheckboxList('list', null, $series);
@@ -39,6 +39,19 @@ test(function () use ($series) { // invalid input
 	Assert::same([], $input->getValue());
 	Assert::same([], $input->getSelectedItems());
 	Assert::false($input->isFilled());
+});
+
+
+test(function () use ($series) { // compact mode
+	$_POST = ['list' => 'red-dwarf,0'];
+
+	$form = new Form;
+	$input = $form->addCheckboxList('list', null, $series);
+
+	Assert::true($form->isValid());
+	Assert::same(['red-dwarf', 0], $input->getValue());
+	Assert::same(['red-dwarf' => 'Red Dwarf', 0 => 'South Park'], $input->getSelectedItems());
+	Assert::true($input->isFilled());
 });
 
 
