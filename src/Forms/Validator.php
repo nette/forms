@@ -284,7 +284,9 @@ class Validator
 	 */
 	public static function validateNumeric(IControl $control): bool
 	{
-		return (bool) Strings::match($control->getValue(), '#^\d+$#D');
+		$value = $control->getValue();
+		return (is_int($value) && $value >= 0)
+			|| (is_string($value) && Strings::match($value, '#^\d+$#D'));
 	}
 
 
