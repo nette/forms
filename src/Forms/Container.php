@@ -113,12 +113,16 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		$isArray = $returnType === self::ARRAY;
 		$obj = $isArray ? new \stdClass : new $returnType;
+		$rc = new \ReflectionClass($obj);
 
 		foreach ($this->getComponents() as $name => $control) {
 			if ($control instanceof IControl && !$control->isOmitted()) {
 				$obj->$name = $control->getValue();
 			} elseif ($control instanceof self) {
-				$obj->$name = $control->getValues($isArray && !$control->mappedType ? self::ARRAY : null);
+				$type = $isArray && !$control->mappedType
+					? self::ARRAY
+					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
+				$obj->$name = $control->getValues($type);
 			}
 		}
 		return $isArray ? (array) $obj : $obj;
