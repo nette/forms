@@ -49,7 +49,7 @@ Assert::match(
 
 <dl>
 
-	<dt>{label name}:</dt>
+	<dt>{label name/}:</dt>
 
 	<dd>{input name}
 
@@ -60,7 +60,7 @@ Assert::match(
 
 
 
-	<dt>{label cont-name}:</dt>
+	<dt>{label cont-name/}:</dt>
 
 	<dd class="odd">{input cont-name}
 

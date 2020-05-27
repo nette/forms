@@ -88,7 +88,7 @@ class Runtime
 
 				public function getLabel($name = null)
 				{
-					return $this->inner->getLabel() ? '{label ' . $this->inner->lookupPath(Form::class) . '}' : null;
+					return $this->inner->getLabel() ? '{label ' . $this->inner->lookupPath(Form::class) . '/}' : null;
 				}
 
 
