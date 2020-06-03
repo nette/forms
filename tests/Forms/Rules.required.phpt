@@ -43,7 +43,7 @@ test(function () { // Rules
 });
 
 
-test(function () { // 'required' is always the first rule
+test(function () { // 'required/blank' is always the first rule
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -59,8 +59,17 @@ test(function () { // 'required' is always the first rule
 	@$rules->addRule(~$form::REQUIRED); // @ - negative rules are deprecated
 	$items = iterator_to_array($rules);
 	Assert::count(3, $items);
-	Assert::same(Form::BLANK, $items[2]->validator);
-	Assert::false($items[2]->isNegative);
+	Assert::same(Form::BLANK, $items[0]->validator);
+	Assert::false($items[0]->isNegative);
+
+	Assert::false($rules->validate());
+	Assert::same(['This field is required.'], $input->getErrors());
+
+	$rules->addCondition($form::BLANK);
+	$items = iterator_to_array($rules);
+	Assert::count(4, $items);
+	Assert::same(Form::BLANK, $items[0]->validator);
+	Assert::same(Form::BLANK, $items[1]->validator);
 
 	Assert::false($rules->validate());
 	Assert::same(['This field is required.'], $input->getErrors());

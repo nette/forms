@@ -289,11 +289,15 @@ class Rules implements \IteratorAggregate
 	 */
 	public function getIterator(): \Iterator
 	{
-		$rules = $this->rules;
-		if ($this->required) {
-			array_unshift($rules, $this->required);
+		$priorities = [
+			0 => [], // BLANK
+			1 => $this->required ? [$this->required] : [],
+			2 => [], // other rules
+		];
+		foreach ($this->rules as $rule) {
+			$priorities[$rule->validator === Form::BLANK && $rule->control === $this->control ? 0 : 2][] = $rule;
 		}
-		return new \ArrayIterator($rules);
+		return new \ArrayIterator(array_merge(...$priorities));
 	}
 
 
