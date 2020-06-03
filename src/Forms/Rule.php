@@ -31,9 +31,9 @@ class Rule
 	/** @var bool */
 	public $isNegative = false;
 
-	/** @var string */
+	/** @var string|null */
 	public $message;
 
-	/** @var Rules  for conditions */
+	/** @var Rules|null  for conditions */
 	public $branch;
 }
