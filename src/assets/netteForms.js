@@ -139,7 +139,7 @@
 		elem = elem.tagName ? elem : elem[0]; // RadioNodeList
 		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
 		value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
-		emptyOptional = emptyOptional || !Nette.validateRule(elem, ':filled', null, value);
+		emptyOptional = emptyOptional === undefined ? !Nette.validateRule(elem, ':filled', null, value) : emptyOptional;
 
 		for (var id = 0, len = rules.length; id < len; id++) {
 			var rule = rules[id],
