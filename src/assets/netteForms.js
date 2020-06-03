@@ -586,9 +586,10 @@
 	/**
 	 * Process toggles on form element.
 	 */
-	Nette.toggleControl = function(elem, rules, success, firsttime, value) {
+	Nette.toggleControl = function(elem, rules, success, firsttime, value, emptyOptional) {
 		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
 		value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
+		emptyOptional = emptyOptional === undefined ? !Nette.validateRule(elem, ':filled', null, value) : emptyOptional;
 
 		var has = false,
 			handled = [],
@@ -602,14 +603,18 @@
 				op = rule.op.match(/(~)?([^?]+)/),
 				curElem = rule.control ? elem.form.elements.namedItem(rule.control) : elem;
 
+			rule.neg = op[1];
+			rule.op = op[2];
+			rule.condition = !!rule.rules;
+
 			if (!curElem) {
+				continue;
+			} else if (emptyOptional && !rule.condition && rule.op !== ':filled') {
 				continue;
 			}
 
 			curSuccess = success;
 			if (success !== false) {
-				rule.neg = op[1];
-				rule.op = op[2];
 				curSuccess = Nette.validateRule(curElem, rule.op, rule.arg, elem === curElem ? value : undefined);
 				if (curSuccess === null) {
 					continue;
@@ -617,12 +622,12 @@
 				} else if (rule.neg) {
 					curSuccess = !curSuccess;
 				}
-				if (!rule.rules) {
+				if (!rule.condition) {
 					success = curSuccess;
 				}
 			}
 
-			if ((rule.rules && Nette.toggleControl(elem, rule.rules, curSuccess, firsttime, value)) || rule.toggle) {
+			if ((rule.condition && Nette.toggleControl(elem, rule.rules, curSuccess, firsttime, value, rule.op === ':blank' ? false : emptyOptional)) || rule.toggle) {
 				has = true;
 				if (firsttime) {
 					var name = curElem.tagName ? curElem.name : curElem[0].name,
