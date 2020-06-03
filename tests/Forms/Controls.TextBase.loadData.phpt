@@ -205,3 +205,20 @@ test(function () { // filter in BLANK condition
 	$input->validate();
 	Assert::same('default', $input->getValue());
 });
+
+
+test(function () { // filter in !FILLED condition
+	$_POST = ['text' => ''];
+
+	$form = new Form;
+	$input = $form->addText('text');
+	$input->addCondition($form::FILLED)
+		->elseCondition()
+		->addFilter(function () use ($input) {
+			return 'default';
+		});
+
+	Assert::same('', $input->getValue());
+	$input->validate();
+	Assert::same('default', $input->getValue());
+});
