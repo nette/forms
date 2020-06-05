@@ -78,7 +78,7 @@ class Validator
 						$caption = $caption instanceof Nette\Utils\IHtmlString
 							? $caption->getText()
 							: ($translator ? $translator->translate($caption) : $caption);
-						return rtrim($caption, ':');
+						return rtrim((string) $caption, ':');
 					}
 					return '';
 				case 'value': return $withValue ? $rule->control->getValue() : $m[0];
