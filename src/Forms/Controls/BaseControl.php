@@ -50,7 +50,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var Html  label element template */
 	protected $label;
 
-	/** @var bool */
+	/** @var bool|bool[] */
 	protected $disabled = false;
 
 	/** @var callable[][]  extension methods */
@@ -68,7 +68,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	/** @var Rules */
 	private $rules;
 
-	/** @var Nette\Localization\ITranslator */
+	/** @var Nette\Localization\ITranslator|bool|null */
 	private $translator = true; // means autodetect
 
 	/** @var array user options */
@@ -200,9 +200,10 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 
 	/**
 	 * Disables or enables control.
+	 * @param  bool  $value
 	 * @return static
 	 */
-	public function setDisabled(/*bool*/ $value = true)
+	public function setDisabled($value = true)
 	{
 		if ($this->disabled = (bool) $value) {
 			$this->setValue(null);

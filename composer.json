@@ -21,6 +21,7 @@
 		"nette/utils": "^3.0"
 	},
 	"require-dev": {
+		"nette/application": "^3.0",
 		"nette/di": "^3.0",
 		"nette/tester": "^2.0",
 		"latte/latte": "^2.8",

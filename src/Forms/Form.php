@@ -102,7 +102,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var array */
 	private $httpData;
 
-	/** @var Html  <form> element */
+	/** @var Html  element <form> */
 	private $element;
 
 	/** @var IFormRenderer */

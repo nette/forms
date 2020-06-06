@@ -101,6 +101,7 @@ class HiddenField extends BaseControl
 	 */
 	public function getLabel($caption = null)
 	{
+		return null;
 	}
 
 

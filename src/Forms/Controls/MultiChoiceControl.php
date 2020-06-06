@@ -133,7 +133,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Disables or enables control or items.
-	 * @param  bool|bool[]  $value
+	 * @param  bool|array  $value
 	 * @return static
 	 */
 	public function setDisabled($value = true)

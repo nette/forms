@@ -51,7 +51,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Sets selected item (by key).
-	 * @param  string|int  $value
+	 * @param  string|int|null  $value
 	 * @return static
 	 * @internal
 	 */
@@ -68,7 +68,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected key.
-	 * @return string|int
+	 * @return string|int|null
 	 */
 	public function getValue()
 	{

@@ -54,7 +54,7 @@ class Rules implements \IteratorAggregate
 	public function setRequired($value = true)
 	{
 		if ($value) {
-			$this->addRule(Form::REQUIRED, $value === true ? null : $value);
+			$this->addRule(Form::FILLED, $value === true ? null : $value);
 		} else {
 			$this->required = null;
 		}
@@ -88,7 +88,7 @@ class Rules implements \IteratorAggregate
 		$this->adjustOperation($rule);
 		$rule->arg = $arg;
 		$rule->message = $errorMessage;
-		if ($rule->validator === Form::REQUIRED) {
+		if ($rule->validator === Form::FILLED) {
 			$this->required = $rule;
 		} else {
 			$this->rules[] = $rule;
@@ -104,7 +104,7 @@ class Rules implements \IteratorAggregate
 	 */
 	public function removeRule($validator)
 	{
-		if ($validator === Form::REQUIRED) {
+		if ($validator === Form::FILLED) {
 			$this->required = null;
 		} else {
 			foreach ($this->rules as $i => $rule) {
