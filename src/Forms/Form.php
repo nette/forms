@@ -93,7 +93,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var callable[]&(callable(Form): void)[]; Occurs before the form is rendered */
 	public $onRender;
 
-	/** @var Nette\Http\IRequest  used only by standalone form */
+	/** @internal @var Nette\Http\IRequest  used only by standalone form */
 	public $httpRequest;
 
 	/** @var mixed or null meaning: not detected yet */
