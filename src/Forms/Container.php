@@ -116,6 +116,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		$rc = new \ReflectionClass($obj);
 
 		foreach ($this->getComponents() as $name => $control) {
+			$name = (string) $name;
 			if ($control instanceof IControl && !$control->isOmitted()) {
 				$obj->$name = $control->getValue();
 			} elseif ($control instanceof self) {
