@@ -220,4 +220,17 @@
 <?php
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
 ?>
+
+
+
+<?php
+		$form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
+		?><label<?php
+		$_input = end($this->global->formsStack)["sex"];
+		echo $_input->getLabelPart()->attributes() ?>><?php echo $_input->getLabelPart()->getHtml() ?></label>
+<input<?php
+		$_input = end($this->global->formsStack)["username"];
+		echo $_input->getControlPart()->attributes() ?>>
+<?php
+		array_pop($this->global->formsStack);
 %A%
