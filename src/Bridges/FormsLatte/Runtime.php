@@ -150,7 +150,7 @@ class Runtime
 		$blueprint = new Latte\Runtime\Blueprint;
 		$end = $blueprint->printCanvas();
 		$blueprint->printHeader('Form ' . $form->getName());
-		$blueprint->printCode($body);
+		echo '<xmp>', $body, '</xmp>';
 		echo $end;
 	}
 }
