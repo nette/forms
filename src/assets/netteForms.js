@@ -702,6 +702,7 @@
 				form.appendChild(elem);
 			}
 			form.elements[name].value = values[name].join(',');
+			form.elements[name].disabled = values[name].length === 0;
 		}
 	};
 
