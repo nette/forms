@@ -239,7 +239,10 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			}
 			$container->addHtml($item);
 		}
-		return "\n" . $container->render($control ? 1 : 0);
+
+		return $control
+			? "\n\t" . $container->render()
+			: "\n" . $container->render(0);
 	}
 
 

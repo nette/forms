@@ -52,33 +52,21 @@ Assert::match(
 	<dt>{label name/}:</dt>
 
 	<dd>{input name}
-
-	<span class="error" n:ifcontent>
-		{inputError name}
-	</span>
-</dd>
+	<span class="error" n:ifcontent>{inputError name}</span></dd>
 
 
 
 	<dt>{label cont-name/}:</dt>
 
 	<dd class="odd">{input cont-name}
-
-	<span class="error" n:ifcontent>
-		{inputError cont-name}
-	</span>
-</dd>
+	<span class="error" n:ifcontent>{inputError cont-name}</span></dd>
 
 
 
 	<dt></dt>
 
 	<dd>{input agree}
-
-	<span class="error" n:ifcontent>
-		{inputError agree}
-	</span>
-</dd>
+	<span class="error" n:ifcontent>{inputError agree}</span></dd>
 
 </dl>
 
