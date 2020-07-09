@@ -571,17 +571,17 @@
 	/**
 	 * Process all toggles in form.
 	 */
-	Nette.toggleForm = function(form, elem) {
+	Nette.toggleForm = function(form, event) {
 		var i;
 		formToggles = {};
 		for (i = 0; i < form.elements.length; i++) {
 			if (form.elements[i].tagName.toLowerCase() in {input: 1, select: 1, textarea: 1, button: 1}) {
-				Nette.toggleControl(form.elements[i], null, null, !elem);
+				Nette.toggleControl(form.elements[i], null, null, !event);
 			}
 		}
 
 		for (i in formToggles) {
-			Nette.toggle(i, formToggles[i].state, formToggles[i].elem);
+			Nette.toggle(i, formToggles[i].state, formToggles[i].elem, event);
 		}
 	};
 
@@ -595,8 +595,8 @@
 		emptyOptional = emptyOptional === undefined ? !Nette.validateRule(elem, ':filled', null, value) : emptyOptional;
 
 		var has = false,
-			handler = function () {
-				Nette.toggleForm(elem.form, elem);
+			handler = function (e) {
+				Nette.toggleForm(elem.form, e);
 			},
 			curSuccess;
 
@@ -655,7 +655,7 @@
 	/**
 	 * Displays or hides HTML element.
 	 */
-	Nette.toggle = function(selector, visible, srcElement) { // eslint-disable-line no-unused-vars
+	Nette.toggle = function(selector, visible, srcElement, event) { // eslint-disable-line no-unused-vars
 		if (/^\w[\w.:-]*$/.test(selector)) { // id
 			selector = '#' + selector;
 		}
