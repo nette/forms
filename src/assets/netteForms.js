@@ -579,7 +579,8 @@
 		}
 
 		for (i in formToggles) {
-			Nette.toggle(i, formToggles[i], elem);
+			var tuple = JSON.parse(i);
+			Nette.toggle(tuple[0], formToggles[i], form[tuple[1]]);
 		}
 	};
 
@@ -640,9 +641,10 @@
 						}
 					}
 				}
-				for (var id2 in rule.toggle || []) {
-					if (Object.prototype.hasOwnProperty.call(rule.toggle, id2)) {
-						formToggles[id2] = formToggles[id2] || (rule.toggle[id2] ? curSuccess : !curSuccess);
+				for (var toggleId in rule.toggle || []) {
+					if (Object.prototype.hasOwnProperty.call(rule.toggle, toggleId)) {
+						var key = JSON.stringify([toggleId, elem.name]);
+						formToggles[key] = formToggles[key] || (rule.toggle[key] ? curSuccess : !curSuccess);
 					}
 				}
 			}
