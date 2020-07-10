@@ -581,7 +581,7 @@
 		}
 
 		for (i in formToggles) {
-			Nette.toggle(i, formToggles[i], elem);
+			Nette.toggle(i, formToggles[i].state, formToggles[i].elem);
 		}
 	};
 
@@ -643,7 +643,8 @@
 					}
 				}
 				for (var toggleId in rule.toggle || []) {
-					formToggles[toggleId] = formToggles[toggleId] || (rule.toggle[toggleId] ? curSuccess : !curSuccess);
+					formToggles[toggleId] = formToggles[toggleId] || {elem: elem};
+					formToggles[toggleId].state = formToggles[toggleId].state || (rule.toggle[toggleId] ? curSuccess : !curSuccess);
 				}
 			}
 		}
