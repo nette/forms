@@ -48,6 +48,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Fill-in with default values.
 	 * @param  array|object  $data
+	 * @param  bool          $erase
 	 * @return static
 	 */
 	public function setDefaults($data, bool $erase = false)
@@ -63,6 +64,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Fill-in with values.
 	 * @param  array|object  $data
+	 * @param  bool          $erase
 	 * @return static
 	 * @internal
 	 */
@@ -130,7 +132,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/** @return static */
+	/**
+	 * @param  string  $type
+	 * @return static
+	 */
 	public function setMappedType(string $type)
 	{
 		$this->mappedType = $type;
@@ -143,6 +148,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Is form valid?
+	 * @return bool
 	 */
 	public function isValid(): bool
 	{
@@ -158,7 +164,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Performs the server side validation.
-	 * @param  IControl[]  $controls
+	 * @param IControl[]|null $controls
 	 */
 	public function validate(array $controls = null): void
 	{
@@ -185,6 +191,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns all validation errors.
+	 * @return array
 	 */
 	public function getErrors(): array
 	{
@@ -199,7 +206,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/********************* form building ****************d*g**/
 
 
-	/** @return static */
+	/**
+	 * @param  ControlGroup|null  $group
+	 * @return static
+	 */
 	public function setCurrentGroup(ControlGroup $group = null)
 	{
 		$this->currentGroup = $group;
@@ -209,6 +219,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns current group.
+	 * @return ControlGroup|null
 	 */
 	public function getCurrentGroup(): ?ControlGroup
 	{
@@ -218,8 +229,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds the specified component to the IContainer.
+	 * @param  Nette\ComponentModel\IComponent  $component
+	 * @param  string|null                      $name
+	 * @param  string|null                      $insertBefore
 	 * @return static
-	 * @throws Nette\InvalidStateException
 	 */
 	public function addComponent(Nette\ComponentModel\IComponent $component, ?string $name, string $insertBefore = null)
 	{
@@ -233,6 +246,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Iterates over all form controls.
+	 * @return \Iterator
 	 */
 	public function getControls(): \Iterator
 	{
@@ -242,6 +256,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns form.
+	 * @param  bool  $throw
+	 * @return Form|null
 	 */
 	public function getForm(bool $throw = true): ?Form
 	{
@@ -254,7 +270,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds single-line text input control to the form.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @param  int|null     $cols
+	 * @param  int|null     $maxLength
+	 * @return Controls\TextInput
 	 */
 	public function addText(string $name, $label = null, int $cols = null, int $maxLength = null): Controls\TextInput
 	{
@@ -265,7 +285,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds single-line text input control used for sensitive input such as passwords.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @param  int|null     $cols
+	 * @param  int|null     $maxLength
+	 * @return Controls\TextInput
 	 */
 	public function addPassword(string $name, $label = null, int $cols = null, int $maxLength = null): Controls\TextInput
 	{
@@ -277,7 +301,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds multi-line text input control to the form.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @param  int|null     $cols
+	 * @param  int|null     $rows
+	 * @return Controls\TextArea
 	 */
 	public function addTextArea(string $name, $label = null, int $cols = null, int $rows = null): Controls\TextArea
 	{
@@ -288,7 +316,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds input for email.
-	 * @param  string|object  $label
+	 * @param  string      $name
+	 * @param  string|null  $label
+	 * @return Controls\TextInput
 	 */
 	public function addEmail(string $name, $label = null): Controls\TextInput
 	{
@@ -299,7 +329,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds input for integer.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @return Controls\TextInput
 	 */
 	public function addInteger(string $name, $label = null): Controls\TextInput
 	{
@@ -311,7 +343,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds control that allows the user to upload files.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @return Controls\UploadControl
 	 */
 	public function addUpload(string $name, $label = null): Controls\UploadControl
 	{
@@ -325,7 +359,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds control that allows the user to upload multiple files.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @return Controls\UploadControl
 	 */
 	public function addMultiUpload(string $name, $label = null): Controls\UploadControl
 	{
@@ -335,6 +371,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds hidden form control used to store a non-displayed value.
+	 * @param  string       $name
+	 * @param  string|null  $default
+	 * @return Controls\HiddenField
 	 */
 	public function addHidden(string $name, $default = null): Controls\HiddenField
 	{
@@ -345,7 +384,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds check box control to the form.
-	 * @param  string|object  $caption
+	 * @param  string       $name
+	 * @param  string|null  $caption
+	 * @return Controls\Checkbox
 	 */
 	public function addCheckbox(string $name, $caption = null): Controls\Checkbox
 	{
@@ -355,7 +396,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds set of radio button controls to the form.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @param  array|null   $items
+	 * @return Controls\RadioList
 	 */
 	public function addRadioList(string $name, $label = null, array $items = null): Controls\RadioList
 	{
@@ -365,7 +409,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds set of checkbox controls to the form.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @param  array|null   $items
+	 * @return Controls\CheckboxList
 	 */
 	public function addCheckboxList(string $name, $label = null, array $items = null): Controls\CheckboxList
 	{
@@ -375,7 +422,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds select box control that allows single item selection.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @param  array|null   $items
+	 * @param  int|null     $size
+	 * @return Controls\SelectBox
 	 */
 	public function addSelect(string $name, $label = null, array $items = null, int $size = null): Controls\SelectBox
 	{
@@ -386,7 +437,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds select box control that allows multiple item selection.
-	 * @param  string|object  $label
+	 * @param  string       $name
+	 * @param  string|null  $label
+	 * @param  array|null   $items
+	 * @param  int|null     $size
+	 * @return Controls\MultiSelectBox
 	 */
 	public function addMultiSelect(string $name, $label = null, array $items = null, int $size = null): Controls\MultiSelectBox
 	{
@@ -397,7 +452,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds button used to submit form.
-	 * @param  string|object  $caption
+	 * @param  string       $name
+	 * @param  string|null  $caption
+	 * @return Controls\SubmitButton
 	 */
 	public function addSubmit(string $name, $caption = null): Controls\SubmitButton
 	{
@@ -407,7 +464,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds push buttons with no default behavior.
-	 * @param  string|object  $caption
+	 * @param  string       $name
+	 * @param  string|null  $caption
+	 * @return Controls\Button
 	 */
 	public function addButton(string $name, $caption = null): Controls\Button
 	{
@@ -417,8 +476,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds graphical button used to submit form.
-	 * @param  string  $src  URI of the image
-	 * @param  string  $alt  alternate text for the image
+	 * @param  string       $name
+	 * @param  string|null  $src  URI of the image
+	 * @param  string|null  $alt  alternate text for the image
+	 * @return Controls\ImageButton
 	 */
 	public function addImage(string $name, string $src = null, string $alt = null): Controls\ImageButton
 	{
@@ -429,6 +490,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Adds naming container to the form.
 	 * @param  string|int  $name
+	 * @return static
 	 */
 	public function addContainer($name): self
 	{
