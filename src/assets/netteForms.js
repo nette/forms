@@ -35,6 +35,7 @@
 
 	Nette.formErrors = [];
 	Nette.version = '3.0';
+	Nette.invalidNumberMessage = 'Please enter a valid value.';
 
 
 	/**
@@ -188,7 +189,7 @@
 
 		if (elem.type === 'number' && !elem.validity.valid) {
 			if (top && !onlyCheck) {
-				Nette.addError(elem, 'Please enter a valid value.');
+				Nette.addError(elem, Nette.invalidNumberMessage);
 			}
 			return false;
 		}
