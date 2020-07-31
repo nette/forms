@@ -137,6 +137,7 @@
 	 * Validates form element against given rules.
 	 */
 	Nette.validateControl = function(elem, rules, onlyCheck, value, emptyOptional) {
+		var top = !rules;
 		elem = elem.tagName ? elem : elem[0]; // RadioNodeList
 		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
 		value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
@@ -186,7 +187,7 @@
 		}
 
 		if (elem.type === 'number' && !elem.validity.valid) {
-			if (!onlyCheck) {
+			if (top && !onlyCheck) {
 				Nette.addError(elem, 'Please enter a valid value.');
 			}
 			return false;
