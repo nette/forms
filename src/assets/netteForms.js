@@ -642,10 +642,8 @@
 						}
 					}
 				}
-				for (var id2 in rule.toggle || []) {
-					if (Object.prototype.hasOwnProperty.call(rule.toggle, id2)) {
-						formToggles[id2] = formToggles[id2] || (rule.toggle[id2] ? curSuccess : !curSuccess);
-					}
+				for (var toggleId in rule.toggle || []) {
+					formToggles[toggleId] = formToggles[toggleId] || (rule.toggle[toggleId] ? curSuccess : !curSuccess);
 				}
 			}
 		}
