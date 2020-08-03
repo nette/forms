@@ -68,26 +68,26 @@ if ($form->isSuccess()) {
 		<legend>Personal data</legend>
 		<table>
 		<tr class="required">
-			<th><?php echo $form['name']->getLabel('Your name:') ?></th>
-			<td><?php echo $form['name']->control->cols(35) ?> <?php echo $form['name']->error ?></td>
+			<th><?php $form->render()['name']->getLabel('Your name:') ?></th>
+			<td><?php $form->render()['name']->control->cols(35) ?> <?php $form->render()['name']->error ?></td>
 		</tr>
 		<tr class="required">
-			<th><?php echo $form['age']->getLabel('Your age:') ?></th>
-			<td><?php echo $form['age']->control->cols(5) ?> <?php echo $form['age']->error ?></td>
+			<th><?php $form->render()['age']->getLabel('Your age:') ?></th>
+			<td><?php $form->render()['age']->control->cols(5) ?> <?php $form->render()['age']->error ?></td>
 		</tr>
 		<tr>
-			<th><?php echo $form['gender']->getLabel('Your gender:') ?></th>
-			<td><?php echo $form['gender']->control ?> <?php echo $form['gender']->error ?></td>
+			<th><?php $form->render()['gender']->getLabel('Your gender:') ?></th>
+			<td><?php $form->render()['gender']->control ?> <?php $form->render()['gender']->error ?></td>
 		</tr>
 		<tr>
-			<th><?php echo $form['email']->getLabel('Email:') ?></th>
-			<td><?php echo $form['email']->control->cols(35) ?> <?php echo $form['email']->error ?></td>
+			<th><?php $form->render()['email']->getLabel('Email:') ?></th>
+			<td><?php $form->render()['email']->control->cols(35) ?> <?php $form->render()['email']->error ?></td>
 		</tr>
 		</table>
 	</fieldset>
 
 	<div>
-		<?php echo $form['submit']->getControl('Send') ?>
+		<?php $form->render()['submit']->getControl('Send') ?>
 	</div>
 
 	<?php $form->render('end'); ?>

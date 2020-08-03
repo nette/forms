@@ -135,6 +135,6 @@ if ($form->isSuccess()) {
 
 <h1>Nette Forms custom control example</h1>
 
-<?php echo $form ?>
+<?php $form->render() ?>
 
 <footer><a href="https://doc.nette.org/en/forms">see documentation</a></footer>
