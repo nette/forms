@@ -19,7 +19,7 @@ before(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$name = 'name';
 	$_POST = [Form::TRACKER_ID => $name, 'send2' => ''];
 
@@ -33,7 +33,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$name = 'name';
 	$_POST = [Form::TRACKER_ID => $name, 'send2' => ['x' => 1, 'y' => 1]];
 

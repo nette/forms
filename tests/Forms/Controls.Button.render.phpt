@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption');
 
@@ -34,7 +34,7 @@ test(function () {
 });
 
 
-test(function () { // translator
+test('translator', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption');
 	$input->setTranslator(new Translator);
@@ -44,7 +44,7 @@ test(function () { // translator
 });
 
 
-test(function () { // Html with translator
+test('Html with translator', function () {
 	$form = new Form;
 	$input = $form->addButton('button', Html::el('b', 'Caption'));
 	$input->setTranslator(new Translator);
@@ -54,7 +54,7 @@ test(function () { // Html with translator
 });
 
 
-test(function () { // no validation rules
+test('no validation rules', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption')->setRequired('required');
 
@@ -62,7 +62,7 @@ test(function () { // no validation rules
 });
 
 
-test(function () { // container
+test('container', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addButton('button', 'Caption');
@@ -71,7 +71,7 @@ test(function () { // container
 });
 
 
-test(function () { // SubmitButton
+test('SubmitButton', function () {
 	$form = new Form;
 	$input = $form->addSubmit('button', 'Caption');
 
@@ -82,7 +82,7 @@ test(function () { // SubmitButton
 });
 
 
-test(function () { // SubmitButton with scope
+test('SubmitButton with scope', function () {
 	$form = new Form;
 	$input = $form->addSubmit('button', 'Caption')->setValidationScope([]);
 
@@ -90,7 +90,7 @@ test(function () { // SubmitButton with scope
 });
 
 
-test(function () { // SubmitButton with scope
+test('SubmitButton with scope', function () {
 	$form = new Form;
 	$text = $form->addText('text');
 	$select = $form->addSelect('select');
@@ -100,7 +100,7 @@ test(function () { // SubmitButton with scope
 });
 
 
-test(function () { // forced ID
+test('forced ID', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption');
 	$input->setHtmlId($input->getHtmlId());
@@ -109,7 +109,7 @@ test(function () { // forced ID
 });
 
 
-test(function () { // rendering options
+test('rendering options', function () {
 	$form = new Form;
 	$input = $form->addButton('button');
 

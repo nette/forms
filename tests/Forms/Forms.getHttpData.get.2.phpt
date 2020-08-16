@@ -19,7 +19,7 @@ before(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$_GET = ['item'];
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
 

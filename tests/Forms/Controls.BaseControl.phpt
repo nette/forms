@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // error handling
+test('error handling', function () {
 	$form = new Form;
 	$input = $form->addText('text')
 		->setRequired('error');
@@ -34,7 +34,7 @@ test(function () { // error handling
 });
 
 
-test(function () { // validators
+test('validators', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setValue(123);
@@ -71,7 +71,7 @@ test(function () { // validators
 });
 
 
-test(function () { // validators for array
+test('validators for array', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('select', null, ['a', 'b', 'c', 'd']);
 	$input->setValue([1, 2, 3]);
@@ -95,7 +95,7 @@ test(function () { // validators for array
 });
 
 
-test(function () { // setHtmlId
+test('setHtmlId', function () {
 	$form = new Form;
 	$input = $form->addText('text')->setHtmlId('myId');
 
@@ -103,7 +103,7 @@ test(function () { // setHtmlId
 });
 
 
-test(function () { // special name
+test('special name', function () {
 	$form = new Form;
 	$input = $form->addText('submit');
 
@@ -111,7 +111,7 @@ test(function () { // special name
 });
 
 
-test(function () { // disabled
+test('disabled', function () {
 	$form = new Form;
 	$form->addText('disabled')
 		->setDisabled()
@@ -123,7 +123,7 @@ test(function () { // disabled
 });
 
 
-test(function () { // disabled & submitted
+test('disabled & submitted', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = ['disabled' => 'submitted value'];
 
@@ -147,7 +147,7 @@ test(function () { // disabled & submitted
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->setTranslator(new class implements Nette\Localization\ITranslator {
 		public function translate($s, ...$parameters): string
@@ -181,7 +181,7 @@ test(function () {
 });
 
 
-test(function () { // change HTML name
+test('change HTML name', function () {
 	$_POST = ['b' => '123', 'send' => ''];
 	$form = new Form;
 	$form->addSubmit('send', 'Send');

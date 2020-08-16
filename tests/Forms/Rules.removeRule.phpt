@@ -9,7 +9,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addText('text1');
 	$input->setRequired();
@@ -33,7 +33,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setRequired();
@@ -45,7 +45,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addCondition($form::EMAIL);

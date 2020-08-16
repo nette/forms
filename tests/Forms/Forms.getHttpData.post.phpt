@@ -20,7 +20,7 @@ before(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addSubmit('send', 'Send');
 
@@ -31,7 +31,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->setMethod($form::GET);
 	$form->addSubmit('send', 'Send');
@@ -43,7 +43,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$name = 'name';
 	$_POST = [Form::TRACKER_ID => $name];
 
@@ -57,7 +57,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addSubmit('send', 'Send');
 	Assert::false($input->isSubmittedBy());

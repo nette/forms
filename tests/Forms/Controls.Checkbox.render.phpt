@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on', 'Label');
 
@@ -44,7 +44,7 @@ test(function () {
 });
 
 
-test(function () { // Html with translator
+test('Html with translator', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on', 'Label');
 	$input->setTranslator(new Translator);
@@ -53,7 +53,7 @@ test(function () { // Html with translator
 });
 
 
-test(function () { // validation rules
+test('validation rules', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on')->setRequired('required');
 
@@ -61,7 +61,7 @@ test(function () { // validation rules
 });
 
 
-test(function () { // container
+test('container', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addCheckbox('on');
@@ -70,7 +70,7 @@ test(function () { // container
 });
 
 
-test(function () { // rendering options
+test('rendering options', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on');
 

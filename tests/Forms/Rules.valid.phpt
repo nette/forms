@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('foo')
 		->setRequired('fill foo');
@@ -34,7 +34,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	Assert::exception(function () {
 		$form = new Form;
 		$form->addText('foo')
@@ -43,7 +43,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	Assert::exception(function () {
 		$form = new Form;
 		$form->addText('foo')
@@ -52,7 +52,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	Assert::exception(function () {
 		$form = new Form;
 		@$form->addText('foo')

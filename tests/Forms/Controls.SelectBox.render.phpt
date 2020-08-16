@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -39,7 +39,7 @@ test(function () {
 });
 
 
-test(function () { // selected
+test('selected', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -50,7 +50,7 @@ test(function () { // selected
 });
 
 
-test(function () { // selected 2x
+test('selected 2x', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		['a' => 'First'],
@@ -61,7 +61,7 @@ test(function () { // selected 2x
 });
 
 
-test(function () { // translator & groups
+test('translator & groups', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -75,7 +75,7 @@ test(function () { // translator & groups
 });
 
 
-test(function () { // Html with translator & groups
+test('Html with translator & groups', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', Html::el('b', 'Label'), [
 		'a' => Html::el('option', 'First')->class('class'),
@@ -89,7 +89,7 @@ test(function () { // Html with translator & groups
 });
 
 
-test(function () { // validation rules
+test('validation rules', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -100,7 +100,7 @@ test(function () { // validation rules
 });
 
 
-test(function () { // container
+test('container', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addSelect('list', 'Label', [
@@ -112,7 +112,7 @@ test(function () { // container
 });
 
 
-test(function () { // disabled all
+test('disabled all', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -123,7 +123,7 @@ test(function () { // disabled all
 });
 
 
-test(function () { // disabled one
+test('disabled one', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -134,7 +134,7 @@ test(function () { // disabled one
 });
 
 
-test(function () { // rendering options
+test('rendering options', function () {
 	$form = new Form;
 	$input = $form->addSelect('list');
 
@@ -146,7 +146,7 @@ test(function () { // rendering options
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		1 => 'First',

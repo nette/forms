@@ -19,7 +19,7 @@ before(function () {
 });
 
 
-test(function () { // trim & new lines
+test('trim & new lines', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
@@ -30,7 +30,7 @@ test(function () { // trim & new lines
 });
 
 
-test(function () { // trim & new lines in textarea
+test('trim & new lines in textarea', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
@@ -40,7 +40,7 @@ test(function () { // trim & new lines in textarea
 });
 
 
-test(function () { // empty value
+test('empty value', function () {
 	$_POST = ['url' => 'nette.org'];
 
 	$form = new Form;
@@ -51,7 +51,7 @@ test(function () { // empty value
 });
 
 
-test(function () { // empty value
+test('empty value', function () {
 	$_POST = ['phone' => '+420 '];
 
 	$form = new Form;
@@ -62,7 +62,7 @@ test(function () { // empty value
 });
 
 
-test(function () { // invalid UTF
+test('invalid UTF', function () {
 	$_POST = ['invalidutf' => "invalid\xAA\xAA\xAAutf"];
 
 	$form = new Form;
@@ -71,7 +71,7 @@ test(function () { // invalid UTF
 });
 
 
-test(function () { // missing data
+test('missing data', function () {
 	$form = new Form;
 	$input = $form->addText('unknown');
 
@@ -80,7 +80,7 @@ test(function () { // missing data
 });
 
 
-test(function () { // malformed data
+test('malformed data', function () {
 	$_POST = ['malformed' => [null]];
 
 	$form = new Form;
@@ -91,7 +91,7 @@ test(function () { // malformed data
 });
 
 
-test(function () { // setValue() and invalid argument
+test('setValue() and invalid argument', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
@@ -104,7 +104,7 @@ test(function () { // setValue() and invalid argument
 });
 
 
-test(function () { // float
+test('float', function () {
 	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
@@ -118,7 +118,7 @@ test(function () { // float
 
 
 
-test(function () { // float in condition
+test('float in condition', function () {
 	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
@@ -131,7 +131,7 @@ test(function () { // float in condition
 });
 
 
-test(function () { // non float
+test('non float', function () {
 	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
@@ -143,7 +143,7 @@ test(function () { // non float
 });
 
 
-test(function () { // URL
+test('URL', function () {
 	$_POST = ['url' => 'nette.org'];
 
 	$form = new Form;
@@ -155,7 +155,7 @@ test(function () { // URL
 });
 
 
-test(function () { // object
+test('object', function () {
 	$form = new Form;
 	$input = $form->addText('text')
 		->setValue($date = new Nette\Utils\DateTime('2013-07-05'));
@@ -164,7 +164,7 @@ test(function () { // object
 });
 
 
-test(function () { // filter
+test('filter', function () {
 	$_POST = ['text' => 'hello'];
 
 	$form = new Form;
@@ -177,7 +177,7 @@ test(function () { // filter
 });
 
 
-test(function () { // filter in condition
+test('filter in condition', function () {
 	$_POST = ['text' => 'hello'];
 
 	$form = new Form;
@@ -191,7 +191,7 @@ test(function () { // filter in condition
 });
 
 
-test(function () { // filter in BLANK condition
+test('filter in BLANK condition', function () {
 	$_POST = ['text' => ''];
 
 	$form = new Form;
@@ -207,7 +207,7 @@ test(function () { // filter in BLANK condition
 });
 
 
-test(function () { // filter in !FILLED condition
+test('filter in !FILLED condition', function () {
 	$_POST = ['text' => ''];
 
 	$form = new Form;

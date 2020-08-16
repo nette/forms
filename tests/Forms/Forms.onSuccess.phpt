@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // valid
+test('valid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$called = [];
@@ -35,7 +35,7 @@ test(function () { // valid
 });
 
 
-test(function () { // valid -> invalid
+test('valid -> invalid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$called = [];
@@ -64,7 +64,7 @@ test(function () { // valid -> invalid
 });
 
 
-test(function () { // invalid
+test('invalid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$called = [];

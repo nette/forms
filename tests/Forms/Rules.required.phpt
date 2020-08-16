@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // BaseControl
+test('BaseControl', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 
@@ -23,7 +23,7 @@ test(function () { // BaseControl
 });
 
 
-test(function () { // Rules
+test('Rules', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -43,7 +43,7 @@ test(function () { // Rules
 });
 
 
-test(function () { // 'required/blank' is always the first rule
+test('required/blank is always the first rule', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -76,7 +76,7 @@ test(function () { // 'required/blank' is always the first rule
 });
 
 
-test(function () { // setRequired(false)
+test('setRequired(false)', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -94,7 +94,7 @@ test(function () { // setRequired(false)
 });
 
 
-test(function () { // setRequired(false) and addConditionOn
+test('setRequired(false) and addConditionOn', function () {
 	$form = new Form;
 	$form->addCheckbox('checkbox');
 	$input = $form->addText('text');
@@ -108,7 +108,7 @@ test(function () { // setRequired(false) and addConditionOn
 });
 
 
-test(function () { // addRule(~Form::REQUIRED)
+test('addRule(~Form::REQUIRED)', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 

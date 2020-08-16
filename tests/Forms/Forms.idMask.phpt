@@ -24,7 +24,7 @@ Assert::exception(function () {
 }, Nette\InvalidStateException::class, "Component 'name' is not attached to 'Nette\\Forms\\Form'.");
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$container = $form->addContainer('second');
 	$input = $container->addText('name');
@@ -32,21 +32,21 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addText('name');
 	Assert::same('frm-name', $input->getHtmlId());
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addText('name');
 	Assert::same('frm-name', $input->getHtmlId());
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form('signForm');
 	$input = $form->addText('name');
 	Assert::same('frm-signForm-name', $input->getHtmlId());

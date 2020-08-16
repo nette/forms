@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addTextArea('text', 'Label')
 		->setValue('&text')
@@ -38,7 +38,7 @@ test(function () {
 });
 
 
-test(function () { // translator
+test('translator', function () {
 	$form = new Form;
 	$input = $form->addTextArea('text', 'Label')
 		->setHtmlAttribute('placeholder', 'place')
@@ -51,7 +51,7 @@ test(function () { // translator
 });
 
 
-test(function () { // Html with translator
+test('Html with translator', function () {
 	$form = new Form;
 	$input = $form->addTextArea('text', Html::el('b', 'Label'))
 		->setTranslator(new Translator);
@@ -61,7 +61,7 @@ test(function () { // Html with translator
 });
 
 
-test(function () { // validation rule LENGTH
+test('validation rule LENGTH', function () {
 	$form = new Form;
 	$input = $form->addTextArea('text')
 		->addRule($form::LENGTH, null, [10, 20]);
@@ -70,7 +70,7 @@ test(function () { // validation rule LENGTH
 });
 
 
-test(function () { // validation rule MAX_LENGTH
+test('validation rule MAX_LENGTH', function () {
 	$form = new Form;
 	$input = $form->addTextArea('text')
 		->addRule($form::MAX_LENGTH, null, 30)
@@ -80,7 +80,7 @@ test(function () { // validation rule MAX_LENGTH
 });
 
 
-test(function () { // container
+test('container', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addTextArea('text');
@@ -89,7 +89,7 @@ test(function () { // container
 });
 
 
-test(function () { // rendering options
+test('rendering options', function () {
 	$form = new Form;
 	$input = $form->addTextArea('text');
 
@@ -101,7 +101,7 @@ test(function () { // rendering options
 });
 
 
-test(function () { // setEmptyValue
+test('setEmptyValue', function () {
 	$form = new Form;
 	$input = $form->addTextArea('text')
 		->setEmptyValue('empty ');
@@ -110,7 +110,7 @@ test(function () { // setEmptyValue
 });
 
 
-test(function () { // setEmptyValue & setNullable
+test('setEmptyValue & setNullable', function () {
 	$form = new Form;
 	$input = $form->addTextArea('text')
 		->setEmptyValue('empty ')

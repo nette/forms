@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // AND
+test('AND', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -30,7 +30,7 @@ test(function () { // AND
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -47,7 +47,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -64,7 +64,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -81,7 +81,7 @@ test(function () {
 });
 
 
-test(function () { // OR
+test('OR', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -99,7 +99,7 @@ test(function () { // OR
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -117,7 +117,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -135,7 +135,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -153,7 +153,7 @@ test(function () {
 });
 
 
-test(function () { // OR & two components
+test('OR & two components', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -169,7 +169,7 @@ test(function () { // OR & two components
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -185,7 +185,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::NOT_EQUAL, 'x')
@@ -201,7 +201,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::NOT_EQUAL, 'x')
@@ -217,7 +217,7 @@ test(function () {
 });
 
 
-test(function () { // OR & multiple used ID
+test('OR & multiple used ID', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -232,7 +232,7 @@ test(function () { // OR & multiple used ID
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -247,7 +247,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::NOT_EQUAL, 'x')
@@ -262,7 +262,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::NOT_EQUAL, 'x')
@@ -277,7 +277,7 @@ test(function () {
 });
 
 
-test(function () { // AND & multiple used ID
+test('AND & multiple used ID', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -293,7 +293,7 @@ test(function () { // AND & multiple used ID
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -309,7 +309,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -325,7 +325,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -341,7 +341,7 @@ test(function () {
 });
 
 
-test(function () { // $hide = false
+test('$hide = false', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -358,7 +358,7 @@ test(function () { // $hide = false
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -375,7 +375,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -392,7 +392,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -408,7 +408,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -424,7 +424,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -440,7 +440,7 @@ test(function () {
 });
 
 
-test(function () { // $hide = false & multiple used ID
+test('$hide = false & multiple used ID', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -456,7 +456,7 @@ test(function () { // $hide = false & multiple used ID
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -472,7 +472,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -488,7 +488,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -504,7 +504,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -520,7 +520,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -535,7 +535,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::EQUAL, 'x')
@@ -550,7 +550,7 @@ test(function () {
 });
 
 
-test(function () { // combined with rules
+test('combined with rules', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -570,7 +570,7 @@ test(function () { // combined with rules
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -589,7 +589,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -608,7 +608,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -627,7 +627,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -645,7 +645,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -663,7 +663,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');

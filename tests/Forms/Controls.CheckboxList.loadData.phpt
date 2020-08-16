@@ -29,7 +29,7 @@ $series = [
 ];
 
 
-test(function () use ($series) { // empty input
+test('empty input', function () use ($series) {
 	$_POST = [];
 
 	$form = new Form;
@@ -42,7 +42,7 @@ test(function () use ($series) { // empty input
 });
 
 
-test(function () use ($series) { // compact mode
+test('compact mode', function () use ($series) {
 	$_POST = ['list' => 'red-dwarf,0'];
 
 	$form = new Form;
@@ -55,7 +55,7 @@ test(function () use ($series) { // compact mode
 });
 
 
-test(function () use ($series) { // multiple selected items, zero item
+test('multiple selected items, zero item', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
@@ -69,7 +69,7 @@ test(function () use ($series) { // multiple selected items, zero item
 });
 
 
-test(function () use ($series) { // empty key
+test('empty key', function () use ($series) {
 	$_POST = ['empty' => ['']];
 
 	$form = new Form;
@@ -82,7 +82,7 @@ test(function () use ($series) { // empty key
 });
 
 
-test(function () use ($series) { // missing key
+test('missing key', function () use ($series) {
 	$form = new Form;
 	$input = $form->addCheckboxList('missing', null, $series);
 
@@ -93,7 +93,7 @@ test(function () use ($series) { // missing key
 });
 
 
-test(function () use ($series) { // disabled key
+test('disabled key', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
@@ -105,7 +105,7 @@ test(function () use ($series) { // disabled key
 });
 
 
-test(function () use ($series) { // malformed data
+test('malformed data', function () use ($series) {
 	$_POST = ['malformed' => [[null]]];
 
 	$form = new Form;
@@ -118,7 +118,7 @@ test(function () use ($series) { // malformed data
 });
 
 
-test(function () use ($series) { // validateLength
+test('validateLength', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
@@ -131,7 +131,7 @@ test(function () use ($series) { // validateLength
 });
 
 
-test(function () use ($series) { // validateEqual
+test('validateEqual', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
 
 	$form = new Form;
@@ -144,7 +144,7 @@ test(function () use ($series) { // validateEqual
 });
 
 
-test(function () use ($series) { // setValue() and invalid argument
+test('setValue() and invalid argument', function () use ($series) {
 	$form = new Form;
 	$input = $form->addCheckboxList('list', null, $series);
 	$input->setValue(null);
@@ -155,7 +155,7 @@ test(function () use ($series) { // setValue() and invalid argument
 });
 
 
-test(function () { // object as value
+test('object as value', function () {
 	$form = new Form;
 	$input = $form->addCheckboxList('list', null, ['2013-07-05 00:00:00' => 1])
 		->setValue([new DateTime('2013-07-05')]);
@@ -164,7 +164,7 @@ test(function () { // object as value
 });
 
 
-test(function () { // object as item
+test('object as item', function () {
 	$form = new Form;
 	$input = $form->addCheckboxList('list')
 		->setItems([new DateTime('2013-07-05')], false)
@@ -174,7 +174,7 @@ test(function () { // object as item
 });
 
 
-test(function () use ($series) { // disabled one
+test('disabled one', function () use ($series) {
 	$_POST = ['list' => ['red-dwarf', 0]];
 
 	$form = new Form;

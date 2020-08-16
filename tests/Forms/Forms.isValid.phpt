@@ -19,7 +19,7 @@ before(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('item');
 
@@ -49,7 +49,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('item');
 
@@ -61,7 +61,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('item');
 
@@ -73,7 +73,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('item');
 
@@ -86,7 +86,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addText('item');
 
