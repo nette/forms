@@ -22,7 +22,7 @@ before(function () {
 test('', function () {
 	$_POST = [
 		'off' => '',
-		'on' => 1,
+		'on' => '1',
 	];
 
 	$form = new Form;
@@ -39,7 +39,7 @@ test('', function () {
 
 
 test('malformed data', function () {
-	$_POST = ['malformed' => [null]];
+	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
 	$input = $form->addCheckbox('malformed');

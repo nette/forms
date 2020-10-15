@@ -21,9 +21,9 @@ before(function () {
 
 test('', function () {
 	$_POST = [
-		'image' => [1, 2],
+		'image' => ['1', '2'],
 		'container' => [
-			'image' => [3, 4],
+			'image' => ['3', '4'],
 		],
 	];
 
@@ -47,8 +47,8 @@ test('missing data', function () {
 
 test('malformed data', function () {
 	$_POST = [
-		'malformed1' => [1],
-		'malformed2' => [[null]],
+		'malformed1' => ['1'],
+		'malformed2' => [['']],
 	];
 
 	$form = new Form;

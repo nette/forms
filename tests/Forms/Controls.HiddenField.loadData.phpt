@@ -37,7 +37,7 @@ test('', function () {
 
 
 test('invalid data', function () {
-	$_POST = ['malformed' => [null]];
+	$_POST = ['malformed' => ['']];
 	$form = new Form;
 	$input = $form->addHidden('malformed');
 	Assert::same('', $input->getValue());

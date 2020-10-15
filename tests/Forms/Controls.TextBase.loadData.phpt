@@ -81,7 +81,7 @@ test('missing data', function () {
 
 
 test('malformed data', function () {
-	$_POST = ['malformed' => [null]];
+	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
 	$input = $form->addText('malformed');

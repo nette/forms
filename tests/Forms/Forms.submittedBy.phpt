@@ -35,7 +35,7 @@ test('', function () {
 
 test('', function () {
 	$name = 'name';
-	$_POST = [Form::TRACKER_ID => $name, 'send2' => ['x' => 1, 'y' => 1]];
+	$_POST = [Form::TRACKER_ID => $name, 'send2' => ['x' => '1', 'y' => '1']];
 
 	$form = new Form($name);
 	$btn1 = $form->addImage('send1');

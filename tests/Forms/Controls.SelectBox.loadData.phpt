@@ -125,7 +125,7 @@ test('Select with prompt and invalid input', function () use ($series) {
 
 
 test('Indexed arrays', function () use ($series) {
-	$_POST = ['zero' => 0];
+	$_POST = ['zero' => '0'];
 
 	$form = new Form;
 	$input = $form->addSelect('zero', null, $series);
@@ -175,7 +175,7 @@ test('disabled key', function () use ($series) {
 
 
 test('malformed data', function () use ($series) {
-	$_POST = ['malformed' => [null]];
+	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
 	$input = $form->addSelect('malformed', null, $series);
@@ -280,7 +280,7 @@ test('disabled one', function () use ($series) {
 });
 
 test('', function () {
-	$_POST = ['select' => 1];
+	$_POST = ['select' => '1'];
 
 	$form = new Form;
 	$input = $form->addSelect('select', null, [

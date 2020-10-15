@@ -56,7 +56,7 @@ test('compact mode', function () use ($series) {
 
 
 test('multiple selected items, zero item', function () use ($series) {
-	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
+	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
 	$input = $form->addCheckboxList('multi', null, $series);
@@ -106,7 +106,7 @@ test('disabled key', function () use ($series) {
 
 
 test('malformed data', function () use ($series) {
-	$_POST = ['malformed' => [[null]]];
+	$_POST = ['malformed' => [['']]];
 
 	$form = new Form;
 	$input = $form->addCheckboxList('malformed', null, $series);
@@ -119,7 +119,7 @@ test('malformed data', function () use ($series) {
 
 
 test('validateLength', function () use ($series) {
-	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
+	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
 	$input = $form->addCheckboxList('multi', null, $series);
@@ -132,7 +132,7 @@ test('validateLength', function () use ($series) {
 
 
 test('validateEqual', function () use ($series) {
-	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
+	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
 	$input = $form->addCheckboxList('multi', null, $series);
@@ -175,7 +175,7 @@ test('object as item', function () {
 
 
 test('disabled one', function () use ($series) {
-	$_POST = ['list' => ['red-dwarf', 0]];
+	$_POST = ['list' => ['red-dwarf', '0']];
 
 	$form = new Form;
 	$input = $form->addCheckboxList('list', null, $series)

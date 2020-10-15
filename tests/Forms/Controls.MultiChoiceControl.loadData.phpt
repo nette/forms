@@ -48,7 +48,7 @@ test('invalid input', function () use ($series) {
 
 
 test('multiple selected items, zero item', function () use ($series) {
-	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
+	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
 	$input = $form['multi'] = new MultiChoiceControl(null, $series);
@@ -98,7 +98,7 @@ test('disabled key', function () use ($series) {
 
 
 test('malformed data', function () use ($series) {
-	$_POST = ['malformed' => [[null]]];
+	$_POST = ['malformed' => [['']]];
 
 	$form = new Form;
 	$input = $form['malformed'] = new MultiChoiceControl(null, $series);
@@ -131,7 +131,7 @@ test('setItems without keys', function () use ($series) {
 
 
 test('validateLength', function () use ($series) {
-	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
+	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
 	$input = $form['multi'] = new MultiChoiceControl(null, $series);
@@ -144,7 +144,7 @@ test('validateLength', function () use ($series) {
 
 
 test('validateEqual', function () use ($series) {
-	$_POST = ['multi' => ['red-dwarf', 'unknown', 0]];
+	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
 	$input = $form['multi'] = new MultiChoiceControl(null, $series);
@@ -202,7 +202,7 @@ test('object as value', function () {
 
 
 test('disabled one', function () use ($series) {
-	$_POST = ['select' => ['red-dwarf', 0]];
+	$_POST = ['select' => ['red-dwarf', '0']];
 
 	$form = new Form;
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
