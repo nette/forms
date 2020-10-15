@@ -38,7 +38,7 @@ abstract class TextBase extends BaseControl
 	{
 		if ($value === null) {
 			$value = '';
-		} elseif (!is_scalar($value) && !method_exists($value, '__toString')) {
+		} elseif (!is_scalar($value) && !(is_object($value) && method_exists($value, '__toString'))) {
 			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
 		}
 		$this->value = $value;

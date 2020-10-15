@@ -59,7 +59,7 @@ abstract class MultiChoiceControl extends BaseControl
 		}
 		$flip = [];
 		foreach ($values as $value) {
-			if (!is_scalar($value) && !method_exists($value, '__toString')) {
+			if (!is_scalar($value) && !(is_object($value) && method_exists($value, '__toString'))) {
 				throw new Nette\InvalidArgumentException(sprintf("Values must be scalar, %s given in field '%s'.", gettype($value), $this->name));
 			}
 			$flip[(string) $value] = true;
