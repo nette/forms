@@ -18,6 +18,8 @@ Why should you bother setting up framework for a simple web form? You won't have
 
 Nette Framework puts a great effort to be safe and since forms are the most common user input, Nette forms are as good as impenetrable. All is maintained dynamically and transparently, nothing has to be set manually. Well-known vulnerabilities such as Cross Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) are filtered, as well as special control characters. All inputs are checked for UTF-8 validity. Every multiple-choice, select boxes and similar are checked for forged values upon validating. Sounds good? Let's try it out.
 
+It requires PHP version 5.6 and supports PHP up to 8.0.
+
 
 Documentation
 -------------
