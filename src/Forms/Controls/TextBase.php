@@ -53,7 +53,9 @@ abstract class TextBase extends BaseControl
 	 */
 	public function getValue()
 	{
-		$value = $this->value === Strings::trim($this->translate($this->emptyValue)) ? '' : $this->value;
+		$value = $this->value === Strings::trim($this->translate($this->emptyValue))
+			? ''
+			: $this->value;
 		return $this->nullable && $value === '' ? null : $value;
 	}
 
@@ -138,7 +140,9 @@ abstract class TextBase extends BaseControl
 		if ($validator === Form::LENGTH || $validator === Form::MAX_LENGTH) {
 			$tmp = is_array($arg) ? $arg[1] : $arg;
 			if (is_scalar($tmp)) {
-				$this->control->maxlength = isset($this->control->maxlength) ? min($this->control->maxlength, $tmp) : $tmp;
+				$this->control->maxlength = isset($this->control->maxlength)
+					? min($this->control->maxlength, $tmp)
+					: $tmp;
 			}
 		}
 		return parent::addRule($validator, $errorMessage, $arg);

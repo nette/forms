@@ -62,10 +62,14 @@ class Helpers
 	private static function sanitize(int $type, $value)
 	{
 		if ($type === Form::DATA_TEXT) {
-			return is_scalar($value) ? Strings::normalizeNewLines($value) : null;
+			return is_scalar($value)
+				? Strings::normalizeNewLines($value)
+				: null;
 
 		} elseif ($type === Form::DATA_LINE) {
-			return is_scalar($value) ? Strings::trim(strtr((string) $value, "\r\n", '  ')) : null;
+			return is_scalar($value)
+				? Strings::trim(strtr((string) $value, "\r\n", '  '))
+				: null;
 
 		} elseif ($type === Form::DATA_FILE) {
 			return $value instanceof Nette\Http\FileUpload ? $value : null;
@@ -124,10 +128,14 @@ class Helpers
 			if (is_array($rule->arg)) {
 				$item['arg'] = [];
 				foreach ($rule->arg as $key => $value) {
-					$item['arg'][$key] = $value instanceof IControl ? ['control' => $value->getHtmlName()] : $value;
+					$item['arg'][$key] = $value instanceof IControl
+						? ['control' => $value->getHtmlName()]
+						: $value;
 				}
 			} elseif ($rule->arg !== null) {
-				$item['arg'] = $rule->arg instanceof IControl ? ['control' => $rule->arg->getHtmlName()] : $rule->arg;
+				$item['arg'] = $rule->arg instanceof IControl
+					? ['control' => $rule->arg->getHtmlName()]
+					: $rule->arg;
 			}
 
 			$payload[] = $item;
@@ -136,8 +144,12 @@ class Helpers
 	}
 
 
-	public static function createInputList(array $items, array $inputAttrs = null, array $labelAttrs = null, $wrapper = null): string
-	{
+	public static function createInputList(
+		array $items,
+		array $inputAttrs = null,
+		array $labelAttrs = null,
+		$wrapper = null
+	): string {
 		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
 		[$labelAttrs, $labelTag] = self::prepareAttrs($labelAttrs, 'label');
 		$res = '';

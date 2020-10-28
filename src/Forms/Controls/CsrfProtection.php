@@ -71,7 +71,7 @@ class CsrfProtection extends HiddenField
 		if (!$this->session) {
 			throw new Nette\InvalidStateException('Session initialization error');
 		}
-		$session = $this->session->getSection(__CLASS__);
+		$session = $this->session->getSection(self::class);
 		if (!isset($session->token)) {
 			$session->token = Nette\Utils\Random::generate();
 		}

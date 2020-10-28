@@ -262,7 +262,9 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 			}
 
 			$container = $group->getOption('container', $defaultContainer);
-			$container = $container instanceof Html ? clone $container : Html::el($container);
+			$container = $container instanceof Html
+				? clone $container
+				: Html::el($container);
 
 			$id = $group->getOption('id');
 			if ($id) {
@@ -324,7 +326,11 @@ class DefaultFormRenderer implements Nette\Forms\IFormRenderer
 
 		$buttons = null;
 		foreach ($parent->getControls() as $control) {
-			if ($control->getOption('rendered') || $control->getOption('type') === 'hidden' || $control->getForm(false) !== $this->form) {
+			if (
+				$control->getOption('rendered')
+				|| $control->getOption('type') === 'hidden'
+				|| $control->getForm(false) !== $this->form
+			) {
 				// skip
 
 			} elseif ($control->getOption('type') === 'button') {

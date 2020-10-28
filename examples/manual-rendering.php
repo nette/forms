@@ -56,13 +56,13 @@ if ($form->isSuccess()) {
 
 	<?php $form->render('begin') ?>
 
-	<?php if ($form->errors): ?>
+	<?php if ($form->errors) { ?>
 	<ul class="error">
-		<?php foreach ($form->errors as $error): ?>
+		<?php foreach ($form->errors as $error) { ?>
 		<li><?php echo htmlspecialchars($error) ?></li>
-		<?php endforeach ?>
+		<?php } ?>
 	</ul>
-	<?php endif ?>
+	<?php } ?>
 
 	<fieldset>
 		<legend>Personal data</legend>

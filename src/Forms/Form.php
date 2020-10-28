@@ -133,7 +133,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			$this[self::TRACKER_ID] = $tracker;
 			$this->setParent(null, $name);
 		}
-		$this->monitor(__CLASS__, function (): void {
+		$this->monitor(self::class, function (): void {
 			throw new Nette\InvalidStateException('Nested forms are forbidden.');
 		});
 	}
@@ -238,11 +238,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			$this->setCurrentGroup($group);
 		}
 
-		if (!is_scalar($caption) || isset($this->groups[$caption])) {
-			return $this->groups[] = $group;
-		} else {
-			return $this->groups[$caption] = $group;
-		}
+		return !is_scalar($caption) || isset($this->groups[$caption])
+			? $this->groups[] = $group
+			: $this->groups[$caption] = $group;
 	}
 
 
@@ -355,7 +353,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function setSubmittedBy(?ISubmitterControl $by)
 	{
-		$this->submittedBy = $by === null ? false : $by;
+		$this->submittedBy = $by ?? false;
 		return $this;
 	}
 

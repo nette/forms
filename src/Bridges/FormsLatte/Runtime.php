@@ -88,7 +88,9 @@ class Runtime
 
 				public function getLabel($name = null)
 				{
-					return $this->inner->getLabel() ? '{label ' . $this->inner->lookupPath(Form::class) . '/}' : null;
+					return $this->inner->getLabel()
+						? '{label ' . $this->inner->lookupPath(Form::class) . '/}'
+						: null;
 				}
 
 
@@ -106,7 +108,9 @@ class Runtime
 
 				public function getOption($key, $default = null)
 				{
-					return $key === 'rendered' ? parent::getOption($key) : $this->inner->getOption($key, $default);
+					return $key === 'rendered'
+						? parent::getOption($key)
+						: $this->inner->getOption($key, $default);
 				}
 			};
 			$dummyInput->inner = $input;

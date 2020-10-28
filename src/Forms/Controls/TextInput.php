@@ -84,10 +84,14 @@ class TextInput extends TextBase
 				$range = $arg;
 			}
 			if (isset($range[0]) && is_scalar($range[0])) {
-				$this->control->min = isset($this->control->min) ? max($this->control->min, $range[0]) : $range[0];
+				$this->control->min = isset($this->control->min)
+					? max($this->control->min, $range[0])
+					: $range[0];
 			}
 			if (isset($range[1]) && is_scalar($range[1])) {
-				$this->control->max = isset($this->control->max) ? min($this->control->max, $range[1]) : $range[1];
+				$this->control->max = isset($this->control->max)
+					? min($this->control->max, $range[1])
+					: $range[1];
 			}
 
 		} elseif (

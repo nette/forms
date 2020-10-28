@@ -49,11 +49,9 @@ class CheckboxList extends MultiChoiceControl
 	public function loadHttpData(): void
 	{
 		$data = $this->getForm()->getHttpData(Nette\Forms\Form::DATA_TEXT, substr($this->getHtmlName(), 0, -2));
-		if ($data === null) {
-			$data = $this->getHttpData(Nette\Forms\Form::DATA_TEXT);
-		} else {
-			$data = explode(',', $data);
-		}
+		$data = $data === null
+			? $this->getHttpData(Nette\Forms\Form::DATA_TEXT)
+			: explode(',', $data);
 		$this->value = array_keys(array_flip($data));
 		if (is_array($this->disabled)) {
 			$this->value = array_diff($this->value, array_keys($this->disabled));

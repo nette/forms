@@ -37,7 +37,7 @@ Nette\Bridges\FormsLatte\Runtime::renderBlueprint($form);
 $res = ob_get_clean();
 
 Assert::match(
-'%A%<form n:name="signForm">
+	'%A%<form n:name="signForm">
 
 <ul class="error" n:ifcontent>
 	<li n:foreach="$form->getOwnErrors() as $error">{$error}</li>

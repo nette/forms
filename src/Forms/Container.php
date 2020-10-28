@@ -267,8 +267,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Adds single-line text input control used for sensitive input such as passwords.
 	 * @param  string|object  $label
 	 */
-	public function addPassword(string $name, $label = null, int $cols = null, int $maxLength = null): Controls\TextInput
-	{
+	public function addPassword(
+		string $name,
+		$label = null,
+		int $cols = null,
+		int $maxLength = null
+	): Controls\TextInput {
 		return $this[$name] = (new Controls\TextInput($label, $maxLength))
 			->setHtmlAttribute('size', $cols)
 			->setHtmlType('password');
@@ -388,8 +392,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Adds select box control that allows multiple item selection.
 	 * @param  string|object  $label
 	 */
-	public function addMultiSelect(string $name, $label = null, array $items = null, int $size = null): Controls\MultiSelectBox
-	{
+	public function addMultiSelect(
+		string $name,
+		$label = null,
+		array $items = null,
+		int $size = null
+	): Controls\MultiSelectBox {
 		return $this[$name] = (new Controls\MultiSelectBox($label, $items))
 			->setHtmlAttribute('size', $size > 1 ? $size : null);
 	}

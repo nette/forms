@@ -220,7 +220,6 @@ test('getValues(...arguments...)', function () {
 		]),
 	]), $form->getValues(FormData::class));
 
-
 	$form->setMappedType(FormData::class);
 	$form['first']->setMappedType(FormFirstLevel::class);
 	$form['first-second']->setMappedType(FormSecondLevel::class);

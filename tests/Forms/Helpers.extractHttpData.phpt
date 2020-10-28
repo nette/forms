@@ -75,7 +75,6 @@ test('files', function () {
 		'multiple' => ['avatar' => [$file, $file]],
 	], 'multiple[avatar]', Form::DATA_FILE));
 
-
 	Assert::equal([$file, $file], Helpers::extractHttpData([
 		'multiple' => ['avatar' => ['x' => $file, null, $file]],
 	], 'multiple[avatar][]', Form::DATA_FILE));
