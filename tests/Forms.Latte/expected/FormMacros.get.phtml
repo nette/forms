@@ -2,13 +2,15 @@
 %A%
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
-?>
+		echo '
 
-
-<?php
+';
 		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
-		?><form<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) ?>>
-<?php
+		echo '<form';
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false);
+		echo '>
+';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
-?></form>
+		echo '</form>
+';
 %A%
