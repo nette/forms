@@ -128,12 +128,12 @@ class Helpers
 			if (is_array($rule->arg)) {
 				$item['arg'] = [];
 				foreach ($rule->arg as $key => $value) {
-					$item['arg'][$key] = $value instanceof IControl
+					$item['arg'][$key] = $value instanceof Control
 						? ['control' => $value->getHtmlName()]
 						: $value;
 				}
 			} elseif ($rule->arg !== null) {
-				$item['arg'] = $rule->arg instanceof IControl
+				$item['arg'] = $rule->arg instanceof Control
 					? ['control' => $rule->arg->getHtmlName()]
 					: $rule->arg;
 			}

@@ -36,7 +36,7 @@ class ControlGroup
 	public function add(...$items)
 	{
 		foreach ($items as $item) {
-			if ($item instanceof IControl) {
+			if ($item instanceof Control) {
 				$this->controls->attach($item);
 
 			} elseif ($item instanceof Container) {
@@ -48,14 +48,14 @@ class ControlGroup
 
 			} else {
 				$type = is_object($item) ? get_class($item) : gettype($item);
-				throw new Nette\InvalidArgumentException("IControl or Container items expected, $type given.");
+				throw new Nette\InvalidArgumentException("Control or Container items expected, $type given.");
 			}
 		}
 		return $this;
 	}
 
 
-	public function remove(IControl $control): void
+	public function remove(Control $control): void
 	{
 		$this->controls->detach($control);
 	}
@@ -71,7 +71,7 @@ class ControlGroup
 	}
 
 
-	/** @return IControl[] */
+	/** @return Control[] */
 	public function getControls(): array
 	{
 		return iterator_to_array($this->controls);
