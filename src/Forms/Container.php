@@ -79,7 +79,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		}
 
 		foreach ($this->getComponents() as $name => $control) {
-			if ($control instanceof IControl) {
+			if ($control instanceof Control) {
 				if (array_key_exists($name, $values)) {
 					$control->setValue($values[$name]);
 
@@ -117,7 +117,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		foreach ($this->getComponents() as $name => $control) {
 			$name = (string) $name;
-			if ($control instanceof IControl && !$control->isOmitted()) {
+			if ($control instanceof Control && !$control->isOmitted()) {
 				$obj->$name = $control->getValue();
 			} elseif ($control instanceof self) {
 				$type = $isArray && !$control->mappedType
@@ -158,12 +158,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Performs the server side validation.
-	 * @param  IControl[]|null  $controls
+	 * @param  Control[]|null  $controls
 	 */
 	public function validate(array $controls = null): void
 	{
 		foreach ($controls === null ? $this->getComponents() : $controls as $control) {
-			if ($control instanceof IControl || $control instanceof self) {
+			if ($control instanceof Control || $control instanceof self) {
 				$control->validate();
 			}
 		}
@@ -236,7 +236,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getControls(): \Iterator
 	{
-		return $this->getComponents(true, IControl::class);
+		return $this->getComponents(true, Control::class);
 	}
 
 

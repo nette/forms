@@ -36,11 +36,11 @@ class Rules implements \IteratorAggregate
 	/** @var array */
 	private $toggles = [];
 
-	/** @var IControl */
+	/** @var Control */
 	private $control;
 
 
-	public function __construct(IControl $control)
+	public function __construct(Control $control)
 	{
 		$this->control = $control;
 	}
@@ -137,7 +137,7 @@ class Rules implements \IteratorAggregate
 	 * Adds a validation condition on specified control a returns new branch.
 	 * @return static     new branch
 	 */
-	public function addConditionOn(IControl $control, $validator, $arg = null)
+	public function addConditionOn(Control $control, $validator, $arg = null)
 	{
 		$rule = new Rule;
 		$rule->control = $control;
@@ -189,7 +189,7 @@ class Rules implements \IteratorAggregate
 	{
 		$this->rules[] = $rule = new Rule;
 		$rule->control = $this->control;
-		$rule->validator = function (IControl $control) use ($filter): bool {
+		$rule->validator = function (Control $control) use ($filter): bool {
 			$control->setValue($filter($control->getValue()));
 			return true;
 		};
@@ -281,7 +281,7 @@ class Rules implements \IteratorAggregate
 	{
 		$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
 		foreach ($args as &$val) {
-			$val = $val instanceof IControl ? $val->getValue() : $val;
+			$val = $val instanceof Control ? $val->getValue() : $val;
 		}
 		return $rule->isNegative
 			xor self::getCallback($rule)($rule->control, is_array($rule->arg) ? $args : $args[0]);
