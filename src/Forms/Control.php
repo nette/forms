@@ -13,7 +13,7 @@ namespace Nette\Forms;
 /**
  * Defines method that must be implemented to allow a component to act like a form control.
  */
-interface IControl
+interface Control
 {
 	/**
 	 * Sets control's value.
@@ -40,3 +40,6 @@ interface IControl
 	 */
 	function isOmitted(): bool;
 }
+
+
+interface_exists(IControl::class);

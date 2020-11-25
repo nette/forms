@@ -19,7 +19,7 @@ use Nette\Utils\Html;
  * @property-read array $errors
  * @property-read array $ownErrors
  * @property-read Html $elementPrototype
- * @property-read IFormRenderer $renderer
+ * @property-read FormRenderer $renderer
  * @property string $action
  * @property string $method
  */
@@ -105,7 +105,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var Html  element <form> */
 	private $element;
 
-	/** @var IFormRenderer */
+	/** @var FormRenderer */
 	private $renderer;
 
 	/** @var Nette\Localization\ITranslator */
@@ -326,7 +326,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Tells if the form was submitted.
-	 * @return ISubmitterControl|bool  submittor control
+	 * @return SubmitterControl|bool  submittor control
 	 */
 	public function isSubmitted()
 	{
@@ -351,7 +351,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * @return static
 	 * @internal
 	 */
-	public function setSubmittedBy(?ISubmitterControl $by)
+	public function setSubmittedBy(?SubmitterControl $by)
 	{
 		$this->submittedBy = $by ?? false;
 		return $this;
@@ -391,7 +391,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 			$this->validate();
 		}
 
-		if ($this->submittedBy instanceof ISubmitterControl) {
+		if ($this->submittedBy instanceof SubmitterControl) {
 			if ($this->isValid()) {
 				if ($handlers = $this->submittedBy->onClick) {
 					if (!is_iterable($handlers)) {
@@ -483,7 +483,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	public function validate(array $controls = null): void
 	{
 		$this->cleanErrors();
-		if ($controls === null && $this->submittedBy instanceof ISubmitterControl) {
+		if ($controls === null && $this->submittedBy instanceof SubmitterControl) {
 			$controls = $this->submittedBy->getValidationScope();
 		}
 		$this->validateMaxPostSize();
@@ -568,7 +568,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * Sets form renderer.
 	 * @return static
 	 */
-	public function setRenderer(?IFormRenderer $renderer)
+	public function setRenderer(?FormRenderer $renderer)
 	{
 		$this->renderer = $renderer;
 		return $this;
@@ -578,7 +578,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/**
 	 * Returns form renderer.
 	 */
-	public function getRenderer(): IFormRenderer
+	public function getRenderer(): FormRenderer
 	{
 		if ($this->renderer === null) {
 			$this->renderer = new Rendering\DefaultFormRenderer;

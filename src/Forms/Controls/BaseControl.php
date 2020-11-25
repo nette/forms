@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Nette\Forms\Control;
 use Nette\Forms\Form;
-use Nette\Forms\IControl;
 use Nette\Forms\Rules;
 use Nette\Utils\Html;
 
@@ -36,7 +36,7 @@ use Nette\Utils\Html;
  * @property-read array $options
  * @property-read string $error
  */
-abstract class BaseControl extends Nette\ComponentModel\Component implements IControl
+abstract class BaseControl extends Nette\ComponentModel\Component implements Control
 {
 	/** @var string */
 	public static $idMask = 'frm-%s';
@@ -149,7 +149,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	}
 
 
-	/********************* interface IControl ****************d*g**/
+	/********************* interface Control ****************d*g**/
 
 
 	/**
@@ -445,7 +445,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements ICo
 	 * Adds a validation condition based on another control a returns new branch.
 	 * @return Rules      new branch
 	 */
-	public function addConditionOn(IControl $control, $validator, $value = null): Rules
+	public function addConditionOn(Control $control, $validator, $value = null): Rules
 	{
 		return $this->rules->addConditionOn($control, $validator, $value);
 	}
