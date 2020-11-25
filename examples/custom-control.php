@@ -99,7 +99,7 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	public static function validateDate(Nette\Forms\IControl $control): bool
+	public static function validateDate(Nette\Forms\Control $control): bool
 	{
 		return ctype_digit($control->day)
 			&& ctype_digit($control->month)

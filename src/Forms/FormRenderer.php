@@ -13,10 +13,13 @@ namespace Nette\Forms;
 /**
  * Defines method that must implement form renderer.
  */
-interface IFormRenderer
+interface FormRenderer
 {
 	/**
 	 * Provides complete form rendering.
 	 */
 	function render(Form $form): string;
 }
+
+
+interface_exists(IFormRenderer::class);
