@@ -19,7 +19,7 @@ class Rule
 {
 	use Nette\SmartObject;
 
-	/** @var IControl */
+	/** @var Control */
 	public $control;
 
 	/** @var mixed */
