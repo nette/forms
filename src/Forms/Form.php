@@ -510,8 +510,8 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 */
 	public function addError($message, bool $translate = true): void
 	{
-		if ($translate && $this->translator) {
-			$message = $this->translator->translate($message);
+		if ($translate && $this->getTranslator()) {
+			$message = $this->getTranslator()->translate($message);
 		}
 		$this->errors[] = $message;
 	}
