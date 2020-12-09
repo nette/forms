@@ -36,7 +36,7 @@ The recommended way to install is via Composer:
 composer require nette/forms
 ```
 
-It requires PHP version 7.1 and supports PHP up to 8.0.
+It requires PHP version 7.2 and supports PHP up to 8.0.
 
 
 Client-side support can be installed with npm or yarn:
