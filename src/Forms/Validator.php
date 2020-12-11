@@ -54,6 +54,15 @@ class Validator
 	public static function formatMessage(Rule $rule, bool $withValue = true)
 	{
 		$message = $rule->message;
+		if (is_callable($message)) {
+			$params = Nette\Utils\Callback::toReflection($message)->getParameters();
+			if (isset($params[1])) {
+				$message = $message($rule->control, $rule->arg);
+			} else {
+				$message = $message($rule->control);
+			}
+		}
+
 		if ($message instanceof Nette\Utils\IHtmlString) {
 			return $message;
 

@@ -106,6 +106,9 @@ class Helpers
 				}
 				$op = Nette\Utils\Callback::toString($op);
 			}
+			if (is_callable($rule->message)) {
+				continue;
+			}
 			if ($rule->branch) {
 				$item = [
 					'op' => ($rule->isNegative ? '~' : '') . $op,
