@@ -81,10 +81,10 @@ class ControlGroup
 	/**
 	 * Sets user-specific option.
 	 * Options recognized by DefaultFormRenderer
-	 * - 'label' - textual or IHtmlString object label
+	 * - 'label' - textual or Nette\HtmlStringable object label
 	 * - 'visual' - indicates visual group
 	 * - 'container' - container as Html object
-	 * - 'description' - textual or IHtmlString object description
+	 * - 'description' - textual or Nette\HtmlStringable object description
 	 * - 'embedNext' - describes how render next group
 	 *
 	 * @return static

@@ -48,13 +48,13 @@ class Validator
 
 
 	/**
-	 * @return string|Nette\Utils\IHtmlString
+	 * @return string|Nette\HtmlStringable
 	 * @internal
 	 */
 	public static function formatMessage(Rule $rule, bool $withValue = true)
 	{
 		$message = $rule->message;
-		if ($message instanceof Nette\Utils\IHtmlString) {
+		if ($message instanceof Nette\HtmlStringable) {
 			return $message;
 
 		} elseif ($message === null && is_string($rule->validator) && isset(static::$messages[$rule->validator])) {
@@ -75,7 +75,7 @@ class Validator
 				case 'label':
 					if ($rule->control instanceof Controls\BaseControl) {
 						$caption = $rule->control->getCaption();
-						$caption = $caption instanceof Nette\Utils\IHtmlString
+						$caption = $caption instanceof Nette\HtmlStringable
 							? $caption->getText()
 							: ($translator ? $translator->translate($caption) : $caption);
 						return rtrim((string) $caption, ':');
