@@ -11,7 +11,7 @@ namespace Nette\Forms\Rendering;
 
 use Nette;
 use Nette\Utils\Html;
-use Nette\Utils\IHtmlString;
+use Nette\HtmlStringable;
 
 
 /**
@@ -232,7 +232,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 
 		foreach ($errors as $error) {
 			$item = clone $item;
-			if ($error instanceof IHtmlString) {
+			if ($error instanceof HtmlStringable) {
 				$item->addHtml($error);
 			} else {
 				$item->setText($error);
@@ -274,7 +274,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			$s .= "\n" . $container->startTag();
 
 			$text = $group->getOption('label');
-			if ($text instanceof IHtmlString) {
+			if ($text instanceof HtmlStringable) {
 				$s .= $this->getWrapper('group label')->addHtml($text);
 
 			} elseif ($text != null) { // intentionally ==
@@ -285,7 +285,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			}
 
 			$text = $group->getOption('description');
-			if ($text instanceof IHtmlString) {
+			if ($text instanceof HtmlStringable) {
 				$s .= $text;
 
 			} elseif ($text != null) { // intentionally ==
@@ -389,7 +389,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				throw new Nette\InvalidArgumentException('Argument must be array of Nette\Forms\IControl instances.');
 			}
 			$description = $control->getOption('description');
-			if ($description instanceof IHtmlString) {
+			if ($description instanceof HtmlStringable) {
 				$description = ' ' . $description;
 
 			} elseif ($description != null) { // intentionally ==
@@ -453,7 +453,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		}
 
 		$description = $control->getOption('description');
-		if ($description instanceof IHtmlString) {
+		if ($description instanceof HtmlStringable) {
 			$description = ' ' . $description;
 
 		} elseif ($description != null) { // intentionally ==
