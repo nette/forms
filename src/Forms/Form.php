@@ -23,7 +23,7 @@ use Nette\Utils\Html;
  * @property string $action
  * @property string $method
  */
-class Form extends Container implements Nette\Utils\IHtmlString
+class Form extends Container implements Nette\HtmlStringable
 {
 	/** validator */
 	public const
@@ -108,7 +108,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/** @var FormRenderer */
 	private $renderer;
 
-	/** @var Nette\Localization\ITranslator */
+	/** @var Nette\Localization\Translator */
 	private $translator;
 
 	/** @var ControlGroup[] */
@@ -296,7 +296,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	 * Sets translate adapter.
 	 * @return static
 	 */
-	public function setTranslator(?Nette\Localization\ITranslator $translator)
+	public function setTranslator(?Nette\Localization\Translator $translator)
 	{
 		$this->translator = $translator;
 		return $this;
@@ -306,7 +306,7 @@ class Form extends Container implements Nette\Utils\IHtmlString
 	/**
 	 * Returns translate adapter.
 	 */
-	public function getTranslator(): ?Nette\Localization\ITranslator
+	public function getTranslator(): ?Nette\Localization\Translator
 	{
 		return $this->translator;
 	}

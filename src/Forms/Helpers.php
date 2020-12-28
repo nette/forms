@@ -119,7 +119,7 @@ class Helpers
 				}
 			} else {
 				$msg = Validator::formatMessage($rule, false);
-				if ($msg instanceof Nette\Utils\IHtmlString) {
+				if ($msg instanceof Nette\HtmlStringable) {
 					$msg = html_entity_decode(strip_tags((string) $msg), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 				}
 				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => $msg];
@@ -168,7 +168,7 @@ class Helpers
 			$res .= ($res === '' && $wrapperEnd === '' ? '' : $wrapper)
 				. $labelTag . $label->attributes() . '>'
 				. $inputTag . $input->attributes() . (Html::$xhtml ? ' />' : '>')
-				. ($caption instanceof Nette\Utils\IHtmlString ? $caption : htmlspecialchars((string) $caption, ENT_NOQUOTES, 'UTF-8'))
+				. ($caption instanceof Nette\HtmlStringable ? $caption : htmlspecialchars((string) $caption, ENT_NOQUOTES, 'UTF-8'))
 				. '</label>'
 				. $wrapperEnd;
 		}

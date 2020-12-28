@@ -68,7 +68,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/** @var Rules */
 	private $rules;
 
-	/** @var Nette\Localization\ITranslator|bool|null */
+	/** @var Nette\Localization\Translator|bool|null */
 	private $translator = true; // means autodetect
 
 	/** @var array user options */
@@ -275,7 +275,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 		$label->for = $this->getHtmlId();
 		$caption = $caption ?? $this->caption;
 		$translator = $this->getForm()->getTranslator();
-		$label->setText($translator && !$caption instanceof Nette\Utils\IHtmlString ? $translator->translate($caption) : $caption);
+		$label->setText($translator && !$caption instanceof Nette\HtmlStringable ? $translator->translate($caption) : $caption);
 		return $label;
 	}
 
@@ -376,7 +376,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Sets translate adapter.
 	 * @return static
 	 */
-	public function setTranslator(?Nette\Localization\ITranslator $translator)
+	public function setTranslator(?Nette\Localization\Translator $translator)
 	{
 		$this->translator = $translator;
 		return $this;
@@ -386,7 +386,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Returns translate adapter.
 	 */
-	public function getTranslator(): ?Nette\Localization\ITranslator
+	public function getTranslator(): ?Nette\Localization\Translator
 	{
 		if ($this->translator === true) {
 			return $this->getForm(false)
@@ -406,7 +406,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 		if ($translator = $this->getTranslator()) {
 			$tmp = is_array($value) ? [&$value] : [[&$value]];
 			foreach ($tmp[0] as &$v) {
-				if ($v != null && !$v instanceof Nette\Utils\IHtmlString) { // intentionally ==
+				if ($v != null && !$v instanceof Nette\HtmlStringable) { // intentionally ==
 					$v = $translator->translate($v, ...$parameters);
 				}
 			}
