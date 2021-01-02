@@ -107,14 +107,23 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getValues($returnType = null)
 	{
-		$returnType = $returnType
-			? ($returnType === true ? self::ARRAY : $returnType) // back compatibility
-			: ($this->mappedType ?? ArrayHash::class);
+		if ($returnType === self::ARRAY || $returnType === true || $this->mappedType === self::ARRAY) {
+			$obj = new \stdClass;
+			$this->hydrate($obj, true);
+			return (array) $obj;
+		} else {
+			$returnType = ($returnType ?? $this->mappedType ?? ArrayHash::class);
+			$obj = new $returnType;
+			$this->hydrate($obj);
+			return $obj;
+		}
+	}
 
-		$isArray = $returnType === self::ARRAY;
-		$obj = $isArray ? new \stdClass : new $returnType;
+
+	public function hydrate(object $obj): void
+	{
+		$isArray = func_get_args()[1] ?? false;
 		$rc = new \ReflectionClass($obj);
-
 		foreach ($this->getComponents() as $name => $control) {
 			$name = (string) $name;
 			if ($control instanceof IControl && !$control->isOmitted()) {
@@ -126,7 +135,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$obj->$name = $control->getValues($type);
 			}
 		}
-		return $isArray ? (array) $obj : $obj;
 	}
 
 
