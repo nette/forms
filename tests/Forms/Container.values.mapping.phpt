@@ -314,3 +314,24 @@ test('onSuccess test', function () {
 	$form->fireEvents();
 	Assert::true($ok);
 });
+
+
+test('getValues() + object', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+
+	$form = createForm();
+	$obj = $orig = new FormData;
+
+	Assert::equal(hydrate(FormData::class, [
+		'title' => 'sent title',
+		'first' => ArrayHash::from([
+			'name' => '',
+			'age' => '999',
+			'second' => ArrayHash::from([
+				'city' => 'sent city',
+			]),
+		]),
+	]), $form->getValues($obj));
+
+	Assert::same($obj, $orig);
+});
