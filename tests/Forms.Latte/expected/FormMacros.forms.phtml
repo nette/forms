@@ -1,6 +1,6 @@
 <?php
 %A%
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], ['id' => 'myForm', 'class'=>"ajax"]);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = $this->global->uiControl["myForm"], ['id' => 'myForm', 'class'=>"ajax"]);
 		echo "\n";
 		$iterations = 0;
 		foreach (['id', 'username', 'select', 'area', 'send'] as $name) {
@@ -77,13 +77,13 @@
 
 ';
 		/* line 27 */
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
 		echo '
 
 ';
 		/* line 29 */
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
 		echo "\n";
 		$iterations = 0;
 		foreach ($form['sex']->items as $key => $label) {
@@ -198,7 +198,7 @@
 
 
 ';
-		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
+		$form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
 		if (1) {
 			echo '<form id="myForm" class="ajax"';
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), ['id' => null, 'class' => null], false);
@@ -215,7 +215,7 @@
 		echo '
 
 ';
-		$form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
+		$form = $this->global->formsStack[] = $this->global->uiControl["myForm"];
 		echo '<form';
 		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "";
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), ['class' => null], false);
@@ -231,7 +231,7 @@
 
 
 ';
-		$form = $_form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']];
+		$form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']];
 		echo '<FORM';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false);
 		echo '>

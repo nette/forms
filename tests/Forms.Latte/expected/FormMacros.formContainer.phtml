@@ -1,7 +1,7 @@
 <?php
 %A%
 		/* line 1 */
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
 		echo '
 <table>
 	<tr>
@@ -13,7 +13,7 @@
 		echo '</td>
 	</tr>
 ';
-		$this->global->formsStack[] = $formContainer = $_form = end($this->global->formsStack)["cont1"];
+		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["cont1"];
 		echo '	<tr>
 		<th>';
 		if ($_label = end($this->global->formsStack)["input2"]->getLabel()) echo $_label;
@@ -34,7 +34,7 @@
 		<th>Checkboxes</th>
 		<td>
 ';
-		$this->global->formsStack[] = $formContainer = $_form = end($this->global->formsStack)["cont2"];
+		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["cont2"];
 		echo '			<ol>
 ';
 		$iterations = 0;
@@ -49,7 +49,7 @@
 		echo '			</ol>
 ';
 		array_pop($this->global->formsStack);
-		$formContainer = $_form = end($this->global->formsStack);
+		$formContainer = end($this->global->formsStack);
 		echo '		</td>
 	</tr>
 	<tr>
@@ -62,8 +62,8 @@
 	</tr>
 ';
 		array_pop($this->global->formsStack);
-		$formContainer = $_form = end($this->global->formsStack);
-		$this->global->formsStack[] = $formContainer = $_form = end($this->global->formsStack)["items"];
+		$formContainer = end($this->global->formsStack);
+		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["items"];
 		echo '	<tr>
 		<th>Items</th>
 		<td>
@@ -72,19 +72,19 @@
 		$iterations = 0;
 		foreach ($items as $item) {
 			if (!isset($formContainer[$item])) continue;
-			$this->global->formsStack[] = $formContainer = $_form = is_object($item) ? $item : end($this->global->formsStack)[$item];
+			$this->global->formsStack[] = $formContainer = is_object($item) ? $item : end($this->global->formsStack)[$item];
 			echo '				';
 			echo end($this->global->formsStack)["input"]->getControl() /* line 37 */;
 			echo "\n";
 			array_pop($this->global->formsStack);
-			$formContainer = $_form = end($this->global->formsStack);
+			$formContainer = end($this->global->formsStack);
 			$iterations++;
 		}
 		echo '		</td>
 	</tr>
 ';
 		array_pop($this->global->formsStack);
-		$formContainer = $_form = end($this->global->formsStack);
+		$formContainer = end($this->global->formsStack);
 		echo '	<tr>
 		<th>';
 		if ($_label = end($this->global->formsStack)["input8"]->getLabel()) echo $_label;
