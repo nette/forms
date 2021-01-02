@@ -249,7 +249,7 @@ class Validator
 		if (Validators::isUrl($value)) {
 			return true;
 		}
-		$value = "http://$value";
+		$value = "https://$value";
 		if (Validators::isUrl($value)) {
 			$control->setValue($value);
 			return true;

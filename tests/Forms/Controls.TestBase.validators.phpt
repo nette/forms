@@ -76,7 +76,7 @@ test('', function () {
 
 	$control->value = 'localhost';
 	Assert::true(Validator::validateUrl($control));
-	Assert::same('http://localhost', $control->value);
+	Assert::same('https://localhost', $control->value);
 
 	$control->value = 'http://nette.org';
 	Assert::true(Validator::validateUrl($control));
