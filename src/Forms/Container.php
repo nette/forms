@@ -102,31 +102,41 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns the values submitted by the form.
-	 * @param  string|null  $returnType  'array' for array
+	 * @param  string|object|null  $returnType  'array' for array
+
 	 * @return object|array
 	 */
 	public function getValues($returnType = null)
 	{
-		$returnType = $returnType
-			? ($returnType === true ? self::ARRAY : $returnType) // back compatibility
-			: ($this->mappedType ?? ArrayHash::class);
+		if ($returnType === self::ARRAY || $returnType === true || $this->mappedType === self::ARRAY) {
+			$returnType = self::ARRAY;
+			$obj = new \stdClass;
 
-		$isArray = $returnType === self::ARRAY;
-		$obj = $isArray ? new \stdClass : new $returnType;
+		} elseif (is_object($returnType)) {
+			$obj = $returnType;
+
+		} else {
+			$returnType = ($returnType ?? $this->mappedType ?? ArrayHash::class);
+			$obj = new $returnType;
+		}
+
 		$rc = new \ReflectionClass($obj);
-
 		foreach ($this->getComponents() as $name => $control) {
 			$name = (string) $name;
 			if ($control instanceof Control && !$control->isOmitted()) {
 				$obj->$name = $control->getValue();
+
 			} elseif ($control instanceof self) {
-				$type = $isArray && !$control->mappedType
+				$type = $returnType === self::ARRAY && !$control->mappedType
 					? self::ARRAY
 					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
 				$obj->$name = $control->getValues($type);
 			}
 		}
-		return $isArray ? (array) $obj : $obj;
+
+		return $returnType === self::ARRAY
+			? (array) $obj
+			: $obj;
 	}
 
 
