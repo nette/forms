@@ -33,7 +33,7 @@ final class FormMacros extends MacroSet
 		$me = new static($compiler);
 		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));');
 		$me->addMacro('formContext', [$me, 'macroFormContext'], 'array_pop($this->global->formsStack);');
-		$me->addMacro('formContainer', [$me, 'macroFormContainer'], 'array_pop($this->global->formsStack); $formContainer = $_form = end($this->global->formsStack)');
+		$me->addMacro('formContainer', [$me, 'macroFormContainer'], 'array_pop($this->global->formsStack); $formContainer = end($this->global->formsStack)');
 		$me->addMacro('label', [$me, 'macroLabel'], [$me, 'macroLabelEnd'], null, self::AUTO_EMPTY);
 		$me->addMacro('input', [$me, 'macroInput']);
 		$me->addMacro('name', [$me, 'macroName'], [$me, 'macroNameEnd'], [$me, 'macroNameAttr']);
@@ -64,7 +64,7 @@ final class FormMacros extends MacroSet
 		$node->tokenizer->reset();
 		return $writer->write(
 			"/* line $node->startLine */\n"
-			. 'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $_form = $this->global->formsStack[] = '
+			. 'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = '
 			. ($name[0] === '$' ? 'is_object(%node.word) ? %node.word : ' : '')
 			. '$this->global->uiControl[%node.word], %node.array);'
 		);
@@ -109,7 +109,7 @@ final class FormMacros extends MacroSet
 		}
 		$node->tokenizer->reset();
 		return $writer->write(
-			'$this->global->formsStack[] = $formContainer = $_form = '
+			'$this->global->formsStack[] = $formContainer = '
 				. ($name[0] === '$' ? 'is_object(%node.word) ? %node.word : ' : '')
 				. 'end($this->global->formsStack)[%node.word];'
 		);
@@ -197,7 +197,7 @@ final class FormMacros extends MacroSet
 
 		if ($tagName === 'form') {
 			$node->openingCode = $writer->write(
-				'<?php $form = $_form = $this->global->formsStack[] = '
+				'<?php $form = $this->global->formsStack[] = '
 				. ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
 				. '$this->global->uiControl[%0.word]; ?>',
 				$name
