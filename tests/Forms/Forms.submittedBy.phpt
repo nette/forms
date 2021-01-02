@@ -38,9 +38,9 @@ test('', function () {
 	$_POST = [Form::TRACKER_ID => $name, 'send2' => ['x' => '1', 'y' => '1']];
 
 	$form = new Form($name);
-	$btn1 = $form->addImage('send1');
-	$btn2 = $form->addImage('send2');
-	$btn3 = $form->addImage('send3');
+	$btn1 = $form->addImageButton('send1');
+	$btn2 = $form->addImageButton('send2');
+	$btn3 = $form->addImageButton('send3');
 
 	Assert::true($form->isSuccess());
 	Assert::same($btn2, $form->isSubmitted());
