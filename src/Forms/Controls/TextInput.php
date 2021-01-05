@@ -68,6 +68,12 @@ class TextInput extends TextBase
 	/** @return static */
 	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
+		foreach ($this->getRules() as $rule) {
+			if (!$rule->canExport() && !$rule->branch) {
+				return $this;
+			}
+		}
+
 		if ($this->control->type === null && in_array($validator, [Form::EMAIL, Form::URL, Form::INTEGER], true)) {
 			static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
 			$this->control->type = $types[$validator];

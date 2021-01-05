@@ -33,7 +33,8 @@ class UploadControl extends BaseControl
 		$this->control->type = 'file';
 		$this->control->multiple = $multiple;
 		$this->setOption('type', 'file');
-		$this->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);
+		$this->addCondition(true) // not to block the export of rules to JS
+			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);
 		$this->addRule(Form::MAX_FILE_SIZE, null, Forms\Helpers::iniGetSize('upload_max_filesize'));
 
 		$this->monitor(Form::class, function (Form $form): void {
