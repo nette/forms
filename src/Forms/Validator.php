@@ -313,7 +313,10 @@ class Validator
 	 */
 	public static function validateFloat(IControl $control): bool
 	{
-		$value = str_replace([' ', ','], ['', '.'], $control->getValue());
+		$value = $control->getValue();
+		if (is_string($value)) {
+			$value = str_replace([' ', ','], ['', '.'], $value);
+		}
 		if (Validators::isNumeric($value)) {
 			$control->setValue((float) $value);
 			return true;
