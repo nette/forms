@@ -137,6 +137,12 @@ abstract class TextBase extends BaseControl
 	/** @return static */
 	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
+		foreach ($this->getRules() as $rule) {
+			if (!$rule->canExport() && !$rule->branch) {
+				return $this;
+			}
+		}
+
 		if ($validator === Form::LENGTH || $validator === Form::MAX_LENGTH) {
 			$tmp = is_array($arg) ? $arg[1] : $arg;
 			if (is_scalar($tmp)) {
