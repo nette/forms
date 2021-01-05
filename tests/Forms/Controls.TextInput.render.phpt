@@ -235,3 +235,15 @@ test('addInteger', function () {
 
 	Assert::same('<input type="number" name="text" id="frm-text" data-nette-rules=\'[{"op":":integer","msg":"Please enter a valid integer."}]\'>', (string) $input->getControl());
 });
+
+
+test('addFilter() & rules', function () {
+	$form = new Form;
+	$input = $form->addText('text')
+		->addRule(Form::MIN, 'min', 1)
+		->addFilter(function () {})
+		->addRule(Form::MAX, 'max', 10)
+		->addRule(Form::MAX_LENGTH, 'maxl', 10);
+
+	Assert::same('<input type="text" name="text" id="frm-text" data-nette-rules=\'[{"op":":min","msg":"min","arg":1}]\'>', (string) $input->getControl());
+});

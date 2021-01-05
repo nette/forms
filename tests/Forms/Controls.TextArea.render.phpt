@@ -119,3 +119,13 @@ test('setEmptyValue & setNullable', function () {
 	Assert::null($input->getValue());
 	Assert::same('<textarea name="text" id="frm-text" data-nette-empty-value="empty">empty </textarea>', (string) $input->getControl());
 });
+
+
+test('addFilter() & rules', function () {
+	$form = new Form;
+	$input = $form->addTextArea('text')
+		->addFilter(function () {})
+		->addRule(Form::MAX_LENGTH, 'maxl', 10);
+
+	Assert::same('<textarea name="text" id="frm-text"></textarea>', (string) $input->getControl());
+});

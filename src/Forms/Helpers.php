@@ -100,12 +100,18 @@ class Helpers
 	{
 		$payload = [];
 		foreach ($rules as $rule) {
-			if (!is_string($op = $rule->validator)) {
-				if (!Nette\Utils\Callback::isStatic($op)) {
+			if (!$rule->canExport()) {
+				if ($rule->branch) {
 					continue;
 				}
+				break;
+			}
+
+			$op = $rule->validator;
+			if (!is_string($op)) {
 				$op = Nette\Utils\Callback::toString($op);
 			}
+
 			if ($rule->branch) {
 				$item = [
 					'op' => ($rule->isNegative ? '~' : '') . $op,

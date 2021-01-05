@@ -91,3 +91,16 @@ test('', function () {
 		],
 	], Helpers::exportRules($input2->getRules()));
 });
+
+
+test('addFilter', function () {
+	$form = new Form;
+	$input = $form->addText('text');
+	$input->addRule(Form::PATTERN, 'match pattern', '\d+');
+	$input->addFilter(function () {});
+	$input->setRequired(false);
+	$input->addRule(Form::EMAIL);
+	Assert::same([
+		['op' => ':pattern', 'msg' => 'match pattern', 'arg' => '\\d+'],
+	], Helpers::exportRules($input->getRules()));
+});
