@@ -10,8 +10,8 @@ declare(strict_types=1);
 namespace Nette\Forms\Rendering;
 
 use Nette;
-use Nette\Utils\Html;
 use Nette\HtmlStringable;
+use Nette\Utils\Html;
 
 
 /**

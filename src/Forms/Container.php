@@ -107,14 +107,23 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getValues($returnType = null)
 	{
-		$returnType = $returnType
-			? ($returnType === true ? self::ARRAY : $returnType) // back compatibility
-			: ($this->mappedType ?? ArrayHash::class);
+		if ($returnType === self::ARRAY || $returnType === true || $this->mappedType === self::ARRAY) {
+			$obj = new \stdClass;
+			$this->hydrate($obj, true);
+			return (array) $obj;
+		} else {
+			$returnType = ($returnType ?? $this->mappedType ?? ArrayHash::class);
+			$obj = new $returnType;
+			$this->hydrate($obj);
+			return $obj;
+		}
+	}
 
-		$isArray = $returnType === self::ARRAY;
-		$obj = $isArray ? new \stdClass : new $returnType;
+
+	public function hydrate(object $obj): void
+	{
+		$isArray = func_get_args()[1] ?? false;
 		$rc = new \ReflectionClass($obj);
-
 		foreach ($this->getComponents() as $name => $control) {
 			$name = (string) $name;
 			if ($control instanceof Control && !$control->isOmitted()) {
@@ -126,7 +135,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$obj->$name = $control->getValues($type);
 			}
 		}
-		return $isArray ? (array) $obj : $obj;
 	}
 
 
@@ -319,11 +327,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addUpload(string $name, $label = null): Controls\UploadControl
 	{
-		if (func_num_args() > 2) {
-			trigger_error(__METHOD__ . '() parameter $multiple is deprecated, use addMultiUpload()', E_USER_DEPRECATED);
-			$multiple = func_get_arg(2);
-		}
-		return $this[$name] = new Controls\UploadControl($label, $multiple ?? false);
+		return $this[$name] = new Controls\UploadControl($label, false);
 	}
 
 
@@ -428,9 +432,16 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @param  string  $src  URI of the image
 	 * @param  string  $alt  alternate text for the image
 	 */
-	public function addImage(string $name, string $src = null, string $alt = null): Controls\ImageButton
+	public function addImageButton(string $name, string $src = null, string $alt = null): Controls\ImageButton
 	{
 		return $this[$name] = new Controls\ImageButton($src, $alt);
+	}
+
+
+	/** @deprecated  use addImageButton() */
+	public function addImage(): Controls\ImageButton
+	{
+		return $this->addImageButton(...func_get_args());
 	}
 
 

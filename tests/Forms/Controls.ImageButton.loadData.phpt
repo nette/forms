@@ -28,18 +28,18 @@ test('', function () {
 	];
 
 	$form = new Form;
-	$input = $form->addImage('image');
+	$input = $form->addImageButton('image');
 	Assert::true($input->isFilled());
 	Assert::same([1, 2], $input->getValue());
 
-	$input = $form->addContainer('container')->addImage('image');
+	$input = $form->addContainer('container')->addImageButton('image');
 	Assert::same([3, 4], $form['container']['image']->getValue());
 });
 
 
 test('missing data', function () {
 	$form = new Form;
-	$input = $form->addImage('missing');
+	$input = $form->addImageButton('missing');
 	Assert::false($input->isFilled());
 	Assert::null($input->getValue());
 });
@@ -52,11 +52,11 @@ test('malformed data', function () {
 	];
 
 	$form = new Form;
-	$input = $form->addImage('malformed1');
+	$input = $form->addImageButton('malformed1');
 	Assert::true($input->isFilled());
 	Assert::same([1, 0], $input->getValue());
 
-	$input = $form->addImage('malformed2');
+	$input = $form->addImageButton('malformed2');
 	Assert::false($input->isFilled());
 	Assert::null($input->getValue());
 });

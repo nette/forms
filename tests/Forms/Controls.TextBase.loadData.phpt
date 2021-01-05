@@ -151,7 +151,7 @@ test('URL', function () {
 		->addRule($form::URL);
 
 	$input->validate();
-	Assert::same('http://nette.org', $input->getValue());
+	Assert::same('https://nette.org', $input->getValue());
 });
 
 

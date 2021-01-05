@@ -531,13 +531,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
-	/** @deprecated */
-	public static function enableAutoOptionalMode(): void
-	{
-		trigger_error(__METHOD__ . '() is deprecated.', E_USER_DEPRECATED);
-	}
-
-
 	/********************* user data ****************d*g**/
 
 
