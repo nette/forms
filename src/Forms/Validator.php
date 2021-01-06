@@ -61,7 +61,11 @@ class Validator
 			$message = static::$messages[$rule->validator];
 
 		} elseif ($message == null) { // intentionally ==
-			trigger_error("Missing validation message for control '{$rule->control->getName()}'.", E_USER_WARNING);
+			trigger_error(
+				"Missing validation message for control '{$rule->control->getName()}'"
+				. (is_string($rule->validator) ? " (validator '{$rule->validator}')." : '.'),
+				E_USER_WARNING
+			);
 		}
 
 		if ($translator = $rule->control->getForm()->getTranslator()) {
