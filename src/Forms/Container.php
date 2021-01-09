@@ -103,10 +103,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Returns the values submitted by the form.
 	 * @param  string|object|null  $returnType  'array' for array
-
+	 * @param  Control[]|null  $controls
 	 * @return object|array
 	 */
-	public function getValues($returnType = null)
+	public function getValues($returnType = null, array $controls = null)
 	{
 		if ($returnType === self::ARRAY || $returnType === true || $this->mappedType === self::ARRAY) {
 			$returnType = self::ARRAY;
@@ -123,14 +123,18 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		$rc = new \ReflectionClass($obj);
 		foreach ($this->getComponents() as $name => $control) {
 			$name = (string) $name;
-			if ($control instanceof Control && !$control->isOmitted()) {
+			if (
+				$control instanceof Control
+				&& !$control->isOmitted()
+				&& ($controls === null || in_array($control, $controls, true))
+			) {
 				$obj->$name = $control->getValue();
 
 			} elseif ($control instanceof self) {
 				$type = $returnType === self::ARRAY && !$control->mappedType
 					? self::ARRAY
 					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
-				$obj->$name = $control->getValues($type);
+				$obj->$name = $control->getValues($type, $controls);
 			}
 		}
 
@@ -172,7 +176,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function validate(array $controls = null): void
 	{
-		foreach ($controls === null ? $this->getComponents() : $controls as $control) {
+		foreach ($controls ?? $this->getComponents() as $control) {
 			if ($control instanceof Control || $control instanceof self) {
 				$control->validate();
 			}

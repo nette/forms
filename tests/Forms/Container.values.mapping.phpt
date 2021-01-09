@@ -335,3 +335,22 @@ test('getValues() + object', function () {
 
 	Assert::same($obj, $orig);
 });
+
+
+test('submitted form + setValidationScope() + getValues(true)', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST['send'] = '';
+
+	$form = createForm();
+	$form->addSubmit('send')->setValidationScope([$form['title'], $form['first']['second']['city']]);
+
+	Assert::truthy($form->isSubmitted());
+	Assert::equal(hydrate(FormData::class, [
+		'title' => 'sent title',
+		'first' => ArrayHash::from([
+			'second' => ArrayHash::from([
+				'city' => 'sent city',
+			]),
+		]),
+	]), $form->getValues(FormData::class));
+});
