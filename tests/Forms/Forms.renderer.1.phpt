@@ -15,6 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST = ['name' => 'John Doe ', 'age' => '', 'email' => '  @ ', 'send' => 'on', 'street' => '', 'city' => '', 'country' => 'HU', 'password' => 'xxx', 'password2' => '', 'note' => '', 'submit1' => 'Send', 'userid' => '231'];
 
 

@@ -13,6 +13,8 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+ob_start();
+
 $called = [];
 $form = new Form;
 $form->addText('name');

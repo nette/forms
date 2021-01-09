@@ -50,6 +50,7 @@ function hydrate(string $class, array $data)
 }
 
 
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST = [
 	'title' => 'sent title',
 	'first' => [

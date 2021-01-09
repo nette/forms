@@ -22,6 +22,7 @@ class ChoiceControl extends Nette\Forms\Controls\ChoiceControl
 before(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
+	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 });
 
 

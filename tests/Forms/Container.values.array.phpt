@@ -10,6 +10,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST = [
 	'title' => 'sent title',
 	'first' => [
