@@ -74,7 +74,7 @@ test('submitted form + getValues(true)', function () {
 		'title' => 'sent title',
 		'first' => [
 			'name' => '',
-			'age' => '999',
+			'age' => 999,
 			'second' => [
 				'city' => 'sent city',
 			],
@@ -122,7 +122,7 @@ test('setValues() + array', function () {
 		'title' => 'new1',
 		'first' => [
 			'name' => 'new2',
-			'age' => '999',
+			'age' => 999,
 			'second' => [
 				'city' => 'sent city',
 			],
@@ -168,7 +168,7 @@ test('getValues(...arguments...)', function () {
 		'title' => 'new1',
 		'first' => [
 			'name' => 'new2',
-			'age' => '999',
+			'age' => 999,
 			'second' => [
 				'city' => 'sent city',
 			],
@@ -196,7 +196,7 @@ test('setMappedType(array)', function () {
 		'title' => 'new1',
 		'first' => [
 			'name' => 'new2',
-			'age' => '999',
+			'age' => 999,
 			'second' => [
 				'city' => 'sent city',
 			],

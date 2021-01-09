@@ -74,7 +74,7 @@ test('submitted form + getValues()', function () {
 		'title' => 'sent title',
 		'first' => ArrayHash::from([
 			'name' => '',
-			'age' => '999',
+			'age' => 999,
 			'second' => ArrayHash::from([
 				'city' => 'sent city',
 			]),
@@ -122,7 +122,7 @@ test('setValues() + iterable', function () {
 		'title' => 'new1',
 		'first' => ArrayHash::from([
 			'name' => 'new2',
-			'age' => '999',
+			'age' => 999,
 			'second' => ArrayHash::from([
 				'city' => 'sent city',
 			]),

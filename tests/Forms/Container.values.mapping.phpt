@@ -116,7 +116,7 @@ test('submitted form + getValues()', function () {
 		'title' => 'sent title',
 		'first' => ArrayHash::from([
 			'name' => '',
-			'age' => '999',
+			'age' => 999,
 			'second' => ArrayHash::from([
 				'city' => 'sent city',
 			]),
@@ -326,7 +326,7 @@ test('getValues() + object', function () {
 		'title' => 'sent title',
 		'first' => ArrayHash::from([
 			'name' => '',
-			'age' => '999',
+			'age' => 999,
 			'second' => ArrayHash::from([
 				'city' => 'sent city',
 			]),
