@@ -256,3 +256,22 @@ test('onSuccess test', function () {
 	$form->fireEvents();
 	Assert::true($ok);
 });
+
+
+test('submitted form + setValidationScope() + getValues(true)', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST['send'] = '';
+
+	$form = createForm();
+	$form->addSubmit('send')->setValidationScope([$form['title'], $form['first']['second']['city']]);
+
+	Assert::truthy($form->isSubmitted());
+	Assert::equal([
+		'title' => 'sent title',
+		'first' => [
+			'second' => [
+				'city' => 'sent city',
+			],
+		],
+	], $form->getValues(true));
+});
