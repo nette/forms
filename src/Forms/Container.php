@@ -171,9 +171,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			if (!is_iterable($this->onValidate)) {
 				throw new Nette\UnexpectedValueException('Property Form::$onValidate must be iterable, ' . gettype($this->onValidate) . ' given.');
 			}
+
+			$isValid = !$this->getErrors();
 			foreach ($this->onValidate as $handler) {
 				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-				$values = isset($params[1])
+				$values = isset($params[1]) && $isValid
 					? $this->getValues($params[1]->getType() instanceof \ReflectionNamedType ? $params[1]->getType()->getName() : null)
 					: null;
 				$handler($this, $values);
