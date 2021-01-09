@@ -96,6 +96,9 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @internal @var Nette\Http\IRequest  used only by standalone form */
 	public $httpRequest;
 
+	/** @var bool */
+	protected $crossOrigin = false;
+
 	/** @var mixed or null meaning: not detected yet */
 	private $submittedBy;
 
@@ -211,6 +214,15 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		$this->getElementPrototype()->$name = $value;
 		return $this;
+	}
+
+
+	/**
+	 * Disables CSRF protection using a SameSite cookie.
+	 */
+	public function allowCrossOrigin(): void
+	{
+		$this->crossOrigin = true;
 	}
 
 
@@ -474,6 +486,9 @@ class Form extends Container implements Nette\HtmlStringable
 		}
 
 		if ($httpRequest->isMethod('post')) {
+			if (!$this->crossOrigin && !$httpRequest->isSameSite()) {
+				return null;
+			}
 			$data = Nette\Utils\Arrays::mergeTree($httpRequest->getPost(), $httpRequest->getFiles());
 		} else {
 			$data = $httpRequest->getQuery();
@@ -658,6 +673,7 @@ class Form extends Container implements Nette\HtmlStringable
 		if (!$this->httpRequest) {
 			$factory = new Nette\Http\RequestFactory;
 			$this->httpRequest = $factory->createHttpRequest();
+			Nette\Http\Helpers::initCookie($this->httpRequest, new Nette\Http\Response);
 		}
 		return $this->httpRequest;
 	}
