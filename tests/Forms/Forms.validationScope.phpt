@@ -13,7 +13,7 @@ use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
-
+//Tracy\Debugger::enable();
 $datasets = [
 	['send1', ['container', 'form', 'name', 'age', 'age2'], null],
 	['send2', ['form'], ['optional' => '', 'details' => []]],

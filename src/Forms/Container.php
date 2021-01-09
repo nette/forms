@@ -108,6 +108,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getValues($returnType = null, array $controls = null)
 	{
+		$form = $this->getForm(false);
+		if ($form && $form->isSubmitted() && !$form->isValid()) {
+			trigger_error(__METHOD__ . '() invoked but the form is not valid.', E_USER_WARNING);
+		}
+
 		if ($returnType === self::ARRAY || $returnType === true || $this->mappedType === self::ARRAY) {
 			$returnType = self::ARRAY;
 			$obj = new \stdClass;
@@ -181,6 +186,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$control->validate();
 			}
 		}
+		$this->validated = true;
+
 		if ($this->onValidate !== null) {
 			if (!is_iterable($this->onValidate)) {
 				throw new Nette\UnexpectedValueException('Property Form::$onValidate must be iterable, ' . gettype($this->onValidate) . ' given.');
@@ -195,7 +202,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$handler($this, $values);
 			}
 		}
-		$this->validated = true;
 	}
 
 
