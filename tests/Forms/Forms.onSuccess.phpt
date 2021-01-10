@@ -88,10 +88,3 @@ test('invalid', function () {
 	$form->fireEvents();
 	Assert::same(['error', 'submit'], $called);
 });
-
-
-Assert::exception(function () {
-	$form = new Form;
-	$form->onSuccess = true;
-	$form->fireEvents();
-}, Nette\UnexpectedValueException::class, 'Property Form::$onSuccess must be iterable, boolean given.');

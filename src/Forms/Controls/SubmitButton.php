@@ -20,10 +20,10 @@ use Nette;
 class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 {
 	/** @var callable[]&(callable(SubmitButton): void)[]; Occurs when the button is clicked and form is successfully validated */
-	public $onClick;
+	public $onClick = [];
 
 	/** @var callable[]&(callable(SubmitButton): void)[]; Occurs when the button is clicked and form is not validated */
-	public $onInvalidClick;
+	public $onInvalidClick = [];
 
 	/** @var array|null */
 	private $validationScope;
@@ -93,7 +93,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 	 */
 	public function click(): void
 	{
-		$this->onClick($this);
+		Nette\Utils\Arrays::invoke($this->onClick, $this);
 	}
 
 
