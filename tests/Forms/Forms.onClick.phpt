@@ -106,10 +106,3 @@ test('invalid', function () {
 	$form->fireEvents();
 	Assert::same(['invalidClick', 'error', 'submit'], $called);
 });
-
-
-Assert::exception(function () {
-	$form = new Form;
-	$form->addSubmit('btn')->onClick = true;
-	$form->fireEvents();
-}, Nette\UnexpectedValueException::class, "Property \$onClick in button 'btn' must be iterable, boolean given.");

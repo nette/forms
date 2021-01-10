@@ -27,7 +27,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	private const ARRAY = 'array';
 
 	/** @var callable[]&(callable(Container, mixed): void)[]; Occurs when the form is validated */
-	public $onValidate;
+	public $onValidate = [];
 
 	/** @var ControlGroup|null */
 	protected $currentGroup;
@@ -188,19 +188,13 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		}
 		$this->validated = true;
 
-		if ($this->onValidate !== null) {
-			if (!is_iterable($this->onValidate)) {
-				throw new Nette\UnexpectedValueException('Property Form::$onValidate must be iterable, ' . gettype($this->onValidate) . ' given.');
-			}
-
-			$isValid = !$this->getErrors();
-			foreach ($this->onValidate as $handler) {
-				$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-				$values = isset($params[1]) && $isValid
-					? $this->getValues($params[1]->getType() instanceof \ReflectionNamedType ? $params[1]->getType()->getName() : null)
-					: null;
-				$handler($this, $values);
-			}
+		$isValid = !$this->getErrors();
+		foreach ($this->onValidate as $handler) {
+			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
+			$values = isset($params[1]) && $isValid
+				? $this->getValues($params[1]->getType() instanceof \ReflectionNamedType ? $params[1]->getType()->getName() : null)
+				: null;
+			$handler($this, $values);
 		}
 	}
 

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
+use Nette\Utils\Arrays;
 use Nette\Utils\Html;
 
 
@@ -82,16 +83,16 @@ class Form extends Container implements Nette\HtmlStringable
 	public const PROTECTOR_ID = '_token_';
 
 	/** @var callable[]&(callable(Form, mixed): void)[]; Occurs when the form is submitted and successfully validated */
-	public $onSuccess;
+	public $onSuccess = [];
 
 	/** @var callable[]&(callable(Form): void)[]; Occurs when the form is submitted and is not valid */
-	public $onError;
+	public $onError = [];
 
 	/** @var callable[]&(callable(Form): void)[]; Occurs when the form is submitted */
-	public $onSubmit;
+	public $onSubmit = [];
 
 	/** @var callable[]&(callable(Form): void)[]; Occurs before the form is rendered */
-	public $onRender;
+	public $onRender = [];
 
 	/** @internal @var Nette\Http\IRequest  used only by standalone form */
 	public $httpRequest;
@@ -420,31 +421,21 @@ class Form extends Container implements Nette\HtmlStringable
 
 		if ($this->submittedBy instanceof SubmitterControl) {
 			if ($this->isValid()) {
-				if ($handlers = $this->submittedBy->onClick) {
-					if (!is_iterable($handlers)) {
-						throw new Nette\UnexpectedValueException("Property \$onClick in button '{$this->submittedBy->getName()}' must be iterable, " . gettype($handlers) . ' given.');
-					}
-					$this->invokeHandlers($handlers, $this->submittedBy);
-				}
+				$this->invokeHandlers($this->submittedBy->onClick, $this->submittedBy);
 			} else {
-				$this->submittedBy->onInvalidClick($this->submittedBy);
+				Arrays::invoke($this->submittedBy->onInvalidClick, $this->submittedBy);
 			}
+		}
+
+		if ($this->isValid()) {
+			$this->invokeHandlers($this->onSuccess);
 		}
 
 		if (!$this->isValid()) {
-			$this->onError($this);
-
-		} elseif ($this->onSuccess !== null) {
-			if (!is_iterable($this->onSuccess)) {
-				throw new Nette\UnexpectedValueException('Property Form::$onSuccess must be iterable, ' . gettype($this->onSuccess) . ' given.');
-			}
-			$this->invokeHandlers($this->onSuccess);
-			if (!$this->isValid()) {
-				$this->onError($this);
-			}
+			Arrays::invoke($this->onError, $this);
 		}
 
-		$this->onSubmit($this);
+		Arrays::invoke($this->onSubmit, $this);
 	}
 
 
@@ -630,7 +621,7 @@ class Form extends Container implements Nette\HtmlStringable
 		if (!$this->beforeRenderCalled) {
 			$this->beforeRenderCalled = true;
 			$this->beforeRender();
-			$this->onRender($this);
+			Arrays::invoke($this->onRender, $this);
 		}
 	}
 
