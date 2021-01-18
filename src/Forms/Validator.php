@@ -107,15 +107,18 @@ class Validator
 	public static function validateEqual(Control $control, $arg): bool
 	{
 		$value = $control->getValue();
-		foreach ((is_array($value) ? $value : [$value]) as $val) {
-			foreach ((is_array($arg) ? $arg : [$arg]) as $item) {
+		$values = is_array($value) ? $value : [$value];
+		$args = is_array($arg) ? $arg : [$arg];
+
+		foreach ($values as $val) {
+			foreach ($args as $item) {
 				if ((string) $val === (string) $item) {
 					continue 2;
 				}
 			}
 			return false;
 		}
-		return true;
+		return (bool) $values;
 	}
 
 

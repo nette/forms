@@ -43,6 +43,7 @@ test('validators', function () {
 	Assert::true(Validator::validateEqual($input, '123'));
 	Assert::true(Validator::validateEqual($input, [123, 3])); // "is in"
 	Assert::false(Validator::validateEqual($input, ['x']));
+	Assert::false(Validator::validateEqual($input, []));
 
 	Assert::true(Validator::validateFilled($input));
 	Assert::true(Validator::validateValid($input));

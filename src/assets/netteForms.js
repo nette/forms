@@ -371,7 +371,7 @@
 				}
 				return false;
 			}
-			return true;
+			return val.length > 0;
 		},
 
 		notEqual: function(elem, arg, val) {

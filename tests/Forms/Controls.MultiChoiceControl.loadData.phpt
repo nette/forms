@@ -154,6 +154,21 @@ test('validateEqual', function () use ($series) {
 	Assert::false(Validator::validateEqual($input, 'unknown'));
 	Assert::false(Validator::validateEqual($input, ['unknown']));
 	Assert::false(Validator::validateEqual($input, [0]));
+	Assert::false(Validator::validateEqual($input, []));
+});
+
+
+test('empty input & validateEqual', function () use ($series) {
+	$_POST = [];
+
+	$form = new Form;
+	$input = $form['multi'] = new MultiChoiceControl(null, $series);
+
+	Assert::false(Validator::validateEqual($input, ['red-dwarf', 0]));
+	Assert::false(Validator::validateEqual($input, 'unknown'));
+	Assert::false(Validator::validateEqual($input, ['unknown']));
+	Assert::false(Validator::validateEqual($input, [0]));
+	Assert::false(Validator::validateEqual($input, []));
 });
 
 
