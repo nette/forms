@@ -15,6 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST = ['name' => 'John Doe ', 'age' => '', 'email' => '  @ ', 'send' => 'on', 'street' => '', 'city' => '', 'country' => 'HU', 'password' => 'xxx', 'password2' => '', 'note' => '', 'submit1' => 'Send', 'userid' => '231'];
 
 
@@ -43,7 +44,9 @@ $form->addGroup('Personal data')
 	->setOption('id', 'test-group-id-set-via-option');
 
 $form->addText('name', 'Your name:')
-	->addRule(Form::FILLED, 'Enter your name');
+	->addRule(Form::FILLED, 'Enter your name')
+	->setOption('class', 'myclass')
+	->setOption('id', 'myid');
 
 $form->addInteger('age', 'Your age:')
 	->addRule(Form::FILLED, 'Enter your age')
@@ -86,10 +89,12 @@ $form->addSelect('countrySetItems', 'Country:')
 $form->addGroup('Your account');
 
 $form->addPassword('password', 'Choose password:')
+	->setOption('nextTo', 'password2')
 	->addRule(Form::FILLED, 'Choose your password')
 	->addRule(Form::MIN_LENGTH, 'The password is too short: it must be at least %d characters', 3);
 
 $form->addPassword('password2', 'Reenter password:')
+	->setOption('nextTo', 'avatar')
 	->addConditionOn($form['password'], Form::VALID)
 		->addRule(Form::FILLED, 'Reenter your password')
 		->addRule(Form::EQUAL, 'Passwords do not match', $form['password']);

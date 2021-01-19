@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	Assert::type(
 		Html::class,
 		Helpers::createSelectBox([])
@@ -58,7 +58,7 @@ test(function () {
 	);
 
 	Assert::same(
-		'<select><option title="Hello" style="color:blue" value="a" selected>First</option><option title="Hello" style="color:blue" value="b" disabled>Second</option></select>',
+		'<select><option title="Hello" style="color:blue" a="b" value="a" selected>First</option><option title="Hello" style="color:blue" a="b" value="b" disabled>Second</option></select>',
 		(string) Helpers::createSelectBox(
 			['a' => 'First', 'b' => 'Second'],
 			[
@@ -66,6 +66,7 @@ test(function () {
 				'selected?' => ['a'],
 				'title' => 'Hello',
 				'style' => ['color' => 'blue'],
+				'a' => 'b',
 			]
 		)
 	);

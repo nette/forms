@@ -19,7 +19,7 @@ use Nette\Utils\Html;
 class Checkbox extends BaseControl
 {
 	/** @var Html  wrapper element template */
-	private $wrapper;
+	private $container;
 
 
 	/**
@@ -29,7 +29,7 @@ class Checkbox extends BaseControl
 	{
 		parent::__construct($label);
 		$this->control->type = 'checkbox';
-		$this->wrapper = Html::el();
+		$this->container = Html::el();
 		$this->setOption('type', 'checkbox');
 	}
 
@@ -49,29 +49,24 @@ class Checkbox extends BaseControl
 	}
 
 
-	/**
-	 * Is control filled?
-	 */
 	public function isFilled(): bool
 	{
 		return $this->getValue() !== false; // back compatibility
 	}
 
 
-	/**
-	 * Generates control's HTML element.
-	 */
 	public function getControl(): Html
 	{
-		return $this->wrapper->setHtml($this->getLabelPart()->insert(0, $this->getControlPart()));
+		return $this->container->setHtml($this->getLabelPart()->insert(0, $this->getControlPart()));
 	}
 
 
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null): void
+	public function getLabel($caption = null)
 	{
+		return null;
 	}
 
 
@@ -88,10 +83,19 @@ class Checkbox extends BaseControl
 
 
 	/**
-	 * Returns wrapper HTML element template.
+	 * Returns container HTML element template.
+	 */
+	public function getContainerPrototype(): Html
+	{
+		return $this->container;
+	}
+
+
+	/**
+	 * Returns container HTML element template.
 	 */
 	public function getSeparatorPrototype(): Html
 	{
-		return $this->wrapper;
+		return $this->container;
 	}
 }

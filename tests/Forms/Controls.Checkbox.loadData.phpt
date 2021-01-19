@@ -16,13 +16,14 @@ require __DIR__ . '/../bootstrap.php';
 before(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
+	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 });
 
 
-test(function () {
+test('', function () {
 	$_POST = [
 		'off' => '',
-		'on' => 1,
+		'on' => '1',
 	];
 
 	$form = new Form;
@@ -38,8 +39,8 @@ test(function () {
 });
 
 
-test(function () { // malformed data
-	$_POST = ['malformed' => [null]];
+test('malformed data', function () {
+	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
 	$input = $form->addCheckbox('malformed');
@@ -49,7 +50,7 @@ test(function () { // malformed data
 });
 
 
-test(function () { // setValue() and invalid argument
+test('setValue() and invalid argument', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('checkbox');
 	$input->setValue(null);

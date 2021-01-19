@@ -19,7 +19,7 @@ before(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->setMethod($form::GET);
 	$form->addSubmit('send', 'Send');
@@ -31,7 +31,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addSubmit('send', 'Send');
 
@@ -41,7 +41,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$name = 'name';
 	$_GET = [Form::TRACKER_ID => $name];
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);

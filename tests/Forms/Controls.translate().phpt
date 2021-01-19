@@ -40,7 +40,7 @@ class StringWrapper
 
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->setTranslator(new Translator);
 
@@ -53,7 +53,7 @@ test(function () {
 
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->setTranslator(new Translator);
 
@@ -66,7 +66,7 @@ test(function () {
 
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->setTranslator(new Translator);
 
@@ -81,7 +81,7 @@ test(function () {
 
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->setTranslator(new Translator);
 

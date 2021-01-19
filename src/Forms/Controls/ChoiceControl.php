@@ -36,25 +36,20 @@ abstract class ChoiceControl extends BaseControl
 	}
 
 
-	/**
-	 * Loads HTTP data.
-	 */
 	public function loadHttpData(): void
 	{
 		$this->value = $this->getHttpData(Nette\Forms\Form::DATA_TEXT);
 		if ($this->value !== null) {
-			if (is_array($this->disabled) && isset($this->disabled[$this->value])) {
-				$this->value = null;
-			} else {
-				$this->value = key([$this->value => null]);
-			}
+			$this->value = is_array($this->disabled) && isset($this->disabled[$this->value])
+				? null
+				: key([$this->value => null]);
 		}
 	}
 
 
 	/**
 	 * Sets selected item (by key).
-	 * @param  string|int  $value
+	 * @param  string|int|null  $value
 	 * @return static
 	 * @internal
 	 */
@@ -71,11 +66,13 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected key.
-	 * @return string|int
+	 * @return string|int|null
 	 */
 	public function getValue()
 	{
-		return array_key_exists($this->value, $this->items) ? $this->value : null;
+		return array_key_exists($this->value, $this->items)
+			? $this->value
+			: null;
 	}
 
 
@@ -149,9 +146,7 @@ abstract class ChoiceControl extends BaseControl
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function checkDefaultValue(bool $value = true)
 	{
 		$this->checkDefaultValue = $value;

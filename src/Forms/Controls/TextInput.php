@@ -18,7 +18,6 @@ use Nette\Forms\Form;
  */
 class TextInput extends TextBase
 {
-
 	/**
 	 * @param  string|object  $label
 	 */
@@ -30,9 +29,6 @@ class TextInput extends TextBase
 	}
 
 
-	/**
-	 * Loads HTTP data.
-	 */
 	public function loadHttpData(): void
 	{
 		$this->setValue($this->getHttpData(Form::DATA_LINE));
@@ -60,9 +56,6 @@ class TextInput extends TextBase
 	}
 
 
-	/**
-	 * Generates control's HTML element.
-	 */
 	public function getControl(): Nette\Utils\Html
 	{
 		return parent::getControl()->addAttributes([
@@ -72,11 +65,15 @@ class TextInput extends TextBase
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
+		foreach ($this->getRules() as $rule) {
+			if (!$rule->canExport() && !$rule->branch) {
+				return $this;
+			}
+		}
+
 		if ($this->control->type === null && in_array($validator, [Form::EMAIL, Form::URL, Form::INTEGER], true)) {
 			static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
 			$this->control->type = $types[$validator];
@@ -93,10 +90,14 @@ class TextInput extends TextBase
 				$range = $arg;
 			}
 			if (isset($range[0]) && is_scalar($range[0])) {
-				$this->control->min = isset($this->control->min) ? max($this->control->min, $range[0]) : $range[0];
+				$this->control->min = isset($this->control->min)
+					? max($this->control->min, $range[0])
+					: $range[0];
 			}
 			if (isset($range[1]) && is_scalar($range[1])) {
-				$this->control->max = isset($this->control->max) ? min($this->control->max, $range[1]) : $range[1];
+				$this->control->max = isset($this->control->max)
+					? min($this->control->max, $range[1])
+					: $range[1];
 			}
 
 		} elseif (

@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	Assert::same(
 		'',
 		Helpers::createInputList([])
@@ -23,6 +23,11 @@ test(function () {
 	Assert::same(
 		'<label><input value="0">a</label>',
 		Helpers::createInputList(['a'])
+	);
+
+	Assert::same(
+		'<label><input value="0">1</label>',
+		Helpers::createInputList([1])
 	);
 
 	Assert::same(

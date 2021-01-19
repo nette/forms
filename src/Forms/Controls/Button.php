@@ -17,7 +17,6 @@ use Nette;
  */
 class Button extends BaseControl
 {
-
 	/**
 	 * @param  string|object  $caption
 	 */
@@ -42,8 +41,9 @@ class Button extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null): void
+	public function getLabel($caption = null)
 	{
+		return null;
 	}
 
 
@@ -58,7 +58,7 @@ class Button extends BaseControl
 		return $el->addAttributes([
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
-			'value' => $this->translate($caption === null ? $this->getCaption() : $caption),
+			'value' => $this->translate($caption ?? $this->getCaption()),
 		]);
 	}
 }

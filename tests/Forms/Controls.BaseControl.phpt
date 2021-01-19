@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // error handling
+test('error handling', function () {
 	$form = new Form;
 	$input = $form->addText('text')
 		->setRequired('error');
@@ -34,7 +34,7 @@ test(function () { // error handling
 });
 
 
-test(function () { // validators
+test('validators', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setValue(123);
@@ -43,6 +43,7 @@ test(function () { // validators
 	Assert::true(Validator::validateEqual($input, '123'));
 	Assert::true(Validator::validateEqual($input, [123, 3])); // "is in"
 	Assert::false(Validator::validateEqual($input, ['x']));
+	Assert::false(Validator::validateEqual($input, []));
 
 	Assert::true(Validator::validateFilled($input));
 	Assert::true(Validator::validateValid($input));
@@ -71,7 +72,7 @@ test(function () { // validators
 });
 
 
-test(function () { // validators for array
+test('validators for array', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('select', null, ['a', 'b', 'c', 'd']);
 	$input->setValue([1, 2, 3]);
@@ -95,7 +96,7 @@ test(function () { // validators for array
 });
 
 
-test(function () { // setHtmlId
+test('setHtmlId', function () {
 	$form = new Form;
 	$input = $form->addText('text')->setHtmlId('myId');
 
@@ -103,7 +104,7 @@ test(function () { // setHtmlId
 });
 
 
-test(function () { // special name
+test('special name', function () {
 	$form = new Form;
 	$input = $form->addText('submit');
 
@@ -111,7 +112,7 @@ test(function () { // special name
 });
 
 
-test(function () { // disabled
+test('disabled', function () {
 	$form = new Form;
 	$form->addText('disabled')
 		->setDisabled()
@@ -123,9 +124,10 @@ test(function () { // disabled
 });
 
 
-test(function () { // disabled & submitted
+test('disabled & submitted', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = ['disabled' => 'submitted value'];
+	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 
 	$form = new Form;
 	$form->addText('disabled')
@@ -135,7 +137,6 @@ test(function () { // disabled & submitted
 	Assert::true($form->isSubmitted());
 	Assert::same('default', $form['disabled']->getValue());
 
-
 	unset($form['disabled']);
 	$input = new Nette\Forms\Controls\TextInput;
 	$input->setDisabled()
@@ -144,4 +145,52 @@ test(function () { // disabled & submitted
 	$form['disabled'] = $input;
 
 	Assert::same('default', $input->getValue());
+});
+
+
+test('', function () {
+	$form = new Form;
+	$form->setTranslator(new class implements Nette\Localization\ITranslator {
+		public function translate($s, ...$parameters): string
+		{
+			return strtolower($s);
+		}
+	});
+
+	Validator::$messages[Form::FILLED] = '"%label" field is required.';
+
+	$input = $form->addSelect('list1', 'LIST', [
+		'a' => 'First',
+		0 => 'Second',
+	])->setRequired();
+
+	$input->validate();
+
+	Assert::match('<label for="frm-list1">list</label>', (string) $input->getLabel());
+	Assert::same(['"list" field is required.'], $input->getErrors());
+
+	$input = $form->addSelect('list2', 'LIST', [
+		'a' => 'First',
+		0 => 'Second',
+	])->setTranslator(null)
+		->setRequired();
+
+	$input->validate();
+
+	Assert::match('<label for="frm-list2">list</label>', (string) $input->getLabel());
+	Assert::same(['"list" field is required.'], $input->getErrors());
+});
+
+
+test('change HTML name', function () {
+	$_POST = ['b' => '123', 'send' => ''];
+	$form = new Form;
+	$form->addSubmit('send', 'Send');
+	$input = $form->addText('a');
+
+	Assert::same('', $input->getValue());
+	$input->setHtmlAttribute('name', 'b');
+	Assert::same('123', $input->getValue());
+
+	Assert::match('<input type="text" name="b" id="frm-a" value="123">', (string) $input->getControl());
 });

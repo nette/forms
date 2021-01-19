@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // BaseControl
+test('BaseControl', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 
@@ -23,7 +23,7 @@ test(function () { // BaseControl
 });
 
 
-test(function () { // Rules
+test('Rules', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -43,7 +43,7 @@ test(function () { // Rules
 });
 
 
-test(function () { // 'required' is always the first rule
+test('required/blank is always the first rule', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -59,15 +59,24 @@ test(function () { // 'required' is always the first rule
 	@$rules->addRule(~$form::REQUIRED); // @ - negative rules are deprecated
 	$items = iterator_to_array($rules);
 	Assert::count(3, $items);
-	Assert::same(Form::BLANK, $items[2]->validator);
-	Assert::false($items[2]->isNegative);
+	Assert::same(Form::BLANK, $items[0]->validator);
+	Assert::false($items[0]->isNegative);
+
+	Assert::false($rules->validate());
+	Assert::same(['This field is required.'], $input->getErrors());
+
+	$rules->addCondition($form::BLANK);
+	$items = iterator_to_array($rules);
+	Assert::count(4, $items);
+	Assert::same(Form::BLANK, $items[0]->validator);
+	Assert::same(Form::BLANK, $items[1]->validator);
 
 	Assert::false($rules->validate());
 	Assert::same(['This field is required.'], $input->getErrors());
 });
 
 
-test(function () { // setRequired(false)
+test('setRequired(false)', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -85,7 +94,7 @@ test(function () { // setRequired(false)
 });
 
 
-test(function () { // setRequired(false) and addConditionOn
+test('setRequired(false) and addConditionOn', function () {
 	$form = new Form;
 	$form->addCheckbox('checkbox');
 	$input = $form->addText('text');
@@ -99,7 +108,7 @@ test(function () { // setRequired(false) and addConditionOn
 });
 
 
-test(function () { // addRule(~Form::REQUIRED)
+test('addRule(~Form::REQUIRED)', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 

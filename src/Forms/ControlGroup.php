@@ -32,13 +32,11 @@ class ControlGroup
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function add(...$items)
 	{
 		foreach ($items as $item) {
-			if ($item instanceof IControl) {
+			if ($item instanceof Control) {
 				$this->controls->attach($item);
 
 			} elseif ($item instanceof Container) {
@@ -50,14 +48,14 @@ class ControlGroup
 
 			} else {
 				$type = is_object($item) ? get_class($item) : gettype($item);
-				throw new Nette\InvalidArgumentException("IControl or Container items expected, $type given.");
+				throw new Nette\InvalidArgumentException("Control or Container items expected, $type given.");
 			}
 		}
 		return $this;
 	}
 
 
-	public function remove(IControl $control): void
+	public function remove(Control $control): void
 	{
 		$this->controls->detach($control);
 	}
@@ -73,9 +71,7 @@ class ControlGroup
 	}
 
 
-	/**
-	 * @return IControl[]
-	 */
+	/** @return Control[] */
 	public function getControls(): array
 	{
 		return iterator_to_array($this->controls);
@@ -85,10 +81,10 @@ class ControlGroup
 	/**
 	 * Sets user-specific option.
 	 * Options recognized by DefaultFormRenderer
-	 * - 'label' - textual or IHtmlString object label
+	 * - 'label' - textual or Nette\HtmlStringable object label
 	 * - 'visual' - indicates visual group
 	 * - 'container' - container as Html object
-	 * - 'description' - textual or IHtmlString object description
+	 * - 'description' - textual or Nette\HtmlStringable object description
 	 * - 'embedNext' - describes how render next group
 	 *
 	 * @return static

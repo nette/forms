@@ -10,6 +10,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST = [
 	'title' => 'sent title',
 	'first' => [
@@ -36,7 +37,7 @@ function createForm(): Form
 }
 
 
-test(function () { // setDefaults() + array
+test('setDefaults() + array', function () {
 	$form = createForm();
 	Assert::false($form->isSubmitted());
 
@@ -65,7 +66,7 @@ test(function () { // setDefaults() + array
 });
 
 
-test(function () { // submitted form + getValues(true)
+test('submitted form + getValues(true)', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -74,7 +75,7 @@ test(function () { // submitted form + getValues(true)
 		'title' => 'sent title',
 		'first' => [
 			'name' => '',
-			'age' => '999',
+			'age' => 999,
 			'second' => [
 				'city' => 'sent city',
 			],
@@ -83,7 +84,7 @@ test(function () { // submitted form + getValues(true)
 });
 
 
-test(function () { // submitted form + reset()
+test('submitted form + reset()', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -105,7 +106,7 @@ test(function () { // submitted form + reset()
 });
 
 
-test(function () { // setValues() + array
+test('setValues() + array', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -122,7 +123,7 @@ test(function () { // setValues() + array
 		'title' => 'new1',
 		'first' => [
 			'name' => 'new2',
-			'age' => '999',
+			'age' => 999,
 			'second' => [
 				'city' => 'sent city',
 			],
@@ -150,7 +151,7 @@ test(function () { // setValues() + array
 });
 
 
-test(function () { // getValues(...arguments...)
+test('getValues(...arguments...)', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -168,7 +169,7 @@ test(function () { // getValues(...arguments...)
 		'title' => 'new1',
 		'first' => [
 			'name' => 'new2',
-			'age' => '999',
+			'age' => 999,
 			'second' => [
 				'city' => 'sent city',
 			],
@@ -177,7 +178,7 @@ test(function () { // getValues(...arguments...)
 });
 
 
-test(function () { // setMappedType(array)
+test('setMappedType(array)', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -196,7 +197,7 @@ test(function () { // setMappedType(array)
 		'title' => 'new1',
 		'first' => [
 			'name' => 'new2',
-			'age' => '999',
+			'age' => 999,
 			'second' => [
 				'city' => 'sent city',
 			],
@@ -205,7 +206,7 @@ test(function () { // setMappedType(array)
 });
 
 
-test(function () { // onSuccess test
+test('onSuccess test', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -255,4 +256,23 @@ test(function () { // onSuccess test
 
 	$form->fireEvents();
 	Assert::true($ok);
+});
+
+
+test('submitted form + setValidationScope() + getValues(true)', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST['send'] = '';
+
+	$form = createForm();
+	$form->addSubmit('send')->setValidationScope([$form['title'], $form['first']['second']['city']]);
+
+	Assert::truthy($form->isSubmitted());
+	Assert::equal([
+		'title' => 'sent title',
+		'first' => [
+			'second' => [
+				'city' => 'sent city',
+			],
+		],
+	], $form->getValues(true));
 });

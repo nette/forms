@@ -15,7 +15,7 @@ Tester\Environment::setup();
 date_default_timezone_set('Europe/Prague');
 
 
-function before(\Closure $function = null)
+function before(Closure $function = null)
 {
 	static $val;
 	if (!func_num_args()) {
@@ -25,7 +25,7 @@ function before(\Closure $function = null)
 }
 
 
-function test(\Closure $function): void
+function test(string $title, Closure $function): void
 {
 	before();
 	$function();

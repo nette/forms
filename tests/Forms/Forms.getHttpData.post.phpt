@@ -16,11 +16,12 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 	$_GET = $_POST = $_FILES = [];
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$form->addSubmit('send', 'Send');
 
@@ -31,7 +32,20 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
+	unset($_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME]);
+
+	$form = new Form;
+	$form->addSubmit('send', 'Send');
+
+	Assert::false($form->isSubmitted());
+	Assert::false($form->isSuccess());
+	Assert::same([], $form->getHttpData());
+	Assert::same([], $form->getValues(true));
+});
+
+
+test('', function () {
 	$form = new Form;
 	$form->setMethod($form::GET);
 	$form->addSubmit('send', 'Send');
@@ -43,7 +57,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$name = 'name';
 	$_POST = [Form::TRACKER_ID => $name];
 
@@ -57,7 +71,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addSubmit('send', 'Send');
 	Assert::false($input->isSubmittedBy());

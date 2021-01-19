@@ -9,7 +9,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addCondition(false)
@@ -22,7 +22,7 @@ test(function () {
 });
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input1 = $form->addText('text1');
 	$input2 = $form->addText('text2');

@@ -20,6 +20,9 @@ class HiddenField extends BaseControl
 	/** @var bool */
 	private $persistValue;
 
+	/** @var bool */
+	private $nullable = false;
+
 
 	public function __construct($persistentValue = null)
 	{
@@ -41,19 +44,46 @@ class HiddenField extends BaseControl
 	 */
 	public function setValue($value)
 	{
-		if (!is_scalar($value) && $value !== null && !method_exists($value, '__toString')) {
+		if ($value === null) {
+			$value = '';
+		} elseif (!is_scalar($value) && !(is_object($value) && method_exists($value, '__toString'))) {
 			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
 		}
 		if (!$this->persistValue) {
-			$this->value = (string) $value;
+			$this->value = $value;
 		}
 		return $this;
 	}
 
 
+	public function getValue()
+	{
+		return $this->nullable && $this->value === '' ? null : $this->value;
+	}
+
+
 	/**
-	 * Generates control's HTML element.
+	 * Sets whether getValue() returns null instead of empty string.
+	 * @return static
 	 */
+	public function setNullable(bool $value = true)
+	{
+		$this->nullable = $value;
+		return $this;
+	}
+
+
+	/**
+	 * Appends input string filter callback.
+	 * @return static
+	 */
+	public function addFilter(callable $filter)
+	{
+		$this->getRules()->addFilter($filter);
+		return $this;
+	}
+
+
 	public function getControl(): Nette\Utils\Html
 	{
 		$this->setOption('rendered', true);
@@ -61,17 +91,17 @@ class HiddenField extends BaseControl
 		return $el->addAttributes([
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
-			'value' => $this->value,
+			'value' => (string) $this->value,
 		]);
 	}
 
 
 	/**
 	 * Bypasses label generation.
-	 * @param  string|object  $caption
 	 */
-	public function getLabel($caption = null): void
+	public function getLabel($caption = null)
 	{
+		return null;
 	}
 
 

@@ -34,10 +34,3 @@ Assert::same([
 	'fail 1',
 	'fail 2',
 ], $form->getErrors());
-
-
-Assert::exception(function () {
-	$form = new Form;
-	$form->onValidate = true;
-	$form->validate();
-}, Nette\UnexpectedValueException::class, 'Property Form::$onValidate must be iterable, boolean given.');

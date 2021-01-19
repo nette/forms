@@ -23,9 +23,9 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
-	$input = $form->addImage('button', 'image.gif');
+	$input = $form->addImageButton('button', 'image.gif');
 
 	Assert::null($input->getLabel());
 	Assert::type(Html::class, $input->getControl());
@@ -33,35 +33,35 @@ test(function () {
 });
 
 
-test(function () { // translator
+test('translator', function () {
 	$form = new Form;
-	$input = $form->addImage('button', 'image.gif');
+	$input = $form->addImageButton('button', 'image.gif');
 	$input->setTranslator(new Translator);
 
 	Assert::same('<input type="image" name="button[]" src="image.gif">', (string) $input->getControl());
 });
 
 
-test(function () { // no validation rules
+test('no validation rules', function () {
 	$form = new Form;
-	$input = $form->addImage('button', 'image.gif')->setRequired('required');
+	$input = $form->addImageButton('button', 'image.gif')->setRequired('required');
 
 	Assert::same('<input type="image" name="button[]" src="image.gif">', (string) $input->getControl());
 });
 
 
-test(function () { // container
+test('container', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
-	$input = $container->addImage('button', 'image.gif');
+	$input = $container->addImageButton('button', 'image.gif');
 
 	Assert::same('<input type="image" name="container[button][]" src="image.gif">', (string) $input->getControl());
 });
 
 
-test(function () { // rendering options
+test('rendering options', function () {
 	$form = new Form;
-	$input = $form->addImage('button');
+	$input = $form->addImageButton('button');
 
 	Assert::same('button', $input->getOption('type'));
 

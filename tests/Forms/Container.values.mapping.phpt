@@ -50,6 +50,7 @@ function hydrate(string $class, array $data)
 }
 
 
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST = [
 	'title' => 'sent title',
 	'first' => [
@@ -76,7 +77,7 @@ function createForm(): Form
 }
 
 
-test(function () { // setDefaults() + object
+test('setDefaults() + object', function () {
 	$form = createForm();
 	Assert::false($form->isSubmitted());
 
@@ -105,7 +106,7 @@ test(function () { // setDefaults() + object
 });
 
 
-test(function () { // submitted form + getValues()
+test('submitted form + getValues()', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -116,7 +117,7 @@ test(function () { // submitted form + getValues()
 		'title' => 'sent title',
 		'first' => ArrayHash::from([
 			'name' => '',
-			'age' => '999',
+			'age' => 999,
 			'second' => ArrayHash::from([
 				'city' => 'sent city',
 			]),
@@ -125,7 +126,7 @@ test(function () { // submitted form + getValues()
 });
 
 
-test(function () { // submitted form + reset()
+test('submitted form + reset()', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -149,7 +150,7 @@ test(function () { // submitted form + reset()
 });
 
 
-test(function () { // setValues() + object
+test('setValues() + object', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -197,7 +198,7 @@ test(function () { // setValues() + object
 });
 
 
-test(function () { // getValues(...arguments...)
+test('getValues(...arguments...)', function () {
 	$_SERVER['REQUEST_METHOD'] = null;
 
 	$form = createForm();
@@ -220,7 +221,6 @@ test(function () { // getValues(...arguments...)
 		]),
 	]), $form->getValues(FormData::class));
 
-
 	$form->setMappedType(FormData::class);
 	$form['first']->setMappedType(FormFirstLevel::class);
 	$form['first-second']->setMappedType(FormSecondLevel::class);
@@ -238,18 +238,18 @@ test(function () { // getValues(...arguments...)
 
 	Assert::equal([
 		'title' => 'new1',
-		'first' => [
+		'first' => hydrate(FormFirstLevel::class, [
 			'name' => 'new2',
 			'age' => null,
-			'second' => [
+			'second' => hydrate(FormSecondLevel::class, [
 				'city' => '',
-			],
-		],
+			]),
+		]),
 	], $form->getValues(true));
 });
 
 
-test(function () { // onSuccess test
+test('onSuccess test', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -314,4 +314,44 @@ test(function () { // onSuccess test
 
 	$form->fireEvents();
 	Assert::true($ok);
+});
+
+
+test('getValues() + object', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+
+	$form = createForm();
+	$obj = $orig = new FormData;
+
+	Assert::equal(hydrate(FormData::class, [
+		'title' => 'sent title',
+		'first' => ArrayHash::from([
+			'name' => '',
+			'age' => 999,
+			'second' => ArrayHash::from([
+				'city' => 'sent city',
+			]),
+		]),
+	]), $form->getValues($obj));
+
+	Assert::same($obj, $orig);
+});
+
+
+test('submitted form + setValidationScope() + getValues(true)', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST['send'] = '';
+
+	$form = createForm();
+	$form->addSubmit('send')->setValidationScope([$form['title'], $form['first']['second']['city']]);
+
+	Assert::truthy($form->isSubmitted());
+	Assert::equal(hydrate(FormData::class, [
+		'title' => 'sent title',
+		'first' => ArrayHash::from([
+			'second' => ArrayHash::from([
+				'city' => 'sent city',
+			]),
+		]),
+	]), $form->getValues(FormData::class));
 });

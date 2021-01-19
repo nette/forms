@@ -23,7 +23,7 @@ class SelectBox extends ChoiceControl
 	/** @var array of option / optgroup */
 	private $options = [];
 
-	/** @var mixed */
+	/** @var string|object|false */
 	private $prompt = false;
 
 	/** @var array */
@@ -44,7 +44,7 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Sets first prompt item in select box.
-	 * @param  string|object  $prompt
+	 * @param  string|object|false  $prompt
 	 * @return static
 	 */
 	public function setPrompt($prompt)
@@ -56,7 +56,7 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Returns first prompt item?
-	 * @return mixed
+	 * @return string|object|false
 	 */
 	public function getPrompt()
 	{
@@ -89,9 +89,6 @@ class SelectBox extends ChoiceControl
 	}
 
 
-	/**
-	 * Generates control's HTML element.
-	 */
 	public function getControl(): Nette\Utils\Html
 	{
 		$items = $this->prompt === false ? [] : ['' => $this->translate($this->prompt)];
@@ -109,12 +106,18 @@ class SelectBox extends ChoiceControl
 	}
 
 
-	/**
-	 * @return static
-	 */
+	/** @return static */
 	public function addOptionAttributes(array $attributes)
 	{
 		$this->optionAttributes = $attributes + $this->optionAttributes;
+		return $this;
+	}
+
+
+	/** @return static */
+	public function setOptionAttribute(string $name, $value = true)
+	{
+		$this->optionAttributes[$name] = $value;
 		return $this;
 	}
 

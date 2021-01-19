@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test(function () {
+test('', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden', 'value');
 
@@ -33,7 +33,7 @@ test(function () {
 });
 
 
-test(function () { // no validation rules
+test('no validation rules', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden')->setRequired('required');
 
@@ -41,7 +41,7 @@ test(function () { // no validation rules
 });
 
 
-test(function () { // container
+test('container', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addHidden('hidden');
@@ -50,7 +50,7 @@ test(function () { // container
 });
 
 
-test(function () { // forced ID
+test('forced ID', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden')->setRequired('required');
 	$input->setHtmlId($input->getHtmlId());
@@ -59,7 +59,7 @@ test(function () { // forced ID
 });
 
 
-test(function () { // rendering options
+test('rendering options', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden');
 
@@ -68,4 +68,13 @@ test(function () { // rendering options
 	Assert::null($input->getOption('rendered'));
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));
+});
+
+
+test('object', function () {
+	$form = new Form;
+	$input = $form->addHidden('hidden')
+		->setValue(new Nette\Utils\DateTime('2013-07-05'));
+
+	Assert::same('<input type="hidden" name="hidden" value="2013-07-05 00:00:00">', (string) $input->getControl());
 });

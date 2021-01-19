@@ -13,8 +13,9 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test(function () { // valid
+test('valid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 
 	$called = [];
 	$form = new Form;
@@ -35,8 +36,9 @@ test(function () { // valid
 });
 
 
-test(function () { // valid -> invalid
+test('valid -> invalid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 
 	$called = [];
 	$form = new Form;
@@ -64,8 +66,9 @@ test(function () { // valid -> invalid
 });
 
 
-test(function () { // invalid
+test('invalid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 
 	$called = [];
 	$form = new Form;
@@ -85,10 +88,3 @@ test(function () { // invalid
 	$form->fireEvents();
 	Assert::same(['error', 'submit'], $called);
 });
-
-
-Assert::exception(function () {
-	$form = new Form;
-	$form->onSuccess = true;
-	$form->fireEvents();
-}, Nette\UnexpectedValueException::class, 'Property Form::$onSuccess must be iterable, boolean given.');

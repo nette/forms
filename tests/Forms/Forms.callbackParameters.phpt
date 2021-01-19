@@ -14,6 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST['text'] = 'a';
 $_POST['btn'] = 'b';
 

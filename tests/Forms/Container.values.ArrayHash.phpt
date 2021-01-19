@@ -10,6 +10,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST = [
 	'title' => 'sent title',
 	'first' => [
@@ -36,7 +37,7 @@ function createForm(): Form
 }
 
 
-test(function () { // setDefaults() + iterable
+test('setDefaults() + iterable', function () {
 	$form = createForm();
 	Assert::false($form->isSubmitted());
 
@@ -65,7 +66,7 @@ test(function () { // setDefaults() + iterable
 });
 
 
-test(function () { // submitted form + getValues()
+test('submitted form + getValues()', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -74,7 +75,7 @@ test(function () { // submitted form + getValues()
 		'title' => 'sent title',
 		'first' => ArrayHash::from([
 			'name' => '',
-			'age' => '999',
+			'age' => 999,
 			'second' => ArrayHash::from([
 				'city' => 'sent city',
 			]),
@@ -83,7 +84,7 @@ test(function () { // submitted form + getValues()
 });
 
 
-test(function () { // submitted form + reset()
+test('submitted form + reset()', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -105,7 +106,7 @@ test(function () { // submitted form + reset()
 });
 
 
-test(function () { // setValues() + iterable
+test('setValues() + iterable', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -122,7 +123,7 @@ test(function () { // setValues() + iterable
 		'title' => 'new1',
 		'first' => ArrayHash::from([
 			'name' => 'new2',
-			'age' => '999',
+			'age' => 999,
 			'second' => ArrayHash::from([
 				'city' => 'sent city',
 			]),
@@ -150,7 +151,7 @@ test(function () { // setValues() + iterable
 });
 
 
-test(function () { // onSuccess test
+test('onSuccess test', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
