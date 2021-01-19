@@ -26,7 +26,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	private const ARRAY = 'array';
 
-	/** @var callable[]&(callable(Container, mixed): void)[]; Occurs when the form is validated */
+	/** @var callable[]&((callable(Container, array|object|null): void)|(callable(array|object|null): void))[]; Occurs when the form was validated */
 	public $onValidate = [];
 
 	/** @var ControlGroup|null */
@@ -191,10 +191,15 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		$isValid = !$this->getErrors();
 		foreach ($this->onValidate as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$values = isset($params[1]) && $isValid
-				? $this->getValues($params[1]->getType() instanceof \ReflectionNamedType ? $params[1]->getType()->getName() : null)
-				: null;
-			$handler($this, $values);
+			$types = array_map([Nette\Utils\Reflection::class, 'getParameterType'], $params);
+			$handler(
+				!isset($types[0]) || $this instanceof $types[0]
+					? $this
+					: ($isValid ? $this->getValues($types[0]) : null),
+				isset($params[1]) && $isValid
+					? $this->getValues($types[1])
+					: null
+			);
 		}
 	}
 

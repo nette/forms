@@ -19,7 +19,7 @@ use Nette;
  */
 class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 {
-	/** @var callable[]&(callable(SubmitButton): void)[]; Occurs when the button is clicked and form is successfully validated */
+	/** @var callable[]&((callable(Nette\Forms\Form|SubmitButton, array|object): void)|(callable(array|object): void))[]; Occurs when the button is clicked and form is successfully validated */
 	public $onClick = [];
 
 	/** @var callable[]&(callable(SubmitButton): void)[]; Occurs when the button is clicked and form is not validated */

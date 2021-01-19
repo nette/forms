@@ -82,7 +82,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @internal protection token ID */
 	public const PROTECTOR_ID = '_token_';
 
-	/** @var callable[]&(callable(Form, mixed): void)[]; Occurs when the form is submitted and successfully validated */
+	/** @var callable[]&((callable(Form, array|object): void)|(callable(array|object): void))[]; Occurs when the form is submitted and successfully validated */
 	public $onSuccess = [];
 
 	/** @var callable[]&(callable(Form): void)[]; Occurs when the form is submitted and is not valid */
@@ -443,10 +443,19 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		foreach ($handlers as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$values = isset($params[1])
-				? $this->getValues($params[1]->getType() instanceof \ReflectionNamedType ? $params[1]->getType()->getName() : null)
-				: null;
-			$handler($button ?: $this, $values);
+			$types = array_map([Nette\Utils\Reflection::class, 'getParameterType'], $params);
+			if (!isset($types[0])) {
+				$arg0 = $button ?: $this;
+			} elseif ($this instanceof $types[0]) {
+				$arg0 = $this;
+			} elseif ($button instanceof $types[0]) {
+				$arg0 = $button;
+			} else {
+				$arg0 = $this->getValues($types[0]);
+			}
+			$arg1 = isset($params[1]) ? $this->getValues($types[1]) : null;
+			$handler($arg0, $arg1);
+
 			if (!$this->isValid()) {
 				return;
 			}
