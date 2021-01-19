@@ -131,8 +131,8 @@ final class FormMacros extends MacroSet
 		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
-			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; if ($_label = $_input' : 'if ($_label = end($this->global->formsStack)[%0.word]')
-				. '->%1.raw) echo $_label'
+			($name[0] === '$' ? '$ʟ_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; if ($ʟ_label = $ʟ_input' : 'if ($ʟ_label = end($this->global->formsStack)[%0.word]')
+				. '->%1.raw) echo $ʟ_label'
 				. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : ''),
 			$name,
 			$words ? ('getLabelPart(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')') : 'getLabel()'
@@ -147,7 +147,7 @@ final class FormMacros extends MacroSet
 	{
 		if ($node->content != null) {
 			$node->openingCode = rtrim($node->openingCode, '?> ') . '->startTag() ?>';
-			return $writer->write('if ($_label) echo $_label->endTag()');
+			return $writer->write('if ($ʟ_label) echo $ʟ_label->endTag()');
 		}
 	}
 
@@ -167,7 +167,7 @@ final class FormMacros extends MacroSet
 		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
-			($name[0] === '$' ? '$_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; echo $_input' : 'echo end($this->global->formsStack)[%0.word]')
+			($name[0] === '$' ? '$ʟ_input = $_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; echo $ʟ_input' : 'echo end($this->global->formsStack)[%0.word]')
 				. '->%1.raw'
 				. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : '')
 				. " /* line $node->startLine */",
@@ -209,8 +209,8 @@ final class FormMacros extends MacroSet
 		} else {
 			$method = $tagName === 'label' ? 'getLabel' : 'getControl';
 			return $writer->write(
-				'$_input = ' . ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
-					. 'end($this->global->formsStack)[%0.word]; echo $_input->%1.raw'
+				'$ʟ_input = $_input = ' . ($name[0] === '$' ? 'is_object(%0.word) ? %0.word : ' : '')
+					. 'end($this->global->formsStack)[%0.word]; echo $ʟ_input->%1.raw'
 					. ($definedHtmlAttributes ? '->addAttributes(%2.var)' : '') . '->attributes()',
 				$name,
 				$method . 'Part(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')',
@@ -237,14 +237,14 @@ final class FormMacros extends MacroSet
 			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false); ?>';
 		} elseif ($tagName === 'label') {
 			if ($node->htmlNode->empty) {
-				$node->innerContent = '<?php echo $_input->getLabelPart()->getHtml() ?>';
+				$node->innerContent = '<?php echo $ʟ_input->getLabelPart()->getHtml() ?>';
 			}
 		} elseif ($tagName === 'button') {
 			if ($node->htmlNode->empty) {
-				$node->innerContent = '<?php echo htmlspecialchars($_input->getCaption()) ?>';
+				$node->innerContent = '<?php echo htmlspecialchars($ʟ_input->getCaption()) ?>';
 			}
 		} else { // select, textarea
-			$node->innerContent = '<?php echo $_input->getControl()->getHtml() ?>';
+			$node->innerContent = '<?php echo $ʟ_input->getControl()->getHtml() ?>';
 		}
 	}
 
@@ -260,9 +260,9 @@ final class FormMacros extends MacroSet
 		$name = $node->tokenizer->fetchWord();
 		$node->replaced = true;
 		if (!$name) {
-			return $writer->write('echo %escape($_input->getError());');
+			return $writer->write('echo %escape($ʟ_input->getError());');
 		} elseif ($name[0] === '$') {
-			return $writer->write('$_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; echo %escape($_input->getError());', $name);
+			return $writer->write('$ʟ_input = is_object(%0.word) ? %0.word : end($this->global->formsStack)[%0.word]; echo %escape($ʟ_input->getError());', $name);
 		} else {
 			return $writer->write('echo %escape(end($this->global->formsStack)[%0.word]->getError());', $name);
 		}

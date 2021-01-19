@@ -5,22 +5,22 @@
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false);
 		echo '>
 	<button';
-		$_input = end($this->global->formsStack)["send"];
-		echo $_input->getControlPart()->attributes();
+		$ʟ_input = $_input = end($this->global->formsStack)["send"];
+		echo $ʟ_input->getControlPart()->attributes();
 		echo '>
 		description of button
 	</button>
 
 	<button';
-		$_input = end($this->global->formsStack)["send"];
-		echo $_input->getControlPart()->attributes();
+		$ʟ_input = $_input = end($this->global->formsStack)["send"];
+		echo $ʟ_input->getControlPart()->attributes();
 		echo '></button>
 
 	<button';
-		$_input = end($this->global->formsStack)["send"];
-		echo $_input->getControlPart()->attributes();
+		$ʟ_input = $_input = end($this->global->formsStack)["send"];
+		echo $ʟ_input->getControlPart()->attributes();
 		echo '>';
-		echo htmlspecialchars($_input->getCaption());
+		echo htmlspecialchars($ʟ_input->getCaption());
 		echo '</button>
 ';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false);
