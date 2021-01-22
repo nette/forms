@@ -11,17 +11,17 @@ namespace Nette\Forms;
 
 if (false) {
 	/** @deprecated use Nette\Forms\Control */
-	class IControl
+	class IControl extends Control
 	{
 	}
 
 	/** @deprecated use Nette\Forms\FormRenderer */
-	class IFormRenderer
+	class IFormRenderer extends FormRenderer
 	{
 	}
 
 	/** @deprecated use Nette\Forms\SubmitterControl */
-	class ISubmitterControl
+	class ISubmitterControl extends SubmitterControl
 	{
 	}
 } elseif (!interface_exists(IControl::class)) {
