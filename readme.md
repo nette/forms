@@ -2,7 +2,7 @@ Nette Forms: greatly facilitates web forms
 ==========================================
 
 [![Downloads this Month](https://img.shields.io/packagist/dm/nette/forms.svg)](https://packagist.org/packages/nette/forms)
-[![Build Status](https://travis-ci.org/nette/forms.svg?branch=master)](https://travis-ci.org/nette/forms)
+[![Tests](https://github.com/nette/forms/workflows/Tests/badge.svg?branch=master)](https://github.com/nette/forms/actions)
 [![Coverage Status](https://coveralls.io/repos/github/nette/forms/badge.svg?branch=master)](https://coveralls.io/github/nette/forms?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/nette/forms/v/stable)](https://github.com/nette/forms/releases)
 [![License](https://img.shields.io/badge/license-New%20BSD-blue.svg)](https://github.com/nette/forms/blob/master/license.md)
