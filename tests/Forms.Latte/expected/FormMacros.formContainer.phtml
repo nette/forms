@@ -1,7 +1,6 @@
 <?php
 %A%
-		/* line 1 */
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []);
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []) /* line 1 */;
 		echo '
 <table>
 	<tr>
@@ -13,7 +12,7 @@
 		echo '</td>
 	</tr>
 ';
-		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["cont1"];
+		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["cont1"] /* line 7 */;
 		echo '	<tr>
 		<th>';
 		if ($ʟ_label = end($this->global->formsStack)["input2"]->getLabel()) echo $ʟ_label;
@@ -34,11 +33,11 @@
 		<th>Checkboxes</th>
 		<td>
 ';
-		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["cont2"];
+		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["cont2"] /* line 19 */;
 		echo '			<ol>
 ';
 		$iterations = 0;
-		foreach ($formContainer->controls AS $name => $field) {
+		foreach ($formContainer->controls AS $name => $field) /* line 19 */ {
 			echo '				<li>';
 			$ʟ_input = $_input = is_object($field) ? $field : end($this->global->formsStack)[$field];
 			echo $ʟ_input->getControl() /* line 20 */;
@@ -63,16 +62,16 @@
 ';
 		array_pop($this->global->formsStack);
 		$formContainer = end($this->global->formsStack);
-		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["items"];
+		$this->global->formsStack[] = $formContainer = end($this->global->formsStack)["items"] /* line 29 */;
 		echo '	<tr>
 		<th>Items</th>
 		<td>
 ';
-		$items = array(1, 2, 3);
+		$items = array(1, 2, 3) /* line 33 */;
 		$iterations = 0;
-		foreach ($items as $item) {
-			if (!isset($formContainer[$item])) continue;
-			$this->global->formsStack[] = $formContainer = is_object($item) ? $item : end($this->global->formsStack)[$item];
+		foreach ($items as $item) /* line 34 */ {
+			if (!isset($formContainer[$item])) /* line 35 */ continue;
+			$this->global->formsStack[] = $formContainer = is_object($item) ? $item : end($this->global->formsStack)[$item] /* line 36 */;
 			echo '				';
 			echo end($this->global->formsStack)["input"]->getControl() /* line 37 */;
 			echo "\n";
