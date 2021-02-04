@@ -422,7 +422,7 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->validate();
 		}
 
-		if ($this->submittedBy instanceof SubmitterControl) {
+		if ($this->submittedBy instanceof Controls\SubmitButton) {
 			if ($this->isValid()) {
 				$this->invokeHandlers($this->submittedBy->onClick, $this->submittedBy);
 			} else {
@@ -668,6 +668,16 @@ class Form extends Container implements Nette\HtmlStringable
 	}
 
 
+	public function getToggles(): array
+	{
+		$toggles = [];
+		foreach ($this->getComponents(true, Controls\BaseControl::class) as $control) {
+			$toggles = $control->getRules()->getToggleStates($toggles);
+		}
+		return $toggles;
+	}
+
+
 	/********************* backend ****************d*g**/
 
 
@@ -679,15 +689,5 @@ class Form extends Container implements Nette\HtmlStringable
 			Nette\Http\Helpers::initCookie($this->httpRequest, new Nette\Http\Response);
 		}
 		return $this->httpRequest;
-	}
-
-
-	public function getToggles(): array
-	{
-		$toggles = [];
-		foreach ($this->getComponents(true, Controls\BaseControl::class) as $control) {
-			$toggles = $control->getRules()->getToggleStates($toggles);
-		}
-		return $toggles;
 	}
 }
