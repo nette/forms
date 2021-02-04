@@ -422,7 +422,7 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->validate();
 		}
 
-		if ($this->submittedBy instanceof SubmitterControl) {
+		if ($this->submittedBy instanceof Controls\SubmitButton) {
 			if ($this->isValid()) {
 				$this->invokeHandlers($this->submittedBy->onClick, $this->submittedBy);
 			} else {
