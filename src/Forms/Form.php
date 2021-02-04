@@ -82,16 +82,19 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @internal protection token ID */
 	public const PROTECTOR_ID = '_token_';
 
-	/** @var callable[]&((callable(Form, array|object): void)|(callable(array|object): void))[]; Occurs when the form is submitted and successfully validated */
+	/**
+	 * Occurs when the form is submitted and successfully validated
+	 * @var array<callable(self, array|object): void|callable(array|object): void>
+	 */
 	public $onSuccess = [];
 
-	/** @var callable[]&(callable(Form): void)[]; Occurs when the form is submitted and is not valid */
+	/** @var array<callable(self): void>  Occurs when the form is submitted and is not valid */
 	public $onError = [];
 
-	/** @var callable[]&(callable(Form): void)[]; Occurs when the form is submitted */
+	/** @var array<callable(self): void>  Occurs when the form is submitted */
 	public $onSubmit = [];
 
-	/** @var callable[]&(callable(Form): void)[]; Occurs before the form is rendered */
+	/** @var array<callable(self): void>  Occurs before the form is rendered */
 	public $onRender = [];
 
 	/** @internal @var Nette\Http\IRequest  used only by standalone form */

@@ -26,7 +26,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	private const ARRAY = 'array';
 
-	/** @var callable[]&((callable(Container, array|object|null): void)|(callable(array|object|null): void))[]; Occurs when the form was validated */
+	/**
+	 * Occurs when the form was validated
+	 * @var array<callable(self, array|object): void|callable(array|object): void>
+	 */
 	public $onValidate = [];
 
 	/** @var ControlGroup|null */
