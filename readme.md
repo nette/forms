@@ -24,7 +24,15 @@ Nette Framework puts a great effort to be safe and since forms are the most comm
 
 Documentation can be found on the [website](https://doc.nette.org/forms).
 
-If you like Nette, **[please make a donation now](https://nette.org/donate)**. Thank you!
+
+[Support Me](https://github.com/sponsors/dg)
+--------------------------------------------
+
+Do you like Nette Forms? Are you looking forward to the new features?
+
+[![Buy me a coffee](https://files.nette.org/icons/donation-3.svg)](https://github.com/sponsors/dg)
+
+Thank you!
 
 
 Installation
