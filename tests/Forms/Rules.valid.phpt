@@ -42,6 +42,44 @@ test('', function () {
 	}, Nette\InvalidArgumentException::class, 'You cannot use Form::VALID in the addRule method.');
 });
 
+test('', function () {
+	$form = new Form;
+	$form->addText('foo')
+		->addFilter(function ($value) {
+			return str_replace(' ', '', $value);
+		})
+		->addRule($form::PATTERN, 'only numbers', '\d{5}');
+
+	$form['foo']->setValue('160 00');
+	$form->validate();
+	Assert::same([], $form->getErrors());
+
+	$form['foo']->setValue('160 00 x');
+	$form->validate();
+	Assert::same(['only numbers'], $form->getErrors());
+});
+
+
+test('', function () {
+	$form = new Form;
+	$foo = $form->addText('foo');
+	$rules = $foo->getRules();
+	$rules->addFilter(
+		function ($value) {
+			return str_replace(' ', '', $value);
+		}
+	);
+	$rules->addRule($form::PATTERN, 'only numbers', '\d{5}');
+
+	$form['foo']->setValue('160 00');
+	$form->validate();
+	Assert::same([], $form->getErrors());
+
+	$form['foo']->setValue('160 00 x');
+	$form->validate();
+	Assert::same(['only numbers'], $form->getErrors());
+});
+
 
 test('', function () {
 	Assert::exception(function () {
