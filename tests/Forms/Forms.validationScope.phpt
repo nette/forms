@@ -13,7 +13,7 @@ use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
-//Tracy\Debugger::enable();
+
 $datasets = [
 	['send1', ['container', 'form', 'name', 'age', 'age2']],
 	['send2', ['form']],
@@ -24,8 +24,10 @@ $datasets = [
 
 foreach ($datasets as $case) {
 	$form = new Form;
-	$form->onValidate[] = function (Form $form) {
+	$res = [];
+	$form->onValidate[] = function (Form $form, array $vals) use (&$res) {
 		$form->addError('form');
+		$res = $vals;
 	};
 	$form->addText('name')->setRequired('name');
 
@@ -47,4 +49,5 @@ foreach ($datasets as $case) {
 	Assert::truthy($form->isSubmitted());
 	$form->validate();
 	Assert::equal($case[1], $form->getErrors());
+	Assert::equal(['name' => '', 'details' => ['age' => '', 'age2' => '']], $res);
 }

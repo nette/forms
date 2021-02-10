@@ -375,21 +375,6 @@ class Form extends Container implements Nette\HtmlStringable
 
 
 	/**
-	 * Returns the values submitted by the form.
-	 * @param  string|null  $returnType  'array' for array
-	 * @param  Control[]|null  $controls
-	 * @return object|array
-	 */
-	public function getValues($returnType = null, array $controls = null)
-	{
-		if ($controls === null && $this->submittedBy instanceof SubmitterControl) {
-			$controls = $this->submittedBy->getValidationScope();
-		}
-		return parent::getValues($returnType, $controls);
-	}
-
-
-	/**
 	 * Returns submitted HTTP data.
 	 * @return mixed
 	 */

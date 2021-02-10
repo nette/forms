@@ -112,20 +112,33 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function getValues($returnType = null, array $controls = null)
 	{
 		$form = $this->getForm(false);
-		if ($form && $form->isSubmitted() && !$form->isValid()) {
-			trigger_error(__METHOD__ . '() invoked but the form is not valid.', E_USER_WARNING);
+		if ($form && ($submitter = $form->isSubmitted())) {
+			if (!$this->isValid()) {
+				trigger_error(__METHOD__ . '() invoked but the form is not valid.', E_USER_WARNING);
+			}
+			if ($controls === null && $submitter instanceof SubmitterControl) {
+				$controls = $submitter->getValidationScope();
+			}
 		}
+		$returnType = $returnType === true ? self::ARRAY : $returnType;
+		return $this->getUnsafeValues($returnType, $controls);
+	}
 
-		if ($returnType === self::ARRAY || $returnType === true || $this->mappedType === self::ARRAY) {
-			$returnType = self::ARRAY;
-			$obj = new \stdClass;
 
-		} elseif (is_object($returnType)) {
+	/**
+	 * Returns the potentially unvalidated values submitted by the form.
+	 * @param  string|object|null  $returnType  'array' for array
+	 * @param  Control[]|null  $controls
+	 * @return object|array
+	 */
+	public function getUnsafeValues($returnType, array $controls = null)
+	{
+		if (is_object($returnType)) {
 			$obj = $returnType;
 
 		} else {
 			$returnType = ($returnType ?? $this->mappedType ?? ArrayHash::class);
-			$obj = new $returnType;
+			$obj = $returnType === self::ARRAY ? new \stdClass : new $returnType;
 		}
 
 		$rc = new \ReflectionClass($obj);
@@ -142,7 +155,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$type = $returnType === self::ARRAY && !$control->mappedType
 					? self::ARRAY
 					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
-				$obj->$name = $control->getValues($type, $controls);
+				$obj->$name = $control->getUnsafeValues($type, $controls);
 			}
 		}
 
@@ -195,8 +208,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
 			$types = array_map([Nette\Utils\Reflection::class, 'getParameterType'], $params);
 			$args = isset($types[0]) && !$this instanceof $types[0]
-				? [$this->getValues($types[0])]
-				: [$this, isset($params[1]) ? $this->getValues($types[1]) : null];
+				? [$this->getUnsafeValues($types[0])]
+				: [$this, isset($params[1]) ? $this->getUnsafeValues($types[1]) : null];
 			$handler(...$args);
 		}
 	}
