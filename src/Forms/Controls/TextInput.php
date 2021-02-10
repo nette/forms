@@ -70,7 +70,7 @@ class TextInput extends TextBase
 	{
 		foreach ($this->getRules() as $rule) {
 			if (!$rule->canExport() && !$rule->branch) {
-				return $this;
+				return parent::addRule($validator, $errorMessage, $arg);
 			}
 		}
 
