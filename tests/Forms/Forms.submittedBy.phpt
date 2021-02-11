@@ -17,6 +17,7 @@ before(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 	$_GET = $_POST = $_FILES = [];
+	Form::initialize(true);
 });
 
 

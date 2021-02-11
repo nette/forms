@@ -14,6 +14,11 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+before(function () {
+	Form::initialize(true);
+});
+
+
 test('error handling', function () {
 	$form = new Form;
 	$input = $form->addText('text')

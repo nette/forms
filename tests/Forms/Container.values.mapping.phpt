@@ -64,6 +64,8 @@ $_POST = [
 
 function createForm(): Form
 {
+	Form::initialize(true);
+
 	$form = new Form;
 	$form->addText('title');
 

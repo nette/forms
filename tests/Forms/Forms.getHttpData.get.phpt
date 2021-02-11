@@ -16,6 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 before(function () {
 	$_SERVER['REQUEST_METHOD'] = 'GET';
 	$_GET = $_POST = $_FILES = [];
+	Form::initialize(true);
 });
 
 
