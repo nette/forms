@@ -26,6 +26,17 @@ class FormsExtension extends Nette\DI\CompilerExtension
 	}
 
 
+	public function beforeCompile()
+	{
+		$builder = $this->getContainerBuilder();
+
+		if ($builder->findByType(Nette\Http\IRequest::class)) {
+			$builder->addDefinition($this->prefix('factory'))
+				->setFactory(Nette\Forms\FormFactory::class);
+		}
+	}
+
+
 	public function afterCompile(Nette\PhpGenerator\ClassType $class)
 	{
 		$initialize = $this->initialization ?? $class->getMethod('initialize');

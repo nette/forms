@@ -52,3 +52,18 @@ Assert::exception(function () {
 
 	eval($compiler->addConfig($config)->setClassName('Container2')->compile());
 }, Nette\InvalidArgumentException::class, 'Constant Nette\Forms\Form::Foo\Bar or constant Foo\Bar does not exist.');
+
+
+test('form factory', function () {
+	$compiler = new DI\Compiler;
+	$compiler->addExtension('http', new Nette\Bridges\HttpDI\HttpExtension);
+	$compiler->addExtension('forms', new FormsExtension);
+
+	eval($compiler->setClassName('Container3')->compile());
+
+	$container = new Container3;
+	$container->initialize();
+	$factory = $container->getByType(Nette\Forms\FormFactory::class);
+	$form = $factory->createForm();
+	Assert::type(Form::class, $form);
+});

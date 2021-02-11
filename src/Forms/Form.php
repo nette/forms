@@ -666,6 +666,13 @@ class Form extends Container implements Nette\HtmlStringable
 	/********************* backend ****************d*g**/
 
 
+	/** @internal */
+	public function setHttpRequest(Nette\Http\IRequest $request)
+	{
+		$this->httpRequest = $request;
+	}
+
+
 	private function getHttpRequest(): Nette\Http\IRequest
 	{
 		if (!$this->httpRequest) {
