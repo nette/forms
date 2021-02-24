@@ -143,11 +143,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		$rc = new \ReflectionClass($obj);
 		foreach ($this->getComponents() as $name => $control) {
+			$allowed = $controls === null || in_array($control, $controls, true);
 			$name = (string) $name;
 			if (
 				$control instanceof Control
+				&& $allowed
 				&& !$control->isOmitted()
-				&& ($controls === null || in_array($control, $controls, true))
 			) {
 				$obj->$name = $control->getValue();
 
@@ -155,7 +156,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$type = $returnType === self::ARRAY && !$control->mappedType
 					? self::ARRAY
 					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
-				$obj->$name = $control->getUnsafeValues($type, $controls);
+				$obj->$name = $control->getUnsafeValues($type, $allowed ? null : $controls);
 			}
 		}
 

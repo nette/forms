@@ -345,7 +345,25 @@ test('submitted form + setValidationScope() + getValues(true)', function () {
 	$_POST['send'] = '';
 
 	$form = createForm();
-	$form->addSubmit('send')->setValidationScope([$form['title'], $form['first']['second']['city']]);
+	$form->addSubmit('send')->setValidationScope([$form['title'], $form['first']['age']]);
+
+	Assert::truthy($form->isSubmitted());
+	Assert::equal(hydrate(FormData::class, [
+		'title' => 'sent title',
+		'first' => ArrayHash::from([
+			'age' => 999,
+			'second' => ArrayHash::from([]),
+		]),
+	]), $form->getValues(FormData::class));
+});
+
+
+test('submitted form + setValidationScope() + getValues(true)', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST['send'] = '';
+
+	$form = createForm();
+	$form->addSubmit('send')->setValidationScope([$form['title'], $form['first']['second']]);
 
 	Assert::truthy($form->isSubmitted());
 	Assert::equal(hydrate(FormData::class, [
