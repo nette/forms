@@ -30,19 +30,16 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Occurs when the form was validated
 	 * @var array<callable(self, array|object): void|callable(array|object): void>
 	 */
-	public $onValidate = [];
+	public iterable $onValidate = [];
 
-	/** @var ControlGroup|null */
-	protected $currentGroup;
+	protected ?ControlGroup $currentGroup = null;
 
 	/** @var callable[]  extension methods */
-	private static $extMethods = [];
+	private static array $extMethods = [];
 
-	/** @var ?bool */
-	private $validated = false;
+	private ?bool $validated = false;
 
-	/** @var ?string */
-	private $mappedType;
+	private ?string $mappedType = null;
 
 
 	/********************* data exchange ****************d*g**/

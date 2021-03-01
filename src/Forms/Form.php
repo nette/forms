@@ -86,49 +86,41 @@ class Form extends Container implements Nette\HtmlStringable
 	 * Occurs when the form is submitted and successfully validated
 	 * @var array<callable(self, array|object): void|callable(array|object): void>
 	 */
-	public $onSuccess = [];
+	public iterable $onSuccess = [];
 
 	/** @var array<callable(self): void>  Occurs when the form is submitted and is not valid */
-	public $onError = [];
+	public iterable $onError = [];
 
 	/** @var array<callable(self): void>  Occurs when the form is submitted */
-	public $onSubmit = [];
+	public iterable $onSubmit = [];
 
 	/** @var array<callable(self): void>  Occurs before the form is rendered */
-	public $onRender = [];
+	public iterable $onRender = [];
 
-	/** @internal @var Nette\Http\IRequest  used only by standalone form */
-	public $httpRequest;
+	/** @internal used only by standalone form */
+	public Nette\Http\IRequest $httpRequest;
 
-	/** @var bool */
-	protected $crossOrigin = false;
+	protected bool $crossOrigin = false;
 
-	/** @var Nette\Http\IRequest */
-	private static $defaultHttpRequest;
+	private static ?Nette\Http\IRequest $defaultHttpRequest = null;
 
-	/** @var SubmitterControl|bool */
-	private $submittedBy;
+	private SubmitterControl|bool $submittedBy;
 
-	/** @var array|null */
-	private $httpData;
+	private array $httpData;
 
-	/** @var Html  element <form> */
-	private $element;
+	/** element <form> */
+	private Html $element;
 
-	/** @var FormRenderer */
-	private $renderer;
+	private FormRenderer $renderer;
 
-	/** @var Nette\Localization\Translator */
-	private $translator;
+	private ?Nette\Localization\Translator $translator = null;
 
 	/** @var ControlGroup[] */
-	private $groups = [];
+	private array $groups = [];
 
-	/** @var array */
-	private $errors = [];
+	private array $errors = [];
 
-	/** @var bool */
-	private $beforeRenderCalled;
+	private bool $beforeRenderCalled = false;
 
 
 	/**
@@ -187,7 +179,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function setMethod(string $method)
 	{
-		if ($this->httpData !== null) {
+		if (isset($this->httpData)) {
 			throw new Nette\InvalidStateException(__METHOD__ . '() must be called until the form is empty.');
 		}
 		$this->getElementPrototype()->method = strtolower($method);
@@ -350,7 +342,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function isSubmitted()
 	{
-		if ($this->httpData === null) {
+		if (!isset($this->httpData)) {
 			$this->getHttpData();
 		}
 		return $this->submittedBy;
@@ -384,7 +376,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function getHttpData(int $type = null, string $htmlName = null)
 	{
-		if ($this->httpData === null) {
+		if (!isset($this->httpData)) {
 			if (!$this->isAnchored()) {
 				throw new Nette\InvalidStateException('Form is not anchored and therefore can not determine whether it was submitted.');
 			}
@@ -586,7 +578,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function getElementPrototype(): Html
 	{
-		if (!$this->element) {
+		if (!isset($this->element)) {
 			$this->element = Html::el('form');
 			$this->element->action = ''; // RFC 1808 -> empty uri means 'this'
 			$this->element->method = self::POST;
@@ -611,7 +603,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function getRenderer(): FormRenderer
 	{
-		if ($this->renderer === null) {
+		if (!isset($this->renderer)) {
 			$this->renderer = new Rendering\DefaultFormRenderer;
 		}
 		return $this->renderer;
@@ -698,7 +690,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	private function getHttpRequest(): Nette\Http\IRequest
 	{
-		if (!$this->httpRequest) {
+		if (!isset($this->httpRequest)) {
 			self::initialize();
 			$this->httpRequest = self::$defaultHttpRequest;
 		}

@@ -20,11 +20,9 @@ use Nette;
  */
 abstract class ChoiceControl extends BaseControl
 {
-	/** @var bool */
-	private $checkDefaultValue = true;
+	private bool $checkDefaultValue = true;
 
-	/** @var array */
-	private $items = [];
+	private array $items = [];
 
 
 	public function __construct($label = null, array $items = null)

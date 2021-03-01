@@ -24,20 +24,16 @@ class Rules implements \IteratorAggregate
 		Form::BLANK => Form::FILLED,
 	];
 
-	/** @var Rule|null */
-	private $required;
+	private ?Rule $required = null;
 
 	/** @var Rule[] */
-	private $rules = [];
+	private array $rules = [];
 
-	/** @var Rules */
-	private $parent;
+	private Rules $parent;
 
-	/** @var array */
-	private $toggles = [];
+	private array $toggles = [];
 
-	/** @var Control */
-	private $control;
+	private Control $control;
 
 
 	public function __construct(Control $control)
