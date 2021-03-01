@@ -70,8 +70,8 @@ class RadioList extends ChoiceControl
 					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
 				]),
 				['for:' => $ids] + $this->itemLabel->attrs,
-				$this->separator
-			)
+				$this->separator,
+			),
 		);
 	}
 

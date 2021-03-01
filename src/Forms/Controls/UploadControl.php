@@ -89,9 +89,11 @@ class UploadControl extends BaseControl
 	{
 		return $this->value instanceof FileUpload
 			? $this->value->isOk()
-			: $this->value && array_reduce($this->value, function (bool $carry, FileUpload $fileUpload): bool {
-				return $carry && $fileUpload->isOk();
-			}, true);
+			: $this->value && array_reduce(
+				$this->value,
+				fn(bool $carry, FileUpload $fileUpload): bool => $carry && $fileUpload->isOk(),
+				true,
+			);
 	}
 
 

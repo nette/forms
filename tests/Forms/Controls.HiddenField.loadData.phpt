@@ -81,9 +81,7 @@ test('object from string by filter', function () {
 	$_POST = ['text' => (string) $date];
 	$form = new Form;
 	$input = $form->addHidden('text');
-	$input->addFilter(function ($value) {
-		return $value ? new \Nette\Utils\DateTime($value) : $value;
-	});
+	$input->addFilter(fn($value) => $value ? new \Nette\Utils\DateTime($value) : $value);
 
 	Assert::same((string) $date, $input->getValue());
 	$input->validate();

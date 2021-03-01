@@ -64,7 +64,7 @@ class Validator
 			trigger_error(
 				"Missing validation message for control '{$rule->control->getName()}'"
 				. (is_string($rule->validator) ? " (validator '{$rule->validator}')." : '.'),
-				E_USER_WARNING
+				E_USER_WARNING,
 			);
 		}
 
@@ -172,9 +172,7 @@ class Validator
 	 */
 	public static function validateRange(Control $control, array $range): bool
 	{
-		$range = array_map(function ($v) {
-			return $v === '' ? null : $v;
-		}, $range);
+		$range = array_map(fn($v) => $v === '' ? null : $v, $range);
 		return Validators::isInRange($control->getValue(), $range);
 	}
 
