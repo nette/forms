@@ -32,17 +32,14 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public $onValidate = [];
 
-	/** @var ControlGroup|null */
-	protected $currentGroup;
+	protected ?ControlGroup $currentGroup = null;
 
 	/** @var callable[]  extension methods */
-	private static $extMethods = [];
+	private static array $extMethods = [];
 
-	/** @var bool */
-	private $validated;
+	private bool $validated = false;
 
-	/** @var ?string */
-	private $mappedType;
+	private ?string $mappedType = null;
 
 
 	/********************* data exchange ****************d*g**/

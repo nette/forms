@@ -19,14 +19,12 @@ use Nette\Utils\Strings;
  */
 abstract class TextBase extends BaseControl
 {
-	/** @var string */
-	protected $emptyValue = '';
+	protected string $emptyValue = '';
 
-	/** @var mixed unfiltered submitted value */
-	protected $rawValue = '';
+	/** unfiltered submitted value */
+	protected mixed $rawValue = '';
 
-	/** @var bool */
-	private $nullable;
+	private bool $nullable = false;
 
 
 	/**

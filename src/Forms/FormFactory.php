@@ -19,8 +19,7 @@ final class FormFactory
 {
 	use Nette\StaticClass;
 
-	/** @var Nette\Http\IRequest */
-	private $httpRequest;
+	private Nette\Http\IRequest $httpRequest;
 
 
 	public function __construct(Nette\Http\IRequest $httpRequest)

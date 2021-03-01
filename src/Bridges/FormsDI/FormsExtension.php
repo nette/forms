@@ -21,7 +21,7 @@ class FormsExtension extends Nette\DI\CompilerExtension
 	{
 		$this->config = new class {
 			/** @var string[] */
-			public $messages = [];
+			public array $messages = [];
 		};
 	}
 

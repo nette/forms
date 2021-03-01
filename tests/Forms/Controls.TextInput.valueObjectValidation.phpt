@@ -15,8 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class ValueObject
 {
-	/** @var string */
-	private $value;
+	private string $value;
 
 
 	public function __construct(string $value)
