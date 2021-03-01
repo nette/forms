@@ -221,13 +221,13 @@ class Rules implements \IteratorAggregate
 			$toggles[$id] = ($success xor !$hide) || !empty($toggles[$id]);
 		}
 
-		$emptyOptional = $emptyOptional ?? (!$this->isRequired() && !$this->control->isFilled());
+		$emptyOptional ??= (!$this->isRequired() && !$this->control->isFilled());
 		foreach ($this as $rule) {
 			if ($rule->branch) {
 				$toggles = $rule->branch->getToggleStates(
 					$toggles,
 					$success && static::validateRule($rule),
-					$rule->validator === Form::BLANK ? false : $emptyOptional
+					$rule->validator === Form::BLANK ? false : $emptyOptional,
 				);
 			} elseif (!$emptyOptional || $rule->validator === Form::FILLED) {
 				$success = $success && static::validateRule($rule);
@@ -242,7 +242,7 @@ class Rules implements \IteratorAggregate
 	 */
 	public function validate(bool $emptyOptional = null): bool
 	{
-		$emptyOptional = $emptyOptional ?? (!$this->isRequired() && !$this->control->isFilled());
+		$emptyOptional ??= (!$this->isRequired() && !$this->control->isFilled());
 		foreach ($this as $rule) {
 			if (!$rule->branch && $emptyOptional && $rule->validator !== Form::FILLED) {
 				continue;

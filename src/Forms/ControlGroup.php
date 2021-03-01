@@ -47,7 +47,7 @@ class ControlGroup
 				$this->add(...$item);
 
 			} else {
-				$type = is_object($item) ? get_class($item) : gettype($item);
+				$type = is_object($item) ? $item::class : gettype($item);
 				throw new Nette\InvalidArgumentException("Control or Container items expected, $type given.");
 			}
 		}

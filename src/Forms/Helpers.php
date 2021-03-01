@@ -154,7 +154,7 @@ class Helpers
 		array $items,
 		array $inputAttrs = null,
 		array $labelAttrs = null,
-		$wrapper = null
+		$wrapper = null,
 	): string {
 		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
 		[$labelAttrs, $labelTag] = self::prepareAttrs($labelAttrs, 'label');

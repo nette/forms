@@ -76,8 +76,8 @@ class CheckboxList extends MultiChoiceControl
 					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
 				]),
 				$this->itemLabel->attrs,
-				$this->separator
-			)
+				$this->separator,
+			),
 		);
 	}
 

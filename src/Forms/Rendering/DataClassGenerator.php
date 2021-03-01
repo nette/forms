@@ -31,7 +31,7 @@ final class DataClassGenerator
 
 	public function generateCode(Form $form, string $baseName = null): string
 	{
-		$baseName = $baseName ?? preg_replace('~Form$~', '', ucwords((string) $form->getName()));
+		$baseName ??= preg_replace('~Form$~', '', ucwords((string) $form->getName()));
 		return $this->processContainer($form, $baseName);
 	}
 
