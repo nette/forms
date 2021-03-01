@@ -19,11 +19,9 @@ class ControlGroup
 {
 	use Nette\SmartObject;
 
-	/** @var \SplObjectStorage */
-	protected $controls;
+	protected \SplObjectStorage $controls;
 
-	/** @var array user options */
-	private $options = [];
+	private array $options = [];
 
 
 	public function __construct()

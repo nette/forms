@@ -19,23 +19,18 @@ class Rule
 {
 	use Nette\SmartObject;
 
-	/** @var Control */
-	public $control;
+	public Control $control;
 
-	/** @var mixed */
-	public $validator;
+	public mixed $validator;
 
-	/** @var mixed */
-	public $arg;
+	public mixed $arg = null;
 
-	/** @var bool */
-	public $isNegative = false;
+	public bool $isNegative = false;
 
-	/** @var string|null */
-	public $message;
+	public object|string|null $message;
 
-	/** @var Rules|null  for conditions */
-	public $branch;
+	/** for conditions */
+	public ?Rules $branch = null;
 
 
 	/** @internal */
