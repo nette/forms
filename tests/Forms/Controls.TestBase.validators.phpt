@@ -125,7 +125,7 @@ test('', function () {
 test('', function () {
 	class MockUploadControl extends UploadControl
 	{
-		public function setValue($value)
+		public function setValue($value): static
 		{
 			$this->value = $value;
 			return $this;

@@ -40,7 +40,7 @@ class FormSecondLevel
 }
 
 
-function hydrate(string $class, array $data)
+function hydrate(string $class, array $data): object
 {
 	$obj = new $class;
 	foreach ($data as $key => $value) {

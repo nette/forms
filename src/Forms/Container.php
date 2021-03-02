@@ -47,10 +47,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with default values.
-	 * @param  array|object  $data
-	 * @return static
 	 */
-	public function setDefaults($data, bool $erase = false)
+	public function setDefaults(array|object $data, bool $erase = false): static
 	{
 		$form = $this->getForm(false);
 		if (!$form || !$form->isAnchored() || !$form->isSubmitted()) {
@@ -62,20 +60,15 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with values.
-	 * @param  array|object  $data
-	 * @return static
 	 * @internal
 	 */
-	public function setValues($data, bool $erase = false)
+	public function setValues(array|object $data, bool $erase = false): static
 	{
 		if ($data instanceof \Traversable) {
 			$values = iterator_to_array($data);
 
 		} elseif (is_object($data) || is_array($data) || $data === null) {
 			$values = (array) $data;
-
-		} else {
-			throw new Nette\InvalidArgumentException(sprintf('First parameter must be an array or object, %s given.', gettype($data)));
 		}
 
 		foreach ($this->getComponents() as $name => $control) {
@@ -88,7 +81,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				}
 
 			} elseif ($control instanceof self) {
-				if (array_key_exists($name, $values)) {
+				if (isset($values[$name])) {
 					$control->setValues($values[$name], $erase);
 
 				} elseif ($erase) {
@@ -104,9 +97,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Returns the values submitted by the form.
 	 * @param  string|object|null  $returnType  'array' for array
 	 * @param  Control[]|null  $controls
-	 * @return object|array
 	 */
-	public function getValues($returnType = null, array $controls = null)
+	public function getValues(string|object|bool $returnType = null, array $controls = null): object|array
 	{
 		$form = $this->getForm(false);
 		if ($form && ($submitter = $form->isSubmitted())) {
@@ -126,9 +118,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Returns the potentially unvalidated values submitted by the form.
 	 * @param  string|object|null  $returnType  'array' for array
 	 * @param  Control[]|null  $controls
-	 * @return object|array
 	 */
-	public function getUnsafeValues($returnType, array $controls = null)
+	public function getUnsafeValues(string|object|null $returnType, array $controls = null): object|array
 	{
 		if (is_object($returnType)) {
 			$obj = $returnType;
@@ -163,8 +154,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/** @return static */
-	public function setMappedType(string $type)
+	public function setMappedType(string $type): static
 	{
 		$this->mappedType = $type;
 		return $this;
@@ -229,8 +219,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/********************* form building ****************d*g**/
 
 
-	/** @return static */
-	public function setCurrentGroup(ControlGroup $group = null)
+	public function setCurrentGroup(ControlGroup $group = null): static
 	{
 		$this->currentGroup = $group;
 		return $this;
@@ -248,11 +237,13 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds the specified component to the IContainer.
-	 * @return static
 	 * @throws Nette\InvalidStateException
 	 */
-	public function addComponent(Nette\ComponentModel\IComponent $component, ?string $name, string $insertBefore = null)
-	{
+	public function addComponent(
+		Nette\ComponentModel\IComponent $component,
+		?string $name,
+		string $insertBefore = null,
+	): static {
 		parent::addComponent($component, $name, $insertBefore);
 		if ($this->currentGroup !== null) {
 			$this->currentGroup->add($component);
@@ -469,9 +460,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds naming container to the form.
-	 * @param  string|int  $name
 	 */
-	public function addContainer($name): self
+	public function addContainer(string|int $name): self
 	{
 		$control = new self;
 		$control->currentGroup = $this->currentGroup;

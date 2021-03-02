@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Nette\Forms\Controls;
 
-use Nette;
+use Nette\Utils\Html;
 
 
 /**
@@ -41,7 +41,7 @@ class Button extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null)
+	public function getLabel($caption = null): Html|string|null
 	{
 		return null;
 	}
@@ -51,7 +51,7 @@ class Button extends BaseControl
 	 * Generates control's HTML element.
 	 * @param  string|object  $caption
 	 */
-	public function getControl($caption = null): Nette\Utils\Html
+	public function getControl($caption = null): Html
 	{
 		$this->setOption('rendered', true);
 		$el = clone $this->control;

@@ -86,7 +86,7 @@ class Runtime
 				public $inner;
 
 
-				public function getLabel($name = null)
+				public function getLabel($name = null): Html|string|null
 				{
 					return $this->inner->getLabel()
 						? '{label ' . $this->inner->lookupPath(Form::class) . '/}'
@@ -94,7 +94,7 @@ class Runtime
 				}
 
 
-				public function getControl()
+				public function getControl(): Html|string
 				{
 					return '{input ' . $this->inner->lookupPath(Form::class) . '}';
 				}
@@ -106,7 +106,7 @@ class Runtime
 				}
 
 
-				public function getOption($key, $default = null)
+				public function getOption($key, mixed $default = null): mixed
 				{
 					return $key === 'rendered'
 						? parent::getOption($key)

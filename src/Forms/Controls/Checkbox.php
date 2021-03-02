@@ -36,10 +36,9 @@ class Checkbox extends BaseControl
 
 	/**
 	 * Sets control's value.
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		if (!is_scalar($value) && $value !== null) {
 			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", gettype($value), $this->name));
@@ -64,7 +63,7 @@ class Checkbox extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null)
+	public function getLabel($caption = null): Html|string|null
 	{
 		return null;
 	}
