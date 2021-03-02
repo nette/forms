@@ -11,6 +11,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Application\UI\Presenter;
+use Stringable;
 
 
 /**
@@ -23,10 +24,7 @@ class CsrfProtection extends HiddenField
 	public ?Nette\Http\Session $session = null;
 
 
-	/**
-	 * @param string|object  $errorMessage
-	 */
-	public function __construct($errorMessage)
+	public function __construct(string|Stringable $errorMessage = null)
 	{
 		parent::__construct();
 		$this->setOmitted()

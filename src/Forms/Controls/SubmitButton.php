@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Stringable;
 
 
 /**
@@ -31,10 +32,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 	private ?array $validationScope = null;
 
 
-	/**
-	 * @param  string|object  $caption
-	 */
-	public function __construct($caption = null)
+	public function __construct(string|Stringable $caption = null)
 	{
 		parent::__construct($caption);
 		$this->control->type = 'submit';

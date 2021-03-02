@@ -11,6 +11,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Utils\Html;
+use Stringable;
 
 
 /**
@@ -34,10 +35,7 @@ class RadioList extends ChoiceControl
 	protected Html $itemLabel;
 
 
-	/**
-	 * @param  string|object  $label
-	 */
-	public function __construct($label = null, array $items = null)
+	public function __construct(string|Stringable $label = null, array $items = null)
 	{
 		parent::__construct($label, $items);
 		$this->control->type = 'radio';

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Stringable;
 
 
 /**
@@ -23,7 +24,7 @@ class SelectBox extends ChoiceControl
 	/** of option / optgroup */
 	private array $options = [];
 
-	private string|object|false $prompt = false;
+	private string|Stringable|false $prompt = false;
 
 	private array $optionAttributes = [];
 
@@ -42,9 +43,8 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Sets first prompt item in select box.
-	 * @param  string|object|false  $prompt
 	 */
-	public function setPrompt($prompt): static
+	public function setPrompt(string|Stringable|false $prompt): static
 	{
 		$this->prompt = $prompt;
 		return $this;
@@ -53,9 +53,8 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Returns first prompt item?
-	 * @return string|object|false
 	 */
-	public function getPrompt()
+	public function getPrompt(): string|Stringable|false
 	{
 		return $this->prompt;
 	}
