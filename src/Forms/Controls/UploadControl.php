@@ -13,6 +13,7 @@ use Nette;
 use Nette\Forms;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
+use Stringable;
 
 
 /**
@@ -24,10 +25,7 @@ class UploadControl extends BaseControl
 	public const VALID = ':uploadControlValid';
 
 
-	/**
-	 * @param  string|object  $label
-	 */
-	public function __construct($label = null, bool $multiple = false)
+	public function __construct(string|Stringable $label = null, bool $multiple = false)
 	{
 		parent::__construct($label);
 		$this->control->type = 'file';
@@ -96,8 +94,11 @@ class UploadControl extends BaseControl
 	}
 
 
-	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null): static
-	{
+	public function addRule(
+		callable|string $validator,
+		string|Stringable $errorMessage = null,
+		mixed $arg = null,
+	): static {
 		if ($validator === Form::IMAGE) {
 			$this->control->accept = implode(', ', FileUpload::IMAGE_MIME_TYPES);
 		} elseif ($validator === Form::MIME_TYPE) {

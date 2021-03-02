@@ -11,6 +11,7 @@ namespace Nette\Forms;
 
 use Nette;
 use Nette\Utils\ArrayHash;
+use Stringable;
 
 
 /**
@@ -275,10 +276,13 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds single-line text input control to the form.
-	 * @param  string|object  $label
 	 */
-	public function addText(string $name, $label = null, int $cols = null, int $maxLength = null): Controls\TextInput
-	{
+	public function addText(
+		string $name,
+		string|Stringable $label = null,
+		int $cols = null,
+		int $maxLength = null,
+	): Controls\TextInput {
 		return $this[$name] = (new Controls\TextInput($label, $maxLength))
 			->setHtmlAttribute('size', $cols);
 	}
@@ -286,11 +290,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds single-line text input control used for sensitive input such as passwords.
-	 * @param  string|object  $label
 	 */
 	public function addPassword(
 		string $name,
-		$label = null,
+		string|Stringable $label = null,
 		int $cols = null,
 		int $maxLength = null,
 	): Controls\TextInput {
@@ -302,10 +305,13 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds multi-line text input control to the form.
-	 * @param  string|object  $label
 	 */
-	public function addTextArea(string $name, $label = null, int $cols = null, int $rows = null): Controls\TextArea
-	{
+	public function addTextArea(
+		string $name,
+		string|Stringable $label = null,
+		int $cols = null,
+		int $rows = null,
+	): Controls\TextArea {
 		return $this[$name] = (new Controls\TextArea($label))
 			->setHtmlAttribute('cols', $cols)->setHtmlAttribute('rows', $rows);
 	}
@@ -313,9 +319,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds input for email.
-	 * @param  string|object  $label
 	 */
-	public function addEmail(string $name, $label = null): Controls\TextInput
+	public function addEmail(string $name, string|Stringable $label = null): Controls\TextInput
 	{
 		return $this[$name] = (new Controls\TextInput($label))
 			->addRule(Form::EMAIL);
@@ -324,9 +329,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds input for integer.
-	 * @param  string|object  $label
 	 */
-	public function addInteger(string $name, $label = null): Controls\TextInput
+	public function addInteger(string $name, string|Stringable $label = null): Controls\TextInput
 	{
 		return $this[$name] = (new Controls\TextInput($label))
 			->setNullable()
@@ -336,9 +340,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds control that allows the user to upload files.
-	 * @param  string|object  $label
 	 */
-	public function addUpload(string $name, $label = null): Controls\UploadControl
+	public function addUpload(string $name, string|Stringable $label = null): Controls\UploadControl
 	{
 		return $this[$name] = new Controls\UploadControl($label, false);
 	}
@@ -346,9 +349,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds control that allows the user to upload multiple files.
-	 * @param  string|object  $label
 	 */
-	public function addMultiUpload(string $name, $label = null): Controls\UploadControl
+	public function addMultiUpload(string $name, string|Stringable $label = null): Controls\UploadControl
 	{
 		return $this[$name] = new Controls\UploadControl($label, true);
 	}
@@ -366,9 +368,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds check box control to the form.
-	 * @param  string|object  $caption
 	 */
-	public function addCheckbox(string $name, $caption = null): Controls\Checkbox
+	public function addCheckbox(string $name, string|Stringable $caption = null): Controls\Checkbox
 	{
 		return $this[$name] = new Controls\Checkbox($caption);
 	}
@@ -376,9 +377,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds set of radio button controls to the form.
-	 * @param  string|object  $label
 	 */
-	public function addRadioList(string $name, $label = null, array $items = null): Controls\RadioList
+	public function addRadioList(string $name, string|Stringable $label = null, array $items = null): Controls\RadioList
 	{
 		return $this[$name] = new Controls\RadioList($label, $items);
 	}
@@ -386,20 +386,25 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds set of checkbox controls to the form.
-	 * @param  string|object  $label
 	 */
-	public function addCheckboxList(string $name, $label = null, array $items = null): Controls\CheckboxList
-	{
+	public function addCheckboxList(
+		string $name,
+		string|Stringable $label = null,
+		array $items = null,
+	): Controls\CheckboxList {
 		return $this[$name] = new Controls\CheckboxList($label, $items);
 	}
 
 
 	/**
 	 * Adds select box control that allows single item selection.
-	 * @param  string|object  $label
 	 */
-	public function addSelect(string $name, $label = null, array $items = null, int $size = null): Controls\SelectBox
-	{
+	public function addSelect(
+		string $name,
+		string|Stringable $label = null,
+		array $items = null,
+		int $size = null,
+	): Controls\SelectBox {
 		return $this[$name] = (new Controls\SelectBox($label, $items))
 			->setHtmlAttribute('size', $size > 1 ? $size : null);
 	}
@@ -407,11 +412,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds select box control that allows multiple item selection.
-	 * @param  string|object  $label
 	 */
 	public function addMultiSelect(
 		string $name,
-		$label = null,
+		string|Stringable $label = null,
 		array $items = null,
 		int $size = null
 	): Controls\MultiSelectBox {
@@ -422,9 +426,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds button used to submit form.
-	 * @param  string|object  $caption
 	 */
-	public function addSubmit(string $name, $caption = null): Controls\SubmitButton
+	public function addSubmit(string $name, string|Stringable $caption = null): Controls\SubmitButton
 	{
 		return $this[$name] = new Controls\SubmitButton($caption);
 	}
@@ -432,9 +435,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds push buttons with no default behavior.
-	 * @param  string|object  $caption
 	 */
-	public function addButton(string $name, $caption = null): Controls\Button
+	public function addButton(string $name, string|Stringable $caption = null): Controls\Button
 	{
 		return $this[$name] = new Controls\Button($caption);
 	}
