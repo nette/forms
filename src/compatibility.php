@@ -14,18 +14,24 @@ if (false) {
 	class IControl extends Control
 	{
 	}
+} elseif (!interface_exists(IControl::class)) {
+	class_alias(Control::class, IControl::class);
+}
 
+if (false) {
 	/** @deprecated use Nette\Forms\FormRenderer */
 	class IFormRenderer extends FormRenderer
 	{
 	}
+} elseif (!interface_exists(IFormRenderer::class)) {
+	class_alias(FormRenderer::class, IFormRenderer::class);
+}
 
+if (false) {
 	/** @deprecated use Nette\Forms\SubmitterControl */
 	class ISubmitterControl extends SubmitterControl
 	{
 	}
-} elseif (!interface_exists(IControl::class)) {
-	class_alias(Control::class, IControl::class);
-	class_alias(FormRenderer::class, IFormRenderer::class);
+} elseif (!interface_exists(ISubmitterControl::class)) {
 	class_alias(SubmitterControl::class, ISubmitterControl::class);
 }
