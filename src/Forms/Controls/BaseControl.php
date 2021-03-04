@@ -253,8 +253,11 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 		$label = clone $this->label;
 		$label->for = $this->getHtmlId();
 		$caption ??= $this->caption;
-		$translator = $this->getForm()->getTranslator();
-		$label->setText($translator && !$caption instanceof Nette\HtmlStringable ? $translator->translate($caption) : $caption);
+		if (!$caption instanceof Nette\HtmlStringable) {
+			$translator = $this->getForm()->getTranslator();
+			$caption = $translator ? $translator->translate($caption) : (string) $caption;
+		}
+		$label->setText($caption);
 		return $label;
 	}
 
