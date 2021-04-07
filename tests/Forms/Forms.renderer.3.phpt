@@ -18,6 +18,7 @@ $form = new Nette\Forms\Form;
 $form->addHidden('userid');
 $form->addSubmit('submit', 'Send');
 
+$form->onSuccess[] = function () {};
 $form->fireEvents();
 
 Assert::match('<form action="" method="post">
