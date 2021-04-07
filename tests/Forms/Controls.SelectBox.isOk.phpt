@@ -48,5 +48,6 @@ Form::initialize(true);
 Validator::$messages[Nette\Forms\Controls\SelectBox::VALID] = 'SelectBox "%label" must be filled.';
 $form = new Form;
 $form->addSelect('foo', 'Foo', ['bar' => 'Bar']);
+$form->onSuccess[] = function () {};
 $form->fireEvents();
 Assert::same(['SelectBox "Foo" must be filled.'], $form->getErrors());

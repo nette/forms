@@ -22,6 +22,7 @@ $form = new Form;
 
 $input = $form->addProtection('Security token did not match. Possible CSRF attack.');
 
+$form->onSuccess[] = function () {};
 $form->fireEvents();
 
 Assert::same(['This field is required.'], $form->getErrors());

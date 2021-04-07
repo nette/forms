@@ -124,6 +124,7 @@ $defaults = [
 ];
 
 $form->setDefaults($defaults);
+$form->onSuccess[] = function () {};
 $form->fireEvents();
 
 Assert::matchFile(__DIR__ . '/Forms.renderer.1.expect', $form->__toString(true));

@@ -410,7 +410,10 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->validate();
 		}
 
+		$handled = count($this->onSuccess ?? []) || count($this->onSubmit ?? []);
+
 		if ($this->submittedBy instanceof Controls\SubmitButton) {
+			$handled = $handled || count($this->submittedBy->onClick ?? []);
 			if ($this->isValid()) {
 				$this->invokeHandlers($this->submittedBy->onClick, $this->submittedBy);
 			} else {
@@ -427,6 +430,10 @@ class Form extends Container implements Nette\HtmlStringable
 		}
 
 		Arrays::invoke($this->onSubmit, $this);
+
+		if (!$handled) {
+			trigger_error('Form was submitted but there are no associated handlers.', E_USER_WARNING);
+		}
 	}
 
 

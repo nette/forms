@@ -93,6 +93,7 @@ test('', function () {
 
 	$form->addError('1');
 	$form['item']->addError('2');
+	$form->onSuccess[] = function () {};
 	$form->fireEvents();
 
 	Assert::true($form->isSubmitted());
