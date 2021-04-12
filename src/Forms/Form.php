@@ -227,8 +227,9 @@ class Form extends Container implements Nette\Utils\IHtmlString
 
 	/**
 	 * Adds fieldset group to the form.
+	 * @param  string|object  $caption
 	 */
-	public function addGroup(string $caption = null, bool $setAsCurrent = true): ControlGroup
+	public function addGroup($caption = null, bool $setAsCurrent = true): ControlGroup
 	{
 		$group = new ControlGroup;
 		$group->setOption('label', $caption);
