@@ -34,6 +34,26 @@ test('', function () {
 });
 
 
+test('<button>', function () {
+	$form = new Form;
+	$input = $form->addButton('button', 'Caption');
+	$input->renderAsButton();
+
+	Assert::same('<button type="button" name="button">Caption</button>', (string) $input->getControl());
+	Assert::same('<button type="button" name="button">Another label</button>', (string) $input->getControl('Another label'));
+});
+
+
+test('Html', function () {
+	$form = new Form;
+	$input = $form->addButton('button', Html::el('b', 'Caption'));
+
+	Assert::same('<button type="button" name="button"><b>Caption</b></button>', (string) $input->getControl());
+	Assert::same('<input type="button" name="button" value="Another caption">', (string) $input->getControl('Another caption'));
+	Assert::same('<button type="button" name="button"><b>Another label</b></button>', (string) $input->getControl(Html::el('b', 'Another label')));
+});
+
+
 test('translator', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption');
@@ -49,8 +69,8 @@ test('Html with translator', function () {
 	$input = $form->addButton('button', Html::el('b', 'Caption'));
 	$input->setTranslator(new Translator);
 
-	Assert::same('<input type="button" name="button" value="<b>Caption</b>">', (string) $input->getControl());
-	Assert::same('<input type="button" name="button" value="<b>Another label</b>">', (string) $input->getControl(Html::el('b', 'Another label')));
+	Assert::same('<button type="button" name="button"><b>Caption</b></button>', (string) $input->getControl());
+	Assert::same('<button type="button" name="button"><b>Another label</b></button>', (string) $input->getControl(Html::el('b', 'Another label')));
 });
 
 

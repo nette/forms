@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Nette\Forms\Controls;
 
-use Nette;
+use Nette\Utils\Html;
 
 
 /**
@@ -47,18 +47,31 @@ class Button extends BaseControl
 	}
 
 
+	/** @return static */
+	public function renderAsButton(bool $state = true)
+	{
+		$this->control->setName($state ? 'button' : 'input');
+		return $this;
+	}
+
+
 	/**
 	 * Generates control's HTML element.
 	 * @param  string|object  $caption
 	 */
-	public function getControl($caption = null): Nette\Utils\Html
+	public function getControl($caption = null): Html
 	{
 		$this->setOption('rendered', true);
-		$el = clone $this->control;
-		return $el->addAttributes([
+		$caption = $this->translate($caption ?? $this->getCaption());
+		$el = (clone $this->control)->addAttributes([
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
-			'value' => $this->translate($caption ?? $this->getCaption()),
 		]);
+		if ($caption instanceof Html || $el->getName() === 'button') {
+			$el->setName('button')->setText($caption);
+		} else {
+			$el->value = $caption;
+		}
+		return $el;
 	}
 }
