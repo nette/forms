@@ -564,7 +564,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	public static function extensionMethod(string $name, /*callable*/ $callback): void
 	{
-		if (strpos($name, '::') !== false) { // back compatibility
+		if (str_contains($name, '::')) { // back compatibility
 			[, $name] = explode('::', $name);
 		}
 		self::$extMethods[$name][static::class] = $callback;
