@@ -307,6 +307,31 @@
 	 * Display modal window.
 	 */
 	Nette.showModal = function(message, onclose) {
+		var dialog = document.createElement('dialog'),
+			ua = navigator.userAgentData;
+
+		if (ua && dialog.showModal
+			&& ua.brands.some(function(item) { return item.brand === 'Opera' || (item.brand === 'Chromium' && ua.mobile); })
+		) {
+			var style = document.createElement('style');
+			style.innerText = '.netteFormsModal { text-align: center } .netteFormsModal button { padding: .1em 2em }';
+
+			var button = document.createElement('button');
+			button.innerText = 'OK';
+			button.onclick = function () {
+				dialog.remove();
+				onclose();
+			};
+
+			dialog.setAttribute('class', 'netteFormsModal');
+			dialog.innerText = message + '\n\n';
+			dialog.appendChild(style);
+			dialog.appendChild(button);
+			document.body.appendChild(dialog);
+			dialog.showModal();
+			return;
+		}
+
 		alert(message);
 		onclose();
 	};
