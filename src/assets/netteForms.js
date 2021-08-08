@@ -34,7 +34,7 @@
 	var toggleListeners = new window.WeakMap();
 
 	Nette.formErrors = [];
-	Nette.version = '3.0';
+	Nette.version = '3.3.0';
 	Nette.invalidNumberMessage = 'Please enter a valid value.';
 
 
