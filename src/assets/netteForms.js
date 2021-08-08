@@ -294,12 +294,21 @@
 		}
 
 		if (messages.length) {
-			alert(messages.join('\n'));
-
-			if (focusElem) {
-				focusElem.focus();
-			}
+			Nette.showModal(messages.join('\n'), function () {
+				if (focusElem) {
+					focusElem.focus();
+				}
+			});
 		}
+	};
+
+
+	/**
+	 * Display modal window.
+	 */
+	Nette.showModal = function(message, onclose) {
+		alert(message);
+		onclose();
 	};
 
 
