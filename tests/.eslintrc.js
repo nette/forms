@@ -11,6 +11,7 @@ module.exports = {
 	'rules': {
 		'indent': ['error', 'tab'],
 		'quotes': ['error', 'single'],
-		'semi': ['error', 'always']
+		'semi': ['error', 'always'],
+		'func-style': ['error', 'expression']
 	}
 };

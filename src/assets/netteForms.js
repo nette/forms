@@ -352,13 +352,13 @@
 				return null;
 			}
 
-			function toString(val) {
+			var toString = function(val) {
 				if (typeof val === 'number' || typeof val === 'string') {
 					return '' + val;
 				} else {
 					return val === true ? '1' : '';
 				}
-			}
+			};
 
 			val = Array.isArray(val) ? val : [val];
 			arg = Array.isArray(arg) ? arg : [arg];
