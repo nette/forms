@@ -67,7 +67,7 @@ class Button extends BaseControl
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
 		]);
-		if ($caption instanceof Html || $el->getName() === 'button') {
+		if ($caption instanceof Html || ($caption !== null && $el->getName() === 'button')) {
 			$el->setName('button')->setText($caption);
 		} else {
 			$el->value = $caption;
