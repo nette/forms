@@ -314,7 +314,7 @@
 			&& ua.brands.some(function(item) { return item.brand === 'Opera' || (item.brand === 'Chromium' && ua.mobile); })
 		) {
 			var style = document.createElement('style');
-			style.innerText = '.netteFormsModal { text-align: center } .netteFormsModal button { padding: .1em 2em }';
+			style.innerText = '.netteFormsModal { text-align: center; margin: auto; border: 2px solid black; padding: 1rem } .netteFormsModal button { padding: .1em 2em }';
 
 			var button = document.createElement('button');
 			button.innerText = 'OK';
