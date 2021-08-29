@@ -114,7 +114,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		$form = $this->getForm(false);
 		if ($form && ($submitter = $form->isSubmitted())) {
 			if (!$this->isValid()) {
-				trigger_error(__METHOD__ . '() invoked but the form is not valid.', E_USER_WARNING);
+				trigger_error(__METHOD__ . "() invoked but the form is not valid (form '{$this->getName()}').", E_USER_WARNING);
 			}
 			if ($controls === null && $submitter instanceof SubmitterControl) {
 				$controls = $submitter->getValidationScope();

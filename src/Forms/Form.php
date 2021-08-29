@@ -433,7 +433,7 @@ class Form extends Container implements Nette\HtmlStringable
 		Arrays::invoke($this->onSubmit, $this);
 
 		if (!$handled) {
-			trigger_error('Form was submitted but there are no associated handlers.', E_USER_WARNING);
+			trigger_error("Form was submitted but there are no associated handlers (form '{$this->getName()}').", E_USER_WARNING);
 		}
 	}
 
