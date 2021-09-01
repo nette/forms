@@ -38,8 +38,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/** @var callable[]  extension methods */
 	private static $extMethods = [];
 
-	/** @var bool */
-	private $validated;
+	/** @var ?bool */
+	private $validated = false;
 
 	/** @var ?string */
 	private $mappedType;
@@ -113,7 +113,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		$form = $this->getForm(false);
 		if ($form && ($submitter = $form->isSubmitted())) {
-			if (!$this->isValid()) {
+			if ($this->validated === null) {
+				throw new Nette\InvalidStateException('You cannot call getValues() during the validation process. Use getUnsafeValues() instead.');
+
+			} elseif (!$this->isValid()) {
 				trigger_error(__METHOD__ . "() invoked but the form is not valid (form '{$this->getName()}').", E_USER_WARNING);
 			}
 			if ($controls === null && $submitter instanceof SubmitterControl) {
@@ -182,7 +185,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function isValid(): bool
 	{
-		if (!$this->validated) {
+		if ($this->validated === null) {
+			throw new Nette\InvalidStateException('You cannot call isValid() during the validation process.');
+
+		} elseif (!$this->validated) {
 			if ($this->getErrors()) {
 				return false;
 			}
@@ -198,6 +204,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function validate(array $controls = null): void
 	{
+		$this->validated = null;
 		foreach ($controls ?? $this->getComponents() as $control) {
 			if ($control instanceof Control || $control instanceof self) {
 				$control->validate();
