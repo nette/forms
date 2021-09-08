@@ -106,10 +106,10 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @var Nette\Http\IRequest */
 	private static $defaultHttpRequest;
 
-	/** @var mixed or null meaning: not detected yet */
+	/** @var SubmitterControl|bool */
 	private $submittedBy;
 
-	/** @var array */
+	/** @var array|null */
 	private $httpData;
 
 	/** @var Html  element <form> */
@@ -350,7 +350,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function isSubmitted()
 	{
-		if ($this->submittedBy === null) {
+		if ($this->httpData === null) {
 			$this->getHttpData();
 		}
 		return $this->submittedBy;

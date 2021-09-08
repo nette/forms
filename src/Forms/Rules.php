@@ -290,6 +290,7 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Iterates over complete ruleset.
+	 * @return \ArrayIterator<int, Rule>
 	 */
 	public function getIterator(): \Iterator
 	{
