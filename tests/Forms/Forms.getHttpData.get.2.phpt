@@ -29,5 +29,5 @@ test('', function () {
 
 	Assert::truthy($form->isSubmitted());
 	Assert::same(['item'], $form->getHttpData());
-	Assert::same([], $form->getValues(true));
+	Assert::same([], $form->getValues('array'));
 });
