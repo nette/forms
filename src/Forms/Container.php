@@ -121,7 +121,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			}
 		}
 
-		$returnType = $returnType === true ? self::Array : $returnType;
+		if ($returnType === true) {
+			trigger_error(static::class . '::' . __FUNCTION__ . "(true) is deprecated, use getValues('array').", E_USER_DEPRECATED);
+			$returnType = self::Array;
+		}
+
 		return $this->getUntrustedValues($returnType, $controls);
 	}
 

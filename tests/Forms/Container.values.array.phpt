@@ -65,11 +65,11 @@ test('setDefaults() + array', function () {
 				'city' => 'zzz',
 			],
 		],
-	], $form->getValues(true));
+	], $form->getValues('array'));
 });
 
 
-test('submitted form + getValues(true)', function () {
+test('submitted form + getValues(array)', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -83,7 +83,7 @@ test('submitted form + getValues(true)', function () {
 				'city' => 'sent city',
 			],
 		],
-	], $form->getValues(true));
+	], $form->getValues('array'));
 });
 
 
@@ -105,7 +105,7 @@ test('submitted form + reset()', function () {
 				'city' => '',
 			],
 		],
-	], $form->getValues(true));
+	], $form->getValues('array'));
 });
 
 
@@ -131,7 +131,7 @@ test('setValues() + array', function () {
 				'city' => 'sent city',
 			],
 		],
-	], $form->getValues(true));
+	], $form->getValues('array'));
 
 	// erase
 	$form->setValues([
@@ -150,7 +150,7 @@ test('setValues() + array', function () {
 				'city' => '',
 			],
 		],
-	], $form->getValues(true));
+	], $form->getValues('array'));
 });
 
 
@@ -262,7 +262,7 @@ test('onSuccess test', function () {
 });
 
 
-test('submitted form + setValidationScope() + getValues(true)', function () {
+test('submitted form + setValidationScope() + getValues(array)', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
@@ -276,11 +276,11 @@ test('submitted form + setValidationScope() + getValues(true)', function () {
 			'age' => 999,
 			'second' => [],
 		],
-	], $form->getValues(true));
+	], $form->getValues('array'));
 });
 
 
-test('submitted form + setValidationScope() + getValues(true)', function () {
+test('submitted form + setValidationScope() + getValues(array)', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
@@ -312,5 +312,5 @@ test('submitted form + setValidationScope() + getValues(array)', function () {
 				'city' => 'sent city',
 			],
 		],
-	], $form->getValues(true));
+	], $form->getValues('array'));
 });
