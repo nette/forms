@@ -73,12 +73,6 @@ parameters:
 			path: src/Forms/Container.php
 
 		-
-			message: '#^Parameter \#1 \.\.\.\$items of method Nette\\Forms\\ControlGroup\:\:add\(\) expects iterable\<Nette\\Forms\\Container\|Nette\\Forms\\Control\>\|Nette\\Forms\\Container\|Nette\\Forms\\Control, Nette\\ComponentModel\\IComponent given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Forms/Container.php
-
-		-
 			message: '#^Unable to resolve the template type T in call to method Nette\\Forms\\Container\:\:getUntrustedValues\(\)$#'
 			identifier: argument.templateType
 			count: 1
