@@ -114,7 +114,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$controls = $submitter->getValidationScope();
 			}
 		}
-		$returnType = $returnType === true ? self::ARRAY : $returnType;
+		if ($returnType === true) {
+			trigger_error(static::class . '::' . __FUNCTION__ . "(true) is deprecated, use getValues('array').", E_USER_DEPRECATED);
+			$returnType = self::ARRAY;
+		}
 		return $this->getUnsafeValues($returnType, $controls);
 	}
 
