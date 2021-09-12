@@ -100,7 +100,7 @@ test('setDefaults() + object', function () {
 				'city' => 'zzz',
 			],
 		],
-	], $form->getValues(true));
+	], $form->getValues('array'));
 });
 
 
@@ -243,7 +243,7 @@ test('getValues(...arguments...)', function () {
 				'city' => '',
 			]),
 		]),
-	], $form->getValues(true));
+	], $form->getValues('array'));
 });
 
 
@@ -336,7 +336,7 @@ test('getValues() + object', function () {
 });
 
 
-test('submitted form + setValidationScope() + getValues(true)', function () {
+test('submitted form + setValidationScope() + getValues()', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
@@ -354,7 +354,7 @@ test('submitted form + setValidationScope() + getValues(true)', function () {
 });
 
 
-test('submitted form + setValidationScope() + getValues(true)', function () {
+test('submitted form + setValidationScope() + getValues()', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
