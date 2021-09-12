@@ -323,10 +323,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		?string $insertBefore = null,
 	): static
 	{
-		parent::addComponent($component, $name, $insertBefore);
-		if ($component instanceof Control || $component instanceof self) {
-			$this->currentGroup?->add($component);
+		if (!$component instanceof Control && !$component instanceof self) {
+			throw new Nette\InvalidStateException("Component '$name' of type " . get_debug_type($component) . ' is not intended to be used in the form.');
 		}
+
+		parent::addComponent($component, $name, $insertBefore);
+		$this->currentGroup?->add($component);
 
 		return $this;
 	}
