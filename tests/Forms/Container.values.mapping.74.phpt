@@ -16,8 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 class FormData
 {
-	/** @var string */
-	public $title;
+	public string $title;
 
 	public FormFirstLevel $first;
 }
@@ -25,21 +24,17 @@ class FormData
 
 class FormFirstLevel
 {
-	/** @var string */
-	public $name;
+	public string $name;
 
-	/** @var int */
-	public $age;
+	public ?int $age = null;
 
-	/** @var FormSecondLevel */
-	public $second;
+	public ?FormSecondLevel $second;
 }
 
 
 class FormSecondLevel
 {
-	/** @var string */
-	public $city;
+	public string $city;
 }
 
 
@@ -53,6 +48,7 @@ function hydrate(string $class, array $data)
 }
 
 
+$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 $_POST = [
 	'title' => 'sent title',
 	'first' => [
@@ -66,6 +62,8 @@ $_POST = [
 
 function createForm(): Form
 {
+	Form::initialize(true);
+
 	$form = new Form;
 	$form->addText('title');
 
@@ -88,7 +86,7 @@ test('setDefaults() + object', function () {
 		'extra' => '50',
 		'first' => hydrate(FormFirstLevel::class, [
 			'name' => 'yyy',
-			'age' => '30',
+			'age' => 30,
 			'second' => hydrate(FormSecondLevel::class, [
 				'city' => 'zzz',
 			]),
@@ -99,7 +97,7 @@ test('setDefaults() + object', function () {
 		'title' => 'xxx',
 		'first' => [
 			'name' => 'yyy',
-			'age' => '30',
+			'age' => 30,
 			'second' => [
 				'city' => 'zzz',
 			],
@@ -119,8 +117,8 @@ test('submitted form + getValues()', function () {
 		'title' => 'sent title',
 		'first' => hydrate(FormFirstLevel::class, [
 			'name' => '',
-			'age' => '999',
-			'second' => ArrayHash::from([
+			'age' => 999,
+			'second' => hydrate(FormSecondLevel::class, [
 				'city' => 'sent city',
 			]),
 		]),
@@ -144,7 +142,7 @@ test('submitted form + reset()', function () {
 		'first' => hydrate(FormFirstLevel::class, [
 			'name' => '',
 			'age' => null,
-			'second' => ArrayHash::from([
+			'second' => hydrate(FormSecondLevel::class, [
 				'city' => '',
 			]),
 		]),
@@ -173,7 +171,7 @@ test('setValues() + object', function () {
 		'first' => hydrate(FormFirstLevel::class, [
 			'name' => 'new2',
 			'age' => null,
-			'second' => ArrayHash::from([
+			'second' => hydrate(FormSecondLevel::class, [
 				'city' => 'sent city',
 			]),
 		]),
@@ -192,7 +190,7 @@ test('setValues() + object', function () {
 		'first' => hydrate(FormFirstLevel::class, [
 			'name' => 'new2',
 			'age' => null,
-			'second' => ArrayHash::from([
+			'second' => hydrate(FormSecondLevel::class, [
 				'city' => '',
 			]),
 		]),
@@ -217,7 +215,7 @@ test('getValues(...arguments...)', function () {
 		'first' => hydrate(FormFirstLevel::class, [
 			'name' => 'new2',
 			'age' => null,
-			'second' => ArrayHash::from([
+			'second' => hydrate(FormSecondLevel::class, [
 				'city' => '',
 			]),
 		]),
@@ -289,7 +287,7 @@ test('onSuccess test', function () {
 			'first' => hydrate(FormFirstLevel::class, [
 				'name' => '',
 				'age' => 999,
-				'second' => ArrayHash::from([
+				'second' => hydrate(FormSecondLevel::class, [
 					'city' => 'sent city',
 				]),
 			]),
@@ -302,7 +300,7 @@ test('onSuccess test', function () {
 			'first' => hydrate(FormFirstLevel::class, [
 				'name' => '',
 				'age' => 999,
-				'second' => ArrayHash::from([
+				'second' => hydrate(FormSecondLevel::class, [
 					'city' => 'sent city',
 				]),
 			]),
