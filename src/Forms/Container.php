@@ -138,13 +138,19 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		if (is_object($returnType)) {
 			$obj = $returnType;
+			$rc = new \ReflectionClass($obj);
 
 		} else {
 			$returnType = ($returnType ?? $this->mappedType ?? ArrayHash::class);
-			$obj = $returnType === self::ARRAY ? new \stdClass : new $returnType;
+			$rc = new \ReflectionClass($returnType === self::ARRAY ? \stdClass::class : $returnType);
+			if ($rc->hasMethod('__construct') && $rc->getMethod('__construct')->getNumberOfRequiredParameters()) {
+				$obj = new \stdClass;
+				$useConstructor = true;
+			} else {
+				$obj = $rc->newInstance();
+			}
 		}
 
-		$rc = new \ReflectionClass($obj);
 		foreach ($this->getComponents() as $name => $control) {
 			$allowed = $controls === null || in_array($control, $controls, true);
 			$name = (string) $name;
@@ -161,6 +167,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
 				$obj->$name = $control->getUnsafeValues($type, $allowed ? null : $controls);
 			}
+		}
+
+		if (isset($useConstructor)) {
+			return new $returnType(...(array) $obj);
 		}
 
 		return $returnType === self::ARRAY

@@ -16,5 +16,6 @@ return function (Symfony\Component\DependencyInjection\Loader\Configurator\Conta
 	$parameters->set('skip', [
 		'fixtures/*',
 		'tests/Forms/Container.values.mapping.74.phpt',
+		'tests/Forms/Container.values.mapping-constructor.phpt',
 	]);
 };
