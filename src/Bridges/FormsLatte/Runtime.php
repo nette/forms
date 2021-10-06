@@ -99,10 +99,8 @@ class Runtime
 		$blueprint->printHeader('Form Data Class ' . $form->getName());
 		$generator = new Nette\Forms\Rendering\DataClassGenerator;
 		$blueprint->printCode($generator->generateCode($form));
-		if (PHP_VERSION_ID >= 80000) {
-			$generator->propertyPromotion = true;
-			$blueprint->printCode($generator->generateCode($form));
-		}
+		$generator->propertyPromotion = true;
+		$blueprint->printCode($generator->generateCode($form));
 
 		echo $end;
 	}
