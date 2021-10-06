@@ -43,9 +43,8 @@ final class Blueprint
 		$blueprint->printBegin();
 		$blueprint->printHeader('Form Data Class ' . $form->getName());
 		$blueprint->printCode($blueprint->generateDataClass($form), 'php');
-		if (PHP_VERSION_ID >= 80000) {
-			$blueprint->printCode($blueprint->generateDataClass($form, true), 'php');
-		}
+		$blueprint->printCode($blueprint->generateDataClass($form, true), 'php');
+		$bp->printEnd();
 		$blueprint->printEnd();
 		if ($exit) {
 			exit;

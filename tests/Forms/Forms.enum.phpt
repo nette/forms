@@ -2,7 +2,6 @@
 
 /**
  * Test: Nette\Forms\Controls\BaseControl & enum
- * @phpVersion 8.1
  */
 
 declare(strict_types=1);

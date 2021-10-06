@@ -693,22 +693,11 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Renders form to string.
-	 * @param can throw exceptions? (hidden parameter)
 	 */
 	public function __toString(): string
 	{
-		try {
-			$this->fireRenderEvents();
-			return $this->getRenderer()->render($this);
-
-		} catch (\Throwable $e) {
-			if (func_num_args() || PHP_VERSION_ID >= 70400) {
-				throw $e;
-			}
-
-			trigger_error('Exception in ' . __METHOD__ . "(): {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", E_USER_ERROR);
-			return '';
-		}
+		$this->fireRenderEvents();
+		return $this->getRenderer()->render($this);
 	}
 
 
