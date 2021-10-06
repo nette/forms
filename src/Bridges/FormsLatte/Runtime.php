@@ -132,6 +132,8 @@ class Runtime
 
 		$renderer = clone $form->getRenderer();
 		$dummyForm->setRenderer($renderer);
+		$dummyForm->onRender = $form->onRender;
+		$dummyForm->fireRenderEvents();
 
 		if ($renderer instanceof Nette\Forms\Rendering\DefaultFormRenderer) {
 			$renderer->wrappers['error']['container'] = $renderer->getWrapper('error container')->setAttribute('n:ifcontent', true);

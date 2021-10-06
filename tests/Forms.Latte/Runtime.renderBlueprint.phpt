@@ -20,17 +20,18 @@ $form->addCheckbox('agree');
 $form->addGroup();
 $form->addSubmit('submit', 'Send');
 
-$renderer = $form->getRenderer();
-$renderer->wrappers['form']['container'] = Html::el('div')->id('form');
-$renderer->wrappers['group']['container'] = null;
-$renderer->wrappers['group']['label'] = 'h3';
-$renderer->wrappers['pair']['container'] = null;
-$renderer->wrappers['controls']['container'] = 'dl';
-$renderer->wrappers['control']['container'] = 'dd';
-$renderer->wrappers['control']['.odd'] = 'odd';
-$renderer->wrappers['label']['container'] = 'dt';
-$renderer->wrappers['label']['suffix'] = ':';
-
+$form->onRender[] = function ($form) {
+	$renderer = $form->getRenderer();
+	$renderer->wrappers['form']['container'] = Html::el('div')->id('form');
+	$renderer->wrappers['group']['container'] = null;
+	$renderer->wrappers['group']['label'] = 'h3';
+	$renderer->wrappers['pair']['container'] = null;
+	$renderer->wrappers['controls']['container'] = 'dl';
+	$renderer->wrappers['control']['container'] = 'dd';
+	$renderer->wrappers['control']['.odd'] = 'odd';
+	$renderer->wrappers['label']['container'] = 'dt';
+	$renderer->wrappers['label']['suffix'] = ':';
+};
 
 ob_start();
 Nette\Bridges\FormsLatte\Runtime::renderBlueprint($form);
