@@ -449,6 +449,17 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
+	/**
+	 * Adds a input filter callback.
+	 * @return static
+	 */
+	public function addFilter(callable $filter)
+	{
+		$this->getRules()->addFilter($filter);
+		return $this;
+	}
+
+
 	public function getRules(): Rules
 	{
 		return $this->rules;

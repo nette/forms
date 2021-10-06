@@ -73,17 +73,6 @@ class HiddenField extends BaseControl
 	}
 
 
-	/**
-	 * Appends input string filter callback.
-	 * @return static
-	 */
-	public function addFilter(callable $filter)
-	{
-		$this->getRules()->addFilter($filter);
-		return $this;
-	}
-
-
 	public function getControl(): Nette\Utils\Html
 	{
 		$this->setOption('rendered', true);

@@ -102,17 +102,6 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	/**
-	 * Appends input string filter callback.
-	 * @return static
-	 */
-	public function addFilter(callable $filter)
-	{
-		$this->getRules()->addFilter($filter);
-		return $this;
-	}
-
-
 	public function getControl(): Nette\Utils\Html
 	{
 		$el = parent::getControl();
