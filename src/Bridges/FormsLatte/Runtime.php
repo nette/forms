@@ -85,4 +85,22 @@ class Runtime
 		$blueprint->printCode((new Nette\Forms\Rendering\LatteRenderer)->render($form), 'latte');
 		echo $end;
 	}
+
+
+	/**
+	 * Generates blueprint of form data class.
+	 */
+	public static function renderFormClassPrint(Form $form): void
+	{
+		$blueprint = new Latte\Runtime\Blueprint;
+		$end = $blueprint->printCanvas();
+		$blueprint->printHeader('Form Data Class ' . $form->getName());
+		$generator = new Nette\Forms\Rendering\DataClassGenerator;
+		$blueprint->printCode($generator->generateCode($form));
+		if (PHP_VERSION_ID >= 80000) {
+			$generator->propertyPromotion = true;
+			$blueprint->printCode($generator->generateCode($form));
+		}
+		echo $end;
+	}
 }
