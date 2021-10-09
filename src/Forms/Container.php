@@ -298,7 +298,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		Nette\ComponentModel\IComponent $component,
 		?string $name,
 		?string $insertBefore = null,
-	) {
+	): static
+	{
 		parent::addComponent($component, $name, $insertBefore);
 		if ($this->currentGroup !== null) {
 			$this->currentGroup->add($component);
