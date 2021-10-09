@@ -167,7 +167,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			} elseif ($control instanceof self) {
 				$type = $returnType === self::Array && !$control->mappedType
 					? self::Array
-					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
+					: ($rc->hasProperty($name) ? Nette\Utils\Type::fromReflection($rc->getProperty($name))?->getSingleName() : null);
 				$obj->$name = $control->getUnsafeValues($type, $allowed ? null : $controls);
 			}
 		}
@@ -230,10 +230,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		foreach ($this->onValidate as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$types = array_map([Nette\Utils\Reflection::class, 'getParameterType'], $params);
-			$args = isset($types[0]) && !$this instanceof $types[0]
-				? [$this->getUnsafeValues($types[0])]
-				: [$this, isset($params[1]) ? $this->getUnsafeValues($types[1]) : null];
+			$types = array_map([Nette\Utils\Type::class, 'fromReflection'], $params);
+			$args = isset($types[0]) && !$types[0]->allows($this::class)
+				? [$this->getUnsafeValues($types[0]->getSingleName())]
+				: [$this, isset($params[1]) ? $this->getUnsafeValues($types[1]?->getSingleName()) : null];
 			$handler(...$args);
 		}
 	}
