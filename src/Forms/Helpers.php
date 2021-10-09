@@ -183,7 +183,7 @@ class Helpers
 			$input->value = $value;
 			$res .= ($res === '' && $wrapperEnd === '' ? '' : $wrapper)
 				. $labelTag . $label->attributes() . '>'
-				. $inputTag . $input->attributes() . (Html::$xhtml ? ' />' : '>')
+				. $inputTag . $input->attributes() . '>'
 				. ($caption instanceof Nette\HtmlStringable ? $caption : htmlspecialchars((string) $caption, ENT_NOQUOTES, 'UTF-8'))
 				. '</label>'
 				. $wrapperEnd;
