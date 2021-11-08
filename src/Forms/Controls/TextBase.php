@@ -29,10 +29,9 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets control's value.
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		if ($value === null) {
 			$value = '';
@@ -49,7 +48,7 @@ abstract class TextBase extends BaseControl
 	 * Returns control's value.
 	 * @return mixed
 	 */
-	public function getValue()
+	public function getValue(): mixed
 	{
 		$value = $this->value === Strings::trim($this->translate($this->emptyValue))
 			? ''
@@ -60,9 +59,8 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets whether getValue() returns null instead of empty string.
-	 * @return static
 	 */
-	public function setNullable(bool $value = true)
+	public function setNullable(bool $value = true): static
 	{
 		$this->nullable = $value;
 		return $this;
@@ -71,9 +69,8 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets the special value which is treated as empty string.
-	 * @return static
 	 */
-	public function setEmptyValue(string $value)
+	public function setEmptyValue(string $value): static
 	{
 		$this->emptyValue = $value;
 		return $this;
@@ -91,9 +88,8 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets the maximum number of allowed characters.
-	 * @return static
 	 */
-	public function setMaxLength(int $length)
+	public function setMaxLength(int $length): static
 	{
 		$this->control->maxlength = $length;
 		return $this;
@@ -121,8 +117,7 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	/** @return static */
-	public function addRule($validator, $errorMessage = null, $arg = null)
+	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null): static
 	{
 		foreach ($this->getRules() as $rule) {
 			if (!$rule->canExport() && !$rule->branch) {
