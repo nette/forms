@@ -83,5 +83,5 @@ Assert::match(
 
 </div>
 </form>%A%',
-	$res
+	html_entity_decode($res)
 );
