@@ -21,7 +21,12 @@ final class LatteRenderer
 	public function render(Form $form): string
 	{
 		$dict = new \SplObjectStorage;
-		$dummyForm = new Form;
+		$dummyForm = new class extends Form {
+			protected function receiveHttpData(): ?array
+			{
+				return [];
+			}
+		};
 
 		foreach ($form->getControls() as $name => $input) {
 			$dict[$input] = $dummyInput = new class extends Nette\Forms\Controls\BaseControl {
