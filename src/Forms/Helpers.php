@@ -17,7 +17,7 @@ use Nette\Utils\Strings;
 /**
  * Forms helpers.
  */
-class Helpers
+final class Helpers
 {
 	use Nette\StaticClass;
 
