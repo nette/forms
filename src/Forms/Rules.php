@@ -16,7 +16,7 @@ use Stringable;
 /**
  * List of validation & condition rules.
  */
-class Rules implements \IteratorAggregate
+final class Rules implements \IteratorAggregate
 {
 	use Nette\SmartObject;
 
