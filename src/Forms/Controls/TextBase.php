@@ -17,6 +17,7 @@ use Stringable;
 
 /**
  * Implements the basic functionality common to text input controls.
+ * @extends BaseControl<string>
  */
 abstract class TextBase extends BaseControl
 {
@@ -48,7 +49,6 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Returns control's value.
-	 * @return mixed
 	 */
 	public function getValue(): mixed
 	{

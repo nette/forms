@@ -16,6 +16,7 @@ use Stringable;
 
 /**
  * Hidden form control used to store a non-displayed value.
+ * @extends BaseControl<string>
  */
 class HiddenField extends BaseControl
 {
