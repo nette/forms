@@ -16,6 +16,7 @@ use Stringable;
 
 /**
  * CSRF protection field.
+ * @extends BaseControl<null>
  */
 class CsrfProtection extends HiddenField
 {
