@@ -17,6 +17,8 @@ use Nette;
  *
  * @property   array $items
  * @property-read array $selectedItems
+ *
+ * @extends BaseControl<array-key[]>
  */
 abstract class MultiChoiceControl extends BaseControl
 {
@@ -84,6 +86,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected keys.
+	 * @return array-key[]
 	 */
 	public function getValue(): array
 	{
