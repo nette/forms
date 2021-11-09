@@ -17,7 +17,7 @@ use Nette\Utils\Validators;
 /**
  * Common validators.
  */
-class Validator
+final class Validator
 {
 	use Nette\StaticClass;
 
