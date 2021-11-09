@@ -12,6 +12,7 @@ namespace Nette\Forms\Controls;
 
 /**
  * Submittable image button form control.
+ * @method array|null getValue()
  */
 class ImageButton extends SubmitButton
 {

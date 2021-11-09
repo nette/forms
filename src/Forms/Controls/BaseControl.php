@@ -36,6 +36,9 @@ use Stringable;
  * @property-read array $errors
  * @property-read array $options
  * @property-read string $error
+ *
+ * @template T
+ * @implements Control<T>
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
 {
@@ -152,7 +155,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns control's value.
-	 * @return mixed
 	 */
 	public function getValue(): mixed
 	{
