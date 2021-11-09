@@ -17,7 +17,7 @@ use Stringable;
  * List of validation & condition rules.
  * @implements \IteratorAggregate<int, Rule>
  */
-class Rules implements \IteratorAggregate
+final class Rules implements \IteratorAggregate
 {
 	private const NegRules = [
 		Form::Filled => Form::Blank,

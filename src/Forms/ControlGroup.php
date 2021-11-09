@@ -15,7 +15,7 @@ use Nette;
 /**
  * A user group of form controls.
  */
-class ControlGroup
+final class ControlGroup
 {
 	protected \SplObjectStorage $controls;
 	private array $options = [];

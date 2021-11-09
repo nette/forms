@@ -16,7 +16,7 @@ use Stringable;
 /**
  * Single validation rule or condition represented as value object.
  */
-class Rule
+final class Rule
 {
 	public Control $control;
 	public mixed $validator;
