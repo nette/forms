@@ -17,6 +17,8 @@ use Nette;
  *
  * @property   array $items
  * @property-read mixed $selectedItem
+ *
+ * @extends BaseControl<array-key>
  */
 abstract class ChoiceControl extends BaseControl
 {
@@ -72,7 +74,6 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected key.
-	 * @return string|int|null
 	 */
 	public function getValue(): mixed
 	{
