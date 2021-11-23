@@ -77,7 +77,7 @@ class Runtime
 	/**
 	 * Generates blueprint of form.
 	 */
-	public static function renderBlueprint(Form $form): void
+	public static function renderFormPrint(Form $form): void
 	{
 		$blueprint = new Latte\Runtime\Blueprint;
 		$end = $blueprint->printCanvas();
