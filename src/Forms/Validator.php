@@ -91,7 +91,9 @@ class Validator
 				default:
 					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
 					$i = (int) $m[1] ? (int) $m[1] - 1 : $i + 1;
-					return isset($args[$i]) ? ($args[$i] instanceof Control ? ($withValue ? $args[$i]->getValue() : "%$i") : $args[$i]) : '';
+					return isset($args[$i])
+						? ($args[$i] instanceof Control ? ($withValue ? $args[$i]->getValue() : "%$i") : $args[$i])
+						: '';
 			}
 		}, $message);
 		return $message;

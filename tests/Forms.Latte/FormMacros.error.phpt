@@ -49,4 +49,4 @@ Assert::exception(function () use ($latte) {
 
 Assert::exception(function () use ($latte) {
 	$latte->compile('<html>{name /}');
-}, Latte\CompileException::class, 'Unknown macro {name}, use n:name attribute.');
+}, Latte\CompileException::class, 'Unknown tag {name}, use n:name attribute.');
