@@ -230,7 +230,7 @@ final class FormMacros extends MacroSet
 	public function macroName(MacroNode $node, PhpWriter $writer)
 	{
 		if (!$node->prefix) {
-			throw new CompileException("Unknown macro {{$node->name}}, use n:{$node->name} attribute.");
+			throw new CompileException("Unknown tag {{$node->name}}, use n:{$node->name} attribute.");
 		} elseif ($node->prefix !== MacroNode::PREFIX_NONE) {
 			throw new CompileException("Unknown attribute n:{$node->prefix}-{$node->name}, use n:{$node->name} attribute.");
 		}
