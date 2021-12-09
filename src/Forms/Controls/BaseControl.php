@@ -22,7 +22,7 @@ use Stringable;
  *
  * @property-read Form $form
  * @property-read string $htmlName
- * @property   mixed $htmlId
+ * @property   string|bool $htmlId
  * @property   mixed $value
  * @property   string|Stringable $caption
  * @property   bool $disabled
@@ -307,7 +307,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Returns control's HTML id.
 	 */
-	public function getHtmlId(): mixed
+	public function getHtmlId(): string|bool
 	{
 		if (!isset($this->control->id)) {
 			$form = $this->getForm();
