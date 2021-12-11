@@ -131,9 +131,6 @@ class Form extends Container implements Nette\HtmlStringable
 	private $beforeRenderCalled;
 
 
-	/**
-	 * Form constructor.
-	 */
 	public function __construct(string $name = null)
 	{
 		if ($name !== null) {
