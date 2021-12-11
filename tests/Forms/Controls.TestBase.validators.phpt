@@ -98,7 +98,7 @@ test('', function () {
 test('', function () {
 	$control = new TextInput;
 
-	$control->value = new class() {
+	$control->value = new class () {
 		public $lorem = 'ipsum';
 
 

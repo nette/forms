@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-class Translator implements \Nette\Localization\ITranslator
+class Translator implements Nette\Localization\ITranslator
 {
 	public function translate($message, ...$parameters): string
 	{

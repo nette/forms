@@ -75,7 +75,7 @@ class TextInput extends TextBase
 		}
 
 		if ($this->control->type === null && in_array($validator, [Form::EMAIL, Form::URL, Form::INTEGER], true)) {
-			static $types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
+			$types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
 			$this->control->type = $types[$validator];
 
 		} elseif (
