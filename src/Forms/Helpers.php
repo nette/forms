@@ -30,11 +30,13 @@ class Helpers
 	/**
 	 * Extracts and sanitizes submitted form data for single control.
 	 * @param  int  $type  type Form::DATA_TEXT, DATA_LINE, DATA_FILE, DATA_KEYS
-	 * @return string|string[]
 	 * @internal
 	 */
-	public static function extractHttpData(array $data, string $htmlName, int $type)
-	{
+	public static function extractHttpData(
+		array $data,
+		string $htmlName,
+		int $type,
+	): string|array|Nette\Http\FileUpload|null {
 		$name = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName));
 		$data = Nette\Utils\Arrays::get($data, $name, null);
 		$itype = $type & ~Form::DATA_KEYS;
