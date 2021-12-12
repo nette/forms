@@ -81,7 +81,7 @@ class CsrfProtection extends HiddenField
 	}
 
 
-	private function generateToken(string $random = null): string
+	private function generateToken(?string $random = null): string
 	{
 		if ($random === null) {
 			$random = Nette\Utils\Random::generate(10);

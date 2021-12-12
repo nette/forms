@@ -131,7 +131,7 @@ class Form extends Container implements Nette\HtmlStringable
 	private $beforeRenderCalled;
 
 
-	public function __construct(string $name = null)
+	public function __construct(?string $name = null)
 	{
 		if ($name !== null) {
 			$this->getElementPrototype()->id = 'frm-' . $name;
@@ -235,7 +235,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/**
 	 * Cross-Site Request Forgery (CSRF) form protection.
 	 */
-	public function addProtection(string $errorMessage = null): Controls\CsrfProtection
+	public function addProtection(?string $errorMessage = null): Controls\CsrfProtection
 	{
 		$control = new Controls\CsrfProtection($errorMessage);
 		$this->addComponent($control, self::PROTECTOR_ID, key((array) $this->getComponents()));
@@ -382,7 +382,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 * Returns submitted HTTP data.
 	 * @return mixed
 	 */
-	public function getHttpData(int $type = null, string $htmlName = null)
+	public function getHttpData(?int $type = null, ?string $htmlName = null)
 	{
 		if ($this->httpData === null) {
 			if (!$this->isAnchored()) {
@@ -514,7 +514,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/********************* validation ****************d*g**/
 
 
-	public function validate(array $controls = null): void
+	public function validate(?array $controls = null): void
 	{
 		$this->cleanErrors();
 		if ($controls === null && $this->submittedBy instanceof SubmitterControl) {

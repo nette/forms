@@ -134,7 +134,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Loads HTTP data.
 	 * @return mixed
 	 */
-	protected function getHttpData($type, string $htmlTail = null)
+	protected function getHttpData($type, ?string $htmlTail = null)
 	{
 		return $this->getForm()->getHttpData($type, $this->getHtmlName() . $htmlTail);
 	}

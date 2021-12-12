@@ -221,7 +221,7 @@ class Rules implements \IteratorAggregate
 
 
 	/** @internal */
-	public function getToggleStates(array $toggles = [], bool $success = true, bool $emptyOptional = null): array
+	public function getToggleStates(array $toggles = [], bool $success = true, ?bool $emptyOptional = null): array
 	{
 		foreach ($this->toggles as $id => $hide) {
 			$toggles[$id] = ($success xor !$hide) || !empty($toggles[$id]);
@@ -247,7 +247,7 @@ class Rules implements \IteratorAggregate
 	/**
 	 * Validates against ruleset.
 	 */
-	public function validate(bool $emptyOptional = null): bool
+	public function validate(?bool $emptyOptional = null): bool
 	{
 		$emptyOptional = $emptyOptional ?? (!$this->isRequired() && !$this->control->isFilled());
 		foreach ($this as $rule) {
