@@ -72,6 +72,7 @@ class Button extends BaseControl
 		} else {
 			$el->value = $caption;
 		}
+
 		return $el;
 	}
 }

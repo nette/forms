@@ -70,6 +70,7 @@ final class LatteRenderer
 			foreach ($group->getOptions() as $k => $v) {
 				$dummyGroup->setOption($k, $v);
 			}
+
 			foreach ($group->getControls() as $control) {
 				if ($dict[$control]) {
 					$dummyGroup->add($dict[$control]);

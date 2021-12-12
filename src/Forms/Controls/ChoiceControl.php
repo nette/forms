@@ -59,6 +59,7 @@ abstract class ChoiceControl extends BaseControl
 			$set = Nette\Utils\Strings::truncate(implode(', ', array_map(function ($s) { return var_export($s, true); }, array_keys($this->items))), 70, '...');
 			throw new Nette\InvalidArgumentException("Value '$value' is out of allowed set [$set] in field '{$this->name}'.");
 		}
+
 		$this->value = $value === null ? null : key([(string) $value => null]);
 		return $this;
 	}
@@ -142,6 +143,7 @@ abstract class ChoiceControl extends BaseControl
 		if (isset($this->disabled[$this->value])) {
 			$this->value = null;
 		}
+
 		return $this;
 	}
 

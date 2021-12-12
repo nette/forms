@@ -59,6 +59,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		if (!$form || !$form->isAnchored() || !$form->isSubmitted()) {
 			$this->setValues($data, $erase);
 		}
+
 		return $this;
 	}
 
@@ -89,7 +90,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				} elseif ($erase) {
 					$control->setValue(null);
 				}
-
 			} elseif ($control instanceof self) {
 				if (array_key_exists($name, $values)) {
 					$control->setValues($values[$name], $erase);
@@ -99,6 +99,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				}
 			}
 		}
+
 		return $this;
 	}
 
@@ -119,10 +120,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			} elseif (!$this->isValid()) {
 				trigger_error(__METHOD__ . "() invoked but the form is not valid (form '{$this->getName()}').", E_USER_WARNING);
 			}
+
 			if ($controls === null && $submitter instanceof SubmitterControl) {
 				$controls = $submitter->getValidationScope();
 			}
 		}
+
 		$returnType = $returnType === true ? self::ARRAY : $returnType;
 		return $this->getUnsafeValues($returnType, $controls);
 	}
@@ -202,8 +205,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			if ($this->getErrors()) {
 				return false;
 			}
+
 			$this->validate();
 		}
+
 		return !$this->getErrors();
 	}
 
@@ -220,6 +225,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$control->validate();
 			}
 		}
+
 		$this->validated = true;
 
 		foreach ($this->onValidate as $handler) {
@@ -242,6 +248,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		foreach ($this->getControls() as $control) {
 			$errors = array_merge($errors, $control->getErrors());
 		}
+
 		return array_unique($errors);
 	}
 
@@ -277,6 +284,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		if ($this->currentGroup !== null) {
 			$this->currentGroup->add($component);
 		}
+
 		return $this;
 	}
 
@@ -498,6 +506,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		if ($this->currentGroup !== null) {
 			$this->currentGroup->add($control);
 		}
+
 		return $this[$name] = $control;
 	}
 
@@ -510,6 +519,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		if (isset(self::$extMethods[$name])) {
 			return (self::$extMethods[$name])($this, ...$args);
 		}
+
 		return parent::__call($name, $args);
 	}
 
@@ -519,6 +529,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		if (strpos($name, '::') !== false) { // back compatibility
 			[, $name] = explode('::', $name);
 		}
+
 		self::$extMethods[$name] = $callback;
 	}
 

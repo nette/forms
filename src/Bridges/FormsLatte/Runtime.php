@@ -32,12 +32,14 @@ class Runtime
 		foreach ($form->getControls() as $control) {
 			$control->setOption('rendered', false);
 		}
+
 		$el = $form->getElementPrototype();
 		$el->action = (string) $el->action;
 		$el = clone $el;
 		if ($form->isMethod('get')) {
 			$el->action = preg_replace('~\?[^#]*~', '', $el->action, 1);
 		}
+
 		$el->addAttributes($attrs);
 		return $withTags ? $el->startTag() : $el->attributes();
 	}
@@ -101,6 +103,7 @@ class Runtime
 			$generator->propertyPromotion = true;
 			$blueprint->printCode($generator->generateCode($form));
 		}
+
 		echo $end;
 	}
 }

@@ -139,18 +139,22 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		if (!$mode || $mode === 'begin') {
 			$s .= $this->renderBegin();
 		}
+
 		if (!$mode || strtolower($mode) === 'ownerrors') {
 			$s .= $this->renderErrors();
 
 		} elseif ($mode === 'errors') {
 			$s .= $this->renderErrors(null, false);
 		}
+
 		if (!$mode || $mode === 'body') {
 			$s .= $this->renderBody();
 		}
+
 		if (!$mode || $mode === 'end') {
 			$s .= $this->renderEnd();
 		}
+
 		return $s;
 	}
 
@@ -180,6 +184,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 					$s .= Html::el('input', ['type' => 'hidden', 'name' => $name, 'value' => urldecode($parts[1])]);
 				}
 			}
+
 			return $el->startTag() . ($s ? "\n\t" . $this->getWrapper('hidden container')->setHtml($s) : '');
 
 		} else {
@@ -199,9 +204,11 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				$s .= $control->getControl();
 			}
 		}
+
 		if (iterator_count($this->form->getComponents(true, Nette\Forms\Controls\TextInput::class)) < 2) {
 			$s .= '<!--[if IE]><input type=IEbug disabled style="display:none"><![endif]-->';
 		}
+
 		if ($s) {
 			$s = $this->getWrapper('hidden container')->setHtml($s) . "\n";
 		}
@@ -227,6 +234,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		if (!$errors) {
 			return '';
 		}
+
 		$container = $this->getWrapper($control ? 'control errorcontainer' : 'error container');
 		$item = $this->getWrapper($control ? 'control erroritem' : 'error item');
 
@@ -237,6 +245,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			} else {
 				$item->setText($error);
 			}
+
 			$container->addHtml($item);
 		}
 
@@ -281,6 +290,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				if ($translator !== null) {
 					$text = $translator->translate($text);
 				}
+
 				$s .= "\n" . $this->getWrapper('group label')->setText($text) . "\n";
 			}
 
@@ -292,6 +302,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				if ($translator !== null) {
 					$text = $translator->translate($text);
 				}
+
 				$s .= $this->getWrapper('group description')->setText($text) . "\n";
 			}
 
@@ -341,6 +352,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 					$container->addHtml($this->renderPairMulti($buttons));
 					$buttons = null;
 				}
+
 				$container->addHtml($this->renderPair($control));
 			}
 		}
@@ -372,6 +384,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		if (++$this->counter % 2) {
 			$pair->class($this->getValue('pair .odd'), true);
 		}
+
 		$pair->id = $control->getOption('id');
 		return $pair->render(0);
 	}
@@ -388,6 +401,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			if (!$control instanceof Nette\Forms\Control) {
 				throw new Nette\InvalidArgumentException('Argument must be array of Nette\Forms\Control instances.');
 			}
+
 			$description = $control->getOption('description');
 			if ($description instanceof HtmlStringable) {
 				$description = ' ' . $description;
@@ -396,6 +410,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				if ($control instanceof Nette\Forms\Controls\BaseControl) {
 					$description = $control->translate($description);
 				}
+
 				$description = ' ' . $this->getWrapper('control description')->setText($description);
 
 			} else {
@@ -408,10 +423,13 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				if ($el->getName() === 'input') {
 					$el->class($this->getValue("control .$el->type"), true);
 				}
+
 				$el->class($this->getValue('control .error'), $control->hasErrors());
 			}
+
 			$s[] = $el . $description;
 		}
+
 		$pair = $this->getWrapper('pair container');
 		$pair->addHtml($this->renderLabel($control));
 		$pair->addHtml($this->getWrapper('control container')->setHtml(implode(' ', $s)));
@@ -434,6 +452,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		} elseif ($label != null) { // @intentionally ==
 			$label .= $suffix;
 		}
+
 		return $this->getWrapper('label container')->setHtml((string) $label);
 	}
 
@@ -447,6 +466,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		if ($this->counter % 2) {
 			$body->class($this->getValue('control .odd'), true);
 		}
+
 		if (!$this->getWrapper('pair container')->getName()) {
 			$body->class($control->getOption('class'), true);
 			$body->id = $control->getOption('id');
@@ -460,6 +480,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			if ($control instanceof Nette\Forms\Controls\BaseControl) {
 				$description = $control->translate($description);
 			}
+
 			$description = ' ' . $this->getWrapper('control description')->setText($description);
 
 		} else {
@@ -478,8 +499,10 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			if ($el->getName() === 'input') {
 				$el->class($this->getValue("control .$el->type"), true);
 			}
+
 			$el->class($this->getValue('control .error'), $control->hasErrors());
 		}
+
 		$els[] = $el;
 		$errors = array_merge($errors, $control->getErrors());
 

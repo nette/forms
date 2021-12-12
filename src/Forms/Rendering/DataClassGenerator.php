@@ -60,6 +60,7 @@ final class DataClassGenerator
 						break;
 					}
 				}
+
 				if (!$input->isRequired()) {
 					$type = '?' . $type;
 				}

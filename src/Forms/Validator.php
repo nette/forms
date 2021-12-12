@@ -84,6 +84,7 @@ class Validator
 							: ($translator ? $translator->translate($caption) : $caption);
 						return rtrim((string) $caption, ':');
 					}
+
 					return '';
 				case 'value': return $withValue
 						? $rule->control->getValue()
@@ -118,8 +119,10 @@ class Validator
 					continue 2;
 				}
 			}
+
 			return false;
 		}
+
 		return (bool) $values;
 	}
 
@@ -208,6 +211,7 @@ class Validator
 		if (!is_array($range)) {
 			$range = [$range, $range];
 		}
+
 		$value = $control->getValue();
 		return Validators::isInRange(is_array($value) ? count($value) : Strings::length((string) $value), $range);
 	}
@@ -258,11 +262,13 @@ class Validator
 		if (Validators::isUrl($value)) {
 			return true;
 		}
+
 		$value = "https://$value";
 		if (Validators::isUrl($value)) {
 			$control->setValue($value);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -280,6 +286,7 @@ class Validator
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -313,6 +320,7 @@ class Validator
 			$control->setValue($tmp);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -326,10 +334,12 @@ class Validator
 		if (is_string($value)) {
 			$value = str_replace([' ', ','], ['', '.'], $value);
 		}
+
 		if (Validators::isNumeric($value)) {
 			$control->setValue((float) $value);
 			return true;
 		}
+
 		return false;
 	}
 
@@ -344,6 +354,7 @@ class Validator
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -361,6 +372,7 @@ class Validator
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -375,6 +387,7 @@ class Validator
 				return false;
 			}
 		}
+
 		return true;
 	}
 
