@@ -38,7 +38,7 @@ class RadioList extends ChoiceControl
 	/**
 	 * @param  string|object  $label
 	 */
-	public function __construct($label = null, array $items = null)
+	public function __construct($label = null, ?array $items = null)
 	{
 		parent::__construct($label, $items);
 		$this->control->type = 'radio';
