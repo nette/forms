@@ -54,13 +54,16 @@ final class FormMacros extends MacroSet
 		if ($node->modifiers) {
 			throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
 		}
+
 		if ($node->prefix) {
 			throw new CompileException('Did you mean <form n:name=...> ?');
 		}
+
 		$name = $node->tokenizer->fetchWord();
 		if ($name == null) { // null or false
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
+
 		$node->replaced = true;
 		$node->tokenizer->reset();
 		return $writer->write(
@@ -80,13 +83,16 @@ final class FormMacros extends MacroSet
 		if ($node->modifiers) {
 			throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
 		}
+
 		if ($node->prefix) {
 			throw new CompileException('Did you mean <form n:name=...> ?');
 		}
+
 		$name = $node->tokenizer->fetchWord();
 		if ($name == null) { // null or false
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
+
 		$node->tokenizer->reset();
 		return $writer->write(
 			'$form = $this->global->formsStack[] = '
@@ -105,10 +111,12 @@ final class FormMacros extends MacroSet
 		if ($node->modifiers) {
 			throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
 		}
+
 		$name = $node->tokenizer->fetchWord();
 		if ($name == null) { // null or false
 			throw new CompileException('Missing name in ' . $node->getNotation());
 		}
+
 		$node->tokenizer->reset();
 		return $writer->write(
 			'$this->global->formsStack[] = $formContainer = '
@@ -127,10 +135,12 @@ final class FormMacros extends MacroSet
 		if ($node->modifiers) {
 			throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
 		}
+
 		$words = $node->tokenizer->fetchWords();
 		if (!$words) {
 			throw new CompileException('Missing name in ' . $node->getNotation());
 		}
+
 		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
@@ -166,10 +176,12 @@ final class FormMacros extends MacroSet
 		if ($node->modifiers) {
 			throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
 		}
+
 		$words = $node->tokenizer->fetchWords();
 		if (!$words) {
 			throw new CompileException('Missing name in ' . $node->getNotation());
 		}
+
 		$node->replaced = true;
 		$name = array_shift($words);
 		return $writer->write(
@@ -192,6 +204,7 @@ final class FormMacros extends MacroSet
 		if (!$words) {
 			throw new CompileException('Missing name in ' . $node->getNotation());
 		}
+
 		$name = array_shift($words);
 		$tagName = strtolower($node->htmlNode->name);
 		$node->empty = $tagName === 'input';
@@ -265,6 +278,7 @@ final class FormMacros extends MacroSet
 		if ($node->modifiers) {
 			throw new CompileException('Modifiers are not allowed in ' . $node->getNotation());
 		}
+
 		$name = $node->tokenizer->fetchWord();
 		$node->replaced = true;
 		if (!$name) {
@@ -291,6 +305,7 @@ final class FormMacros extends MacroSet
 		if ($name == null) { // null or false
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
+
 		$node->tokenizer->reset();
 		return $writer->write(
 			'Nette\Bridges\FormsLatte\Runtime::render' . $node->name . '('

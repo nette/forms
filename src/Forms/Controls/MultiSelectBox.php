@@ -49,8 +49,10 @@ class MultiSelectBox extends MultiChoiceControl
 					$res[(string) $value] = $value;
 				}
 			}
+
 			$items = $res;
 		}
+
 		$this->options = $items;
 		return parent::setItems(Nette\Utils\Arrays::flatten($items, true));
 	}

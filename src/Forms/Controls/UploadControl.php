@@ -41,6 +41,7 @@ class UploadControl extends BaseControl
 			if (!$form->isMethod('post')) {
 				throw new Nette\InvalidStateException('File upload requires method POST.');
 			}
+
 			$form->getElementPrototype()->enctype = 'multipart/form-data';
 		});
 	}
@@ -107,8 +108,10 @@ class UploadControl extends BaseControl
 				$ini = ini_get('upload_max_filesize');
 				trigger_error("Value of MAX_FILE_SIZE ($arg) is greater than value of directive upload_max_filesize ($ini).", E_USER_WARNING);
 			}
+
 			$this->getRules()->removeRule($validator);
 		}
+
 		return parent::addRule($validator, $errorMessage, $arg);
 	}
 }

@@ -58,6 +58,7 @@ class Rules implements \IteratorAggregate
 		} else {
 			$this->required = null;
 		}
+
 		return $this;
 	}
 
@@ -82,6 +83,7 @@ class Rules implements \IteratorAggregate
 		if ($validator === Form::VALID || $validator === ~Form::VALID) {
 			throw new Nette\InvalidArgumentException('You cannot use Form::VALID in the addRule method.');
 		}
+
 		$rule = new Rule;
 		$rule->control = $this->control;
 		$rule->validator = $validator;
@@ -93,6 +95,7 @@ class Rules implements \IteratorAggregate
 		} else {
 			$this->rules[] = $rule;
 		}
+
 		return $this;
 	}
 
@@ -113,6 +116,7 @@ class Rules implements \IteratorAggregate
 				}
 			}
 		}
+
 		return $this;
 	}
 
@@ -129,6 +133,7 @@ class Rules implements \IteratorAggregate
 			$arg = $validator;
 			$validator = ':static';
 		}
+
 		return $this->addConditionOn($this->control, $validator, $arg);
 	}
 
@@ -164,6 +169,7 @@ class Rules implements \IteratorAggregate
 		} else {
 			$rule->isNegative = !$rule->isNegative;
 		}
+
 		$rule->branch = new static($this->parent->control);
 		$rule->branch->parent = $this->parent;
 		$this->parent->rules[] = $rule;
@@ -233,6 +239,7 @@ class Rules implements \IteratorAggregate
 				$success = $success && static::validateRule($rule);
 			}
 		}
+
 		return $toggles;
 	}
 
@@ -261,6 +268,7 @@ class Rules implements \IteratorAggregate
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -283,6 +291,7 @@ class Rules implements \IteratorAggregate
 		foreach ($args as &$val) {
 			$val = $val instanceof Control ? $val->getValue() : $val;
 		}
+
 		return $rule->isNegative
 			xor self::getCallback($rule)($rule->control, is_array($rule->arg) ? $args : $args[0]);
 	}
@@ -302,6 +311,7 @@ class Rules implements \IteratorAggregate
 		foreach ($this->rules as $rule) {
 			$priorities[$rule->validator === Form::BLANK && $rule->control === $this->control ? 0 : 2][] = $rule;
 		}
+
 		return new \ArrayIterator(array_merge(...$priorities));
 	}
 
@@ -320,6 +330,7 @@ class Rules implements \IteratorAggregate
 					: 'Form:' . strtoupper($rule->validator);
 				trigger_error("Negative validation rules such as ~$name are deprecated.", E_USER_DEPRECATED);
 			}
+
 			if (isset(self::NEG_RULES[$rule->validator])) {
 				$rule->validator = self::NEG_RULES[$rule->validator];
 				$rule->isNegative = false;

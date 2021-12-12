@@ -51,6 +51,7 @@ class ControlGroup
 				throw new Nette\InvalidArgumentException("Control or Container items expected, $type given.");
 			}
 		}
+
 		return $this;
 	}
 
@@ -97,6 +98,7 @@ class ControlGroup
 		} else {
 			$this->options[$key] = $value;
 		}
+
 		return $this;
 	}
 

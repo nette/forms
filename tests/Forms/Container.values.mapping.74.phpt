@@ -44,6 +44,7 @@ function hydrate(string $class, array $data)
 	foreach ($data as $key => $value) {
 		$obj->$key = $value;
 	}
+
 	return $obj;
 }
 

@@ -93,6 +93,7 @@ test('validation rule required & PATTERN', function () {
 		$input->setHtmlType($type);
 		Assert::same('<input type="' . $type . '" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 	}
+
 	$input->setHtmlType('password');
 	Assert::same('<input type="password" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
 

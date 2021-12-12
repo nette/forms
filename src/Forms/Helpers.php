@@ -43,15 +43,18 @@ class Helpers
 			if (!is_array($data)) {
 				return [];
 			}
+
 			foreach ($data as $k => $v) {
 				$data[$k] = $v = static::sanitize($itype, $v);
 				if ($v === null) {
 					unset($data[$k]);
 				}
 			}
+
 			if ($type & Form::DATA_KEYS) {
 				return $data;
 			}
+
 			return array_values($data);
 		} else {
 			return static::sanitize($itype, $data);
@@ -89,9 +92,11 @@ class Helpers
 		if ($count) {
 			$name = substr_replace($name, '', strpos($name, ']'), 1) . ']';
 		}
+
 		if (is_numeric($name) || in_array($name, self::UNSAFE_NAMES, true)) {
 			$name = '_' . $name;
 		}
+
 		return $name;
 	}
 
@@ -104,6 +109,7 @@ class Helpers
 				if ($rule->branch) {
 					continue;
 				}
+
 				break;
 			}
 
@@ -128,6 +134,7 @@ class Helpers
 				if ($msg instanceof Nette\HtmlStringable) {
 					$msg = html_entity_decode(strip_tags((string) $msg), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 				}
+
 				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => $msg];
 			}
 
@@ -146,6 +153,7 @@ class Helpers
 
 			$payload[] = $item;
 		}
+
 		return $payload;
 	}
 
@@ -167,9 +175,11 @@ class Helpers
 			foreach ($inputAttrs as $k => $v) {
 				$input->attrs[$k] = $v[$value] ?? null;
 			}
+
 			foreach ($labelAttrs as $k => $v) {
 				$label->attrs[$k] = $v[$value] ?? null;
 			}
+
 			$input->value = $value;
 			$res .= ($res === '' && $wrapperEnd === '' ? '' : $wrapper)
 				. $labelTag . $label->attributes() . '>'
@@ -178,6 +188,7 @@ class Helpers
 				. '</label>'
 				. $wrapperEnd;
 		}
+
 		return $res;
 	}
 
@@ -187,6 +198,7 @@ class Helpers
 		if ($selected !== null) {
 			$optionAttrs['selected?'] = $selected;
 		}
+
 		[$optionAttrs, $optionTag] = self::prepareAttrs($optionAttrs, 'option');
 		$option = Html::el();
 		$res = $tmp = '';
@@ -197,11 +209,13 @@ class Helpers
 			} else {
 				$subitems = [$group => $subitems];
 			}
+
 			foreach ($subitems as $value => $caption) {
 				$option->value = $value;
 				foreach ($optionAttrs as $k => $v) {
 					$option->attrs[$k] = $v[$value] ?? null;
 				}
+
 				if ($caption instanceof Html) {
 					$caption = clone $caption;
 					$res .= $caption->setName('option')->addAttributes($option->attrs);
@@ -210,13 +224,16 @@ class Helpers
 						. htmlspecialchars((string) $caption, ENT_NOQUOTES, 'UTF-8')
 						. '</option>';
 				}
+
 				if ($selected === $value) {
 					unset($optionAttrs['selected'], $option->attrs['selected']);
 				}
 			}
+
 			$res .= $tmp;
 			$tmp = '';
 		}
+
 		return Html::el('select')->setHtml($res);
 	}
 
@@ -237,6 +254,7 @@ class Helpers
 				}
 			}
 		}
+
 		return [$dynamic, '<' . $name . Html::el(null, $attrs)->attributes()];
 	}
 
