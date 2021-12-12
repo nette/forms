@@ -141,9 +141,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns self.
-	 * @return static
 	 */
-	public function getForm(bool $throw = true): self
+	public function getForm(bool $throw = true): static
 	{
 		return $this;
 	}
@@ -152,9 +151,8 @@ class Form extends Container implements Nette\HtmlStringable
 	/**
 	 * Sets form's action.
 	 * @param  string|object  $url
-	 * @return static
 	 */
-	public function setAction($url)
+	public function setAction($url): static
 	{
 		$this->getElementPrototype()->action = $url;
 		return $this;
@@ -163,9 +161,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns form's action.
-	 * @return mixed
 	 */
-	public function getAction()
+	public function getAction(): mixed
 	{
 		return $this->getElementPrototype()->action;
 	}
@@ -173,9 +170,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Sets form's method GET or POST.
-	 * @return static
 	 */
-	public function setMethod(string $method)
+	public function setMethod(string $method): static
 	{
 		if (isset($this->httpData)) {
 			throw new Nette\InvalidStateException(__METHOD__ . '() must be called until the form is empty.');
@@ -206,9 +202,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Changes forms's HTML attribute.
-	 * @return static
 	 */
-	public function setHtmlAttribute(string $name, $value = true)
+	public function setHtmlAttribute(string $name, mixed $value = true): static
 	{
 		$this->getElementPrototype()->$name = $value;
 		return $this;
@@ -237,9 +232,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Adds fieldset group to the form.
-	 * @param  string|object  $caption
 	 */
-	public function addGroup($caption = null, bool $setAsCurrent = true): ControlGroup
+	public function addGroup(string|object|null $caption = null, bool $setAsCurrent = true): ControlGroup
 	{
 		$group = new ControlGroup;
 		$group->setOption('label', $caption);
@@ -257,9 +251,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Removes fieldset group from form.
-	 * @param  string|ControlGroup  $name
 	 */
-	public function removeGroup($name): void
+	public function removeGroup(string|ControlGroup $name): void
 	{
 		if (is_string($name) && isset($this->groups[$name])) {
 			$group = $this->groups[$name];
@@ -292,9 +285,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns the specified group.
-	 * @param  string|int  $name
 	 */
-	public function getGroup($name): ?ControlGroup
+	public function getGroup(string|int $name): ?ControlGroup
 	{
 		return $this->groups[$name] ?? null;
 	}
@@ -305,9 +297,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Sets translate adapter.
-	 * @return static
 	 */
-	public function setTranslator(?Nette\Localization\Translator $translator)
+	public function setTranslator(?Nette\Localization\Translator $translator): static
 	{
 		$this->translator = $translator;
 		return $this;
@@ -337,9 +328,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Tells if the form was submitted.
-	 * @return SubmitterControl|bool  submittor control
 	 */
-	public function isSubmitted()
+	public function isSubmitted(): SubmitterControl|bool
 	{
 		if (!isset($this->httpData)) {
 			$this->getHttpData();
@@ -360,10 +350,9 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Sets the submittor control.
-	 * @return static
 	 * @internal
 	 */
-	public function setSubmittedBy(?SubmitterControl $by)
+	public function setSubmittedBy(?SubmitterControl $by): static
 	{
 		$this->submittedBy = $by ?? false;
 		return $this;
@@ -372,9 +361,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns submitted HTTP data.
-	 * @return mixed
 	 */
-	public function getHttpData(?int $type = null, ?string $htmlName = null)
+	public function getHttpData(?int $type = null, ?string $htmlName = null): mixed
 	{
 		if (!isset($this->httpData)) {
 			if (!$this->isAnchored()) {
@@ -462,9 +450,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Resets form.
-	 * @return static
 	 */
-	public function reset()
+	public function reset(): static
 	{
 		$this->setSubmittedBy(null);
 		$this->setValues([], true);
@@ -598,9 +585,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Sets form renderer.
-	 * @return static
 	 */
-	public function setRenderer(?FormRenderer $renderer)
+	public function setRenderer(?FormRenderer $renderer): static
 	{
 		$this->renderer = $renderer;
 		return $this;
@@ -650,7 +636,6 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Renders form to string.
-	 * @param can throw exceptions? (hidden parameter)
 	 */
 	public function __toString(): string
 	{
