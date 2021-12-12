@@ -129,7 +129,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	 * Provides complete form rendering.
 	 * @param  string  $mode  'begin', 'errors', 'ownerrors', 'body', 'end' or empty to render all
 	 */
-	public function render(Nette\Forms\Form $form, string $mode = null): string
+	public function render(Nette\Forms\Form $form, ?string $mode = null): string
 	{
 		if ($this->form !== $form) {
 			$this->form = $form;
@@ -220,7 +220,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	/**
 	 * Renders validation errors (per form or per control).
 	 */
-	public function renderErrors(Nette\Forms\Control $control = null, bool $own = true): string
+	public function renderErrors(?Nette\Forms\Control $control = null, bool $own = true): string
 	{
 		$errors = $control
 			? $control->getErrors()

@@ -160,8 +160,8 @@ class Helpers
 
 	public static function createInputList(
 		array $items,
-		array $inputAttrs = null,
-		array $labelAttrs = null,
+		?array $inputAttrs = null,
+		?array $labelAttrs = null,
 		$wrapper = null
 	): string {
 		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
@@ -193,7 +193,7 @@ class Helpers
 	}
 
 
-	public static function createSelectBox(array $items, array $optionAttrs = null, $selected = null): Html
+	public static function createSelectBox(array $items, ?array $optionAttrs = null, $selected = null): Html
 	{
 		if ($selected !== null) {
 			$optionAttrs['selected?'] = $selected;

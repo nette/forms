@@ -21,7 +21,7 @@ class TextInput extends TextBase
 	/**
 	 * @param  string|object  $label
 	 */
-	public function __construct($label = null, int $maxLength = null)
+	public function __construct($label = null, ?int $maxLength = null)
 	{
 		parent::__construct($label);
 		$this->control->maxlength = $maxLength;

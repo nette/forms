@@ -19,7 +19,7 @@ class ImageButton extends SubmitButton
 	 * @param  string  $src  URI of the image
 	 * @param  string  $alt  alternate text for the image
 	 */
-	public function __construct(string $src = null, string $alt = null)
+	public function __construct(?string $src = null, ?string $alt = null)
 	{
 		parent::__construct();
 		$this->control->type = 'image';
