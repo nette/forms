@@ -113,6 +113,10 @@ final class Validator
 
 		foreach ($values as $val) {
 			foreach ($args as $item) {
+				if ($item instanceof \UnitEnum) {
+					$item = $item->value;
+				}
+
 				if ((string) $val === (string) $item) {
 					continue 2;
 				}
