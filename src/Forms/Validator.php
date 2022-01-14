@@ -113,7 +113,7 @@ final class Validator
 
 		foreach ($values as $val) {
 			foreach ($args as $item) {
-				if ($item instanceof \UnitEnum) {
+				if ($item instanceof \BackedEnum) {
 					$item = $item->value;
 				}
 
