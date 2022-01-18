@@ -14,6 +14,12 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+enum TestEnum: string {
+    case CASE_1 = 'case 1';
+    case CASE_2 = 'case 2';
+}
+
+
 before(function () {
 	Form::initialize(true);
 });
@@ -73,6 +79,18 @@ test('validators', function () {
 	Assert::false(Validator::validateMax($input, 122));
 	Assert::true(Validator::validateMax($input, 123));
 	Assert::true(Validator::validateMax($input, 124));
+});
+
+
+test('validators for enums', function () {
+	$form = new Form;
+	$input = $form->addText('text');
+	$input->setValue(TestEnum::CASE_1->value);
+
+	Assert::true(Validator::validateEqual($input, TestEnum::CASE_1));
+	Assert::true(Validator::validateEqual($input, 'case 1'));
+	Assert::false(Validator::validateEqual($input, TestEnum::CASE_2));
+	Assert::false(Validator::validateEqual($input, 1));
 });
 
 
