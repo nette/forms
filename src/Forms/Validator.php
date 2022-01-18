@@ -115,6 +115,10 @@ class Validator
 
 		foreach ($values as $val) {
 			foreach ($args as $item) {
+				if ($item instanceof \BackedEnum) {
+					$item = $item->value;
+				}
+
 				if ((string) $val === (string) $item) {
 					continue 2;
 				}
