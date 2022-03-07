@@ -19,7 +19,7 @@ class Rules implements \IteratorAggregate
 {
 	use Nette\SmartObject;
 
-	private const NEG_RULES = [
+	private const NegRules = [
 		Form::FILLED => Form::BLANK,
 		Form::BLANK => Form::FILLED,
 	];
@@ -164,8 +164,8 @@ class Rules implements \IteratorAggregate
 	public function elseCondition()
 	{
 		$rule = clone end($this->parent->rules);
-		if (isset(self::NEG_RULES[$rule->validator])) {
-			$rule->validator = self::NEG_RULES[$rule->validator];
+		if (isset(self::NegRules[$rule->validator])) {
+			$rule->validator = self::NegRules[$rule->validator];
 		} else {
 			$rule->isNegative = !$rule->isNegative;
 		}
@@ -331,8 +331,8 @@ class Rules implements \IteratorAggregate
 				trigger_error("Negative validation rules such as ~$name are deprecated.", E_USER_DEPRECATED);
 			}
 
-			if (isset(self::NEG_RULES[$rule->validator])) {
-				$rule->validator = self::NEG_RULES[$rule->validator];
+			if (isset(self::NegRules[$rule->validator])) {
+				$rule->validator = self::NegRules[$rule->validator];
 				$rule->isNegative = false;
 				trigger_error('Replace negative validation rule ~Form::FILLED with Form::BLANK and vice versa.', E_USER_DEPRECATED);
 			}
