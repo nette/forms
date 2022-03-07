@@ -24,7 +24,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
 	use Nette\ComponentModel\ArrayAccess;
 
-	private const ARRAY = 'array';
+	private const Array = 'array';
 
 	/**
 	 * Occurs when the form was validated
@@ -126,7 +126,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			}
 		}
 
-		$returnType = $returnType === true ? self::ARRAY : $returnType;
+		$returnType = $returnType === true ? self::Array : $returnType;
 		return $this->getUnsafeValues($returnType, $controls);
 	}
 
@@ -145,7 +145,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		} else {
 			$returnType = ($returnType ?? $this->mappedType ?? ArrayHash::class);
-			$rc = new \ReflectionClass($returnType === self::ARRAY ? \stdClass::class : $returnType);
+			$rc = new \ReflectionClass($returnType === self::Array ? \stdClass::class : $returnType);
 			if ($rc->hasMethod('__construct') && $rc->getMethod('__construct')->getNumberOfRequiredParameters()) {
 				$obj = new \stdClass;
 				$useConstructor = true;
@@ -165,8 +165,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$obj->$name = $control->getValue();
 
 			} elseif ($control instanceof self) {
-				$type = $returnType === self::ARRAY && !$control->mappedType
-					? self::ARRAY
+				$type = $returnType === self::Array && !$control->mappedType
+					? self::Array
 					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
 				$obj->$name = $control->getUnsafeValues($type, $allowed ? null : $controls);
 			}
@@ -176,7 +176,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			return new $returnType(...(array) $obj);
 		}
 
-		return $returnType === self::ARRAY
+		return $returnType === self::Array
 			? (array) $obj
 			: $obj;
 	}
