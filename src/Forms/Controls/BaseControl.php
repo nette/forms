@@ -235,7 +235,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Generates control's HTML element.
 	 */
-	public function getControl(): Html|string
+	public function getControl(): Html
 	{
 		$this->setOption('rendered', true);
 		$el = clone $this->control;
@@ -252,7 +252,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Generates label's HTML element.
 	 */
-	public function getLabel(string|Stringable|null $caption = null): Html|string|null
+	public function getLabel(string|Stringable|null $caption = null): Html|null
 	{
 		$label = clone $this->label;
 		$label->for = $this->getHtmlId();
