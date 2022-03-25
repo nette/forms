@@ -17,7 +17,7 @@ use Latte\PhpWriter;
 
 
 /**
- * Latte macros for Nette\Forms.
+ * Latte v2 macros for Nette\Forms.
  *
  * - {form name} ... {/form}
  * - {input name}

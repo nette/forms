@@ -10,8 +10,11 @@ use Nette\Bridges\FormsLatte\FormMacros;
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
+
+if (version_compare(Latte\Engine::VERSION, '3', '>')) {
+	Tester\Environment::skip('Test for Latte 2');
+}
 
 
 class MyControl extends Nette\Forms\Controls\BaseControl

@@ -16,7 +16,7 @@ use Nette\Utils\Html;
 
 
 /**
- * Runtime helpers for Latte.
+ * Runtime helpers for Latte v2 & v3.
  * @internal
  */
 class Runtime
@@ -81,7 +81,9 @@ class Runtime
 	 */
 	public static function renderFormPrint(Form $form): void
 	{
-		$blueprint = new Latte\Runtime\Blueprint;
+		$blueprint = class_exists(Latte\Runtime\Blueprint::class)
+			? new Latte\Runtime\Blueprint
+			: new Latte\Essential\Blueprint;
 		$end = $blueprint->printCanvas();
 		$blueprint->printHeader('Form ' . $form->getName());
 		$blueprint->printCode((new Nette\Forms\Rendering\LatteRenderer)->render($form), 'latte');
@@ -94,7 +96,9 @@ class Runtime
 	 */
 	public static function renderFormClassPrint(Form $form): void
 	{
-		$blueprint = new Latte\Runtime\Blueprint;
+		$blueprint = class_exists(Latte\Runtime\Blueprint::class)
+			? new Latte\Runtime\Blueprint
+			: new Latte\Essential\Blueprint;
 		$end = $blueprint->printCanvas();
 		$blueprint->printHeader('Form Data Class ' . $form->getName());
 		$generator = new Nette\Forms\Rendering\DataClassGenerator;

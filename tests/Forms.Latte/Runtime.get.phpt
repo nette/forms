@@ -1,17 +1,13 @@
 <?php
 
-/**
- * Test: Nette\Bridges\FormsLatte\FormMacros: GET form
- */
-
 declare(strict_types=1);
 
 use Nette\Bridges\FormsLatte\Runtime;
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
+
 
 $form = new Form;
 $form->setMethod('GET');
