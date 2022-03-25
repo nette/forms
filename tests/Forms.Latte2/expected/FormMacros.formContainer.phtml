@@ -37,7 +37,7 @@
 		echo '			<ol>
 ';
 		$iterations = 0;
-		foreach ($formContainer->controls AS $name => $field) /* line 19 */ {
+		foreach ($formContainer->controls as $name => $field) /* line 19 */ {
 			echo '				<li>';
 			$ʟ_input = $_input = is_object($ʟ_tmp = $field) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			echo $ʟ_input->getControl() /* line 20 */;

@@ -39,8 +39,6 @@ if ($form->isSuccess()) {
 }
 
 $latte = new Latte\Engine;
-$latte->onCompile[] = function ($latte) {
-	Nette\Bridges\FormsLatte\FormMacros::install($latte->getCompiler());
-};
+$latte->addExtension(new Nette\Bridges\FormsLatte\FormsExtension);
 
 $latte->render(__DIR__ . '/latte/page.latte', ['form' => $form]);

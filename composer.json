@@ -24,13 +24,13 @@
 		"nette/application": "^3.0",
 		"nette/di": "^3.0",
 		"nette/tester": "^2.0",
-		"latte/latte": "^2.10.2",
+		"latte/latte": "^2.10.2 || ^3.0",
 		"tracy/tracy": "^2.4",
 		"phpstan/phpstan-nette": "^0.12"
 	},
 	"conflict": {
 		"nette/di": "<3.0-stable",
-		"latte/latte": ">=3.0"
+		"latte/latte": ">=3.1"
 	},
 	"autoload": {
 		"classmap": ["src/"]
