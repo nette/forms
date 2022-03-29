@@ -26,10 +26,10 @@ $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.button.php',
-	$latte->compile(__DIR__ . '/templates/forms.button.latte')
+	$latte->compile(__DIR__ . '/templates/forms.button.latte'),
 );
 
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.button.html',
-	$latte->renderToString(__DIR__ . '/templates/forms.button.latte')
+	$latte->renderToString(__DIR__ . '/templates/forms.button.latte'),
 );

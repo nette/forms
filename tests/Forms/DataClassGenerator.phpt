@@ -40,7 +40,7 @@ class SignContFormData
 	public ?string $name;
 }
 ',
-	$res
+	$res,
 );
 
 $generator->propertyPromotion = true;
@@ -68,5 +68,5 @@ class SignContFormData
 	}
 }
 ',
-	$res
+	$res,
 );
