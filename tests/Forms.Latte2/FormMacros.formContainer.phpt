@@ -47,9 +47,9 @@ $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.formContainer.php',
-	$latte->compile(__DIR__ . '/templates/forms.formContainer.latte')
+	$latte->compile(__DIR__ . '/templates/forms.formContainer.latte'),
 );
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.formContainer.html',
-	$latte->renderToString(__DIR__ . '/templates/forms.formContainer.latte')
+	$latte->renderToString(__DIR__ . '/templates/forms.formContainer.latte'),
 );

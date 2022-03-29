@@ -82,5 +82,5 @@ Assert::match(
 
 </div>
 </form>',
-	$res
+	$res,
 );

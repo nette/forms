@@ -70,7 +70,7 @@ class MultiSelectBox extends MultiChoiceControl
 			[
 				'disabled:' => is_array($this->disabled) ? $this->disabled : null,
 			] + $this->optionAttributes,
-			$this->value
+			$this->value,
 		)->addAttributes(parent::getControl()->attrs)->multiple(true);
 	}
 

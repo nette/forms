@@ -162,7 +162,7 @@ class Helpers
 		array $items,
 		?array $inputAttrs = null,
 		?array $labelAttrs = null,
-		$wrapper = null
+		$wrapper = null,
 	): string
 	{
 		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
@@ -281,7 +281,7 @@ class Helpers
 			return $res;
 		} else {
 			throw new Nette\InvalidStateException(
-				Nette\Utils\Reflection::toString($reflection) . " has unsupported type '$type'."
+				Nette\Utils\Reflection::toString($reflection) . " has unsupported type '$type'.",
 			);
 		}
 	}
