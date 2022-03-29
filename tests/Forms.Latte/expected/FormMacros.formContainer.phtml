@@ -39,7 +39,7 @@
 		$iterations = 0;
 		foreach ($formContainer->controls AS $name => $field) /* line 19 */ {
 			echo '				<li>';
-			$ʟ_input = $_input = is_object($field) ? $field : end($this->global->formsStack)[$field];
+			$ʟ_input = $_input = is_object($ʟ_tmp = $field) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			echo $ʟ_input->getControl() /* line 20 */;
 			echo '</li>
 ';
@@ -71,7 +71,7 @@
 		$iterations = 0;
 		foreach ($items as $item) /* line 34 */ {
 			if (!isset($formContainer[$item])) /* line 35 */ continue;
-			$this->global->formsStack[] = $formContainer = is_object($item) ? $item : end($this->global->formsStack)[$item] /* line 36 */;
+			$this->global->formsStack[] = $formContainer = is_object($ʟ_tmp = $item) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp] /* line 36 */;
 			echo '				';
 			echo end($this->global->formsStack)["input"]->getControl() /* line 37 */;
 			echo "\n";

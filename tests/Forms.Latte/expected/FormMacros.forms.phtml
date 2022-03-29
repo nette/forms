@@ -5,41 +5,41 @@
 		$iterations = 0;
 		foreach (['id', 'username', 'select', 'area', 'send'] as $name) /* line 2 */ {
 			echo '		';
-			$ʟ_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
+			$ʟ_input = is_object($ʟ_tmp = $name) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			if ($ʟ_label = $ʟ_input->getLabel()) echo $ʟ_label;
 			echo '
 		';
-			$ʟ_input = $_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
+			$ʟ_input = $_input = is_object($ʟ_tmp = $name) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			echo $ʟ_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* line 4 */;
 			echo '
 		';
 			echo LR\Filters::escapeHtmlText($ʟ_input->getError()) /* line 5 */;
 			echo '
 		';
-			$ʟ_input = is_object($name) ? $name : end($this->global->formsStack)[$name];
+			$ʟ_input = is_object($ʟ_tmp = $name) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			echo LR\Filters::escapeHtmlText($ʟ_input->getError()) /* line 6 */;
 			echo '
 
 		<br>
 
 		';
-			$ʟ_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
+			$ʟ_input = is_object($ʟ_tmp = $form[$name]) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			if ($ʟ_label = $ʟ_input->getLabel()) echo $ʟ_label->addAttributes(['title' => 'hello'])->startTag();
 			echo ' ';
-			$ʟ_input = $_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
+			$ʟ_input = $_input = is_object($ʟ_tmp = $form[$name]) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			echo $ʟ_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* line 10 */;
 			echo ' ';
 			if ($ʟ_label) echo $ʟ_label->endTag();
 			echo '
 		';
-			$ʟ_input = is_object($form[$name]) ? $form[$name] : end($this->global->formsStack)[$form[$name]];
+			$ʟ_input = is_object($ʟ_tmp = $form[$name]) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			echo LR\Filters::escapeHtmlText($ʟ_input->getError()) /* line 11 */;
 			echo "\n";
 			$iterations++;
 		}
 		echo '
 	';
-		$ʟ_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
+		$ʟ_input = is_object($ʟ_tmp = $form['username']) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 		if ($ʟ_label = $ʟ_input->getLabel()) echo $ʟ_label;
 		echo '
 
@@ -53,17 +53,17 @@
 		echo '>
 
 	<label';
-		$ʟ_input = $_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
+		$ʟ_input = $_input = is_object($ʟ_tmp = $form['username']) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 		echo $ʟ_input->getLabelPart()->attributes() /* line 19 */;
 		echo '></label>
 	<label';
-		$ʟ_input = $_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
+		$ʟ_input = $_input = is_object($ʟ_tmp = $form['username']) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 		echo $ʟ_input->getLabelPart()->attributes() /* line 20 */;
 		echo '>';
 		echo $ʟ_input->getLabelPart()->getHtml() /* line 20 */;
 		echo '</label>
 	<input';
-		$ʟ_input = $_input = is_object($form['username']) ? $form['username'] : end($this->global->formsStack)[$form['username']];
+		$ʟ_input = $_input = is_object($ʟ_tmp = $form['username']) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 		echo $ʟ_input->getControlPart()->attributes() /* line 21 */;
 		echo '>
 
@@ -229,7 +229,7 @@
 
 
 ';
-		$form = $this->global->formsStack[] = is_object($this->global->uiControl['myForm']) ? $this->global->uiControl['myForm'] : $this->global->uiControl[$this->global->uiControl['myForm']] /* line 68 */;
+		$form = $this->global->formsStack[] = is_object($ʟ_tmp = $this->global->uiControl['myForm']) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp] /* line 68 */;
 		echo '<FORM';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false);
 		echo '>
