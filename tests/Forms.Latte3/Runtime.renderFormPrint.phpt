@@ -45,5 +45,5 @@ Assert::match(
 </fieldset>
 
 </form>%A%',
-	html_entity_decode($res)
+	html_entity_decode($res),
 );

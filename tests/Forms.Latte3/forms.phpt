@@ -49,9 +49,9 @@ $form['username']->addError('error');
 
 Assert::matchFile(
 	__DIR__ . '/expected/forms.phtml',
-	$latte->compile(__DIR__ . '/templates/forms.latte')
+	$latte->compile(__DIR__ . '/templates/forms.latte'),
 );
 Assert::matchFile(
 	__DIR__ . '/expected/forms.html',
-	$latte->renderToString(__DIR__ . '/templates/forms.latte')
+	$latte->renderToString(__DIR__ . '/templates/forms.latte'),
 );
