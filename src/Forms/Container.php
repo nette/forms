@@ -333,7 +333,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		string $name,
 		$label = null,
 		?int $cols = null,
-		?int $maxLength = null
+		?int $maxLength = null,
 	): Controls\TextInput {
 		return $this[$name] = (new Controls\TextInput($label, $maxLength))
 			->setHtmlAttribute('size', $cols)
@@ -454,7 +454,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		string $name,
 		$label = null,
 		?array $items = null,
-		?int $size = null
+		?int $size = null,
 	): Controls\MultiSelectBox {
 		return $this[$name] = (new Controls\MultiSelectBox($label, $items))
 			->setHtmlAttribute('size', $size > 1 ? $size : null);

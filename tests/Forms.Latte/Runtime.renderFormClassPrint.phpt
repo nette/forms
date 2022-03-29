@@ -23,12 +23,11 @@ Assert::match(
 	public string $name;
 }
 %A%',
-	$res
+	$res,
 );
 
-if (PHP_VERSION_ID >= 80000) {
-	Assert::match(
-		'%A%class SignFormData
+Assert::match(
+	'%A%class SignFormData
 {
 	use \Nette\SmartObject;
 
@@ -38,6 +37,5 @@ if (PHP_VERSION_ID >= 80000) {
 	}
 }
 %A%',
-		$res
-	);
-}
+	$res,
+);
