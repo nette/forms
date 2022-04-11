@@ -49,7 +49,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Sets selected item (by key).
-	 * @param  string|int|null  $value
+	 * @param  string|int|null|\BackedEnum  $value
 	 * @internal
 	 */
 	public function setValue($value): static
