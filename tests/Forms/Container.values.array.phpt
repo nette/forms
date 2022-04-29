@@ -284,6 +284,23 @@ test('submitted form + setValidationScope() + getValues(true)', function () {
 	$_POST['send'] = '';
 
 	$form = createForm();
+	$form->addSubmit('send')->setValidationScope([$form['first']]);
+
+	Assert::truthy($form->isSubmitted());
+	Assert::equal([
+		'name' => '',
+		'age' => 999,
+		'second' => [
+			'city' => 'sent city',
+		],
+	], $form['first']->getValues('array'));
+});
+
+test('submitted form + setValidationScope() + getValues(array)', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST['send'] = '';
+
+	$form = createForm();
 	$form->addSubmit('send')->setValidationScope([$form['title'], $form['first']['second']]);
 
 	Assert::truthy($form->isSubmitted());

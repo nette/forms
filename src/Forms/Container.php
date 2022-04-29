@@ -123,6 +123,15 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 			if ($controls === null && $submitter instanceof SubmitterControl) {
 				$controls = $submitter->getValidationScope();
+				if ($controls !== null && !in_array($this, $controls, true)) {
+					$scope = $this;
+					while (($scope = $scope->getParent()) instanceof self) {
+						if (in_array($scope, $controls, true)) {
+							$controls[] = $this;
+							break;
+						}
+					}
+				}
 			}
 		}
 
@@ -155,7 +164,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		}
 
 		foreach ($this->getComponents() as $name => $control) {
-			$allowed = $controls === null || in_array($control, $controls, true);
+			$allowed = $controls === null || in_array($this, $controls, true) || in_array($control, $controls, true);
 			$name = (string) $name;
 			if (
 				$control instanceof Control
