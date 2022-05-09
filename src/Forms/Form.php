@@ -238,7 +238,9 @@ class Form extends Container implements Nette\HtmlStringable
 	public function addProtection(?string $errorMessage = null): Controls\CsrfProtection
 	{
 		$control = new Controls\CsrfProtection($errorMessage);
-		$this->addComponent($control, self::PROTECTOR_ID, key((array) $this->getComponents()));
+		$children = (array) $this->getComponents();
+		$first = $children ? (string) key($children) : null;
+		$this->addComponent($control, self::PROTECTOR_ID, $first);
 		return $control;
 	}
 
