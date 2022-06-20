@@ -191,7 +191,9 @@
 			if (top && !onlyCheck) {
 				Nette.addError(elem, Nette.invalidNumberMessage);
 			}
-			return false;
+			if (top) {
+				return false;
+			}
 		}
 
 		return true;
