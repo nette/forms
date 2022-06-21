@@ -270,7 +270,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				continue;
 			}
 
-			$container = $group->getOption('container', $defaultContainer);
+			$container = $group->getOption('container') ?? $defaultContainer;
 			$container = $container instanceof Html
 				? clone $container
 				: Html::el($container);

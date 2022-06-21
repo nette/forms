@@ -53,11 +53,11 @@ final class LatteRenderer
 				}
 
 
-				public function getOption($key, $default = null)
+				public function getOption($key)
 				{
 					return $key === 'rendered'
 						? parent::getOption($key)
-						: $this->inner->getOption($key, $default);
+						: $this->inner->getOption($key);
 				}
 			};
 			$dummyInput->inner = $input;
