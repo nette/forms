@@ -307,33 +307,30 @@
 	 * Display modal window.
 	 */
 	Nette.showModal = function(message, onclose) {
-		var dialog = document.createElement('dialog'),
-			ua = navigator.userAgentData;
+		var dialog = document.createElement('dialog');
 
-		if (ua && dialog.showModal
-			&& ua.brands.some(function(item) { return item.brand === 'Opera' || (item.brand === 'Chromium' && ua.mobile); })
-		) {
-			var style = document.createElement('style');
-			style.innerText = '.netteFormsModal { text-align: center; margin: auto; border: 2px solid black; padding: 1rem } .netteFormsModal button { padding: .1em 2em }';
-
-			var button = document.createElement('button');
-			button.innerText = 'OK';
-			button.onclick = function () {
-				dialog.remove();
-				onclose();
-			};
-
-			dialog.setAttribute('class', 'netteFormsModal');
-			dialog.innerText = message + '\n\n';
-			dialog.appendChild(style);
-			dialog.appendChild(button);
-			document.body.appendChild(dialog);
-			dialog.showModal();
+		if (!dialog.showModal) {
+			alert(message);
+			onclose();
 			return;
 		}
 
-		alert(message);
-		onclose();
+		var style = document.createElement('style');
+		style.innerText = '.netteFormsModal { text-align: center; margin: auto; border: 2px solid black; padding: 1rem } .netteFormsModal button { padding: .1em 2em }';
+
+		var button = document.createElement('button');
+		button.innerText = 'OK';
+		button.onclick = function () {
+			dialog.remove();
+			onclose();
+		};
+
+		dialog.setAttribute('class', 'netteFormsModal');
+		dialog.innerText = message + '\n\n';
+		dialog.appendChild(style);
+		dialog.appendChild(button);
+		document.body.appendChild(dialog);
+		dialog.showModal();
 	};
 
 
