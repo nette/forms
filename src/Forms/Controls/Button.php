@@ -41,14 +41,13 @@ class Button extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null)
+	public function getLabel($caption = null): Html|string|null
 	{
 		return null;
 	}
 
 
-	/** @return static */
-	public function renderAsButton(bool $state = true)
+	public function renderAsButton(bool $state = true): static
 	{
 		$this->control->setName($state ? 'button' : 'input');
 		return $this;
