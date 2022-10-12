@@ -163,7 +163,8 @@ class Helpers
 		?array $inputAttrs = null,
 		?array $labelAttrs = null,
 		$wrapper = null
-	): string {
+	): string
+	{
 		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
 		[$labelAttrs, $labelTag] = self::prepareAttrs($labelAttrs, 'label');
 		$res = '';
