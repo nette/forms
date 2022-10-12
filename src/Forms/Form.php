@@ -713,7 +713,9 @@ class Form extends Container implements Nette\HtmlStringable
 				);
 			}
 
-			Nette\Http\Helpers::initCookie(self::$defaultHttpRequest, new Nette\Http\Response);
+			$response = new Nette\Http\Response;
+			$response->cookieSecure = self::$defaultHttpRequest->isSecured();
+			Nette\Http\Helpers::initCookie(self::$defaultHttpRequest, $response);
 		}
 	}
 
