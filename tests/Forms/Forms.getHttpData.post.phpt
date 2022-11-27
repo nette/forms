@@ -16,7 +16,7 @@ require __DIR__ . '/../bootstrap.php';
 
 before(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
+	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_GET = $_POST = $_FILES = [];
 	Form::initialize(true);
 });
@@ -34,7 +34,7 @@ test('', function () {
 
 
 test('', function () {
-	unset($_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME]);
+	unset($_COOKIE[Nette\Http\Helpers::StrictCookieName]);
 
 	$form = new Form;
 	$form->addSubmit('send', 'Send');
