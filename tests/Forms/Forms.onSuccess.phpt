@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 test('valid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
+	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$called = [];
 	$form = new Form;
@@ -38,7 +38,7 @@ test('valid', function () {
 
 test('valid -> invalid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
+	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$called = [];
 	$form = new Form;
@@ -68,7 +68,7 @@ test('valid -> invalid', function () {
 
 test('invalid', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
+	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$called = [];
 	$form = new Form;
