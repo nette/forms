@@ -23,7 +23,7 @@ $latte->addExtension(new FormsExtension);
 $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
-	__DIR__ . '/expected/forms.get.phtml',
+	__DIR__ . '/expected/forms.get.php',
 	$latte->compile(__DIR__ . '/templates/forms.get.latte')
 );
 Assert::matchFile(

@@ -27,7 +27,7 @@ FormMacros::install($latte->getCompiler());
 $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
-	__DIR__ . '/expected/FormMacros.get.phtml',
+	__DIR__ . '/expected/FormMacros.get.php',
 	$latte->compile(__DIR__ . '/templates/forms.get.latte')
 );
 Assert::matchFile(

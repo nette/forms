@@ -48,7 +48,7 @@ $latte->addProvider('uiControl', ['myForm' => $form]);
 $form['username']->addError('error');
 
 Assert::matchFile(
-	__DIR__ . '/expected/forms.phtml',
+	__DIR__ . '/expected/forms.php',
 	$latte->compile(__DIR__ . '/templates/forms.latte')
 );
 Assert::matchFile(

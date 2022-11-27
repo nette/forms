@@ -21,7 +21,7 @@ $latte->addExtension(new FormsExtension);
 $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
-	__DIR__ . '/expected/forms.button.phtml',
+	__DIR__ . '/expected/forms.button.php',
 	$latte->compile(__DIR__ . '/templates/forms.button.latte')
 );
 
