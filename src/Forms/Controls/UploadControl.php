@@ -105,7 +105,7 @@ class UploadControl extends BaseControl
 	): static
 	{
 		if ($validator === Form::Image) {
-			$this->control->accept = implode(', ', FileUpload::IMAGE_MIME_TYPES);
+			$this->control->accept = implode(', ', FileUpload::ImageMimeTypes);
 
 		} elseif ($validator === Form::MimeType) {
 			$this->control->accept = implode(', ', (array) $arg);

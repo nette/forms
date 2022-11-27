@@ -27,7 +27,7 @@ test('crossOrigin', function () {
 
 
 test('sameSite', function () {
-	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
+	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$form = new Form;
 	Assert::true($form->isSuccess());

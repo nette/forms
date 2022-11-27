@@ -43,7 +43,7 @@ Assert::false($select->isOk());
 
 // error message is processed via Rules
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
+$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 Form::initialize(true);
 Validator::$messages[Nette\Forms\Controls\SelectBox::Valid] = 'SelectBox "%label" must be filled.';
 $form = new Form;
