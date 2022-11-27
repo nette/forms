@@ -132,7 +132,7 @@ test('disabled', function () {
 test('disabled & submitted', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = ['disabled' => 'submitted value'];
-	$_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
+	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$form = new Form;
 	$form->addText('disabled')
