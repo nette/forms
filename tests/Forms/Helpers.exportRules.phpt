@@ -17,7 +17,7 @@ require __DIR__ . '/../bootstrap.php';
 test('', function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->addRule(Form::FILLED, null, []);
+	$input->addRule(Form::Filled, null, []);
 	Assert::same([
 		[
 			'op' => ':filled',
@@ -31,7 +31,7 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->addRule(Form::EMAIL);
+	$input->addRule(Form::Email);
 	Assert::same([
 		['op' => ':email', 'msg' => 'Please enter a valid email address.'],
 	], Helpers::exportRules($input->getRules()));
@@ -42,7 +42,7 @@ test('', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setRequired(true);
-	$input->addRule(Form::EMAIL);
+	$input->addRule(Form::Email);
 	Assert::same([
 		['op' => ':filled', 'msg' => 'This field is required.'],
 		['op' => ':email', 'msg' => 'Please enter a valid email address.'],
@@ -54,7 +54,7 @@ test('', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setRequired(false);
-	$input->addRule(Form::EMAIL);
+	$input->addRule(Form::Email);
 	Assert::same([
 		['op' => ':email', 'msg' => 'Please enter a valid email address.'],
 	], Helpers::exportRules($input->getRules()));
@@ -66,12 +66,12 @@ test('', function () {
 	$input1 = $form->addText('text1');
 	$input2 = $form->addText('text2');
 	$input2->setRequired(false);
-	$input2->addConditionOn($input1, Form::EMAIL)
+	$input2->addConditionOn($input1, Form::Email)
 		->setRequired(true)
-		->addRule($form::EMAIL);
-	$input2->addConditionOn($input1, Form::INTEGER)
+		->addRule($form::Email);
+	$input2->addConditionOn($input1, Form::Integer)
 		->setRequired(false)
-		->addRule($form::EMAIL);
+		->addRule($form::Email);
 
 	Assert::same([
 		[
@@ -96,10 +96,10 @@ test('', function () {
 test('addFilter', function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->addRule(Form::PATTERN, 'match pattern', '\d+');
+	$input->addRule(Form::Pattern, 'match pattern', '\d+');
 	$input->addFilter(function () {});
 	$input->setRequired(false);
-	$input->addRule(Form::EMAIL);
+	$input->addRule(Form::Email);
 	Assert::same([
 		['op' => ':pattern', 'msg' => 'match pattern', 'arg' => '\\d+'],
 	], Helpers::exportRules($input->getRules()));

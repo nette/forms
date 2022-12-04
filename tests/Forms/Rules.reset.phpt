@@ -26,8 +26,8 @@ test('', function () {
 	$form = new Form;
 	$input1 = $form->addText('text1');
 	$input2 = $form->addText('text2');
-	$input2->addConditionOn($input1, $form::FILLED)
-		->addRule($form::BLANK);
+	$input2->addConditionOn($input1, $form::Filled)
+		->addRule($form::Blank);
 
 	Assert::count(0, iterator_to_array($input1->getRules()));
 	Assert::count(1, iterator_to_array($input2->getRules()));

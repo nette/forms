@@ -29,59 +29,161 @@ class Form extends Container implements Nette\HtmlStringable
 {
 	/** validator */
 	public const
-		EQUAL = ':equal',
-		IS_IN = self::EQUAL,
-		NOT_EQUAL = ':notEqual',
-		IS_NOT_IN = self::NOT_EQUAL,
-		FILLED = ':filled',
-		BLANK = ':blank',
-		REQUIRED = self::FILLED,
-		VALID = ':valid',
+		Equal = ':equal',
+		IsIn = self::Equal,
+		NotEqual = ':notEqual',
+		IsNotIn = self::NotEqual,
+		Filled = ':filled',
+		Blank = ':blank',
+		Required = self::Filled,
+		Valid = ':valid',
 
 		// button
-		SUBMITTED = ':submitted',
+		Submitted = ':submitted',
 
 		// text
-		MIN_LENGTH = ':minLength',
-		MAX_LENGTH = ':maxLength',
-		LENGTH = ':length',
-		EMAIL = ':email',
+		MinLength = ':minLength',
+		MaxLength = ':maxLength',
+		Length = ':length',
+		Email = ':email',
 		URL = ':url',
-		PATTERN = ':pattern',
-		PATTERN_ICASE = ':patternCaseInsensitive',
-		INTEGER = ':integer',
-		NUMERIC = ':numeric',
-		FLOAT = ':float',
-		MIN = ':min',
-		MAX = ':max',
-		RANGE = ':range',
+		Pattern = ':pattern',
+		PatternCI = ':patternCaseInsensitive',
+		Integer = ':integer',
+		Numeric = ':numeric',
+		Float = ':float',
+		Min = ':min',
+		Max = ':max',
+		Range = ':range',
 
 		// multiselect
-		COUNT = self::LENGTH,
+		Count = self::Length,
 
 		// file upload
-		MAX_FILE_SIZE = ':fileSize',
-		MIME_TYPE = ':mimeType',
-		IMAGE = ':image',
-		MAX_POST_SIZE = ':maxPostSize';
+		MaxFileSize = ':fileSize',
+		MimeType = ':mimeType',
+		Image = ':image',
+		MaxPostSize = ':maxPostSize';
 
 	/** method */
 	public const
-		GET = 'get',
-		POST = 'post';
+		Get = 'get',
+		Post = 'post';
 
 	/** submitted data types */
 	public const
-		DATA_TEXT = 1,
-		DATA_LINE = 2,
-		DATA_FILE = 3,
-		DATA_KEYS = 8;
+		DataText = 1,
+		DataLine = 2,
+		DataFile = 3,
+		DataKeys = 8;
 
 	/** @internal tracker ID */
-	public const TRACKER_ID = '_form_';
+	public const TrackerId = '_form_';
 
 	/** @internal protection token ID */
-	public const PROTECTOR_ID = '_token_';
+	public const ProtectorId = '_token_';
+
+	/** @deprecated use Form::Equal */
+	public const EQUAL = self::Equal;
+
+	/** @deprecated use Form::IsIn */
+	public const IS_IN = self::IsIn;
+
+	/** @deprecated use Form::NotEqual */
+	public const NOT_EQUAL = self::NotEqual;
+
+	/** @deprecated use Form::IsNotIn */
+	public const IS_NOT_IN = self::IsNotIn;
+
+	/** @deprecated use Form::Filled */
+	public const FILLED = self::Filled;
+
+	/** @deprecated use Form::Blank */
+	public const BLANK = self::Blank;
+
+	/** @deprecated use Form::Required */
+	public const REQUIRED = self::Required;
+
+	/** @deprecated use Form::Valid */
+	public const VALID = self::Valid;
+
+	/** @deprecated use Form::Submitted */
+	public const SUBMITTED = self::Submitted;
+
+	/** @deprecated use Form::MinLength */
+	public const MIN_LENGTH = self::MinLength;
+
+	/** @deprecated use Form::MaxLength */
+	public const MAX_LENGTH = self::MaxLength;
+
+	/** @deprecated use Form::Length */
+	public const LENGTH = self::Length;
+
+	/** @deprecated use Form::Email */
+	public const EMAIL = self::Email;
+
+	/** @deprecated use Form::Pattern */
+	public const PATTERN = self::Pattern;
+
+	/** @deprecated use Form::PatternCI */
+	public const PATTERN_ICASE = self::PatternCI;
+
+	/** @deprecated use Form::Integer */
+	public const INTEGER = self::Integer;
+
+	/** @deprecated use Form::Numeric */
+	public const NUMERIC = self::Numeric;
+
+	/** @deprecated use Form::Float */
+	public const FLOAT = self::Float;
+
+	/** @deprecated use Form::Min */
+	public const MIN = self::Min;
+
+	/** @deprecated use Form::Max */
+	public const MAX = self::Max;
+
+	/** @deprecated use Form::Range */
+	public const RANGE = self::Range;
+
+	/** @deprecated use Form::Count */
+	public const COUNT = self::Count;
+
+	/** @deprecated use Form::MaxFileSize */
+	public const MAX_FILE_SIZE = self::MaxFileSize;
+
+	/** @deprecated use Form::MimeType */
+	public const MIME_TYPE = self::MimeType;
+
+	/** @deprecated use Form::Image */
+	public const IMAGE = self::Image;
+
+	/** @deprecated use Form::MaxPostSize */
+	public const MAX_POST_SIZE = self::MaxPostSize;
+
+	/** @deprecated use Form::Get */
+	public const GET = self::Get;
+
+	/** @deprecated use Form::Post */
+	public const POST = self::Post;
+
+	/** @deprecated use Form::DataText */
+	public const DATA_TEXT = self::DataText;
+
+	/** @deprecated use Form::DataLine */
+	public const DATA_LINE = self::DataLine;
+
+	/** @deprecated use Form::DataFile */
+	public const DATA_FILE = self::DataFile;
+
+	/** @deprecated use Form::DataKeys */
+	public const DATA_KEYS = self::DataKeys;
+
+	/** @deprecated use Form::TrackerId */
+	public const TRACKER_ID = self::TrackerId;
+
+	/** @deprecated use Form::ProtectorId */
+	public const PROTECTOR_ID = self::ProtectorId;
 
 	/**
 	 * Occurs when the form is submitted and successfully validated
@@ -130,7 +232,7 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->getElementPrototype()->id = 'frm-' . $name;
 			$tracker = new Controls\HiddenField($name);
 			$tracker->setOmitted();
-			$this[self::TRACKER_ID] = $tracker;
+			$this[self::TrackerId] = $tracker;
 			$this->setParent(null, $name);
 		}
 
@@ -227,7 +329,7 @@ class Form extends Container implements Nette\HtmlStringable
 		$control = new Controls\CsrfProtection($errorMessage);
 		$children = (array) $this->getComponents();
 		$first = $children ? (string) array_key_first($children) : null;
-		$this->addComponent($control, self::PROTECTOR_ID, $first);
+		$this->addComponent($control, self::ProtectorId, $first);
 		return $control;
 	}
 
@@ -482,8 +584,8 @@ class Form extends Container implements Nette\HtmlStringable
 			}
 		}
 
-		if ($tracker = $this->getComponent(self::TRACKER_ID, false)) {
-			if (!isset($data[self::TRACKER_ID]) || $data[self::TRACKER_ID] !== $tracker->getValue()) {
+		if ($tracker = $this->getComponent(self::TrackerId, false)) {
+			if (!isset($data[self::TrackerId]) || $data[self::TrackerId] !== $tracker->getValue()) {
 				return null;
 			}
 		}
@@ -516,7 +618,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 		$maxSize = Helpers::iniGetSize('post_max_size');
 		if ($maxSize > 0 && $maxSize < $_SERVER['CONTENT_LENGTH']) {
-			$this->addError(sprintf(Validator::$messages[self::MAX_FILE_SIZE], $maxSize));
+			$this->addError(sprintf(Validator::$messages[self::MaxFileSize], $maxSize));
 		}
 	}
 
@@ -575,7 +677,7 @@ class Form extends Container implements Nette\HtmlStringable
 		if (!isset($this->element)) {
 			$this->element = Html::el('form');
 			$this->element->action = ''; // RFC 1808 -> empty uri means 'this'
-			$this->element->method = self::POST;
+			$this->element->method = self::Post;
 		}
 
 		return $this->element;

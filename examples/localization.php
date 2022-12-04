@@ -51,8 +51,8 @@ $form->addText('name', 'Your name:')
 
 $form->addText('age', 'Your age:')
 	->setRequired('Enter your age')
-	->addRule($form::INTEGER, 'Age must be numeric value')
-	->addRule($form::RANGE, 'Age must be in range from %d to %d', [10, 100]);
+	->addRule($form::Integer, 'Age must be numeric value')
+	->addRule($form::Range, 'Age must be in range from %d to %d', [10, 100]);
 
 $countries = [
 	'World' => [

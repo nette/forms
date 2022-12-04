@@ -25,7 +25,7 @@ foreach ($datasets as $case) {
 
 	$form->addText('min');
 	$form->addText('max');
-	$form->addText('value')->addRule(Form::RANGE, null, [$form['min'], $form['max']]);
+	$form->addText('value')->addRule(Form::Range, null, [$form['min'], $form['max']]);
 	$form->setValues($case[0]);
 
 	Assert::equal($case[1], $form->isValid());

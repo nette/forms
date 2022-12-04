@@ -19,7 +19,10 @@ use Stringable;
  */
 class CsrfProtection extends HiddenField
 {
-	public const PROTECTION = 'Nette\Forms\Controls\CsrfProtection::validateCsrf';
+	public const Protection = 'Nette\Forms\Controls\CsrfProtection::validateCsrf';
+
+	/** @deprecated use CsrfProtection::Protection */
+	public const PROTECTION = self::Protection;
 
 	public ?Nette\Http\Session $session = null;
 
@@ -29,7 +32,7 @@ class CsrfProtection extends HiddenField
 		parent::__construct();
 		$this->setOmitted()
 			->setRequired()
-			->addRule(self::PROTECTION, $errorMessage);
+			->addRule(self::Protection, $errorMessage);
 
 		$this->monitor(Presenter::class, function (Presenter $presenter): void {
 			if (!$this->session) {
@@ -58,7 +61,7 @@ class CsrfProtection extends HiddenField
 
 	public function loadHttpData(): void
 	{
-		$this->value = $this->getHttpData(Nette\Forms\Form::DATA_TEXT);
+		$this->value = $this->getHttpData(Nette\Forms\Form::DataText);
 	}
 
 

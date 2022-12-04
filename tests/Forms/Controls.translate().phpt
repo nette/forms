@@ -87,7 +87,7 @@ test('', function () {
 
 	$email = $form->addText('email')
 		->setRequired('error')
-		->addRule($form::EMAIL, 'error');
+		->addRule($form::Email, 'error');
 
 	Assert::match('<input type="email" name="email" id="frm-email" required data-nette-rules=\'[{"op":":filled","msg":"error"},{"op":":email","msg":"error"}]\'>', (string) $email->getControl());
 	$email->validate();
@@ -95,7 +95,7 @@ test('', function () {
 
 	$email2 = $form->addText('email2')
 		->setRequired(new StringWrapper('Your name'))
-		->addRule($form::EMAIL, new StringWrapper('Your name'));
+		->addRule($form::Email, new StringWrapper('Your name'));
 
 	Assert::match('<input type="email" name="email2" id="frm-email2" required data-nette-rules=\'[{"op":":filled","msg":"StringWrapper"},{"op":":email","msg":"StringWrapper"}]\'>', (string) $email2->getControl());
 	$email2->validate();

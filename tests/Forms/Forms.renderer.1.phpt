@@ -44,13 +44,13 @@ $form->addGroup('Personal data')
 	->setOption('id', 'test-group-id-set-via-option');
 
 $form->addText('name', 'Your name:')
-	->addRule(Form::FILLED, 'Enter your name')
+	->addRule(Form::Filled, 'Enter your name')
 	->setOption('class', 'myclass')
 	->setOption('id', 'myid');
 
 $form->addInteger('age', 'Your age:')
-	->addRule(Form::FILLED, 'Enter your age')
-	->addRule(Form::RANGE, 'Age must be in range from %d to %d', [10, 100]);
+	->addRule(Form::Filled, 'Enter your age')
+	->addRule(Form::Range, 'Age must be in range from %d to %d', [10, 100]);
 
 $form->addRadioList('gender', 'Your gender:', $sex);
 
@@ -62,7 +62,7 @@ $form->addGroup('Shipping address')
 	->setOption('embedNext', true);
 
 $form->addCheckbox('send', 'Ship to address')
-	->addCondition(Form::EQUAL, false)
+	->addCondition(Form::Equal, false)
 	->elseCondition()
 		->toggle('sendBox');
 
@@ -73,13 +73,13 @@ $form->addGroup()
 $form->addText('street', 'Street:');
 
 $form->addText('city', 'City:')
-	->addConditionOn($form['send'], Form::EQUAL, true)
-		->addRule(Form::FILLED, 'Enter your shipping address');
+	->addConditionOn($form['send'], Form::Equal, true)
+		->addRule(Form::Filled, 'Enter your shipping address');
 
 $form->addSelect('country', 'Country:', $countries)
 	->setPrompt('Select your country')
-	->addConditionOn($form['send'], Form::EQUAL, true)
-		->addRule(Form::FILLED, 'Select your country');
+	->addConditionOn($form['send'], Form::Equal, true)
+		->addRule(Form::Filled, 'Select your country');
 
 $form->addSelect('countrySetItems', 'Country:')
 	->setPrompt('Select your country')
@@ -90,18 +90,18 @@ $form->addGroup('Your account');
 
 $form->addPassword('password', 'Choose password:')
 	->setOption('nextTo', 'password2')
-	->addRule(Form::FILLED, 'Choose your password')
-	->addRule(Form::MIN_LENGTH, 'The password is too short: it must be at least %d characters', 3);
+	->addRule(Form::Filled, 'Choose your password')
+	->addRule(Form::MinLength, 'The password is too short: it must be at least %d characters', 3);
 
 $form->addPassword('password2', 'Reenter password:')
 	->setOption('nextTo', 'avatar')
-	->addConditionOn($form['password'], Form::VALID)
-		->addRule(Form::FILLED, 'Reenter your password')
-		->addRule(Form::EQUAL, 'Passwords do not match', $form['password']);
+	->addConditionOn($form['password'], Form::Valid)
+		->addRule(Form::Filled, 'Reenter your password')
+		->addRule(Form::Equal, 'Passwords do not match', $form['password']);
 
 $form->addUpload('avatar', 'Picture:')
-	->addCondition(Form::FILLED)
-		->addRule(Form::IMAGE, 'Uploaded file is not image');
+	->addCondition(Form::Filled)
+		->addRule(Form::Image, 'Uploaded file is not image');
 
 $form->addHidden('userid');
 

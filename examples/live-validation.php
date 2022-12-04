@@ -24,16 +24,16 @@ $form->addText('name', 'Your name:')
 
 $form->addText('age', 'Your age:')
 	->setRequired('Enter your age')
-	->addRule($form::INTEGER, 'Age must be numeric value')
-	->addRule($form::RANGE, 'Age must be in range from %d to %d', [10, 100]);
+	->addRule($form::Integer, 'Age must be numeric value')
+	->addRule($form::Range, 'Age must be in range from %d to %d', [10, 100]);
 
 $form->addPassword('password', 'Choose password:')
 	->setRequired('Choose your password')
-	->addRule($form::MIN_LENGTH, 'The password is too short: it must be at least %d characters', 3);
+	->addRule($form::MinLength, 'The password is too short: it must be at least %d characters', 3);
 
 $form->addPassword('password2', 'Reenter password:')
 	->setRequired('Reenter your password')
-	->addRule($form::EQUAL, 'Passwords do not match', $form['password']);
+	->addRule($form::Equal, 'Passwords do not match', $form['password']);
 
 $form->addSubmit('submit', 'Send');
 
