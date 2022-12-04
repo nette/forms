@@ -115,7 +115,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		$form = $this->getForm(false);
 		if ($form && ($submitter = $form->isSubmitted())) {
 			if ($this->validated === null) {
-				throw new Nette\InvalidStateException('You cannot call getValues() during the validation process. Use getUnsafeValues() instead.');
+				throw new Nette\InvalidStateException('You cannot call getValues() during the validation process. Use getUntrustedValues() instead.');
 
 			} elseif (!$this->isValid()) {
 				trigger_error(__METHOD__ . "() invoked but the form is not valid (form '{$this->getName()}').", E_USER_WARNING);
@@ -127,7 +127,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		}
 
 		$returnType = $returnType === true ? self::Array : $returnType;
-		return $this->getUnsafeValues($returnType, $controls);
+		return $this->getUntrustedValues($returnType, $controls);
 	}
 
 
@@ -137,7 +137,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @param  Control[]|null  $controls
 	 * @return object|array
 	 */
-	public function getUnsafeValues($returnType, ?array $controls = null)
+	public function getUntrustedValues($returnType = ArrayHash::class, ?array $controls = null)
 	{
 		if (is_object($returnType)) {
 			$obj = $returnType;
@@ -168,7 +168,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				$type = $returnType === self::Array && !$control->mappedType
 					? self::Array
 					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
-				$obj->$name = $control->getUnsafeValues($type, $allowed ? null : $controls);
+				$obj->$name = $control->getUntrustedValues($type, $allowed ? null : $controls);
 			}
 		}
 
@@ -179,6 +179,13 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		return $returnType === self::Array
 			? (array) $obj
 			: $obj;
+	}
+
+
+	/** @eprecated use getUntrustedValues() */
+	public function getUnsafeValues($returnType, ?array $controls = null)
+	{
+		return $this->getUntrustedValues($returnType, $controls);
 	}
 
 
@@ -232,8 +239,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
 			$types = array_map([Nette\Utils\Reflection::class, 'getParameterType'], $params);
 			$args = isset($types[0]) && !$this instanceof $types[0]
-				? [$this->getUnsafeValues($types[0])]
-				: [$this, isset($params[1]) ? $this->getUnsafeValues($types[1]) : null];
+				? [$this->getUntrustedValues($types[0])]
+				: [$this, isset($params[1]) ? $this->getUntrustedValues($types[1]) : null];
 			$handler(...$args);
 		}
 	}
