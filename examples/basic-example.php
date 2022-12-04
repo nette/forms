@@ -30,8 +30,8 @@ $form->addText('name', 'Your name:')
 
 $form->addText('age', 'Your age:')
 	->setRequired('Enter your age')
-	->addRule($form::INTEGER, 'Age must be numeric value')
-	->addRule($form::RANGE, 'Age must be in range from %d to %d', [10, 100]);
+	->addRule($form::Integer, 'Age must be numeric value')
+	->addRule($form::Range, 'Age must be in range from %d to %d', [10, 100]);
 
 $form->addRadioList('gender', 'Your gender:', [
 	'm' => 'male',
@@ -53,7 +53,7 @@ $form->addGroup('Shipping address')
 	->setOption('embedNext', true);
 
 $form->addCheckbox('send', 'Ship to address')
-	->addCondition($form::FILLED) // conditional rule: if is checkbox checked...
+	->addCondition($form::Filled) // conditional rule: if is checkbox checked...
 		->toggle('sendBox'); // toggle div #sendBox
 
 
@@ -64,7 +64,7 @@ $form->addGroup()
 $form->addText('street', 'Street:');
 
 $form->addText('city', 'City:')
-	->addConditionOn($form['send'], $form::FILLED)
+	->addConditionOn($form['send'], $form::Filled)
 		->setRequired('Enter your shipping address');
 
 $countries = [
@@ -77,7 +77,7 @@ $countries = [
 ];
 $form->addSelect('country', 'Country:', $countries)
 	->setPrompt('Select your country')
-	->addConditionOn($form['send'], $form::FILLED)
+	->addConditionOn($form['send'], $form::Filled)
 		->setRequired('Select your country');
 
 
@@ -86,14 +86,14 @@ $form->addGroup('Your account');
 
 $form->addPassword('password', 'Choose password:')
 	->setRequired('Choose your password')
-	->addRule($form::MIN_LENGTH, 'The password is too short: it must be at least %d characters', 3);
+	->addRule($form::MinLength, 'The password is too short: it must be at least %d characters', 3);
 
 $form->addPassword('password2', 'Reenter password:')
 	->setRequired('Reenter your password')
-	->addRule($form::EQUAL, 'Passwords do not match', $form['password']);
+	->addRule($form::Equal, 'Passwords do not match', $form['password']);
 
 $form->addUpload('avatar', 'Picture:')
-	->addRule($form::IMAGE, 'Uploaded file is not image');
+	->addRule($form::Image, 'Uploaded file is not image');
 
 $form->addHidden('userid');
 

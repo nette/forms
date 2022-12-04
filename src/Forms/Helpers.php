@@ -40,7 +40,7 @@ class Helpers
 	{
 		$name = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName));
 		$data = Nette\Utils\Arrays::get($data, $name, null);
-		$itype = $type & ~Form::DATA_KEYS;
+		$itype = $type & ~Form::DataKeys;
 
 		if (str_ends_with($htmlName, '[]')) {
 			if (!is_array($data)) {
@@ -54,7 +54,7 @@ class Helpers
 				}
 			}
 
-			if ($type & Form::DATA_KEYS) {
+			if ($type & Form::DataKeys) {
 				return $data;
 			}
 
@@ -67,17 +67,17 @@ class Helpers
 
 	private static function sanitize(int $type, $value)
 	{
-		if ($type === Form::DATA_TEXT) {
+		if ($type === Form::DataText) {
 			return is_scalar($value)
 				? Strings::normalizeNewLines($value)
 				: null;
 
-		} elseif ($type === Form::DATA_LINE) {
+		} elseif ($type === Form::DataLine) {
 			return is_scalar($value)
 				? Strings::trim(strtr((string) $value, "\r\n", '  '))
 				: null;
 
-		} elseif ($type === Form::DATA_FILE) {
+		} elseif ($type === Form::DataFile) {
 			return $value instanceof Nette\Http\FileUpload ? $value : null;
 
 		} else {

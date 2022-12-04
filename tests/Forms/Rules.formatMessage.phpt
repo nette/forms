@@ -16,22 +16,22 @@ require __DIR__ . '/../bootstrap.php';
 $form = new Form;
 $form->addText('args1')
 	->setRequired()
-	->addRule(Form::RANGE, '%d %d', [1, 5])
+	->addRule(Form::Range, '%d %d', [1, 5])
 	->setDefaultValue('x');
 
 $form->addText('args2')
 	->setRequired()
-	->addRule(Form::RANGE, '%2$d %1$d', [1, 5])
+	->addRule(Form::Range, '%2$d %1$d', [1, 5])
 	->setDefaultValue('x');
 
 $form->addText('args3')
 	->setRequired()
-	->addRule(Form::LENGTH, '%d %d', 1)
+	->addRule(Form::Length, '%d %d', 1)
 	->setDefaultValue('xyz');
 
 $form->addText('special', 'Label:')
 	->setRequired()
-	->addRule(Form::EMAIL, '%label %value is invalid [field %name] %d', $form['special'])
+	->addRule(Form::Email, '%label %value is invalid [field %name] %d', $form['special'])
 	->setDefaultValue('xyz');
 
 $form->validate();

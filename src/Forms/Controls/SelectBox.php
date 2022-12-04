@@ -19,7 +19,10 @@ use Stringable;
 class SelectBox extends ChoiceControl
 {
 	/** validation rule */
-	public const VALID = ':selectBoxValid';
+	public const Valid = ':selectBoxValid';
+
+	/** @deprecated use SelectBox::Valid */
+	public const VALID = self::Valid;
 
 	/** of option / optgroup */
 	private array $options = [];
@@ -37,7 +40,7 @@ class SelectBox extends ChoiceControl
 			fn() => $this->prompt === false
 			&& $this->options
 			&& $this->control->size < 2,
-		)->addRule(Nette\Forms\Form::FILLED, Nette\Forms\Validator::$messages[self::VALID]);
+		)->addRule(Nette\Forms\Form::Filled, Nette\Forms\Validator::$messages[self::Valid]);
 	}
 
 

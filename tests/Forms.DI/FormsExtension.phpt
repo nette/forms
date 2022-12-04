@@ -33,9 +33,9 @@ test('', function () {
 
 	$container = new Container1;
 	$container->initialize();
-	Assert::same(Validator::$messages[Form::FILLED], 'Testing filled');
-	Assert::same(Validator::$messages[Form::EQUAL], 'Testing equal %s.');
-	Assert::same(Validator::$messages[Nette\Forms\Controls\SelectBox::VALID], 'SelectBox test');
+	Assert::same(Validator::$messages[Form::Filled], 'Testing filled');
+	Assert::same(Validator::$messages[Form::Equal], 'Testing equal %s.');
+	Assert::same(Validator::$messages[Nette\Forms\Controls\SelectBox::Valid], 'SelectBox test');
 });
 
 

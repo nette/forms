@@ -13,20 +13,20 @@ test('', function () {
 	$form = new Form;
 	$input = $form->addText('text1');
 	$input->setRequired();
-	$input->addRule($form::EMAIL);
+	$input->addRule($form::Email);
 
 	$rules = iterator_to_array($input->getRules());
 	Assert::count(2, $rules);
-	Assert::same($form::REQUIRED, $rules[0]->validator);
-	Assert::same($form::EMAIL, $rules[1]->validator);
+	Assert::same($form::Required, $rules[0]->validator);
+	Assert::same($form::Email, $rules[1]->validator);
 
-	$input->getRules()->removeRule($form::EMAIL);
+	$input->getRules()->removeRule($form::Email);
 
 	$rules = iterator_to_array($input->getRules());
 	Assert::count(1, $rules);
-	Assert::same($form::REQUIRED, $rules[0]->validator);
+	Assert::same($form::Required, $rules[0]->validator);
 
-	$input->getRules()->removeRule($form::REQUIRED);
+	$input->getRules()->removeRule($form::Required);
 
 	$rules = iterator_to_array($input->getRules());
 	Assert::count(0, $rules);
@@ -39,7 +39,7 @@ test('', function () {
 	$input->setRequired();
 
 	Assert::count(1, iterator_to_array($input->getRules()));
-	$input->getRules()->removeRule($form::EMAIL);
+	$input->getRules()->removeRule($form::Email);
 
 	Assert::count(1, iterator_to_array($input->getRules()));
 });
@@ -48,10 +48,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->addCondition($form::EMAIL);
+	$input->addCondition($form::Email);
 
 	Assert::count(1, iterator_to_array($input->getRules()));
-	$input->getRules()->removeRule($form::EMAIL);
+	$input->getRules()->removeRule($form::Email);
 
 	Assert::count(1, iterator_to_array($input->getRules()));
 });

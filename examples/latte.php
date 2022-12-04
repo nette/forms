@@ -24,11 +24,11 @@ $form->addText('name', 'Your name:')
 
 $form->addPassword('password', 'Choose password:')
 	->setRequired('Choose your password')
-	->addRule($form::MIN_LENGTH, 'The password is too short: it must be at least %d characters', 3);
+	->addRule($form::MinLength, 'The password is too short: it must be at least %d characters', 3);
 
 $form->addPassword('password2', 'Reenter password:')
 	->setRequired('Reenter your password')
-	->addRule($form::EQUAL, 'Passwords do not match', $form['password']);
+	->addRule($form::Equal, 'Passwords do not match', $form['password']);
 
 $form->addSubmit('submit', 'Send');
 

@@ -45,7 +45,7 @@ Assert::false($select->isOk());
 $_SERVER['REQUEST_METHOD'] = 'POST';
 $_COOKIE[Nette\Http\Helpers::STRICT_COOKIE_NAME] = '1';
 Form::initialize(true);
-Validator::$messages[Nette\Forms\Controls\SelectBox::VALID] = 'SelectBox "%label" must be filled.';
+Validator::$messages[Nette\Forms\Controls\SelectBox::Valid] = 'SelectBox "%label" must be filled.';
 $form = new Form;
 $form->addSelect('foo', 'Foo', ['bar' => 'Bar']);
 $form->onSuccess[] = function () {};

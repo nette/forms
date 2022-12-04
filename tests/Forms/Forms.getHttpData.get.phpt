@@ -22,7 +22,7 @@ before(function () {
 
 test('', function () {
 	$form = new Form;
-	$form->setMethod($form::GET);
+	$form->setMethod($form::Get);
 	$form->addSubmit('send', 'Send');
 
 	Assert::false($form->isSubmitted());
@@ -44,15 +44,15 @@ test('', function () {
 
 test('', function () {
 	$name = 'name';
-	$_GET = [Form::TRACKER_ID => $name];
+	$_GET = [Form::TrackerId => $name];
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
 
 	$form = new Form($name);
-	$form->setMethod($form::GET);
+	$form->setMethod($form::Get);
 	$form->addSubmit('send', 'Send');
 
 	Assert::truthy($form->isSubmitted());
-	Assert::same([Form::TRACKER_ID => $name], $form->getHttpData());
+	Assert::same([Form::TrackerId => $name], $form->getHttpData());
 	Assert::same([], $form->getValues(true));
-	Assert::same($name, $form[Form::TRACKER_ID]->getValue());
+	Assert::same($name, $form[Form::TrackerId]->getValue());
 });

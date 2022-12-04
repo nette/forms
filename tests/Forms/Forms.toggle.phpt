@@ -18,9 +18,9 @@ test('AND', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::EQUAL, 'x')
+			->addConditionOn($form['2'], Form::Equal, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -35,9 +35,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -52,9 +52,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::EQUAL, 'x')
+			->addConditionOn($form['2'], Form::Equal, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -69,9 +69,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -86,10 +86,10 @@ test('OR', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a')
 		->endCondition()
-		->addConditionOn($form['2'], Form::EQUAL, 'x')
+		->addConditionOn($form['2'], Form::Equal, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -104,10 +104,10 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a')
 		->endCondition()
-		->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['2'], Form::NotEqual, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -122,10 +122,10 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
 		->endCondition()
-		->addConditionOn($form['2'], Form::EQUAL, 'x')
+		->addConditionOn($form['2'], Form::Equal, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -140,10 +140,10 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
 		->endCondition()
-		->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['2'], Form::NotEqual, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -156,10 +156,10 @@ test('', function () {
 test('OR & two components', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -172,10 +172,10 @@ test('OR & two components', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -188,10 +188,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -204,10 +204,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -220,10 +220,10 @@ test('', function () {
 test('OR & multiple used ID', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a');
 
 	Assert::same([
@@ -235,10 +235,10 @@ test('OR & multiple used ID', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('a');
 
 	Assert::same([
@@ -250,10 +250,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a');
 
 	Assert::same([
@@ -265,10 +265,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('a');
 
 	Assert::same([
@@ -282,9 +282,9 @@ test('AND & multiple used ID', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::EQUAL, 'x')
+			->addConditionOn($form['2'], Form::Equal, 'x')
 				->toggle('a');
 
 	Assert::same([
@@ -298,9 +298,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('a');
 
 	Assert::same([
@@ -314,9 +314,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::EQUAL, 'x')
+			->addConditionOn($form['2'], Form::Equal, 'x')
 				->toggle('a');
 
 	Assert::same([
@@ -330,9 +330,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('a');
 
 	Assert::same([
@@ -346,9 +346,9 @@ test('$hide = false', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a', false)
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -363,9 +363,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a', false)
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b', false);
 
 	Assert::same([
@@ -380,9 +380,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a', false)
-			->addConditionOn($form['2'], Form::EQUAL, 'x')
+			->addConditionOn($form['2'], Form::Equal, 'x')
 				->toggle('b', false);
 
 	Assert::same([
@@ -395,10 +395,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a', false);
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -411,10 +411,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('b', false);
 
 	Assert::same([
@@ -427,10 +427,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a', false);
 	$form->addText('2')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('b', false);
 
 	Assert::same([
@@ -445,9 +445,9 @@ test('$hide = false & multiple used ID', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a', false)
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('a');
 
 	Assert::same([
@@ -461,9 +461,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a', false)
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('a', false);
 
 	Assert::same([
@@ -477,9 +477,9 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a', false)
-			->addConditionOn($form['2'], Form::EQUAL, 'x')
+			->addConditionOn($form['2'], Form::Equal, 'x')
 				->toggle('a', false);
 
 	Assert::same([
@@ -491,10 +491,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a', false);
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('b');
 
 	Assert::same([
@@ -507,10 +507,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a');
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('b', false);
 
 	Assert::same([
@@ -523,10 +523,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a', false);
 	$form->addText('2')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a', false);
 
 	Assert::same([
@@ -538,10 +538,10 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('1')
-		->addCondition(Form::EQUAL, 'x')
+		->addCondition(Form::Equal, 'x')
 			->toggle('a', false);
 	$form->addText('2')
-		->addCondition(Form::NOT_EQUAL, 'x')
+		->addCondition(Form::NotEqual, 'x')
 			->toggle('a', false);
 
 	Assert::same([
@@ -556,9 +556,9 @@ test('combined with rules', function () {
 	$form->addText('2');
 	$form->addText('3')
 		->setRequired()
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b')
 			->endCondition()
 		->endCondition();
@@ -576,10 +576,10 @@ test('', function () {
 	$form->addText('2');
 	$form->addText('3')
 		->setRequired()
-		->addRule(Form::NOT_EQUAL, null, 'x')
-		->addConditionOn($form['1'], Form::EQUAL, 'x')
+		->addRule(Form::NotEqual, null, 'x')
+		->addConditionOn($form['1'], Form::Equal, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::EQUAL, 'x')
+			->addConditionOn($form['2'], Form::Equal, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -595,10 +595,10 @@ test('', function () {
 	$form->addText('2');
 	$form->addText('3')
 		->setRequired()
-		->addRule(Form::EQUAL, null, 'x')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addRule(Form::Equal, null, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -613,11 +613,11 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->setRequired()
-			->addRule(Form::EQUAL, null, 'x')
+			->addRule(Form::Equal, null, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -632,10 +632,10 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addRule(Form::EQUAL, null, 'x')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
+		->addRule(Form::Equal, null, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -650,10 +650,10 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
-			->addRule(Form::EQUAL, null, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
+			->addRule(Form::Equal, null, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b');
 
 	Assert::same([
@@ -668,10 +668,10 @@ test('', function () {
 	$form->addText('1');
 	$form->addText('2');
 	$form->addText('3')
-		->addConditionOn($form['1'], Form::NOT_EQUAL, 'x')
-			->addRule(Form::EQUAL, null, 'x')
+		->addConditionOn($form['1'], Form::NotEqual, 'x')
+			->addRule(Form::Equal, null, 'x')
 			->toggle('a')
-			->addConditionOn($form['2'], Form::NOT_EQUAL, 'x')
+			->addConditionOn($form['2'], Form::NotEqual, 'x')
 				->toggle('b');
 
 	Assert::same([

@@ -22,7 +22,10 @@ use Stringable;
 class UploadControl extends BaseControl
 {
 	/** validation rule */
-	public const VALID = ':uploadControlValid';
+	public const Valid = ':uploadControlValid';
+
+	/** @deprecated use UploadControl::Valid */
+	public const VALID = self::Valid;
 
 
 	public function __construct(string|Stringable|null $label = null, bool $multiple = false)
@@ -32,8 +35,8 @@ class UploadControl extends BaseControl
 		$this->control->multiple = $multiple;
 		$this->setOption('type', 'file');
 		$this->addCondition(true) // not to block the export of rules to JS
-			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::VALID]);
-		$this->addRule(Form::MAX_FILE_SIZE, null, Forms\Helpers::iniGetSize('upload_max_filesize'));
+			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::Valid]);
+		$this->addRule(Form::MaxFileSize, null, Forms\Helpers::iniGetSize('upload_max_filesize'));
 
 		$this->monitor(Form::class, function (Form $form): void {
 			if (!$form->isMethod('post')) {
@@ -47,7 +50,7 @@ class UploadControl extends BaseControl
 
 	public function loadHttpData(): void
 	{
-		$this->value = $this->getHttpData(Form::DATA_FILE);
+		$this->value = $this->getHttpData(Form::DataFile);
 		if ($this->value === null) {
 			$this->value = new FileUpload(null);
 		}
@@ -101,11 +104,11 @@ class UploadControl extends BaseControl
 		mixed $arg = null,
 	): static
 	{
-		if ($validator === Form::IMAGE) {
+		if ($validator === Form::Image) {
 			$this->control->accept = implode(', ', FileUpload::IMAGE_MIME_TYPES);
-		} elseif ($validator === Form::MIME_TYPE) {
+		} elseif ($validator === Form::MimeType) {
 			$this->control->accept = implode(', ', (array) $arg);
-		} elseif ($validator === Form::MAX_FILE_SIZE) {
+		} elseif ($validator === Form::MaxFileSize) {
 			if ($arg > Forms\Helpers::iniGetSize('upload_max_filesize')) {
 				$ini = ini_get('upload_max_filesize');
 				trigger_error("Value of MAX_FILE_SIZE ($arg) is greater than value of directive upload_max_filesize ($ini).", E_USER_WARNING);

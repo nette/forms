@@ -362,7 +362,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addEmail(string $name, string|Stringable|null $label = null): Controls\TextInput
 	{
 		return $this[$name] = (new Controls\TextInput($label))
-			->addRule(Form::EMAIL);
+			->addRule(Form::Email);
 	}
 
 
@@ -373,7 +373,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		return $this[$name] = (new Controls\TextInput($label))
 			->setNullable()
-			->addRule(Form::INTEGER);
+			->addRule(Form::Integer);
 	}
 
 

@@ -18,7 +18,7 @@ test('', function () {
 	$form->addText('foo')
 		->setRequired('fill foo');
 	$form->addText('bar')
-		->addConditionOn($form['foo'], Form::VALID)
+		->addConditionOn($form['foo'], Form::Valid)
 		->setRequired('fill bar');
 
 	$form->validate();
@@ -38,7 +38,7 @@ test('', function () {
 	Assert::exception(function () {
 		$form = new Form;
 		$form->addText('foo')
-			->addRule(Form::VALID);
+			->addRule(Form::Valid);
 	}, Nette\InvalidArgumentException::class, 'You cannot use Form::VALID in the addRule method.');
 });
 
@@ -46,7 +46,7 @@ test('', function () {
 	$form = new Form;
 	$form->addText('foo')
 		->addFilter(fn($value) => str_replace(' ', '', $value))
-		->addRule($form::PATTERN, 'only numbers', '\d{5}');
+		->addRule($form::Pattern, 'only numbers', '\d{5}');
 
 	$form['foo']->setValue('160 00');
 	$form->validate();
@@ -65,7 +65,7 @@ test('', function () {
 	$rules->addFilter(
 		fn($value) => str_replace(' ', '', $value),
 	);
-	$rules->addRule($form::PATTERN, 'only numbers', '\d{5}');
+	$rules->addRule($form::Pattern, 'only numbers', '\d{5}');
 
 	$form['foo']->setValue('160 00');
 	$form->validate();
@@ -81,7 +81,7 @@ test('', function () {
 	Assert::exception(function () {
 		$form = new Form;
 		$form->addText('foo')
-			->addCondition(Form::VALID);
+			->addCondition(Form::Valid);
 	}, Nette\InvalidArgumentException::class, 'You cannot use Form::VALID in the addCondition method.');
 });
 
@@ -90,6 +90,6 @@ test('', function () {
 	Assert::exception(function () {
 		$form = new Form;
 		@$form->addText('foo')
-			->addRule(~Form::VALID); // @ - negative rules are deprecated
+			->addRule(~Form::Valid); // @ - negative rules are deprecated
 	}, Nette\InvalidArgumentException::class, 'You cannot use Form::VALID in the addRule method.');
 });
