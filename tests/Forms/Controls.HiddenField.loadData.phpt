@@ -95,7 +95,7 @@ test('int from string', function () {
 	$_POST = ['text' => '10'];
 	$form = new Form;
 	$input = $form->addHidden('text');
-	$input->addRule($form::INTEGER);
+	$input->addRule($form::Integer);
 
 	Assert::same('10', $input->getValue());
 	$input->validate();

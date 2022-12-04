@@ -162,7 +162,7 @@ test('', function () {
 		}
 	});
 
-	Validator::$messages[Form::FILLED] = '"%label" field is required.';
+	Validator::$messages[Form::Filled] = '"%label" field is required.';
 
 	$input = $form->addSelect('list1', 'LIST', [
 		'a' => 'First',

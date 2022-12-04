@@ -31,7 +31,7 @@ class TextInput extends TextBase
 
 	public function loadHttpData(): void
 	{
-		$this->setValue($this->getHttpData(Form::DATA_LINE));
+		$this->setValue($this->getHttpData(Form::DataLine));
 	}
 
 
@@ -74,17 +74,17 @@ class TextInput extends TextBase
 			}
 		}
 
-		if ($this->control->type === null && in_array($validator, [Form::EMAIL, Form::URL, Form::INTEGER], true)) {
-			$types = [Form::EMAIL => 'email', Form::URL => 'url', Form::INTEGER => 'number'];
+		if ($this->control->type === null && in_array($validator, [Form::Email, Form::URL, Form::Integer], true)) {
+			$types = [Form::Email => 'email', Form::URL => 'url', Form::Integer => 'number'];
 			$this->control->type = $types[$validator];
 
 		} elseif (
-			in_array($validator, [Form::MIN, Form::MAX, Form::RANGE], true)
+			in_array($validator, [Form::Min, Form::Max, Form::Range], true)
 			&& in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], true)
 		) {
-			if ($validator === Form::MIN) {
+			if ($validator === Form::Min) {
 				$range = [$arg, null];
-			} elseif ($validator === Form::MAX) {
+			} elseif ($validator === Form::Max) {
 				$range = [null, $arg];
 			} else {
 				$range = $arg;
@@ -103,7 +103,7 @@ class TextInput extends TextBase
 			}
 
 		} elseif (
-			$validator === Form::PATTERN
+			$validator === Form::Pattern
 			&& is_scalar($arg)
 			&& in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], true)
 		) {

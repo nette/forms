@@ -24,7 +24,7 @@ test('', function () {
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
 
 	$form = new Form;
-	$form->setMethod($form::GET);
+	$form->setMethod($form::Get);
 	$form->addSubmit('send', 'Send');
 
 	Assert::truthy($form->isSubmitted());

@@ -18,7 +18,8 @@ use Nette;
 class SelectBox extends ChoiceControl
 {
 	/** validation rule */
-	public const VALID = ':selectBoxValid';
+	public const Valid = ':selectBoxValid';
+	public const VALID = self::Valid;
 
 	/** @var array of option / optgroup */
 	private $options = [];
@@ -38,7 +39,7 @@ class SelectBox extends ChoiceControl
 			return $this->prompt === false
 				&& $this->options
 				&& $this->control->size < 2;
-		})->addRule(Nette\Forms\Form::FILLED, Nette\Forms\Validator::$messages[self::VALID]);
+		})->addRule(Nette\Forms\Form::Filled, Nette\Forms\Validator::$messages[self::Valid]);
 	}
 
 

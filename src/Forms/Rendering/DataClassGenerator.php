@@ -55,7 +55,7 @@ final class DataClassGenerator
 			} elseif ($input instanceof Controls\HiddenField || $input instanceof Controls\TextBase) {
 				$type = 'string';
 				foreach ($input->getRules() as $rule) {
-					if ($rule->validator === Form::INTEGER) {
+					if ($rule->validator === Form::Integer) {
 						$type = 'int';
 						break;
 					}

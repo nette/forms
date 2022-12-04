@@ -202,7 +202,7 @@ test('partial uploaded (error)', function () {
 test('validators', function () {
 	$form = new Form;
 	$input = $form->addUpload('avatar')
-		->addRule($form::MAX_FILE_SIZE, null, 3000);
+		->addRule($form::MaxFileSize, null, 3000);
 
 	Assert::false(Validator::validateFileSize($input, 3012));
 	Assert::true(Validator::validateFileSize($input, 3013));
@@ -221,7 +221,7 @@ test('validators', function () {
 test('validators on multiple files', function () {
 	$form = new Form;
 	$input = $form->addContainer('multiple')->addMultiUpload('avatar')
-		->addRule($form::MAX_FILE_SIZE, null, 3000);
+		->addRule($form::MaxFileSize, null, 3000);
 
 	Assert::false(Validator::validateFileSize($input, 150));
 	Assert::true(Validator::validateFileSize($input, 300));
@@ -243,5 +243,5 @@ test('validators on multiple files', function () {
 
 	$rules = iterator_to_array($input->getRules());
 	Assert::count(2, $rules);
-	Assert::same($form::MAX_FILE_SIZE, $rules[1]->validator);
+	Assert::same($form::MaxFileSize, $rules[1]->validator);
 });

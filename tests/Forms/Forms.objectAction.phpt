@@ -10,7 +10,7 @@ require __DIR__ . '/../bootstrap.php';
 
 Assert::noError(function () {
 	$form = new Form;
-	$form->setMethod($form::GET);
+	$form->setMethod($form::Get);
 	$form->setAction(new class {
 		public function __toString(): string
 		{
