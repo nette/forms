@@ -281,7 +281,7 @@ class Validator
 	{
 		$regexp = "\x01^(?:$pattern)$\x01Du" . ($caseInsensitive ? 'i' : '');
 		foreach (static::toArray($control->getValue()) as $item) {
-			$value = $item instanceof Nette\Http\FileUpload ? $item->getName() : $item;
+			$value = $item instanceof Nette\Http\FileUpload ? $item->getUntrustedName() : $item;
 			if (!Strings::match((string) $value, $regexp)) {
 				return false;
 			}
