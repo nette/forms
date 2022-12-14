@@ -45,8 +45,8 @@ class LabelNode extends StatementNode
 
 		$node = new static;
 		$node->name = $tag->parser->parseUnquotedStringOrExpression(colon: false);
-		if ($tag->parser->stream->tryConsume(':') && !$tag->parser->stream->is(',')) {
-			$node->part = $tag->parser->isEnd()
+		if ($tag->parser->stream->tryConsume(':')) {
+			$node->part = $tag->parser->isEnd() || $tag->parser->stream->is(',')
 				? new StringNode('')
 				: $tag->parser->parseUnquotedStringOrExpression();
 		}
