@@ -7,7 +7,6 @@ parameters:
 
 	excludePaths:
 		- src/Bridges/FormsLatte/FormMacros.php
-		- src/compatibility.php
 
 	checkMissingCallableSignature: true
 
