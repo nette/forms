@@ -40,6 +40,3 @@ interface Control
 	 */
 	function isOmitted(): bool;
 }
-
-
-interface_exists(IControl::class);
