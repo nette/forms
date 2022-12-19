@@ -20,6 +20,3 @@ interface SubmitterControl extends Control
 	 */
 	function getValidationScope(): ?array;
 }
-
-
-interface_exists(ISubmitterControl::class);

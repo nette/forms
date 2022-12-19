@@ -20,6 +20,3 @@ interface FormRenderer
 	 */
 	function render(Form $form): string;
 }
-
-
-interface_exists(IFormRenderer::class);
