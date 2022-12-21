@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Nette\Bridges\FormsLatte\Nodes;
 
 use Latte\Compiler\Nodes\Php\ExpressionNode;
-use Latte\Compiler\Nodes\Php\Scalar\StringNode;
 use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
@@ -41,12 +40,10 @@ class FormPrintNode extends StatementNode
 	{
 		return $context->format(
 			'Nette\Bridges\FormsLatte\Runtime::render%raw('
-			. match (true) {
-				!$this->name => 'end($this->global->formsStack)',
-				$this->name instanceof StringNode => '$this->global->uiControl[%node]',
-				default => 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp]',
-			}
-			. ') %line; exit;',
+			. ($this->name
+				? 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp]'
+				: 'end($this->global->formsStack)')
+			. ') %2.line; exit;',
 			$this->mode,
 			$this->name,
 			$this->position,

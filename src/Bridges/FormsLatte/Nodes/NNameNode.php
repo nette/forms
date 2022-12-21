@@ -96,15 +96,11 @@ final class NNameNode extends StatementNode
 		$elName = strtolower($el->name);
 
 		$tag->replaceNAttribute(new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-			'$ʟ_input = '
-			. ($this->name instanceof StringNode
-				? 'end($this->global->formsStack)[%node];'
-				: 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];')
-			. 'echo $ʟ_input->%raw(%node)'
+			'echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global))'
+			. ($elName === 'label' ? '->getLabelPart(%node)' : '->getControlPart(%node)')
 			. ($usedAttributes ? '->addAttributes(%dump)' : '')
-			. '->attributes() %4.line;',
+			. '->attributes() %3.line;',
 			$this->name,
-			$elName === 'label' ? 'getLabelPart' : 'getControlPart',
 			$this->part,
 			array_fill_keys($usedAttributes, null),
 			$this->position,

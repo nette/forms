@@ -11,7 +11,6 @@ namespace Nette\Bridges\FormsLatte\Nodes;
 
 use Latte\Compiler\Nodes\Php\Expression\VariableNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
-use Latte\Compiler\Nodes\Php\Scalar\StringNode;
 use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
@@ -41,21 +40,11 @@ class InputErrorNode extends StatementNode
 
 	public function print(PrintContext $context): string
 	{
-		if ($this->name instanceof StringNode) {
-			return $context->format(
-				'echo %escape(end($this->global->formsStack)[%node]->getError()) %line;',
-				$this->name,
-				$this->position,
-			);
-
-		} else {
-			return $context->format(
-				'$ʟ_input = is_object($ʟ_tmp = %node) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];'
-				. 'echo %escape($ʟ_input->getError()) %line;',
-				$this->name,
-				$this->position,
-			);
-		}
+		return $context->format(
+			'echo %escape(Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global)->getError()) %line;',
+			$this->name,
+			$this->position,
+		);
 	}
 
 

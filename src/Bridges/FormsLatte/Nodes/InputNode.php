@@ -48,9 +48,7 @@ class InputNode extends StatementNode
 	public function print(PrintContext $context): string
 	{
 		return $context->format(
-			($this->name instanceof StringNode
-				? 'echo end($this->global->formsStack)[%node]->'
-				: '$ʟ_input = is_object($ʟ_tmp = %node) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp]; echo $ʟ_input->')
+			'echo Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global)->'
 			. ($this->part ? ('getControlPart(%node)') : 'getControl()')
 			. ($this->attributes->items ? '->addAttributes(%2.node)' : '')
 			. ' %3.line;',

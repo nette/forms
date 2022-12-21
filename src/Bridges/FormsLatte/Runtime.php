@@ -110,4 +110,12 @@ class Runtime
 
 		echo $end;
 	}
+
+
+	public static function item($item, $global): object
+	{
+		return is_object($item)
+			? $item
+			: end($global->formsStack)[$item];
+	}
 }

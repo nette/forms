@@ -11,7 +11,6 @@ namespace Nette\Bridges\FormsLatte\Nodes;
 
 use Latte\Compiler\Nodes\AreaNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
-use Latte\Compiler\Nodes\Php\Scalar\StringNode;
 use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
@@ -42,11 +41,8 @@ class FormContainerNode extends StatementNode
 	public function print(PrintContext $context): string
 	{
 		return $context->format(
-			'$this->global->formsStack[] = $formContainer = '
-			. ($this->name instanceof StringNode
-				? 'end($this->global->formsStack)[%node]'
-				: 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp]')
-			. ' %line; %node '
+			'$this->global->formsStack[] = $formContainer = Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global) %line; '
+			. '%node '
 			. 'array_pop($this->global->formsStack); $formContainer = end($this->global->formsStack);'
 			. "\n\n",
 			$this->name,
