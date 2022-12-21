@@ -114,8 +114,13 @@ class Runtime
 
 	public static function item($item, $global): object
 	{
-		return is_object($item)
-			? $item
-			: end($global->formsStack)[$item];
+		if (is_object($item)) {
+			return $item;
+		}
+		$form = end($global->formsStack);
+		if (!$form) {
+			throw new \LogicException('Form declaration is missing, did you use {form} or <form n:name> tag?');
+		}
+		return $form[$item];
 	}
 }

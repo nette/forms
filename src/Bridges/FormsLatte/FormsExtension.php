@@ -31,4 +31,12 @@ final class FormsExtension extends Latte\Extension
 			'n:name' => [Nodes\NNameNode::class, 'create'],
 		];
 	}
+
+
+	public function getProviders(): array
+	{
+		return [
+			'formsStack' => [],
+		];
+	}
 }
