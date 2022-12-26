@@ -13,9 +13,6 @@
 			echo $ʟ_input->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* line %d% */;
 			echo '
 		';
-			echo LR\Filters::escapeHtmlText($ʟ_input->getError()) /* line %d% */;
-			echo '
-		';
 			$ʟ_input = is_object($ʟ_tmp = $name) ? $ʟ_tmp : end($this->global->formsStack)[$ʟ_tmp];
 			echo LR\Filters::escapeHtmlText($ʟ_input->getError()) /* line %d% */;
 			echo '

@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Nette\Bridges\FormsLatte\Nodes;
 
+use Latte\Compiler\Nodes\Php\Expression\VariableNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\Scalar\StringNode;
 use Latte\Compiler\Nodes\StatementNode;
@@ -21,26 +22,26 @@ use Latte\Compiler\Tag;
  */
 class InputErrorNode extends StatementNode
 {
-	public ?ExpressionNode $name;
+	public ExpressionNode $name;
 
 
 	public static function create(Tag $tag): static
 	{
 		$tag->outputMode = $tag::OutputKeepIndentation;
 		$node = new static;
-		$node->name = $tag->parser->isEnd()
-			? null
-			: $tag->parser->parseUnquotedStringOrExpression();
+		if ($tag->parser->isEnd()) {
+			trigger_error("Missing argument in {inputError} (on line {$tag->position->line})", E_USER_DEPRECATED);
+			$node->name = new VariableNode('ʟ_input');
+		} else {
+			$node->name = $tag->parser->parseUnquotedStringOrExpression();
+		}
 		return $node;
 	}
 
 
 	public function print(PrintContext $context): string
 	{
-		if (!$this->name) {
-			return $context->format('echo %escape($ʟ_input->getError()) %line;', $this->position);
-
-		} elseif ($this->name instanceof StringNode) {
+		if ($this->name instanceof StringNode) {
 			return $context->format(
 				'echo %escape(end($this->global->formsStack)[%node]->getError()) %line;',
 				$this->name,
@@ -60,8 +61,6 @@ class InputErrorNode extends StatementNode
 
 	public function &getIterator(): \Generator
 	{
-		if ($this->name) {
-			yield $this->name;
-		}
+		yield $this->name;
 	}
 }
