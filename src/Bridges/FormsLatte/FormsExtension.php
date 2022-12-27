@@ -38,7 +38,13 @@ final class FormsExtension extends Latte\Extension
 	public function getProviders(): array
 	{
 		return [
-			'formsStack' => [],
+			'forms' => new Runtime,
 		];
+	}
+
+
+	public function getCacheKey(Latte\Engine $engine): array
+	{
+		return ['version' => 2];
 	}
 }

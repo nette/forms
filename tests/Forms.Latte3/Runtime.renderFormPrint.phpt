@@ -14,7 +14,7 @@ $form->addText('name')->setRequired('Enter your name');
 $form->addSubmit('submit', 'Send');
 
 ob_start();
-Nette\Bridges\FormsLatte\Runtime::renderFormPrint($form);
+(new Nette\Bridges\FormsLatte\Runtime)->renderFormPrint($form);
 $res = ob_get_clean();
 
 Assert::match(
