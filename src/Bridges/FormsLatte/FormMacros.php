@@ -31,7 +31,7 @@ final class FormMacros extends MacroSet
 	public static function install(Latte\Compiler $compiler): void
 	{
 		$me = new static($compiler);
-		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));');
+		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime2::renderFormEnd(array_pop($this->global->formsStack));');
 		$me->addMacro('formContext', [$me, 'macroFormContext'], 'array_pop($this->global->formsStack);');
 		$me->addMacro('formContainer', [$me, 'macroFormContainer'], 'array_pop($this->global->formsStack); $formContainer = end($this->global->formsStack)');
 		$me->addMacro('label', [$me, 'macroLabel'], [$me, 'macroLabelEnd'], null, self::AUTO_EMPTY);
@@ -67,7 +67,7 @@ final class FormMacros extends MacroSet
 		$node->replaced = true;
 		$node->tokenizer->reset();
 		return $writer->write(
-			'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = '
+			'echo Nette\Bridges\FormsLatte\Runtime2::renderFormBegin($form = $this->global->formsStack[] = '
 			. ($name[0] === '$'
 				? 'is_object($ʟ_tmp = %node.word) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp]'
 				: '$this->global->uiControl[%node.word]')
@@ -230,7 +230,7 @@ final class FormMacros extends MacroSet
 				$name,
 			);
 			return $writer->write(
-				'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), %0.var, false)',
+				'echo Nette\Bridges\FormsLatte\Runtime2::renderFormBegin(end($this->global->formsStack), %0.var, false)',
 				array_fill_keys($definedHtmlAttributes, null),
 			);
 		} else {
@@ -265,7 +265,7 @@ final class FormMacros extends MacroSet
 	{
 		$tagName = strtolower($node->htmlNode->name);
 		if ($tagName === 'form') {
-			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false)'
+			$node->innerContent .= '<?php echo Nette\Bridges\FormsLatte\Runtime2::renderFormEnd(array_pop($this->global->formsStack), false)'
 				. " /* line $node->startLine */; ?>";
 		} elseif ($tagName === 'label') {
 			if ($node->htmlNode->empty) {
@@ -319,7 +319,7 @@ final class FormMacros extends MacroSet
 
 		$node->tokenizer->reset();
 		return $writer->write(
-			'Nette\Bridges\FormsLatte\Runtime::render' . $node->name . '('
+			'Nette\Bridges\FormsLatte\Runtime2::render' . $node->name . '('
 			. ($name[0] === '$' ? 'is_object(%node.word) ? %node.word : ' : '')
 			. '$this->global->uiControl[%node.word]); exit;',
 		);
