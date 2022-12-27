@@ -174,22 +174,24 @@
 
 ';
 		if (1) /* line %d% */ {
-			echo '<form';
 			$form = $this->global->formsStack[] = $this->global->uiControl['myForm'] /* line %d% */;
+			echo '<form';
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), ['id' => null, 'class' => null], false) /* line %d% */;
 			echo ' id="myForm" class="ajax">
 	<input';
 			echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global))->getControlPart()->attributes() /* line %d% */;
 			echo '>
 ';
-			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false) /* line %d% */;
+			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line %d% */;
 			echo '</form>
 ';
+			array_pop($this->global->formsStack);
 		}
 		echo '
 
-<form';
+';
 		$form = $this->global->formsStack[] = $this->global->uiControl['myForm'] /* line %d% */;
+		echo '<form';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), ['class' => null], false) /* line %d% */;
 		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line %d% */;
 		echo '>
@@ -198,21 +200,26 @@
 		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line %d% */;
 		echo '>
 ';
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false) /* line %d% */;
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line %d% */;
 		echo '</form>
+';
+		array_pop($this->global->formsStack);
+		echo '
 
-
-<FORM';
+';
 		$form = $this->global->formsStack[] = is_object($ʟ_tmp = $this->global->uiControl['myForm']) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp] /* line %d% */;
+		echo '<FORM';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* line %d% */;
 		echo '>
 	<input';
 		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global))->getControlPart()->attributes() /* line %d% */;
 		echo '>
 ';
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false) /* line %d% */;
+		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line %d% */;
 		echo '</FORM>
-
+';
+		array_pop($this->global->formsStack);
+		echo '
 
 <select';
 		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('select', $this->global))->getControlPart()->attributes() /* line %d% */;
