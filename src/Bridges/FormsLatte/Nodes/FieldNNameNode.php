@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Nette\Bridges\FormsLatte\Nodes;
 
-use Latte;
 use Latte\Compiler\Nodes\AreaNode;
 use Latte\Compiler\Nodes\AuxiliaryNode;
 use Latte\Compiler\Nodes\Html\AttributeNode;
@@ -24,9 +23,9 @@ use Latte\Compiler\Tag;
 
 
 /**
- * <form n:name>, <input n:name>, <select n:name>, <textarea n:name>, <label n:name> and <button n:name>
+ * <input n:name>, <select n:name>, <textarea n:name>, <label n:name> and <button n:name>
  */
-final class NNameNode extends StatementNode
+final class FieldNNameNode extends StatementNode
 {
 	public ExpressionNode $name;
 	public ?ExpressionNode $part = null;
@@ -46,11 +45,7 @@ final class NNameNode extends StatementNode
 
 		[$node->content] = yield;
 
-		if (strtolower($tag->htmlElement->name) === 'form') {
-			$node->initForm($tag);
-		} else {
-			$node->initElement($tag);
-		}
+		$node->init($tag);
 
 		return $node;
 	}
@@ -62,34 +57,7 @@ final class NNameNode extends StatementNode
 	}
 
 
-	private function initForm(Tag $tag)
-	{
-		$el = $tag->htmlElement;
-
-		$tag->replaceNAttribute(new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-			'$form = $this->global->formsStack[] = '
-			. ($this->name instanceof StringNode
-				? '$this->global->uiControl[%node]'
-				: 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp]')
-			. ' %line;'
-			. 'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), %dump, false) %line;',
-			$this->name,
-			$this->position,
-			array_fill_keys(self::findUsedAttributes($el), null),
-			$this->position,
-		)));
-
-		$el->content = new Latte\Compiler\Nodes\FragmentNode([
-			$el->content,
-			new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-				'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false) %line;',
-				$this->position,
-			)),
-		]);
-	}
-
-
-	private function initElement(Tag $tag)
+	private function init(Tag $tag)
 	{
 		$el = $tag->htmlElement;
 		$usedAttributes = self::findUsedAttributes($el);
@@ -129,7 +97,8 @@ final class NNameNode extends StatementNode
 	}
 
 
-	private static function findUsedAttributes(ElementNode $el): array
+	/** @internal */
+	public static function findUsedAttributes(ElementNode $el): array
 	{
 		$res = [];
 		foreach ($el->attributes?->children as $child) {

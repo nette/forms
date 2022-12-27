@@ -28,7 +28,9 @@ final class FormsExtension extends Latte\Extension
 			'inputError' => [Nodes\InputErrorNode::class, 'create'],
 			'formPrint' => [Nodes\FormPrintNode::class, 'create'],
 			'formClassPrint' => [Nodes\FormPrintNode::class, 'create'],
-			'n:name' => [Nodes\NNameNode::class, 'create'],
+			'n:name' => fn(Latte\Compiler\Tag $tag) => yield from strtolower($tag->htmlElement->name) === 'form'
+				? Nodes\FormNNameNode::create($tag)
+				: Nodes\FieldNNameNode::create($tag),
 		];
 	}
 
