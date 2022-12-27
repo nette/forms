@@ -1,5 +1,7 @@
 <?php
 
+/** @phpVersion 8.0 */
+
 declare(strict_types=1);
 
 use Nette\Bridges\FormsLatte\FormsExtension;
@@ -24,9 +26,9 @@ $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
 	__DIR__ . '/expected/forms.get.php',
-	$latte->compile(__DIR__ . '/templates/forms.get.latte')
+	$latte->compile(__DIR__ . '/templates/forms.get.latte'),
 );
 Assert::matchFile(
 	__DIR__ . '/expected/forms.get.html',
-	$latte->renderToString(__DIR__ . '/templates/forms.get.latte')
+	$latte->renderToString(__DIR__ . '/templates/forms.get.latte'),
 );

@@ -1,5 +1,7 @@
 <?php
 
+/** @phpVersion 8.0 */
+
 declare(strict_types=1);
 
 use Nette\Bridges\FormsLatte\FormsExtension;
@@ -49,9 +51,9 @@ $form['username']->addError('error');
 
 Assert::matchFile(
 	__DIR__ . '/expected/forms.php',
-	$latte->compile(__DIR__ . '/templates/forms.latte')
+	$latte->compile(__DIR__ . '/templates/forms.latte'),
 );
 Assert::matchFile(
 	__DIR__ . '/expected/forms.html',
-	$latte->renderToString(__DIR__ . '/templates/forms.latte')
+	$latte->renderToString(__DIR__ . '/templates/forms.latte'),
 );

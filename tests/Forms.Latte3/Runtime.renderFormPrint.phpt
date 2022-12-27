@@ -1,5 +1,7 @@
 <?php
 
+/** @phpVersion 8.0 */
+
 declare(strict_types=1);
 
 use Nette\Forms\Form;
@@ -45,5 +47,5 @@ Assert::match(
 </fieldset>
 
 </form>%A%',
-	html_entity_decode($res)
+	html_entity_decode($res),
 );
