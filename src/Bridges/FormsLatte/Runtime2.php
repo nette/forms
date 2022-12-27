@@ -16,10 +16,10 @@ use Nette\Utils\Html;
 
 
 /**
- * Runtime helpers for Latte v3.
+ * Runtime helpers for Latte v2.
  * @internal
  */
-class Runtime
+class Runtime2
 {
 	use Nette\StaticClass;
 
@@ -107,15 +107,5 @@ class Runtime
 		$blueprint->printCode($generator->generateCode($form));
 
 		echo $end;
-	}
-
-
-	public static function item($item, $global): object
-	{
-		if (is_object($item)) {
-			return $item;
-		}
-		$form = end($global->formsStack) ?: throw new \LogicException('Form declaration is missing, did you use {form} or <form n:name> tag?');
-		return $form[$item];
 	}
 }
