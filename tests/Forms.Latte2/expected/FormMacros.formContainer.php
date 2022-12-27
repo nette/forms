@@ -1,6 +1,6 @@
 <?php
 %A%
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []) /* line 1 */;
+		echo Nette\Bridges\FormsLatte\Runtime2::renderFormBegin($form = $this->global->formsStack[] = $this->global->uiControl["myForm"], []) /* line 1 */;
 		echo '
 <table>
 	<tr>
@@ -94,6 +94,6 @@
 	</tr>
 </table>
 ';
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));
+		echo Nette\Bridges\FormsLatte\Runtime2::renderFormEnd(array_pop($this->global->formsStack));
 		echo "\n";
 %A%
