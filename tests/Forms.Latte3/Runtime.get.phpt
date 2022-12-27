@@ -15,12 +15,15 @@ $form->addText('arg1');
 $form->addText('arg2');
 $form->setAction('http://example.com/?do=foo-submit&arg0=1&arg1=1&arg2[x]=1#toc');
 
+$runtime = new Runtime;
+$runtime->begin($form);
+
 Assert::same(
 	'<form action="http://example.com/#toc" method="get">',
-	Runtime::renderFormBegin($form, []),
+	$runtime->renderFormBegin([]),
 );
 
 Assert::match(
 	'<input type="hidden" name="do" value="foo-submit"><input type="hidden" name="arg0" value="1"></form>',
-	Runtime::renderFormEnd($form),
+	$runtime->renderFormEnd(),
 );
