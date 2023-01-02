@@ -21,13 +21,8 @@ enum TestEnum: string
 }
 
 
-setUp(function () {
-	ob_start();
-	Form::initialize(true);
-});
-
-
 test('validators for enums', function () {
+	Form::initialize(true);
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setValue(TestEnum::Case1->value);
@@ -36,4 +31,26 @@ test('validators for enums', function () {
 	Assert::true(Validator::validateEqual($input, 'case 1'));
 	Assert::false(Validator::validateEqual($input, TestEnum::Case2));
 	Assert::false(Validator::validateEqual($input, 1));
+});
+
+
+test('enum as default value', function () {
+	$items = ['case 1' => '1', 'case 2' => '2', 'case 3' => '3', 'case 4' => '4'];
+
+	Form::initialize(true);
+	$form = new Form;
+	$form->addSelect('select', null, $items);
+	$form->addMultiSelect('multi', null, $items);
+	$form->addHidden('hidden', TestEnum::Case2);
+
+	$form->setDefaults([
+		'select' => TestEnum::Case1,
+		'multi' => [TestEnum::Case1, TestEnum::Case2],
+	]);
+
+	Assert::same([
+		'select' => 'case 1',
+		'multi' => ['case 1', 'case 2'],
+		'hidden' => 'case 2',
+	], $form->getValues('array'));
 });
