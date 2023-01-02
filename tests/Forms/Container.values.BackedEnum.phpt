@@ -14,10 +14,10 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 enum TestEnum: string {
-    case CASE_1 = 'case 1';
-    case CASE_2 = 'case 2';
-    case CASE_3 = 'case 3';
-    case CASE_4 = 'case 4';
+	case CASE_1 = 'case 1';
+	case CASE_2 = 'case 2';
+	case CASE_3 = 'case 3';
+	case CASE_4 = 'case 4';
 }
 
 function createForm(): Form
