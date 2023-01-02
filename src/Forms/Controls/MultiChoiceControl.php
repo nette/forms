@@ -59,6 +59,10 @@ abstract class MultiChoiceControl extends BaseControl
 
 		$flip = [];
 		foreach ($values as $value) {
+			if ($value instanceof \BackedEnum) {
+				$value = $value->value;
+			}
+
 			if (!is_scalar($value) && !$value instanceof \Stringable) {
 				throw new Nette\InvalidArgumentException(sprintf("Values must be scalar, %s given in field '%s'.", gettype($value), $this->name));
 			}

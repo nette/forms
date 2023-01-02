@@ -45,6 +45,10 @@ class HiddenField extends BaseControl
 	 */
 	public function setValue($value): static
 	{
+		if ($value instanceof \BackedEnum) {
+			$value = $value->value;
+		}
+
 		if ($value === null) {
 			$value = '';
 		} elseif (!is_scalar($value) && !$value instanceof \Stringable) {

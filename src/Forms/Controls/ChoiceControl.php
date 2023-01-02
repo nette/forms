@@ -49,11 +49,15 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Sets selected item (by key).
-	 * @param  string|int|null  $value
+	 * @param  string|int|null|\BackedEnum  $value
 	 * @internal
 	 */
 	public function setValue($value): static
 	{
+		if ($value instanceof \BackedEnum) {
+			$value = $value->value;
+		}
+
 		if ($this->checkDefaultValue && $value !== null && !array_key_exists((string) $value, $this->items)) {
 			$set = Nette\Utils\Strings::truncate(
 				implode(', ', array_map(fn($s) => var_export($s, true), array_keys($this->items))),
