@@ -7,7 +7,6 @@
 declare(strict_types=1);
 
 use Nette\Forms\Form;
-use Nette\Utils\ArrayHash;
 use Tester\Assert;
 
 
@@ -19,6 +18,7 @@ enum TestEnum: string {
 	case CASE_3 = 'case 3';
 	case CASE_4 = 'case 4';
 }
+
 
 function createForm(): Form
 {
@@ -39,7 +39,7 @@ test('setDefaults() + array', function () {
 
 	$form->setDefaults([
 		'select_box' => TestEnum::CASE_1,
-		'multiselect_box' => [TestEnum::CASE_1, TestEnum::CASE_3]
+		'multiselect_box' => [TestEnum::CASE_1, TestEnum::CASE_3],
 	]);
 
 	Assert::same([
