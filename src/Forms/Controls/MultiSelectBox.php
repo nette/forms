@@ -73,6 +73,7 @@ class MultiSelectBox extends MultiChoiceControl
 	}
 
 
+	/** @deprecated use setOptionAttribute() */
 	public function addOptionAttributes(array $attributes): static
 	{
 		$this->optionAttributes = $attributes + $this->optionAttributes;

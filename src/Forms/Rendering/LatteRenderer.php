@@ -22,6 +22,7 @@ final class LatteRenderer
 	/** @deprecated use Nette\Latte\Blueprint::latte() */
 	public function render(Form $form): string
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use ' . Blueprint::class . '::latte()', E_USER_DEPRECATED);
 		return (new Blueprint)->generateLatte($form);
 	}
 }

@@ -24,6 +24,8 @@ class UploadControl extends BaseControl
 {
 	/** validation rule */
 	public const Valid = ':uploadControlValid';
+
+	/** @deprecated use UploadControl::Valid */
 	public const VALID = self::Valid;
 
 

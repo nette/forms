@@ -20,6 +20,8 @@ class SelectBox extends ChoiceControl
 {
 	/** validation rule */
 	public const Valid = ':selectBoxValid';
+
+	/** @deprecated use SelectBox::Valid */
 	public const VALID = self::Valid;
 
 	/** of option / optgroup */
@@ -103,6 +105,7 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	/** @deprecated use setOptionAttribute() */
 	public function addOptionAttributes(array $attributes): static
 	{
 		$this->optionAttributes = $attributes + $this->optionAttributes;
