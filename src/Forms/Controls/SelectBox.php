@@ -20,6 +20,8 @@ class SelectBox extends ChoiceControl
 {
 	/** validation rule */
 	public const Valid = ':selectBoxValid';
+
+	/** @deprecated use SelectBox::Valid */
 	public const VALID = self::Valid;
 
 	/** of option / optgroup */
