@@ -20,6 +20,8 @@ use Stringable;
 class CsrfProtection extends HiddenField
 {
 	public const Protection = 'Nette\Forms\Controls\CsrfProtection::validateCsrf';
+
+	/** @deprecated use CsrfProtection::Protection */
 	public const PROTECTION = self::Protection;
 
 	public ?Nette\Http\Session $session = null;
