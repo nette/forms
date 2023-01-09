@@ -171,9 +171,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/** @deprecated use getUntrustedValues() */
+	#[\Deprecated('use getUntrustedValues()')]
 	public function getUnsafeValues($returnType, ?array $controls = null)
 	{
+		trigger_error(__METHOD__ . '() was renamed to getUntrustedValues()', E_USER_DEPRECATED);
 		return $this->getUntrustedValues($returnType, $controls);
 	}
 
@@ -555,9 +556,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/** @deprecated  use addImageButton() */
+	#[\Deprecated('use addImageButton()')]
 	public function addImage(): Controls\ImageButton
 	{
+		trigger_error(__METHOD__ . '() was renamed to addImageButton()', E_USER_DEPRECATED);
 		return $this->addImageButton(...func_get_args());
 	}
 
