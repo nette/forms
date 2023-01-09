@@ -184,7 +184,7 @@ class Helpers
 			$input->value = $value;
 			$res .= ($res === '' && $wrapperEnd === '' ? '' : $wrapper)
 				. $labelTag . $label->attributes() . '>'
-				. $inputTag . $input->attributes() . (Html::$xhtml ? ' />' : '>')
+				. $inputTag . $input->attributes() . (isset(Html::$xhtml) && Html::$xhtml ? ' />' : '>')
 				. ($caption instanceof Nette\HtmlStringable ? $caption : htmlspecialchars((string) $caption, ENT_NOQUOTES, 'UTF-8'))
 				. '</label>'
 				. $wrapperEnd;
@@ -268,5 +268,21 @@ class Helpers
 		return isset($units[$ch = strtolower(substr($value, -1))])
 			? (int) $value << $units[$ch]
 			: (int) $value;
+	}
+
+
+	/** @internal */
+	public static function getSingleType($reflection): ?string
+	{
+		$type = Nette\Utils\Type::fromReflection($reflection);
+		if (!$type) {
+			return null;
+		} elseif ($res = $type->getSingleName()) {
+			return $res;
+		} else {
+			throw new Nette\InvalidStateException(
+				Nette\Utils\Reflection::toString($reflection) . " has unsupported type '$type'."
+			);
+		}
 	}
 }

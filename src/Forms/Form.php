@@ -447,7 +447,7 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		foreach ($handlers as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$types = array_map([Nette\Utils\Reflection::class, 'getParameterType'], $params);
+			$types = array_map([Helpers::class, 'getSingleType'], $params);
 			if (!isset($types[0])) {
 				$arg0 = $button ?: $this;
 			} elseif ($this instanceof $types[0]) {

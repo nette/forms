@@ -167,7 +167,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			} elseif ($control instanceof self) {
 				$type = $returnType === self::Array && !$control->mappedType
 					? self::Array
-					: ($rc->hasProperty($name) ? Nette\Utils\Reflection::getPropertyType($rc->getProperty($name)) : null);
+					: ($rc->hasProperty($name) ? Helpers::getSingleType($rc->getProperty($name)) : null);
 				$obj->$name = $control->getUntrustedValues($type, $allowed ? null : $controls);
 			}
 		}
@@ -237,7 +237,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		foreach ($this->onValidate as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$types = array_map([Nette\Utils\Reflection::class, 'getParameterType'], $params);
+			$types = array_map([Helpers::class, 'getSingleType'], $params);
 			$args = isset($types[0]) && !$this instanceof $types[0]
 				? [$this->getUntrustedValues($types[0])]
 				: [$this, isset($params[1]) ? $this->getUntrustedValues($types[1]) : null];
