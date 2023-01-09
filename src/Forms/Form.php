@@ -85,106 +85,106 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @internal protection token ID */
 	public const ProtectorId = '_token_';
 
-	/** @deprecated use Form::Equal */
+	#[\Deprecated('use Form::Equal')]
 	public const EQUAL = self::Equal;
 
-	/** @deprecated use Form::IsIn */
+	#[\Deprecated('use Form::IsIn')]
 	public const IS_IN = self::IsIn;
 
-	/** @deprecated use Form::NotEqual */
+	#[\Deprecated('use Form::NotEqual')]
 	public const NOT_EQUAL = self::NotEqual;
 
-	/** @deprecated use Form::IsNotIn */
+	#[\Deprecated('use Form::IsNotIn')]
 	public const IS_NOT_IN = self::IsNotIn;
 
-	/** @deprecated use Form::Filled */
+	#[\Deprecated('use Form::Filled')]
 	public const FILLED = self::Filled;
 
-	/** @deprecated use Form::Blank */
+	#[\Deprecated('use Form::Blank')]
 	public const BLANK = self::Blank;
 
-	/** @deprecated use Form::Required */
+	#[\Deprecated('use Form::Required')]
 	public const REQUIRED = self::Required;
 
-	/** @deprecated use Form::Valid */
+	#[\Deprecated('use Form::Valid')]
 	public const VALID = self::Valid;
 
-	/** @deprecated use Form::Submitted */
+	#[\Deprecated('use Form::Submitted')]
 	public const SUBMITTED = self::Submitted;
 
-	/** @deprecated use Form::MinLength */
+	#[\Deprecated('use Form::MinLength')]
 	public const MIN_LENGTH = self::MinLength;
 
-	/** @deprecated use Form::MaxLength */
+	#[\Deprecated('use Form::MaxLength')]
 	public const MAX_LENGTH = self::MaxLength;
 
-	/** @deprecated use Form::Length */
+	#[\Deprecated('use Form::Length')]
 	public const LENGTH = self::Length;
 
-	/** @deprecated use Form::Email */
+	#[\Deprecated('use Form::Email')]
 	public const EMAIL = self::Email;
 
-	/** @deprecated use Form::Pattern */
+	#[\Deprecated('use Form::Pattern')]
 	public const PATTERN = self::Pattern;
 
-	/** @deprecated use Form::PatternCI */
+	#[\Deprecated('use Form::PatternCI')]
 	public const PATTERN_ICASE = self::PatternInsensitive;
 
-	/** @deprecated use Form::Integer */
+	#[\Deprecated('use Form::Integer')]
 	public const INTEGER = self::Integer;
 
-	/** @deprecated use Form::Numeric */
+	#[\Deprecated('use Form::Numeric')]
 	public const NUMERIC = self::Numeric;
 
-	/** @deprecated use Form::Float */
+	#[\Deprecated('use Form::Float')]
 	public const FLOAT = self::Float;
 
-	/** @deprecated use Form::Min */
+	#[\Deprecated('use Form::Min')]
 	public const MIN = self::Min;
 
-	/** @deprecated use Form::Max */
+	#[\Deprecated('use Form::Max')]
 	public const MAX = self::Max;
 
-	/** @deprecated use Form::Range */
+	#[\Deprecated('use Form::Range')]
 	public const RANGE = self::Range;
 
-	/** @deprecated use Form::Count */
+	#[\Deprecated('use Form::Count')]
 	public const COUNT = self::Count;
 
-	/** @deprecated use Form::MaxFileSize */
+	#[\Deprecated('use Form::MaxFileSize')]
 	public const MAX_FILE_SIZE = self::MaxFileSize;
 
-	/** @deprecated use Form::MimeType */
+	#[\Deprecated('use Form::MimeType')]
 	public const MIME_TYPE = self::MimeType;
 
-	/** @deprecated use Form::Image */
+	#[\Deprecated('use Form::Image')]
 	public const IMAGE = self::Image;
 
-	/** @deprecated use Form::MaxPostSize */
+	#[\Deprecated('use Form::MaxPostSize')]
 	public const MAX_POST_SIZE = self::MaxPostSize;
 
-	/** @deprecated use Form::Get */
+	#[\Deprecated('use Form::Get')]
 	public const GET = self::Get;
 
-	/** @deprecated use Form::Post */
+	#[\Deprecated('use Form::Post')]
 	public const POST = self::Post;
 
-	/** @deprecated use Form::DataText */
+	#[\Deprecated('use Form::DataText')]
 	public const DATA_TEXT = self::DataText;
 
-	/** @deprecated use Form::DataLine */
+	#[\Deprecated('use Form::DataLine')]
 	public const DATA_LINE = self::DataLine;
 
-	/** @deprecated use Form::DataFile */
+	#[\Deprecated('use Form::DataFile')]
 	public const DATA_FILE = self::DataFile;
 
-	/** @deprecated use Form::DataKeys */
+	#[\Deprecated('use Form::DataKeys')]
 	public const DATA_KEYS = self::DataKeys;
 
-	/** @deprecated use Form::TrackerId */
+	#[\Deprecated('use Form::TrackerId')]
 	public const TRACKER_ID = self::TrackerId;
 
-	/** @deprecated use Form::ProtectorId */
+	#[\Deprecated('use Form::ProtectorId')]
 	public const PROTECTOR_ID = self::ProtectorId;
 
 	/**
