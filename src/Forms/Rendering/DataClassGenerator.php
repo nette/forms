@@ -24,7 +24,7 @@ final class DataClassGenerator
 	public bool $useSmartObject = true;
 
 
-	/** @deprecated use Nette\Latte\Blueprint::dataClass() */
+	#[\Deprecated('use Nette\Latte\Blueprint::dataClass()')]
 	public function generateCode(Form $form, ?string $baseName = null): string
 	{
 		trigger_error(__METHOD__ . '() is deprecated, use ' . Blueprint::class . '::dataClass()', E_USER_DEPRECATED);
