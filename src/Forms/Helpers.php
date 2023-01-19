@@ -11,6 +11,7 @@ namespace Nette\Forms;
 
 use Nette;
 use Nette\Utils\Html;
+use Nette\Utils\Image;
 use Nette\Utils\Strings;
 
 
@@ -192,7 +193,7 @@ class Helpers
 			$input->value = $value;
 			$res .= ($res === '' && $wrapperEnd === '' ? '' : $wrapper)
 				. $labelTag . $label->attributes() . '>'
-				. $inputTag . $input->attributes() . (isset(Html::$xhtml) && Html::$xhtml ? ' />' : '>')
+				. $inputTag . $input->attributes() . '>'
 				. ($caption instanceof Nette\HtmlStringable ? $caption : htmlspecialchars((string) $caption, ENT_NOQUOTES, 'UTF-8'))
 				. '</label>'
 				. $wrapperEnd;
@@ -298,13 +299,6 @@ class Helpers
 	/** @internal */
 	public static function getSupportedImages(): array
 	{
-		$flag = imagetypes();
-		return array_filter([
-			$flag & IMG_GIF ? 'image/gif' : null,
-			$flag & IMG_JPG ? 'image/jpeg' : null,
-			$flag & IMG_PNG ? 'image/png' : null,
-			$flag & IMG_WEBP ? 'image/webp' : null,
-			$flag & 256 ? 'image/avif' : null, // IMG_AVIF
-		]);
+		return array_map(fn($type) => Image::typeToMimeType($type), Image::getSupportedTypes());
 	}
 }
