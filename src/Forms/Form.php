@@ -189,16 +189,16 @@ class Form extends Container implements Nette\HtmlStringable
 	 * Occurs when the form is submitted and successfully validated
 	 * @var array<callable(self, array|object): void|callable(array|object): void>
 	 */
-	public iterable $onSuccess = [];
+	public array $onSuccess = [];
 
 	/** @var array<callable(self): void>  Occurs when the form is submitted and is not valid */
-	public iterable $onError = [];
+	public array $onError = [];
 
 	/** @var array<callable(self): void>  Occurs when the form is submitted */
-	public iterable $onSubmit = [];
+	public array $onSubmit = [];
 
 	/** @var array<callable(self): void>  Occurs before the form is rendered */
-	public iterable $onRender = [];
+	public array $onRender = [];
 
 	/** @internal used only by standalone form */
 	public Nette\Http\IRequest $httpRequest;
