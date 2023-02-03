@@ -153,7 +153,8 @@ final class FormMacros extends MacroSet
 				: 'if ($ʟ_label = end($this->global->formsStack)[%0.word]'
 			)
 			. '->%1.raw) echo $ʟ_label'
-			. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : ''),
+			. ($node->tokenizer->isNext() ? '->addAttributes(%node.array)' : '')
+			. " /* line $node->startLine */;",
 			$name,
 			$words ? ('getLabelPart(' . implode(', ', array_map([$writer, 'formatWord'], $words)) . ')') : 'getLabel()'
 		);
