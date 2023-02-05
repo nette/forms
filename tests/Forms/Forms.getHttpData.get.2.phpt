@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-before(function () {
+setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'GET';
 	$_GET = $_POST = $_FILES = [];
 });

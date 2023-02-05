@@ -14,10 +14,11 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-before(function () {
+setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
+	ob_start();
 	Form::initialize(true);
 });
 
@@ -133,17 +134,11 @@ test('setItems without keys', function () use ($series) {
 });
 
 
-test('setValue() and invalid argument', function () use ($series) {
+testException('setValue() and invalid argument', function () use ($series) {
 	$form = new Form;
 	$input = $form->addRadioList('radio', null, $series);
-	$input->setValue(null);
-
-	Assert::exception(
-		fn() => $input->setValue('unknown'),
-		Nette\InvalidArgumentException::class,
-		"Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'radio'.",
-	);
-});
+	$input->setValue('unknown');
+}, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'radio'.");
 
 
 test('object as value', function () {

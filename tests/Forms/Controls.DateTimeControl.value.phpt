@@ -14,14 +14,11 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('invalid argument', function () {
+testException('invalid argument', function () {
 	$form = new Form;
 	$input = $form->addDate('date');
-
-	Assert::exception(function () use ($input) {
-		$input->setValue([]);
-	}, TypeError::class, 'Value must be DateTimeInterface|string|int|null, array given.');
-});
+	$input->setValue([]);
+}, TypeError::class, 'Value must be DateTimeInterface|string|int|null, array given.');
 
 
 test('empty string', function () {
@@ -42,14 +39,11 @@ test('date as string', function () {
 });
 
 
-test('date as invalid string', function () {
+testException('date as invalid string', function () {
 	$form = new Form;
 	$input = $form->addDate('date');
-
-	Assert::exception(function () use ($input) {
-		$input->setValue('2023-02-31');
-	}, Nette\InvalidArgumentException::class, "The parsed date was invalid '2023-02-31'");
-});
+	$input->setValue('2023-02-31');
+}, Nette\InvalidArgumentException::class, "The parsed date was invalid '2023-02-31'");
 
 
 test('date as string timestamp', function () {

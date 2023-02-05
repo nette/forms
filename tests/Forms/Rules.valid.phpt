@@ -34,13 +34,12 @@ test('', function () {
 });
 
 
-test('', function () {
-	Assert::exception(function () {
-		$form = new Form;
-		$form->addText('foo')
-			->addRule(Form::Valid);
-	}, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addRule method.');
-});
+testException('', function () {
+	$form = new Form;
+	$form->addText('foo')
+		->addRule(Form::Valid);
+}, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addRule method.');
+
 
 test('', function () {
 	$form = new Form;
@@ -77,19 +76,15 @@ test('', function () {
 });
 
 
-test('', function () {
-	Assert::exception(function () {
-		$form = new Form;
-		$form->addText('foo')
-			->addCondition(Form::Valid);
-	}, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addCondition method.');
-});
+testException('', function () {
+	$form = new Form;
+	$form->addText('foo')
+		->addCondition(Form::Valid);
+}, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addCondition method.');
 
 
-test('', function () {
-	Assert::exception(function () {
-		$form = new Form;
-		@$form->addText('foo')
-			->addRule(~Form::Valid); // @ - negative rules are deprecated
-	}, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addRule method.');
-});
+testException('', function () {
+	$form = new Form;
+	@$form->addText('foo')
+		->addRule(~Form::Valid); // @ - negative rules are deprecated
+}, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addRule method.');

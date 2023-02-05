@@ -15,10 +15,11 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-before(function () {
+setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
+	ob_start();
 	Form::initialize(true);
 });
 
@@ -211,17 +212,11 @@ test('setItems without keys with optgroups', function () {
 });
 
 
-test('setValue() and invalid argument', function () use ($series) {
+testException('setValue() and invalid argument', function () use ($series) {
 	$form = new Form;
 	$input = $form->addMultiSelect('select', null, $series);
-	$input->setValue(null);
-
-	Assert::exception(
-		fn() => $input->setValue('unknown'),
-		Nette\InvalidArgumentException::class,
-		"Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.",
-	);
-});
+	$input->setValue('unknown');
+}, Nette\InvalidArgumentException::class, "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
 
 
 test('object as value', function () {

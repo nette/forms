@@ -24,6 +24,7 @@ $_POST = [
 
 function createForm(): Form
 {
+	ob_start();
 	Form::initialize(true);
 
 	$form = new Form;

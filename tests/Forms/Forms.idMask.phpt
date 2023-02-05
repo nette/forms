@@ -10,13 +10,13 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-Assert::exception(function () {
+testException('', function () {
 	$input = new TextInput('name');
 	$input->getHtmlId();
 }, Nette\InvalidStateException::class, "Component %a% is not attached to 'Nette\\Forms\\Form'.");
 
 
-Assert::exception(function () {
+testException('', function () {
 	$container = new Nette\Forms\Container;
 	$container->setParent(null, 'second');
 	$input = $container->addText('name');

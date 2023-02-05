@@ -15,10 +15,11 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-before(function () {
+setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
+	ob_start();
 	Form::initialize(true);
 });
 
@@ -161,17 +162,12 @@ test('empty input & validateEqual', function () use ($series) {
 });
 
 
-test('setValue() and invalid argument', function () use ($series) {
+testException('setValue() and invalid argument', function () use ($series) {
 	$form = new Form;
 	$input = $form->addCheckboxList('list', null, $series);
 	$input->setValue(null);
-
-	Assert::exception(
-		fn() => $input->setValue('unknown'),
-		Nette\InvalidArgumentException::class,
-		"Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'list'.",
-	);
-});
+	$input->setValue('unknown');
+}, Nette\InvalidArgumentException::class, "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'list'.");
 
 
 test('object as value', function () {

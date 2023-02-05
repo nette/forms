@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-before(function () {
+setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_GET = $_POST = $_FILES = [];

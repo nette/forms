@@ -14,7 +14,8 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-before(function () {
+setUp(function () {
+	ob_start();
 	Form::initialize(true);
 });
 

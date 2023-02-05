@@ -19,10 +19,11 @@ class ChoiceControl extends Nette\Forms\Controls\ChoiceControl
 }
 
 
-before(function () {
+setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
+	ob_start();
 	Form::initialize(true);
 });
 
@@ -145,17 +146,11 @@ test('setItems without keys', function () use ($series) {
 });
 
 
-test('setValue() and invalid argument', function () use ($series) {
+testException('setValue() and invalid argument', function () use ($series) {
 	$form = new Form;
 	$input = $form['select'] = new ChoiceControl(null, $series);
-	$input->setValue(null);
-
-	Assert::exception(
-		fn() => $input->setValue('unknown'),
-		Nette\InvalidArgumentException::class,
-		"Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.",
-	);
-});
+	$input->setValue('unknown');
+}, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
 
 
 test('setValue() and disabled checkDefaultValue()', function () use ($series) {

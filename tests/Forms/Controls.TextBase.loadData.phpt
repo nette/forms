@@ -13,10 +13,11 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-before(function () {
+setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
+	ob_start();
 	Form::initialize(true);
 });
 
@@ -93,19 +94,13 @@ test('malformed data', function () {
 });
 
 
-test('setValue() and invalid argument', function () {
+testException('setValue() and invalid argument', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->setValue(null);
-
-	Assert::exception(
-		fn() => $input->setValue([]),
-		Nette\InvalidArgumentException::class,
-		"Value must be scalar or null, array given in field 'text'.",
-	);
-});
+	$input->setValue([]);
+}, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'text'.");
 
 
 test('float', function () {
