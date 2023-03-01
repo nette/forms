@@ -409,7 +409,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			}
 
 			$control->setOption('rendered', true);
-			$el = $control->getControl();
+			$el = $this->renderFormElementControlMulti($control);
 			if ($el instanceof Html) {
 				if ($el->getName() === 'input') {
 					$el->class($this->getValue("control .$el->type"), true);
@@ -485,7 +485,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		$els = $errors = [];
 		renderControl:
 		$control->setOption('rendered', true);
-		$el = $control->getControl();
+		$el = $this->renderFormElementControl($control);
 		if ($el instanceof Html) {
 			if ($el->getName() === 'input') {
 				$el->class($this->getValue("control .$el->type"), true);
@@ -506,6 +506,13 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		return $body->setHtml(implode('', $els) . $description . $this->doRenderErrors($errors, true));
 	}
 
+	protected function renderFormElementControlMulti(Nette\Forms\Control $control): Html {
+		return $control->getControl();
+	}
+
+	protected function renderFormElementControl(Nette\Forms\Control $control): Html {
+		return $control->getControl();
+	}
 
 	public function getWrapper(string $name): Html
 	{
