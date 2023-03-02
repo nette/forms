@@ -20,7 +20,7 @@
 		$ʟ_input = $_input = end($this->global->formsStack)["send"];
 		echo $ʟ_input->getControlPart()->attributes() /* line 8 */;
 		echo '>';
-		echo htmlspecialchars($ʟ_input->getCaption()) /* line 8 */;
+		echo LR\Filters::escapeHtmlText($ʟ_input->getCaption()) /* line 8 */;
 		echo '</button>
 ';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack), false) /* line 1 */;

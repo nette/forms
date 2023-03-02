@@ -273,7 +273,7 @@ final class FormMacros extends MacroSet
 			}
 		} elseif ($tagName === 'button') {
 			if ($node->htmlNode->empty) {
-				$node->innerContent = "<?php echo htmlspecialchars(\$ʟ_input->getCaption()) /* line $node->startLine */; ?>";
+				$node->innerContent = $writer->write("<?php echo %escape(\$ʟ_input->getCaption()) /* line $node->startLine */; ?>");
 			}
 		} else { // select, textarea
 			$node->innerContent = "<?php echo \$ʟ_input->getControl()->getHtml() /* line $node->startLine */; ?>";
