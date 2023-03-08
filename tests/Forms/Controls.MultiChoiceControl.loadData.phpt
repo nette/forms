@@ -184,11 +184,11 @@ test('setValue() and invalid argument', function () use ($series) {
 
 	Assert::exception(function () use ($input) {
 		$input->setValue(new stdClass);
-	}, Nette\InvalidArgumentException::class, "Value must be array or null, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Value must be array or null, stdClass given in field 'select'.");
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([new stdClass]);
-	}, Nette\InvalidArgumentException::class, "Values must be scalar, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Values must be scalar, stdClass given in field 'select'.");
 });
 
 
@@ -201,11 +201,11 @@ test('setValue() and disabled checkDefaultValue()', function () use ($series) {
 
 	Assert::exception(function () use ($input) {
 		$input->setValue(new stdClass);
-	}, Nette\InvalidArgumentException::class, "Value must be array or null, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Value must be array or null, stdClass given in field 'select'.");
 
 	Assert::exception(function () use ($input) {
 		$input->setValue([new stdClass]);
-	}, Nette\InvalidArgumentException::class, "Values must be scalar, object given in field 'select'.");
+	}, Nette\InvalidArgumentException::class, "Values must be scalar, stdClass given in field 'select'.");
 });
 
 
