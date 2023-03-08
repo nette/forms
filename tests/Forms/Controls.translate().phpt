@@ -17,7 +17,7 @@ class Translator implements Nette\Localization\ITranslator
 {
 	public function translate($message, ...$parameters): string
 	{
-		return is_object($message) ? get_class($message) : $message;
+		return is_object($message) ? $message::class : $message;
 	}
 }
 
