@@ -38,6 +38,9 @@ class UploadControl extends BaseControl
 		$this->addCondition(true) // not to block the export of rules to JS
 			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::Valid]);
 		$this->addRule(Form::MaxFileSize, null, Forms\Helpers::iniGetSize('upload_max_filesize'));
+		if ($multiple) {
+			$this->addRule(Form::MaxLength, 'The maximum allowed number of uploaded files is %i', (int) ini_get('max_file_uploads'));
+		}
 
 		$this->monitor(Form::class, function (Form $form): void {
 			if (!$form->isMethod('post')) {
@@ -110,6 +113,12 @@ class UploadControl extends BaseControl
 		} elseif ($validator === Form::MaxFileSize) {
 			if ($arg > ($ini = Forms\Helpers::iniGetSize('upload_max_filesize'))) {
 				trigger_error("Value of MaxFileSize ($arg) is greater than value of directive upload_max_filesize ($ini).", E_USER_WARNING);
+			}
+			$this->getRules()->removeRule($validator);
+
+		} elseif ($validator === Form::MaxLength) {
+			if ($arg > ($ini = ini_get('max_file_uploads'))) {
+				trigger_error("Value of MaxLength ($arg) is greater than value of directive max_file_uploads ($ini).", E_USER_WARNING);
 			}
 			$this->getRules()->removeRule($validator);
 		}
