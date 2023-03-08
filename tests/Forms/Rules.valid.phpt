@@ -45,9 +45,7 @@ test('', function () {
 test('', function () {
 	$form = new Form;
 	$form->addText('foo')
-		->addFilter(function ($value) {
-			return str_replace(' ', '', $value);
-		})
+		->addFilter(fn($value) => str_replace(' ', '', $value))
 		->addRule($form::Pattern, 'only numbers', '\d{5}');
 
 	$form['foo']->setValue('160 00');
@@ -65,9 +63,7 @@ test('', function () {
 	$foo = $form->addText('foo');
 	$rules = $foo->getRules();
 	$rules->addFilter(
-		function ($value) {
-			return str_replace(' ', '', $value);
-		}
+		fn($value) => str_replace(' ', '', $value),
 	);
 	$rules->addRule($form::Pattern, 'only numbers', '\d{5}');
 

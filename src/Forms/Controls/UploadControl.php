@@ -95,9 +95,7 @@ class UploadControl extends BaseControl
 	{
 		return $this->value instanceof FileUpload
 			? $this->value->isOk()
-			: $this->value && Arrays::every($this->value, function (FileUpload $upload): bool {
-				return $upload->isOk();
-			});
+			: $this->value && Arrays::every($this->value, fn(FileUpload $upload): bool => $upload->isOk());
 	}
 
 

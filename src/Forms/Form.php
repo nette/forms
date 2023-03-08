@@ -744,7 +744,7 @@ class Form extends Container implements Nette\HtmlStringable
 			if (headers_sent($file, $line)) {
 				throw new Nette\InvalidStateException(
 					'Create a form or call Nette\Forms\Form::initialize() before the headers are sent to initialize CSRF protection.'
-					. ($file ? " (output started at $file:$line)" : '') . '. '
+					. ($file ? " (output started at $file:$line)" : '') . '. ',
 				);
 			}
 
