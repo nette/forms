@@ -418,7 +418,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			}
 
 			$control->setOption('rendered', true);
-			$el = $control->getControl();
+			$el = $this->renderControlElement($control);
 			if ($el instanceof Html) {
 				if ($el->getName() === 'input') {
 					$el->class($this->getValue("control .$el->type"), true);
@@ -443,7 +443,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	public function renderLabel(Nette\Forms\Control $control): Html
 	{
 		$suffix = $this->getValue('label suffix') . ($control->isRequired() ? $this->getValue('label requiredsuffix') : '');
-		$label = $control->getLabel();
+		$label = $this->renderLabelElement($control);
 		if ($label instanceof Html) {
 			$label->addHtml($suffix);
 			if ($control->isRequired()) {
@@ -494,7 +494,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		$els = $errors = [];
 		renderControl:
 		$control->setOption('rendered', true);
-		$el = $control->getControl();
+		$el = $this->renderControlElement($control);
 		if ($el instanceof Html) {
 			if ($el->getName() === 'input') {
 				$el->class($this->getValue("control .$el->type"), true);
@@ -513,6 +513,20 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		}
 
 		return $body->setHtml(implode('', $els) . $description . $this->doRenderErrors($errors, true));
+	}
+
+
+	/** @return string|Html|null */
+	protected function renderLabelElement(Nette\Forms\Control $control)
+	{
+		return $control->getLabel();
+	}
+
+
+	/** @return string|Html */
+	protected function renderControlElement(Nette\Forms\Control $control)
+	{
+		return $control->getControl();
 	}
 
 
