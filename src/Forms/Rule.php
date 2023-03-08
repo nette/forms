@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
+use Stringable;
 
 
 /**
@@ -27,7 +28,7 @@ class Rule
 
 	public bool $isNegative = false;
 
-	public object|string|null $message;
+	public string|Stringable|null $message;
 
 	/** for conditions */
 	public ?Rules $branch = null;

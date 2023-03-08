@@ -14,6 +14,7 @@ use Nette\Forms\Control;
 use Nette\Forms\Form;
 use Nette\Forms\Rules;
 use Nette\Utils\Html;
+use Stringable;
 
 
 /**
@@ -23,7 +24,7 @@ use Nette\Utils\Html;
  * @property-read string $htmlName
  * @property   string|bool|null $htmlId
  * @property   mixed $value
- * @property   string|object $caption
+ * @property   string|Stringable $caption
  * @property   bool $disabled
  * @property   bool $omitted
  * @property-read Html $control
@@ -55,7 +56,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/** @var callable[][]  extension methods */
 	private static array $extMethods = [];
 
-	private string|object|null $caption;
+	private string|Stringable|null $caption;
 
 	private array $errors = [];
 
@@ -69,10 +70,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	private array $options = [];
 
 
-	/**
-	 * @param  string|object  $caption
-	 */
-	public function __construct($caption = null)
+	public function __construct(string|Stringable|null $caption = null)
 	{
 		$this->control = Html::el('input', ['type' => null, 'name' => null]);
 		$this->label = Html::el('label');
@@ -89,17 +87,15 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Sets textual caption or label.
-	 * @param object|string  $caption
 	 */
-	public function setCaption($caption): static
+	public function setCaption(string|Stringable $caption): static
 	{
 		$this->caption = $caption;
 		return $this;
 	}
 
 
-	/** @return object|string */
-	public function getCaption()
+	public function getCaption(): string|Stringable|null
 	{
 		return $this->caption;
 	}
@@ -254,9 +250,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Generates label's HTML element.
-	 * @param  string|object  $caption
 	 */
-	public function getLabel($caption = null): Html|string|null
+	public function getLabel(string|Stringable|null $caption = null): Html|string|null
 	{
 		$label = clone $this->label;
 		$label->for = $this->getHtmlId();
@@ -404,9 +399,12 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation rule.
-	 * @param  string|object  $errorMessage
 	 */
-	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null): static
+	public function addRule(
+		callable|string $validator,
+		string|Stringable|null $errorMessage = null,
+		mixed $arg = null,
+	): static
 	{
 		$this->rules->addRule($validator, $errorMessage, $arg);
 		return $this;
@@ -449,9 +447,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Makes control mandatory.
-	 * @param  bool|string|object  $value
 	 */
-	public function setRequired($value = true): static
+	public function setRequired(string|Stringable|bool $value = true): static
 	{
 		$this->rules->setRequired($value);
 		return $this;
@@ -483,9 +480,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds error message to the list.
-	 * @param  string|object  $message
 	 */
-	public function addError($message, bool $translate = true): void
+	public function addError(string|Stringable $message, bool $translate = true): void
 	{
 		$this->errors[] = $translate ? $this->translate($message) : $message;
 	}

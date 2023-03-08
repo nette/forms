@@ -12,6 +12,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Forms\Form;
 use Nette\Utils\Strings;
+use Stringable;
 
 
 /**
@@ -120,7 +121,11 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null): static
+	public function addRule(
+		callable|string $validator,
+		string|Stringable|null $errorMessage = null,
+		mixed $arg = null,
+	): static
 	{
 		foreach ($this->getRules() as $rule) {
 			if (!$rule->canExport() && !$rule->branch) {
