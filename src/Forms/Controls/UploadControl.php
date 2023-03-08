@@ -13,6 +13,7 @@ use Nette;
 use Nette\Forms;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
+use Nette\Utils\Arrays;
 
 
 /**
@@ -85,15 +86,15 @@ class UploadControl extends BaseControl
 
 
 	/**
-	 * Have been all files succesfully uploaded?
+	 * Have been all files successfully uploaded?
 	 */
 	public function isOk(): bool
 	{
 		return $this->value instanceof FileUpload
 			? $this->value->isOk()
-			: $this->value && array_reduce($this->value, function (bool $carry, FileUpload $fileUpload): bool {
-				return $carry && $fileUpload->isOk();
-			}, true);
+			: $this->value && Arrays::every($this->value, function (FileUpload $upload): bool {
+				return $upload->isOk();
+			});
 	}
 
 
@@ -102,14 +103,14 @@ class UploadControl extends BaseControl
 	{
 		if ($validator === Form::Image) {
 			$this->control->accept = implode(', ', FileUpload::IMAGE_MIME_TYPES);
+
 		} elseif ($validator === Form::MimeType) {
 			$this->control->accept = implode(', ', (array) $arg);
+
 		} elseif ($validator === Form::MaxFileSize) {
-			if ($arg > Forms\Helpers::iniGetSize('upload_max_filesize')) {
-				$ini = ini_get('upload_max_filesize');
+			if ($arg > ($ini = Forms\Helpers::iniGetSize('upload_max_filesize'))) {
 				trigger_error("Value of MaxFileSize ($arg) is greater than value of directive upload_max_filesize ($ini).", E_USER_WARNING);
 			}
-
 			$this->getRules()->removeRule($validator);
 		}
 
