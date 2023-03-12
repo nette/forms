@@ -24,7 +24,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
 	use Nette\ComponentModel\ArrayAccess;
 
-	private const Array = 'array';
+	public const Array = 'array';
 
 	/**
 	 * Occurs when the form was validated
