@@ -39,7 +39,7 @@ class UploadControl extends BaseControl
 			->addRule([$this, 'isOk'], Forms\Validator::$messages[self::Valid]);
 		$this->addRule(Form::MaxFileSize, null, Forms\Helpers::iniGetSize('upload_max_filesize'));
 		if ($multiple) {
-			$this->addRule(Form::MaxLength, 'The maximum allowed number of uploaded files is %i', (int) ini_get('max_file_uploads'));
+			$this->addRule(Form::MaxLength, 'The maximum allowed number of uploaded files is %d', (int) ini_get('max_file_uploads'));
 		}
 
 		$this->monitor(Form::class, function (Form $form): void {
