@@ -40,7 +40,7 @@ final class Validator
 		Form::MaxFileSize => 'The size of the uploaded file can be up to %d bytes.',
 		Form::MaxPostSize => 'The uploaded data exceeds the limit of %d bytes.',
 		Form::MimeType => 'The uploaded file is not in the expected format.',
-		Form::Image => 'The uploaded file must be image in format JPEG, GIF, PNG or WebP.',
+		Form::Image => 'The uploaded file must be image in format JPEG, GIF, PNG, WebP or AVIF.',
 		Controls\SelectBox::Valid => 'Please select a valid option.',
 		Controls\UploadControl::Valid => 'An error occurred during file upload.',
 	];
