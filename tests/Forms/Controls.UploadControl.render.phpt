@@ -72,6 +72,27 @@ test('accepted files', function () {
 
 	$input = $form->addUpload('file3')->addRule(Form::Image);
 	Assert::match('<input type="file" name="file3" accept="image/gif, image/png, image/jpeg, image/webp, image/avif" id="frm-file3" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":image","msg":"The uploaded file must be image in format JPEG, GIF, PNG, WebP or AVIF."}]\'>', (string) $input->getControl());
+
+    $input = $form->addUpload('file4')->addRule(Form::Image)->addRule(Form::MimeType, null, 'text/html');
+    Assert::match('<input type="file" name="file4" accept="image/gif, image/png, image/jpeg, image/webp, image/avif, text/html" id="frm-file4" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["image/gif","image/png","image/jpeg","image/webp","image/avif","text/html"]}]\'>', (string) $input->getControl());
+
+    $input = $form->addUpload('file5')->addRule(Form::MimeType, null, 'text/html')->addRule(Form::Image);
+    Assert::match('<input type="file" name="file5" accept="text/html, image/gif, image/png, image/jpeg, image/webp, image/avif" id="frm-file5" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["text/html","image/gif","image/png","image/jpeg","image/webp","image/avif"]}]\'>', (string) $input->getControl());
+
+    $input = $form->addUpload('file6')->addRule(Form::Image)->addRule(Form::MimeType, null, ['video/*', 'text/html']);
+    Assert::match('<input type="file" name="file6" accept="image/gif, image/png, image/jpeg, image/webp, image/avif, video/*, text/html" id="frm-file6" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["image/gif","image/png","image/jpeg","image/webp","image/avif","video/*","text/html"]}]\'>', (string) $input->getControl());
+
+    $input = $form->addUpload('file7')->addRule(Form::Image)->addRule(Form::MimeType, null, ['image/gif', 'text/html']);
+    Assert::match('<input type="file" name="file7" accept="image/gif, image/png, image/jpeg, image/webp, image/avif, text/html" id="frm-file7" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["image/gif","image/png","image/jpeg","image/webp","image/avif","text/html"]}]\'>', (string) $input->getControl());
+
+    $input = $form->addUpload('file8')->addRule(Form::MimeType, null, ['image/gif', 'text/html'])->addRule(Form::Image);
+    Assert::match('<input type="file" name="file8" accept="image/gif, text/html, image/png, image/jpeg, image/webp, image/avif" id="frm-file8" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["image/gif","text/html","image/png","image/jpeg","image/webp","image/avif"]}]\'>', (string) $input->getControl());
+
+    $input = $form->addUpload('file9')->addRule(Form::MimeType, null, 'video/*')->addRule(Form::MimeType, null, 'text/html');
+    Assert::match('<input type="file" name="file9" accept="video/*, text/html" id="frm-file9" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["video/*","text/html"]}]\'>', (string) $input->getControl());
+
+    $input = $form->addUpload('file10')->addRule(Form::MimeType, null, 'video/*')->addRule(Form::Image)->addRule(Form::MimeType, null, 'text/html');
+    Assert::match('<input type="file" name="file10" accept="video/*, image/gif, image/png, image/jpeg, image/webp, image/avif, text/html" id="frm-file10" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":["video/*","image/gif","image/png","image/jpeg","image/webp","image/avif","text/html"]}]\'>', (string) $input->getControl());
 });
 
 

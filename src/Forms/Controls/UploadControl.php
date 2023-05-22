@@ -105,6 +105,8 @@ class UploadControl extends BaseControl
 		mixed $arg = null,
 	): static
 	{
+        $mime = $this->control->accept;
+
 		if ($validator === Form::Image) {
 			$this->control->accept = implode(', ', FileUpload::ImageMimeTypes);
 
@@ -123,6 +125,18 @@ class UploadControl extends BaseControl
 			}
 			$this->getRules()->removeRule($validator);
 		}
+
+        if ($mime) {
+            $mime = explode(', ', $mime);
+            $arg = array_merge($mime, explode(', ', $this->control->accept));
+            $arg = array_values(array_unique($arg));
+            $this->control->accept = implode(', ', $arg);
+
+            $this->getRules()->removeRule(Form::Image);
+            $this->getRules()->removeRule(Form::MimeType);
+
+            $validator = Form::MimeType;
+        }
 
 		return parent::addRule($validator, $errorMessage, $arg);
 	}
