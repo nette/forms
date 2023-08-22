@@ -173,7 +173,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/** @eprecated use getUntrustedValues() */
+	/** @deprecated use getUntrustedValues() */
 	public function getUnsafeValues($returnType, ?array $controls = null)
 	{
 		trigger_error(__METHOD__ . '() was renamed to getUntrustedValues()', E_USER_DEPRECATED);
