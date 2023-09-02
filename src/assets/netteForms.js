@@ -230,6 +230,8 @@
 					continue;
 				}
 				radios[elem.name] = true;
+			} else if (elem.type === 'submit') {
+				continue;
 			}
 
 			if ((scope && !elem.name.replace(/]\[|\[|]|$/g, '-').match(scope)) || Nette.isDisabled(elem)) {
