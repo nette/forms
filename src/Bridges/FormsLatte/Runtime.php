@@ -68,10 +68,6 @@ class Runtime
 			}
 		}
 
-		if (iterator_count($form->getComponents(true, Nette\Forms\Controls\TextInput::class)) < 2) {
-			$s .= "<!--[if IE]><input type=IEbug disabled style=\"display:none\"><![endif]-->\n";
-		}
-
 		return $s . ($withTags ? $form->getElementPrototype()->endTag() . "\n" : '');
 	}
 
