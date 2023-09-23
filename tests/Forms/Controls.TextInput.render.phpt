@@ -238,6 +238,16 @@ test('addInteger', function () {
 });
 
 
+test('addFloat', function () {
+	$form = new Form;
+	$input = $form->addFloat('text');
+
+	Assert::null($input->getValue());
+
+	Assert::same('<input type="number" name="text" step="any" id="frm-text" data-nette-rules=\'[{"op":":float","msg":"Please enter a valid number."}]\'>', (string) $input->getControl());
+});
+
+
 test('addFilter() & rules', function () {
 	$form = new Form;
 	$input = $form->addText('text')

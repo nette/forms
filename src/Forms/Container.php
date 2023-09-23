@@ -383,6 +383,20 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
+	 * Adds input for float.
+	 * @param  string|object|null  $label
+	 */
+	public function addFloat(string $name, $label = null): Controls\TextInput
+	{
+		return $this[$name] = (new Controls\TextInput($label))
+			->setNullable()
+			->setHtmlType('number')
+			->setHtmlAttribute('step', 'any')
+			->addRule(Form::Float);
+	}
+
+
+	/**
 	 * Adds control that allows the user to upload files.
 	 * @param  string|object|null  $label
 	 */
