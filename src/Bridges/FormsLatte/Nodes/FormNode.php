@@ -66,6 +66,7 @@ class FormNode extends StatementNode
 				? '$this->global->uiControl[%node]'
 				: 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp]')
 			. ' %line;'
+			. 'Nette\Bridges\FormsLatte\Runtime::initializeForm($form);'
 			. ($this->print
 				? 'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form, %node) %1.line;'
 				: '')

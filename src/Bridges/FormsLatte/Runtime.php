@@ -23,16 +23,20 @@ class Runtime
 {
 	use Nette\StaticClass;
 
-	/**
-	 * Renders form begin.
-	 */
-	public static function renderFormBegin(Form $form, array $attrs, bool $withTags = true): string
+	public static function initializeForm(Form $form): void
 	{
 		$form->fireRenderEvents();
 		foreach ($form->getControls() as $control) {
 			$control->setOption('rendered', false);
 		}
+	}
 
+
+	/**
+	 * Renders form begin.
+	 */
+	public static function renderFormBegin(Form $form, array $attrs, bool $withTags = true): string
+	{
 		$el = $form->getElementPrototype();
 		$el->action = (string) $el->action;
 		$el = clone $el;

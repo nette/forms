@@ -22,6 +22,7 @@ Assert::match(
 	<<<'XX'
 		%A%
 				$form = $this->global->formsStack[] = $this->global->uiControl['foo'] /* line 1 */;
+				Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
 				echo '<form';
 				echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* line 1 */;
 				echo '>';
@@ -38,6 +39,7 @@ Assert::match(
 	<<<'XX'
 		%A%
 				$form = $this->global->formsStack[] = $this->global->uiControl['foo'] /* line 1 */;
+				Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
 				$ʟ_tag[0] = '';
 				if (0) /* line 1 */ {
 					echo '<';

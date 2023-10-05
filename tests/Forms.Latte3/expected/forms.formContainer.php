@@ -1,6 +1,7 @@
 <?php
 %A%
 		$form = $this->global->formsStack[] = $this->global->uiControl['myForm'] /* line %d% */;
+		Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form, []) /* line %d% */;
 		echo '
 <table>

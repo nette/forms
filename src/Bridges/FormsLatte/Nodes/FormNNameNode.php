@@ -47,6 +47,7 @@ final class FormNNameNode extends StatementNode
 				? '$this->global->uiControl[%node]'
 				: 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp]')
 			. ' %line;'
+			. 'Nette\Bridges\FormsLatte\Runtime::initializeForm($form);'
 			. '%node '
 			. 'array_pop($this->global->formsStack);',
 			$this->name,
