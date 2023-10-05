@@ -17,14 +17,14 @@ use Nette;
  */
 final class ControlGroup
 {
-	protected \SplObjectStorage $controls;
+	protected \WeakMap $controls;
 
 	private array $options = [];
 
 
 	public function __construct()
 	{
-		$this->controls = new \SplObjectStorage;
+		$this->controls = new \WeakMap;
 	}
 
 
@@ -32,7 +32,7 @@ final class ControlGroup
 	{
 		foreach ($items as $item) {
 			if ($item instanceof Control) {
-				$this->controls->attach($item);
+				$this->controls[$item] = null;
 
 			} elseif ($item instanceof Container) {
 				foreach ($item->getComponents() as $component) {
@@ -53,15 +53,15 @@ final class ControlGroup
 
 	public function remove(Control $control): void
 	{
-		$this->controls->detach($control);
+		unset($this->controls[$control]);
 	}
 
 
 	public function removeOrphans(): void
 	{
-		foreach ($this->controls as $control) {
+		foreach ($this->controls as $control => $foo) {
 			if (!$control->getForm(false)) {
-				$this->controls->detach($control);
+				unset($this->controls[$control]);
 			}
 		}
 	}
@@ -70,7 +70,11 @@ final class ControlGroup
 	/** @return Control[] */
 	public function getControls(): array
 	{
-		return iterator_to_array($this->controls);
+		$res = [];
+		foreach ($this->controls as $control => $foo) {
+			$res[] = $control;
+		}
+		return $res;
 	}
 
 
