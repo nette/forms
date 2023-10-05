@@ -41,7 +41,7 @@ Assert::match(
 				$ʟ_tag[0] = '';
 				if (0) /* line 1 */ {
 					echo '<';
-					echo $ʟ_tmp = ('form');
+					echo $ʟ_tmp = 'form' /* line 1 */;
 					$ʟ_tag[0] = '</' . $ʟ_tmp . '>' . $ʟ_tag[0];
 					echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* line 1 */;
 					echo '>';

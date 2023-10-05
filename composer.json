@@ -24,7 +24,7 @@
 		"nette/application": "^3.0",
 		"nette/di": "^3.0",
 		"nette/tester": "^2.4",
-		"latte/latte": "^2.10.2 || ^3.0.3",
+		"latte/latte": "^2.10.2 || ^3.0.8",
 		"tracy/tracy": "^2.9",
 		"phpstan/phpstan-nette": "^1"
 	},

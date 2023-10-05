@@ -31,7 +31,7 @@ Assert::match(
 Assert::exception(
 	fn() => $latte->compile('<input n:name="foo: class => foo">'),
 	Latte\CompileException::class,
-	"Unexpected '=>foo', expecting end of attribute in n:name (on line 1 at column 27)",
+	"Unexpected '=>', expecting end of attribute in n:name (on line 1 at column 27)",
 );
 
 Assert::match(

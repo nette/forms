@@ -41,7 +41,7 @@ Assert::match(
 Assert::exception(
 	fn() => $latte->compile('{label foo: class => foo /}'),
 	Latte\CompileException::class,
-	"Unexpected '=>foo', expecting end of tag in {label} (on line 1 at column 19)",
+	"Unexpected '=>', expecting end of tag in {label} (on line 1 at column 19)",
 );
 
 Assert::match(
