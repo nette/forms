@@ -187,13 +187,6 @@
 			}
 		}
 
-		if (elem.type === 'number' && !elem.validity.valid) {
-			if (top && !onlyCheck) {
-				Nette.addError(elem, Nette.invalidNumberMessage);
-			}
-			return false;
-		}
-
 		return true;
 	};
 
@@ -230,6 +223,13 @@
 					continue;
 				}
 				radios[elem.name] = true;
+
+			} else if (elem.type === 'number' && elem.validity.badInput && !Nette.isDisabled(elem)) {
+				if (onlyCheck) {
+					return false;
+				}
+				Nette.addError(elem, Nette.invalidNumberMessage);
+				continue;
 			}
 
 			if ((scope && !elem.name.replace(/]\[|\[|]|$/g, '-').match(scope)) || Nette.isDisabled(elem)) {
@@ -240,6 +240,7 @@
 				return false;
 			}
 		}
+
 		var success = !Nette.formErrors.length;
 		Nette.showFormErrors(form, Nette.formErrors);
 		return success;
