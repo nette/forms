@@ -338,6 +338,10 @@
 	 * Validates single rule.
 	 */
 	Nette.validateRule = function(elem, op, arg, value) {
+		if (elem.type === 'number' && elem.validity.badInput) {
+			return op === 'filled';
+		}
+
 		value = value === undefined ? {value: Nette.getEffectiveValue(elem, true)} : value;
 
 		if (op.charAt(0) === ':') {
@@ -362,9 +366,6 @@
 
 	Nette.validators = {
 		filled: function(elem, arg, val) {
-			if (elem.type === 'number' && elem.validity.badInput) {
-				return true;
-			}
 			return val !== '' && val !== false && val !== null
 				&& (!Array.isArray(val) || !!val.length)
 				&& (!window.FileList || !(val instanceof window.FileList) || val.length);
@@ -410,35 +411,14 @@
 		},
 
 		minLength: function(elem, arg, val) {
-			if (elem.type === 'number') {
-				if (elem.validity.tooShort) {
-					return false;
-				} else if (elem.validity.badInput) {
-					return null;
-				}
-			}
 			return val.length >= arg;
 		},
 
 		maxLength: function(elem, arg, val) {
-			if (elem.type === 'number') {
-				if (elem.validity.tooLong) {
-					return false;
-				} else if (elem.validity.badInput) {
-					return null;
-				}
-			}
 			return val.length <= arg;
 		},
 
 		length: function(elem, arg, val) {
-			if (elem.type === 'number') {
-				if (elem.validity.tooShort || elem.validity.tooLong) {
-					return false;
-				} else if (elem.validity.badInput) {
-					return null;
-				}
-			}
 			arg = Array.isArray(arg) ? arg : [arg, arg];
 			return (arg[0] === null || val.length >= arg[0]) && (arg[1] === null || val.length <= arg[1]);
 		},
@@ -496,23 +476,14 @@
 		},
 
 		numeric: function(elem, arg, val) {
-			if (elem.type === 'number' && elem.validity.badInput) {
-				return false;
-			}
 			return (/^[0-9]+$/).test(val);
 		},
 
 		integer: function(elem, arg, val) {
-			if (elem.type === 'number' && elem.validity.badInput) {
-				return false;
-			}
 			return (/^-?[0-9]+$/).test(val);
 		},
 
 		'float': function(elem, arg, val, value) {
-			if (elem.type === 'number' && elem.validity.badInput) {
-				return false;
-			}
 			val = val.replace(/ +/g, '').replace(/,/g, '.');
 			if ((/^-?[0-9]*\.?[0-9]+$/).test(val)) {
 				value.value = val;
@@ -522,35 +493,14 @@
 		},
 
 		min: function(elem, arg, val) {
-			if (elem.type === 'number') {
-				if (elem.validity.rangeUnderflow) {
-					return false;
-				} else if (elem.validity.badInput) {
-					return null;
-				}
-			}
 			return arg === null || parseFloat(val) >= arg;
 		},
 
 		max: function(elem, arg, val) {
-			if (elem.type === 'number') {
-				if (elem.validity.rangeOverflow) {
-					return false;
-				} else if (elem.validity.badInput) {
-					return null;
-				}
-			}
 			return arg === null || parseFloat(val) <= arg;
 		},
 
 		range: function(elem, arg, val) {
-			if (elem.type === 'number') {
-				if (elem.validity.rangeUnderflow || elem.validity.rangeOverflow) {
-					return false;
-				} else if (elem.validity.badInput) {
-					return null;
-				}
-			}
 			return Array.isArray(arg) ?
 				((arg[0] === null || parseFloat(val) >= arg[0]) && (arg[1] === null || parseFloat(val) <= arg[1])) : null;
 		},
