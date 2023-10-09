@@ -771,6 +771,12 @@
 				e.preventDefault();
 			}
 		});
+
+		form.addEventListener('reset', function() {
+			setTimeout(function() {
+				Nette.toggleForm(form);
+			});
+		});
 	};
 
 
