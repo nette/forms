@@ -41,4 +41,10 @@ final class FormsExtension extends Latte\Extension
 			'formsStack' => [],
 		];
 	}
+
+
+	public function getCacheKey(Latte\Engine $engine): mixed
+	{
+		return 1;
+	}
 }
