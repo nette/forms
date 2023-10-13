@@ -57,7 +57,7 @@ if ($form->isSuccess()) {
 <meta charset="utf-8">
 <title>Nette Forms and HTML5</title>
 <link rel="stylesheet" media="screen" href="assets/style.css" />
-<script src="https://nette.github.io/resources/js/3/netteForms.js"></script>
+<script src="https://unpkg.com/nette-forms@3/src/assets/netteForms.js"></script>
 
 <h1>Nette Forms and HTML5</h1>
 
