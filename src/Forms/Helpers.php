@@ -141,20 +141,28 @@ class Helpers
 			if (is_array($rule->arg)) {
 				$item['arg'] = [];
 				foreach ($rule->arg as $key => $value) {
-					$item['arg'][$key] = $value instanceof Control
-						? ['control' => $value->getHtmlName()]
-						: $value;
+					$item['arg'][$key] = self::exportArgument($value, $rule->control);
 				}
 			} elseif ($rule->arg !== null) {
-				$item['arg'] = $rule->arg instanceof Control
-					? ['control' => $rule->arg->getHtmlName()]
-					: $rule->arg;
+				$item['arg'] = self::exportArgument($rule->arg, $rule->control);
 			}
 
 			$payload[] = $item;
 		}
 
 		return $payload;
+	}
+
+
+	private static function exportArgument($value, Control $control)
+	{
+		if ($value instanceof Control) {
+			return ['control' => $value->getHtmlName()];
+		} elseif ($control instanceof Controls\DateTimeControl) {
+			return $control->formatHtmlValue($value);
+		} else {
+			return $value;
+		}
 	}
 
 

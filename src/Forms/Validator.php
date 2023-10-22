@@ -92,9 +92,16 @@ class Validator
 				default:
 					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
 					$i = (int) $m[1] ? (int) $m[1] - 1 : $i + 1;
-					return isset($args[$i])
-						? ($args[$i] instanceof Control ? ($withValue ? $args[$i]->getValue() : "%$i") : $args[$i])
-						: '';
+					$arg = $args[$i] ?? null;
+					if ($arg === null) {
+						return '';
+					} elseif ($arg instanceof Control) {
+						return $withValue ? $args[$i]->getValue() : "%$i";
+					} elseif ($rule->control instanceof Controls\DateTimeControl) {
+						return $rule->control->formatLocaleText($arg);
+					} else {
+						return $arg;
+					}
 			}
 		}, $message);
 		return $message;
@@ -181,6 +188,9 @@ class Validator
 	 */
 	public static function validateRange(Control $control, array $range): bool
 	{
+		if ($control instanceof Controls\DateTimeControl) {
+			return $control->validateMinMax($range[0] ?? null, $range[1] ?? null);
+		}
 		$range = array_map(function ($v) {
 			return $v === '' ? null : $v;
 		}, $range);

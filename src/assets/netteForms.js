@@ -508,6 +508,8 @@
 		range: function(elem, arg, val) {
 			if (!Array.isArray(arg)) {
 				return null;
+			} else if (elem.type === 'time' && arg[0] > arg[1]) {
+				return val >= arg[0] || val <= arg[1];
 			}
 			return (arg[0] === null || Nette.validators.min(elem, arg[0], val))
 				&& (arg[1] === null || Nette.validators.max(elem, arg[1], val));

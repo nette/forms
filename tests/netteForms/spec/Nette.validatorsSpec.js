@@ -64,6 +64,10 @@ describe('Nette.validators', function() {
 		expect(Nette.validators.range(el, ['10:30', '14:00'], '12:30')).toBe(true);
 		expect(Nette.validators.range(el, ['10:30', '14:00'], '09:30')).toBe(false);
 		expect(Nette.validators.range(el, ['14:00', '10:30'], '12:30')).toBe(false);
+
+		el.type = 'time';
+		expect(Nette.validators.range(el, ['14:00', '10:30'], '12:30')).toBe(false);
+		expect(Nette.validators.range(el, ['14:00', '10:30'], '09:00')).toBe(true);
 	});
 
 
