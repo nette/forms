@@ -29,3 +29,11 @@ jobs:
 
             - run: composer create-project nette/coding-standard temp/coding-standard ^3 --no-progress
             - run: php temp/coding-standard/ecs check src tests
+
+
+    eslint:
+        name: ESLint
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - run: npx eslint src/assets/netteForms.js

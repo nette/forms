@@ -58,3 +58,15 @@ jobs:
             - env:
                   COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: php php-coveralls.phar --verbose --config tests/.coveralls.yml
+
+
+    jasmine:
+        name: JavaScript tests
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - run: npm install -g karma-cli
+            - working-directory: tests/netteForms
+              run: npm install
+            - working-directory: tests/netteForms
+              run: karma start

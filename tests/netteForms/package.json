@@ -1,9 +1,11 @@
 {
   "devDependencies": {
-    "eslint": "^7.4.0",
-    "grunt": "^1.2.1",
-    "grunt-contrib-jasmine": "^2.2.0",
-    "jasmine": "^3.5.0",
-    "js-fixtures": "^1.5.3"
+    "eslint": "^8.52.0",
+    "jasmine": "^5.1.0",
+    "jasmine-core": "^5.1.1",
+    "js-fixtures": "^1.5.3",
+    "karma": "^6.4.2",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-jasmine": "^5.1.0"
   }
 }
