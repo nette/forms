@@ -17,23 +17,12 @@ use Nette;
  */
 class Rule
 {
-	/** @var Control */
-	public $control;
-
-	/** @var mixed */
-	public $validator;
-
-	/** @var mixed */
-	public $arg;
-
-	/** @var bool */
-	public $isNegative = false;
-
-	/** @var string|null */
-	public $message;
-
-	/** @var Rules|null  for conditions */
-	public $branch;
+	public Control $control;
+	public mixed $validator;
+	public mixed $arg = null;
+	public bool $isNegative = false;
+	public object|string|null $message;
+	public ?Rules $branch = null;
 
 
 	/** @internal */

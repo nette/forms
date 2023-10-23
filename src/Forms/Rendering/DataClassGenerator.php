@@ -19,14 +19,9 @@ use Nette\Forms\Form;
  */
 final class DataClassGenerator
 {
-	/** @var string */
-	public $classNameSuffix = 'FormData';
-
-	/** @var bool */
-	public $propertyPromotion = false;
-
-	/** @var bool */
-	public $useSmartObject = true;
+	public string $classNameSuffix = 'FormData';
+	public bool $propertyPromotion = false;
+	public bool $useSmartObject = true;
 
 
 	/** @deprecated use Nette\Latte\Blueprint::dataClass() */

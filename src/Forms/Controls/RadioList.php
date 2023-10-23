@@ -22,17 +22,10 @@ use Nette\Utils\Html;
  */
 class RadioList extends ChoiceControl
 {
-	/** @var bool */
-	public $generateId = false;
-
-	/** @var Html  separator element template */
-	protected $separator;
-
-	/** @var Html  container element template */
-	protected $container;
-
-	/** @var Html  item label template */
-	protected $itemLabel;
+	public bool $generateId = false;
+	protected Html $separator;
+	protected Html $container;
+	protected Html $itemLabel;
 
 
 	/**

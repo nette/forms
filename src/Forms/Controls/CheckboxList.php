@@ -22,14 +22,9 @@ use Nette\Utils\Html;
  */
 class CheckboxList extends MultiChoiceControl
 {
-	/** @var Html  separator element template */
-	protected $separator;
-
-	/** @var Html  container element template */
-	protected $container;
-
-	/** @var Html  item label template */
-	protected $itemLabel;
+	protected Html $separator;
+	protected Html $container;
+	protected Html $itemLabel;
 
 
 	/**

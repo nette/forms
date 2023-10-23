@@ -17,11 +17,9 @@ use Nette;
  */
 class MultiSelectBox extends MultiChoiceControl
 {
-	/** @var array of option / optgroup */
-	private $options = [];
-
-	/** @var array */
-	private $optionAttributes = [];
+	/** of option / optgroup */
+	private array $options = [];
+	private array $optionAttributes = [];
 
 
 	public function __construct($label = null, ?array $items = null)

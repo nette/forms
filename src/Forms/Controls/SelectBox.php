@@ -21,14 +21,10 @@ class SelectBox extends ChoiceControl
 	public const Valid = ':selectBoxValid';
 	public const VALID = self::Valid;
 
-	/** @var array of option / optgroup */
-	private $options = [];
-
-	/** @var string|object|false */
-	private $prompt = false;
-
-	/** @var array */
-	private $optionAttributes = [];
+	/** of option / optgroup */
+	private array $options = [];
+	private string|object|false $prompt = false;
+	private array $optionAttributes = [];
 
 
 	public function __construct($label = null, ?array $items = null)

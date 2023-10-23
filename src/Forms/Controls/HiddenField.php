@@ -17,11 +17,8 @@ use Nette;
  */
 class HiddenField extends BaseControl
 {
-	/** @var bool */
-	private $persistValue;
-
-	/** @var bool */
-	private $nullable = false;
+	private bool $persistValue = false;
+	private bool $nullable = false;
 
 
 	public function __construct($persistentValue = null)
@@ -29,6 +26,7 @@ class HiddenField extends BaseControl
 		parent::__construct();
 		$this->control->type = 'hidden';
 		$this->setOption('type', 'hidden');
+		$this->value = '';
 		if ($persistentValue !== null) {
 			$this->unmonitor(Nette\Forms\Form::class);
 			$this->persistValue = true;

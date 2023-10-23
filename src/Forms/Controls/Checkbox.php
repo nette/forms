@@ -18,8 +18,7 @@ use Nette\Utils\Html;
  */
 class Checkbox extends BaseControl
 {
-	/** @var Html  wrapper element template */
-	private $container;
+	private Html $container;
 
 
 	/**

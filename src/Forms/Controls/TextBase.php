@@ -19,14 +19,9 @@ use Nette\Utils\Strings;
  */
 abstract class TextBase extends BaseControl
 {
-	/** @var string */
-	protected $emptyValue = '';
-
-	/** @var mixed unfiltered submitted value */
-	protected $rawValue = '';
-
-	/** @var bool */
-	private $nullable;
+	protected string $emptyValue = '';
+	protected mixed $rawValue = '';
+	private bool $nullable = false;
 
 
 	/**

@@ -18,12 +18,9 @@ use Nette\Utils\Html;
 
 class DateInput extends Nette\Forms\Controls\BaseControl
 {
-	/** @var string */
-	private $day = '';
-
-	private $month = '';
-
-	private $year = '';
+	private string $day = '';
+	private string $month = '';
+	private string $year = '';
 
 
 	public function __construct($label = null)

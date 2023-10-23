@@ -38,41 +38,25 @@ use Nette\Utils\Html;
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
 {
-	/** @var string */
-	public static $idMask = 'frm-%s';
+	public static string $idMask = 'frm-%s';
 
-	/** @var mixed current control value */
-	protected $value;
-
-	/** @var Html  control element template */
-	protected $control;
-
-	/** @var Html  label element template */
-	protected $label;
+	protected mixed $value = null;
+	protected Html $control;
+	protected Html $label;
 
 	/** @var bool|bool[] */
-	protected $disabled = false;
+	protected bool|array $disabled = false;
 
 	/** @var callable[][]  extension methods */
-	private static $extMethods = [];
+	private static array $extMethods = [];
+	private string|object|null $caption;
+	private array $errors = [];
+	private ?bool $omitted = null;
+	private Rules $rules;
 
-	/** @var string|object textual caption or label */
-	private $caption;
-
-	/** @var array */
-	private $errors = [];
-
-	/** @var bool|null */
-	private $omitted;
-
-	/** @var Rules */
-	private $rules;
-
-	/** @var Nette\Localization\Translator|bool|null */
-	private $translator = true; // means autodetect
-
-	/** @var array user options */
-	private $options = [];
+	/** true means autodetect */
+	private Nette\Localization\Translator|bool|null $translator = true;
+	private array $options = [];
 
 
 	/**
@@ -609,7 +593,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	public static function extensionMethod(string $name, /*callable*/ $callback): void
 	{
-		if (strpos($name, '::') !== false) { // back compatibility
+		if (str_contains($name, '::')) { // back compatibility
 			[, $name] = explode('::', $name);
 		}
 

@@ -21,8 +21,7 @@ class Validator
 {
 	use Nette\StaticClass;
 
-	/** @var array */
-	public static $messages = [
+	public static array $messages = [
 		Controls\CsrfProtection::Protection => 'Your session has expired. Please return to the home page and try again.',
 		Form::Equal => 'Please enter %s.',
 		Form::NotEqual => 'This value should not be %s.',

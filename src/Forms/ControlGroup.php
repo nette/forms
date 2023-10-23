@@ -17,11 +17,8 @@ use Nette;
  */
 class ControlGroup
 {
-	/** @var \SplObjectStorage */
-	protected $controls;
-
-	/** @var array user options */
-	private $options = [];
+	protected \SplObjectStorage $controls;
+	private array $options = [];
 
 
 	public function __construct()
