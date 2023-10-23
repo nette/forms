@@ -54,8 +54,8 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	 *      \---
 	 *    \---
 	 *  \--
-	 * @var array of HTML tags */
-	public $wrappers = [
+	 */
+	public array $wrappers = [
 		'form' => [
 			'container' => null,
 		],
@@ -116,11 +116,9 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		],
 	];
 
-	/** @var Nette\Forms\Form */
-	protected $form;
+	protected Nette\Forms\Form $form;
 
-	/** @var int */
-	protected $counter;
+	protected int $counter;
 
 
 	/**
@@ -129,9 +127,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	 */
 	public function render(Nette\Forms\Form $form, ?string $mode = null): string
 	{
-		if ($this->form !== $form) {
-			$this->form = $form;
-		}
+		$this->form = $form;
 
 		$s = '';
 		if (!$mode || $mode === 'begin') {

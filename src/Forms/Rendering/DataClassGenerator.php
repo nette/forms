@@ -19,11 +19,8 @@ use Nette\Forms\Form;
  */
 final class DataClassGenerator
 {
-	/** @var string */
-	public $classNameSuffix = 'FormData';
-
-	/** @var bool */
-	public $propertyPromotion = false;
+	public string $classNameSuffix = 'FormData';
+	public bool $propertyPromotion = false;
 
 	/** @var bool */
 	public $useSmartObject = true;

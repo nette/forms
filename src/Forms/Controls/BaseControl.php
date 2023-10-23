@@ -38,41 +38,35 @@ use Nette\Utils\Html;
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
 {
-	/** @var string */
-	public static $idMask = 'frm-%s';
+	public static string $idMask = 'frm-%s';
 
-	/** @var mixed current control value */
-	protected $value;
+	/** current control value */
+	protected mixed $value = null;
 
-	/** @var Html  control element template */
-	protected $control;
+	/** control element template */
+	protected Html $control;
 
-	/** @var Html  label element template */
-	protected $label;
+	/** label element template */
+	protected Html $label;
 
 	/** @var bool|bool[] */
 	protected $disabled = false;
 
 	/** @var callable[][]  extension methods */
-	private static $extMethods = [];
+	private static array $extMethods = [];
 
-	/** @var string|object textual caption or label */
-	private $caption;
+	private string|object|null $caption;
 
-	/** @var array */
-	private $errors = [];
+	private array $errors = [];
 
-	/** @var bool|null */
-	private $omitted;
+	private ?bool $omitted = null;
 
-	/** @var Rules */
-	private $rules;
+	private Rules $rules;
 
-	/** @var Nette\Localization\Translator|bool|null */
-	private $translator = true; // means autodetect
+	/** true means autodetect */
+	private Nette\Localization\Translator|bool|null $translator = true;
 
-	/** @var array user options */
-	private $options = [];
+	private array $options = [];
 
 
 	/**

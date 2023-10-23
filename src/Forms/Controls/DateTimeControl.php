@@ -27,14 +27,9 @@ class DateTimeControl extends BaseControl
 		FormatObject = 'object',
 		FormatTimestamp = 'timestamp';
 
-	/** @var int */
-	private $type;
-
-	/** @var bool  */
-	private $withSeconds;
-
-	/** @var string */
-	private $format = self::FormatObject;
+	private int $type;
+	private bool $withSeconds;
+	private string $format = self::FormatObject;
 
 
 	public function __construct($label = null, int $type = self::TypeDate, bool $withSeconds = false)

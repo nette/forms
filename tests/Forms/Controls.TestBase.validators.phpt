@@ -99,7 +99,7 @@ test('', function () {
 	$control = new TextInput;
 
 	$control->value = new class () {
-		public $lorem = 'ipsum';
+		public string $lorem = 'ipsum';
 
 
 		public function __toString(): string
