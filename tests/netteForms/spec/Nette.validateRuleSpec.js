@@ -153,7 +153,7 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.getValue(el)).toEqual([]);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
 		expect(Nette.validateRule(el, 'blank')).toBe(true);
-		expect(Nette.validateRule(el, 'equal', ['r', 'g', 'b'])).toBe(true);
+		expect(Nette.validateRule(el, 'equal', ['r', 'g', 'b'])).toBe(false);
 
 		testContainer.querySelector('#input-r').checked = true;
 		expect(Nette.getValue(el)).toEqual(['r']);
@@ -187,7 +187,7 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.getValue(el)).toEqual([]);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
 		expect(Nette.validateRule(el, 'blank')).toBe(true);
-		expect(Nette.validateRule(el, 'equal', ['r', 'g', 'b'])).toBe(true);
+		expect(Nette.validateRule(el, 'equal', ['r', 'g', 'b'])).toBe(false);
 
 		testContainer.querySelector('#input-r').checked = true;
 		expect(Nette.getValue(el)).toEqual(['r']);

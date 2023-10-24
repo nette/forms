@@ -14,15 +14,6 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-class Translator implements Nette\Localization\ITranslator
-{
-	public function translate($s, ...$parameters): string
-	{
-		return strtoupper($s);
-	}
-}
-
-
 test('', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden', 'value');

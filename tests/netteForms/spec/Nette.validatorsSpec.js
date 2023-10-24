@@ -12,13 +12,13 @@ describe('Nette.validators', function() {
 		expect(Nette.validators.equal(null, true, '1')).toBe(true);
 		expect(Nette.validators.equal(null, 'a', ['a'])).toBe(true);
 		expect(Nette.validators.equal(null, 'a', ['b'])).toBe(false);
-		expect(Nette.validators.equal(null, 'a', [])).toBe(true);
+		expect(Nette.validators.equal(null, 'a', [])).toBe(false);
 		expect(Nette.validators.equal(null, ['a'], 'a')).toBe(true);
 		expect(Nette.validators.equal(null, ['a'], 'b')).toBe(false);
 		expect(Nette.validators.equal(null, [], 'b')).toBe(false);
 		expect(Nette.validators.equal(null, ['a'], ['a'])).toBe(true);
 		expect(Nette.validators.equal(null, ['a'], ['b'])).toBe(false);
-		expect(Nette.validators.equal(null, ['a'], [])).toBe(true);
+		expect(Nette.validators.equal(null, ['a'], [])).toBe(false);
 	});
 
 
@@ -44,9 +44,9 @@ describe('Nette.validators', function() {
 		var v = {value: null};
 		expect(Nette.validators.url(null, null, '', v)).toBe(false);
 		expect(Nette.validators.url(null, null, 'hello', v)).toBe(true);
-		expect(v.value === 'http://hello').toBe(true);
+		expect(v.value).toBe('https://hello');
 		expect(Nette.validators.url(null, null, 'nette.org', v)).toBe(true);
-		expect(v.value === 'http://nette.org').toBe(true);
+		expect(v.value).toBe('https://nette.org');
 		expect(Nette.validators.url(null, null, 'http://nette.org0', v)).toBe(false);
 		expect(Nette.validators.url(null, null, 'http://nette.0org', v)).toBe(false);
 		expect(Nette.validators.url(null, null, 'http://_nette.org', v)).toBe(false);
