@@ -492,16 +492,25 @@
 		},
 
 		min: function(elem, arg, val) {
-			return arg === null || parseFloat(val) >= arg;
+			if (Number.isFinite(arg)) {
+				val = parseFloat(val);
+			}
+			return val >= arg;
 		},
 
 		max: function(elem, arg, val) {
-			return arg === null || parseFloat(val) <= arg;
+			if (Number.isFinite(arg)) {
+				val = parseFloat(val);
+			}
+			return val <= arg;
 		},
 
 		range: function(elem, arg, val) {
-			return Array.isArray(arg) ?
-				((arg[0] === null || parseFloat(val) >= arg[0]) && (arg[1] === null || parseFloat(val) <= arg[1])) : null;
+			if (!Array.isArray(arg)) {
+				return null;
+			}
+			return (arg[0] === null || Nette.validators.min(elem, arg[0], val))
+				&& (arg[1] === null || Nette.validators.max(elem, arg[1], val));
 		},
 
 		submitted: function(elem) {

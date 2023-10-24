@@ -22,6 +22,51 @@ describe('Nette.validators', function() {
 	});
 
 
+	it('min', function() {
+		expect(Nette.validators.min(null, 0, '')).toBe(false);
+		expect(Nette.validators.min(null, 0, 'foo')).toBe(false);
+		expect(Nette.validators.min(null, 0, '0')).toBe(true);
+		expect(Nette.validators.min(null, 0, '1')).toBe(true);
+		expect(Nette.validators.min(null, 0, '-1')).toBe(false);
+		expect(Nette.validators.min(null, 0, 0)).toBe(true);
+		expect(Nette.validators.min(null, 0, 1)).toBe(true);
+		expect(Nette.validators.min(null, 0, -1)).toBe(false);
+		expect(Nette.validators.min(null, '2023-10-29', '2023-10-30')).toBe(true);
+		expect(Nette.validators.min(null, '2023-10-29', '2023-10-28')).toBe(false);
+	});
+
+
+	it('max', function() {
+		expect(Nette.validators.max(null, 0, '')).toBe(false);
+		expect(Nette.validators.max(null, 0, 'foo')).toBe(false);
+		expect(Nette.validators.max(null, 0, '0')).toBe(true);
+		expect(Nette.validators.max(null, 0, '1')).toBe(false);
+		expect(Nette.validators.max(null, 0, '-1')).toBe(true);
+		expect(Nette.validators.max(null, 0, 0)).toBe(true);
+		expect(Nette.validators.max(null, 0, 1)).toBe(false);
+		expect(Nette.validators.max(null, 0, -1)).toBe(true);
+		expect(Nette.validators.max(null, '2023-10-29', '2023-10-30')).toBe(false);
+		expect(Nette.validators.max(null, '2023-10-29', '2023-10-28')).toBe(true);
+	});
+
+
+	it('range', function() {
+		let el = document.createElement('input');
+
+		expect(Nette.validators.range(el, null, 0)).toBe(null);
+		expect(Nette.validators.range(el, 'foo', 0)).toBe(null);
+		expect(Nette.validators.range(el, ['0', null], 0)).toBe(true);
+		expect(Nette.validators.range(el, ['1', null], 0)).toBe(false);
+		expect(Nette.validators.range(el, [-1, 1], 0)).toBe(true);
+		expect(Nette.validators.range(el, ['2023-10-29', '2023-10-31'], '2023-10-30')).toBe(true);
+		expect(Nette.validators.range(el, ['2023-10-29', '2023-10-31'], '2023-10-28')).toBe(false);
+		expect(Nette.validators.range(el, [null, '1'], 0)).toBe(true);
+		expect(Nette.validators.range(el, ['10:30', '14:00'], '12:30')).toBe(true);
+		expect(Nette.validators.range(el, ['10:30', '14:00'], '09:30')).toBe(false);
+		expect(Nette.validators.range(el, ['14:00', '10:30'], '12:30')).toBe(false);
+	});
+
+
 	it('email', function() {
 		expect(Nette.validators.email(null, null, '')).toBe(false);
 		expect(Nette.validators.email(null, null, 'hello')).toBe(false);

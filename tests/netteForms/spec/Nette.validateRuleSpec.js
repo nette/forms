@@ -64,7 +64,8 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.validateRule(el, 'min', -1000)).toBe(false);
 		expect(Nette.validateRule(el, 'max', -2000)).toBe(false);
 		expect(Nette.validateRule(el, 'max', -1000)).toBe(true);
-		expect(Nette.validateRule(el, 'range', ['-2000', '-1000'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', [-2000, -1000])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-1200', '-1300'])).toBe(true);
 		expect(Nette.validateRule(el, 'range', [10, null])).toBe(false);
 
 		el.value = '-12.5';
@@ -74,7 +75,8 @@ describe('Nette.getValue & validateRule', function() {
 		expect(Nette.validateRule(el, 'min', -10)).toBe(false);
 		expect(Nette.validateRule(el, 'max', -2000)).toBe(false);
 		expect(Nette.validateRule(el, 'max', -10)).toBe(true);
-		expect(Nette.validateRule(el, 'range', ['-12.6', '-12.4'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', [-12.6, -12.4])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-12.4', '-12.6'])).toBe(true);
 		expect(Nette.validateRule(el, 'range', [-5, 10])).toBe(false);
 	});
 
