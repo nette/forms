@@ -4,7 +4,6 @@ module.exports = function(config) {
 		frameworks: ['jasmine'],
 		browsers: ['ChromeHeadless'],
 		files: [
-			'node_modules/js-fixtures/fixtures.js',
 			'../../src/assets/netteForms.js',
 			'spec/*Spec.js'
 		],
