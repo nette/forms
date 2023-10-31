@@ -523,6 +523,16 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
+	 * Adds color picker.
+	 * @param  string|object|null  $label
+	 */
+	public function addColor(string $name, $label = null): Controls\ColorPicker
+	{
+		return $this[$name] = new Controls\ColorPicker($label);
+	}
+
+
+	/**
 	 * Adds button used to submit form.
 	 * @param  string|object|null  $caption
 	 */
