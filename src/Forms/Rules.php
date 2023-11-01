@@ -14,6 +14,7 @@ use Nette;
 
 /**
  * List of validation & condition rules.
+ * @implements \IteratorAggregate<int, Rule>
  */
 class Rules implements \IteratorAggregate
 {
