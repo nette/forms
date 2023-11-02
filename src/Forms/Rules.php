@@ -88,9 +88,9 @@ class Rules implements \IteratorAggregate
 		$rule = new Rule;
 		$rule->control = $this->control;
 		$rule->validator = $validator;
-		$this->adjustOperation($rule);
 		$rule->arg = $arg;
 		$rule->message = $errorMessage;
+		$this->adjustOperation($rule);
 		if ($rule->validator === Form::Filled) {
 			$this->required = $rule;
 		} else {
@@ -337,6 +337,10 @@ class Rules implements \IteratorAggregate
 				$rule->isNegative = false;
 				trigger_error('Replace negative validation rule ~Form::Filled with Form::Blank and vice versa.', E_USER_DEPRECATED);
 			}
+		}
+
+		if ($rule->validator === Form::Image) {
+			$rule->arg = Helpers::getSupportedImages();
 		}
 
 		if (!is_callable($this->getCallback($rule))) {

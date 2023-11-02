@@ -293,4 +293,18 @@ class Helpers
 			);
 		}
 	}
+
+
+	/** @internal */
+	public static function getSupportedImages(): array
+	{
+		$flag = imagetypes();
+		return array_filter([
+			$flag & IMG_GIF ? 'image/gif' : null,
+			$flag & IMG_JPG ? 'image/jpeg' : null,
+			$flag & IMG_PNG ? 'image/png' : null,
+			$flag & IMG_WEBP ? 'image/webp' : null,
+			$flag & 256 ? 'image/avif' : null, // IMG_AVIF
+		]);
+	}
 }

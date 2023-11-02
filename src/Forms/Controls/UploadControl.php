@@ -105,7 +105,7 @@ class UploadControl extends BaseControl
 	public function addRule($validator, $errorMessage = null, $arg = null)
 	{
 		if ($validator === Form::Image) {
-			$this->control->accept = implode(', ', FileUpload::IMAGE_MIME_TYPES);
+			$this->control->accept = implode(', ', Forms\Helpers::getSupportedImages());
 
 		} elseif ($validator === Form::MimeType) {
 			$this->control->accept = implode(', ', (array) $arg);

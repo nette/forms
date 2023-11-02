@@ -548,7 +548,7 @@
 		},
 
 		image: function (elem, arg, val) {
-			return Nette.validators.mimeType(elem, ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
+			return Nette.validators.mimeType(elem, arg || ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
 		},
 
 		'static': function (elem, arg) {
