@@ -261,7 +261,7 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		$control = new Controls\CsrfProtection($errorMessage);
 		$children = (array) $this->getComponents();
-		$first = $children ? (string) key($children) : null;
+		$first = $children ? (string) array_key_first($children) : null;
 		$this->addComponent($control, self::ProtectorId, $first);
 		return $control;
 	}
