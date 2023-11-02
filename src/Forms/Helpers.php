@@ -43,7 +43,7 @@ class Helpers
 		$data = Nette\Utils\Arrays::get($data, $name, null);
 		$itype = $type & ~Form::DataKeys;
 
-		if (substr($htmlName, -2) === '[]') {
+		if (str_ends_with($htmlName, '[]')) {
 			if (!is_array($data)) {
 				return [];
 			}

@@ -230,7 +230,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		foreach ($this->onValidate as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$types = array_map([Helpers::class, 'getSingleType'], $params);
+			$types = array_map(Helpers::getSingleType(...), $params);
 			$args = isset($types[0]) && !$this instanceof $types[0]
 				? [$this->getUntrustedValues($types[0])]
 				: [$this, isset($params[1]) ? $this->getUntrustedValues($types[1]) : null];
@@ -596,7 +596,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	public static function extensionMethod(string $name, /*callable*/ $callback): void
 	{
-		if (strpos($name, '::') !== false) { // back compatibility
+		if (str_contains($name, '::')) { // back compatibility
 			[, $name] = explode('::', $name);
 		}
 

@@ -52,15 +52,15 @@ abstract class MultiChoiceControl extends BaseControl
 		if (is_scalar($values) || $values === null) {
 			$values = (array) $values;
 		} elseif (!is_array($values)) {
-			throw new Nette\InvalidArgumentException(sprintf("Value must be array or null, %s given in field '%s'.", gettype($values), $this->name));
+			throw new Nette\InvalidArgumentException(sprintf("Value must be array or null, %s given in field '%s'.", get_debug_type($values), $this->name));
 		}
 
 		$flip = [];
 		foreach ($values as $value) {
 			if ($value instanceof \BackedEnum) {
 				$value = $value->value;
-			} elseif (!is_scalar($value) && !(is_object($value) && method_exists($value, '__toString'))) {
-				throw new Nette\InvalidArgumentException(sprintf("Values must be scalar, %s given in field '%s'.", gettype($value), $this->name));
+			} elseif (!is_scalar($value) && !$value instanceof \Stringable) {
+				throw new Nette\InvalidArgumentException(sprintf("Values must be scalar, %s given in field '%s'.", get_debug_type($value), $this->name));
 			}
 
 			$flip[(string) $value] = true;
