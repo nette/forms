@@ -63,7 +63,7 @@ class LabelNode extends StatementNode
 	public function print(PrintContext $context): string
 	{
 		return $context->format(
-			'echo ($ʟ_label = Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global)->'
+			'echo ($ʟ_label = $this->global->forms->item(%node)->'
 			. ($this->part ? 'getLabelPart(%node)' : 'getLabel()')
 			. ')'
 			. ($this->attributes->items ? '?->addAttributes(%2.node)' : '')
