@@ -64,8 +64,8 @@ final class FieldNNameNode extends StatementNode
 		$elName = strtolower($el->name);
 
 		$tag->replaceNAttribute(new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-			'echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global))'
-			. ($elName === 'label' ? '->getLabelPart(%node)' : '->getControlPart(%node)')
+			'echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global)'
+			. ($elName === 'label' ? '->getLabelPart(%node))' : '->getControlPart(%node))')
 			. ($usedAttributes ? '->addAttributes(%dump)' : '')
 			. '->attributes() %3.line;',
 			$this->name,
@@ -77,20 +77,20 @@ final class FieldNNameNode extends StatementNode
 		if ($elName === 'label') {
 			if ($el->content instanceof NopNode) {
 				$el->content = new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-					'echo $ʟ_input->getLabelPart()->getHtml() %line;',
+					'echo $ʟ_elem->getHtml() %line;',
 					$this->position,
 				));
 			}
 		} elseif ($elName === 'button') {
 			if ($el->content instanceof NopNode) {
 				$el->content = new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-					'echo %escape($ʟ_input->getCaption()) %line;',
+					'echo %escape($ʟ_elem->value) %line;',
 					$this->position,
 				));
 			}
 		} elseif ($el->content) { // select, textarea
 			$el->content = new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-				'echo $ʟ_input->getControl()->getHtml() %line;',
+				'echo $ʟ_elem->getHtml() %line;',
 				$this->position,
 			));
 		}

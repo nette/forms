@@ -36,22 +36,22 @@
 		echo '
 
 	<LABEL';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global))->getLabelPart()->addAttributes(['title' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global)->getLabelPart())->addAttributes(['title' => null])->attributes() /* line %d% */;
 		echo ' title=hello>Name</LABEL>
 	<input value=val type class="hello"';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global))->getControlPart()->addAttributes(['value' => null, 'type' => null, 'class' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global)->getControlPart())->addAttributes(['value' => null, 'type' => null, 'class' => null])->attributes() /* line %d% */;
 		echo '>
 
 	<label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item($form['username'], $this->global))->getLabelPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item($form['username'], $this->global)->getLabelPart())->attributes() /* line %d% */;
 		echo '></label>
 	<label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item($form['username'], $this->global))->getLabelPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item($form['username'], $this->global)->getLabelPart())->attributes() /* line %d% */;
 		echo '>';
-		echo $ʟ_input->getLabelPart()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</label>
 	<input';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item($form['username'], $this->global))->getControlPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item($form['username'], $this->global)->getControlPart())->attributes() /* line %d% */;
 		echo '>
 
 	';
@@ -86,29 +86,34 @@
 			echo $ʟ_label?->endTag() /* line %d% */;
 			echo '
 	<label';
-			echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global))->getLabelPart($key)->addAttributes(['title' => null])->attributes() /* line %d% */;
+			echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getLabelPart($key))->addAttributes(['title' => null])->attributes() /* line %d% */;
 			echo ' title=hello> <input';
-			echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global))->getControlPart($key)->attributes() /* line %d% */;
+			echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getControlPart($key))->attributes() /* line %d% */;
 			echo '> </label>
+	<label';
+			echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getLabelPart($key))->addAttributes(['title' => null])->attributes() /* line %d% */;
+			echo ' title=hello>';
+			echo $ʟ_elem->getHtml() /* line %d% */;
+			echo '</label>
 ';
 
 		}
 
 		echo '<label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global))->getLabelPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getLabelPart())->attributes() /* line %d% */;
 		echo '></label>
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global))->getLabelPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getLabelPart())->attributes() /* line %d% */;
 		echo '>';
-		echo $ʟ_input->getLabelPart()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</label>
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global))->getLabelPart()->addAttributes(['title' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getLabelPart())->addAttributes(['title' => null])->attributes() /* line %d% */;
 		echo ' title="hello">';
-		echo $ʟ_input->getLabelPart()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</label>
 <input';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item($form['sex'], $this->global))->getControlPart("{$key}")->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item($form['sex'], $this->global)->getControlPart("{$key}"))->attributes() /* line %d% */;
 		echo '>
 
 
@@ -120,24 +125,24 @@
 		echo $ʟ_label?->endTag() /* line %d% */;
 		echo '
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global))->getLabelPart('')->addAttributes(['title' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global)->getLabelPart(''))->addAttributes(['title' => null])->attributes() /* line %d% */;
 		echo ' title=hello> <input';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global))->getControlPart('')->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global)->getControlPart(''))->attributes() /* line %d% */;
 		echo '> </label>
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global))->getLabelPart()->addAttributes(['title' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global)->getLabelPart())->addAttributes(['title' => null])->attributes() /* line %d% */;
 		echo ' title=hello> <input';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global))->getControlPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global)->getControlPart())->attributes() /* line %d% */;
 		echo '> </label>
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global))->getLabelPart('')->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global)->getLabelPart(''))->attributes() /* line %d% */;
 		echo '>';
-		echo $ʟ_input->getLabelPart()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</label>
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global))->getLabelPart()->addAttributes(['title' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checkbox', $this->global)->getLabelPart())->addAttributes(['title' => null])->attributes() /* line %d% */;
 		echo ' title=hello>';
-		echo $ʟ_input->getLabelPart()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</label>
 
 
@@ -152,26 +157,31 @@
 			echo $ʟ_label?->endTag() /* line %d% */;
 			echo '
 	<label';
-			echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global))->getLabelPart($key)->attributes() /* line %d% */;
+			echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global)->getLabelPart($key))->attributes() /* line %d% */;
 			echo '> <input';
-			echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global))->getControlPart($key)->addAttributes(['title' => null])->attributes() /* line %d% */;
+			echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global)->getControlPart($key))->addAttributes(['title' => null])->attributes() /* line %d% */;
 			echo ' title=hello> </label>
+	<label';
+			echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global)->getLabelPart($key))->attributes() /* line %d% */;
+			echo '>';
+			echo $ʟ_elem->getHtml() /* line %d% */;
+			echo '</label>
 ';
 
 		}
 
 		echo '<label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global))->getLabelPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global)->getLabelPart())->attributes() /* line %d% */;
 		echo '></label>
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global))->getLabelPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global)->getLabelPart())->attributes() /* line %d% */;
 		echo '>';
-		echo $ʟ_input->getLabelPart()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</label>
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global))->getLabelPart()->addAttributes(['title' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global)->getLabelPart())->addAttributes(['title' => null])->attributes() /* line %d% */;
 		echo ' title="hello">';
-		echo $ʟ_input->getLabelPart()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</label>
 
 
@@ -183,7 +193,7 @@
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), ['id' => null, 'class' => null], false) /* line %d% */;
 			echo ' id="myForm" class="ajax">
 	<input';
-			echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global))->getControlPart()->attributes() /* line %d% */;
+			echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global)->getControlPart())->attributes() /* line %d% */;
 			echo '>
 ';
 			echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line %d% */;
@@ -201,7 +211,7 @@
 		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line %d% */;
 		echo '>
 	<input';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global))->getControlPart()->addAttributes(['class' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global)->getControlPart())->addAttributes(['class' => null])->attributes() /* line %d% */;
 		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line %d% */;
 		echo '>
 ';
@@ -218,7 +228,7 @@
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* line %d% */;
 		echo '>
 	<input';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global))->getControlPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global)->getControlPart())->attributes() /* line %d% */;
 		echo '>
 ';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line %d% */;
@@ -228,25 +238,25 @@
 		echo '
 
 <select';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('select', $this->global))->getControlPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('select', $this->global)->getControlPart())->attributes() /* line %d% */;
 		echo '>';
-		echo $ʟ_input->getControl()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</select>
 
 
 <textarea';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('area', $this->global))->getControlPart()->addAttributes(['title' => null])->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('area', $this->global)->getControlPart())->addAttributes(['title' => null])->attributes() /* line %d% */;
 		echo ' title="';
 		echo LR\Filters::escapeHtmlAttr(10) /* line %d% */;
 		echo '">';
-		echo $ʟ_input->getControl()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</textarea>
 
 
 <select';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('select', $this->global))->getControlPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('select', $this->global)->getControlPart())->attributes() /* line %d% */;
 		echo '>';
-		echo $ʟ_input->getControl()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</select>
 ';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack)) /* line %d% */;
@@ -259,12 +269,12 @@
 		Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
 		echo '
 <label';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global))->getLabelPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getLabelPart())->attributes() /* line %d% */;
 		echo '>';
-		echo $ʟ_input->getLabelPart()->getHtml() /* line %d% */;
+		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</label>
 <input';
-		echo ($ʟ_input = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global))->getControlPart()->attributes() /* line %d% */;
+		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global)->getControlPart())->attributes() /* line %d% */;
 		echo '>
 ';
 		array_pop($this->global->formsStack) /* line %d% */;
