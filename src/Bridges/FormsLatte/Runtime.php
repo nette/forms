@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Nette\Bridges\FormsLatte;
 
 use Nette;
+use Nette\Forms\Container;
+use Nette\Forms\Control;
 use Nette\Forms\Form;
 use Nette\Utils\Html;
 use function end, explode, is_object, parse_url, preg_replace, preg_split, urldecode;
@@ -22,22 +24,16 @@ use const PHP_URL_QUERY, PREG_SPLIT_NO_EMPTY;
  */
 class Runtime
 {
-	use Nette\StaticClass;
-
-	public static function initializeForm(Form $form): void
-	{
-		$form->fireRenderEvents();
-		foreach ($form->getControls() as $control) {
-			$control->setOption('rendered', false);
-		}
-	}
+	/** @var Container[] */
+	private array $stack = [];
 
 
 	/**
 	 * Renders form begin.
 	 */
-	public static function renderFormBegin(Form $form, array $attrs, bool $withTags = true): string
+	public function renderFormBegin(array $attrs, bool $withTags = true): string
 	{
+		$form = $this->current();
 		$el = $form->getElementPrototype();
 		$el->action = (string) $el->action;
 		$el = clone $el;
@@ -53,8 +49,9 @@ class Runtime
 	/**
 	 * Renders form end.
 	 */
-	public static function renderFormEnd(Form $form, bool $withTags = true): string
+	public function renderFormEnd(bool $withTags = true): string
 	{
+		$form = $this->current();
 		$s = '';
 		if ($form->isMethod('get')) {
 			foreach (preg_split('#[;&]#', (string) parse_url($form->getElementPrototype()->action, PHP_URL_QUERY), -1, PREG_SPLIT_NO_EMPTY) as $param) {
@@ -77,12 +74,37 @@ class Runtime
 	}
 
 
-	public static function item($item, $global): object
+	public function item(mixed $item, string $type = Control::class): Control|Container
 	{
-		if (is_object($item)) {
-			return $item;
+		$item = is_object($item) ? $item : $this->current()[$item];
+		if (!$item instanceof $type) {
+			throw new Nette\InvalidArgumentException("Expected instance of $type, " . get_debug_type($item) . ' given.');
 		}
-		$form = end($global->formsStack) ?: throw new \LogicException('Form declaration is missing, did you use {form} or <form n:name> tag?');
-		return $form[$item];
+		return $item;
+	}
+
+
+	public function begin(Container $form): void
+	{
+		$this->stack[] = $form;
+
+		if ($form instanceof Form) {
+			$form->fireRenderEvents();
+			foreach ($form->getControls() as $control) {
+				$control->setOption('rendered', false);
+			}
+		}
+	}
+
+
+	public function end(): void
+	{
+		array_pop($this->stack);
+	}
+
+
+	public function current(): Container
+	{
+		return end($this->stack) ?: throw new Nette\InvalidStateException('Form declaration is missing, did you use {form} or <form n:name> tag?');
 	}
 }
