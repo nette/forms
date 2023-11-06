@@ -13,12 +13,12 @@ $latte->setLoader(new Latte\Loaders\StringLoader);
 $latte->addExtension(new FormsExtension);
 
 Assert::match(
-	'%A%echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item(\'foo\', $this->global)->getControlPart())->attributes() %A%',
+	'%A%echo ($ʟ_elem = $this->global->forms->item(\'foo\')->getControlPart())->attributes() %A%',
 	$latte->compile('<input n:name="foo">'),
 );
 
 Assert::match(
-	'%A%echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item(\'foo\', $this->global)->getControlPart(\'\'))->attributes() %A%',
+	'%A%echo ($ʟ_elem = $this->global->forms->item(\'foo\')->getControlPart(\'\'))->attributes() %A%',
 	$latte->compile('<input n:name="foo:">'),
 );
 
@@ -29,11 +29,11 @@ Assert::exception(
 );
 
 Assert::match(
-	'%A%echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item(\'foo\', $this->global)->getControlPart(\'x\'))->attributes() %A%',
+	'%A%echo ($ʟ_elem = $this->global->forms->item(\'foo\')->getControlPart(\'x\'))->attributes() %A%',
 	$latte->compile('<input n:name="foo:x">'),
 );
 
 Assert::match(
-	'%A%echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item(\'foo\', $this->global)->getControlPart(\'x\'))->attributes() %A%',
+	'%A%echo ($ʟ_elem = $this->global->forms->item(\'foo\')->getControlPart(\'x\'))->attributes() %A%',
 	$latte->compile('<input n:name=\'"foo":"x"\'>'),
 );
