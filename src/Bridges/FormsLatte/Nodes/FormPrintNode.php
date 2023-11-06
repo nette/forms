@@ -42,7 +42,7 @@ class FormPrintNode extends StatementNode
 			'Nette\Forms\Blueprint::%raw('
 			. ($this->name
 				? 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp]'
-				: 'end($this->global->formsStack)')
+				: '$this->global->forms->current()')
 			. ') %2.line; exit;',
 			$this->mode === 'formPrint' ? 'latte' : 'dataClass',
 			$this->name,
