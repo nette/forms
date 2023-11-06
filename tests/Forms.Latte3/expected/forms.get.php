@@ -1,21 +1,20 @@
 <?php
 %A%
-		$form = $this->global->formsStack[] = $this->global->uiControl['myForm'] /* line %d% */;
-		Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form, []) /* line %d% */;
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack)) /* line %d% */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* line %d% */;
+		echo $this->global->forms->renderFormBegin([]) /* line %d% */;
+		echo $this->global->forms->renderFormEnd() /* line %d% */;
+		$this->global->forms->end();
 
 		echo '
 
 ';
-		$form = $this->global->formsStack[] = $this->global->uiControl['myForm'] /* line %d% */;
-		Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
+		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* line %d% */;
 		echo '<form';
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* line %d% */;
+		echo $this->global->forms->renderFormBegin([], false) /* line %d% */;
 		echo '>
 ';
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line %d% */;
+		echo $this->global->forms->renderFormEnd(false) /* line %d% */;
 		echo '</form>
 ';
-		array_pop($this->global->formsStack);
+		$this->global->forms->end();
 %A%
