@@ -1,15 +1,36 @@
-<form n:name=$form>
+{* Generic form template *}
+
+{parameters $name}
+<form n:name=$name>
+	{* List for form-level error messages *}
 	<ul class=error n:ifcontent>
 		<li n:foreach="$form->ownErrors as $error">{$error}</li>
 	</ul>
 
-	<table>
-	<tr n:foreach="$form->controls as $input"
-		n:if="!$input->getOption(rendered) && $input->getOption(type) !== hidden"
-		n:class="$input->required ? required">
+	<fieldset n:foreach="$form->getGroups() as $group" n:attr="id => $group->getOption(id)">
+		<label n:ifcontent>{$group->getOption(label)}</label>
+		{include controls $group->getControls()}
+	</fieldset>
 
-		<th>{label $input /}</th>
-		<td>{input $input} <span class=error n:ifcontent>{$input->error}</span></td>
+	{include controls $form->getControls()}
+</form>
+
+
+{define controls array $controls}
+	{* Loop over form controls and render each one *}
+	<table>
+	<tr n:foreach="$controls as $control"
+		n:if="!$control->getOption(rendered) && $control->getOption(type) !== hidden"
+		n:class="$control->required ? required">
+
+		<th>{label $control /}</th>
+
+		<td>
+			{input $control}
+
+			<span class=info n:ifcontent>{$control->getOption(description)}</span>
+			<span class=error n:ifcontent>{$control->error}</span>
+		</td>
 	</tr>
 	</table>
-</form>
+{/define}

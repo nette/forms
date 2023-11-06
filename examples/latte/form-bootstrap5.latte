@@ -1,0 +1,65 @@
+{* Generic form template for Bootstrap v5 *}
+
+{parameters $name}
+<form n:name=$name>
+	{* List for form-level error messages *}
+	<ul class="alert alert-danger" n:ifcontent>
+		<li n:foreach="$form->ownErrors as $error">{$error}</li>
+	</ul>
+
+	<fieldset n:foreach="$form->getGroups() as $group" n:attr="id => $group->getOption(id)" class="border rounded-3 p-3 mb-3">
+		<label class="h4" n:ifcontent>{$group->getOption(label)}</label>
+		{include controls $group->getControls()}
+	</fieldset>
+
+	{include controls $form->getControls()}
+</form>
+
+
+{define controls array $controls}
+	{* Loop over form controls and render each one *}
+	<div n:foreach="$controls as $control"
+		n:if="!$control->getOption(rendered) && $control->getOption(type) !== hidden"
+		n:class="mb-3, row, $control->required ? required, $control->error ? is-invalid">
+
+		{* Label for the control *}
+		<div class="col-sm-3 col-form-label">{label $control /}</div>
+
+		<div class="col-sm-9">
+			{include control $control}
+			{if $control->getOption(type) === button}
+				{while $iterator->nextValue?->getOption(type) === button}
+					{input $iterator->nextValue class => "btn btn-secondary"}
+					{do $iterator->next()}
+				{/while}
+			{/if}
+
+			{* Display control-level errors or descriptions, if present *}
+			<span class=invalid-feedback n:ifcontent>{$control->error}</span>
+			<span class=form-text n:ifcontent>{$control->getOption(description)}</span>
+		</div>
+	</div>
+{/define}
+
+
+{define control Nette\Forms\Controls\BaseControl $control}
+	{* Conditionally render controls based on their type with appropriate Bootstrap classes *}
+	{if $control->getOption(type) in [text, select, textarea, datetime, file]}
+		{input $control class => form-control}
+
+	{elseif $control->getOption(type) === button}
+		{input $control class => "btn btn-primary"}
+
+	{elseif $control->getOption(type) in [checkbox, radio]}
+		{var $items = $control instanceof Nette\Forms\Controls\Checkbox ? [''] : $control->getItems()}
+		<div class="form-check" n:foreach="$items as $key => $foo">
+			{input $control:$key class => form-check-input}{label $control:$key class => form-check-label /}
+		</div>
+
+	{elseif $control->getOption(type) === color}
+		{input $control class => "form-control form-control-color"}
+
+	{else}
+		{input $control}
+	{/if}
+{/define}
