@@ -1,46 +1,45 @@
 <?php
 %A%
-		$form = $this->global->formsStack[] = $this->global->uiControl['myForm'] /* %a% */;
-		Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form, []) /* %a% */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* line %d% */;
+		echo $this->global->forms->renderFormBegin([]) /* line %d% */;
 		echo '
 <table>
 	<tr>
 		<th>';
-		echo ($ʟ_label = Nette\Bridges\FormsLatte\Runtime::item('input1', $this->global)->getLabel()) /* %a% */;
+		echo ($ʟ_label = $this->global->forms->item('input1')->getLabel()) /* line %d% */;
 		echo '</th>
 		<td>';
-		echo Nette\Bridges\FormsLatte\Runtime::item('input1', $this->global)->getControl() /* %a% */;
+		echo $this->global->forms->item('input1')->getControl() /* line %d% */;
 		echo '</td>
 	</tr>
 ';
-		$this->global->formsStack[] = $formContainer = Nette\Bridges\FormsLatte\Runtime::item('cont1', $this->global) /* %a% */;
+		$this->global->forms->begin($formContainer = $this->global->forms->item('cont1')) /* line %d% */;
 		echo '	<tr>
 		<th>';
-		echo ($ʟ_label = Nette\Bridges\FormsLatte\Runtime::item('input2', $this->global)->getLabel()) /* %a% */;
+		echo ($ʟ_label = $this->global->forms->item('input2')->getLabel()) /* line %d% */;
 		echo '</th>
 		<td>';
-		echo Nette\Bridges\FormsLatte\Runtime::item('input2', $this->global)->getControl() /* %a% */;
+		echo $this->global->forms->item('input2')->getControl() /* line %d% */;
 		echo '</td>
 	</tr>
 	<tr>
 		<th>';
-		echo ($ʟ_label = Nette\Bridges\FormsLatte\Runtime::item('input3', $this->global)->getLabel()) /* %a% */;
+		echo ($ʟ_label = $this->global->forms->item('input3')->getLabel()) /* line %d% */;
 		echo '</th>
 		<td>';
-		echo Nette\Bridges\FormsLatte\Runtime::item('input3', $this->global)->getControl() /* %a% */;
+		echo $this->global->forms->item('input3')->getControl() /* line %d% */;
 		echo '</td>
 	</tr>
 	<tr>
 		<th>Checkboxes</th>
 		<td>
 ';
-		$this->global->formsStack[] = $formContainer = Nette\Bridges\FormsLatte\Runtime::item('cont2', $this->global) /* %a% */;
+		$this->global->forms->begin($formContainer = $this->global->forms->item('cont2')) /* line %d% */;
 		echo '			<ol>
 ';
-		foreach ($formContainer->controls as $name => $field) /* %a% */ {
+		foreach ($formContainer->controls as $name => $field) /* line %d% */ {
 			echo '				<li>';
-			echo Nette\Bridges\FormsLatte\Runtime::item($field, $this->global)->getControl() /* %a% */;
+			echo $this->global->forms->item($field)->getControl() /* line %d% */;
 			echo '</li>
 ';
 
@@ -48,37 +47,37 @@
 
 		echo '			</ol>
 ';
-		array_pop($this->global->formsStack);
-		$formContainer = end($this->global->formsStack);
+		$this->global->forms->end();
+		$formContainer = $this->global->forms->current();
 
 		echo '		</td>
 	</tr>
 	<tr>
 		<th>';
-		echo ($ʟ_label = Nette\Bridges\FormsLatte\Runtime::item('input7', $this->global)->getLabel()) /* %a% */;
+		echo ($ʟ_label = $this->global->forms->item('input7')->getLabel()) /* line %d% */;
 		echo '</th>
 		<td>';
-		echo Nette\Bridges\FormsLatte\Runtime::item('input7', $this->global)->getControl() /* %a% */;
+		echo $this->global->forms->item('input7')->getControl() /* line %d% */;
 		echo '</td>
 	</tr>
 ';
-		array_pop($this->global->formsStack);
-		$formContainer = end($this->global->formsStack);
+		$this->global->forms->end();
+		$formContainer = $this->global->forms->current();
 
-		$this->global->formsStack[] = $formContainer = Nette\Bridges\FormsLatte\Runtime::item('items', $this->global) /* %a% */;
+		$this->global->forms->begin($formContainer = $this->global->forms->item('items')) /* line %d% */;
 		echo '	<tr>
 		<th>Items</th>
 		<td>
 ';
-		$items = [1, 2, 3] /* %a% */;
-		foreach ($items as $item) /* %a% */ {
-			if (!isset($formContainer[$item])) /* %a% */ continue;
-			$this->global->formsStack[] = $formContainer = Nette\Bridges\FormsLatte\Runtime::item($item, $this->global) /* %a% */;
+		$items = [1, 2, 3] /* line %d% */;
+		foreach ($items as $item) /* line %d% */ {
+			if (!isset($formContainer[$item])) /* line %d% */ continue;
+			$this->global->forms->begin($formContainer = $this->global->forms->item($item)) /* line %d% */;
 			echo '				';
-			echo Nette\Bridges\FormsLatte\Runtime::item('input', $this->global)->getControl() /* %a% */;
+			echo $this->global->forms->item('input')->getControl() /* line %d% */;
 			echo "\n";
-			array_pop($this->global->formsStack);
-			$formContainer = end($this->global->formsStack);
+			$this->global->forms->end();
+			$formContainer = $this->global->forms->current();
 
 
 		}
@@ -86,18 +85,19 @@
 		echo '		</td>
 	</tr>
 ';
-		array_pop($this->global->formsStack);
-		$formContainer = end($this->global->formsStack);
+		$this->global->forms->end();
+		$formContainer = $this->global->forms->current();
 
 		echo '	<tr>
 		<th>';
-		echo ($ʟ_label = Nette\Bridges\FormsLatte\Runtime::item('input8', $this->global)->getLabel()) /* %a% */;
+		echo ($ʟ_label = $this->global->forms->item('input8')->getLabel()) /* line %d% */;
 		echo '</th>
 		<td>';
-		echo Nette\Bridges\FormsLatte\Runtime::item('input8', $this->global)->getControl() /* %a% */;
+		echo $this->global->forms->item('input8')->getControl() /* line %d% */;
 		echo '</td>
 	</tr>
 </table>
 ';
-		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack)) /* %a% */;
+		echo $this->global->forms->renderFormEnd() /* line %d% */;
+		$this->global->forms->end();
 %A%
