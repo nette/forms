@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Nette Forms & Bootstap v4 rendering example.
+ * Nette Forms & Bootstap v5 rendering example.
  */
 
 declare(strict_types=1);
@@ -18,11 +18,11 @@ use Tracy\Dumper;
 Debugger::enable();
 
 
-function makeBootstrap4(Form $form): void
+function makeBootstrap5(Form $form): void
 {
 	$renderer = $form->getRenderer();
 	$renderer->wrappers['controls']['container'] = null;
-	$renderer->wrappers['pair']['container'] = 'div class="form-group row"';
+	$renderer->wrappers['pair']['container'] = 'div class="mb-3 row"';
 	$renderer->wrappers['label']['container'] = 'div class="col-sm-3 col-form-label"';
 	$renderer->wrappers['control']['container'] = 'div class=col-sm-9';
 	$renderer->wrappers['control']['description'] = 'span class=form-text';
@@ -36,11 +36,8 @@ function makeBootstrap4(Form $form): void
 			$control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-secondary');
 			$usedPrimary = true;
 
-		} elseif (in_array($type, ['text', 'textarea', 'select', 'datetime'], true)) {
+		} elseif (in_array($type, ['text', 'textarea', 'select', 'datetime', 'file'], true)) {
 			$control->getControlPrototype()->addClass('form-control');
-
-		} elseif ($type === 'file') {
-			$control->getControlPrototype()->addClass('form-control-file');
 
 		} elseif (in_array($type, ['checkbox', 'radio'], true)) {
 			if ($control instanceof Nette\Forms\Controls\Checkbox) {
@@ -50,17 +47,23 @@ function makeBootstrap4(Form $form): void
 			}
 			$control->getControlPrototype()->addClass('form-check-input');
 			$control->getContainerPrototype()->setName('div')->addClass('form-check');
+
+		} elseif ($type === 'color') {
+			$control->getControlPrototype()->addClass('form-control form-control-color');
 		}
 	}
 }
 
 
 $form = new Form;
-$form->onRender[] = 'makeBootstrap4';
+$form->onRender[] = 'makeBootstrap5';
 
 $form->addGroup('Personal data');
 $form->addText('name', 'Your name')
-	->setRequired('Enter your name');
+	->setRequired('Enter your name')
+	->setOption('description', 'Name and surname');
+
+$form->addDate('birth', 'Date of birth');
 
 $form->addRadioList('gender', 'Your gender', [
 	'male', 'female',
@@ -75,6 +78,8 @@ $form->addSelect('country', 'Country', [
 ]);
 
 $form->addCheckbox('send', 'Ship to address');
+
+$form->addColor('color', 'Favourite colour');
 
 $form->addGroup('Your account');
 $form->addPassword('password', 'Choose password');
@@ -96,12 +101,12 @@ if ($form->isSuccess()) {
 ?>
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Nette Forms & Bootstrap v4 rendering example</title>
+<title>Nette Forms & Bootstrap v5 rendering example</title>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
 <div class="container">
-	<h1>Nette Forms & Bootstrap v4 rendering example</h1>
+	<h1>Nette Forms & Bootstrap v5 rendering example</h1>
 
 	<?php $form->render() ?>
 </div>

@@ -19,18 +19,36 @@ Debugger::enable();
 
 
 $form = new Form;
-$form->addText('name', 'Your name:')
-	->setRequired('Enter your name');
+$form->addText('name', 'Your name')
+	->setRequired('Enter your name')
+	->setOption('description', 'Name and surname');
 
-$form->addPassword('password', 'Choose password:')
-	->setRequired('Choose your password')
-	->addRule($form::MinLength, 'The password is too short: it must be at least %d characters', 3);
+$form->addDate('birth', 'Date of birth');
 
-$form->addPassword('password2', 'Reenter password:')
-	->setRequired('Reenter your password')
-	->addRule($form::Equal, 'Passwords do not match', $form['password']);
+$form->addRadioList('gender', 'Your gender', [
+	'male', 'female',
+]);
+
+$form->addCheckboxList('colors', 'Favorite colors', [
+	'red', 'green', 'blue',
+]);
+
+$form->addSelect('country', 'Country', [
+	'Buranda', 'Qumran', 'Saint Georges Island',
+]);
+
+$form->addCheckbox('send', 'Ship to address');
+
+$form->addColor('color', 'Favourite colour');
+
+$form->addPassword('password', 'Choose password');
+$form->addUpload('avatar', 'Picture');
+$form->addTextArea('note', 'Comment');
 
 $form->addSubmit('submit', 'Send');
+$form->addSubmit('cancel', 'Cancel');
+
+
 
 if ($form->isSuccess()) {
 	echo '<h2>Form was submitted and successfully validated</h2>';
