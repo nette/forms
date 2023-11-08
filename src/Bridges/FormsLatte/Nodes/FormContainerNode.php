@@ -31,7 +31,7 @@ class FormContainerNode extends StatementNode
 		$tag->outputMode = $tag::OutputRemoveIndentation;
 		$tag->expectArguments();
 
-		$node = new static;
+		$node = $tag->node = new static;
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();
 		[$node->content] = yield;
 		return $node;

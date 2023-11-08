@@ -31,7 +31,7 @@ final class FormNNameNode extends StatementNode
 	public static function create(Tag $tag): \Generator
 	{
 		$tag->expectArguments();
-		$node = new static;
+		$node = $tag->node = new static;
 		$node->name = $tag->parser->parseUnquotedStringOrExpression(colon: false);
 		[$node->content] = yield;
 		$node->init($tag);
