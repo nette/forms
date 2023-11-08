@@ -42,7 +42,7 @@ class FormNode extends StatementNode
 
 		$tag->outputMode = $tag::OutputKeepIndentation;
 		$tag->expectArguments();
-		$node = new static;
+		$node = $tag->node = new static;
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();
 		$tag->parser->stream->tryConsume(',');
 		$node->attributes = $tag->parser->parseArguments();

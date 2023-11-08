@@ -43,7 +43,7 @@ class LabelNode extends StatementNode
 		$tag->outputMode = $tag::OutputKeepIndentation;
 		$tag->expectArguments();
 
-		$node = new static;
+		$node = $tag->node = new static;
 		$node->name = $tag->parser->parseUnquotedStringOrExpression(colon: false);
 		if ($tag->parser->stream->tryConsume(':')) {
 			$node->part = $tag->parser->isEnd() || $tag->parser->stream->is(',')

@@ -35,7 +35,7 @@ final class FieldNNameNode extends StatementNode
 	public static function create(Tag $tag): \Generator
 	{
 		$tag->expectArguments();
-		$node = new static;
+		$node = $tag->node = new static;
 		$node->name = $tag->parser->parseUnquotedStringOrExpression(colon: false);
 		if ($tag->parser->stream->tryConsume(':')) {
 			$node->part = $tag->parser->isEnd()
