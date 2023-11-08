@@ -15,7 +15,7 @@ use Nette\Utils\Html;
 
 
 /**
- * Runtime helpers for Latte v2 & v3.
+ * Runtime helpers for Latte v3.
  * @internal
  */
 class Runtime
