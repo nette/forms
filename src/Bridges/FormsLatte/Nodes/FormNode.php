@@ -22,7 +22,6 @@ use Latte\Compiler\Tag;
 
 /**
  * {form name} ... {/form}
- * {formContext ...}
  */
 class FormNode extends StatementNode
 {
@@ -47,6 +46,9 @@ class FormNode extends StatementNode
 		$tag->parser->stream->tryConsume(',');
 		$node->attributes = $tag->parser->parseArguments();
 		$node->print = $tag->name === 'form';
+		if (!$node->print) {
+			trigger_error('Tag {formContext} is deprecated', E_USER_DEPRECATED);
+		}
 
 		[$node->content, $endTag] = yield;
 		$node->endLine = $endTag?->position;
