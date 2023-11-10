@@ -19,7 +19,6 @@ use Latte\Compiler\Tag;
 
 /**
  * {form [scope|detached] name [, attributes]} ... {/form}
- * {formContext name} ... {/formContext}
  * Renders form tags and initializes form context.
  * The `scope` keyword makes {form} skip the <form> tag emission while still pushing the
  * form on the stack — semantically identical to {formContext}, but with the canonical
@@ -60,6 +59,9 @@ class FormNode extends StatementNode
 		}
 		$node->attributes = $tag->parser->parseArguments();
 		$node->print = $tag->name === 'form' && $node->mode !== 'scope';
+		if (!$node->print) {
+			trigger_error('Tag {formContext} is deprecated', E_USER_DEPRECATED);
+		}
 
 		[$node->content, $endTag] = yield;
 		if ($endTag && $node->name instanceof StringNode) {
