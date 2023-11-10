@@ -257,22 +257,4 @@
 ';
 		echo $this->global->forms->renderFormEnd() /* line %d% */;
 		$this->global->forms->end();
-
-		echo '
-
-
-';
-		$form = $this->global->formsStack[] = $this->global->uiControl['myForm'] /* line %d% */;
-		Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
-		echo '
-<label';
-		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getLabelPart())->attributes() /* line %d% */;
-		echo '>';
-		echo $ʟ_elem->getHtml() /* line %d% */;
-		echo '</label>
-<input';
-		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global)->getControlPart())->attributes() /* line %d% */;
-		echo '>
-';
-		array_pop($this->global->formsStack) /* line %d% */;
 %A%
