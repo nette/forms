@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Nette\Forms\Blueprint;
 use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Tester\Assert;
@@ -33,8 +34,7 @@ $form->onRender[] = function ($form) {
 	$renderer->wrappers['label']['suffix'] = ':';
 };
 
-$renderer = new Nette\Forms\Rendering\LatteRenderer;
-$res = $renderer->render($form);
+$res = (new Blueprint)->generateLatte($form);
 
 Assert::match(
 	'<form n:name="signForm">
