@@ -27,6 +27,11 @@ class FormPrintNode extends StatementNode
 
 	public static function create(Tag $tag): static
 	{
+		if ($tag->name === 'formPrint') {
+			trigger_error('Tag {formPrint} is deprecated, use Nette\Forms\Blueprint::latte($form)', E_USER_DEPRECATED);
+		} else {
+			trigger_error('Tag {formClassPrint} is deprecated, use Nette\Forms\Blueprint::dataClass($form)', E_USER_DEPRECATED);
+		}
 		$node = new static;
 		$node->name = $tag->parser->isEnd()
 			? null
