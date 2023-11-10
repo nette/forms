@@ -257,22 +257,4 @@
 ';
 		echo $this->global->forms->renderFormEnd() /* line %d% */;
 		$this->global->forms->end();
-
-		echo '
-
-
-';
-		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* line %d% */;
-		echo '
-<label';
-		echo ($ʟ_elem = $this->global->forms->item('sex')->getLabelPart())->attributes() /* line %d% */;
-		echo '>';
-		echo $ʟ_elem->getHtml() /* line %d% */;
-		echo '</label>
-<input';
-		echo ($ʟ_elem = $this->global->forms->item('username')->getControlPart())->attributes() /* line %d% */;
-		echo '>
-';
-		/* line %d% */;
-		$this->global->forms->end();
 %A%
