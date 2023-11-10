@@ -39,12 +39,12 @@ class FormPrintNode extends StatementNode
 	public function print(PrintContext $context): string
 	{
 		return $context->format(
-			'Nette\Bridges\FormsLatte\Runtime::render%raw('
+			'Nette\Forms\Blueprint::%raw('
 			. ($this->name
 				? 'is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp]'
 				: 'end($this->global->formsStack)')
 			. ') %2.line; exit;',
-			$this->mode,
+			$this->mode === 'formPrint' ? 'latte' : 'dataClass',
 			$this->name,
 			$this->position,
 		);
