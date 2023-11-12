@@ -31,9 +31,8 @@ class MultiSelectBox extends MultiChoiceControl
 
 	/**
 	 * Sets options and option groups from which to choose.
-	 * @return static
 	 */
-	public function setItems(array $items, bool $useKeys = true)
+	public function setItems(array $items, bool $useKeys = true): static
 	{
 		if (!$useKeys) {
 			$res = [];
