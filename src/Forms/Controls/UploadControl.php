@@ -67,10 +67,9 @@ class UploadControl extends BaseControl
 
 
 	/**
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		return $this;
 	}
@@ -121,12 +120,12 @@ class UploadControl extends BaseControl
 	}
 
 
-	/** @return static */
 	public function addRule(
 		callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
-	) {
+	): static
+	{
 		if ($validator === Form::Image) {
 			$this->control->accept = implode(', ', Forms\Helpers::getSupportedImages());
 
