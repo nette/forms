@@ -40,10 +40,9 @@ class HiddenField extends BaseControl
 
 	/**
 	 * Sets control's value.
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		if ($value === null) {
 			$value = '';

@@ -28,10 +28,9 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets control's value.
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		if ($value === null) {
 			$value = '';
@@ -126,12 +125,12 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	/** @return static */
 	public function addRule(
 		callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
-	) {
+	): static
+	{
 		foreach ($this->getRules() as $rule) {
 			if (!$rule->canExport() && !$rule->branch) {
 				return parent::addRule($validator, $errorMessage, $arg);
