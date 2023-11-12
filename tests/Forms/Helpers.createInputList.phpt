@@ -17,24 +17,24 @@ require __DIR__ . '/../bootstrap.php';
 test('', function () {
 	Assert::same(
 		'',
-		Helpers::createInputList([])
+		Helpers::createInputList([]),
 	);
 
 	Assert::same(
 		'<label><input value="0">a</label>',
-		Helpers::createInputList(['a'])
+		Helpers::createInputList(['a']),
 	);
 
 	Assert::same(
 		'<label><input value="0">1</label>',
-		Helpers::createInputList([1])
+		Helpers::createInputList([1]),
 	);
 
 	Assert::same(
 		'<label><input value="a">First</label><label><input value="b">Second</label>',
 		Helpers::createInputList(
-			['a' => 'First', 'b' => 'Second']
-		)
+			['a' => 'First', 'b' => 'Second'],
+		),
 	);
 
 	Assert::same(
@@ -42,8 +42,8 @@ test('', function () {
 		Helpers::createInputList(
 			['a' => 'First', 'b' => 'Second'],
 			['type' => 'checkbox'],
-			['class' => 'button']
-		)
+			['class' => 'button'],
+		),
 	);
 
 	Assert::same(
@@ -58,8 +58,8 @@ test('', function () {
 			[
 				'class:' => ['a' => ['class1', 'class2']],
 				'style' => ['color' => 'blue'],
-			]
-		)
+			],
+		),
 	);
 
 	Assert::same(
@@ -68,8 +68,8 @@ test('', function () {
 			['a' => 'First', 'b' => 'Second'],
 			null,
 			null,
-			'<br>'
-		)
+			'<br>',
+		),
 	);
 
 	Assert::same(
@@ -78,8 +78,8 @@ test('', function () {
 			['a' => 'First', 'b' => 'Second'],
 			null,
 			null,
-			Html::el('div')
-		)
+			Html::el('div'),
+		),
 	);
 
 	Assert::same(
@@ -88,7 +88,7 @@ test('', function () {
 			['a' => 'First', 'b' => 'Second'],
 			null,
 			null,
-			Html::el(null)
-		)
+			Html::el(null),
+		),
 	);
 });

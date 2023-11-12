@@ -54,7 +54,7 @@ class MultiSelectBox extends MultiChoiceControl
 		}
 
 		$this->options = $items;
-		return parent::setItems(Nette\Utils\Arrays::flatten($items, true));
+		return parent::setItems(Nette\Utils\Arrays::flatten($items, preserveKeys: true));
 	}
 
 
@@ -70,7 +70,7 @@ class MultiSelectBox extends MultiChoiceControl
 			[
 				'disabled:' => is_array($this->disabled) ? $this->disabled : null,
 			] + $this->optionAttributes,
-			$this->value
+			$this->value,
 		)->addAttributes(parent::getControl()->attrs)->multiple(true);
 	}
 

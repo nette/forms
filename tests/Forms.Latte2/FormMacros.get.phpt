@@ -28,9 +28,9 @@ $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.get.php',
-	$latte->compile(__DIR__ . '/templates/forms.get.latte')
+	$latte->compile(__DIR__ . '/templates/forms.get.latte'),
 );
 Assert::matchFile(
 	__DIR__ . '/expected/FormMacros.get.html',
-	$latte->renderToString(__DIR__ . '/templates/forms.get.latte')
+	$latte->renderToString(__DIR__ . '/templates/forms.get.latte'),
 );

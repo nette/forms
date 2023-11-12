@@ -297,7 +297,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addComponent(
 		Nette\ComponentModel\IComponent $component,
 		?string $name,
-		?string $insertBefore = null
+		?string $insertBefore = null,
 	) {
 		parent::addComponent($component, $name, $insertBefore);
 		if ($this->currentGroup !== null) {
@@ -349,7 +349,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		string $name,
 		$label = null,
 		?int $cols = null,
-		?int $maxLength = null
+		?int $maxLength = null,
 	): Controls\TextInput
 	{
 		return $this[$name] = (new Controls\TextInput($label, $maxLength))
@@ -442,7 +442,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addUpload(string $name, $label = null): Controls\UploadControl
 	{
-		return $this[$name] = new Controls\UploadControl($label, false);
+		return $this[$name] = new Controls\UploadControl($label, multiple: false);
 	}
 
 
@@ -452,7 +452,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addMultiUpload(string $name, $label = null): Controls\UploadControl
 	{
-		return $this[$name] = new Controls\UploadControl($label, true);
+		return $this[$name] = new Controls\UploadControl($label, multiple: true);
 	}
 
 
@@ -515,7 +515,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		string $name,
 		$label = null,
 		?array $items = null,
-		?int $size = null
+		?int $size = null,
 	): Controls\MultiSelectBox
 	{
 		return $this[$name] = (new Controls\MultiSelectBox($label, $items))

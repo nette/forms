@@ -64,7 +64,7 @@ test('date as string timestamp', function () {
 test('date as int timestamp', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
-		->setValue(254400000);
+		->setValue(254_400_000);
 
 	Assert::equal(new DateTimeImmutable('1978-01-23 00:00'), $input->getValue());
 });
@@ -99,7 +99,7 @@ test('date-time as DateTime object', function () {
 
 test('date-time with seconds as DateTime object', function () {
 	$form = new Form;
-	$input = $form->addDateTime('time', null, true)
+	$input = $form->addDateTime('time', withSeconds: true)
 		->setValue(new Nette\Utils\DateTime('2023-10-05 11:22:33.44'));
 
 	Assert::equal(new DateTimeImmutable('2023-10-05 11:22:33'), $input->getValue());

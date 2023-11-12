@@ -30,7 +30,7 @@ test('timestamp format', function () {
 		->setValue('2023-10-22 10:30')
 		->setFormat(DateTimeControl::FormatTimestamp);
 
-	Assert::same(1697925600, $input->getValue());
+	Assert::same(1_697_925_600, $input->getValue());
 });
 
 

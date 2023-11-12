@@ -76,8 +76,8 @@ class CheckboxList extends MultiChoiceControl
 					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
 				]),
 				$this->itemLabel->attrs,
-				$this->separator
-			)
+				$this->separator,
+			),
 		);
 	}
 
@@ -93,7 +93,7 @@ class CheckboxList extends MultiChoiceControl
 		$key = key([(string) $key => null]);
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
-			'checked' => in_array($key, (array) $this->value, true),
+			'checked' => in_array($key, (array) $this->value, strict: true),
 			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
 			'required' => null,
 			'value' => $key,

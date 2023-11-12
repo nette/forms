@@ -61,9 +61,11 @@ test('setValue() and invalid argument', function () {
 	$input = $form->addHidden('hidden');
 	$input->setValue(null);
 
-	Assert::exception(function () use ($input) {
-		$input->setValue([]);
-	}, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'hidden'.");
+	Assert::exception(
+		fn() => $input->setValue([]),
+		Nette\InvalidArgumentException::class,
+		"Value must be scalar or null, array given in field 'hidden'.",
+	);
 });
 
 
@@ -81,9 +83,7 @@ test('object from string by filter', function () {
 	$_POST = ['text' => (string) $date];
 	$form = new Form;
 	$input = $form->addHidden('text');
-	$input->addFilter(function ($value) {
-		return $value ? new Nette\Utils\DateTime($value) : $value;
-	});
+	$input->addFilter(fn($value) => $value ? new Nette\Utils\DateTime($value) : $value);
 
 	Assert::same((string) $date, $input->getValue());
 	$input->validate();

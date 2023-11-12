@@ -55,9 +55,7 @@ class UploadControl extends BaseControl
 	public function loadHttpData(): void
 	{
 		$this->value = $this->getHttpData(Form::DataFile);
-		if ($this->value === null) {
-			$this->value = new FileUpload(null);
-		}
+		$this->value ??= new FileUpload(null);
 	}
 
 
@@ -95,9 +93,7 @@ class UploadControl extends BaseControl
 	{
 		return $this->value instanceof FileUpload
 			? $this->value->isOk()
-			: $this->value && Arrays::every($this->value, function (FileUpload $upload): bool {
-				return $upload->isOk();
-			});
+			: $this->value && Arrays::every($this->value, fn(FileUpload $upload): bool => $upload->isOk());
 	}
 
 

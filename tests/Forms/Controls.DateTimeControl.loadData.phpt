@@ -113,7 +113,7 @@ test('valid time', function () {
 test('valid time with seconds', function () {
 	$_POST = ['time' => '10:22:33.44'];
 	$form = new Form;
-	$input = $form->addTime('time', null, true);
+	$input = $form->addTime('time', withSeconds: true);
 	Assert::equal(new DateTimeImmutable('0001-01-01 10:22:33'), $input->getValue());
 	Assert::true($input->isFilled());
 });
@@ -131,7 +131,7 @@ test('valid date-time', function () {
 test('valid date-time with seconds', function () {
 	$_POST = ['date' => '2023-10-22T10:23:11.123'];
 	$form = new Form;
-	$input = $form->addDateTime('date', null, true);
+	$input = $form->addDateTime('date', withSeconds: true);
 	Assert::equal(new DateTimeImmutable('2023-10-22 10:23:11'), $input->getValue());
 	Assert::true($input->isFilled());
 });

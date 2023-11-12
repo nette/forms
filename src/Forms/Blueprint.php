@@ -172,10 +172,10 @@ final class Blueprint
 	public function generateDataClass(
 		Container $container,
 		?bool $propertyPromotion = false,
-		?string $baseName = null
+		?string $baseName = null,
 	): string
 	{
-		$baseName = $baseName ?? preg_replace('~Form$~', '', ucwords((string) $container->getName()));
+		$baseName ??= preg_replace('~Form$~', '', ucwords((string) $container->getName()));
 		$nextCode = '';
 		$props = [];
 		foreach ($container->getComponents() as $name => $input) {

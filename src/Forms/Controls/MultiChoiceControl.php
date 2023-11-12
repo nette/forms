@@ -71,7 +71,11 @@ abstract class MultiChoiceControl extends BaseControl
 
 		$values = array_keys($flip);
 		if ($this->checkDefaultValue && ($diff = array_diff($values, array_keys($this->items)))) {
-			$set = Nette\Utils\Strings::truncate(implode(', ', array_map(function ($s) { return var_export($s, true); }, array_keys($this->items))), 70, '...');
+			$set = Nette\Utils\Strings::truncate(
+				implode(', ', array_map(fn($s) => var_export($s, return: true), array_keys($this->items))),
+				70,
+				'...',
+			);
 			$vals = (count($diff) > 1 ? 's' : '') . " '" . implode("', '", $diff) . "'";
 			throw new Nette\InvalidArgumentException("Value$vals are out of allowed set [$set] in field '{$this->name}'.");
 		}
@@ -149,7 +153,7 @@ abstract class MultiChoiceControl extends BaseControl
 		}
 
 		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($value, true);
+		$this->disabled = array_fill_keys($value, value: true);
 		$this->value = array_diff($this->value, $value);
 		return $this;
 	}

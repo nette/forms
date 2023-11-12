@@ -80,10 +80,7 @@ class Runtime
 		if (is_object($item)) {
 			return $item;
 		}
-		$form = end($global->formsStack);
-		if (!$form) {
-			throw new \LogicException('Form declaration is missing, did you use {form} or <form n:name> tag?');
-		}
+		$form = end($global->formsStack) ?: throw new \LogicException('Form declaration is missing, did you use {form} or <form n:name> tag?');
 		return $form[$item];
 	}
 }

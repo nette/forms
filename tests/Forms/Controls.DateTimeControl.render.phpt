@@ -61,7 +61,7 @@ test('time: range validator', function () {
 
 test('time with seconds: range validator', function () {
 	$form = new Form;
-	$input = $form->addTime('time', null, true)
+	$input = $form->addTime('time', withSeconds: true)
 		->addRule($form::Range, null, [new DateTime('2020-01-01 11:22:33'), new DateTime('2040-01-01 22:33:44')]);
 
 	Assert::match('<input type="time" name="time" step="1" id="frm-time" data-nette-rules=\'[{"op":":range","msg":"Please enter a value between %a% and %a%.","arg":["11:22:33","22:33:44"]}]\' min="11:22:33" max="22:33:44">', (string) $input->getControl());

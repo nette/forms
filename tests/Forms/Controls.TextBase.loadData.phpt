@@ -100,9 +100,11 @@ test('setValue() and invalid argument', function () {
 	$input = $form->addText('text');
 	$input->setValue(null);
 
-	Assert::exception(function () use ($input) {
-		$input->setValue([]);
-	}, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'text'.");
+	Assert::exception(
+		fn() => $input->setValue([]),
+		Nette\InvalidArgumentException::class,
+		"Value must be scalar or null, array given in field 'text'.",
+	);
 });
 
 
@@ -199,9 +201,7 @@ test('filter in BLANK condition', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addCondition($form::Blank)
-		->addFilter(function () use ($input) {
-			return 'default';
-		});
+		->addFilter(fn() => 'default');
 
 	Assert::same('', $input->getValue());
 	$input->validate();
@@ -216,9 +216,7 @@ test('filter in !FILLED condition', function () {
 	$input = $form->addText('text');
 	$input->addCondition($form::Filled)
 		->elseCondition()
-		->addFilter(function () use ($input) {
-			return 'default';
-		});
+		->addFilter(fn() => 'default');
 
 	Assert::same('', $input->getValue());
 	$input->validate();

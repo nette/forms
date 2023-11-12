@@ -142,7 +142,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			$s .= $this->renderErrors();
 
 		} elseif ($mode === 'errors') {
-			$s .= $this->renderErrors(null, false);
+			$s .= $this->renderErrors(own: false);
 		}
 
 		if (!$mode || $mode === 'body') {
