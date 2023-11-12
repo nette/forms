@@ -31,10 +31,13 @@ class Helpers
 	/**
 	 * Extracts and sanitizes submitted form data for single control.
 	 * @param  int  $type  type Form::DataText, DataLine, DataFile, DataKeys
-	 * @return string|string[]
 	 * @internal
 	 */
-	public static function extractHttpData(array $data, string $htmlName, int $type)
+	public static function extractHttpData(
+		array $data,
+		string $htmlName,
+		int $type,
+	): string|array|Nette\Http\FileUpload|null
 	{
 		$name = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName));
 		$data = Nette\Utils\Arrays::get($data, $name, null);
@@ -155,7 +158,7 @@ class Helpers
 	}
 
 
-	private static function exportArgument($value, Control $control)
+	private static function exportArgument(mixed $value, Control $control): mixed
 	{
 		if ($value instanceof Control) {
 			return ['control' => $value->getHtmlName()];

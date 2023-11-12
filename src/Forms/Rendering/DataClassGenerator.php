@@ -21,9 +21,7 @@ final class DataClassGenerator
 {
 	public string $classNameSuffix = 'FormData';
 	public bool $propertyPromotion = false;
-
-	/** @var bool */
-	public $useSmartObject = true;
+	public bool $useSmartObject = true;
 
 
 	/** @deprecated use Nette\Latte\Blueprint::dataClass() */

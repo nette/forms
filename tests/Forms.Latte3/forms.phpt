@@ -11,13 +11,13 @@ require __DIR__ . '/../bootstrap.php';
 
 class MyControl extends Nette\Forms\Controls\BaseControl
 {
-	public function getLabel($c = null)
+	public function getLabel($c = null): string
 	{
 		return '<label>My</label>';
 	}
 
 
-	public function getControl()
+	public function getControl(): string
 	{
 		return '<input name=My>';
 	}
