@@ -17,24 +17,24 @@ require __DIR__ . '/../bootstrap.php';
 test('', function () {
 	Assert::type(
 		Html::class,
-		Helpers::createSelectBox([])
+		Helpers::createSelectBox([]),
 	);
 
 	Assert::same(
 		'<select></select>',
-		(string) Helpers::createSelectBox([])
+		(string) Helpers::createSelectBox([]),
 	);
 
 	Assert::same(
 		'<select><option value="0">a</option></select>',
-		(string) Helpers::createSelectBox(['a'])
+		(string) Helpers::createSelectBox(['a']),
 	);
 
 	Assert::same(
 		'<select><option value="a">First</option><option value="b">Second</option></select>',
 		(string) Helpers::createSelectBox(
-			['a' => 'First', 'b' => 'Second']
-		)
+			['a' => 'First', 'b' => 'Second'],
+		),
 	);
 
 	Assert::same(
@@ -43,8 +43,8 @@ test('', function () {
 			[
 				'a' => 'First',
 				'Group' => ['A', 'B'],
-			]
-		)
+			],
+		),
 	);
 
 	Assert::same(
@@ -53,8 +53,8 @@ test('', function () {
 			[
 				'a' => Html::el('', 'Hello')->id('item-a'),
 				'Group' => [Html::el('', 'World')->id('item-b')],
-			]
-		)
+			],
+		),
 	);
 
 	Assert::same(
@@ -67,16 +67,16 @@ test('', function () {
 				'title' => 'Hello',
 				'style' => ['color' => 'blue'],
 				'a' => 'b',
-			]
-		)
+			],
+		),
 	);
 
 	Assert::same(
 		'<select><option disabled value="a">First</option><option disabled value="b" selected>Second</option></select>',
 		(string) Helpers::createSelectBox(
 			['a' => 'First', 'b' => 'Second'],
-			['disabled:' => true, 'selected?' => 'b']
-		)
+			['disabled:' => true, 'selected?' => 'b'],
+		),
 	);
 
 	Assert::same(
@@ -84,8 +84,8 @@ test('', function () {
 		(string) Helpers::createSelectBox(
 			['a' => 'First', 'b' => 'Second'],
 			[],
-			'b'
-		)
+			'b',
+		),
 	);
 
 	Assert::same(
@@ -93,8 +93,8 @@ test('', function () {
 		(string) Helpers::createSelectBox(
 			[['a' => 'First'], ['a' => 'First']],
 			[],
-			'a'
-		)
+			'a',
+		),
 	);
 
 	Assert::same(
@@ -102,8 +102,8 @@ test('', function () {
 		(string) Helpers::createSelectBox(
 			['a' => 'First', 'b' => 'Second'],
 			[],
-			['a', 'b']
-		)
+			['a', 'b'],
+		),
 	);
 
 	Assert::same(
@@ -111,7 +111,7 @@ test('', function () {
 		(string) Helpers::createSelectBox(
 			[['a' => 'First'], ['a' => 'First']],
 			[],
-			['a', 'b']
-		)
+			['a', 'b'],
+		),
 	);
 });

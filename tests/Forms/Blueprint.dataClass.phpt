@@ -36,7 +36,7 @@ class SignContFormData
 	public ?string $name;
 }
 ',
-	$res
+	$res,
 );
 
 $res = (new Blueprint)->generateDataClass($form, true);
@@ -62,5 +62,5 @@ class SignContFormData
 	}
 }
 ',
-	$res
+	$res,
 );

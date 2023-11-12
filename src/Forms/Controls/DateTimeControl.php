@@ -168,11 +168,9 @@ class DateTimeControl extends BaseControl
 	private function getAttributesFromRules(): array
 	{
 		$attrs = [];
-		$format = function ($val) {
-			return is_scalar($val) || $val instanceof \DateTimeInterface
+		$format = fn($val) => is_scalar($val) || $val instanceof \DateTimeInterface
 				? $this->formatHtmlValue($val)
 				: null;
-		};
 		foreach ($this->getRules() as $rule) {
 			if ($rule->branch) {
 			} elseif (!$rule->canExport()) {

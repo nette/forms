@@ -228,13 +228,13 @@ class Rules implements \IteratorAggregate
 			$toggles[$id] = ($success xor !$hide) || !empty($toggles[$id]);
 		}
 
-		$emptyOptional = $emptyOptional ?? (!$this->isRequired() && !$this->control->isFilled());
+		$emptyOptional ??= (!$this->isRequired() && !$this->control->isFilled());
 		foreach ($this as $rule) {
 			if ($rule->branch) {
 				$toggles = $rule->branch->getToggleStates(
 					$toggles,
 					$success && static::validateRule($rule),
-					$rule->validator === Form::Blank ? false : $emptyOptional
+					$rule->validator === Form::Blank ? false : $emptyOptional,
 				);
 			} elseif (!$emptyOptional || $rule->validator === Form::Filled) {
 				$success = $success && static::validateRule($rule);
@@ -250,7 +250,7 @@ class Rules implements \IteratorAggregate
 	 */
 	public function validate(?bool $emptyOptional = null): bool
 	{
-		$emptyOptional = $emptyOptional ?? (!$this->isRequired() && !$this->control->isFilled());
+		$emptyOptional ??= (!$this->isRequired() && !$this->control->isFilled());
 		foreach ($this as $rule) {
 			if (!$rule->branch && $emptyOptional && $rule->validator !== Form::Filled) {
 				continue;
@@ -265,7 +265,7 @@ class Rules implements \IteratorAggregate
 				return false;
 
 			} elseif (!$success && !$rule->branch) {
-				$rule->control->addError(Validator::formatMessage($rule, true), false);
+				$rule->control->addError(Validator::formatMessage($rule), translate: false);
 				return false;
 			}
 		}

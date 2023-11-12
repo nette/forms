@@ -88,7 +88,7 @@ class CsrfProtection extends HiddenField
 			$random = Nette\Utils\Random::generate(10);
 		}
 
-		return $random . base64_encode(sha1($this->getToken() . $random, true));
+		return $random . base64_encode(sha1($this->getToken() . $random, binary: true));
 	}
 
 
