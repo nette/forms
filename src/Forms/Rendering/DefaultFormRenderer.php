@@ -19,8 +19,6 @@ use Nette\Utils\Html;
  */
 class DefaultFormRenderer implements Nette\Forms\FormRenderer
 {
-	use Nette\SmartObject;
-
 	/**
 	 *  /--- form.container
 	 *

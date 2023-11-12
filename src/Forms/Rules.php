@@ -18,8 +18,6 @@ use Nette;
  */
 class Rules implements \IteratorAggregate
 {
-	use Nette\SmartObject;
-
 	private const NegRules = [
 		Form::Filled => Form::Blank,
 		Form::Blank => Form::Filled,
