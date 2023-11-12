@@ -42,10 +42,9 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Sets selected items (by keys).
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($values)
+	public function setValue($values): static
 	{
 		if (is_scalar($values) || $values === null) {
 			$values = (array) $values;
@@ -96,9 +95,8 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Sets items from which to choose.
-	 * @return static
 	 */
-	public function setItems(array $items, bool $useKeys = true)
+	public function setItems(array $items, bool $useKeys = true): static
 	{
 		$this->items = $useKeys ? $items : array_combine($items, $items);
 		return $this;
