@@ -46,10 +46,9 @@ abstract class ChoiceControl extends BaseControl
 	/**
 	 * Sets selected item (by key).
 	 * @param  string|int|\BackedEnum|\Stringable|null  $value
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		if ($value === null) {
 			$this->value = null;
@@ -105,9 +104,8 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Sets items from which to choose.
-	 * @return static
 	 */
-	public function setItems(array $items, bool $useKeys = true)
+	public function setItems(array $items, bool $useKeys = true): static
 	{
 		$this->choices = [];
 		foreach ($items as $k => $v) {
