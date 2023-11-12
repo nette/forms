@@ -17,8 +17,6 @@ use Nette;
  */
 class ControlGroup
 {
-	use Nette\SmartObject;
-
 	/** @var \SplObjectStorage */
 	protected $controls;
 

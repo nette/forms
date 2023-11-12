@@ -17,8 +17,6 @@ use Nette;
  */
 class Rule
 {
-	use Nette\SmartObject;
-
 	/** @var Control */
 	public $control;
 
