@@ -37,9 +37,8 @@ class TextInput extends TextBase
 
 	/**
 	 * Changes control's type attribute.
-	 * @return static
 	 */
-	public function setHtmlType(string $type)
+	public function setHtmlType(string $type): static
 	{
 		$this->control->type = $type;
 		return $this;
@@ -48,9 +47,8 @@ class TextInput extends TextBase
 
 	/**
 	 * @deprecated  use setHtmlType()
-	 * @return static
 	 */
-	public function setType(string $type)
+	public function setType(string $type): static
 	{
 		return $this->setHtmlType($type);
 	}
@@ -66,7 +64,7 @@ class TextInput extends TextBase
 
 
 	/** @return static */
-	public function addRule($validator, $errorMessage = null, $arg = null)
+	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null)
 	{
 		foreach ($this->getRules() as $rule) {
 			if (!$rule->canExport() && !$rule->branch) {

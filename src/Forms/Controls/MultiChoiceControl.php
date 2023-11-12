@@ -140,10 +140,8 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Disables or enables control or items.
-	 * @param  bool|array  $value
-	 * @return static
 	 */
-	public function setDisabled($value = true)
+	public function setDisabled(bool|array $value = true): static
 	{
 		if (!is_array($value)) {
 			return parent::setDisabled($value);
@@ -165,8 +163,7 @@ abstract class MultiChoiceControl extends BaseControl
 	}
 
 
-	/** @return static */
-	public function checkDefaultValue(bool $value = true)
+	public function checkDefaultValue(bool $value = true): static
 	{
 		$this->checkDefaultValue = $value;
 		return $this;

@@ -98,7 +98,7 @@ class UploadControl extends BaseControl
 
 
 	/** @return static */
-	public function addRule($validator, $errorMessage = null, $arg = null)
+	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null)
 	{
 		if ($validator === Form::Image) {
 			$this->control->accept = implode(', ', Forms\Helpers::getSupportedImages());

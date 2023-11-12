@@ -27,8 +27,7 @@ class ControlGroup
 	}
 
 
-	/** @return static */
-	public function add(...$items)
+	public function add(...$items): static
 	{
 		foreach ($items as $item) {
 			if ($item instanceof Control) {
@@ -82,10 +81,8 @@ class ControlGroup
 	 * - 'container' - container as Html object
 	 * - 'description' - textual or Nette\HtmlStringable object description
 	 * - 'embedNext' - describes how render next group
-	 *
-	 * @return static
 	 */
-	public function setOption(string $key, $value)
+	public function setOption(string $key, mixed $value): static
 	{
 		if ($value === null) {
 			unset($this->options[$key]);
@@ -100,9 +97,8 @@ class ControlGroup
 
 	/**
 	 * Returns user-specific option.
-	 * @return mixed
 	 */
-	public function getOption(string $key)
+	public function getOption(string $key): mixed
 	{
 		if (func_num_args() > 1) {
 			$default = func_get_arg(1);

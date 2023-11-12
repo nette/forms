@@ -44,9 +44,8 @@ class DateTimeControl extends BaseControl
 
 	/**
 	 * Format of returned value. Allowed values are string (ie 'Y-m-d'), DateTimeControl::FormatObject and DateTimeControl::FormatTimestamp.
-	 * @return static
 	 */
-	public function setFormat(string $format)
+	public function setFormat(string $format): static
 	{
 		$this->format = $format;
 		return $this;
@@ -55,9 +54,8 @@ class DateTimeControl extends BaseControl
 
 	/**
 	 * @param \DateTimeInterface|string|int|null $value
-	 * @return static
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		$this->value = $value === null || $value === ''
 			? null
@@ -66,10 +64,7 @@ class DateTimeControl extends BaseControl
 	}
 
 
-	/**
-	 * @return \DateTimeImmutable|string|int|null
-	 */
-	public function getValue()
+	public function getValue(): \DateTimeImmutable|string|int|null
 	{
 		if ($this->format === self::FormatObject) {
 			return $this->value;
@@ -84,7 +79,7 @@ class DateTimeControl extends BaseControl
 	/**
 	 * @param \DateTimeInterface|string|int $value
 	 */
-	private function normalizeValue($value): \DateTimeImmutable
+	private function normalizeValue(mixed $value): \DateTimeImmutable
 	{
 		if (is_numeric($value)) {
 			$dt = (new \DateTimeImmutable)->setTimestamp((int) $value);
@@ -130,9 +125,8 @@ class DateTimeControl extends BaseControl
 
 	/**
 	 * Formats a date/time for HTML attributes.
-	 * @param  \DateTimeInterface|string|int  $value
 	 */
-	public function formatHtmlValue($value): string
+	public function formatHtmlValue(\DateTimeInterface|string|int $value): string
 	{
 		$value = $this->normalizeValue($value);
 		return $value->format([
@@ -145,9 +139,8 @@ class DateTimeControl extends BaseControl
 
 	/**
 	 * Formats a date/time according to the locale and formatting options.
-	 * @param  \DateTimeInterface|string|int  $value
 	 */
-	public function formatLocaleText($value): string
+	public function formatLocaleText(\DateTimeInterface|string|int $value): string
 	{
 		$value = $this->normalizeValue($value);
 		if ($this->type === self::TypeDate) {
@@ -183,7 +176,7 @@ class DateTimeControl extends BaseControl
 	}
 
 
-	public function validateMinMax($min, $max): bool
+	public function validateMinMax(mixed $min, mixed $max): bool
 	{
 		$value = $this->normalizeValue($this->value);
 		$min = $min === null ? null : $this->normalizeValue($min);

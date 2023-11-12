@@ -20,7 +20,7 @@ interface Control
 	 * @param  mixed  $value
 	 * @return static
 	 */
-	function setValue($value);
+	function setValue(mixed $value);
 
 	/**
 	 * Returns control's value.

@@ -74,7 +74,7 @@ abstract class ChoiceControl extends BaseControl
 	 * Returns selected key.
 	 * @return string|int|null
 	 */
-	public function getValue()
+	public function getValue(): mixed
 	{
 		return array_key_exists($this->value, $this->items)
 			? $this->value
@@ -84,9 +84,8 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected key (not checked).
-	 * @return string|int
 	 */
-	public function getRawValue()
+	public function getRawValue(): string|int
 	{
 		return $this->value;
 	}
@@ -123,9 +122,8 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected value.
-	 * @return mixed
 	 */
-	public function getSelectedItem()
+	public function getSelectedItem(): mixed
 	{
 		$value = $this->getValue();
 		return $value === null ? null : $this->items[$value];
@@ -134,10 +132,8 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Disables or enables control or items.
-	 * @param  bool|array  $value
-	 * @return static
 	 */
-	public function setDisabled($value = true)
+	public function setDisabled(bool|array $value = true): static
 	{
 		if (!is_array($value)) {
 			return parent::setDisabled($value);
@@ -153,8 +149,7 @@ abstract class ChoiceControl extends BaseControl
 	}
 
 
-	/** @return static */
-	public function checkDefaultValue(bool $value = true)
+	public function checkDefaultValue(bool $value = true): static
 	{
 		$this->checkDefaultValue = $value;
 		return $this;

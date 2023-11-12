@@ -61,9 +61,8 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 
 	/**
 	 * Sets the validation scope. Clicking the button validates only the controls within the specified scope.
-	 * @return static
 	 */
-	public function setValidationScope(?iterable $scope)
+	public function setValidationScope(?iterable $scope): static
 	{
 		if ($scope === null) {
 			$this->validationScope = null;

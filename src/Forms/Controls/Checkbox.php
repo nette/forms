@@ -64,7 +64,7 @@ class Checkbox extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null)
+	public function getLabel($caption = null): Html|string|null
 	{
 		return null;
 	}

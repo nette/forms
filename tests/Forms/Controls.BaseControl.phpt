@@ -54,7 +54,6 @@ test('validators', function () {
 	Assert::true(Validator::validateFilled($input));
 	Assert::true(Validator::validateValid($input));
 
-	Assert::false(Validator::validateLength($input, null));
 	Assert::false(Validator::validateLength($input, 2));
 	Assert::true(Validator::validateLength($input, 3));
 
@@ -90,7 +89,6 @@ test('validators for array', function () {
 	Assert::true(Validator::validateFilled($input));
 	Assert::true(Validator::validateValid($input));
 
-	Assert::false(Validator::validateLength($input, null));
 	Assert::false(Validator::validateLength($input, 2));
 	Assert::true(Validator::validateLength($input, 3));
 

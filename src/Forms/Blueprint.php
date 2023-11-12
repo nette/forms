@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Nette\Forms;
 
+use Nette\Utils\Html;
+
 
 /**
  * Generates blueprints for forms.
@@ -97,7 +99,7 @@ final class Blueprint
 				public $inner;
 
 
-				public function getLabel($caption = null)
+				public function getLabel($caption = null): Html|string|null
 				{
 					return $this->inner->getLabel()
 						? '{label ' . $this->inner->lookupPath(Form::class) . '/}'
@@ -105,7 +107,7 @@ final class Blueprint
 				}
 
 
-				public function getControl()
+				public function getControl(): Html|string
 				{
 					return '{input ' . $this->inner->lookupPath(Form::class) . '}';
 				}
@@ -117,7 +119,7 @@ final class Blueprint
 				}
 
 
-				public function getOption($key)
+				public function getOption(mixed $key): mixed
 				{
 					return $key === 'rendered'
 						? parent::getOption($key)

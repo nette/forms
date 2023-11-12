@@ -47,10 +47,9 @@ class Validator
 
 
 	/**
-	 * @return string|Nette\HtmlStringable
 	 * @internal
 	 */
-	public static function formatMessage(Rule $rule, bool $withValue = true)
+	public static function formatMessage(Rule $rule, bool $withValue = true): string|Nette\HtmlStringable
 	{
 		$message = $rule->message;
 		if ($message instanceof Nette\HtmlStringable) {
@@ -215,9 +214,8 @@ class Validator
 
 	/**
 	 * Count/length validator. Range is array, min and max length pair.
-	 * @param  array|int  $range
 	 */
-	public static function validateLength(Control $control, $range): bool
+	public static function validateLength(Control $control, array|int $range): bool
 	{
 		if (!is_array($range)) {
 			$range = [$range, $range];

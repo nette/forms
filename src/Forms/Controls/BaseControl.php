@@ -21,7 +21,7 @@ use Nette\Utils\Html;
  *
  * @property-read Form $form
  * @property-read string $htmlName
- * @property   mixed $htmlId
+ * @property   string|bool|null $htmlId
  * @property   mixed $value
  * @property   string|object $caption
  * @property   bool $disabled
@@ -80,9 +80,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Sets textual caption or label.
 	 * @param object|string  $caption
-	 * @return static
 	 */
-	public function setCaption($caption)
+	public function setCaption($caption): static
 	{
 		$this->caption = $caption;
 		return $this;
@@ -117,9 +116,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Loads HTTP data.
-	 * @return mixed
 	 */
-	protected function getHttpData($type, ?string $htmlTail = null)
+	protected function getHttpData($type, ?string $htmlTail = null): mixed
 	{
 		return $this->getForm()->getHttpData($type, $this->getHtmlName() . $htmlTail);
 	}
@@ -142,7 +140,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue(mixed $value)
 	{
 		$this->value = $value;
 		return $this;
@@ -186,10 +184,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Disables or enables control.
-	 * @param  bool  $value
 	 * @return static
 	 */
-	public function setDisabled($value = true)
+	public function setDisabled(bool $value = true)
 	{
 		if ($this->disabled = (bool) $value) {
 			$this->setValue(null);
@@ -212,9 +209,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Sets whether control value is excluded from $form->getValues() result.
-	 * @return static
 	 */
-	public function setOmitted(bool $value = true)
+	public function setOmitted(bool $value = true): static
 	{
 		$this->omitted = $value;
 		return $this;
@@ -299,10 +295,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Changes control's HTML id.
-	 * @param  string|bool|null  $id
-	 * @return static
 	 */
-	public function setHtmlId($id)
+	public function setHtmlId(string|bool|null $id): static
 	{
 		$this->control->id = $id;
 		return $this;
@@ -311,9 +305,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns control's HTML id.
-	 * @return mixed
 	 */
-	public function getHtmlId()
+	public function getHtmlId(): string|bool|null
 	{
 		if (!isset($this->control->id)) {
 			$form = $this->getForm();
@@ -329,9 +322,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Changes control's HTML attribute.
-	 * @return static
 	 */
-	public function setHtmlAttribute(string $name, $value = true)
+	public function setHtmlAttribute(string $name, mixed $value = true): static
 	{
 		$this->control->$name = $value;
 		if (
@@ -350,9 +342,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * @deprecated  use setHtmlAttribute()
-	 * @return static
 	 */
-	public function setAttribute(string $name, $value = true)
+	public function setAttribute(string $name, mixed $value = true): static
 	{
 		return $this->setHtmlAttribute($name, $value);
 	}
@@ -363,9 +354,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Sets translate adapter.
-	 * @return static
 	 */
-	public function setTranslator(?Nette\Localization\Translator $translator)
+	public function setTranslator(?Nette\Localization\Translator $translator): static
 	{
 		$this->translator = $translator;
 		return $this;
@@ -389,9 +379,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns translated string.
-	 * @return mixed
 	 */
-	public function translate($value, ...$parameters)
+	public function translate($value, ...$parameters): mixed
 	{
 		if ($translator = $this->getTranslator()) {
 			$tmp = is_array($value) ? [&$value] : [[&$value]];
@@ -411,11 +400,10 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation rule.
-	 * @param  callable|string  $validator
 	 * @param  string|object  $errorMessage
 	 * @return static
 	 */
-	public function addRule($validator, $errorMessage = null, $arg = null)
+	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null)
 	{
 		$this->rules->addRule($validator, $errorMessage, $arg);
 		return $this;
@@ -442,9 +430,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds an input filter callback.
-	 * @return static
 	 */
-	public function addFilter(callable $filter)
+	public function addFilter(callable $filter): static
 	{
 		$this->getRules()->addFilter($filter);
 		return $this;
@@ -460,9 +447,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Makes control mandatory.
 	 * @param  bool|string|object  $value
-	 * @return static
 	 */
-	public function setRequired($value = true)
+	public function setRequired($value = true): static
 	{
 		$this->rules->setRequired($value);
 		return $this;
@@ -537,9 +523,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Sets user-specific option.
-	 * @return static
 	 */
-	public function setOption($key, $value)
+	public function setOption($key, mixed $value): static
 	{
 		if ($value === null) {
 			unset($this->options[$key]);
@@ -553,9 +538,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns user-specific option.
-	 * @return mixed
 	 */
-	public function getOption($key)
+	public function getOption($key): mixed
 	{
 		if (func_num_args() > 1) {
 			$default = func_get_arg(1);
@@ -576,7 +560,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/********************* extension methods ****************d*g**/
 
 
-	public function __call(string $name, array $args)
+	public function __call(string $name, array $args): mixed
 	{
 		$class = static::class;
 		do {

@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Nette\Utils\Html;
 
 
 /**
@@ -58,7 +59,7 @@ class HiddenField extends BaseControl
 	}
 
 
-	public function getValue()
+	public function getValue(): mixed
 	{
 		return $this->nullable && $this->value === '' ? null : $this->value;
 	}
@@ -66,16 +67,15 @@ class HiddenField extends BaseControl
 
 	/**
 	 * Sets whether getValue() returns null instead of empty string.
-	 * @return static
 	 */
-	public function setNullable(bool $value = true)
+	public function setNullable(bool $value = true): static
 	{
 		$this->nullable = $value;
 		return $this;
 	}
 
 
-	public function getControl(): Nette\Utils\Html
+	public function getControl(): Html
 	{
 		$this->setOption('rendered', true);
 		$el = clone $this->control;
@@ -90,7 +90,7 @@ class HiddenField extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null)
+	public function getLabel($caption = null): Html|string|null
 	{
 		return null;
 	}

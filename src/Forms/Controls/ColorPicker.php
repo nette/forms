@@ -26,9 +26,8 @@ class ColorPicker extends BaseControl
 
 	/**
 	 * @param  ?string $value
-	 * @return static
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		if ($value === null) {
 			$this->value = '#000000';
