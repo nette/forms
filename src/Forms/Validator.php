@@ -70,7 +70,7 @@ final class Validator
 			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : null);
 		}
 
-		$message = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function (array $m) use ($rule, $withValue, $translator) {
+		$formattedMessage = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function (array $m) use ($rule, $withValue, $translator) {
 			static $i = -1;
 			switch ($m[1]) {
 				case 'name': return $rule->control->getName();
@@ -101,8 +101,8 @@ final class Validator
 						return $arg;
 					}
 			}
-		}, $message);
-		return $message;
+		}, (string)$message);
+		return $formattedMessage === (string)$message ? $message : $formattedMessage;
 	}
 
 

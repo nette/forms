@@ -93,7 +93,7 @@ class SelectBox extends ChoiceControl
 	{
 		$items = $this->prompt === false ? [] : ['' => $this->translate($this->prompt)];
 		foreach ($this->options as $key => $value) {
-			$items[is_array($value) ? $this->translate($key) : $key] = $this->translate($value);
+			$items[is_array($value) ? (string)$this->translate($key) : $key] = $this->translate($value);
 		}
 
 		return Nette\Forms\Helpers::createSelectBox(
