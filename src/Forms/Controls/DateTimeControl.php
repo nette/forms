@@ -107,7 +107,7 @@ class DateTimeControl extends BaseControl
 		if ($this->type === self::TypeDate) {
 			return $dt->setTime(0, 0);
 		} elseif ($this->type === self::TypeTime) {
-			return $dt->setDate(0, 1, 1)->setTime($h, $m, $s);
+			return $dt->setDate(1, 1, 1)->setTime($h, $m, $s);
 		} elseif ($this->type === self::TypeDateTime) {
 			return $dt->setTime($h, $m, $s);
 		}

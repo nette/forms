@@ -84,7 +84,7 @@ test('time as DateTime object', function () {
 	$input = $form->addTime('time')
 		->setValue(new Nette\Utils\DateTime('2023-10-05 11:22:33.44'));
 
-	Assert::equal(new DateTimeImmutable('0000-01-01 11:22'), $input->getValue());
+	Assert::equal(new DateTimeImmutable('0001-01-01 11:22'), $input->getValue());
 });
 
 

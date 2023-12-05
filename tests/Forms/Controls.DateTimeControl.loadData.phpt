@@ -105,7 +105,7 @@ test('valid time', function () {
 	$_POST = ['time' => '10:22:33.44'];
 	$form = new Form;
 	$input = $form->addTime('time');
-	Assert::equal(new DateTimeImmutable('0000-01-01 10:22'), $input->getValue());
+	Assert::equal(new DateTimeImmutable('0001-01-01 10:22'), $input->getValue());
 	Assert::true($input->isFilled());
 });
 
@@ -114,7 +114,7 @@ test('valid time with seconds', function () {
 	$_POST = ['time' => '10:22:33.44'];
 	$form = new Form;
 	$input = $form->addTime('time', null, true);
-	Assert::equal(new DateTimeImmutable('0000-01-01 10:22:33'), $input->getValue());
+	Assert::equal(new DateTimeImmutable('0001-01-01 10:22:33'), $input->getValue());
 	Assert::true($input->isFilled());
 });
 
