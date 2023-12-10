@@ -319,6 +319,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns form.
+	 * @return ($throw is true ? Form : ?Form)
 	 */
 	public function getForm(bool $throw = true): ?Form
 	{
