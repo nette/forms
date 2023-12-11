@@ -131,9 +131,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	 */
 	public function render(Nette\Forms\Form $form, ?string $mode = null): string
 	{
-		if ($this->form !== $form) {
-			$this->form = $form;
-		}
+		$this->form = $form;
 
 		$s = '';
 		if (!$mode || $mode === 'begin') {
