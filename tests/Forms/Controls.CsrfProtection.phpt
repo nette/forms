@@ -54,4 +54,4 @@ $form->addProtection();
 Assert::same([
 	$form::ProtectorId => $form[$form::ProtectorId],
 	'text' => $form['text'],
-], (array) $form->getComponents());
+], $form->getComponents());

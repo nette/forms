@@ -273,7 +273,7 @@ class Form extends Container implements Nette\HtmlStringable
 	public function addProtection(?string $errorMessage = null): Controls\CsrfProtection
 	{
 		$control = new Controls\CsrfProtection($errorMessage);
-		$children = (array) $this->getComponents();
+		$children = $this->getComponents();
 		$first = $children ? (string) key($children) : null;
 		$this->addComponent($control, self::ProtectorId, $first);
 		return $control;
@@ -704,8 +704,10 @@ class Form extends Container implements Nette\HtmlStringable
 	public function getToggles(): array
 	{
 		$toggles = [];
-		foreach ($this->getComponents(true, Controls\BaseControl::class) as $control) {
-			$toggles = $control->getRules()->getToggleStates($toggles);
+		foreach ($this->getComponentTree() as $control) {
+			if ($control instanceof Controls\BaseControl) {
+				$toggles = $control->getRules()->getToggleStates($toggles);
+			}
 		}
 
 		return $toggles;
