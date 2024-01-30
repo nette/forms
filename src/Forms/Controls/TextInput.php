@@ -11,6 +11,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Forms\Form;
+use Stringable;
 
 
 /**
@@ -18,10 +19,7 @@ use Nette\Forms\Form;
  */
 class TextInput extends TextBase
 {
-	/**
-	 * @param  string|object  $label
-	 */
-	public function __construct($label = null, ?int $maxLength = null)
+	public function __construct(string|Stringable|null $label = null, ?int $maxLength = null)
 	{
 		parent::__construct($label);
 		$this->control->maxlength = $maxLength;
@@ -64,8 +62,11 @@ class TextInput extends TextBase
 
 
 	/** @return static */
-	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null)
-	{
+	public function addRule(
+		callable|string $validator,
+		string|Stringable|null $errorMessage = null,
+		mixed $arg = null,
+	) {
 		foreach ($this->getRules() as $rule) {
 			if (!$rule->canExport() && !$rule->branch) {
 				return parent::addRule($validator, $errorMessage, $arg);

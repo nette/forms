@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
+use Stringable;
 
 
 /**
@@ -40,9 +41,8 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Makes control mandatory.
-	 * @param  string|bool  $value
 	 */
-	public function setRequired($value = true): static
+	public function setRequired(string|Stringable|bool $value = true): static
 	{
 		if ($value) {
 			$this->addRule(Form::Filled, $value === true ? null : $value);
@@ -65,9 +65,12 @@ class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation rule for the current control.
-	 * @param  string|object  $errorMessage
 	 */
-	public function addRule(callable|string $validator, $errorMessage = null, mixed $arg = null): static
+	public function addRule(
+		callable|string $validator,
+		string|Stringable|null $errorMessage = null,
+		mixed $arg = null,
+	): static
 	{
 		if ($validator === Form::Valid || $validator === ~Form::Valid) {
 			throw new Nette\InvalidArgumentException('You cannot use Form::Valid in the addRule method.');

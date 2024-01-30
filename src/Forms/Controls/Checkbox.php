@@ -11,6 +11,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Utils\Html;
+use Stringable;
 
 
 /**
@@ -21,10 +22,7 @@ class Checkbox extends BaseControl
 	private Html $container;
 
 
-	/**
-	 * @param  string|object  $label
-	 */
-	public function __construct($label = null)
+	public function __construct(string|Stringable|null $label = null)
 	{
 		parent::__construct($label);
 		$this->control->type = 'checkbox';

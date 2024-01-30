@@ -99,7 +99,7 @@ final class Blueprint
 				public $inner;
 
 
-				public function getLabel($caption = null): Html|string|null
+				public function getLabel(string|\Stringable|null $caption = null): Html|string|null
 				{
 					return $this->inner->getLabel()
 						? '{label ' . $this->inner->lookupPath(Form::class) . '/}'

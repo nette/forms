@@ -11,6 +11,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Utils\Html;
+use Stringable;
 
 
 /**
@@ -98,9 +99,8 @@ class HiddenField extends BaseControl
 
 	/**
 	 * Adds error message to the list.
-	 * @param  string|object  $message
 	 */
-	public function addError($message, bool $translate = true): void
+	public function addError(string|Stringable $message, bool $translate = true): void
 	{
 		$this->getForm()->addError($message, $translate);
 	}

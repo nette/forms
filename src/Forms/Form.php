@@ -12,6 +12,7 @@ namespace Nette\Forms;
 use Nette;
 use Nette\Utils\Arrays;
 use Nette\Utils\Html;
+use Stringable;
 
 
 /**
@@ -177,9 +178,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Sets form's action.
-	 * @param  string|object  $url
 	 */
-	public function setAction($url): static
+	public function setAction(string|Stringable $url): static
 	{
 		$this->getElementPrototype()->action = $url;
 		return $this;
@@ -262,7 +262,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/**
 	 * Adds fieldset group to the form.
 	 */
-	public function addGroup(string|object|null $caption = null, bool $setAsCurrent = true): ControlGroup
+	public function addGroup(string|Stringable|null $caption = null, bool $setAsCurrent = true): ControlGroup
 	{
 		$group = new ControlGroup;
 		$group->setOption('label', $caption);
@@ -550,9 +550,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Adds global error message.
-	 * @param  string|object  $message
 	 */
-	public function addError($message, bool $translate = true): void
+	public function addError(string|Stringable $message, bool $translate = true): void
 	{
 		if ($translate && $this->translator) {
 			$message = $this->translator->translate($message);
