@@ -291,17 +291,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Iterates over all form controls.
+	 * Retrieves the entire hierarchy of form controls including nested.
+	 * @return list<Control>
 	 */
 	public function getControls(): iterable
 	{
-		return Nette\Utils\Iterables::repeatable(function () {
-			foreach ($this->getComponentTree() as $component) {
-				if ($component instanceof Control) {
-					yield $component->getName() => $component;
-				}
-			}
-		});
+		return array_values(array_filter($this->getComponentTree(), fn($c) => $c instanceof Control));
 	}
 
 
