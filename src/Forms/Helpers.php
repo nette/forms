@@ -70,7 +70,7 @@ final class Helpers
 	{
 		if ($type === Form::DataText) {
 			return is_scalar($value)
-				? Strings::normalizeNewLines($value)
+				? Strings::normalizeNewLines((string) $value)
 				: null;
 
 		} elseif ($type === Form::DataLine) {

@@ -85,7 +85,7 @@ abstract class ChoiceControl extends BaseControl
 	/**
 	 * Returns selected key (not checked).
 	 */
-	public function getRawValue(): string|int
+	public function getRawValue(): string|int|null
 	{
 		return $this->value;
 	}
