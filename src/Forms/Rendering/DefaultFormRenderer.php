@@ -117,7 +117,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	];
 
 	protected Nette\Forms\Form $form;
-	protected int $counter;
+	protected int $counter = 0;
 
 
 	/**
