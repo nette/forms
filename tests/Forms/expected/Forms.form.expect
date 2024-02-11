@@ -1,0 +1,72 @@
+<form action="" method="post" id="frmid" enctype="multipart/form-data">
+
+<table>
+<tr>
+	<th><label for="frm-a"></label></th>
+
+	<td><input type="text" name="a" id="frm-a" form="frmid" class="text"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-b"></label></th>
+
+	<td><textarea name="b" id="frm-b" form="frmid"></textarea></td>
+</tr>
+
+<tr>
+	<th><label for="frm-c"></label></th>
+
+	<td><input type="date" name="c" id="frm-c" form="frmid"></td>
+</tr>
+
+<tr>
+	<th><label for="frm-d"></label></th>
+
+	<td><input type="file" name="d" id="frm-d" data-nette-rules='[{"op":":fileSize","msg":"The size of the uploaded file can be up to %d% bytes.","arg":%d%}]' form="frmid" class="text"></td>
+</tr>
+
+<tr>
+	<th></th>
+
+	<td><label for="frm-f"><input type="checkbox" name="f" id="frm-f" form="frmid"></label></td>
+</tr>
+
+<tr>
+	<th><label></label></th>
+
+	<td><label><input type="radio" name="g" form="frmid" value="0">item</label></td>
+</tr>
+
+<tr>
+	<th><label></label></th>
+
+	<td><label><input type="checkbox" name="h[]" form="frmid" value="0">item</label></td>
+</tr>
+
+<tr>
+	<th><label for="frm-i"></label></th>
+
+	<td><select name="i" id="frm-i" form="frmid"></select></td>
+</tr>
+
+<tr>
+	<th><label for="frm-j"></label></th>
+
+	<td><select name="j[]" id="frm-j" form="frmid" multiple></select></td>
+</tr>
+
+<tr>
+	<th><label for="frm-k"></label></th>
+
+	<td><input type="color" name="k" id="frm-k" form="frmid" value="#000000"></td>
+</tr>
+
+<tr>
+	<th></th>
+
+	<td><input type="submit" name="l" form="frmid" class="button"> <input type="button" name="m" form="frmid" class="button"> <input type="image" name="n[]" form="frmid" class="imagebutton"></td>
+</tr>
+</table>
+
+<input type="hidden" name="e" value="" form="frmid"><input type="hidden" name="none" value=""><input type="hidden" name="diff" form="different" value="">
+</form>

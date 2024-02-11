@@ -59,9 +59,11 @@ class Button extends BaseControl
 	{
 		$this->setOption('rendered', true);
 		$caption = $this->translate($caption ?? $this->getCaption());
-		$el = (clone $this->control)->addAttributes([
+		$el = clone $this->control;
+		$el->addAttributes([
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
+			'form' => $el->form ?? $this->getForm()->getElementPrototype()->id,
 		]);
 		if ($caption instanceof Html || ($caption !== null && $el->getName() === 'button')) {
 			$el->setName('button')->setText($caption);

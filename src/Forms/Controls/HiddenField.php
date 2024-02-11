@@ -84,6 +84,7 @@ class HiddenField extends BaseControl
 			'name' => $this->getHtmlName(),
 			'disabled' => $this->isDisabled(),
 			'value' => (string) $this->value,
+			'form' => $el->form ?? $this->getForm()->getElementPrototype()->id,
 		]);
 	}
 
