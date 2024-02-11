@@ -15,7 +15,7 @@
 <tr class="required">
 	<th><label for="frm-password" class="required">PASSWORD</label></th>
 
-	<td><input type="password" name="password" id="frm-password" required data-nette-rules='[{"op":":filled","msg":"THIS FIELD IS REQUIRED."},{"op":":minLength","msg":"MINIMAL LENGTH IS %D CHARS","arg":8}]' class="text">
+	<td><input type="password" name="password" id="frm-password" required data-nette-rules='[{"op":":filled","msg":"THIS FIELD IS REQUIRED."},{"op":":minLength","msg":"MINIMAL LENGTH IS %D CHARS","arg":8}]' data-nette-error class="text">
 	<span class="error">WEAK PASSWORD</span></td>
 </tr>
 
