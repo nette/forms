@@ -14,7 +14,7 @@
 <tr class="required">
 	<th><label for="frm-age" class="required">Your age:</label></th>
 
-	<td><input type="number" name="age" min="10" max="100" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Please enter a valid integer."},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' class="text">
+	<td><input type="number" name="age" min="10" max="100" id="frm-age" required data-nette-rules='[{"op":":filled","msg":"Enter your age"},{"op":":integer","msg":"Please enter a valid integer."},{"op":":range","msg":"Age must be in range from 10 to 100","arg":[10,100]}]' data-nette-error class="text">
 	<span class="error">Enter your age</span></td>
 </tr>
 
@@ -54,14 +54,14 @@
 <tr>
 	<th><label for="frm-city">City:</label></th>
 
-	<td><input type="text" name="city" id="frm-city" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"Enter your shipping address"}],"control":"send","arg":true}]' class="text">
+	<td><input type="text" name="city" id="frm-city" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"Enter your shipping address"}],"control":"send","arg":true}]' data-nette-error class="text">
 	<span class="error">Enter your shipping address</span></td>
 </tr>
 
 <tr>
 	<th><label for="frm-country">Country:</label></th>
 
-	<td><select name="country" id="frm-country" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"Select your country"}],"control":"send","arg":true}]'><option value="">Select your country</option><optgroup label="Europe"><option value="CZ">Czech Republic</option><option value="SK">Slovakia</option><option value="GB">United Kingdom</option></optgroup><option value="CA">Canada</option><option value="US">United States</option><option value="?">other</option></select>
+	<td><select name="country" id="frm-country" data-nette-rules='[{"op":":equal","rules":[{"op":":filled","msg":"Select your country"}],"control":"send","arg":true}]' data-nette-error><option value="">Select your country</option><optgroup label="Europe"><option value="CZ">Czech Republic</option><option value="SK">Slovakia</option><option value="GB">United Kingdom</option></optgroup><option value="CA">Canada</option><option value="US">United States</option><option value="?">other</option></select>
 	<span class="error">Select your country</span></td>
 </tr>
 
@@ -81,7 +81,7 @@
 <tr class="required">
 	<th><label for="frm-password" class="required">Choose password:</label></th>
 
-	<td><input type="password" name="password" id="frm-password" required data-nette-rules='[{"op":":filled","msg":"Choose your password"},{"op":":minLength","msg":"The password is too short: it must be at least 3 characters","arg":3}]' class="text"><input type="password" name="password2" id="frm-password2" data-nette-rules='[{"op":":valid","rules":[{"op":":filled","msg":"Reenter your password"},{"op":":equal","msg":"Passwords do not match","arg":{"control":"password"}}],"control":"password"}]' class="text"><input type="file" name="avatar" id="frm-avatar" data-nette-rules='[{"op":":fileSize","msg":"The size of the uploaded file can be up to %d% bytes.","arg":%d%},{"op":":filled","rules":[{"op":":image","msg":"Uploaded file is not image","arg":["image/gif","image/jpeg","image/png","image/webp"%a?%]}],"control":"avatar"}]' class="text">
+	<td><input type="password" name="password" id="frm-password" required data-nette-rules='[{"op":":filled","msg":"Choose your password"},{"op":":minLength","msg":"The password is too short: it must be at least 3 characters","arg":3}]' class="text"><input type="password" name="password2" id="frm-password2" data-nette-rules='[{"op":":valid","rules":[{"op":":filled","msg":"Reenter your password"},{"op":":equal","msg":"Passwords do not match","arg":{"control":"password"}}],"control":"password"}]' data-nette-error class="text"><input type="file" name="avatar" id="frm-avatar" data-nette-rules='[{"op":":fileSize","msg":"The size of the uploaded file can be up to %d% bytes.","arg":%d%},{"op":":filled","rules":[{"op":":image","msg":"Uploaded file is not image","arg":["image/gif","image/jpeg","image/png","image/webp"%a?%]}],"control":"avatar"}]' class="text">
 	<span class="error">Reenter your password</span></td>
 </tr>
 
