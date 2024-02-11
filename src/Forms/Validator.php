@@ -157,18 +157,23 @@ final class Validator
 	/**
 	 * Is control filled?
 	 */
-	public static function validateFilled(Controls\BaseControl $control): bool
+	public static function validateFilled(IControl $control): bool
 	{
-		return $control->isFilled();
+		if ($control instanceof Controls\BaseControl || method_exists($control, 'isFilled')) {
+			return $control->isFilled();
+		}
+
+		$value = $control->getValue();
+		return $value !== null && $value !== [] && $value !== '';
 	}
 
 
 	/**
 	 * Is control not filled?
 	 */
-	public static function validateBlank(Controls\BaseControl $control): bool
+	public static function validateBlank(IControl $control): bool
 	{
-		return !$control->isFilled();
+		return !static::validateFilled($control);
 	}
 
 
@@ -356,9 +361,10 @@ final class Validator
 	/**
 	 * Is file size in limit?
 	 */
-	public static function validateFileSize(Controls\UploadControl $control, $limit): bool
+	public static function validateFileSize(IControl $control, $limit): bool
 	{
 		foreach (static::toArray($control->getValue()) as $file) {
+			Validators::assert($file, Nette\Http\FileUpload::class, 'control value');
 			if ($file->getSize() > $limit || $file->getError() === UPLOAD_ERR_INI_SIZE) {
 				return false;
 			}
@@ -372,10 +378,11 @@ final class Validator
 	 * Has file specified mime type?
 	 * @param  string|string[]  $mimeType
 	 */
-	public static function validateMimeType(Controls\UploadControl $control, $mimeType): bool
+	public static function validateMimeType(IControl $control, $mimeType): bool
 	{
 		$mimeTypes = is_array($mimeType) ? $mimeType : explode(',', $mimeType);
 		foreach (static::toArray($control->getValue()) as $file) {
+			Validators::assert($file, Nette\Http\FileUpload::class, 'control value');
 			$type = strtolower($file->getContentType());
 			if (!in_array($type, $mimeTypes, true) && !in_array(preg_replace('#/.*#', '/*', $type), $mimeTypes, true)) {
 				return false;
@@ -389,9 +396,10 @@ final class Validator
 	/**
 	 * Is file image?
 	 */
-	public static function validateImage(Controls\UploadControl $control): bool
+	public static function validateImage(IControl $control): bool
 	{
 		foreach (static::toArray($control->getValue()) as $file) {
+			Validators::assert($file, Nette\Http\FileUpload::class, 'control value');
 			if (!$file->isImage()) {
 				return false;
 			}
