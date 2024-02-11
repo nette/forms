@@ -235,6 +235,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 			'required' => $this->isRequired(),
 			'disabled' => $this->isDisabled(),
 			'data-nette-rules' => Nette\Forms\Helpers::exportRules($this->rules) ?: null,
+			'data-nette-error' => $this->hasErrors(),
 		]);
 	}
 
