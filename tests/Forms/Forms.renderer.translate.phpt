@@ -42,7 +42,7 @@ $form->addPassword('password', 'Password')
 $form->addSubmit('submit', 'Send');
 
 
-Assert::matchFile(__DIR__ . '/Forms.renderer.translate.expect', $form->__toString(true));
+Assert::matchFile(__DIR__ . '/expected/Forms.renderer.translate.expect', $form->__toString(true));
 
 
 // Checking whether translation is not duplicated
