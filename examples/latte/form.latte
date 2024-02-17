@@ -1,6 +1,6 @@
 {* Generic form template *}
 
-{parameters $name}
+{define form, $name}
 <form n:name=$name>
 	{* List for form-level error messages *}
 	<ul class=error n:ifcontent>
@@ -14,9 +14,10 @@
 
 	{include controls $form->getControls()}
 </form>
+{/define}
 
 
-{define controls array $controls}
+{define local controls, array $controls}
 	{* Loop over form controls and render each one *}
 	<table>
 	<tr n:foreach="$controls as $control"
