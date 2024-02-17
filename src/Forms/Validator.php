@@ -381,7 +381,7 @@ class Validator
 	{
 		$mimeTypes = is_array($mimeType) ? $mimeType : explode(',', $mimeType);
 		foreach (static::toArray($control->getValue()) as $file) {
-			$type = strtolower($file->getContentType());
+			$type = strtolower($file->getContentType() ?? '');
 			if (!in_array($type, $mimeTypes, true) && !in_array(preg_replace('#/.*#', '/*', $type), $mimeTypes, true)) {
 				return false;
 			}
