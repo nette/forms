@@ -270,7 +270,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Generates label's HTML element.
 	 * @param  string|object  $caption
-	 * @return Html|string|null
+	 * @return Html|null
 	 */
 	public function getLabel($caption = null)
 	{
