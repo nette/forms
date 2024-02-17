@@ -478,14 +478,18 @@
 			return (/^[0-9]+$/).test(val);
 		},
 
-		integer: function(elem, arg, val) {
-			return (/^-?[0-9]+$/).test(val);
+		integer: function(elem, arg, val, value) {
+			if ((/^-?[0-9]+$/).test(val)) {
+				value.value = parseFloat(val);
+				return true;
+			}
+			return false;
 		},
 
 		'float': function(elem, arg, val, value) {
 			val = val.replace(/ +/g, '').replace(/,/g, '.');
 			if ((/^-?[0-9]*\.?[0-9]+$/).test(val)) {
-				value.value = val;
+				value.value = parseFloat(val);
 				return true;
 			}
 			return false;
