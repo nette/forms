@@ -59,28 +59,33 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 
 	/**
 	 * Sets the validation scope. Clicking the button validates only the controls within the specified scope.
+	 * @param ?iterable<Nette\Forms\Control|Nette\Forms\Container|string>
 	 */
 	public function setValidationScope(?iterable $scope): static
 	{
 		if ($scope === null) {
 			$this->validationScope = null;
-		} else {
-			$this->validationScope = [];
-			foreach ($scope ?: [] as $control) {
-				if (!$control instanceof Nette\Forms\Container && !$control instanceof Nette\Forms\Control) {
-					throw new Nette\InvalidArgumentException('Validation scope accepts only Nette\Forms\Container or Nette\Forms\Control instances.');
-				}
-
-				$this->validationScope[] = $control;
-			}
+			return $this;
 		}
 
+		$this->validationScope = [];
+		foreach ($scope as $control) {
+			if (is_string($control)) {
+				$control = $this->getForm()->getComponent($control);
+			}
+			if (!$control instanceof Nette\Forms\Container && !$control instanceof Nette\Forms\Control) {
+				throw new Nette\InvalidArgumentException('Validation scope accepts only Nette\Forms\Container or Nette\Forms\Control instances.');
+			}
+
+			$this->validationScope[] = $control;
+		}
 		return $this;
 	}
 
 
 	/**
 	 * Gets the validation scope.
+	 * @return ?array<Nette\Forms\Control|Nette\Forms\Container>
 	 */
 	public function getValidationScope(): ?array
 	{
