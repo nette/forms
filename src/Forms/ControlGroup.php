@@ -15,7 +15,7 @@ use Nette;
 /**
  * A user group of form controls.
  */
-final class ControlGroup
+class ControlGroup
 {
 	protected \WeakMap $controls;
 	private array $options = [];
