@@ -53,7 +53,7 @@ class SelectBox extends ChoiceControl
 
 
 	/**
-	 * Returns first prompt item?
+	 * Returns first prompt item.
 	 */
 	public function getPrompt(): string|Stringable|false
 	{

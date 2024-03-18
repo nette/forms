@@ -46,7 +46,6 @@ final class Blueprint
 		$blueprint->printHeader('Form Data Class ' . $form->getName());
 		$blueprint->printCode($blueprint->generateDataClass($form), 'php');
 		$blueprint->printCode($blueprint->generateDataClass($form, true), 'php');
-		$bp->printEnd();
 		$blueprint->printEnd();
 		if ($exit) {
 			exit;
