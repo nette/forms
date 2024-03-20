@@ -204,7 +204,7 @@ class Form extends Container implements Nette\HtmlStringable
 	public Nette\Http\IRequest $httpRequest;
 	protected bool $crossOrigin = false;
 	private static ?Nette\Http\IRequest $defaultHttpRequest = null;
-	private SubmitterControl|bool $submittedBy;
+	private SubmitterControl|bool $submittedBy = false;
 	private array $httpData;
 	private Html $element;
 	private FormRenderer $renderer;
