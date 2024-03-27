@@ -23,6 +23,7 @@ class SelectBox extends ChoiceControl
 
 	/** @deprecated use SelectBox::Valid */
 	public const VALID = self::Valid;
+	private const PromptKey = "!\x01prompt\x01%";
 
 	/** of option / optgroup */
 	private array $options = [];
@@ -95,10 +96,10 @@ class SelectBox extends ChoiceControl
 		$attrs = $this->optionAttributes;
 		$attrs['disabled:'] = is_array($this->disabled) ? $this->disabled : [];
 		if ($this->prompt !== false) {
-			$items[''] = $this->translate($this->prompt);
+			$items[self::PromptKey] = $this->translate($this->prompt);
 			if ($this->isRequired()) {
-				$attrs['disabled:'][''] = $attrs['hidden:'][''] = true;
-				$selected ??= ''; // disabled & selected for Safari, hidden for other browsers
+				$attrs['disabled:'][self::PromptKey] = $attrs['hidden:'][self::PromptKey] = true;
+				$selected ??= self::PromptKey; // disabled & selected for Safari, hidden for other browsers
 			}
 		}
 		foreach ($this->options as $key => $value) {

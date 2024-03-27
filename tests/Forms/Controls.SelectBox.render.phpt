@@ -68,11 +68,11 @@ test('prompt', function () {
 		0 => 'Second',
 	])->setPrompt('prompt');
 
-	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list"><option value="' . "!\x01prompt\x01%" . '">prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 
 	$input->setValue(0);
 
-	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list"><option value="' . "!\x01prompt\x01%" . '">prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
 });
 
 
@@ -83,11 +83,11 @@ test('prompt + required', function () {
 		0 => 'Second',
 	])->setPrompt('prompt')->setRequired();
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="' . "!\x01prompt\x01%" . '" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
 
 	$input->setValue(0);
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden>prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="' . "!\x01prompt\x01%" . '" disabled hidden>prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
 });
 
 
@@ -101,7 +101,7 @@ test('translator & groups', function () {
 
 	Assert::same('<label for="frm-list">Label</label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-list">Another label</label>', (string) $input->getLabel('Another label'));
-	Assert::same('<select name="list" id="frm-list"><option value="">PROMPT</option><option value="a">FIRST</option><optgroup label="GROUP"><option value="0">SECOND</option><option value="1">THIRD</option></optgroup></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list"><option value="' . "!\x01prompt\x01%" . '">PROMPT</option><option value="a">FIRST</option><optgroup label="GROUP"><option value="0">SECOND</option><option value="1">THIRD</option></optgroup></select>', (string) $input->getControl());
 });
 
 
@@ -115,7 +115,7 @@ test('Html with translator & groups', function () {
 
 	Assert::same('<label for="frm-list"><b>Label</b></label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-list"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
-	Assert::same('<select name="list" id="frm-list"><option class="class" value="">Prompt</option><option class="class" value="a">First</option><optgroup label="GROUP"><option value="0">Second</option></optgroup></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list"><option class="class" value="' . "!\x01prompt\x01%" . '">Prompt</option><option class="class" value="a">First</option><optgroup label="GROUP"><option value="0">Second</option></optgroup></select>', (string) $input->getControl());
 });
 
 
