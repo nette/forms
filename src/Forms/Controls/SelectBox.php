@@ -90,18 +90,23 @@ class SelectBox extends ChoiceControl
 
 	public function getControl(): Nette\Utils\Html
 	{
-		$items = $this->prompt === false ? [] : ['' => $this->translate($this->prompt)];
+		$items = [];
+		$selected = $this->value;
+		$attrs = $this->optionAttributes;
+		$attrs['disabled:'] = is_array($this->disabled) ? $this->disabled : [];
+		if ($this->prompt !== false) {
+			$items[''] = $this->translate($this->prompt);
+			if ($this->isRequired()) {
+				$attrs['disabled:'][''] = $attrs['hidden:'][''] = true;
+				$selected ??= ''; // disabled & selected for Safari, hidden for other browsers
+			}
+		}
 		foreach ($this->options as $key => $value) {
 			$items[is_array($value) ? $this->translate($key) : $key] = $this->translate($value);
 		}
 
-		return Nette\Forms\Helpers::createSelectBox(
-			$items,
-			[
-				'disabled:' => is_array($this->disabled) ? $this->disabled : null,
-			] + $this->optionAttributes,
-			$this->value,
-		)->addAttributes(parent::getControl()->attrs);
+		return Nette\Forms\Helpers::createSelectBox($items, $attrs, $selected)
+			->addAttributes(parent::getControl()->attrs);
 	}
 
 
