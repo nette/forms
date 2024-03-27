@@ -61,6 +61,20 @@ test('selected 2x', function () {
 });
 
 
+test('unique prompt', function () {
+	$form = new Form;
+	$input = $form->addSelect('list', 'Label', [
+		'' => 'First',
+	])->setPrompt('prompt');
+
+	Assert::same('<select name="list" id="frm-list"><option value="' . "\x01" . '">prompt</option><option value="">First</option></select>', (string) $input->getControl());
+
+	$input->setValue('');
+
+	Assert::same('<select name="list" id="frm-list"><option value="' . "\x01" . '">prompt</option><option value="" selected>First</option></select>', (string) $input->getControl());
+});
+
+
 test('translator & groups', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [

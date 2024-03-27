@@ -90,13 +90,21 @@ class SelectBox extends ChoiceControl
 
 	public function getControl(): Nette\Utils\Html
 	{
-		$items = $this->prompt === false ? [] : ['' => $this->translate($this->prompt)];
+		$items = [];
 		foreach ($this->options as $key => $value) {
 			$items[is_array($value) ? $this->translate($key) : $key] = $this->translate($value);
 		}
 
 		$attrs = $this->optionAttributes;
 		$attrs['disabled:'] = is_array($this->disabled) ? $this->disabled : null;
+
+		if ($this->prompt !== false) {
+			$promptKey = '';
+			while (isset($items[$promptKey])) {
+				$promptKey .= "\x1";
+			}
+			$items = [$promptKey => $this->translate($this->prompt)] + $items;
+		}
 
 		return Nette\Forms\Helpers::createSelectBox($items, $attrs, $this->value)
 			->addAttributes(parent::getControl()->attrs);
