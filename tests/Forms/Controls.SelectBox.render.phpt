@@ -61,6 +61,36 @@ test('selected 2x', function () {
 });
 
 
+test('prompt', function () {
+	$form = new Form;
+	$input = $form->addSelect('list', 'Label', [
+		'a' => 'First',
+		0 => 'Second',
+	])->setPrompt('prompt');
+
+	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+
+	$input->setValue(0);
+
+	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
+});
+
+
+test('prompt + required', function () {
+	$form = new Form;
+	$input = $form->addSelect('list', 'Label', [
+		'a' => 'First',
+		0 => 'Second',
+	])->setPrompt('prompt')->setRequired();
+
+	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+
+	$input->setValue(0);
+
+	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden>prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
+});
+
+
 test('unique prompt', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
