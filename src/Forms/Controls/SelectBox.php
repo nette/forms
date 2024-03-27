@@ -95,13 +95,11 @@ class SelectBox extends ChoiceControl
 			$items[is_array($value) ? $this->translate($key) : $key] = $this->translate($value);
 		}
 
-		return Nette\Forms\Helpers::createSelectBox(
-			$items,
-			[
-				'disabled:' => is_array($this->disabled) ? $this->disabled : null,
-			] + $this->optionAttributes,
-			$this->value,
-		)->addAttributes(parent::getControl()->attrs);
+		$attrs = $this->optionAttributes;
+		$attrs['disabled:'] = is_array($this->disabled) ? $this->disabled : null;
+
+		return Nette\Forms\Helpers::createSelectBox($items, $attrs, $this->value)
+			->addAttributes(parent::getControl()->attrs);
 	}
 
 
