@@ -33,8 +33,11 @@ class DateTimeControl extends BaseControl
 	private string $format = self::FormatObject;
 
 
-	public function __construct(string|Stringable|null $label = null, int $type = self::Date, bool $withSeconds = false)
-	{
+	public function __construct(
+		string|Stringable|null $label = null,
+		int $type = self::TypeDate,
+		bool $withSeconds = false,
+	) {
 		$this->type = $type;
 		$this->withSeconds = $withSeconds;
 		parent::__construct($label);
