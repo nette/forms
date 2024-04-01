@@ -88,6 +88,23 @@ test('Html', function () {
 });
 
 
+test('empty item', function () {
+	$form = new Form;
+	$input = $form->addRadioList('list', 'Label', [
+		'' => 'First',
+	])->setEmptyItem('n/a');
+
+	Assert::same('<label><input type="radio" name="list" checked value="' . "\x01" . '">n/a</label><br><label><input type="radio" name="list" value="">First</label>', (string) $input->getControl());
+
+	$input->setRequired();
+	Assert::exception(
+		fn() => $input->getControl(),
+		Nette\InvalidStateException::class,
+		'Required radiolist cannot have empty item.',
+	);
+});
+
+
 test('validation rules', function () {
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [

@@ -27,6 +27,7 @@ class RadioList extends ChoiceControl
 	protected Html $separator;
 	protected Html $container;
 	protected Html $itemLabel;
+	private string|Stringable|false $emptyItem = false;
 
 
 	public function __construct(string|Stringable|null $label = null, ?array $items = null)
@@ -37,6 +38,25 @@ class RadioList extends ChoiceControl
 		$this->separator = Html::el('br');
 		$this->itemLabel = Html::el('label');
 		$this->setOption('type', 'radio');
+	}
+
+
+	/**
+	 * Sets the first N/A item.
+	 */
+	public function setEmptyItem(string|Stringable|false $label): static
+	{
+		$this->emptyItem = $label;
+		return $this;
+	}
+
+
+	/**
+	 * Returns the first N/A item.
+	 */
+	public function getEmptyItem(): string|Stringable|false
+	{
+		return $this->emptyItem;
 	}
 
 
@@ -51,12 +71,25 @@ class RadioList extends ChoiceControl
 			}
 		}
 
+		$selected = $this->value;
+		if ($this->emptyItem !== false) {
+			if ($this->isRequired()) {
+				throw new Nette\InvalidStateException('Required radiolist cannot have empty item.');
+			}
+			$emptyKey = '';
+			while (isset($items[$emptyKey])) {
+				$emptyKey .= "\x1";
+			}
+			$items = [$emptyKey => $this->translate($this->emptyItem)] + $items;
+			$selected ??= $emptyKey;
+		}
+
 		return $this->container->setHtml(
 			Nette\Forms\Helpers::createInputList(
 				$this->translate($items),
 				array_merge($input->attrs, [
 					'id:' => $ids,
-					'checked?' => $this->value,
+					'checked?' => $selected,
 					'disabled:' => $this->disabled,
 					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
 				]),

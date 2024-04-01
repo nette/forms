@@ -141,6 +141,17 @@ testException('setValue() and invalid argument', function () use ($series) {
 }, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'radio'.");
 
 
+test('empty item selected', function () {
+	$_POST = ['radio' => ''];
+
+	$form = new Form;
+	$input = $form->addRadioList('radio', null, ['a' => 'First'])->setEmptyItem('n/a');
+
+	Assert::true($form->isValid());
+	Assert::null($input->getValue());
+});
+
+
 test('object as value', function () {
 	$form = new Form;
 	$input = $form->addRadioList('radio', null, ['2013-07-05 00:00:00' => 1])
