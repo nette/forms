@@ -119,4 +119,18 @@ class RadioList extends ChoiceControl
 	{
 		return $this->itemLabel;
 	}
+
+
+	public function setItemAttribute(string $name, mixed $value = true): static
+	{
+		$this->controlPrototype->attrs[$name] = $value;
+		return $this;
+	}
+
+
+	public function setItemLabelAttribute(string $name, mixed $value = true): static
+	{
+		$this->itemLabel->attrs[$name] = $value;
+		return $this;
+	}
 }

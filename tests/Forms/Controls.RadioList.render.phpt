@@ -160,6 +160,18 @@ test('item label prototype', function () {
 });
 
 
+test('item attribute', function () {
+	$form = new Form;
+	$input = $form->addRadioList('list', 'Label', [
+		1 => 'First',
+		2 => 'Second',
+	]);
+	$input->setItemAttribute('foo:', [1 => 'a']);
+	$input->setItemLabelAttribute('bar:', [2 => 'b']);
+	Assert::same('<label><input type="radio" name="list" foo="a" value="1">First</label><br><label bar="b"><input type="radio" name="list" value="2">Second</label>', (string) $input->getControl());
+});
+
+
 test('forced ID', function () {
 	$form = new Form;
 	$input = $form->addRadioList('list', 'Label', [
