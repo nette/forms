@@ -219,7 +219,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Performs the server side validation.
-	 * @param  Control[]|null  $controls
+	 * @param  (Control|self)[]|null  $controls
 	 */
 	public function validate(?array $controls = null): void
 	{
