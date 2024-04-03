@@ -199,7 +199,7 @@ final class Blueprint
 					}
 				}
 
-				if (!$input->isRequired()) {
+				if (!$input->isRequired() && $input->isNullable()) {
 					$type = '?' . $type;
 				}
 			} elseif ($input instanceof Controls\UploadControl) {
