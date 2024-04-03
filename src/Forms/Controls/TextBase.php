@@ -67,6 +67,12 @@ abstract class TextBase extends BaseControl
 	}
 
 
+	public function isNullable(): bool
+	{
+		return $this->nullable;
+	}
+
+
 	/**
 	 * Sets the special value which is treated as empty string.
 	 */

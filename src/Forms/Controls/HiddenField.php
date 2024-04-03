@@ -76,6 +76,12 @@ class HiddenField extends BaseControl
 	}
 
 
+	public function isNullable(): bool
+	{
+		return $this->nullable;
+	}
+
+
 	public function getControl(): Html
 	{
 		$this->setOption('rendered', true);
