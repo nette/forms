@@ -489,7 +489,7 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->validate();
 		}
 
-		$handled = count($this->onSuccess ?? []) || count($this->onSubmit ?? []);
+		$handled = count($this->onSuccess ?? []) || count($this->onSubmit ?? []) || $this->submittedBy === true;
 
 		if ($this->submittedBy instanceof Controls\SubmitButton) {
 			$handled = $handled || count($this->submittedBy->onClick ?? []);
