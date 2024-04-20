@@ -179,16 +179,16 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Disables or enables control.
 	 */
-	public function setDisabled(bool $value = true): static
-	{
-		if ($this->disabled = (bool) $value) {
-			$this->setValue(null);
-		} elseif (($form = $this->getForm(false)) && $form->isAnchored() && $form->isSubmitted()) {
-			$this->loadHttpData();
-		}
+	 public function setDisabled(bool $value = true)
+         {
+             $justEnabled = $this->disabled && $value === false;
+             $this->disabled = $value;
+             if($justEnabled && ($form = $this->getForm(false)) && $form->isAnchored() && $form->isSubmitted()){
+                 $this->loadHttpData();
+             }
+             return $this;
+         }
 
-		return $this;
-	}
 
 
 	/**
