@@ -20,7 +20,7 @@
 	} else if (typeof module === 'object' && typeof module.exports === 'object') {
 		module.exports = factory(global);
 	} else {
-		let init = !global.Nette || !global.Nette.noInit;
+		let init = !global.Nette?.noInit;
 		global.Nette = factory(global);
 		if (init) {
 			global.Nette.initOnLoad();
@@ -79,49 +79,39 @@
 	 * @return {*}
 	 */
 	Nette.getValue = function (elem) {
-		if (!elem) {
-			return null;
+		if (elem instanceof HTMLInputElement) {
+			if (elem.type === 'radio') {
+				return expandRadioElement(elem)
+					.find((input) => input.checked)
+					?.value ?? null;
 
-		} else if (!elem.tagName) { // RadioNodeList
-			return elem[0] ? Nette.getValue(elem[0]) : null;
+			} else if (elem.type === 'file') {
+				return elem.files;
 
-		} else if (elem.type === 'radio') {
-			return expandRadioElement(elem)
-				.find((input) => input.checked)
-				?.value ?? null;
+			} else if (elem.type === 'checkbox') {
+				return elem.name.endsWith('[]') // checkbox list
+					? expandRadioElement(elem)
+						.filter((input) => input.checked)
+						.map((input) => input.value)
+					: elem.checked;
 
-		} else if (elem.type === 'file') {
-			return elem.files || elem.value;
-
-		} else if (elem.tagName.toLowerCase() === 'select') {
-			let index = elem.selectedIndex,
-				options = elem.options,
-				values = [];
-
-			if (elem.type === 'select-one') {
-				return index < 0 ? null : options[index].value;
+			} else {
+				return elem.value.trim();
 			}
 
-			for (let i = 0; i < options.length; i++) {
-				if (options[i].selected) {
-					values.push(options[i].value);
-				}
-			}
-			return values;
+		} else if (elem instanceof HTMLSelectElement) {
+			return elem.multiple
+				? Array.from(elem.selectedOptions, (option) => option.value)
+				: elem.selectedOptions[0]?.value ?? null;
 
-		} else if (elem.name && elem.name.endsWith('[]')) { // multiple elements []
-			return expandRadioElement(elem)
-				.filter((input) => input.checked)
-				.map((input) => input.value);
+		} else if (elem instanceof HTMLTextAreaElement) {
+			return elem.value;
 
-		} else if (elem.type === 'checkbox') {
-			return elem.checked;
-
-		} else if (elem.tagName.toLowerCase() === 'textarea') {
-			return elem.value.replace('\r', '');
+		} else if (elem instanceof RadioNodeList) {
+			return Nette.getValue(elem[0]);
 
 		} else {
-			return elem.value.replace('\r', '').replace(/^\s+|\s+$/g, '');
+			return null;
 		}
 	};
 
@@ -132,7 +122,7 @@
 	 * @param {boolean} filter
 	 * @return {*}
 	 */
-	Nette.getEffectiveValue = function (elem, filter) {
+	Nette.getEffectiveValue = function (elem, filter = false) {
 		let val = Nette.getValue(elem);
 		if (val === elem.getAttribute('data-nette-empty-value')) {
 			val = '';
@@ -157,14 +147,13 @@
 	 * @param {?boolean} emptyOptional
 	 * @return {boolean}
 	 */
-	Nette.validateControl = function (elem, rules, onlyCheck, value, emptyOptional) {
-		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
-		value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
-		emptyOptional = emptyOptional === undefined ? !Nette.validateRule(elem, ':filled', null, value) : emptyOptional;
+	Nette.validateControl = function (elem, rules, onlyCheck = false, value = null, emptyOptional = null) {
+		rules ??= JSON.parse(elem.getAttribute('data-nette-rules') ?? '[]');
+		value ??= {value: Nette.getEffectiveValue(elem)};
+		emptyOptional ??= !Nette.validateRule(elem, ':filled', null, value);
 
-		for (let id = 0, len = rules.length; id < len; id++) {
-			let rule = rules[id],
-				op = rule.op.match(/(~)?([^?]+)/),
+		for (let rule of rules) {
+			let op = rule.op.match(/(~)?([^?]+)/),
 				curElem = rule.control ? getFormElement(elem.form, rule.control) : elem;
 
 			rule.neg = op[1];
@@ -214,14 +203,14 @@
 	 * @param {boolean} onlyCheck
 	 * @return {boolean}
 	 */
-	Nette.validateForm = function (sender, onlyCheck) {
-		let form = sender.form || sender,
+	Nette.validateForm = function (sender, onlyCheck = false) {
+		let form = sender.form ?? sender,
 			scope;
 
 		Nette.formErrors = [];
 
 		if (form['nette-submittedBy'] && form['nette-submittedBy'].getAttribute('formnovalidate') !== null) {
-			let scopeArr = JSON.parse(form['nette-submittedBy'].getAttribute('data-nette-validation-scope') || '[]');
+			let scopeArr = JSON.parse(form['nette-submittedBy'].getAttribute('data-nette-validation-scope') ?? '[]');
 			if (scopeArr.length) {
 				scope = new RegExp('^(' + scopeArr.join('-|') + '-)');
 			} else {
@@ -290,15 +279,12 @@
 		let messages = [],
 			focusElem;
 
-		for (let i = 0; i < errors.length; i++) {
-			let elem = errors[i].element,
-				message = errors[i].message;
+		for (let error of errors) {
+			if (messages.indexOf(error.message) < 0) {
+				messages.push(error.message);
 
-			if (messages.indexOf(message) < 0) {
-				messages.push(message);
-
-				if (!focusElem && elem.focus) {
-					focusElem = elem;
+				if (!focusElem && error.element.focus) {
+					focusElem = error.element;
 				}
 			}
 		}
@@ -357,24 +343,22 @@
 			return op === ':filled';
 		}
 
-		value = value === undefined ? {value: Nette.getEffectiveValue(elem, true)} : value;
+		value ??= {value: Nette.getEffectiveValue(elem, true)};
 
-		if (op.charAt(0) === ':') {
-			op = op.substring(1);
-		}
-		op = op.replace('::', '_');
-		op = op.replace(/\\/g, '');
+		let method = op.charAt(0) === ':' ? op.substring(1) : op;
+		method = method.replace('::', '_').replaceAll('\\', '');
 
-		let arr = Array.isArray(arg) ? arg.slice(0) : [arg];
-		for (let i = 0, len = arr.length; i < len; i++) {
-			if (arr[i] && arr[i].control) {
-				let control = getFormElement(elem.form, arr[i].control);
-				arr[i] = control === elem ? value.value : Nette.getEffectiveValue(control, true);
+		let args = Array.isArray(arg) ? arg : [arg];
+		args = args.map((arg) => {
+			if (arg?.control) {
+				let control = getFormElement(elem.form, arg.control);
+				return control === elem ? value.value : Nette.getEffectiveValue(control, true);
 			}
-		}
+			return arg;
+		});
 
-		return Nette.validators[op]
-			? Nette.validators[op](elem, Array.isArray(arg) ? arr : arr[0], value.value, value)
+		return Nette.validators[method]
+			? Nette.validators[method](elem, Array.isArray(arg) ? args : args[0], value.value, value)
 			: null;
 	};
 
@@ -410,9 +394,9 @@
 			val = Array.isArray(val) ? val : [val];
 			arg = Array.isArray(arg) ? arg : [arg];
 			loop:
-			for (let i1 = 0, len1 = val.length; i1 < len1; i1++) {
-				for (let i2 = 0, len2 = arg.length; i2 < len2; i2++) {
-					if (toString(val[i1]) === toString(arg[i2])) {
+			for (let a of val) {
+				for (let b of arg) {
+					if (toString(a) === toString(b)) {
 						continue loop;
 					}
 				}
@@ -476,17 +460,9 @@
 					regExp = new RegExp('^(?:' + arg + ')$', caseInsensitive ? 'i' : '');
 				}
 
-				if (val instanceof FileList) {
-					for (let i = 0; i < val.length; i++) {
-						if (!regExp.test(val[i].name)) {
-							return false;
-						}
-					}
-
-					return true;
-				}
-
-				return regExp.test(val);
+				return val instanceof FileList
+					? Array.from(val).every((file) => regExp.test(file.name))
+					: regExp.test(val);
 			} catch {} // eslint-disable-line no-empty
 		},
 
@@ -544,36 +520,19 @@
 		},
 
 		fileSize: function (elem, arg, val) {
-			for (let i = 0; i < val.length; i++) {
-				if (val[i].size > arg) {
-					return false;
-				}
-			}
-			return true;
+			return Array.from(val).every((file) => file.size <= arg);
 		},
 
-		mimeType: function (elem, arg, val) {
+		mimeType: function (elem, args, val) {
 			let re = [];
-			arg = Array.isArray(arg) ? arg : [arg];
-			for (let i = 0, len = arg.length; i < len; i++) {
-				re.push('^' + arg[i].replace(/([^\w])/g, '\\$1').replace('\\*', '.*') + '$');
-			}
+			args = Array.isArray(args) ? args : [args];
+			args.forEach((arg) => re.push('^' + arg.replace(/([^\w])/g, '\\$1').replace('\\*', '.*') + '$'));
 			re = new RegExp(re.join('|'));
-
-			if (val instanceof FileList) {
-				for (let i = 0; i < val.length; i++) {
-					if (val[i].type && !re.test(val[i].type)) {
-						return false;
-					} else if (elem.validity.badInput) {
-						return null;
-					}
-				}
-			}
-			return true;
+			return Array.from(val).every((file) => !file.type || re.test(file.type));
 		},
 
 		image: function (elem, arg, val) {
-			return Nette.validators.mimeType(elem, arg || ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
+			return Nette.validators.mimeType(elem, arg ?? ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
 		},
 
 		'static': function (elem, arg) {
@@ -587,7 +546,7 @@
 	 * @param {HTMLFormElement} form
 	 * @param {?Event} event
 	 */
-	Nette.toggleForm = function (form, event) {
+	Nette.toggleForm = function (form, event = null) {
 		formToggles = {};
 		for (let elem of Array.from(form.elements)) {
 			if (elem.getAttribute('data-nette-rules')) {
@@ -611,18 +570,16 @@
 	 * @param {?boolean} emptyOptional
 	 * @return {boolean}
 	 */
-	Nette.toggleControl = function (elem, rules, success, firsttime, value, emptyOptional) {
-		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
-		value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
-		emptyOptional = emptyOptional === undefined ? !Nette.validateRule(elem, ':filled', null, value) : emptyOptional;
+	Nette.toggleControl = function (elem, rules, success, firsttime, value = null, emptyOptional = null) {
+		rules ??= JSON.parse(elem.getAttribute('data-nette-rules') ?? '[]');
+		value ??= {value: Nette.getEffectiveValue(elem)};
+		emptyOptional ??= !Nette.validateRule(elem, ':filled', null, value);
 
 		let has = false,
-			handler = (e) => Nette.toggleForm(elem.form, e),
 			curSuccess;
 
-		for (let id = 0, len = rules.length; id < len; id++) {
-			let rule = rules[id],
-				op = rule.op.match(/(~)?([^?]+)/),
+		for (let rule of rules) {
+			let op = rule.op.match(/(~)?([^?]+)/),
 				curElem = rule.control ? getFormElement(elem.form, rule.control) : elem;
 
 			rule.neg = op[1];
@@ -655,13 +612,12 @@
 					expandRadioElement(curElem)
 						.filter((el) => !toggleListeners.has(el))
 						.forEach((el) => {
-							el.addEventListener('change', handler);
+							el.addEventListener('change', (e) => Nette.toggleForm(elem.form, e));
 							toggleListeners.set(el, null);
 						});
 				}
-				for (let toggleId in rule.toggle || []) {
-					formToggles[toggleId] = formToggles[toggleId] || {elem: elem};
-					formToggles[toggleId].state = formToggles[toggleId].state || (rule.toggle[toggleId] ? curSuccess : !curSuccess);
+				for (let id in rule.toggle ?? []) {
+					formToggles[id] ??= {elem: elem, state: rule.toggle[id] ? curSuccess : !curSuccess};
 				}
 			}
 		}
@@ -680,10 +636,8 @@
 		if (/^\w[\w.:-]*$/.test(selector)) { // id
 			selector = '#' + selector;
 		}
-		let elems = document.querySelectorAll(selector);
-		for (let i = 0; i < elems.length; i++) {
-			elems[i].hidden = !visible;
-		}
+		Array.from(document.querySelectorAll(selector))
+			.forEach((elem) => elem.hidden = !visible);
 	};
 
 
@@ -718,12 +672,7 @@
 			form.addEventListener('formdata', (e) => Nette.compactCheckboxes(form, e.formData));
 		}
 
-		check: {
-			for (let i = 0; i < form.elements.length; i++) {
-				if (form.elements[i].getAttribute('data-nette-rules')) {
-					break check;
-				}
-			}
+		if (!Array.from(form.elements).some((elem) => elem.getAttribute('data-nette-rules'))) {
 			return;
 		}
 
@@ -752,9 +701,8 @@
 	 */
 	Nette.initOnLoad = function () {
 		Nette.onDocumentReady(() => {
-			for (let i = 0; i < document.forms.length; i++) {
-				Nette.initForm(document.forms[i]);
-			}
+			Array.from(document.forms)
+				.forEach((form) => Nette.initForm(form));
 
 			document.body.addEventListener('click', (e) => {
 				let target = e.target;
