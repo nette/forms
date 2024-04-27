@@ -49,10 +49,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function setDefaults(array|object $data, bool $erase = false): static
 	{
 		$form = $this->getForm(false);
-		if (!$form || !$form->isAnchored() || !$form->isSubmitted()) {
-			$this->setValues($data, $erase);
-		}
-
+		$this->setValues($data, $erase, $form?->isAnchored() && $form->isSubmitted());
 		return $this;
 	}
 
@@ -61,7 +58,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Fill-in with values.
 	 * @internal
 	 */
-	public function setValues(array|object $values, bool $erase = false): static
+	public function setValues(array|object $values, bool $erase = false, bool $onlyDisabled = false): static
 	{
 		$values = $values instanceof \Traversable
 			? iterator_to_array($values)
@@ -69,12 +66,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		foreach ($this->getComponents() as $name => $control) {
 			if ($control instanceof Control) {
-				if (array_key_exists($name, $values) || $erase) {
+				if ((array_key_exists($name, $values) && (!$onlyDisabled || $control->isDisabled())) || $erase) {
 					$control->setValue($values[$name] ?? null);
 				}
 			} elseif ($control instanceof self) {
 				if (isset($values[$name]) || $erase) {
-					$control->setValues($values[$name] ?? [], $erase);
+					$control->setValues($values[$name] ?? [], $erase, $onlyDisabled);
 				}
 			}
 		}
