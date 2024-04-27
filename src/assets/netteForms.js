@@ -51,6 +51,16 @@
 
 
 	/**
+	 * @param {FormElement} elem
+	 * @return {Array<FormElement>}
+	 */
+	function expandRadioElement(elem) {
+		let res = elem.form.elements.namedItem(elem.name);
+		return res instanceof RadioNodeList ? Array.from(res) : [res];
+	}
+
+
+	/**
 	 * Function to execute when the DOM is fully loaded.
 	 * @private
 	 */
@@ -76,13 +86,9 @@
 			return elem[0] ? Nette.getValue(elem[0]) : null;
 
 		} else if (elem.type === 'radio') {
-			let elements = elem.form.elements; // prevents problem with name 'item' or 'namedItem'
-			for (let i = 0; i < elements.length; i++) {
-				if (elements[i].name === elem.name && elements[i].checked) {
-					return elements[i].value;
-				}
-			}
-			return null;
+			return expandRadioElement(elem)
+				.find((input) => input.checked)
+				?.value ?? null;
 
 		} else if (elem.type === 'file') {
 			return elem.files || elem.value;
@@ -104,15 +110,9 @@
 			return values;
 
 		} else if (elem.name && elem.name.endsWith('[]')) { // multiple elements []
-			let elements = elem.form.elements[elem.name].tagName ? [elem] : elem.form.elements[elem.name],
-				values = [];
-
-			for (let i = 0; i < elements.length; i++) {
-				if (elements[i].type !== 'checkbox' || elements[i].checked) {
-					values.push(elements[i].value);
-				}
-			}
-			return values;
+			return expandRadioElement(elem)
+				.filter((input) => input.checked)
+				.map((input) => input.value);
 
 		} else if (elem.type === 'checkbox') {
 			return elem.checked;
@@ -272,12 +272,8 @@
 	 */
 	Nette.isDisabled = function (elem) {
 		if (elem.type === 'radio') {
-			for (let i = 0, elements = elem.form.elements; i < elements.length; i++) {
-				if (elements[i].name === elem.name && !elements[i].disabled) {
-					return false;
-				}
-			}
-			return true;
+			return expandRadioElement(elem)
+				.every((input) => input.disabled);
 		}
 		return elem.disabled;
 	};
@@ -667,13 +663,12 @@
 			if ((rule.condition && Nette.toggleControl(elem, rule.rules, curSuccess, firsttime, value, rule.op === ':blank' ? false : emptyOptional)) || rule.toggle) {
 				has = true;
 				if (firsttime) {
-					let els = elem.form.elements;
-					for (let i = 0; i < els.length; i++) {
-						if (els[i].name === curElem.name && !toggleListeners.has(els[i])) {
-							els[i].addEventListener('change', handler);
-							toggleListeners.set(els[i], null);
-						}
-					}
+					expandRadioElement(curElem)
+						.filter((el) => !toggleListeners.has(el))
+						.forEach((el) => {
+							el.addEventListener('change', handler);
+							toggleListeners.set(el, null);
+						});
 				}
 				for (let toggleId in rule.toggle || []) {
 					formToggles[toggleId] = formToggles[toggleId] || {elem: elem};
