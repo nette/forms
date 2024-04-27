@@ -174,3 +174,19 @@ parameters:
 			identifier: identical.alwaysTrue
 			count: 1
 			path: src/Forms/Helpers.php
+
+		-   # Container::setValues() PHPDoc narrows $values to iterable|stdClass, but the
+			# defensive runtime check guards against other object types passed by user code.
+			identifier: instanceof.alwaysTrue
+			path: src/Forms/Container.php
+			count: 1
+
+		-
+			identifier: booleanAnd.alwaysFalse
+			path: src/Forms/Container.php
+			count: 1
+
+		-
+			identifier: booleanOr.alwaysTrue
+			path: src/Forms/Container.php
+			count: 1
