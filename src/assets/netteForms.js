@@ -5,6 +5,11 @@
  * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
  */
 
+/**
+ * @typedef {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement|HTMLButtonElement} FormElement
+ * @typedef {{op: string, neg: boolean, msg: string, arg: *, rules: ?Array<Rule>, control: string, toggle: ?Array<string>}} Rule
+ */
+
 (function (global, factory) {
 	if (!global.JSON) {
 		return;
@@ -49,12 +54,14 @@
 
 	/**
 	 * Returns the value of form element.
+	 * @param {FormElement|RadioNodeList} elem
+	 * @return {*}
 	 */
 	Nette.getValue = function (elem) {
 		if (!elem) {
 			return null;
 
-		} else if (!elem.tagName) { // RadioNodeList, HTMLCollection, array
+		} else if (!elem.tagName) { // RadioNodeList
 			return elem[0] ? Nette.getValue(elem[0]) : null;
 
 		} else if (elem.type === 'radio') {
@@ -110,6 +117,9 @@
 
 	/**
 	 * Returns the effective value of form element.
+	 * @param {FormElement|RadioNodeList} elem
+	 * @param {boolean} filter
+	 * @return {*}
 	 */
 	Nette.getEffectiveValue = function (elem, filter) {
 		let val = Nette.getValue(elem);
@@ -131,6 +141,12 @@
 
 	/**
 	 * Validates form element against given rules.
+	 * @param {FormElement|RadioNodeList} elem
+	 * @param {?Array<Rule>} rules
+	 * @param {boolean} onlyCheck
+	 * @param {?{value: *}} value
+	 * @param {?boolean} emptyOptional
+	 * @return {boolean}
 	 */
 	Nette.validateControl = function (elem, rules, onlyCheck, value, emptyOptional) {
 		elem = elem.tagName ? elem : elem[0]; // RadioNodeList
@@ -188,6 +204,9 @@
 
 	/**
 	 * Validates whole form.
+	 * @param {HTMLFormElement} sender
+	 * @param {boolean} onlyCheck
+	 * @return {boolean}
 	 */
 	Nette.validateForm = function (sender, onlyCheck) {
 		let form = sender.form || sender,
@@ -242,6 +261,8 @@
 
 	/**
 	 * Check if input is disabled.
+	 * @param {FormElement} elem
+	 * @return {boolean}
 	 */
 	Nette.isDisabled = function (elem) {
 		if (elem.type === 'radio') {
@@ -258,6 +279,8 @@
 
 	/**
 	 * Adds error message to the queue.
+	 * @param {FormElement} elem
+	 * @param {string} message
 	 */
 	Nette.addError = function (elem, message) {
 		Nette.formErrors.push({
@@ -269,6 +292,8 @@
 
 	/**
 	 * Display error messages.
+	 * @param {HTMLFormElement} form
+	 * @param {Array<{element: FormElement, message: string}>} errors
 	 */
 	Nette.showFormErrors = function (form, errors) {
 		let messages = [],
@@ -299,6 +324,8 @@
 
 	/**
 	 * Display modal window.
+	 * @param {string} message
+	 * @param {function} onclose
 	 */
 	Nette.showModal = function (message, onclose) {
 		let dialog = document.createElement('dialog');
@@ -329,6 +356,10 @@
 
 	/**
 	 * Validates single rule.
+	 * @param {FormElement|RadioNodeList} elem
+	 * @param {string} op
+	 * @param {*} arg
+	 * @param {?{value: *}} value
 	 */
 	Nette.validateRule = function (elem, op, arg, value) {
 		if (elem.validity && elem.validity.badInput) {
@@ -562,6 +593,8 @@
 
 	/**
 	 * Process all toggles in form.
+	 * @param {HTMLFormElement} form
+	 * @param {?Event} event
 	 */
 	Nette.toggleForm = function (form, event) {
 		formToggles = {};
@@ -579,6 +612,13 @@
 
 	/**
 	 * Process toggles on form element.
+	 * @param {FormElement} elem
+	 * @param {?Array<Rule>} rules
+	 * @param {?boolean} success
+	 * @param {boolean} firsttime
+	 * @param {?{value: *}} value
+	 * @param {?boolean} emptyOptional
+	 * @return {boolean}
 	 */
 	Nette.toggleControl = function (elem, rules, success, firsttime, value, emptyOptional) {
 		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
@@ -643,6 +683,10 @@
 
 	/**
 	 * Displays or hides HTML element.
+	 * @param {string} selector
+	 * @param {boolean} visible
+	 * @param {FormElement} srcElement
+	 * @param {Event} event
 	 */
 	Nette.toggle = function (selector, visible, srcElement, event) { // eslint-disable-line no-unused-vars
 		if (/^\w[\w.:-]*$/.test(selector)) { // id
@@ -657,6 +701,7 @@
 
 	/**
 	 * Compact checkboxes
+	 * @param {HTMLFormElement} form
 	 */
 	Nette.compactCheckboxes = function (form) {
 		let values = {};
@@ -700,6 +745,7 @@
 
 	/**
 	 * Setup handlers.
+	 * @param {HTMLFormElement} form
 	 */
 	Nette.initForm = function (form) {
 		if (form.method === 'get' && form.hasAttribute('data-nette-compact')) {
@@ -760,6 +806,8 @@
 
 	/**
 	 * Converts string to web safe characters [a-z0-9-] text.
+	 * @param {string} s
+	 * @return {string}
 	 */
 	Nette.webalize = function (s) {
 		s = s.toLowerCase();
