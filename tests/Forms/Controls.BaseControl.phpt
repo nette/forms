@@ -137,9 +137,13 @@ test('disabled & submitted', function () {
 	$form->addText('disabled')
 		->setDisabled()
 		->setDefaultValue('default');
+	$form->addText('disabled2')
+		->setDisabled();
+	$form->setDefaults(['disabled2' => 'default']);
 
 	Assert::true($form->isSubmitted());
 	Assert::same('default', $form['disabled']->getValue());
+	Assert::same('default', $form['disabled2']->getValue());
 
 	unset($form['disabled']);
 	$input = new Nette\Forms\Controls\TextInput;
