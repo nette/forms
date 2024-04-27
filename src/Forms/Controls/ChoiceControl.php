@@ -20,6 +20,8 @@ use Nette;
  */
 abstract class ChoiceControl extends BaseControl
 {
+	/** @var bool[] */
+	protected array $disabledItems = [];
 	private bool $checkDefaultValue = true;
 	private array $items = [];
 
@@ -37,7 +39,7 @@ abstract class ChoiceControl extends BaseControl
 	{
 		$this->value = $this->getHttpData(Nette\Forms\Form::DataText);
 		if ($this->value !== null) {
-			$this->value = is_array($this->disabled) && isset($this->disabled[$this->value])
+			$this->value = $this->disabled || isset($this->disabledItems[$this->value])
 				? null
 				: key([$this->value => null]);
 		}
@@ -134,12 +136,13 @@ abstract class ChoiceControl extends BaseControl
 	public function setDisabled(bool|array $value = true): static
 	{
 		if (!is_array($value)) {
+			$this->disabledItems = [];
 			return parent::setDisabled($value);
 		}
 
 		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($value, value: true);
-		if (isset($this->disabled[$this->value])) {
+		$this->disabledItems = array_fill_keys($value, value: true);
+		if (isset($this->disabledItems[$this->value])) {
 			$this->value = null;
 		}
 

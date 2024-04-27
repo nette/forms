@@ -20,6 +20,8 @@ use Nette;
  */
 abstract class MultiChoiceControl extends BaseControl
 {
+	/** @var bool[] */
+	protected array $disabledItems = [];
 	private bool $checkDefaultValue = true;
 	private array $items = [];
 
@@ -36,9 +38,7 @@ abstract class MultiChoiceControl extends BaseControl
 	public function loadHttpData(): void
 	{
 		$this->value = array_keys(array_flip($this->getHttpData(Nette\Forms\Form::DataText)));
-		if (is_array($this->disabled)) {
-			$this->value = array_diff($this->value, array_keys($this->disabled));
-		}
+		$this->value = array_diff($this->value, array_keys($this->disabledItems));
 	}
 
 
@@ -142,11 +142,12 @@ abstract class MultiChoiceControl extends BaseControl
 	public function setDisabled(bool|array $value = true): static
 	{
 		if (!is_array($value)) {
+			$this->disabledItems = [];
 			return parent::setDisabled($value);
 		}
 
 		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($value, value: true);
+		$this->disabledItems = array_fill_keys($value, value: true);
 		$this->value = array_diff($this->value, $value);
 		return $this;
 	}

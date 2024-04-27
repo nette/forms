@@ -46,9 +46,7 @@ class CheckboxList extends MultiChoiceControl
 			? $this->getHttpData(Nette\Forms\Form::DataText)
 			: explode(',', $data);
 		$this->value = array_keys(array_flip($data));
-		if (is_array($this->disabled)) {
-			$this->value = array_diff($this->value, array_keys($this->disabled));
-		}
+		$this->value = array_diff($this->value, array_keys($this->disabledItems));
 	}
 
 
@@ -62,7 +60,7 @@ class CheckboxList extends MultiChoiceControl
 				array_merge($input->attrs, [
 					'id' => null,
 					'checked?' => $this->value,
-					'disabled:' => $this->disabled,
+					'disabled:' => $this->disabled ?: $this->disabledItems,
 					'required' => null,
 					'data-nette-rules:' => [array_key_first($items) => $input->attrs['data-nette-rules']],
 				]),
@@ -85,7 +83,7 @@ class CheckboxList extends MultiChoiceControl
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, strict: true),
-			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
+			'disabled' => $this->disabled || isset($this->disabledItems[$key]),
 			'required' => null,
 			'value' => $key,
 		]);
