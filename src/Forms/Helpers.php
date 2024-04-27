@@ -66,7 +66,7 @@ final class Helpers
 	}
 
 
-	private static function sanitize(int $type, $value)
+	private static function sanitize(int $type, $value): string|array|Nette\Http\FileUpload|null
 	{
 		if ($type === Form::DataText) {
 			return is_scalar($value)

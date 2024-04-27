@@ -62,7 +62,7 @@ abstract class ChoiceControl extends BaseControl
 				70,
 				'...',
 			);
-			throw new Nette\InvalidArgumentException("Value '$value' is out of allowed set [$set] in field '{$this->name}'.");
+			throw new Nette\InvalidArgumentException("Value '$value' is out of allowed set [$set] in field '{$this->getName()}'.");
 		}
 
 		$this->value = $value === null ? null : key([(string) $value => null]);

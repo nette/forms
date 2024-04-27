@@ -49,7 +49,7 @@ class HiddenField extends BaseControl
 		} elseif ($value instanceof \BackedEnum) {
 			$value = $value->value;
 		} elseif (!is_scalar($value) && !$value instanceof Stringable) {
-			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", get_debug_type($value), $this->name));
+			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", get_debug_type($value), $this->getName()));
 		}
 
 		if (!$this->persistValue) {

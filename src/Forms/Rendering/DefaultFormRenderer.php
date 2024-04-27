@@ -122,7 +122,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 
 	/**
 	 * Provides complete form rendering.
-	 * @param  string  $mode  'begin', 'errors', 'ownerrors', 'body', 'end' or empty to render all
+	 * @param  ?string  $mode  'begin', 'errors', 'ownerrors', 'body', 'end' or empty to render all
 	 */
 	public function render(Nette\Forms\Form $form, ?string $mode = null): string
 	{
@@ -522,7 +522,6 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	protected function getValue(string $name): mixed
 	{
 		$name = explode(' ', $name);
-		$data = &$this->wrappers[$name[0]][$name[1]];
-		return $data;
+		return $this->wrappers[$name[0]][$name[1]] ?? null;
 	}
 }

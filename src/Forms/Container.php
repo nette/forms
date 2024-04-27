@@ -61,29 +61,20 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Fill-in with values.
 	 * @internal
 	 */
-	public function setValues(array|object $data, bool $erase = false): static
+	public function setValues(array|object $values, bool $erase = false): static
 	{
-		if ($data instanceof \Traversable) {
-			$values = iterator_to_array($data);
-
-		} elseif (is_object($data) || is_array($data) || $data === null) {
-			$values = (array) $data;
-		}
+		$values = $values instanceof \Traversable
+			? iterator_to_array($values)
+			: (array) $values;
 
 		foreach ($this->getComponents() as $name => $control) {
 			if ($control instanceof Control) {
-				if (array_key_exists($name, $values)) {
-					$control->setValue($values[$name]);
-
-				} elseif ($erase) {
-					$control->setValue(null);
+				if (array_key_exists($name, $values) || $erase) {
+					$control->setValue($values[$name] ?? null);
 				}
 			} elseif ($control instanceof self) {
-				if (isset($values[$name])) {
-					$control->setValues($values[$name], $erase);
-
-				} elseif ($erase) {
-					$control->setValues([], $erase);
+				if (isset($values[$name]) || $erase) {
+					$control->setValues($values[$name] ?? [], $erase);
 				}
 			}
 		}
@@ -186,7 +177,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/** @return static */
 	public function setMappedType(string $type): static
 	{
 		$this->mappedType = $type;
@@ -287,10 +277,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	): static
 	{
 		parent::addComponent($component, $name, $insertBefore);
-		if ($this->currentGroup !== null) {
-			$this->currentGroup->add($component);
-		}
-
+		$this->currentGroup?->add($component);
 		return $this;
 	}
 
@@ -577,10 +564,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		$control = new self;
 		$control->currentGroup = $this->currentGroup;
-		if ($this->currentGroup !== null) {
-			$this->currentGroup->add($control);
-		}
-
+		$this->currentGroup?->add($control);
 		return $this[$name] = $control;
 	}
 

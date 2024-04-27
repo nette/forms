@@ -26,7 +26,7 @@ class FormsExtension extends Nette\DI\CompilerExtension
 	}
 
 
-	public function afterCompile(Nette\PhpGenerator\ClassType $class)
+	public function afterCompile(Nette\PhpGenerator\ClassType $class): void
 	{
 		$initialize = $this->initialization ?? $class->getMethod('initialize');
 
