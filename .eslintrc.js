@@ -4,6 +4,9 @@ module.exports = {
 		'amd': true,
 		'commonjs': true
 	},
+	'parserOptions': {
+		'ecmaVersion': 6
+	},
 	'globals': {
 		'Tracy': true
 	},
@@ -12,6 +15,10 @@ module.exports = {
 		'indent': ['error', 'tab'],
 		'quotes': ['error', 'single'],
 		'semi': ['error', 'always'],
-		'func-style': ['error', 'expression']
+		'func-style': ['error', 'expression'],
+		'prefer-arrow-callback': ['error'],
+		'arrow-parens': ['error'],
+		'arrow-spacing': ['error'],
+		'no-var': ['error']
 	}
 };
