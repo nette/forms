@@ -91,6 +91,24 @@ parameters:
 			path: src/Forms/Container.php
 
 		-
+			message: '#^Instanceof between stdClass and stdClass will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: src/Forms/Container.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: src/Forms/Container.php
+
+		-
+			message: '#^Result of \|\| is always true\.$#'
+			identifier: booleanOr.alwaysTrue
+			count: 1
+			path: src/Forms/Container.php
+
+		-
 			message: '#^Call to an undefined method Nette\\Forms\\Control\:\:getForm\(\)\.$#'
 			identifier: method.notFound
 			count: 1

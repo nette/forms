@@ -47,7 +47,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with default values.
-	 * @param mixed[]|object  $values
+	 * @param  iterable<mixed>|\stdClass  $values
 	 */
 	public function setDefaults(array|object $values, bool $erase = false): static
 	{
@@ -59,11 +59,15 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with values.
-	 * @param mixed[]|object  $values
+	 * @param  iterable<mixed>|\stdClass  $values
 	 * @internal
 	 */
 	public function setValues(array|object $values, bool $erase = false, bool $onlyDisabled = false): static
 	{
+		if (is_object($values) && !($values instanceof \Traversable || $values instanceof \stdClass)) {
+			trigger_error(__METHOD__ . ': argument should be array|Traversable|stdClass, ' . get_debug_type($values) . ' given.', E_USER_DEPRECATED);
+		}
+
 		$values = $values instanceof \Traversable
 			? iterator_to_array($values)
 			: (array) $values;
