@@ -426,12 +426,12 @@
 			return (/^("([ !#-[\]-~]|\\[ -~])+"|[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?$/i).test(val);
 		},
 
-		url: function(elem, arg, val, value) {
+		url: function(elem, arg, val, newValue) {
 			if (!(/^[a-z\d+.-]+:/).test(val)) {
 				val = 'https://' + val;
 			}
 			if ((/^https?:\/\/((([-_0-9a-z\u00C0-\u02FF\u0370-\u1EFF]+\.)*[0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)?[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[[0-9a-f:]{3,39}\])(:\d{1,5})?(\/\S*)?$/i).test(val)) {
-				value.value = val;
+				newValue.value = val;
 				return true;
 			}
 			return false;
@@ -444,7 +444,7 @@
 			} catch (e) {} // eslint-disable-line no-empty
 		},
 
-		pattern: function(elem, arg, val, value, caseInsensitive) {
+		pattern: function(elem, arg, val, newValue, caseInsensitive) {
 			if (typeof arg !== 'string') {
 				return null;
 			}
@@ -478,18 +478,18 @@
 			return (/^[0-9]+$/).test(val);
 		},
 
-		integer: function(elem, arg, val, value) {
+		integer: function(elem, arg, val, newValue) {
 			if ((/^-?[0-9]+$/).test(val)) {
-				value.value = parseFloat(val);
+				newValue.value = parseFloat(val);
 				return true;
 			}
 			return false;
 		},
 
-		'float': function(elem, arg, val, value) {
+		'float': function(elem, arg, val, newValue) {
 			val = val.replace(/ +/g, '').replace(/,/g, '.');
 			if ((/^-?[0-9]*\.?[0-9]+$/).test(val)) {
-				value.value = parseFloat(val);
+				newValue.value = parseFloat(val);
 				return true;
 			}
 			return false;

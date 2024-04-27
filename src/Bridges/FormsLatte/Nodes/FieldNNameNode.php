@@ -57,7 +57,7 @@ final class FieldNNameNode extends StatementNode
 	}
 
 
-	private function init(Tag $tag)
+	private function init(Tag $tag): void
 	{
 		$el = $tag->htmlElement;
 		$usedAttributes = self::findUsedAttributes($el);

@@ -169,7 +169,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 */
 	public function setDefaultValue($value)
 	{
-		$form = $this->getForm(false);
+		$form = $this->getForm(throw: false);
 		if ($this->isDisabled() || !$form || !$form->isAnchored() || !$form->isSubmitted()) {
 			$this->setValue($value);
 		}
@@ -182,11 +182,12 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Disables or enables control.
 	 * @return static
 	 */
-	public function setDisabled(bool $value = true)
+	public function setDisabled(bool $state = true)
 	{
-		if ($this->disabled = (bool) $value) {
+		$this->disabled = $state;
+		if ($state) {
 			$this->setValue(null);
-		} elseif (($form = $this->getForm(false)) && $form->isAnchored() && $form->isSubmitted()) {
+		} elseif (($form = $this->getForm(throw: false)) && $form->isAnchored() && $form->isSubmitted()) {
 			$this->loadHttpData();
 		}
 
@@ -206,9 +207,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Sets whether control value is excluded from $form->getValues() result.
 	 */
-	public function setOmitted(bool $value = true): static
+	public function setOmitted(bool $state = true): static
 	{
-		$this->omitted = $value;
+		$this->omitted = $state;
 		return $this;
 	}
 

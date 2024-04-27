@@ -35,7 +35,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 	{
 		parent::__construct($caption);
 		$this->control->type = 'submit';
-		$this->setOmitted(true);
+		$this->setOmitted();
 	}
 
 
@@ -59,7 +59,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 
 	/**
 	 * Sets the validation scope. Clicking the button validates only the controls within the specified scope.
-	 * @param ?iterable<Nette\Forms\Control|Nette\Forms\Container|string>
+	 * @param  ?iterable<Nette\Forms\Control|Nette\Forms\Container|string>  $scope
 	 */
 	public function setValidationScope(?iterable $scope): static
 	{

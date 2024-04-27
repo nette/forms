@@ -256,7 +256,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/**
 	 * Returns form's action.
 	 */
-	public function getAction(): mixed
+	public function getAction(): string|Stringable
 	{
 		return $this->getElementPrototype()->action;
 	}
@@ -358,7 +358,7 @@ class Form extends Container implements Nette\HtmlStringable
 			$name = array_search($group, $this->groups, strict: true);
 
 		} else {
-			throw new Nette\InvalidArgumentException("Group not found in form '$this->name'");
+			throw new Nette\InvalidArgumentException("Group not found in form '{$this->getName()}'");
 		}
 
 		foreach ($group->getControls() as $control) {
@@ -458,7 +458,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/**
 	 * Returns submitted HTTP data.
 	 */
-	public function getHttpData(?int $type = null, ?string $htmlName = null): mixed
+	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
 	{
 		if (!isset($this->httpData)) {
 			if (!$this->isAnchored()) {
@@ -470,11 +470,10 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->submittedBy = is_array($data);
 		}
 
-		if ($htmlName === null) {
-			return $this->httpData;
-		}
+		return $htmlName === null
+			? $this->httpData
+			: Helpers::extractHttpData($this->httpData, $htmlName, $type);
 
-		return Helpers::extractHttpData($this->httpData, $htmlName, $type);
 	}
 
 

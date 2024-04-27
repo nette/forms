@@ -26,16 +26,13 @@ $form->addText('query', 'Search:')
 	->setHtmlType('search')
 	->setHtmlAttribute('autofocus');
 
-$form->addText('count', 'Number of results:')
-	->setHtmlType('number')
+$form->addInteger('count', 'Number of results:')
 	->setDefaultValue(10)
-	->addRule($form::Integer, 'Must be numeric value')
 	->addRule($form::Range, 'Must be in range from %d to %d', [1, 100]);
 
-$form->addText('precision', 'Precision:')
+$form->addFloat('precision', 'Precision:')
 	->setHtmlType('range')
 	->setDefaultValue(50)
-	->addRule($form::Integer, 'Precision must be numeric value')
 	->addRule($form::Range, 'Precision must be in range from %d to %d', [0, 100]);
 
 $form->addEmail('email', 'Send to email:')

@@ -372,7 +372,7 @@ final class Validator
 	 * Has file specified mime type?
 	 * @param  string|string[]  $mimeType
 	 */
-	public static function validateMimeType(Controls\UploadControl $control, $mimeType): bool
+	public static function validateMimeType(Controls\UploadControl $control, string|array $mimeType): bool
 	{
 		$mimeTypes = is_array($mimeType) ? $mimeType : explode(',', $mimeType);
 		foreach (static::toArray($control->getValue()) as $file) {

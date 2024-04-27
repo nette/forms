@@ -56,8 +56,6 @@ class CheckboxList extends MultiChoiceControl
 	{
 		$input = parent::getControl();
 		$items = $this->getItems();
-		reset($items);
-
 		return $this->container->setHtml(
 			Nette\Forms\Helpers::createInputList(
 				$this->translate($items),
@@ -66,7 +64,7 @@ class CheckboxList extends MultiChoiceControl
 					'checked?' => $this->value,
 					'disabled:' => $this->disabled,
 					'required' => null,
-					'data-nette-rules:' => [key($items) => $input->attrs['data-nette-rules']],
+					'data-nette-rules:' => [array_key_first($items) => $input->attrs['data-nette-rules']],
 				]),
 				$this->itemLabel->attrs,
 				$this->separator,
@@ -98,7 +96,7 @@ class CheckboxList extends MultiChoiceControl
 	{
 		$itemLabel = clone $this->itemLabel;
 		return func_num_args()
-			? $itemLabel->setText($this->translate($this->items[$key]))->for($this->getHtmlId() . '-' . $key)
+			? $itemLabel->setText($this->translate($this->getItems()[$key]))->for($this->getHtmlId() . '-' . $key)
 			: $this->getLabel();
 	}
 

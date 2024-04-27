@@ -89,7 +89,7 @@ class RadioList extends ChoiceControl
 	{
 		$itemLabel = clone $this->itemLabel;
 		return func_num_args()
-			? $itemLabel->setText($this->translate($this->items[$key]))->for($this->getHtmlId() . '-' . $key)
+			? $itemLabel->setText($this->translate($this->getItems()[$key]))->for($this->getHtmlId() . '-' . $key)
 			: $this->getLabel();
 	}
 

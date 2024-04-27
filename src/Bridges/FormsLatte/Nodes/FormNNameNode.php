@@ -57,7 +57,7 @@ final class FormNNameNode extends StatementNode
 	}
 
 
-	private function init(Tag $tag)
+	private function init(Tag $tag): void
 	{
 		$el = $tag->htmlElement;
 
