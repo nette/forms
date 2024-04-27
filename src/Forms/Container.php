@@ -46,21 +46,27 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with default values.
+	 * @param  array|\Traversable|\stdClass  $values
 	 */
-	public function setDefaults(array|object $data, bool $erase = false): static
+	public function setDefaults(array|object $values, bool $erase = false): static
 	{
 		$form = $this->getForm(false);
-		$this->setValues($data, $erase, $form?->isAnchored() && $form->isSubmitted());
+		$this->setValues($values, $erase, $form?->isAnchored() && $form->isSubmitted());
 		return $this;
 	}
 
 
 	/**
 	 * Fill-in with values.
+	 * @param  array|\Traversable|\stdClass  $values
 	 * @internal
 	 */
 	public function setValues(array|object $values, bool $erase = false, bool $onlyDisabled = false): static
 	{
+		if (is_object($values) && !($values instanceof \Traversable || $values instanceof \stdClass)) {
+			trigger_error(__METHOD__ . ': argument should be array|Traversable|stdClass, ' . get_debug_type($values) . ' given.');
+		}
+
 		$values = $values instanceof \Traversable
 			? iterator_to_array($values)
 			: (array) $values;
