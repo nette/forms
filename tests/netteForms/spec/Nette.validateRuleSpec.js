@@ -1,8 +1,8 @@
-describe('Nette.getValue & validateRule', function() {
+describe('Nette.getValue & validateRule', () => {
 	let testContainer;
 
-	it('text input', function() {
-		testContainer.innerHTML = `<form><input type="text" name="input"></form>`;
+	it('text input', () => {
+		testContainer.innerHTML = '<form><input type="text" name="input"></form>';
 
 		let form = testContainer.querySelector('form'),
 			el = form.input;
@@ -81,8 +81,8 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('text area', function() {
-		testContainer.innerHTML = `<form><textarea name="input"></textarea></form>`;
+	it('text area', () => {
+		testContainer.innerHTML = '<form><textarea name="input"></textarea></form>';
 
 		let form = testContainer.querySelector('form'),
 			el = form.input;
@@ -101,8 +101,8 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('upload', function() {
-		testContainer.innerHTML = `<form method="post" enctype="multipart/form-data"><input type="file" name="input"></form>`;
+	it('upload', () => {
+		testContainer.innerHTML = '<form method="post" enctype="multipart/form-data"><input type="file" name="input"></form>';
 
 		let form = testContainer.querySelector('form'),
 			el = form.input;
@@ -112,8 +112,8 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('multi upload', function() {
-		testContainer.innerHTML = `<form method="post" enctype="multipart/form-data"><input type="file" name="input[]" multiple></form>`;
+	it('multi upload', () => {
+		testContainer.innerHTML = '<form method="post" enctype="multipart/form-data"><input type="file" name="input[]" multiple></form>';
 
 		let form = testContainer.querySelector('form'),
 			el = form['input[]'];
@@ -123,8 +123,8 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('checkbox', function() {
-		testContainer.innerHTML = `<form><input type="checkbox" name="input" value="r"></form>`;
+	it('checkbox', () => {
+		testContainer.innerHTML = '<form><input type="checkbox" name="input" value="r"></form>';
 
 		let form = testContainer.querySelector('form'),
 			el = form.input;
@@ -142,7 +142,7 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('checkbox list', function() {
+	it('checkbox list', () => {
 		testContainer.innerHTML = `<form>
 			<input type="checkbox" name="input[]" value="r" id="input-r">
 			<input type="checkbox" name="input[]" value="g" id="input-g">
@@ -180,8 +180,8 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('checkbox list with single item', function() {
-		testContainer.innerHTML = `<form><input type="checkbox" name="input[]" value="r" id="input-r"></form>`;
+	it('checkbox list with single item', () => {
+		testContainer.innerHTML = '<form><input type="checkbox" name="input[]" value="r" id="input-r"></form>';
 
 		let form = testContainer.querySelector('form'),
 			el = form['input[]'];
@@ -203,8 +203,8 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('radio', function() {
-		testContainer.innerHTML = `<form><input type="radio" name="input" value="f"><form>`;
+	it('radio', () => {
+		testContainer.innerHTML = '<form><input type="radio" name="input" value="f"><form>';
 
 		let form = testContainer.querySelector('form'),
 			el = form.input;
@@ -224,7 +224,7 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('radio list', function() {
+	it('radio list', () => {
 		testContainer.innerHTML = `<form>
 			<input type="radio" name="input" value="m" id="input-m">
 			<input type="radio" name="input" value="f" id="input-f">
@@ -251,7 +251,7 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('selectbox', function() {
+	it('selectbox', () => {
 		testContainer.innerHTML = `<form>
 			<select name="input">
 				<option value="">Prompt</option>
@@ -280,7 +280,7 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('multi selectbox', function() {
+	it('multi selectbox', () => {
 		testContainer.innerHTML = `<form>
 			<select name="input[]" multiple>
 				<optgroup label="World"><option value="bu" id="option-2">Buranda</option></optgroup>
@@ -318,7 +318,7 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	it('missing name', function() {
+	it('missing name', () => {
 		testContainer.innerHTML = '<form><input></form>';
 
 		let form = testContainer.querySelector('form'),
@@ -330,12 +330,12 @@ describe('Nette.getValue & validateRule', function() {
 	});
 
 
-	beforeEach(function() {
+	beforeEach(() => {
 		testContainer = document.createElement('div');
 		document.body.appendChild(testContainer);
 	});
 
-	afterEach(function() {
+	afterEach(() => {
 		document.body.removeChild(testContainer);
 	});
 });

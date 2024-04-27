@@ -1,6 +1,6 @@
-describe('Nette.validators', function() {
+describe('Nette.validators', () => {
 
-	it('equal', function() {
+	it('equal', () => {
 		expect(Nette.validators.equal(null, '', '')).toBe(true);
 		expect(Nette.validators.equal(null, '', 'a')).toBe(false);
 		expect(Nette.validators.equal(null, 'a', 'a')).toBe(true);
@@ -22,7 +22,7 @@ describe('Nette.validators', function() {
 	});
 
 
-	it('min', function() {
+	it('min', () => {
 		expect(Nette.validators.min(null, 0, '')).toBe(false);
 		expect(Nette.validators.min(null, 0, 'foo')).toBe(false);
 		expect(Nette.validators.min(null, 0, '0')).toBe(true);
@@ -36,7 +36,7 @@ describe('Nette.validators', function() {
 	});
 
 
-	it('max', function() {
+	it('max', () => {
 		expect(Nette.validators.max(null, 0, '')).toBe(false);
 		expect(Nette.validators.max(null, 0, 'foo')).toBe(false);
 		expect(Nette.validators.max(null, 0, '0')).toBe(true);
@@ -50,7 +50,7 @@ describe('Nette.validators', function() {
 	});
 
 
-	it('range', function() {
+	it('range', () => {
 		let el = document.createElement('input');
 
 		expect(Nette.validators.range(el, null, 0)).toBe(null);
@@ -71,7 +71,7 @@ describe('Nette.validators', function() {
 	});
 
 
-	it('email', function() {
+	it('email', () => {
 		expect(Nette.validators.email(null, null, '')).toBe(false);
 		expect(Nette.validators.email(null, null, 'hello')).toBe(false);
 		expect(Nette.validators.email(null, null, 'hello@world.cz')).toBe(true);
@@ -89,8 +89,8 @@ describe('Nette.validators', function() {
 	});
 
 
-	it('url', function() {
-		var v = {value: null};
+	it('url', () => {
+		let v = {value: null};
 		expect(Nette.validators.url(null, null, '', v)).toBe(false);
 		expect(Nette.validators.url(null, null, 'hello', v)).toBe(true);
 		expect(v.value).toBe('https://hello');
@@ -118,7 +118,7 @@ describe('Nette.validators', function() {
 	});
 
 
-	it('static', function() {
+	it('static', () => {
 		expect(Nette.validators.static(null, true)).toBe(true);
 		expect(Nette.validators.static(null, false)).toBe(false);
 	});
