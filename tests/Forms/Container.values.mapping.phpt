@@ -10,8 +10,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-#[AllowDynamicProperties]
-class FormData
+class FormData extends stdClass
 {
 	public string $title;
 
@@ -19,7 +18,7 @@ class FormData
 }
 
 
-class FormFirstLevel
+class FormFirstLevel extends stdClass
 {
 	public string $name;
 
@@ -29,7 +28,7 @@ class FormFirstLevel
 }
 
 
-class FormSecondLevel
+class FormSecondLevel extends stdClass
 {
 	public string $city;
 }
