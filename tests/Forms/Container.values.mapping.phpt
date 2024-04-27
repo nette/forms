@@ -9,15 +9,14 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-#[AllowDynamicProperties]
-class FormData
+class FormData extends stdClass
 {
 	public string $title;
 	public FormFirstLevel $first;
 }
 
 
-class FormFirstLevel
+class FormFirstLevel extends stdClass
 {
 	public string $name;
 	public ?int $age = null;
@@ -25,7 +24,7 @@ class FormFirstLevel
 }
 
 
-class FormSecondLevel
+class FormSecondLevel extends stdClass
 {
 	public string $city;
 }
