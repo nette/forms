@@ -407,14 +407,17 @@
 		},
 
 		minLength: function (elem, arg, val) {
+			val = typeof val === 'number' ? val.toString() : val;
 			return val.length >= arg;
 		},
 
 		maxLength: function (elem, arg, val) {
+			val = typeof val === 'number' ? val.toString() : val;
 			return val.length <= arg;
 		},
 
 		length: function (elem, arg, val) {
+			val = typeof val === 'number' ? val.toString() : val;
 			arg = Array.isArray(arg) ? arg : [arg, arg];
 			return (arg[0] === null || val.length >= arg[0]) && (arg[1] === null || val.length <= arg[1]);
 		},

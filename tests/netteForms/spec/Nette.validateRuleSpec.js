@@ -81,6 +81,65 @@ describe('Nette.getValue & validateRule', () => {
 	});
 
 
+	it('number input', () => {
+		testContainer.innerHTML = '<form><input type="number" name="input"></form>';
+
+		let form = testContainer.querySelector('form'),
+			el = form.input;
+
+		expect(Nette.getValue(el)).toBe('');
+		expect(Nette.validateRule(el, 'filled')).toBe(false);
+		expect(Nette.validateRule(el, 'blank')).toBe(true);
+		expect(Nette.validateRule(el, 'equal', '')).toBe(true);
+		expect(Nette.validateRule(el, 'static', true)).toBe(true);
+		expect(Nette.validateRule(el, 'static', false)).toBe(false);
+
+		el.value = 12345;
+		expect(Nette.getValue(el)).toBe('12345');
+		expect(Nette.validateRule(el, 'filled')).toBe(true);
+		expect(Nette.validateRule(el, 'blank')).toBe(false);
+		expect(Nette.validateRule(el, 'equal', '')).toBe(false);
+		expect(Nette.validateRule(el, 'equal', 12345)).toBe(true);
+		expect(Nette.validateRule(el, 'equal', '12345')).toBe(true);
+		expect(Nette.validateRule(el, 'equal', ['a', 'b'])).toBe(false);
+		expect(Nette.validateRule(el, 'equal', ['a', 12345, 'b'])).toBe(true);
+		expect(Nette.validateRule(el, 'notEqual', 12345)).toBe(false);
+		expect(Nette.validateRule(el, 'minLength', 1)).toBe(true);
+		expect(Nette.validateRule(el, 'minLength', 6)).toBe(false);
+		expect(Nette.validateRule(el, 'maxLength', 1)).toBe(false);
+		expect(Nette.validateRule(el, 'maxLength', 6)).toBe(true);
+		expect(Nette.validateRule(el, 'length', 1)).toBe(false);
+		expect(Nette.validateRule(el, 'length', 5)).toBe(true);
+		expect(Nette.validateRule(el, 'length', 6)).toBe(false);
+		expect(Nette.validateRule(el, 'length', [1, 6])).toBe(true);
+		expect(Nette.validateRule(el, 'length', [3, 4])).toBe(false);
+		expect(Nette.validateRule(el, 'integer')).toBe(true);
+		expect(Nette.validateRule(el, 'float')).toBe(true);
+
+		el.value = -1234;
+		expect(Nette.validateRule(el, 'integer')).toBe(true);
+		expect(Nette.validateRule(el, 'float')).toBe(true);
+		expect(Nette.validateRule(el, 'min', -2000)).toBe(true);
+		expect(Nette.validateRule(el, 'min', -1000)).toBe(false);
+		expect(Nette.validateRule(el, 'max', -2000)).toBe(false);
+		expect(Nette.validateRule(el, 'max', -1000)).toBe(true);
+		expect(Nette.validateRule(el, 'range', [-2000, -1000])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-1200', '-1300'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', [10, null])).toBe(false);
+
+		el.value = -12.5;
+		expect(Nette.validateRule(el, 'integer')).toBe(false);
+		expect(Nette.validateRule(el, 'float')).toBe(true);
+		expect(Nette.validateRule(el, 'min', -2000)).toBe(true);
+		expect(Nette.validateRule(el, 'min', -10)).toBe(false);
+		expect(Nette.validateRule(el, 'max', -2000)).toBe(false);
+		expect(Nette.validateRule(el, 'max', -10)).toBe(true);
+		expect(Nette.validateRule(el, 'range', [-12.6, -12.4])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-12.4', '-12.6'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', [-5, 10])).toBe(false);
+	});
+
+
 	it('text area', () => {
 		testContainer.innerHTML = '<form><textarea name="input"></textarea></form>';
 
