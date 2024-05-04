@@ -209,7 +209,7 @@ describe('Nette.getValue & validateRule', () => {
 		</form>`;
 
 		let form = testContainer.querySelector('form'),
-			el = form['input[]'];
+			el = form['input[]'][0];
 
 		expect(Nette.getValue(el)).toEqual([]);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -290,7 +290,7 @@ describe('Nette.getValue & validateRule', () => {
 		</form>`;
 
 		let form = testContainer.querySelector('form'),
-			el = form.input;
+			el = form.input[0];
 
 		expect(Nette.getValue(el)).toBe(null);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);

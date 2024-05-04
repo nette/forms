@@ -40,6 +40,17 @@
 
 
 	/**
+	 * @param {HTMLFormElement} form
+	 * @param {string} name
+	 * @return {?FormElement}
+	 */
+	function getFormElement(form, name) {
+		let res = form.elements.namedItem(name);
+		return res instanceof RadioNodeList ? res[0] : res;
+	}
+
+
+	/**
 	 * Function to execute when the DOM is fully loaded.
 	 * @private
 	 */
@@ -117,16 +128,14 @@
 
 	/**
 	 * Returns the effective value of form element.
-	 * @param {FormElement|RadioNodeList} elem
+	 * @param {FormElement} elem
 	 * @param {boolean} filter
 	 * @return {*}
 	 */
 	Nette.getEffectiveValue = function (elem, filter) {
 		let val = Nette.getValue(elem);
-		if (elem.getAttribute) {
-			if (val === elem.getAttribute('data-nette-empty-value')) {
-				val = '';
-			}
+		if (val === elem.getAttribute('data-nette-empty-value')) {
+			val = '';
 		}
 		if (filter && preventFiltering[elem.name] === undefined) {
 			preventFiltering[elem.name] = true;
@@ -141,7 +150,7 @@
 
 	/**
 	 * Validates form element against given rules.
-	 * @param {FormElement|RadioNodeList} elem
+	 * @param {FormElement} elem
 	 * @param {?Array<Rule>} rules
 	 * @param {boolean} onlyCheck
 	 * @param {?{value: *}} value
@@ -149,7 +158,6 @@
 	 * @return {boolean}
 	 */
 	Nette.validateControl = function (elem, rules, onlyCheck, value, emptyOptional) {
-		elem = elem.tagName ? elem : elem[0]; // RadioNodeList
 		rules = rules || JSON.parse(elem.getAttribute('data-nette-rules') || '[]');
 		value = value === undefined ? {value: Nette.getEffectiveValue(elem)} : value;
 		emptyOptional = emptyOptional === undefined ? !Nette.validateRule(elem, ':filled', null, value) : emptyOptional;
@@ -157,7 +165,7 @@
 		for (let id = 0, len = rules.length; id < len; id++) {
 			let rule = rules[id],
 				op = rule.op.match(/(~)?([^?]+)/),
-				curElem = rule.control ? elem.form.elements.namedItem(rule.control) : elem;
+				curElem = rule.control ? getFormElement(elem.form, rule.control) : elem;
 
 			rule.neg = op[1];
 			rule.op = op[2];
@@ -169,9 +177,7 @@
 				continue;
 			}
 
-			curElem = curElem.tagName ? curElem : curElem[0]; // RadioNodeList
 			let success = Nette.validateRule(curElem, rule.op, rule.arg, elem === curElem ? value : undefined);
-
 			if (success === null) {
 				continue;
 			} else if (rule.neg) {
@@ -356,13 +362,13 @@
 
 	/**
 	 * Validates single rule.
-	 * @param {FormElement|RadioNodeList} elem
+	 * @param {FormElement} elem
 	 * @param {string} op
 	 * @param {*} arg
 	 * @param {?{value: *}} value
 	 */
 	Nette.validateRule = function (elem, op, arg, value) {
-		if (elem.validity && elem.validity.badInput) {
+		if (elem.validity.badInput) {
 			return op === ':filled';
 		}
 
@@ -377,7 +383,7 @@
 		let arr = Array.isArray(arg) ? arg.slice(0) : [arg];
 		for (let i = 0, len = arr.length; i < len; i++) {
 			if (arr[i] && arr[i].control) {
-				let control = elem.form.elements.namedItem(arr[i].control);
+				let control = getFormElement(elem.form, arr[i].control);
 				arr[i] = control === elem ? value.value : Nette.getEffectiveValue(control, true);
 			}
 		}
@@ -632,7 +638,7 @@
 		for (let id = 0, len = rules.length; id < len; id++) {
 			let rule = rules[id],
 				op = rule.op.match(/(~)?([^?]+)/),
-				curElem = rule.control ? elem.form.elements.namedItem(rule.control) : elem;
+				curElem = rule.control ? getFormElement(elem.form, rule.control) : elem;
 
 			rule.neg = op[1];
 			rule.op = op[2];
@@ -661,11 +667,9 @@
 			if ((rule.condition && Nette.toggleControl(elem, rule.rules, curSuccess, firsttime, value, rule.op === ':blank' ? false : emptyOptional)) || rule.toggle) {
 				has = true;
 				if (firsttime) {
-					let name = curElem.tagName ? curElem.name : curElem[0].name,
-						els = curElem.tagName ? curElem.form.elements : curElem;
-
+					let els = elem.form.elements;
 					for (let i = 0; i < els.length; i++) {
-						if (els[i].name === name && !toggleListeners.has(els[i])) {
+						if (els[i].name === curElem.name && !toggleListeners.has(els[i])) {
 							els[i].addEventListener('change', handler);
 							toggleListeners.set(els[i], null);
 						}
