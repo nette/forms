@@ -216,7 +216,7 @@
 	 */
 	Nette.validateForm = function (sender, onlyCheck) {
 		let form = sender.form || sender,
-			scope = false;
+			scope;
 
 		Nette.formErrors = [];
 
@@ -230,8 +230,6 @@
 			}
 		}
 
-		let radios = {};
-
 		for (let elem of form.elements) {
 			if (elem.willValidate && elem.validity.badInput) {
 				elem.reportValidity();
@@ -239,22 +237,13 @@
 			}
 		}
 
-		for (let elem of form.elements) {
-			if (elem.tagName && !(elem.tagName.toLowerCase() in {input: 1, select: 1, textarea: 1, button: 1})) {
-				continue;
-
-			} else if (elem.type === 'radio') {
-				if (radios[elem.name]) {
-					continue;
-				}
-				radios[elem.name] = true;
-			}
-
-			if ((scope && !elem.name.replace(/]\[|\[|]|$/g, '-').match(scope)) || Nette.isDisabled(elem)) {
-				continue;
-			}
-
-			if (!Nette.validateControl(elem, null, onlyCheck) && !Nette.formErrors.length) {
+		for (let elem of Array.from(form.elements)) {
+			if (elem.getAttribute('data-nette-rules')
+				&& (!scope || elem.name.replace(/]\[|\[|]|$/g, '-').match(scope))
+				&& !Nette.isDisabled(elem)
+				&& !Nette.validateControl(elem, null, onlyCheck)
+				&& !Nette.formErrors.length
+			) {
 				return false;
 			}
 		}
@@ -600,9 +589,9 @@
 	 */
 	Nette.toggleForm = function (form, event) {
 		formToggles = {};
-		for (let i = 0; i < form.elements.length; i++) {
-			if (form.elements[i].tagName.toLowerCase() in {input: 1, select: 1, textarea: 1, button: 1}) {
-				Nette.toggleControl(form.elements[i], null, null, !event);
+		for (let elem of Array.from(form.elements)) {
+			if (elem.getAttribute('data-nette-rules')) {
+				Nette.toggleControl(elem, null, null, !event);
 			}
 		}
 
