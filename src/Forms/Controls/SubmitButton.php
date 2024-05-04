@@ -35,7 +35,6 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 	{
 		parent::__construct($caption);
 		$this->control->type = 'submit';
-		$this->setOmitted();
 	}
 
 
