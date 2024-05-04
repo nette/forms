@@ -32,7 +32,6 @@
 
 	Nette.formErrors = [];
 	Nette.version = '3.3.0';
-	Nette.invalidNumberMessage = 'Please enter a valid value.';
 
 
 	/**
@@ -208,9 +207,14 @@
 
 		let radios = {};
 
-		for (let i = 0; i < form.elements.length; i++) {
-			let elem = form.elements[i];
+		for (let elem of form.elements) {
+			if (elem.willValidate && elem.validity.badInput) {
+				elem.reportValidity();
+				return false;
+			}
+		}
 
+		for (let elem of form.elements) {
 			if (elem.tagName && !(elem.tagName.toLowerCase() in {input: 1, select: 1, textarea: 1, button: 1})) {
 				continue;
 
@@ -219,13 +223,6 @@
 					continue;
 				}
 				radios[elem.name] = true;
-
-			} else if (elem.type === 'number' && elem.validity.badInput && !Nette.isDisabled(elem)) {
-				if (onlyCheck) {
-					return false;
-				}
-				Nette.addError(elem, Nette.invalidNumberMessage);
-				continue;
 			}
 
 			if ((scope && !elem.name.replace(/]\[|\[|]|$/g, '-').match(scope)) || Nette.isDisabled(elem)) {
@@ -334,8 +331,8 @@
 	 * Validates single rule.
 	 */
 	Nette.validateRule = function (elem, op, arg, value) {
-		if (elem.type === 'number' && elem.validity.badInput) {
-			return op === 'filled';
+		if (elem.validity && elem.validity.badInput) {
+			return op === ':filled';
 		}
 
 		value = value === undefined ? {value: Nette.getEffectiveValue(elem, true)} : value;
