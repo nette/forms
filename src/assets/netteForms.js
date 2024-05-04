@@ -690,43 +690,21 @@
 	/**
 	 * Compact checkboxes
 	 * @param {HTMLFormElement} form
+	 * @param {FormData} formData
 	 */
-	Nette.compactCheckboxes = function (form) {
+	Nette.compactCheckboxes = function (form, formData) {
 		let values = {};
 
-		for (let i = 0; i < form.elements.length; i++) {
-			let elem = form.elements[i];
-			if (elem.tagName
-				&& elem.tagName.toLowerCase() === 'input'
-				&& elem.type === 'checkbox'
-			) {
-				let name = elem.getAttribute('data-nette-name');
-				if (elem.name
-					&& elem.name.endsWith('[]')
-				) {
-					name = elem.name.substring(0, elem.name.length - 2);
-					elem.removeAttribute('name');
-					elem.setAttribute('data-nette-name', name);
-				}
-
-				if (name) {
-					values[name] = values[name] || [];
-					if (elem.checked && !elem.disabled) {
-						values[name].push(elem.value);
-					}
-				}
+		for (let elem of form.elements) {
+			if (elem instanceof HTMLInputElement && elem.type === 'checkbox' && elem.name.endsWith('[]') && elem.checked && !elem.disabled) {
+				formData.delete(elem.name);
+				values[elem.name] ??= [];
+				values[elem.name].push(elem.value);
 			}
 		}
 
 		for (let name in values) {
-			if (form.elements[name] === undefined) {
-				let elem = document.createElement('input');
-				elem.setAttribute('name', name);
-				elem.setAttribute('type', 'hidden');
-				form.append(elem);
-			}
-			form.elements[name].value = values[name].join(',');
-			form.elements[name].disabled = values[name].length === 0;
+			formData.set(name.substring(0, name.length - 2), values[name].join(','));
 		}
 	};
 
@@ -737,7 +715,7 @@
 	 */
 	Nette.initForm = function (form) {
 		if (form.method === 'get' && form.hasAttribute('data-nette-compact')) {
-			form.addEventListener('submit', () => Nette.compactCheckboxes(form));
+			form.addEventListener('formdata', (e) => Nette.compactCheckboxes(form, e.formData));
 		}
 
 		check: {
