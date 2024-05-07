@@ -617,7 +617,8 @@
 						});
 				}
 				for (let id in rule.toggle ?? []) {
-					formToggles[id] ??= {elem: elem, state: rule.toggle[id] ? curSuccess : !curSuccess};
+					formToggles[id] ??= {elem: elem};
+					formToggles[id].state ||= rule.toggle[id] ? curSuccess : !curSuccess;
 				}
 			}
 		}
