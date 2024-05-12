@@ -146,6 +146,32 @@ test('empty data', function () {
 });
 
 
+test('missing data + nullable', function () {
+	$form = new Form;
+	$input = $form->addMultiUpload('empty')
+		->setNullable() // has no effect
+		->setRequired();
+
+	Assert::false($form->isValid());
+	Assert::equal([], $input->getValue());
+	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
+});
+
+
+test('empty data + nullable', function () {
+	$form = new Form;
+	$input = $form->addUpload('missing')
+		->setNullable()
+		->setRequired();
+
+	Assert::false($form->isValid());
+	Assert::null($input->getValue());
+	Assert::false($input->isFilled());
+	Assert::false($input->isOk());
+});
+
+
 test('malformed data', function () {
 	$form = new Form;
 	$input = $form->addUpload('invalid1');
