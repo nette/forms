@@ -302,6 +302,6 @@ final class Helpers
 	/** @internal */
 	public static function getSupportedImages(): array
 	{
-		return array_map(fn($type) => Image::typeToMimeType($type), Image::getSupportedTypes());
+		return array_values(array_map(fn($type) => Image::typeToMimeType($type), Image::getSupportedTypes()));
 	}
 }
