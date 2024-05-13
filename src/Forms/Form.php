@@ -457,6 +457,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns submitted HTTP data.
+	 * @return ($htmlName is null ? array<mixed> : string|array<mixed>|Nette\Http\FileUpload|null)
 	 */
 	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
 	{
