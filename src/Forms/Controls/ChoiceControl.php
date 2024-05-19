@@ -38,12 +38,8 @@ abstract class ChoiceControl extends BaseControl
 
 	public function loadHttpData(): void
 	{
-		$this->value = $this->getHttpData(Nette\Forms\Form::DataText);
-		if ($this->value !== null) {
-			$this->value = is_array($this->disabled) && isset($this->disabled[$this->value])
-				? null
-				: key([$this->value => null]);
-		}
+		$value = $this->getHttpData(Nette\Forms\Form::DataText);
+		$this->value = $value === null ? null : Arrays::toKey($value);
 	}
 
 
@@ -81,7 +77,9 @@ abstract class ChoiceControl extends BaseControl
 	 */
 	public function getValue(): mixed
 	{
-		return $this->value !== null && ([$res] = Arrays::first($this->choices, fn($choice) => $choice[0] === $this->value))
+		return $this->value !== null
+			&& !isset($this->disabled[$this->value])
+			&& ([$res] = Arrays::first($this->choices, fn($choice) => $choice[0] === $this->value))
 			? $res
 			: null;
 	}
@@ -133,7 +131,9 @@ abstract class ChoiceControl extends BaseControl
 	 */
 	public function getSelectedItem(): mixed
 	{
-		return $this->value !== null && ([, $res] = Arrays::first($this->choices, fn($choice) => $choice[0] === $this->value))
+		return $this->value !== null
+			&& !isset($this->disabled[$this->value])
+			&& ([, $res] = Arrays::first($this->choices, fn($choice) => $choice[0] === $this->value))
 			? $res
 			: null;
 	}
@@ -150,10 +150,6 @@ abstract class ChoiceControl extends BaseControl
 
 		parent::setDisabled(false);
 		$this->disabled = array_fill_keys($value, value: true);
-		if (isset($this->disabled[$this->value])) {
-			$this->value = null;
-		}
-
 		return $this;
 	}
 
