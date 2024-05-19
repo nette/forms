@@ -39,9 +39,6 @@ abstract class MultiChoiceControl extends BaseControl
 	public function loadHttpData(): void
 	{
 		$this->value = array_keys(array_flip($this->getHttpData(Nette\Forms\Form::DataText)));
-		if (is_array($this->disabled)) {
-			$this->value = array_diff($this->value, array_keys($this->disabled));
-		}
 	}
 
 
@@ -86,7 +83,7 @@ abstract class MultiChoiceControl extends BaseControl
 	 */
 	public function getValue(): array
 	{
-		return array_values(array_intersect($this->value, array_column($this->choices, 0)));
+		return array_keys($this->getSelectedItems());
 	}
 
 
@@ -128,7 +125,7 @@ abstract class MultiChoiceControl extends BaseControl
 	public function getSelectedItems(): array
 	{
 		$flip = array_flip($this->value);
-		$res = array_filter($this->choices, fn($choice) => isset($flip[$choice[0]]));
+		$res = array_filter($this->choices, fn($choice) => isset($flip[$choice[0]]) && !isset($this->disabled[$choice[0]]));
 		return array_column($res, 1, 0);
 	}
 
@@ -144,7 +141,6 @@ abstract class MultiChoiceControl extends BaseControl
 
 		parent::setDisabled(false);
 		$this->disabled = array_fill_keys($value, value: true);
-		$this->value = array_diff($this->value, $value);
 		return $this;
 	}
 
