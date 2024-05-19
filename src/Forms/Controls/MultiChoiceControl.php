@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Nette\Utils\Arrays;
 
 
 /**
@@ -21,7 +22,9 @@ use Nette;
 abstract class MultiChoiceControl extends BaseControl
 {
 	private bool $checkDefaultValue = true;
-	private array $items = [];
+
+	/** @var list<array{int|string, string|\Stringable}> */
+	private array $choices = [];
 
 
 	public function __construct($label = null, ?array $items = null)
@@ -67,12 +70,8 @@ abstract class MultiChoiceControl extends BaseControl
 		}
 
 		$values = array_keys($flip);
-		if ($this->checkDefaultValue && ($diff = array_diff($values, array_keys($this->items)))) {
-			$set = Nette\Utils\Strings::truncate(
-				implode(', ', array_map(fn($s) => var_export($s, return: true), array_keys($this->items))),
-				70,
-				'...',
-			);
+		if ($this->checkDefaultValue && ($diff = array_diff($values, $tmp = array_column($this->choices, 0)))) {
+			$set = Nette\Utils\Strings::truncate(implode(', ', array_map(fn($s) => var_export($s, return: true), $tmp)), 70, '...');
 			$vals = (count($diff) > 1 ? 's' : '') . " '" . implode("', '", $diff) . "'";
 			throw new Nette\InvalidArgumentException("Value$vals are out of allowed set [$set] in field '{$this->getName()}'.");
 		}
@@ -87,7 +86,7 @@ abstract class MultiChoiceControl extends BaseControl
 	 */
 	public function getValue(): array
 	{
-		return array_values(array_intersect($this->value, array_keys($this->items)));
+		return array_values(array_intersect($this->value, array_column($this->choices, 0)));
 	}
 
 
@@ -101,21 +100,15 @@ abstract class MultiChoiceControl extends BaseControl
 
 
 	/**
-	 * Is any item selected?
-	 */
-	public function isFilled(): bool
-	{
-		return $this->getValue() !== [];
-	}
-
-
-	/**
 	 * Sets items from which to choose.
 	 * @return static
 	 */
 	public function setItems(array $items, bool $useKeys = true)
 	{
-		$this->items = $useKeys ? $items : array_combine($items, $items);
+		$this->choices = [];
+		foreach ($items as $k => $v) {
+			$this->choices[] = [$useKeys ? $k : Arrays::toKey((string) $v), $v];
+		}
 		return $this;
 	}
 
@@ -125,7 +118,7 @@ abstract class MultiChoiceControl extends BaseControl
 	 */
 	public function getItems(): array
 	{
-		return $this->items;
+		return array_column($this->choices, 1, 0);
 	}
 
 
@@ -134,7 +127,9 @@ abstract class MultiChoiceControl extends BaseControl
 	 */
 	public function getSelectedItems(): array
 	{
-		return array_intersect_key($this->items, array_flip($this->value));
+		$flip = array_flip($this->value);
+		$res = array_filter($this->choices, fn($choice) => isset($flip[$choice[0]]));
+		return array_column($res, 1, 0);
 	}
 
 
