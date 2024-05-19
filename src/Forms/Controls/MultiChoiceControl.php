@@ -21,6 +21,8 @@ use Nette\Utils\Arrays;
  */
 abstract class MultiChoiceControl extends BaseControl
 {
+	/** @var bool[] */
+	protected array $disabledChoices = [];
 	private bool $checkDefaultValue = true;
 
 	/** @var list<array{int|string, string|\Stringable}> */
@@ -123,7 +125,7 @@ abstract class MultiChoiceControl extends BaseControl
 	public function getSelectedItems(): array
 	{
 		$flip = array_flip($this->value);
-		$res = array_filter($this->choices, fn($choice) => isset($flip[$choice[0]]) && !isset($this->disabled[$choice[0]]));
+		$res = array_filter($this->choices, fn($choice) => isset($flip[$choice[0]]) && !isset($this->disabledChoices[$choice[0]]));
 		return array_column($res, 1, 0);
 	}
 
@@ -134,12 +136,11 @@ abstract class MultiChoiceControl extends BaseControl
 	public function setDisabled(bool|array $value = true): static
 	{
 		if (!is_array($value)) {
+			$this->disabledChoices = [];
 			return parent::setDisabled($value);
 		}
-
-		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($value, value: true);
-		return $this;
+		$this->disabledChoices = array_fill_keys($value, value: true);
+		return parent::setDisabled(false);
 	}
 
 

@@ -65,7 +65,7 @@ class MultiSelectBox extends MultiChoiceControl
 		return Nette\Forms\Helpers::createSelectBox(
 			$items,
 			[
-				'disabled:' => is_array($this->disabled) ? $this->disabled : null,
+				'disabled:' => $this->disabledChoices,
 			] + $this->optionAttributes,
 			$this->value,
 		)->addAttributes(parent::getControl()->attrs)->multiple(true);
