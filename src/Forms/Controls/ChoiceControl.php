@@ -21,6 +21,8 @@ use Nette\Utils\Arrays;
  */
 abstract class ChoiceControl extends BaseControl
 {
+	/** @var bool[] */
+	protected array $disabledChoices = [];
 	private bool $checkDefaultValue = true;
 
 	/** @var list<array{int|string, string|\Stringable}> */
@@ -77,7 +79,7 @@ abstract class ChoiceControl extends BaseControl
 	public function getValue(): mixed
 	{
 		return $this->value !== null
-			&& !isset($this->disabled[$this->value])
+			&& !isset($this->disabledChoices[$this->value])
 			&& ([$res] = Arrays::first($this->choices, fn($choice) => $choice[0] === $this->value))
 			? $res
 			: null;
@@ -130,7 +132,7 @@ abstract class ChoiceControl extends BaseControl
 	public function getSelectedItem(): mixed
 	{
 		return $this->value !== null
-			&& !isset($this->disabled[$this->value])
+			&& !isset($this->disabledChoices[$this->value])
 			&& ([, $res] = Arrays::first($this->choices, fn($choice) => $choice[0] === $this->value))
 			? $res
 			: null;
@@ -143,12 +145,11 @@ abstract class ChoiceControl extends BaseControl
 	public function setDisabled(bool|array $value = true): static
 	{
 		if (!is_array($value)) {
+			$this->disabledChoices = [];
 			return parent::setDisabled($value);
 		}
-
-		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($value, value: true);
-		return $this;
+		$this->disabledChoices = array_fill_keys($value, value: true);
+		return parent::setDisabled(false);
 	}
 
 
