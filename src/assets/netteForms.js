@@ -1,4 +1,4 @@
-/**!
+/*!
  * NetteForms - simple form validation.
  *
  * This file is part of the Nette Framework (https://nette.org)
@@ -27,13 +27,13 @@
 		}
 	}
 
-}(typeof window !== 'undefined' ? window : this, (window) => {
+}(typeof window !== 'undefined' ? window : this, () => {
 	'use strict';
 
 	const Nette = {};
 	let preventFiltering = {};
 	let formToggles = {};
-	let toggleListeners = new window.WeakMap();
+	let toggleListeners = new WeakMap;
 
 	Nette.formErrors = [];
 	Nette.version = '3.3.0';
@@ -129,7 +129,7 @@
 		}
 		if (filter && preventFiltering[elem.name] === undefined) {
 			preventFiltering[elem.name] = true;
-			let ref = {value: val};
+			let ref = { value: val };
 			Nette.validateControl(elem, null, true, ref);
 			val = ref.value;
 			delete preventFiltering[elem.name];
@@ -149,7 +149,7 @@
 	 */
 	Nette.validateControl = function (elem, rules, onlyCheck = false, value = null, emptyOptional = null) {
 		rules ??= JSON.parse(elem.getAttribute('data-nette-rules') ?? '[]');
-		value ??= {value: Nette.getEffectiveValue(elem)};
+		value ??= { value: Nette.getEffectiveValue(elem) };
 		emptyOptional ??= !Nette.validateRule(elem, ':filled', null, value);
 
 		for (let rule of rules) {
@@ -185,7 +185,7 @@
 					let arr = Array.isArray(rule.arg) ? rule.arg : [rule.arg],
 						message = rule.msg.replace(
 							/%(value|\d+)/g,
-							(foo, m) => Nette.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control))
+							(foo, m) => Nette.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control)),
 						);
 					Nette.addError(curElem, message);
 				}
@@ -265,7 +265,7 @@
 	Nette.addError = function (elem, message) {
 		Nette.formErrors.push({
 			element: elem,
-			message: message
+			message: message,
 		});
 	};
 
@@ -343,7 +343,7 @@
 			return op === ':filled';
 		}
 
-		value ??= {value: Nette.getEffectiveValue(elem, true)};
+		value ??= { value: Nette.getEffectiveValue(elem, true) };
 
 		let method = op.charAt(0) === ':' ? op.substring(1) : op;
 		method = method.replace('::', '_').replaceAll('\\', '');
@@ -482,7 +482,7 @@
 			return false;
 		},
 
-		'float': function (elem, arg, val, newValue) {
+		float: function (elem, arg, val, newValue) {
 			val = val.replace(/ +/g, '').replace(/,/g, '.');
 			if ((/^-?[0-9]*\.?[0-9]+$/).test(val)) {
 				newValue.value = parseFloat(val);
@@ -535,9 +535,9 @@
 			return Nette.validators.mimeType(elem, arg ?? ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
 		},
 
-		'static': function (elem, arg) {
+		static: function (elem, arg) {
 			return arg;
-		}
+		},
 	};
 
 
@@ -572,7 +572,7 @@
 	 */
 	Nette.toggleControl = function (elem, rules, success, firsttime, value = null, emptyOptional = null) {
 		rules ??= JSON.parse(elem.getAttribute('data-nette-rules') ?? '[]');
-		value ??= {value: Nette.getEffectiveValue(elem)};
+		value ??= { value: Nette.getEffectiveValue(elem) };
 		emptyOptional ??= !Nette.validateRule(elem, ':filled', null, value);
 
 		let has = false,
@@ -617,7 +617,7 @@
 						});
 				}
 				for (let id in rule.toggle ?? []) {
-					formToggles[id] ??= {elem: elem};
+					formToggles[id] ??= { elem: elem };
 					formToggles[id].state ||= rule.toggle[id] ? curSuccess : !curSuccess;
 				}
 			}
@@ -708,7 +708,7 @@
 			document.body.addEventListener('click', (e) => {
 				let target = e.target;
 				while (target) {
-					if (target.form && target.type in {submit: 1, image: 1}) {
+					if (target.form && target.type in { submit: 1, image: 1 }) {
 						target.form['nette-submittedBy'] = target;
 						break;
 					}
@@ -734,7 +734,7 @@
 		return res.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 	};
 
-	Nette.webalizeTable = {\u00e1: 'a', \u00e4: 'a', \u010d: 'c', \u010f: 'd', \u00e9: 'e', \u011b: 'e', \u00ed: 'i', \u013e: 'l', \u0148: 'n', \u00f3: 'o', \u00f4: 'o', \u0159: 'r', \u0161: 's', \u0165: 't', \u00fa: 'u', \u016f: 'u', \u00fd: 'y', \u017e: 'z'};
+	Nette.webalizeTable = { \u00e1: 'a', \u00e4: 'a', \u010d: 'c', \u010f: 'd', \u00e9: 'e', \u011b: 'e', \u00ed: 'i', \u013e: 'l', \u0148: 'n', \u00f3: 'o', \u00f4: 'o', \u0159: 'r', \u0161: 's', \u0165: 't', \u00fa: 'u', \u016f: 'u', \u00fd: 'y', \u017e: 'z' };
 
 	return Nette;
 }));

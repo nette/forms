@@ -1,30 +1,48 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
+import stylistic from '@stylistic/eslint-plugin';
 
 export default [
-	pluginJs.configs.recommended,
 	{
-		ignores: ['**/*.min.js'],
+		ignores: [
+			'*/', '!src/', '!tests/',
+			'**/*.min.js',
+		],
 	},
+
+	pluginJs.configs.recommended,
+
+	stylistic.configs.customize({
+		indent: 'tab',
+		braceStyle: '1tbs',
+		arrowParens: true,
+		semi: true,
+		jsx: false,
+	}),
+
 	{
 		languageOptions: {
 			ecmaVersion: 2021,
 			globals: {
 				...globals.browser,
-				'Tracy': 'writeable',
-				'define': 'readable',
-				'module': 'readable',
+				...globals.jasmine,
+				...globals.amd,
+				...globals.commonjs,
+				Nette: 'readable',
+				Tracy: 'writeable',
 			},
 		},
+		plugins: {
+			'@stylistic': stylistic,
+		},
 		rules: {
-			indent: ['error', 'tab'],
-			quotes: ['error', 'single'],
-			semi: ['error', 'always'],
-			'func-style': ['error', 'declaration', {'allowArrowFunctions': true}],
-			'prefer-arrow-callback': ['error'],
-			'arrow-parens': ['error'],
-			'arrow-spacing': ['error'],
-			'no-var': ['error'],
+			'@stylistic/no-multiple-empty-lines': ['error', { max: 2, maxEOF: 0 }],
+			'@stylistic/new-parens': ['error', 'never'],
+			'@stylistic/padded-blocks': 'off',
+			'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
+			'prefer-arrow-callback': 'error',
+			'arrow-body-style': 'error',
+			'no-var': 'error',
 		},
 	},
 ];

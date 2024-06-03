@@ -90,7 +90,7 @@ describe('Nette.validators', () => {
 
 
 	it('url', () => {
-		let v = {value: null};
+		let v = { value: null };
 		expect(Nette.validators.url(null, null, '', v)).toBe(false);
 		expect(Nette.validators.url(null, null, 'hello', v)).toBe(true);
 		expect(v.value).toBe('https://hello');
