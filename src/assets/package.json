@@ -1,0 +1,22 @@
+{
+	"name": "nette-forms",
+	"version": "3.4.1",
+	"description": "Client side script for Nette Forms Component",
+	"keywords": [
+		"nette",
+		"validation",
+		"forms"
+	],
+	"homepage": "https://nette.org",
+	"author": "David Grudl (https://davidgrudl.com)",
+	"license": "BSD-3-Clause",
+	"main": "src/assets/netteForms.js",
+	"files": [
+		"src/assets"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nette/forms.git",
+		"directory": "src/assets"
+	}
+}
