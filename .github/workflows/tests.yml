@@ -65,8 +65,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-            - run: npm install -g karma-cli
+            - run: npm install
             - working-directory: tests/netteForms
-              run: npm install
-            - working-directory: tests/netteForms
-              run: karma start
+              run: npx karma start karma.conf.cjs
