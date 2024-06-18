@@ -105,6 +105,21 @@ abstract class ChoiceControl extends BaseControl
 
 
 	/**
+	 * Sets control's default value if value is in allowed set or $this->checkDefaultValue is false.
+	 */
+	public function setDefaultValue($value): static
+	{
+		try {
+			parent::setDefaultValue($value);
+		} catch (Nette\InvalidArgumentException $e) {
+			trigger_error($e->getMessage() ?? $e::class, E_USER_WARNING);
+		}
+		
+		return $this;
+	}
+
+
+	/**
 	 * Sets items from which to choose.
 	 */
 	public function setItems(array $items, bool $useKeys = true): static
