@@ -153,7 +153,13 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 				&& $allowed
 				&& !$control->isOmitted()
 			) {
-				$obj->$name = $control->getValue();
+                                $value = $control->getValue();
+                                $property = $rc->hasProperty($name)? $rc->getProperty($name) : null;
+                                $obj->$name = $property ? match(true){
+                                    static::isPropertyEnum($property) => static::getEnumCaseByName($property->getType()->getName(), $value),
+                                    Helpers::getSingleType($property) === 'int' => static::stringToInt($value, $name),
+                                    default => $value,
+                                } : $value;
 
 			} elseif ($control instanceof self) {
 				$type = $returnType === self::Array && !$control->mappedType
@@ -172,7 +178,34 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			: $obj;
 	}
 
+	
+        private static function isPropertyEnum(ReflectionProperty $property): bool
+        {
+            return !$property->getType()->isBuiltin() && (new ReflectionClass($property->getType()->getName()))->isEnum();
+        }
 
+	
+        private static function getEnumCaseByName(string $class, ?string $name): ?object
+        {
+            foreach($class::cases() as $case){
+                if($case->name === $name){
+                    return $case;
+                }
+            }
+            return null;
+        }
+
+	
+        private static function stringToInt(?string $value, string $name): ?int
+        {
+            if($value === null){
+                return $value;
+            }
+            $intValue = (int)$value;
+            return $value === (string)$intValue ? $intValue : throw new InvalidValueException("Value '$value' of field '$name' is not valid integer number");
+        }
+
+	
 	/** @deprecated use getUntrustedValues() */
 	public function getUnsafeValues($returnType, ?array $controls = null)
 	{
