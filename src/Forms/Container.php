@@ -147,17 +147,18 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		foreach ($this->getComponents() as $name => $control) {
 			$allowed = $controls === null || in_array($this, $controls, true) || in_array($control, $controls, true);
 			$name = (string) $name;
+			$property = $properties[$name] ?? null;
 			if (
 				$control instanceof Control
 				&& $allowed
 				&& !$control->isOmitted()
 			) {
-				$resultObj->$name = $control->getValue();
+				$resultObj->$name = Helpers::tryEnumConversion($control->getValue(), $property);
 
 			} elseif ($control instanceof self) {
 				$type = $returnType === self::Array && !$control->mappedType
 					? self::Array
-					: (isset($properties[$name]) ? Helpers::getSingleType($properties[$name]) : null);
+					: ($property ? Helpers::getSingleType($property) : null);
 				$resultObj->$name = $control->getUntrustedValues($type, $allowed ? null : $controls);
 			}
 		}
