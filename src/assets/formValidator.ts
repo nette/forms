@@ -1,44 +1,30 @@
-// @ts-nocheck
-/**
- * @typedef {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement|HTMLButtonElement} FormElement
- * @typedef {{op: string, neg: boolean, msg: string, arg: *, rules: ?Array<Rule>, control: string, toggle: ?Array<string>}} Rule
- */
-
+import { FormElement, FormElementValue, FormError, Rule, ToggleState, Validator } from './types';
 import { Validators } from './validators';
 
 export class FormValidator {
-	formErrors = [];
-	validators = new Validators;
-	#preventFiltering = {};
-	#formToggles = {};
-	#toggleListeners = new WeakMap;
+	formErrors: FormError[] = [];
+	validators = new Validators as any as Record<string, Validator>;
+	#preventFiltering: Record<string, boolean> = {};
+	#formToggles: Record<string, ToggleState> = {};
+	#toggleListeners: WeakMap<FormElement, null> = new WeakMap;
 
 
-	/**
-	 * @param {HTMLFormElement} form
-	 * @param {string} name
-	 * @return {?FormElement}
-	 */
-	#getFormElement(form, name) {
+	#getFormElement(form: HTMLFormElement, name: string): FormElement | null {
 		let res = form.elements.namedItem(name);
-		return res instanceof RadioNodeList ? res[0] : res;
+		return (res instanceof RadioNodeList ? res[0] : res) as FormElement | null;
 	}
 
 
-	/**
-	 * @param {FormElement} elem
-	 * @return {Array<FormElement>}
-	 */
-	#expandRadioElement(elem) {
+	#expandRadioElement<Element extends FormElement>(elem: Element): Element[] {
 		let res = elem.form.elements.namedItem(elem.name);
-		return res instanceof RadioNodeList ? Array.from(res) : [res];
+		return (res instanceof RadioNodeList ? Array.from(res) : [res]) as Element[];
 	}
 
 
 	/**
 	 * Function to execute when the DOM is fully loaded.
 	 */
-	#onDocumentReady(callback) {
+	#onDocumentReady(callback: () => void): void {
 		if (document.readyState !== 'loading') {
 			callback.call(this);
 		} else {
@@ -49,10 +35,8 @@ export class FormValidator {
 
 	/**
 	 * Returns the value of form element.
-	 * @param {FormElement|RadioNodeList} elem
-	 * @return {*}
 	 */
-	getValue(elem) {
+	getValue(elem: FormElement | RadioNodeList): FormElementValue {
 		if (elem instanceof HTMLInputElement) {
 			if (elem.type === 'radio') {
 				return this.#expandRadioElement(elem)
@@ -82,7 +66,7 @@ export class FormValidator {
 			return elem.value;
 
 		} else if (elem instanceof RadioNodeList) {
-			return this.getValue(elem[0]);
+			return this.getValue(elem[0] as FormElement);
 
 		} else {
 			return null;
@@ -92,11 +76,8 @@ export class FormValidator {
 
 	/**
 	 * Returns the effective value of form element.
-	 * @param {FormElement} elem
-	 * @param {boolean} filter
-	 * @return {*}
 	 */
-	getEffectiveValue(elem, filter = false) {
+	getEffectiveValue(elem: FormElement, filter: boolean = false): FormElementValue {
 		let val = this.getValue(elem);
 		if (val === elem.getAttribute('data-nette-empty-value')) {
 			val = '';
@@ -104,7 +85,7 @@ export class FormValidator {
 		if (filter && this.#preventFiltering[elem.name] === undefined) {
 			this.#preventFiltering[elem.name] = true;
 			let ref = { value: val };
-			this.validateControl(elem, null, true, ref);
+			this.validateControl(elem, undefined, true, ref);
 			val = ref.value;
 			delete this.#preventFiltering[elem.name];
 		}
@@ -114,24 +95,24 @@ export class FormValidator {
 
 	/**
 	 * Validates form element against given rules.
-	 * @param {FormElement} elem
-	 * @param {?Array<Rule>} rules
-	 * @param {boolean} onlyCheck
-	 * @param {?{value: *}} value
-	 * @param {?boolean} emptyOptional
-	 * @return {boolean}
 	 */
-	validateControl(elem, rules, onlyCheck = false, value = null, emptyOptional = null) {
-		rules ??= JSON.parse(elem.getAttribute('data-nette-rules') ?? '[]');
+	validateControl(
+		elem: FormElement,
+		rules?: Rule[],
+		onlyCheck: boolean = false,
+		value?: { value: FormElementValue },
+		emptyOptional?: boolean,
+	): boolean {
+		rules ??= JSON.parse(elem.getAttribute('data-nette-rules') ?? '[]') as Rule[];
 		value ??= { value: this.getEffectiveValue(elem) };
 		emptyOptional ??= !this.validateRule(elem, ':filled', null, value);
 
 		for (let rule of rules) {
-			let op = rule.op.match(/(~)?([^?]+)/),
+			let op = rule.op.match(/(~)?([^?]+)/)!,
 				curElem = rule.control ? this.#getFormElement(elem.form, rule.control) : elem;
 
-			rule.neg = op[1];
-			rule.op = op[2];
+			rule.neg = !!op[1];
+			rule.op = op[2]!;
 			rule.condition = !!rule.rules;
 
 			if (!curElem) {
@@ -159,7 +140,7 @@ export class FormValidator {
 					let arr = Array.isArray(rule.arg) ? rule.arg : [rule.arg],
 						message = rule.msg.replace(
 							/%(value|\d+)/g,
-							(foo, m) => this.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control)),
+							(foo, m) => this.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control) as FormElement | RadioNodeList) as string,
 						);
 					this.addError(curElem, message);
 				}
@@ -173,18 +154,15 @@ export class FormValidator {
 
 	/**
 	 * Validates whole form.
-	 * @param {HTMLFormElement} sender
-	 * @param {boolean} onlyCheck
-	 * @return {boolean}
 	 */
-	validateForm(sender, onlyCheck = false) {
-		let form = sender.form ?? sender,
+	validateForm(sender: HTMLFormElement | FormElement, onlyCheck: boolean = false): boolean {
+		let form: HTMLFormElement = sender.form ?? sender,
 			scope;
 
 		this.formErrors = [];
 
 		if (form['nette-submittedBy'] && form['nette-submittedBy'].getAttribute('formnovalidate') !== null) {
-			let scopeArr = JSON.parse(form['nette-submittedBy'].getAttribute('data-nette-validation-scope') ?? '[]');
+			let scopeArr = JSON.parse(form['nette-submittedBy'].getAttribute('data-nette-validation-scope') ?? '[]') as string[];
 			if (scopeArr.length) {
 				scope = new RegExp('^(' + scopeArr.join('-|') + '-)');
 			} else {
@@ -193,18 +171,18 @@ export class FormValidator {
 			}
 		}
 
-		for (let elem of form.elements) {
+		for (let elem of form.elements as any as FormElement[]) {
 			if (elem.willValidate && elem.validity.badInput) {
 				elem.reportValidity();
 				return false;
 			}
 		}
 
-		for (let elem of Array.from(form.elements)) {
+		for (let elem of form.elements as any as FormElement[]) {
 			if (elem.getAttribute('data-nette-rules')
 				&& (!scope || elem.name.replace(/]\[|\[|]|$/g, '-').match(scope))
 				&& !this.isDisabled(elem)
-				&& !this.validateControl(elem, null, onlyCheck)
+				&& !this.validateControl(elem, undefined, onlyCheck)
 				&& !this.formErrors.length
 			) {
 				return false;
@@ -219,10 +197,8 @@ export class FormValidator {
 
 	/**
 	 * Check if input is disabled.
-	 * @param {FormElement} elem
-	 * @return {boolean}
 	 */
-	isDisabled(elem) {
+	isDisabled(elem: FormElement): boolean {
 		if (elem.type === 'radio') {
 			return this.#expandRadioElement(elem)
 				.every((input) => input.disabled);
@@ -233,10 +209,8 @@ export class FormValidator {
 
 	/**
 	 * Adds error message to the queue.
-	 * @param {FormElement} elem
-	 * @param {string} message
 	 */
-	addError(elem, message) {
+	addError(elem: FormElement, message: string): void {
 		this.formErrors.push({
 			element: elem,
 			message: message,
@@ -246,28 +220,21 @@ export class FormValidator {
 
 	/**
 	 * Display error messages.
-	 * @param {HTMLFormElement} form
-	 * @param {Array<{element: FormElement, message: string}>} errors
 	 */
-	showFormErrors(form, errors) {
-		let messages = [],
-			focusElem;
+	showFormErrors(form: HTMLFormElement, errors: FormError[]): void {
+		let messages: string[] = [],
+			focusElem: FormElement;
 
 		for (let error of errors) {
 			if (messages.indexOf(error.message) < 0) {
 				messages.push(error.message);
-
-				if (!focusElem && error.element.focus) {
-					focusElem = error.element;
-				}
+				focusElem ??= error.element;
 			}
 		}
 
 		if (messages.length) {
 			this.showModal(messages.join('\n'), () => {
-				if (focusElem) {
-					focusElem.focus();
-				}
+				focusElem?.focus();
 			});
 		}
 	}
@@ -275,10 +242,8 @@ export class FormValidator {
 
 	/**
 	 * Display modal window.
-	 * @param {string} message
-	 * @param {function} onclose
 	 */
-	showModal(message, onclose) {
+	showModal(message: string, onclose: () => void): void {
 		let dialog = document.createElement('dialog');
 
 		if (!dialog.showModal) {
@@ -307,12 +272,8 @@ export class FormValidator {
 
 	/**
 	 * Validates single rule.
-	 * @param {FormElement} elem
-	 * @param {string} op
-	 * @param {*} arg
-	 * @param {?{value: *}} value
 	 */
-	validateRule(elem, op, arg, value) {
+	validateRule(elem: FormElement, op: string, arg: unknown, value?: { value: FormElementValue }): boolean | null {
 		if (elem.validity.badInput) {
 			return op === ':filled';
 		}
@@ -325,7 +286,7 @@ export class FormValidator {
 		let args = Array.isArray(arg) ? arg : [arg];
 		args = args.map((arg) => {
 			if (arg?.control) {
-				let control = this.#getFormElement(elem.form, arg.control);
+				let control = this.#getFormElement(elem.form, arg.control)!;
 				return control === elem ? value.value : this.getEffectiveValue(control, true);
 			}
 			return arg;
@@ -336,54 +297,52 @@ export class FormValidator {
 		}
 
 		return this.validators[method]
-			? this.validators[method](elem, Array.isArray(arg) ? args : args[0], value.value, value)
+			? this.validators[method]!(elem, Array.isArray(arg) ? args : args[0], value.value, value)
 			: null;
 	}
 
 
 	/**
 	 * Process all toggles in form.
-	 * @param {HTMLFormElement} form
-	 * @param {?Event} event
 	 */
-	toggleForm(form, event = null) {
+	toggleForm(form: HTMLFormElement, event?: Event): void {
 		this.#formToggles = {};
-		for (let elem of Array.from(form.elements)) {
+		for (let elem of Array.from(form.elements) as FormElement[]) {
 			if (elem.getAttribute('data-nette-rules')) {
-				this.toggleControl(elem, null, null, !event);
+				this.toggleControl(elem, undefined, null, !event);
 			}
 		}
 
 		for (let i in this.#formToggles) {
-			this.toggle(i, this.#formToggles[i].state, this.#formToggles[i].elem, event);
+			this.toggle(i, this.#formToggles[i]!.state, this.#formToggles[i]!.elem, event);
 		}
 	}
 
 
 	/**
 	 * Process toggles on form element.
-	 * @param {FormElement} elem
-	 * @param {?Array<Rule>} rules
-	 * @param {?boolean} success
-	 * @param {boolean} firsttime
-	 * @param {?{value: *}} value
-	 * @param {?boolean} emptyOptional
-	 * @return {boolean}
 	 */
-	toggleControl(elem, rules, success, firsttime, value = null, emptyOptional = null) {
-		rules ??= JSON.parse(elem.getAttribute('data-nette-rules') ?? '[]');
+	toggleControl(
+		elem: FormElement,
+		rules?: Rule[],
+		success: boolean | null = null,
+		firsttime: boolean = false,
+		value?: { value: FormElementValue },
+		emptyOptional?: boolean,
+	): boolean {
+		rules ??= JSON.parse(elem.getAttribute('data-nette-rules') ?? '[]') as Rule[];
 		value ??= { value: this.getEffectiveValue(elem) };
 		emptyOptional ??= !this.validateRule(elem, ':filled', null, value);
 
 		let has = false,
-			curSuccess;
+			curSuccess: boolean | null;
 
 		for (let rule of rules) {
-			let op = rule.op.match(/(~)?([^?]+)/),
+			let op = rule.op.match(/(~)?([^?]+)/)!,
 				curElem = rule.control ? this.#getFormElement(elem.form, rule.control) : elem;
 
-			rule.neg = op[1];
-			rule.op = op[2];
+			rule.neg = !!op[1];
+			rule.op = op[2]!;
 			rule.condition = !!rule.rules;
 
 			if (!curElem) {
@@ -416,9 +375,9 @@ export class FormValidator {
 							this.#toggleListeners.set(el, null);
 						});
 				}
-				for (let id in rule.toggle ?? []) {
-					this.#formToggles[id] ??= { elem: elem };
-					this.#formToggles[id].state ||= rule.toggle[id] ? curSuccess : !curSuccess;
+				for (let id in rule.toggle ?? {}) {
+					this.#formToggles[id] ??= { elem: elem, state: false };
+					this.#formToggles[id].state ||= rule.toggle![id] ? !!curSuccess : !curSuccess;
 				}
 			}
 		}
@@ -428,47 +387,40 @@ export class FormValidator {
 
 	/**
 	 * Displays or hides HTML element.
-	 * @param {string} selector
-	 * @param {boolean} visible
-	 * @param {FormElement} srcElement
-	 * @param {Event} event
 	 */
-	toggle(selector, visible, srcElement, event) { // eslint-disable-line no-unused-vars
+	toggle(selector: string, visible: boolean, srcElement: FormElement, event?: Event): void { // eslint-disable-line @typescript-eslint/no-unused-vars
 		if (/^\w[\w.:-]*$/.test(selector)) { // id
 			selector = '#' + selector;
 		}
-		Array.from(document.querySelectorAll(selector))
+		Array.from(document.querySelectorAll<HTMLElement>(selector))
 			.forEach((elem) => elem.hidden = !visible);
 	}
 
 
 	/**
 	 * Compact checkboxes
-	 * @param {HTMLFormElement} form
-	 * @param {FormData} formData
 	 */
-	compactCheckboxes(form, formData) {
-		let values = {};
+	compactCheckboxes(form: HTMLFormElement, formData: FormData): void {
+		let values: Record<string, string[]> = {};
 
 		for (let elem of form.elements) {
 			if (elem instanceof HTMLInputElement && elem.type === 'checkbox' && elem.name.endsWith('[]') && elem.checked && !elem.disabled) {
 				formData.delete(elem.name);
 				values[elem.name] ??= [];
-				values[elem.name].push(elem.value);
+				values[elem.name]!.push(elem.value);
 			}
 		}
 
 		for (let name in values) {
-			formData.set(name.substring(0, name.length - 2), values[name].join(','));
+			formData.set(name.substring(0, name.length - 2), values[name]!.join(','));
 		}
 	}
 
 
 	/**
 	 * Setup handlers.
-	 * @param {HTMLFormElement} form
 	 */
-	initForm(form) {
+	initForm(form: HTMLFormElement): void {
 		if (form.method === 'get' && form.hasAttribute('data-nette-compact')) {
 			form.addEventListener('formdata', (e) => this.compactCheckboxes(form, e.formData));
 		}
@@ -497,19 +449,19 @@ export class FormValidator {
 	}
 
 
-	initOnLoad() {
+	initOnLoad(): void {
 		this.#onDocumentReady(() => {
 			Array.from(document.forms)
 				.forEach((form) => this.initForm(form));
 
 			document.body.addEventListener('click', (e) => {
-				let target = e.target;
+				let target = e.target as FormElement;
 				while (target) {
 					if (target.form && target.type in { submit: 1, image: 1 }) {
 						target.form['nette-submittedBy'] = target;
 						break;
 					}
-					target = target.parentNode;
+					target = target.parentNode as FormElement;
 				}
 			});
 		});

@@ -1,9 +1,9 @@
-// @ts-nocheck
 import { FormValidator } from './formValidator';
 import { webalize } from './webalize';
 import { version } from './package.json';
 
-let nette = new FormValidator;
+type NetteForms = FormValidator & { version: string; webalize: typeof webalize };
+let nette = new FormValidator as NetteForms;
 nette.version = version;
 nette.webalize = webalize;
 

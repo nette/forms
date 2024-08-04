@@ -1,25 +1,27 @@
-// @ts-nocheck
+import { FormElement, FormElementValue } from './types';
+import { FormValidator } from './formValidator';
+
 export class Validators {
-	filled(elem, arg, val) {
+	filled(elem: FormElement, arg: undefined, val: FormElementValue): boolean {
 		return val !== '' && val !== false && val !== null
-			&& (!Array.isArray(val) || !!val.length)
-			&& (!(val instanceof FileList) || val.length);
+			&& (!Array.isArray(val) || val.length > 0)
+			&& (!(val instanceof FileList) || val.length > 0);
 	}
 
-	blank(elem, arg, val) {
+	blank(elem: FormElement, arg: undefined, val: FormElementValue): boolean {
 		return !this.filled(elem, arg, val);
 	}
 
-	valid(elem, arg) {
-		return arg.validateControl(elem, null, true);
+	valid(elem: FormElement, arg: FormValidator) {
+		return arg.validateControl(elem, undefined, true);
 	}
 
-	equal(elem, arg, val) {
+	equal(elem: FormElement, arg: string | number | boolean | (string | number | boolean)[], val: FormElementValue): boolean | null {
 		if (arg === undefined) {
 			return null;
 		}
 
-		let toString = (val) => {
+		let toString = (val: FormElementValue) => {
 			if (typeof val === 'number' || typeof val === 'string') {
 				return '' + val;
 			} else {
@@ -27,45 +29,48 @@ export class Validators {
 			}
 		};
 
-		val = Array.isArray(val) ? val : [val];
-		arg = Array.isArray(arg) ? arg : [arg];
+		let vals = Array.isArray(val) ? val : [val];
+		let args = Array.isArray(arg) ? arg : [arg];
 		loop:
-		for (let a of val) {
-			for (let b of arg) {
+		for (let a of vals) {
+			for (let b of args) {
 				if (toString(a) === toString(b)) {
 					continue loop;
 				}
 			}
 			return false;
 		}
-		return val.length > 0;
+		return vals.length > 0;
 	}
 
-	notEqual(elem, arg, val) {
+	notEqual(elem: FormElement, arg: string | number | boolean | (string | number | boolean)[], val: FormElementValue): boolean | null {
 		return arg === undefined ? null : !this.equal(elem, arg, val);
 	}
 
-	minLength(elem, arg, val) {
+	minLength(elem: FormElement, arg: number, val: string | number | unknown[]): boolean {
 		val = typeof val === 'number' ? val.toString() : val;
 		return val.length >= arg;
 	}
 
-	maxLength(elem, arg, val) {
+	maxLength(elem: FormElement, arg: number, val: string | number | unknown[]): boolean {
 		val = typeof val === 'number' ? val.toString() : val;
 		return val.length <= arg;
 	}
 
-	length(elem, arg, val) {
+	length(elem: FormElement, arg: number | [number | null, number | null], val: string | number | unknown[]): boolean {
 		val = typeof val === 'number' ? val.toString() : val;
 		arg = Array.isArray(arg) ? arg : [arg, arg];
-		return (arg[0] === null || val.length >= arg[0]) && (arg[1] === null || val.length <= arg[1]);
+		return (
+			(arg[0] === null || val.length >= arg[0])
+			&& (arg[1] === null || val.length <= arg[1])
+		);
 	}
 
-	email(elem, arg, val) {
+	email(elem: FormElement, arg: undefined, val: string): boolean {
 		return (/^("([ !#-[\]-~]|\\[ -~])+"|[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?$/i).test(val);
 	}
 
-	url(elem, arg, val, newValue) {
+	url(elem: FormElement, arg: undefined, val: string, newValue: { value: string }): boolean {
 		if (!(/^[a-z\d+.-]+:/).test(val)) {
 			val = 'https://' + val;
 		}
@@ -76,14 +81,22 @@ export class Validators {
 		return false;
 	}
 
-	regexp(elem, arg, val) {
+	regexp(elem: FormElement, arg: string, val: string): boolean | null {
 		let parts = typeof arg === 'string' ? arg.match(/^\/(.*)\/([imu]*)$/) : false;
 		try {
-			return parts && (new RegExp(parts[1], parts[2].replace('u', ''))).test(val);
-		} catch {} // eslint-disable-line no-empty
+			return parts && (new RegExp(parts[1]!, parts[2]!.replace('u', ''))).test(val);
+		} catch {
+			return null;
+		}
 	}
 
-	pattern(elem, arg, val, newValue, caseInsensitive) {
+	pattern(
+		elem: FormElement,
+		arg: string,
+		val: string | FileList,
+		newValue: null,
+		caseInsensitive: boolean,
+	): boolean | null {
 		if (typeof arg !== 'string') {
 			return null;
 		}
@@ -99,18 +112,20 @@ export class Validators {
 			return val instanceof FileList
 				? Array.from(val).every((file) => regExp.test(file.name))
 				: regExp.test(val);
-		} catch {} // eslint-disable-line no-empty
+		} catch {
+			return null;
+		}
 	}
 
-	patternCaseInsensitive(elem, arg, val) {
+	patternCaseInsensitive(elem: FormElement, arg: string, val: string | FileList): boolean | null {
 		return this.pattern(elem, arg, val, null, true);
 	}
 
-	numeric(elem, arg, val) {
+	numeric(elem: FormElement, arg: undefined, val: string): boolean {
 		return (/^[0-9]+$/).test(val);
 	}
 
-	integer(elem, arg, val, newValue) {
+	integer(elem: FormElement, arg: undefined, val: string, newValue: { value: number }): boolean {
 		if ((/^-?[0-9]+$/).test(val)) {
 			newValue.value = parseFloat(val);
 			return true;
@@ -118,7 +133,7 @@ export class Validators {
 		return false;
 	}
 
-	float(elem, arg, val, newValue) {
+	float(elem: FormElement, arg: undefined, val: string, newValue: { value: number }): boolean {
 		val = val.replace(/ +/g, '').replace(/,/g, '.');
 		if ((/^-?[0-9]*\.?[0-9]+$/).test(val)) {
 			newValue.value = parseFloat(val);
@@ -127,51 +142,51 @@ export class Validators {
 		return false;
 	}
 
-	min(elem, arg, val) {
+	min(elem: FormElement, arg: string | number, val: string | number): boolean {
 		if (Number.isFinite(arg)) {
-			val = parseFloat(val);
+			val = parseFloat(val as string);
 		}
 		return val >= arg;
 	}
 
-	max(elem, arg, val) {
+	max(elem: FormElement, arg: string | number, val: string | number): boolean {
 		if (Number.isFinite(arg)) {
-			val = parseFloat(val);
+			val = parseFloat(val as string);
 		}
 		return val <= arg;
 	}
 
-	range(elem, arg, val) {
+	range(elem: FormElement, arg: [string | number | null, string | number | null], val: string | number): boolean | null {
 		if (!Array.isArray(arg)) {
 			return null;
-		} else if (elem.type === 'time' && arg[0] > arg[1]) {
-			return val >= arg[0] || val <= arg[1];
+		} else if (elem.type === 'time' && arg[0]! > arg[1]!) {
+			return val >= arg[0]! || val <= arg[1]!;
 		}
 		return (arg[0] === null || this.min(elem, arg[0], val))
 			&& (arg[1] === null || this.max(elem, arg[1], val));
 	}
 
-	submitted(elem) {
+	submitted(elem: FormElement): boolean {
 		return elem.form['nette-submittedBy'] === elem;
 	}
 
-	fileSize(elem, arg, val) {
+	fileSize(elem: FormElement, arg: number, val: FileList): boolean {
 		return Array.from(val).every((file) => file.size <= arg);
 	}
 
-	mimeType(elem, args, val) {
-		let re = [];
+	mimeType(elem: FormElement, args: string | string[], val: FileList): boolean {
+		let parts: string[] = [];
 		args = Array.isArray(args) ? args : [args];
-		args.forEach((arg) => re.push('^' + arg.replace(/([^\w])/g, '\\$1').replace('\\*', '.*') + '$'));
-		re = new RegExp(re.join('|'));
+		args.forEach((arg) => parts.push('^' + arg.replace(/([^\w])/g, '\\$1').replace('\\*', '.*') + '$'));
+		let re = new RegExp(parts.join('|'));
 		return Array.from(val).every((file) => !file.type || re.test(file.type));
 	}
 
-	image(elem, arg, val) {
+	image(elem: FormElement, arg: string | string[] | undefined, val: FileList): boolean {
 		return this.mimeType(elem, arg ?? ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
 	}
 
-	static(elem, arg) {
+	static(elem: FormElement, arg: unknown): unknown {
 		return arg;
 	}
 }
