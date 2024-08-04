@@ -1,6 +1,6 @@
 {
 	"name": "nette-forms",
-	"version": "3.4.1",
+	"version": "3.5.0",
 	"description": "Client side script for Nette Forms Component",
 	"keywords": [
 		"nette",
@@ -11,6 +11,8 @@
 	"author": "David Grudl (https://davidgrudl.com)",
 	"license": "BSD-3-Clause",
 	"main": "src/assets/netteForms.js",
+	"types": "src/assets/netteForms.d.ts",
+	"unpkg": "src/assets/netteForms.min.js",
 	"files": [
 		"src/assets"
 	],
