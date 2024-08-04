@@ -1,18 +1,14 @@
-/**!
- * NetteForms - simple form validation.
- *
- * This file is part of the Nette Framework (https://nette.org)
- * Copyright (c) 2004 David Grudl (https://davidgrudl.com)
- */
-
+// @ts-nocheck
 /**
  * @typedef {HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement|HTMLButtonElement} FormElement
  * @typedef {{op: string, neg: boolean, msg: string, arg: *, rules: ?Array<Rule>, control: string, toggle: ?Array<string>}} Rule
  */
 
-class FormValidator {
+import { Validators } from './validators';
+
+export class FormValidator {
 	formErrors = [];
-	version = '3.3.0';
+	validators = new Validators;
 	#preventFiltering = {};
 	#formToggles = {};
 	#toggleListeners = new WeakMap;
@@ -345,184 +341,6 @@ class FormValidator {
 	}
 
 
-	validators = {
-		filled: function (elem, arg, val) {
-			return val !== '' && val !== false && val !== null
-				&& (!Array.isArray(val) || !!val.length)
-				&& (!(val instanceof FileList) || val.length);
-		},
-
-		blank: function (elem, arg, val) {
-			return !this.filled(elem, arg, val);
-		},
-
-		valid: function (elem, arg) {
-			return arg.validateControl(elem, null, true);
-		},
-
-		equal: function (elem, arg, val) {
-			if (arg === undefined) {
-				return null;
-			}
-
-			let toString = (val) => {
-				if (typeof val === 'number' || typeof val === 'string') {
-					return '' + val;
-				} else {
-					return val === true ? '1' : '';
-				}
-			};
-
-			val = Array.isArray(val) ? val : [val];
-			arg = Array.isArray(arg) ? arg : [arg];
-			loop:
-			for (let a of val) {
-				for (let b of arg) {
-					if (toString(a) === toString(b)) {
-						continue loop;
-					}
-				}
-				return false;
-			}
-			return val.length > 0;
-		},
-
-		notEqual: function (elem, arg, val) {
-			return arg === undefined ? null : !this.equal(elem, arg, val);
-		},
-
-		minLength: function (elem, arg, val) {
-			val = typeof val === 'number' ? val.toString() : val;
-			return val.length >= arg;
-		},
-
-		maxLength: function (elem, arg, val) {
-			val = typeof val === 'number' ? val.toString() : val;
-			return val.length <= arg;
-		},
-
-		length: function (elem, arg, val) {
-			val = typeof val === 'number' ? val.toString() : val;
-			arg = Array.isArray(arg) ? arg : [arg, arg];
-			return (arg[0] === null || val.length >= arg[0]) && (arg[1] === null || val.length <= arg[1]);
-		},
-
-		email: function (elem, arg, val) {
-			return (/^("([ !#-[\]-~]|\\[ -~])+"|[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?$/i).test(val);
-		},
-
-		url: function (elem, arg, val, newValue) {
-			if (!(/^[a-z\d+.-]+:/).test(val)) {
-				val = 'https://' + val;
-			}
-			if ((/^https?:\/\/((([-_0-9a-z\u00C0-\u02FF\u0370-\u1EFF]+\.)*[0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)?[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[[0-9a-f:]{3,39}\])(:\d{1,5})?(\/\S*)?$/i).test(val)) {
-				newValue.value = val;
-				return true;
-			}
-			return false;
-		},
-
-		regexp: function (elem, arg, val) {
-			let parts = typeof arg === 'string' ? arg.match(/^\/(.*)\/([imu]*)$/) : false;
-			try {
-				return parts && (new RegExp(parts[1], parts[2].replace('u', ''))).test(val);
-			} catch {} // eslint-disable-line no-empty
-		},
-
-		pattern: function (elem, arg, val, newValue, caseInsensitive) {
-			if (typeof arg !== 'string') {
-				return null;
-			}
-
-			try {
-				let regExp;
-				try {
-					regExp = new RegExp('^(?:' + arg + ')$', caseInsensitive ? 'ui' : 'u');
-				} catch {
-					regExp = new RegExp('^(?:' + arg + ')$', caseInsensitive ? 'i' : '');
-				}
-
-				return val instanceof FileList
-					? Array.from(val).every((file) => regExp.test(file.name))
-					: regExp.test(val);
-			} catch {} // eslint-disable-line no-empty
-		},
-
-		patternCaseInsensitive: function (elem, arg, val) {
-			return this.pattern(elem, arg, val, null, true);
-		},
-
-		numeric: function (elem, arg, val) {
-			return (/^[0-9]+$/).test(val);
-		},
-
-		integer: function (elem, arg, val, newValue) {
-			if ((/^-?[0-9]+$/).test(val)) {
-				newValue.value = parseFloat(val);
-				return true;
-			}
-			return false;
-		},
-
-		float: function (elem, arg, val, newValue) {
-			val = val.replace(/ +/g, '').replace(/,/g, '.');
-			if ((/^-?[0-9]*\.?[0-9]+$/).test(val)) {
-				newValue.value = parseFloat(val);
-				return true;
-			}
-			return false;
-		},
-
-		min: function (elem, arg, val) {
-			if (Number.isFinite(arg)) {
-				val = parseFloat(val);
-			}
-			return val >= arg;
-		},
-
-		max: function (elem, arg, val) {
-			if (Number.isFinite(arg)) {
-				val = parseFloat(val);
-			}
-			return val <= arg;
-		},
-
-		range: function (elem, arg, val) {
-			if (!Array.isArray(arg)) {
-				return null;
-			} else if (elem.type === 'time' && arg[0] > arg[1]) {
-				return val >= arg[0] || val <= arg[1];
-			}
-			return (arg[0] === null || this.min(elem, arg[0], val))
-				&& (arg[1] === null || this.max(elem, arg[1], val));
-		},
-
-		submitted: function (elem) {
-			return elem.form['nette-submittedBy'] === elem;
-		},
-
-		fileSize: function (elem, arg, val) {
-			return Array.from(val).every((file) => file.size <= arg);
-		},
-
-		mimeType: function (elem, args, val) {
-			let re = [];
-			args = Array.isArray(args) ? args : [args];
-			args.forEach((arg) => re.push('^' + arg.replace(/([^\w])/g, '\\$1').replace('\\*', '.*') + '$'));
-			re = new RegExp(re.join('|'));
-			return Array.from(val).every((file) => !file.type || re.test(file.type));
-		},
-
-		image: function (elem, arg, val) {
-			return this.mimeType(elem, arg ?? ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
-		},
-
-		static: function (elem, arg) {
-			return arg;
-		},
-	};
-
-
 	/**
 	 * Process all toggles in form.
 	 * @param {HTMLFormElement} form
@@ -696,25 +514,4 @@ class FormValidator {
 			});
 		});
 	}
-
-
-	/**
-	 * Converts string to web safe characters [a-z0-9-] text.
-	 * @param {string} s
-	 * @return {string}
-	 */
-	webalize(s) {
-		s = s.toLowerCase();
-		let res = '', ch;
-		for (let i = 0; i < s.length; i++) {
-			ch = this.webalizeTable[s.charAt(i)];
-			res += ch ? ch : s.charAt(i);
-		}
-		return res.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-	}
-
-	webalizeTable = { \u00e1: 'a', \u00e4: 'a', \u010d: 'c', \u010f: 'd', \u00e9: 'e', \u011b: 'e', \u00ed: 'i', \u013e: 'l', \u0148: 'n', \u00f3: 'o', \u00f4: 'o', \u0159: 'r', \u0161: 's', \u0165: 't', \u00fa: 'u', \u016f: 'u', \u00fd: 'y', \u017e: 'z' };
 }
-
-
-export default new FormValidator;
