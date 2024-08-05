@@ -1,6 +1,6 @@
 {
 	"name": "nette-forms",
-	"version": "3.5.3",
+	"version": "4.0.0",
 	"description": "Client side script for Nette Forms Component",
 	"keywords": [
 		"nette",
@@ -10,12 +10,10 @@
 	"homepage": "https://nette.org",
 	"author": "David Grudl (https://davidgrudl.com)",
 	"license": "BSD-3-Clause",
-	"main": "src/assets/netteForms.js",
-	"types": "src/assets/netteForms.d.ts",
-	"unpkg": "src/assets/netteForms.min.js",
-	"files": [
-		"src/assets"
-	],
+	"main": "nette-forms.umd.js",
+	"module": "nette-forms.esm.js",
+	"types": "nette-forms.d.ts",
+	"unpkg": "nette-forms.umd.min.js",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/nette/forms.git",
