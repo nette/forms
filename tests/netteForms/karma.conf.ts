@@ -4,7 +4,7 @@ module.exports = function (config) {
 		frameworks: ['jasmine'],
 		browsers: ['ChromeHeadless'],
 		files: [
-			'../../src/assets/netteForms.js',
+			'../../src/assets/dist/nette-forms.umd.js',
 			'spec/*Spec.js',
 		],
 		autoWatch: false,
