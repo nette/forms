@@ -1,0 +1,38 @@
+{
+	"name": "nette-forms",
+	"version": "4.0.0",
+	"description": "Client side script for Nette Forms Component",
+	"keywords": [
+		"nette",
+		"validation",
+		"forms"
+	],
+	"homepage": "https://nette.org",
+	"author": "David Grudl (https://davidgrudl.com)",
+	"license": "BSD-3-Clause",
+	"main": "nette-forms.umd.js",
+	"module": "nette-forms.mjs",
+	"types": "nette-forms.d.ts",
+	"unpkg": "nette-forms.umd.min.js",
+	"jsdelivr": "nette-forms.umd.min.js",
+	"exports": {
+		".": {
+			"types": "./nette-forms.d.ts",
+			"import": "./nette-forms.mjs",
+			"require": "./nette-forms.umd.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"files": [
+		"nette-forms.umd.js",
+		"nette-forms.umd.min.js",
+		"nette-forms.mjs",
+		"nette-forms.min.mjs",
+		"nette-forms.d.ts"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nette/forms.git",
+		"directory": "src/assets"
+	}
+}

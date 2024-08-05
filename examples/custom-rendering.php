@@ -115,7 +115,7 @@ if ($form->isSuccess()) {
 		background: #EEE;
 	}
 </style>
-<script src="https://unpkg.com/nette-forms@3"></script>
+<script src="https://unpkg.com/nette-forms@4/nette-forms.umd.js"></script>
 
 <h1>Nette Forms custom rendering example</h1>
 

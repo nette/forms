@@ -61,10 +61,18 @@ jobs:
                   format: clover
 
 
-    jasmine:
-        name: JavaScript tests
+    javascript:
+        name: JavaScript
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v7
             - run: npm install
             - run: npm run test
+            - run: npm run typecheck
+            - name: Verify package contents
+              working-directory: src/assets/dist
+              run: |
+                  npm pack --dry-run 2>&1 | tee pack.log
+                  grep -q 'nette-forms.umd.js' pack.log
+                  grep -q 'nette-forms.mjs' pack.log
+                  rm pack.log

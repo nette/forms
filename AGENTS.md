@@ -40,8 +40,8 @@ composer phpstan                     # PHPStan level 8
 
 # JavaScript (client-side validator) - uses npm
 npm install
-npm run build       # UMD + minified + .d.ts into src/assets/; runs JS tests after
-npm run test        # Vitest (jsdom); test:watch / test:ui also available
+npm run build       # UMD + ESM (.mjs) + minified + .d.ts into src/assets/dist/ (not in git)
+npm run test        # builds first (pretest), then Vitest (jsdom); test:watch / test:ui also available
 npm run lint:fix    # ESLint with @nette/eslint-plugin
 npm run typecheck
 ```

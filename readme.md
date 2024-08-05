@@ -76,10 +76,18 @@ $form->addText('name', 'Name:')
 	->setRequired('Please fill your name.');
 ```
 
-Try submitting a form without the name - you will keep seeing this message until you meet the validation rules. All that is left for us is setting up JavaScript rules. Luckily it's a piece of cake. We only have to link `netteForms.js`, which is located at `/client-side/forms` in the distribution package.
+Try submitting a form without the name - you will keep seeing this message until you meet the validation rules. All that is left for us is setting up JavaScript rules. Luckily it's a piece of cake. We only have to load the `nette-forms` script, which initializes itself on page load:
 
 ```html
-<script src="netteForms.js"></script>
+<script src="https://unpkg.com/nette-forms@4/nette-forms.umd.js"></script>
+```
+
+When using a bundler or ES modules, import it from the npm package and initialize it yourself:
+
+```js
+import netteForms from 'nette-forms';
+
+netteForms.initOnLoad();
 ```
 
 Nette Framework adds `required` class to all mandatory elements. Adding the following style will turn label of *name* input to red.

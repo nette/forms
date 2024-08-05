@@ -40,15 +40,15 @@ export default [
 			{
 				format: 'umd',
 				name: 'Nette',
-				dir: 'src/assets',
-				entryFileNames: 'netteForms.js',
+				dir: 'src/assets/dist',
+				entryFileNames: 'nette-forms.umd.js',
 				generatedCode: 'es2015',
 			},
 			{
 				format: 'umd',
 				name: 'Nette',
-				dir: 'src/assets',
-				entryFileNames: 'netteForms.min.js',
+				dir: 'src/assets/dist',
+				entryFileNames: 'nette-forms.umd.min.js',
 				generatedCode: 'es2015',
 				plugins: [
 					terser(),
@@ -65,9 +65,36 @@ export default [
 	},
 
 	{
-		input: 'src/assets/index.umd.ts',
+		input: 'src/assets/index.esm.ts',
+		output: [
+			{
+				format: 'es',
+				dir: 'src/assets/dist',
+				entryFileNames: 'nette-forms.mjs',
+				generatedCode: 'es2015',
+			},
+			{
+				format: 'es',
+				dir: 'src/assets/dist',
+				entryFileNames: 'nette-forms.min.mjs',
+				generatedCode: 'es2015',
+				plugins: [
+					terser(),
+				],
+			},
+		],
+		plugins: [
+			json(),
+			nodeResolve(),
+			typescript(),
+			spaces2tabs(),
+		],
+	},
+
+	{
+		input: 'src/assets/index.esm.ts',
 		output: [{
-			file: 'src/assets/netteForms.d.ts',
+			file: 'src/assets/dist/nette-forms.d.ts',
 			format: 'es',
 		}],
 		plugins: [
