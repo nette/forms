@@ -7,7 +7,7 @@ export default [
 	{
 		ignores: [
 			'*/', '!src/', '!tests/',
-			'**/netteForms*.*',
+			'**/dist/',
 		],
 	},
 
