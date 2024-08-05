@@ -7,6 +7,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 // Load and execute netteForms.js in global context
-const netteFormsPath = join(__dirname, '../../src/assets/netteForms.js');
+const netteFormsPath = join(__dirname, '../../src/assets/dist/nette-forms.umd.js');
 const netteFormsCode = fs.readFileSync(netteFormsPath, 'utf-8');
 vm.runInThisContext(netteFormsCode);
