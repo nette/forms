@@ -225,10 +225,10 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		}
 
 		$container = $this->getWrapper($control ? 'control errorcontainer' : 'error container');
-		$item = $this->getWrapper($control ? 'control erroritem' : 'error item');
+		$itemPrototype = $this->getWrapper($control ? 'control erroritem' : 'error item');
 
 		foreach ($errors as $error) {
-			$item = clone $item;
+			$item = clone $itemPrototype;
 			if ($error instanceof HtmlStringable) {
 				$item->addHtml($error);
 			} else {
