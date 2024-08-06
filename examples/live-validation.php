@@ -52,7 +52,7 @@ $renderer->wrappers['pair']['.error'] = 'has-error';
 <meta charset="utf-8">
 <title>Nette Forms live validation example</title>
 <link rel="stylesheet" media="screen" href="assets/style.css" />
-<script src="https://unpkg.com/nette-forms@3/src/assets/netteForms.js"></script>
+<script src="https://unpkg.com/nette-forms@3"></script>
 <script src="https://code.jquery.com/jquery-3.0.0.min.js" integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0=" crossorigin="anonymous"></script>
 
 <script>
