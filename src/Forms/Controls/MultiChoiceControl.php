@@ -65,11 +65,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 		$values = array_keys($flip);
 		if ($this->checkDefaultValue && ($diff = array_diff($values, array_keys($this->items)))) {
-			$set = Nette\Utils\Strings::truncate(
-				implode(', ', array_map(fn($s) => var_export($s, return: true), array_keys($this->items))),
-				70,
-				'...',
-			);
+			$set = Nette\Utils\Strings::truncate(implode(', ', array_map(fn($s) => var_export($s, return: true), array_keys($this->items))), 70, '...');
 			$vals = (count($diff) > 1 ? 's' : '') . " '" . implode("', '", $diff) . "'";
 			throw new Nette\InvalidArgumentException("Value$vals are out of allowed set [$set] in field '{$this->getName()}'.");
 		}
@@ -94,15 +90,6 @@ abstract class MultiChoiceControl extends BaseControl
 	public function getRawValue(): array
 	{
 		return $this->value;
-	}
-
-
-	/**
-	 * Is any item selected?
-	 */
-	public function isFilled(): bool
-	{
-		return $this->getValue() !== [];
 	}
 
 

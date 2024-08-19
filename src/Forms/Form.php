@@ -473,7 +473,6 @@ class Form extends Container implements Nette\HtmlStringable
 		return $htmlName === null
 			? $this->httpData
 			: Helpers::extractHttpData($this->httpData, $htmlName, $type);
-
 	}
 
 
