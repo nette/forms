@@ -161,8 +161,8 @@ export class FormValidator {
 
 		this.formErrors = [];
 
-		if (form['nette-submittedBy'] && form['nette-submittedBy'].getAttribute('formnovalidate') !== null) {
-			let scopeArr = JSON.parse(form['nette-submittedBy'].getAttribute('data-nette-validation-scope') ?? '[]') as string[];
+		if (sender.getAttribute('formnovalidate') !== null) {
+			let scopeArr = JSON.parse(sender.getAttribute('data-nette-validation-scope') ?? '[]') as string[];
 			if (scopeArr.length) {
 				scope = new RegExp('^(' + scopeArr.join('-|') + '-)');
 			} else {
@@ -437,7 +437,7 @@ export class FormValidator {
 		form.noValidate = true;
 
 		form.addEventListener('submit', (e) => {
-			if (!this.validateForm(form)) {
+			if (!this.validateForm(form.submitter || form)) {
 				e.stopPropagation();
 				e.preventDefault();
 			}
@@ -453,17 +453,6 @@ export class FormValidator {
 		this.#onDocumentReady(() => {
 			Array.from(document.forms)
 				.forEach((form) => this.initForm(form));
-
-			document.body.addEventListener('click', (e) => {
-				let target = e.target as FormElement;
-				while (target) {
-					if (target.form && target.type in { submit: 1, image: 1 }) {
-						target.form['nette-submittedBy'] = target;
-						break;
-					}
-					target = target.parentNode as FormElement;
-				}
-			});
 		});
 	}
 }
