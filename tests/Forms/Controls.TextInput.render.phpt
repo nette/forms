@@ -258,3 +258,15 @@ test('addFilter() & rules', function () {
 
 	Assert::same('<input type="text" name="text" id="frm-text" data-nette-rules=\'[{"op":":min","msg":"min","arg":1}]\'>', (string) $input->getControl());
 });
+
+
+test('addEmail', function () {
+	$form = new Form;
+	$input = $form->addEmail('email', 'Label');
+
+	Assert::type(Html::class, $input->getLabel());
+	Assert::same('<label for="frm-email">Label</label>', (string) $input->getLabel());
+
+	Assert::type(Html::class, $input->getControl());
+	Assert::same('<input type="email" name="email" maxlength="255" id="frm-email" data-nette-rules=\'[{"op":":email","msg":"Please enter a valid email address."}]\'>', (string) $input->getControl());
+});

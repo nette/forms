@@ -27,7 +27,7 @@
 <tr>
 	<th><label for="frm-email">Email:</label></th>
 
-	<td><input type="email" name="email" id="frm-email" data-nette-rules='[{"op":":email","msg":"Please enter a valid email address."}]' data-nette-empty-value="&#64;" value="&#64;" class="text"></td>
+	<td><input type="email" name="email" maxlength="255" id="frm-email" data-nette-rules='[{"op":":email","msg":"Please enter a valid email address."}]' data-nette-empty-value="&#64;" value="&#64;" class="text"></td>
 </tr>
 </table>
 </fieldset>
