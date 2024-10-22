@@ -299,8 +299,8 @@
 		validateForm(sender, onlyCheck = false) {
 			let form = sender.form ?? sender, scope;
 			this.formErrors = [];
-			if (form['nette-submittedBy'] && form['nette-submittedBy'].getAttribute('formnovalidate') !== null) {
-				let scopeArr = JSON.parse(form['nette-submittedBy'].getAttribute('data-nette-validation-scope') ?? '[]');
+			if (sender.getAttribute('formnovalidate') !== null) {
+				let scopeArr = JSON.parse(sender.getAttribute('data-nette-validation-scope') ?? '[]');
 				if (scopeArr.length) {
 					scope = new RegExp('^(' + scopeArr.join('-|') + '-)');
 				}
@@ -519,7 +519,7 @@
 			}
 			form.noValidate = true;
 			form.addEventListener('submit', (e) => {
-				if (!this.validateForm(form)) {
+				if (!this.validateForm(form.submitter || form)) {
 					e.stopPropagation();
 					e.preventDefault();
 				}
@@ -532,16 +532,6 @@
 			this.#onDocumentReady(() => {
 				Array.from(document.forms)
 					.forEach((form) => this.initForm(form));
-				document.body.addEventListener('click', (e) => {
-					let target = e.target;
-					while (target) {
-						if (target.form && target.type in { submit: 1, image: 1 }) {
-							target.form['nette-submittedBy'] = target;
-							break;
-						}
-						target = target.parentNode;
-					}
-				});
 			});
 		}
 	}
@@ -562,7 +552,7 @@
 		return res.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 	}
 
-	var version = "3.5.0";
+	var version = "3.5.1";
 
 	let nette = new FormValidator;
 	nette.version = version;
