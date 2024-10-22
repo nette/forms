@@ -102,7 +102,7 @@ class SelectBox extends ChoiceControl
 		if ($this->prompt !== false) {
 			$promptKey = '';
 			while (isset($items[$promptKey])) {
-				$promptKey .= "\x1";
+				$promptKey .= "\t";
 			}
 			$items = [$promptKey => $this->translate($this->prompt)] + $items;
 			if ($this->isRequired()) {

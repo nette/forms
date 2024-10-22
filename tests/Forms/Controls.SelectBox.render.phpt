@@ -97,11 +97,11 @@ test('unique prompt', function () {
 		'' => 'First',
 	])->setPrompt('prompt');
 
-	Assert::same('<select name="list" id="frm-list"><option value="' . "\x01" . '">prompt</option><option value="">First</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list"><option value="' . "\t" . '">prompt</option><option value="">First</option></select>', (string) $input->getControl());
 
 	$input->setValue('');
 
-	Assert::same('<select name="list" id="frm-list"><option value="' . "\x01" . '">prompt</option><option value="" selected>First</option></select>', (string) $input->getControl());
+	Assert::same('<select name="list" id="frm-list"><option value="' . "\t" . '">prompt</option><option value="" selected>First</option></select>', (string) $input->getControl());
 });
 
 
