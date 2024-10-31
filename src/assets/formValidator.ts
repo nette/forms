@@ -437,7 +437,7 @@ export class FormValidator {
 		form.noValidate = true;
 
 		form.addEventListener('submit', (e) => {
-			if (!this.validateForm(form.submitter || form)) {
+			if (!this.validateForm((e.submitter || form) as HTMLFormElement | FormElement)) {
 				e.stopPropagation();
 				e.preventDefault();
 			}
