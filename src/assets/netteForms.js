@@ -519,7 +519,7 @@
 			}
 			form.noValidate = true;
 			form.addEventListener('submit', (e) => {
-				if (!this.validateForm(form.submitter || form)) {
+				if (!this.validateForm((e.submitter || form))) {
 					e.stopPropagation();
 					e.preventDefault();
 				}
@@ -552,7 +552,7 @@
 		return res.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 	}
 
-	var version = "3.5.1";
+	var version = "3.5.2";
 
 	let nette = new FormValidator;
 	nette.version = version;
