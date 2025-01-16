@@ -29,7 +29,7 @@ $_FILES = [
 	'container' => [
 		'name' => ['avatar' => "invalid\xAA\xAA\xAAutf"],
 		'type' => ['avatar' => 'text/plain'],
-		'tmp_name' => ['avatar' => 'C:\\PHP\\temp\\php1D5C.tmp'],
+		'tmp_name' => ['avatar' => 'C:\PHP\temp\php1D5C.tmp'],
 		'error' => ['avatar' => 0],
 		'size' => ['avatar' => 3013],
 	],
@@ -91,7 +91,7 @@ test('container file upload with invalid UTF', function () {
 		'name' => '',
 		'type' => '',
 		'size' => 3013,
-		'tmp_name' => 'C:\\PHP\\temp\\php1D5C.tmp',
+		'tmp_name' => 'C:\PHP\temp\php1D5C.tmp',
 		'error' => 0,
 	]), $input->getValue());
 	Assert::true($input->isFilled());
