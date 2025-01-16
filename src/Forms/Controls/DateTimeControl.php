@@ -129,7 +129,7 @@ class DateTimeControl extends BaseControl
 		return $this->normalizeValue($value)->format(match ($this->type) {
 			self::TypeDate => 'Y-m-d',
 			self::TypeTime => $this->withSeconds ? 'H:i:s' : 'H:i',
-			self::TypeDateTime => $this->withSeconds ? 'Y-m-d\\TH:i:s' : 'Y-m-d\\TH:i',
+			self::TypeDateTime => $this->withSeconds ? 'Y-m-d\TH:i:s' : 'Y-m-d\TH:i',
 		});
 	}
 
