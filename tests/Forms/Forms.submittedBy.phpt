@@ -22,7 +22,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('identifying submitted button', function () {
 	$name = 'name';
 	$_POST = [Form::TrackerId => $name, 'send2' => ''];
 
@@ -36,7 +36,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('image button submission detection', function () {
 	$name = 'name';
 	$_POST = [Form::TrackerId => $name, 'send2' => ['x' => '1', 'y' => '1']];
 

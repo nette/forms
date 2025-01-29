@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test('', function () {
+test('checkbox label and control structure', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on', 'Label');
 
@@ -44,7 +44,7 @@ test('', function () {
 });
 
 
-test('Html with translator', function () {
+test('translator does not affect checkbox label', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on', 'Label');
 	$input->setTranslator(new Translator);
@@ -53,7 +53,7 @@ test('Html with translator', function () {
 });
 
 
-test('validation rules', function () {
+test('required checkbox attributes', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on')->setRequired('required');
 
@@ -61,7 +61,7 @@ test('validation rules', function () {
 });
 
 
-test('container', function () {
+test('checkbox within container naming', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addCheckbox('on');
@@ -70,7 +70,7 @@ test('container', function () {
 });
 
 
-test('rendering options', function () {
+test('checkbox options after rendering', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on');
 

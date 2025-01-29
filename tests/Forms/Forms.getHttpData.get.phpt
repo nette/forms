@@ -21,7 +21,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('empty GET form submission', function () {
 	$form = new Form;
 	$form->setMethod($form::Get);
 	$form->addSubmit('send', 'Send');
@@ -33,7 +33,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('unsubmitted form handling', function () {
 	$form = new Form;
 	$form->addSubmit('send', 'Send');
 
@@ -43,7 +43,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('tracker ID in GET submission', function () {
 	$name = 'name';
 	$_GET = [Form::TrackerId => $name];
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);

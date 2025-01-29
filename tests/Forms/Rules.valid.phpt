@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('condition based on another field\'s validity', function () {
 	$form = new Form;
 	$form->addText('foo')
 		->setRequired('fill foo');
@@ -34,14 +34,14 @@ test('', function () {
 });
 
 
-testException('', function () {
+testException('exception on using Valid in addRule', function () {
 	$form = new Form;
 	$form->addText('foo')
 		->addRule(Form::Valid);
 }, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addRule method.');
 
 
-test('', function () {
+test('filter application before validation', function () {
 	$form = new Form;
 	$form->addText('foo')
 		->addFilter(fn($value) => str_replace(' ', '', $value))
@@ -57,7 +57,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('filter and pattern validation interaction', function () {
 	$form = new Form;
 	$foo = $form->addText('foo');
 	$rules = $foo->getRules();
@@ -76,14 +76,14 @@ test('', function () {
 });
 
 
-testException('', function () {
+testException('exception on Valid in addCondition', function () {
 	$form = new Form;
 	$form->addText('foo')
 		->addCondition(Form::Valid);
 }, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addCondition method.');
 
 
-testException('', function () {
+testException('exception on negative Valid rule', function () {
 	$form = new Form;
 	@$form->addText('foo')
 		->addRule(~Form::Valid); // @ - negative rules are deprecated

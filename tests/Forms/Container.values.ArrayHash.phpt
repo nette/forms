@@ -40,7 +40,7 @@ function createForm(): Form
 }
 
 
-test('setDefaults() + iterable', function () {
+test('setting defaults using ArrayHash', function () {
 	$form = createForm();
 	Assert::false($form->isSubmitted());
 
@@ -69,7 +69,7 @@ test('setDefaults() + iterable', function () {
 });
 
 
-test('submitted form + getValues()', function () {
+test('retrieving POST data as ArrayHash', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -87,7 +87,7 @@ test('submitted form + getValues()', function () {
 });
 
 
-test('submitted form + reset()', function () {
+test('resetting form with ArrayHash values', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -109,7 +109,7 @@ test('submitted form + reset()', function () {
 });
 
 
-test('setValues() + iterable', function () {
+test('updating values with ArrayHash and erase', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -154,7 +154,7 @@ test('setValues() + iterable', function () {
 });
 
 
-test('onSuccess test', function () {
+test('onSuccess event with ArrayHash values', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();

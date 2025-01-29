@@ -22,7 +22,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('checkbox on/off states from POST', function () {
 	$_POST = [
 		'off' => '',
 		'on' => '1',
@@ -41,7 +41,7 @@ test('', function () {
 });
 
 
-test('malformed data', function () {
+test('malformed checkbox array handling', function () {
 	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
@@ -52,7 +52,7 @@ test('malformed data', function () {
 });
 
 
-testException('setValue() and invalid argument', function () {
+testException('array value exception for checkbox', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('checkbox');
 	$input->setValue([]);

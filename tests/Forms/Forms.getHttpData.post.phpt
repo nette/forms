@@ -23,7 +23,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('POST submission with strict cookie', function () {
 	$form = new Form;
 	$form->addSubmit('send', 'Send');
 
@@ -34,7 +34,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('missing cookie in POST', function () {
 	unset($_COOKIE[Nette\Http\Helpers::StrictCookieName]);
 
 	$form = new Form;
@@ -47,7 +47,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('GET method in POST context', function () {
 	$form = new Form;
 	$form->setMethod($form::Get);
 	$form->addSubmit('send', 'Send');
@@ -59,7 +59,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('tracker ID in POST submission', function () {
 	$name = 'name';
 	$_POST = [Form::TrackerId => $name];
 
@@ -73,7 +73,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('submit button not pressed', function () {
 	$form = new Form;
 	$input = $form->addSubmit('send', 'Send');
 	Assert::false($input->isSubmittedBy());
@@ -81,7 +81,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('successful POST submission', function () {
 	$_POST = ['send' => ''];
 	$form = new Form;
 	$input = $form->addSubmit('send', 'Send');

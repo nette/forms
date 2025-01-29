@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test('', function () {
+test('select box basic rendering', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -39,7 +39,7 @@ test('', function () {
 });
 
 
-test('selected', function () {
+test('selected option rendering', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -50,7 +50,7 @@ test('selected', function () {
 });
 
 
-test('selected 2x', function () {
+test('grouped options rendering', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		['a' => 'First'],
@@ -61,7 +61,7 @@ test('selected 2x', function () {
 });
 
 
-test('prompt', function () {
+test('prompt option rendering', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -76,7 +76,7 @@ test('prompt', function () {
 });
 
 
-test('prompt + required', function () {
+test('required select with prompt', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -91,7 +91,7 @@ test('prompt + required', function () {
 });
 
 
-test('unique prompt', function () {
+test('empty value and prompt', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'' => 'First',
@@ -105,7 +105,7 @@ test('unique prompt', function () {
 });
 
 
-test('translator & groups', function () {
+test('translating prompt and options', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -119,7 +119,7 @@ test('translator & groups', function () {
 });
 
 
-test('Html with translator & groups', function () {
+test('HTML in prompt and options', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', Html::el('b', 'Label'), [
 		'a' => Html::el('option', 'First')->class('class'),
@@ -133,7 +133,7 @@ test('Html with translator & groups', function () {
 });
 
 
-test('validation rules', function () {
+test('required select box', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -144,7 +144,7 @@ test('validation rules', function () {
 });
 
 
-test('container', function () {
+test('container naming in select', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addSelect('list', 'Label', [
@@ -156,7 +156,7 @@ test('container', function () {
 });
 
 
-test('disabled all', function () {
+test('disabled select rendering', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -167,7 +167,7 @@ test('disabled all', function () {
 });
 
 
-test('disabled one', function () {
+test('disabled options rendering', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
@@ -178,7 +178,7 @@ test('disabled one', function () {
 });
 
 
-test('rendering options', function () {
+test('select control options', function () {
 	$form = new Form;
 	$input = $form->addSelect('list');
 
@@ -190,7 +190,7 @@ test('rendering options', function () {
 });
 
 
-test('', function () {
+test('dynamic option attributes', function () {
 	$form = new Form;
 	$input = $form->addSelect('list', 'Label', [
 		1 => 'First',

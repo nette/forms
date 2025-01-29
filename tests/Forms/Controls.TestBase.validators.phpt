@@ -16,7 +16,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('min length validation', function () {
 	$control = new TextInput;
 	$control->value = '';
 	Assert::true(Validator::validateMinLength($control, 0));
@@ -24,7 +24,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('max length validation', function () {
 	$control = new TextInput;
 	$control->value = '';
 	Assert::true(Validator::validateMaxLength($control, 0));
@@ -35,7 +35,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('exact and range length validation', function () {
 	$control = new TextInput;
 	$control->value = '';
 	Assert::true(Validator::validateLength($control, 0));
@@ -49,7 +49,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('email format validation', function () {
 	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateEmail($control));
@@ -68,7 +68,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('URL validation and correction', function () {
 	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateUrl($control));
@@ -87,7 +87,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('pattern matching validation', function () {
 	$control = new TextInput;
 	$control->value = '123x';
 	Assert::false(Validator::validatePattern($control, '[0-9]'));
@@ -95,7 +95,7 @@ test('', function () {
 	Assert::false(Validator::validatePattern($control, '[0-9]+X'));
 });
 
-test('', function () {
+test('object-based pattern validation', function () {
 	$control = new TextInput;
 
 	$control->value = new class () {
@@ -113,7 +113,7 @@ test('', function () {
 	Assert::false(Validator::validatePattern($control, '[0-9]+X'));
 });
 
-test('', function () {
+test('case-insensitive pattern validation', function () {
 	$control = new TextInput;
 	$control->value = '123x';
 	Assert::false(Validator::validatePatternCaseInsensitive($control, '[0-9]'));
@@ -122,7 +122,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('file upload pattern validation', function () {
 	class MockUploadControl extends UploadControl
 	{
 		public function setValue($value): static
@@ -153,7 +153,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('numeric value validation', function () {
 	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateNumeric($control));
@@ -185,7 +185,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('integer validation', function () {
 	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateInteger($control));
@@ -209,7 +209,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('float validation', function () {
 	$control = new TextInput;
 	$control->value = '';
 	Assert::false(Validator::validateFloat($control));

@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('date', function () {
+test('basic date input rendering', function () {
 	$form = new Form;
 	$input = $form->addDate('date', 'label');
 
@@ -23,7 +23,7 @@ test('date', function () {
 });
 
 
-test('required date', function () {
+test('required date input attributes', function () {
 	$form = new Form;
 	$input = $form->addDate('date')->setRequired('required');
 
@@ -31,7 +31,7 @@ test('required date', function () {
 });
 
 
-test('date: min & max validator', function () {
+test('date min/max attributes', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->addRule($form::Min, null, new DateTime('2020-01-01 11:22:33'))
@@ -41,7 +41,7 @@ test('date: min & max validator', function () {
 });
 
 
-test('date: range validator', function () {
+test('date range attributes', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->addRule($form::Range, null, [new DateTime('2020-01-01 11:22:33'), new DateTime('2040-01-01 22:33:44')]);
@@ -50,7 +50,7 @@ test('date: range validator', function () {
 });
 
 
-test('time: range validator', function () {
+test('time range attributes', function () {
 	$form = new Form;
 	$input = $form->addTime('time')
 		->addRule($form::Range, null, [new DateTime('2020-01-01 11:22:33'), new DateTime('2040-01-01 22:33:44')]);
@@ -59,7 +59,7 @@ test('time: range validator', function () {
 });
 
 
-test('time with seconds: range validator', function () {
+test('time with seconds range', function () {
 	$form = new Form;
 	$input = $form->addTime('time', withSeconds: true)
 		->addRule($form::Range, null, [new DateTime('2020-01-01 11:22:33'), new DateTime('2040-01-01 22:33:44')]);
@@ -68,7 +68,7 @@ test('time with seconds: range validator', function () {
 });
 
 
-test('date with value', function () {
+test('date value formatting', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue(new Nette\Utils\DateTime('2023-10-22'));
@@ -77,7 +77,7 @@ test('date with value', function () {
 });
 
 
-test('time with value', function () {
+test('time value formatting', function () {
 	$form = new Form;
 	$input = $form->addTime('time')
 		->setValue(new Nette\Utils\DateTime('07:05'));
@@ -86,7 +86,7 @@ test('time with value', function () {
 });
 
 
-test('date-time with value', function () {
+test('datetime-local value formatting', function () {
 	$form = new Form;
 	$input = $form->addDateTime('date')
 		->setValue(new Nette\Utils\DateTime('2023-10-22 07:05'));
@@ -95,7 +95,7 @@ test('date-time with value', function () {
 });
 
 
-test('dynamic validation', function () {
+test('dynamic min rule via control', function () {
 	$form = new Form;
 	$text = $form->addText('text');
 	$input = $form->addDateTime('date')
@@ -105,7 +105,7 @@ test('dynamic validation', function () {
 });
 
 
-test('filter in rules', function () {
+test('filter does not affect HTML', function () {
 	$form = new Form;
 	$input = $form->addDateTime('date');
 	$input->getRules()

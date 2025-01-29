@@ -9,7 +9,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('removing specific validation rules', function () {
 	$form = new Form;
 	$input = $form->addText('text1');
 	$input->setRequired();
@@ -33,7 +33,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('removing non-existent rule does nothing', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setRequired();
@@ -45,7 +45,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('conditional rule removal handling', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addCondition($form::Email);

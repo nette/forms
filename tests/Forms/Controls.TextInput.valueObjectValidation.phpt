@@ -31,7 +31,7 @@ class ValueObject
 }
 
 
-test('e-mail', function (): void {
+test('value object email validation', function (): void {
 	$form = new Form;
 	$input = $form->addEmail('email');
 
@@ -42,7 +42,7 @@ test('e-mail', function (): void {
 });
 
 
-test('URL', function (): void {
+test('value object URL validation', function (): void {
 	$form = new Form;
 	$input = $form->addText('url')
 		->addRule(Form::URL);

@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('exporting basic form validation rules', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addRule(Form::Filled, null, []);
@@ -28,7 +28,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('exporting email validation rules', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addRule(Form::Email);
@@ -38,7 +38,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('combining required and email validation rules', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setRequired(true);
@@ -50,7 +50,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('optional field with email validation', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setRequired(false);
@@ -61,7 +61,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('conditional validation rule exports', function () {
 	$form = new Form;
 	$input1 = $form->addText('text1');
 	$input2 = $form->addText('text2');
@@ -93,7 +93,7 @@ test('', function () {
 });
 
 
-test('addFilter', function () {
+test('rule export with pattern and filters', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addRule(Form::Pattern, 'match pattern', '\d+');

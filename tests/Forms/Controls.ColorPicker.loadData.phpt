@@ -21,7 +21,7 @@ setUp(function () {
 });
 
 
-test('loadData empty string', function () {
+test('default color for empty input', function () {
 	$_POST = ['color' => ''];
 
 	$form = new Form;
@@ -32,7 +32,7 @@ test('loadData empty string', function () {
 });
 
 
-test('loadData invalid string', function () {
+test('invalid color format handling', function () {
 	$_POST = ['color' => '#abc'];
 
 	$form = new Form;
@@ -43,7 +43,7 @@ test('loadData invalid string', function () {
 });
 
 
-test('loadData valid string', function () {
+test('valid color value handling', function () {
 	$_POST = ['color' => '#1020aa'];
 
 	$form = new Form;

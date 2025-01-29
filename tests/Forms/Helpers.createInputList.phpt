@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('generating input lists with various configurations', function () {
 	Assert::same(
 		'',
 		Helpers::createInputList([]),

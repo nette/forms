@@ -32,7 +32,7 @@ $series = [
 ];
 
 
-test('empty input', function () use ($series) {
+test('empty checkbox list submission', function () use ($series) {
 	$_POST = [];
 
 	$form = new Form;
@@ -45,7 +45,7 @@ test('empty input', function () use ($series) {
 });
 
 
-test('compact mode', function () use ($series) {
+test('multiple valid selections', function () use ($series) {
 	$_POST = ['list' => 'red-dwarf,0'];
 
 	$form = new Form;
@@ -58,7 +58,7 @@ test('compact mode', function () use ($series) {
 });
 
 
-test('multiple selected items, zero item', function () use ($series) {
+test('filtering invalid selections', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
@@ -72,7 +72,7 @@ test('multiple selected items, zero item', function () use ($series) {
 });
 
 
-test('empty key', function () use ($series) {
+test('empty string as valid selection', function () use ($series) {
 	$_POST = ['empty' => ['']];
 
 	$form = new Form;
@@ -85,7 +85,7 @@ test('empty key', function () use ($series) {
 });
 
 
-test('missing key', function () use ($series) {
+test('missing checkbox list data', function () use ($series) {
 	$form = new Form;
 	$input = $form->addCheckboxList('missing', null, $series);
 
@@ -96,7 +96,7 @@ test('missing key', function () use ($series) {
 });
 
 
-test('disabled key', function () use ($series) {
+test('disabled checkbox list ignores input', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
@@ -108,7 +108,7 @@ test('disabled key', function () use ($series) {
 });
 
 
-test('malformed data', function () use ($series) {
+test('nested malformed array input', function () use ($series) {
 	$_POST = ['malformed' => [['']]];
 
 	$form = new Form;
@@ -121,7 +121,7 @@ test('malformed data', function () use ($series) {
 });
 
 
-test('validateLength', function () use ($series) {
+test('selection length validation', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
@@ -134,7 +134,7 @@ test('validateLength', function () use ($series) {
 });
 
 
-test('validateEqual', function () use ($series) {
+test('equality validation with mixed values', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
@@ -148,7 +148,7 @@ test('validateEqual', function () use ($series) {
 });
 
 
-test('empty input & validateEqual', function () use ($series) {
+test('empty list equality checks', function () use ($series) {
 	$_POST = [];
 
 	$form = new Form;
@@ -162,7 +162,7 @@ test('empty input & validateEqual', function () use ($series) {
 });
 
 
-testException('setValue() and invalid argument', function () use ($series) {
+testException('invalid selection exception', function () use ($series) {
 	$form = new Form;
 	$input = $form->addCheckboxList('list', null, $series);
 	$input->setValue(null);
@@ -170,7 +170,7 @@ testException('setValue() and invalid argument', function () use ($series) {
 }, Nette\InvalidArgumentException::class, "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'list'.");
 
 
-test('object as value', function () {
+test('dateTime object as selection key', function () {
 	$form = new Form;
 	$input = $form->addCheckboxList('list', null, ['2013-07-05 00:00:00' => 1])
 		->setValue([new DateTime('2013-07-05')]);
@@ -179,7 +179,7 @@ test('object as value', function () {
 });
 
 
-test('object as item', function () {
+test('dateTime items without keys', function () {
 	$form = new Form;
 	$input = $form->addCheckboxList('list')
 		->setItems([new DateTime('2013-07-05')], useKeys: false)
@@ -189,7 +189,7 @@ test('object as item', function () {
 });
 
 
-test('disabled one', function () use ($series) {
+test('disabled item filtering', function () use ($series) {
 	$_POST = ['list' => ['red-dwarf', '0']];
 
 	$form = new Form;

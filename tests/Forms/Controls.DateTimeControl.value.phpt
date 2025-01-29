@@ -14,14 +14,14 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-testException('invalid argument', function () {
+testException('invalid value type exception', function () {
 	$form = new Form;
 	$input = $form->addDate('date');
 	$input->setValue([]);
 }, TypeError::class, 'Value must be DateTimeInterface|string|int|null, array given.');
 
 
-test('empty string', function () {
+test('empty string as null', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue('');
@@ -30,7 +30,7 @@ test('empty string', function () {
 });
 
 
-test('date as string', function () {
+test('date string parsing', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue('2013-07-05 10:30');
@@ -39,14 +39,14 @@ test('date as string', function () {
 });
 
 
-testException('date as invalid string', function () {
+testException('invalid date exception', function () {
 	$form = new Form;
 	$input = $form->addDate('date');
 	$input->setValue('2023-02-31');
 }, Nette\InvalidArgumentException::class, "The parsed date was invalid '2023-02-31'");
 
 
-test('date as string timestamp', function () {
+test('timestamp string parsing', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue('254400000');
@@ -55,7 +55,7 @@ test('date as string timestamp', function () {
 });
 
 
-test('date as int timestamp', function () {
+test('integer timestamp parsing', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue(254_400_000);
@@ -64,7 +64,7 @@ test('date as int timestamp', function () {
 });
 
 
-test('date as DateTime object', function () {
+test('dateTime object parsing', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue(new Nette\Utils\DateTime('2023-10-05 11:22:33.44'));
@@ -73,7 +73,7 @@ test('date as DateTime object', function () {
 });
 
 
-test('time as DateTime object', function () {
+test('time extraction from DateTime', function () {
 	$form = new Form;
 	$input = $form->addTime('time')
 		->setValue(new Nette\Utils\DateTime('2023-10-05 11:22:33.44'));
@@ -82,7 +82,7 @@ test('time as DateTime object', function () {
 });
 
 
-test('date-time as DateTime object', function () {
+test('datetime value extraction', function () {
 	$form = new Form;
 	$input = $form->addDateTime('time')
 		->setValue(new Nette\Utils\DateTime('2023-10-05 11:22:33.44'));
@@ -91,7 +91,7 @@ test('date-time as DateTime object', function () {
 });
 
 
-test('date-time with seconds as DateTime object', function () {
+test('datetime with seconds extraction', function () {
 	$form = new Form;
 	$input = $form->addDateTime('time', withSeconds: true)
 		->setValue(new Nette\Utils\DateTime('2023-10-05 11:22:33.44'));
@@ -100,7 +100,7 @@ test('date-time with seconds as DateTime object', function () {
 });
 
 
-test('range datetime validation', function () {
+test('datetime range validation', function () {
 	$form = new Form;
 	$input = $form->addDateTime('time', null, true)
 		->setValue(new DateTime('2023-10-05'));
@@ -112,7 +112,7 @@ test('range datetime validation', function () {
 });
 
 
-test('range time validation', function () {
+test('time range validation', function () {
 	$form = new Form;
 	$input = $form->addTime('time', null, true)
 		->setValue(new DateTime('12:30'));

@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('color input value formatting', function () {
 	$form = new Form;
 	$input = $form->addColor('color')
 		->setValue('1020AB');

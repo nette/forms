@@ -21,13 +21,13 @@ setUp(function () {
 });
 
 
-test('crossOrigin', function () {
+test('form success without data', function () {
 	$form = new Form;
 	Assert::false($form->isSuccess());
 });
 
 
-test('sameSite', function () {
+test('strict cookie form submission', function () {
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$form = new Form;
@@ -35,7 +35,7 @@ test('sameSite', function () {
 });
 
 
-test('allowed crossOrigin', function () {
+test('cross-origin form submission', function () {
 	$form = new Form;
 	$form->allowCrossOrigin();
 	Assert::true($form->isSuccess());

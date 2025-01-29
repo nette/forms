@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('AND', function () {
+test('nested condition toggles', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -30,7 +30,7 @@ test('AND', function () {
 });
 
 
-test('', function () {
+test('combined conditions for toggles', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -47,7 +47,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('inverse condition activation', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -64,7 +64,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('double inverse conditions', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -81,7 +81,7 @@ test('', function () {
 });
 
 
-test('OR', function () {
+test('independent toggle conditions', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -99,7 +99,7 @@ test('OR', function () {
 });
 
 
-test('', function () {
+test('mixed toggle conditions', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -117,7 +117,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('separate condition chains', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -135,7 +135,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('independent inverse conditions', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -153,7 +153,7 @@ test('', function () {
 });
 
 
-test('OR & two components', function () {
+test('basic toggle conditions', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -169,7 +169,7 @@ test('OR & two components', function () {
 });
 
 
-test('', function () {
+test('mixed basic conditions', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -185,7 +185,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('inverse and direct conditions', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::NotEqual, 'x')
@@ -201,7 +201,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('dual inverse conditions', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::NotEqual, 'x')
@@ -217,7 +217,7 @@ test('', function () {
 });
 
 
-test('OR & multiple used ID', function () {
+test('overlapping toggle IDs', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -232,7 +232,7 @@ test('OR & multiple used ID', function () {
 });
 
 
-test('', function () {
+test('conflicting toggle IDs', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -247,7 +247,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('inverse toggle ID conflict', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::NotEqual, 'x')
@@ -262,7 +262,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('consistent inverse toggles', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::NotEqual, 'x')
@@ -277,7 +277,7 @@ test('', function () {
 });
 
 
-test('AND & multiple used ID', function () {
+test('nested same-toggle conditions', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -293,7 +293,7 @@ test('AND & multiple used ID', function () {
 });
 
 
-test('', function () {
+test('mixed nested toggles', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -309,7 +309,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('inverse condition chaining', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -325,7 +325,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('dual inverse nested conditions', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -341,7 +341,7 @@ test('', function () {
 });
 
 
-test('$hide = false', function () {
+test('toggle visibility options', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -358,7 +358,7 @@ test('$hide = false', function () {
 });
 
 
-test('', function () {
+test('force-show toggles', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -375,7 +375,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('mixed visibility modes', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -392,7 +392,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('visibility and basic toggles', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -408,7 +408,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('mixed toggle visibility', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -424,7 +424,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('force-show multiple toggles', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -440,7 +440,7 @@ test('', function () {
 });
 
 
-test('$hide = false & multiple used ID', function () {
+test('toggle visibility chaining', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -456,7 +456,7 @@ test('$hide = false & multiple used ID', function () {
 });
 
 
-test('', function () {
+test('force-show nested toggles', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -472,7 +472,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('inverse visibility chaining', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -488,7 +488,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('visibility with global toggles', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -504,7 +504,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('conflicting visibility modes', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -520,7 +520,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('overlapping visibility IDs', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -535,7 +535,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('conflicting visibility IDs', function () {
 	$form = new Form;
 	$form->addText('1')
 		->addCondition(Form::Equal, 'x')
@@ -550,7 +550,7 @@ test('', function () {
 });
 
 
-test('combined with rules', function () {
+test('toggle with endCondition', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -570,7 +570,7 @@ test('combined with rules', function () {
 });
 
 
-test('', function () {
+test('toggles with validation rules', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -589,7 +589,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('validation and inverse conditions', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -608,7 +608,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('conditional required fields', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -627,7 +627,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('rule-based toggle activation', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -645,7 +645,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('chained rules and toggles', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');
@@ -663,7 +663,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('complex rule-based toggles', function () {
 	$form = new Form;
 	$form->addText('1');
 	$form->addText('2');

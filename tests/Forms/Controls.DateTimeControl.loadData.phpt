@@ -22,7 +22,7 @@ setUp(function () {
 });
 
 
-test('not present', function () {
+test('unknown date input handling', function () {
 	$form = new Form;
 	$input = $form->addDate('unknown');
 	Assert::null($input->getValue());
@@ -30,7 +30,7 @@ test('not present', function () {
 });
 
 
-test('invalid data', function () {
+test('malformed date input', function () {
 	$_POST = ['malformed' => ['']];
 	$form = new Form;
 	$input = $form->addDate('malformed');
@@ -39,7 +39,7 @@ test('invalid data', function () {
 });
 
 
-test('invalid format', function () {
+test('invalid text date input', function () {
 	$_POST = ['text' => 'invalid'];
 	$form = new Form;
 	$input = $form->addDate('date');
@@ -48,7 +48,7 @@ test('invalid format', function () {
 });
 
 
-test('invalid date', function () {
+test('invalid date string', function () {
 	$_POST = ['date' => '2023-13-22'];
 	$form = new Form;
 	$input = $form->addDate('date');
@@ -57,7 +57,7 @@ test('invalid date', function () {
 });
 
 
-test('invalid time', function () {
+test('invalid time value', function () {
 	$_POST = ['time' => '10:60'];
 	$form = new Form;
 	$input = $form->addTime('time');
@@ -66,7 +66,7 @@ test('invalid time', function () {
 });
 
 
-test('empty date', function () {
+test('empty date input', function () {
 	$_POST = ['date' => ''];
 	$form = new Form;
 	$input = $form->addDate('date');
@@ -75,7 +75,7 @@ test('empty date', function () {
 });
 
 
-test('empty time', function () {
+test('empty time input', function () {
 	$_POST = ['time' => ''];
 	$form = new Form;
 	$input = $form->addTime('time');
@@ -84,7 +84,7 @@ test('empty time', function () {
 });
 
 
-test('empty date-time', function () {
+test('empty datetime input', function () {
 	$_POST = ['date' => ''];
 	$form = new Form;
 	$input = $form->addDateTime('date');
@@ -93,7 +93,7 @@ test('empty date-time', function () {
 });
 
 
-test('valid date', function () {
+test('valid date submission', function () {
 	$_POST = ['date' => '2023-10-22'];
 	$form = new Form;
 	$input = $form->addDate('date');
@@ -102,7 +102,7 @@ test('valid date', function () {
 });
 
 
-test('valid time', function () {
+test('time without seconds', function () {
 	$_POST = ['time' => '10:22:33.44'];
 	$form = new Form;
 	$input = $form->addTime('time');
@@ -111,7 +111,7 @@ test('valid time', function () {
 });
 
 
-test('valid time with seconds', function () {
+test('time with seconds', function () {
 	$_POST = ['time' => '10:22:33.44'];
 	$form = new Form;
 	$input = $form->addTime('time', withSeconds: true);
@@ -120,7 +120,7 @@ test('valid time with seconds', function () {
 });
 
 
-test('valid date-time', function () {
+test('datetime without seconds', function () {
 	$_POST = ['date' => '2023-10-22T10:23:11.123'];
 	$form = new Form;
 	$input = $form->addDateTime('date');
@@ -129,7 +129,7 @@ test('valid date-time', function () {
 });
 
 
-test('valid date-time with seconds', function () {
+test('datetime with seconds', function () {
 	$_POST = ['date' => '2023-10-22T10:23:11.123'];
 	$form = new Form;
 	$input = $form->addDateTime('date', withSeconds: true);
@@ -138,7 +138,7 @@ test('valid date-time with seconds', function () {
 });
 
 
-test('custom date', function () {
+test('alternative date format parsing', function () {
 	$_POST = ['date' => '22.10.2023'];
 	$form = new Form;
 	$input = $form->addDate('date');

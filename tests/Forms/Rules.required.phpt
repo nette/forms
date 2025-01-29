@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('BaseControl', function () {
+test('toggling required status of a field', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 
@@ -23,7 +23,7 @@ test('BaseControl', function () {
 });
 
 
-test('Rules', function () {
+test('required rule addition and validation', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -43,7 +43,7 @@ test('Rules', function () {
 });
 
 
-test('required/blank is always the first rule', function () {
+test('combining required with other validations', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -76,7 +76,7 @@ test('required/blank is always the first rule', function () {
 });
 
 
-test('setRequired(false)', function () {
+test('disabling required rule post-addition', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$rules = $input->getRules();
@@ -94,7 +94,7 @@ test('setRequired(false)', function () {
 });
 
 
-test('setRequired(false) and addConditionOn', function () {
+test('conditional required based on checkbox', function () {
 	$form = new Form;
 	$form->addCheckbox('checkbox');
 	$input = $form->addText('text');
@@ -108,7 +108,7 @@ test('setRequired(false) and addConditionOn', function () {
 });
 
 
-test('addRule(~Form::REQUIRED)', function () {
+test('negative required rule handling', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 

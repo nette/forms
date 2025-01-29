@@ -20,7 +20,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('error accumulation and validation', function () {
 	$form = new Form;
 	$form->addText('item');
 
@@ -50,7 +50,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('global form errors', function () {
 	$form = new Form;
 	$form->addText('item');
 
@@ -62,7 +62,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('control-specific errors', function () {
 	$form = new Form;
 	$form->addText('item');
 
@@ -74,7 +74,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('combined global and control errors', function () {
 	$form = new Form;
 	$form->addText('item');
 
@@ -87,7 +87,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('errors after event firing', function () {
 	$form = new Form;
 	$form->addText('item');
 

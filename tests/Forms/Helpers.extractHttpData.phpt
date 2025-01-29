@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('non-multiple', function () {
+test('extracting simple HTTP data values', function () {
 	Assert::same('jim', Helpers::extractHttpData(['name' => 'jim'], 'name', Form::DataLine));
 	Assert::same('jim', Helpers::extractHttpData(['name' => 'jim'], 'name', Form::DataText));
 
@@ -35,7 +35,7 @@ test('non-multiple', function () {
 });
 
 
-test('multiple', function () {
+test('handling array data in HTTP extraction', function () {
 	Assert::same(['1', '2'], Helpers::extractHttpData(['multi' => ['1', '2']], 'multi[]', Form::DataLine));
 	Assert::same(['1', '2'], Helpers::extractHttpData(['multi' => ['1', '2']], 'multi[]', Form::DataText));
 	Assert::same(['1', '2'], Helpers::extractHttpData(['multi' => ['x' => '1', 2 => '2']], 'multi[]', Form::DataText));
@@ -57,7 +57,7 @@ test('multiple', function () {
 });
 
 
-test('files', function () {
+test('file upload data extraction', function () {
 	$file = new Nette\Http\FileUpload([
 		'name' => 'license.txt',
 		'type' => null,

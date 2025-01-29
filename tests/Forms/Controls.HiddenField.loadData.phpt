@@ -22,7 +22,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('input normalization', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 	$form = new Form;
 	$input = $form->addHidden('text');
@@ -31,7 +31,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('missing POST data handling', function () {
 	$form = new Form;
 	$input = $form->addHidden('unknown');
 	Assert::same('', $input->getValue());
@@ -39,7 +39,7 @@ test('', function () {
 });
 
 
-test('invalid data', function () {
+test('malformed array input', function () {
 	$_POST = ['malformed' => ['']];
 	$form = new Form;
 	$input = $form->addHidden('malformed');
@@ -48,7 +48,7 @@ test('invalid data', function () {
 });
 
 
-test('errors are moved to form', function () {
+test('error propagation to form', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden');
 	$input->addError('error');
@@ -57,14 +57,14 @@ test('errors are moved to form', function () {
 });
 
 
-testException('setValue() and invalid argument', function () {
+testException('array value exception', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden');
 	$input->setValue([]);
 }, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'hidden'.");
 
 
-test('object', function () {
+test('object value retention', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden')
 		->setValue($data = new Nette\Utils\DateTime('2013-07-05'));
@@ -73,7 +73,7 @@ test('object', function () {
 });
 
 
-test('object from string by filter', function () {
+test('filter application on validation', function () {
 	$date = new Nette\Utils\DateTime('2013-07-05');
 	$_POST = ['text' => (string) $date];
 	$form = new Form;
@@ -86,7 +86,7 @@ test('object from string by filter', function () {
 });
 
 
-test('int from string', function () {
+test('integer validation and conversion', function () {
 	$_POST = ['text' => '10'];
 	$form = new Form;
 	$input = $form->addHidden('text');
@@ -98,7 +98,7 @@ test('int from string', function () {
 });
 
 
-test('persistent', function () {
+test('persistent value handling', function () {
 	$form = new Form;
 	$input = $form['hidden'] = new Nette\Forms\Controls\HiddenField('persistent');
 	$input->setValue('other');
@@ -107,7 +107,7 @@ test('persistent', function () {
 });
 
 
-test('nullable', function () {
+test('nullable with empty string', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden');
 	$input->setValue('');
@@ -116,7 +116,7 @@ test('nullable', function () {
 });
 
 
-test('nullable', function () {
+test('nullable with null', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden');
 	$input->setValue(null);

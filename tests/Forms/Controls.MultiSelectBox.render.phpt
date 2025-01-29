@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test('', function () {
+test('multi-select basic rendering', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', 'Label', [
 		'a' => 'First',
@@ -39,7 +39,7 @@ test('', function () {
 });
 
 
-test('selected', function () {
+test('selected option rendering', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', 'Label', [
 		'a' => 'First',
@@ -50,7 +50,7 @@ test('selected', function () {
 });
 
 
-test('selected 2x', function () {
+test('grouped options handling', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', 'Label', [
 		['a' => 'First'],
@@ -61,7 +61,7 @@ test('selected 2x', function () {
 });
 
 
-test('translator & groups', function () {
+test('translating options and groups', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', 'Label', [
 		'a' => 'First',
@@ -75,7 +75,7 @@ test('translator & groups', function () {
 });
 
 
-test('Html with translator & groups', function () {
+test('HTML elements in options', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', Html::el('b', 'Label'), [
 		'a' => Html::el('option', 'First')->class('class'),
@@ -89,7 +89,7 @@ test('Html with translator & groups', function () {
 });
 
 
-test('validation rules', function () {
+test('required multi-select validation', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', 'Label', [
 		'a' => 'First',
@@ -100,7 +100,7 @@ test('validation rules', function () {
 });
 
 
-test('container', function () {
+test('container naming in multi-select', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addMultiSelect('list', 'Label', [
@@ -112,7 +112,7 @@ test('container', function () {
 });
 
 
-test('disabled all', function () {
+test('disabled multi-select rendering', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', 'Label', [
 		'a' => 'First',
@@ -123,7 +123,7 @@ test('disabled all', function () {
 });
 
 
-test('disabled one', function () {
+test('disabling individual options', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', 'Label', [
 		'a' => 'First',
@@ -134,7 +134,7 @@ test('disabled one', function () {
 });
 
 
-test('rendering options', function () {
+test('multi-select control options', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list');
 
@@ -146,7 +146,7 @@ test('rendering options', function () {
 });
 
 
-test('', function () {
+test('dynamic option attributes', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('list', 'Label', [
 		1 => 'First',
