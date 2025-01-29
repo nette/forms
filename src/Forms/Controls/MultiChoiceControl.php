@@ -118,10 +118,13 @@ abstract class MultiChoiceControl extends BaseControl
 	 */
 	public function getSelectedItems(): array
 	{
-		$selected = array_intersect_key($this->items, array_flip($this->value));
-		return is_array($this->disabled)
-			? array_diff_key($selected, $this->disabled)
-			: $selected;
+		$res = [];
+		foreach ($this->value as $key) {
+			if (isset($this->items[$key]) && !isset($this->disabled[$key])) {
+				$res[$key] = $this->items[$key];
+			}
+		}
+		return $res;
 	}
 
 

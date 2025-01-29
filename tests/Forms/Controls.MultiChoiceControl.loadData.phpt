@@ -245,3 +245,16 @@ test('disabled items ignored in multi-choice', function () use ($series) {
 
 	Assert::same([0], $input->getValue());
 });
+
+
+test('order of selected items preserved', function () {
+	$series = [1 => 'Ananas', 2 => 'Banana', 3 => 'Lemon'];
+	$_POST = ['select' => ['3', '2']];
+
+	$form = new Form;
+	$input = $form['select'] = new MultiChoiceControl(null, $series);
+
+	Assert::same([3, 2], $input->getValue());
+	Assert::same([3 => 'Lemon', 2 => 'Banana'], $input->getSelectedItems());
+	Assert::true($input->isFilled());
+});
