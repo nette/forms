@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('HTML-friendly name generation from form controls', function () {
 	Assert::same('name', Helpers::generateHtmlName('name'));
 	Assert::same('first[name]', Helpers::generateHtmlName('first-name'));
 	Assert::same('first[second][name]', Helpers::generateHtmlName('first-second-name'));

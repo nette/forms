@@ -22,7 +22,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('submit button captures POST value', function () {
 	$_POST = [
 		'button' => 'x',
 	];
@@ -34,7 +34,7 @@ test('', function () {
 });
 
 
-test('empty value', function () {
+test('submit button with empty and zero values', function () {
 	$_POST = [
 		'button1' => '',
 		'button2' => '0',
@@ -52,7 +52,7 @@ test('empty value', function () {
 });
 
 
-test('missing data', function () {
+test('unsubmitted button state', function () {
 	$form = new Form;
 	$input = $form->addSubmit('button');
 	Assert::false($input->isFilled());
@@ -60,7 +60,7 @@ test('missing data', function () {
 });
 
 
-test('malformed data', function () {
+test('handling malformed POST data for button', function () {
 	$_POST = [
 		'malformed' => [],
 	];

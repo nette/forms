@@ -22,7 +22,7 @@ setUp(function () {
 });
 
 
-test('trim & new lines', function () {
+test('whitespace trimming', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
@@ -33,7 +33,7 @@ test('trim & new lines', function () {
 });
 
 
-test('trim & new lines in textarea', function () {
+test('textarea line breaks', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
@@ -43,7 +43,7 @@ test('trim & new lines in textarea', function () {
 });
 
 
-test('empty value', function () {
+test('empty value detection', function () {
 	$_POST = ['url' => 'nette.org'];
 
 	$form = new Form;
@@ -54,7 +54,7 @@ test('empty value', function () {
 });
 
 
-test('empty value', function () {
+test('custom empty value', function () {
 	$_POST = ['phone' => '+420 '];
 
 	$form = new Form;
@@ -65,7 +65,7 @@ test('empty value', function () {
 });
 
 
-test('invalid UTF', function () {
+test('invalid UTF input', function () {
 	$_POST = ['invalidutf' => "invalid\xAA\xAA\xAAutf"];
 
 	$form = new Form;
@@ -74,7 +74,7 @@ test('invalid UTF', function () {
 });
 
 
-test('missing data', function () {
+test('missing POST handling', function () {
 	$form = new Form;
 	$input = $form->addText('unknown');
 
@@ -83,7 +83,7 @@ test('missing data', function () {
 });
 
 
-test('malformed data', function () {
+test('malformed POST data', function () {
 	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
@@ -94,7 +94,7 @@ test('malformed data', function () {
 });
 
 
-testException('setValue() and invalid argument', function () {
+testException('invalid value type exception', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 
 	$form = new Form;
@@ -103,7 +103,7 @@ testException('setValue() and invalid argument', function () {
 }, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'text'.");
 
 
-test('float', function () {
+test('float rule processing', function () {
 	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
@@ -117,7 +117,7 @@ test('float', function () {
 
 
 
-test('float in condition', function () {
+test('conditional validation', function () {
 	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
@@ -130,7 +130,7 @@ test('float in condition', function () {
 });
 
 
-test('non float', function () {
+test('negative rule handling', function () {
 	$_POST = ['number' => ' 10,5 '];
 
 	$form = new Form;
@@ -142,7 +142,7 @@ test('non float', function () {
 });
 
 
-test('URL', function () {
+test('URL auto-correction', function () {
 	$_POST = ['url' => 'nette.org'];
 
 	$form = new Form;
@@ -154,7 +154,7 @@ test('URL', function () {
 });
 
 
-test('object', function () {
+test('dateTime value handling', function () {
 	$form = new Form;
 	$input = $form->addText('text')
 		->setValue($date = new Nette\Utils\DateTime('2013-07-05'));
@@ -163,7 +163,7 @@ test('object', function () {
 });
 
 
-test('filter', function () {
+test('post-validation filtering', function () {
 	$_POST = ['text' => 'hello'];
 
 	$form = new Form;
@@ -176,7 +176,7 @@ test('filter', function () {
 });
 
 
-test('filter in condition', function () {
+test('conditional filtering', function () {
 	$_POST = ['text' => 'hello'];
 
 	$form = new Form;
@@ -190,7 +190,7 @@ test('filter in condition', function () {
 });
 
 
-test('filter in BLANK condition', function () {
+test('blank condition filter', function () {
 	$_POST = ['text' => ''];
 
 	$form = new Form;
@@ -204,7 +204,7 @@ test('filter in BLANK condition', function () {
 });
 
 
-test('filter in !FILLED condition', function () {
+test('else condition filter', function () {
 	$_POST = ['text' => ''];
 
 	$form = new Form;

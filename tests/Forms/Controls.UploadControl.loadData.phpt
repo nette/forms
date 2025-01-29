@@ -65,7 +65,7 @@ $_FILES = [
 ];
 
 
-test('', function () {
+test('valid file upload handling', function () {
 	$form = new Form;
 	$input = $form->addUpload('avatar');
 
@@ -82,7 +82,7 @@ test('', function () {
 });
 
 
-test('container', function () {
+test('container file upload with invalid UTF', function () {
 	$form = new Form;
 	$input = $form->addContainer('container')->addUpload('avatar');
 
@@ -99,7 +99,7 @@ test('container', function () {
 });
 
 
-test('multiple (in container)', function () {
+test('multiple file uploads', function () {
 	$form = new Form;
 	$input = $form->addContainer('multiple')->addMultiUpload('avatar');
 
@@ -122,7 +122,7 @@ test('multiple (in container)', function () {
 });
 
 
-test('missing data', function () {
+test('required multi-upload with empty data', function () {
 	$form = new Form;
 	$input = $form->addMultiUpload('empty')
 		->setRequired();
@@ -134,7 +134,7 @@ test('missing data', function () {
 });
 
 
-test('empty data', function () {
+test('missing upload field handling', function () {
 	$form = new Form;
 	$input = $form->addUpload('missing')
 		->setRequired();
@@ -146,7 +146,7 @@ test('empty data', function () {
 });
 
 
-test('missing data + nullable', function () {
+test('nullable multi-upload handling', function () {
 	$form = new Form;
 	$input = $form->addMultiUpload('empty')
 		->setNullable() // has no effect
@@ -159,7 +159,7 @@ test('missing data + nullable', function () {
 });
 
 
-test('empty data + nullable', function () {
+test('nullable single upload handling', function () {
 	$form = new Form;
 	$input = $form->addUpload('missing')
 		->setNullable()
@@ -172,7 +172,7 @@ test('empty data + nullable', function () {
 });
 
 
-test('malformed data', function () {
+test('invalid upload data structures', function () {
 	$form = new Form;
 	$input = $form->addUpload('invalid1');
 
@@ -207,7 +207,7 @@ test('malformed data', function () {
 });
 
 
-test('partial uploaded (error)', function () {
+test('partial upload error handling', function () {
 	$form = new Form;
 	$input = $form->addUpload('partial')
 		->setRequired();
@@ -225,7 +225,7 @@ test('partial uploaded (error)', function () {
 });
 
 
-test('validators', function () {
+test('file size and MIME validation', function () {
 	$form = new Form;
 	$input = $form->addUpload('avatar')
 		->addRule($form::MaxFileSize, null, 3000);
@@ -244,7 +244,7 @@ test('validators', function () {
 });
 
 
-test('validators on multiple files', function () {
+test('multi-upload file validations', function () {
 	$form = new Form;
 	$input = $form->addContainer('multiple')->addMultiUpload('avatar')
 		->addRule($form::MaxFileSize, null, 3000);
@@ -263,7 +263,7 @@ test('validators on multiple files', function () {
 });
 
 
-test('validators on multiple files', function () {
+test('upload control rule count', function () {
 	$form = new Form;
 	$input = $form->addUpload('invalid1');
 

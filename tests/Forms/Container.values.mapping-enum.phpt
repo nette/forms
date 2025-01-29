@@ -25,7 +25,7 @@ class FormWithEnum
 }
 
 
-test('getValues() + enum', function () {
+test('handling enum types in form data', function () {
 	$form = new Form;
 	$form->addText('enum1');
 	$form->addText('enum2')->setNullable();

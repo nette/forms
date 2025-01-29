@@ -66,7 +66,7 @@ function createForm(): Form
 }
 
 
-test('setDefaults() + object', function () {
+test('setting defaults using object mapping', function () {
 	$_SERVER['REQUEST_METHOD'] = null;
 
 	$form = createForm();
@@ -97,7 +97,7 @@ test('setDefaults() + object', function () {
 });
 
 
-test('submitted form + getValues()', function () {
+test('mapping POST data to objects', function () {
 	$form = createForm();
 	$form->setMappedType(FormData::class);
 
@@ -115,7 +115,7 @@ test('submitted form + getValues()', function () {
 });
 
 
-test('submitted form + reset()', function () {
+test('resetting form with object-mapped values', function () {
 	$form = createForm();
 	$form->setMappedType(FormData::class);
 
@@ -137,7 +137,7 @@ test('submitted form + reset()', function () {
 });
 
 
-test('setValues() + object', function () {
+test('updating object-mapped values with erase', function () {
 	$form = createForm();
 	$form->setMappedType(FormData::class);
 
@@ -183,7 +183,7 @@ test('setValues() + object', function () {
 });
 
 
-test('getValues(...arguments...)', function () {
+test('mixed object and array value mapping', function () {
 	$_SERVER['REQUEST_METHOD'] = null;
 
 	$form = createForm();
@@ -234,7 +234,7 @@ test('getValues(...arguments...)', function () {
 });
 
 
-test('onSuccess test', function () {
+test('onSuccess with multiple mapped value types', function () {
 	$form = createForm();
 	$form->setMappedType(FormData::class);
 
@@ -300,7 +300,7 @@ test('onSuccess test', function () {
 });
 
 
-test('getValues() + object', function () {
+test('populating existing object with form values', function () {
 	$form = createForm();
 	$obj = $orig = new FormData;
 
@@ -319,7 +319,7 @@ test('getValues() + object', function () {
 });
 
 
-test('submitted form + setValidationScope() + getValues()', function () {
+test('validation scope on object-mapped fields', function () {
 	$_POST['send'] = '';
 
 	$form = createForm();
@@ -336,7 +336,7 @@ test('submitted form + setValidationScope() + getValues()', function () {
 });
 
 
-test('submitted form + setValidationScope() + getValues()', function () {
+test('validation scope on nested object fields', function () {
 	$_POST['send'] = '';
 
 	$form = createForm();

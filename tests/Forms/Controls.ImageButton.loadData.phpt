@@ -22,7 +22,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('image button captures coordinates', function () {
 	$_POST = [
 		'image' => ['1', '2'],
 		'container' => [
@@ -40,7 +40,7 @@ test('', function () {
 });
 
 
-test('missing data', function () {
+test('missing image button data', function () {
 	$form = new Form;
 	$input = $form->addImageButton('missing');
 	Assert::false($input->isFilled());
@@ -48,7 +48,7 @@ test('missing data', function () {
 });
 
 
-test('malformed data', function () {
+test('malformed image button data', function () {
 	$_POST = [
 		'malformed1' => ['1'],
 		'malformed2' => [['']],

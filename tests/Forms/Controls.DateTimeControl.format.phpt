@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('string format', function () {
+test('custom date format application', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue('2023-10-22 10:30')
@@ -24,7 +24,7 @@ test('string format', function () {
 });
 
 
-test('timestamp format', function () {
+test('timestamp format handling', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue('2023-10-22 10:30')
@@ -34,7 +34,7 @@ test('timestamp format', function () {
 });
 
 
-test('object format', function () {
+test('dateTime object as value', function () {
 	$form = new Form;
 	$input = $form->addDate('date')
 		->setValue('2023-10-22 10:30')

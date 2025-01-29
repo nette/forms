@@ -20,7 +20,7 @@ setUp(function () {
 });
 
 
-test('error handling', function () {
+test('error handling for required text input', function () {
 	$form = new Form;
 	$input = $form->addText('text')
 		->setRequired('error');
@@ -40,7 +40,7 @@ test('error handling', function () {
 });
 
 
-test('validators', function () {
+test('validation methods for text input values', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->setValue(123);
@@ -77,7 +77,7 @@ test('validators', function () {
 });
 
 
-test('validators for array', function () {
+test('multiSelect validation and length checks', function () {
 	$form = new Form;
 	$input = $form->addMultiSelect('select', null, ['a', 'b', 'c', 'd']);
 	$input->setValue([1, 2, 3]);
@@ -100,7 +100,7 @@ test('validators for array', function () {
 });
 
 
-test('setHtmlId', function () {
+test('custom HTML ID for text input', function () {
 	$form = new Form;
 	$input = $form->addText('text')->setHtmlId('myId');
 
@@ -108,7 +108,7 @@ test('setHtmlId', function () {
 });
 
 
-test('special name', function () {
+test('input name conflict resolution', function () {
 	$form = new Form;
 	$input = $form->addText('submit');
 
@@ -116,7 +116,7 @@ test('special name', function () {
 });
 
 
-test('disabled', function () {
+test('disabled input retains default value', function () {
 	$form = new Form;
 	$form->addText('disabled')
 		->setDisabled()
@@ -128,7 +128,7 @@ test('disabled', function () {
 });
 
 
-test('disabled & submitted', function () {
+test('disabled inputs ignore POST data', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = ['disabled' => 'submitted value'];
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
@@ -156,7 +156,7 @@ test('disabled & submitted', function () {
 });
 
 
-test('', function () {
+test('translator integration for labels and errors', function () {
 	$form = new Form;
 	$form->setTranslator(new class implements Nette\Localization\ITranslator {
 		public function translate($s, ...$parameters): string
@@ -190,7 +190,7 @@ test('', function () {
 });
 
 
-test('change HTML name', function () {
+test('dynamic HTML name attribute handling', function () {
 	$_POST = ['b' => '123', 'send' => ''];
 	$form = new Form;
 	$form->addSubmit('send', 'Send');

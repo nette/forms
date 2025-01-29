@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test('', function () {
+test('basic upload control rendering', function () {
 	$form = new Form;
 	$input = $form->addUpload('file', 'Label');
 
@@ -36,7 +36,7 @@ test('', function () {
 });
 
 
-test('multiple', function () {
+test('multi-upload control rendering', function () {
 	$form = new Form;
 	$input = $form->addMultiUpload('file', 'Label');
 
@@ -44,7 +44,7 @@ test('multiple', function () {
 });
 
 
-test('Html with translator', function () {
+test('translated upload labels', function () {
 	$form = new Form;
 	$input = $form->addUpload('file', 'Label');
 	$input->setTranslator(new Translator);
@@ -55,14 +55,14 @@ test('Html with translator', function () {
 });
 
 
-test('validation rules', function () {
+test('required upload attribute', function () {
 	$form = new Form;
 	$input = $form->addUpload('file')->setRequired('required');
 	Assert::match('<input type="file" name="file" id="frm-file" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":fileSize",%a%}]\'>', (string) $input->getControl());
 });
 
 
-test('accepted files', function () {
+test('MIME type validation attributes', function () {
 	$form = new Form;
 	$input = $form->addUpload('file1')->addRule(Form::MimeType, null, 'image/*');
 	Assert::match('<input type="file" name="file1" accept="image/*" id="frm-file1" data-nette-rules=\'[{"op":":fileSize",%a%},{"op":":mimeType","msg":"The uploaded file is not in the expected format.","arg":"image/*"}]\'>', (string) $input->getControl());
@@ -75,7 +75,7 @@ test('accepted files', function () {
 });
 
 
-test('container', function () {
+test('container upload naming', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addUpload('file');
@@ -84,7 +84,7 @@ test('container', function () {
 });
 
 
-test('rendering options', function () {
+test('upload control options', function () {
 	$form = new Form;
 	$input = $form->addUpload('file');
 

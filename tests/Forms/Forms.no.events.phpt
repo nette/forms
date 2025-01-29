@@ -22,7 +22,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('firing events without handlers', function () {
 	Assert::error(function () {
 		$form = new Form;
 		$form->addSubmit('send');
@@ -30,7 +30,7 @@ test('', function () {
 	}, E_USER_WARNING);
 });
 
-test('', function () {
+test('no error with onSuccess handler', function () {
 	Assert::noError(function () {
 		$form = new Form;
 		$form->addSubmit('send');
@@ -39,7 +39,7 @@ test('', function () {
 	});
 });
 
-test('', function () {
+test('no error with onSubmit handler', function () {
 	Assert::noError(function () {
 		$form = new Form;
 		$form->addSubmit('send');
@@ -48,7 +48,7 @@ test('', function () {
 	});
 });
 
-test('', function () {
+test('no error with button onClick handler', function () {
 	Assert::noError(function () {
 		$form = new Form;
 		$form->addSubmit('send')

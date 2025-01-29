@@ -40,7 +40,7 @@ function createForm(): Form
 }
 
 
-test('setDefaults() + array', function () {
+test('setting form defaults and retrieving array values', function () {
 	$form = createForm();
 	Assert::false($form->isSubmitted());
 
@@ -69,7 +69,7 @@ test('setDefaults() + array', function () {
 });
 
 
-test('submitted form + getValues(array)', function () {
+test('handles POST submission with nested data', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -87,7 +87,7 @@ test('submitted form + getValues(array)', function () {
 });
 
 
-test('submitted form + reset()', function () {
+test('resetting form clears submitted values', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -109,7 +109,7 @@ test('submitted form + reset()', function () {
 });
 
 
-test('setValues() + array', function () {
+test('setting form values with erase option', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -154,7 +154,7 @@ test('setValues() + array', function () {
 });
 
 
-test('getValues(...arguments...)', function () {
+test('updating form values without erasing', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -181,7 +181,7 @@ test('getValues(...arguments...)', function () {
 });
 
 
-test('setMappedType(array)', function () {
+test('using array as mapped type for form values', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -209,7 +209,7 @@ test('setMappedType(array)', function () {
 });
 
 
-test('onSuccess test', function () {
+test('triggering onSuccess with correct value types', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
 	$form = createForm();
@@ -262,7 +262,7 @@ test('onSuccess test', function () {
 });
 
 
-test('submitted form + setValidationScope() + getValues(array)', function () {
+test('validation scope limits submitted data', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
@@ -280,7 +280,7 @@ test('submitted form + setValidationScope() + getValues(array)', function () {
 });
 
 
-test('submitted form + setValidationScope() + getValues(array)', function () {
+test('validation scope applied to container', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
@@ -297,7 +297,7 @@ test('submitted form + setValidationScope() + getValues(array)', function () {
 	], $form['first']->getValues('array'));
 });
 
-test('submitted form + setValidationScope() + getValues(array)', function () {
+test('validation scope on nested container fields', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 

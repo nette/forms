@@ -10,7 +10,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('static condition with false branch', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addCondition(false)
@@ -27,7 +27,7 @@ test('', function () {
 });
 
 
-test('', function () {
+test('static condition with true branch', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addCondition(true)

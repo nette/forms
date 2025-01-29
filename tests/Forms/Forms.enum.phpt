@@ -20,7 +20,7 @@ enum TestEnum: string
 }
 
 
-test('validators for enums', function () {
+test('enum value validation', function () {
 	ob_start();
 	Form::initialize(true);
 	$form = new Form;
@@ -34,7 +34,7 @@ test('validators for enums', function () {
 });
 
 
-test('enum as default value', function () {
+test('setting enum defaults in selects', function () {
 	$items = ['case 1' => '1', 'case 2' => '2', 'case 3' => '3', 'case 4' => '4'];
 
 	ob_start();

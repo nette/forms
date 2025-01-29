@@ -37,7 +37,7 @@ $series = [
 ];
 
 
-test('invalid input', function () use ($series) {
+test('single value treated as empty', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
@@ -50,7 +50,7 @@ test('invalid input', function () use ($series) {
 });
 
 
-test('multiple selected items, zero item', function () use ($series) {
+test('multiple selections with invalid entries', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
@@ -64,7 +64,7 @@ test('multiple selected items, zero item', function () use ($series) {
 });
 
 
-test('empty key', function () use ($series) {
+test('empty string as valid selection', function () use ($series) {
 	$_POST = ['empty' => ['']];
 
 	$form = new Form;
@@ -77,7 +77,7 @@ test('empty key', function () use ($series) {
 });
 
 
-test('missing key', function () use ($series) {
+test('missing multi-choice input', function () use ($series) {
 	$form = new Form;
 	$input = $form['missing'] = new MultiChoiceControl(null, $series);
 
@@ -88,7 +88,7 @@ test('missing key', function () use ($series) {
 });
 
 
-test('disabled key', function () use ($series) {
+test('disabled multi-choice ignores input', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
@@ -100,7 +100,7 @@ test('disabled key', function () use ($series) {
 });
 
 
-test('malformed data', function () use ($series) {
+test('malformed array input', function () use ($series) {
 	$_POST = ['malformed' => [['']]];
 
 	$form = new Form;
@@ -113,7 +113,7 @@ test('malformed data', function () use ($series) {
 });
 
 
-test('setItems without keys', function () use ($series) {
+test('keys as items without labels', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf']];
 
 	$form = new Form;
@@ -133,7 +133,7 @@ test('setItems without keys', function () use ($series) {
 });
 
 
-test('validateLength', function () use ($series) {
+test('selection length validation', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
@@ -146,7 +146,7 @@ test('validateLength', function () use ($series) {
 });
 
 
-test('validateEqual', function () use ($series) {
+test('equality validation with mixed values', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
@@ -160,7 +160,7 @@ test('validateEqual', function () use ($series) {
 });
 
 
-test('empty input & validateEqual', function () use ($series) {
+test('empty submission validation', function () use ($series) {
 	$_POST = [];
 
 	$form = new Form;
@@ -174,7 +174,7 @@ test('empty input & validateEqual', function () use ($series) {
 });
 
 
-test('setValue() and invalid argument', function () use ($series) {
+test('exceptions for invalid values', function () use ($series) {
 	$form = new Form;
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
 	$input->setValue(null);
@@ -199,7 +199,7 @@ test('setValue() and invalid argument', function () use ($series) {
 });
 
 
-test('setValue() and disabled checkDefaultValue()', function () use ($series) {
+test('invalid values ignored with checkDefaultValue', function () use ($series) {
 	$form = new Form;
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
 	$input->checkDefaultValue(false);
@@ -220,7 +220,7 @@ test('setValue() and disabled checkDefaultValue()', function () use ($series) {
 });
 
 
-test('object as value', function () {
+test('dateTime object as value', function () {
 	$form = new Form;
 	$input = $form['select'] = new MultiChoiceControl(null, ['2013-07-05 00:00:00' => 1]);
 	$input->setValue([new DateTime('2013-07-05')]);
@@ -229,7 +229,7 @@ test('object as value', function () {
 });
 
 
-test('disabled one', function () use ($series) {
+test('disabled items ignored in multi-choice', function () use ($series) {
 	$_POST = ['select' => ['red-dwarf', '0']];
 
 	$form = new Form;

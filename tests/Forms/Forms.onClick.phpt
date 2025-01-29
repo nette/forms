@@ -10,7 +10,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('valid', function () {
+test('valid submission event order', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_POST = ['btn' => ''];
@@ -40,7 +40,7 @@ test('valid', function () {
 });
 
 
-test('valid -> invalid', function () {
+test('error during onClick propagation', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_POST = ['btn' => ''];
@@ -77,7 +77,7 @@ test('valid -> invalid', function () {
 });
 
 
-test('invalid', function () {
+test('invalid submission due to validation', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_POST = ['btn' => ''];

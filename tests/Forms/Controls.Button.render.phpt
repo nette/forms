@@ -23,7 +23,7 @@ class Translator implements Nette\Localization\ITranslator
 }
 
 
-test('', function () {
+test('basic button rendering', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption');
 
@@ -34,7 +34,7 @@ test('', function () {
 });
 
 
-test('<button>', function () {
+test('rendering button as <button> element', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption');
 	$input->renderAsButton();
@@ -44,7 +44,7 @@ test('<button>', function () {
 });
 
 
-test('Html', function () {
+test('button with HTML content', function () {
 	$form = new Form;
 	$input = $form->addButton('button', Html::el('b', 'Caption'));
 
@@ -54,7 +54,7 @@ test('Html', function () {
 });
 
 
-test('translator', function () {
+test('translator affects button caption', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption');
 	$input->setTranslator(new Translator);
@@ -64,7 +64,7 @@ test('translator', function () {
 });
 
 
-test('Html with translator', function () {
+test('HTML content in button with translator', function () {
 	$form = new Form;
 	$input = $form->addButton('button', Html::el('b', 'Caption'));
 	$input->setTranslator(new Translator);
@@ -74,7 +74,7 @@ test('Html with translator', function () {
 });
 
 
-test('no validation rules', function () {
+test('required attribute on button', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption')->setRequired('required');
 
@@ -82,7 +82,7 @@ test('no validation rules', function () {
 });
 
 
-test('container', function () {
+test('button within container name handling', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addButton('button', 'Caption');
@@ -91,7 +91,7 @@ test('container', function () {
 });
 
 
-test('SubmitButton', function () {
+test('basic submit button rendering', function () {
 	$form = new Form;
 	$input = $form->addSubmit('button', 'Caption');
 
@@ -102,7 +102,7 @@ test('SubmitButton', function () {
 });
 
 
-test('SubmitButton with scope', function () {
+test('validation scope adds formnovalidate', function () {
 	$form = new Form;
 	$input = $form->addSubmit('button', 'Caption')->setValidationScope([]);
 
@@ -110,7 +110,7 @@ test('SubmitButton with scope', function () {
 });
 
 
-test('SubmitButton with scope', function () {
+test('validation scope with specified fields', function () {
 	$form = new Form;
 	$text = $form->addText('text');
 	$select = $form->addSelect('select');
@@ -120,7 +120,7 @@ test('SubmitButton with scope', function () {
 });
 
 
-test('forced ID', function () {
+test('automatic HTML ID assignment', function () {
 	$form = new Form;
 	$input = $form->addButton('button', 'Caption');
 	$input->setHtmlId($input->getHtmlId());
@@ -129,7 +129,7 @@ test('forced ID', function () {
 });
 
 
-test('rendering options', function () {
+test('button options after rendering', function () {
 	$form = new Form;
 	$input = $form->addButton('button');
 

@@ -31,7 +31,7 @@ $series = [
 ];
 
 
-test('Radio list', function () use ($series) {
+test('valid radio selection', function () use ($series) {
 	$_POST = ['radio' => 'red-dwarf'];
 
 	$form = new Form;
@@ -44,7 +44,7 @@ test('Radio list', function () use ($series) {
 });
 
 
-test('Radio list with invalid input', function () use ($series) {
+test('invalid radio selection', function () use ($series) {
 	$_POST = ['radio' => 'days-of-our-lives'];
 
 	$form = new Form;
@@ -57,7 +57,7 @@ test('Radio list with invalid input', function () use ($series) {
 });
 
 
-test('Indexed arrays', function () use ($series) {
+test('zero value handling', function () use ($series) {
 	$_POST = ['zero' => '0'];
 
 	$form = new Form;
@@ -71,7 +71,7 @@ test('Indexed arrays', function () use ($series) {
 });
 
 
-test('empty key', function () use ($series) {
+test('empty string value handling', function () use ($series) {
 	$_POST = ['empty' => ''];
 
 	$form = new Form;
@@ -84,7 +84,7 @@ test('empty key', function () use ($series) {
 });
 
 
-test('missing key', function () use ($series) {
+test('missing POST data handling', function () use ($series) {
 	$form = new Form;
 	$input = $form->addRadioList('missing', null, $series);
 
@@ -95,7 +95,7 @@ test('missing key', function () use ($series) {
 });
 
 
-test('disabled key', function () use ($series) {
+test('disabled radio list handling', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
@@ -108,7 +108,7 @@ test('disabled key', function () use ($series) {
 });
 
 
-test('malformed data', function () use ($series) {
+test('malformed radio data', function () use ($series) {
 	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
@@ -121,7 +121,7 @@ test('malformed data', function () use ($series) {
 });
 
 
-test('setItems without keys', function () use ($series) {
+test('items without keys handling', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
@@ -134,14 +134,14 @@ test('setItems without keys', function () use ($series) {
 });
 
 
-testException('setValue() and invalid argument', function () use ($series) {
+testException('invalid value exception', function () use ($series) {
 	$form = new Form;
 	$input = $form->addRadioList('radio', null, $series);
 	$input->setValue('unknown');
 }, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'radio'.");
 
 
-test('object as value', function () {
+test('dateTime value handling', function () {
 	$form = new Form;
 	$input = $form->addRadioList('radio', null, ['2013-07-05 00:00:00' => 1])
 		->setValue(new DateTime('2013-07-05'));
@@ -150,7 +150,7 @@ test('object as value', function () {
 });
 
 
-test('object as item', function () {
+test('dateTime items handling', function () {
 	$form = new Form;
 	$input = $form->addRadioList('radio')
 		->setItems([new DateTime('2013-07-05')], useKeys: false)
@@ -160,7 +160,7 @@ test('object as item', function () {
 });
 
 
-test('disabled one', function () use ($series) {
+test('disabled options handling', function () use ($series) {
 	$_POST = ['radio' => 'red-dwarf'];
 
 	$form = new Form;

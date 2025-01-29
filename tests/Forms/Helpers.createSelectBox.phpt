@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('creating select boxes with different structures and attributes', function () {
 	Assert::type(
 		Html::class,
 		Helpers::createSelectBox([]),

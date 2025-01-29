@@ -13,7 +13,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('valid', function () {
+test('basic success event order', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
@@ -36,7 +36,7 @@ test('valid', function () {
 });
 
 
-test('valid -> invalid', function () {
+test('error during onSuccess chain', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
@@ -66,7 +66,7 @@ test('valid -> invalid', function () {
 });
 
 
-test('invalid', function () {
+test('validation failure event flow', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 

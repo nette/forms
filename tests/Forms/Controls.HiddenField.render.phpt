@@ -14,7 +14,7 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-test('', function () {
+test('basic hidden input rendering', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden', 'value');
 
@@ -24,7 +24,7 @@ test('', function () {
 });
 
 
-test('no validation rules', function () {
+test('required hidden input remains empty', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden')->setRequired('required');
 
@@ -32,7 +32,7 @@ test('no validation rules', function () {
 });
 
 
-test('container', function () {
+test('hidden input within container', function () {
 	$form = new Form;
 	$container = $form->addContainer('container');
 	$input = $container->addHidden('hidden');
@@ -41,7 +41,7 @@ test('container', function () {
 });
 
 
-test('forced ID', function () {
+test('hidden input with HTML ID', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden')->setRequired('required');
 	$input->setHtmlId($input->getHtmlId());
@@ -50,7 +50,7 @@ test('forced ID', function () {
 });
 
 
-test('rendering options', function () {
+test('hidden input options after rendering', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden');
 
@@ -62,7 +62,7 @@ test('rendering options', function () {
 });
 
 
-test('object', function () {
+test('dateTime object value formatting', function () {
 	$form = new Form;
 	$input = $form->addHidden('hidden')
 		->setValue(new Nette\Utils\DateTime('2013-07-05'));

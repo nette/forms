@@ -55,7 +55,7 @@ function createForm(): Form
 }
 
 
-test('getValues(...arguments...)', function () {
+test('mapping form values to constructor-injected objects', function () {
 	$form = createForm();
 
 	$form->setValues([

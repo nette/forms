@@ -19,7 +19,7 @@ setUp(function () {
 });
 
 
-test('', function () {
+test('GET method form submission', function () {
 	$_GET = ['item'];
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
 
