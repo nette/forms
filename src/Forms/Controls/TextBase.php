@@ -95,7 +95,7 @@ abstract class TextBase extends BaseControl
 	/**
 	 * Sets the maximum number of allowed characters.
 	 */
-	public function setMaxLength(int $length): static
+	public function setMaxLength(?int $length): static
 	{
 		$this->control->maxlength = $length;
 		return $this;
