@@ -90,6 +90,33 @@ test('prompt + required', function () {
 	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden>prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
 });
 
+test('prompt + checkDefaultValueToFalse + value does not exist', function () {
+	$form = new Form;
+	$input = $form->addSelect('list', 'Label', [
+		'a' => 'First',
+		0 => 'Second',
+	])->setPrompt('prompt')->checkDefaultValue(false);
+
+	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+
+	$input->setValue('does not exists');
+
+	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+});
+
+test('prompt + required + checkDefaultValueToFalse + value does not exist', function () {
+	$form = new Form;
+	$input = $form->addSelect('list', 'Label', [
+		'a' => 'First',
+		0 => 'Second',
+	])->setPrompt('prompt')->setRequired()->checkDefaultValue(false);
+
+	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+
+	$input->setValue('does not exists');
+
+	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+});
 
 test('unique prompt', function () {
 	$form = new Form;

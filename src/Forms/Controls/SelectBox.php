@@ -106,6 +106,7 @@ class SelectBox extends ChoiceControl
 			}
 			$items = [$promptKey => $this->translate($this->prompt)] + $items;
 			if ($this->isRequired()) {
+				$selected = array_key_exists($this->value, $this->getItems()) ? $this->value : null;
 				$attrs['hidden:'][$promptKey] = $attrs['disabled:'][$promptKey] = true;
 				$selected ??= $promptKey; // disabled & selected for Safari, hidden for other browsers
 			}
