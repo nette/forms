@@ -96,7 +96,7 @@ class SelectBox extends ChoiceControl
 		}
 
 		$attrs = $this->optionAttributes;
-		$attrs['disabled:'] = is_array($this->disabled) ? $this->disabled : [];
+		$attrs['disabled:'] = $this->disabledChoices;
 
 		$selected = $this->value;
 		if ($this->prompt !== false) {
