@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Utils\Html;
 use Stringable;
-use function func_num_args, is_array;
+use function func_num_args;
 
 
 /**
@@ -61,7 +61,7 @@ class RadioList extends ChoiceControl
 					...$input->attrs,
 					'id:' => $ids,
 					'checked?' => $this->value,
-					'disabled:' => $this->disabled,
+					'disabled:' => $this->disabled ?: $this->disabledChoices,
 					'data-nette-rules:' => [array_key_first($items) => $input->attrs['data-nette-rules']],
 				],
 				['for:' => $ids] + $this->itemLabel->attrs,
@@ -86,7 +86,7 @@ class RadioList extends ChoiceControl
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, true),
-			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
+			'disabled' => $this->disabled || isset($this->disabledChoices[$key]),
 			'value' => $key,
 		]);
 	}
