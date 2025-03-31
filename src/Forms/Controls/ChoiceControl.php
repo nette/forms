@@ -15,10 +15,11 @@ use function array_combine, array_fill_keys, array_key_exists, array_keys, array
  * Choice control that allows single item selection.
  *
  * @property   mixed[] $items
- * @property   bool|array<bool> $disabled
  */
 abstract class ChoiceControl extends BaseControl
 {
+	/** @var bool[] */
+	protected array $disabledChoices = [];
 	private bool $checkDefaultValue = true;
 
 	/** @var mixed[] */
@@ -71,7 +72,7 @@ abstract class ChoiceControl extends BaseControl
 	{
 		return $this->value !== null
 			&& array_key_exists($this->value, $this->items)
-			&& !isset($this->disabled[$this->value])
+			&& !isset($this->disabledChoices[$this->value])
 			? $this->value
 			: null;
 	}
@@ -133,12 +134,11 @@ abstract class ChoiceControl extends BaseControl
 	public function setDisabled(bool|array $value = true): static
 	{
 		if (!is_array($value)) {
+			$this->disabledChoices = [];
 			return parent::setDisabled($value);
 		}
-
-		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($value, value: true);
-		return $this;
+		$this->disabledChoices = array_fill_keys($value, value: true);
+		return parent::setDisabled(false);
 	}
 
 

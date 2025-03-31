@@ -39,9 +39,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	protected mixed $value = null;
 	protected Html $control;
 	protected Html $label;
-
-	/** @var bool|bool[] */
-	protected bool|array $disabled = false;
+	protected bool $disabled = false;
 
 	/** @var array<string, array<class-string, callable(static): mixed>> */
 	private static array $extMethods = [];
@@ -189,7 +187,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 */
 	public function isDisabled(): bool
 	{
-		return $this->disabled === true;
+		return $this->disabled;
 	}
 
 
