@@ -15,11 +15,12 @@ use function array_key_exists, count, is_array, is_scalar, sprintf;
  * Choice control that allows multiple items selection.
  *
  * @property   mixed[] $items
- * @property   bool|array<bool> $disabled
  * @property-deprecated mixed[] $selectedItems
  */
 abstract class MultiChoiceControl extends BaseControl
 {
+	/** @var bool[] */
+	protected array $disabledChoices = [];
 	private bool $checkDefaultValue = true;
 
 	/** @var mixed[] */
@@ -135,7 +136,7 @@ abstract class MultiChoiceControl extends BaseControl
 	{
 		$res = [];
 		foreach ($this->value as $key) {
-			if (isset($this->items[$key]) && !isset($this->disabled[$key])) {
+			if (isset($this->items[$key]) && !isset($this->disabledChoices[$key])) {
 				$res[$key] = $this->items[$key];
 			}
 		}
@@ -150,12 +151,11 @@ abstract class MultiChoiceControl extends BaseControl
 	public function setDisabled(bool|array $state = true): static
 	{
 		if (!is_array($state)) {
+			$this->disabledChoices = [];
 			return parent::setDisabled($state);
 		}
-
-		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($state, value: true);
-		return $this;
+		$this->disabledChoices = array_fill_keys($state, value: true);
+		return parent::setDisabled(false);
 	}
 
 
