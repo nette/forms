@@ -61,7 +61,7 @@ class RadioList extends ChoiceControl
 				array_merge($input->attrs, [
 					'id:' => $ids,
 					'checked?' => $this->value,
-					'disabled:' => $this->disabled,
+					'disabled:' => $this->disabled ?: $this->disabledChoices,
 					'data-nette-rules:' => [array_key_first($items) => $input->attrs['data-nette-rules']],
 				]),
 				['for:' => $ids] + $this->itemLabel->attrs,
@@ -83,7 +83,7 @@ class RadioList extends ChoiceControl
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, strict: true),
-			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
+			'disabled' => $this->disabled || isset($this->disabledChoices[$key]),
 			'value' => $key,
 		]);
 	}
