@@ -17,10 +17,11 @@ use function array_combine, array_diff, array_fill_keys, array_flip, array_keys,
  * Choice control that allows multiple items selection.
  *
  * @property   mixed[] $items
- * @property   bool|array<int|string,bool> $disabled
  */
 abstract class MultiChoiceControl extends BaseControl
 {
+	/** @var bool[] */
+	protected array $disabledChoices = [];
 	private bool $checkDefaultValue = true;
 
 	/** @var mixed[] */
@@ -127,7 +128,7 @@ abstract class MultiChoiceControl extends BaseControl
 	{
 		$res = [];
 		foreach ($this->value as $key) {
-			if (isset($this->items[$key]) && !isset($this->disabled[$key])) {
+			if (isset($this->items[$key]) && !isset($this->disabledChoices[$key])) {
 				$res[$key] = $this->items[$key];
 			}
 		}
@@ -142,12 +143,11 @@ abstract class MultiChoiceControl extends BaseControl
 	public function setDisabled(bool|array $value = true): static
 	{
 		if (!is_array($value)) {
+			$this->disabledChoices = [];
 			return parent::setDisabled($value);
 		}
-
-		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($value, value: true);
-		return $this;
+		$this->disabledChoices = array_fill_keys($value, value: true);
+		return parent::setDisabled(false);
 	}
 
 
