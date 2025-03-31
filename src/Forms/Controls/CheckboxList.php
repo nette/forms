@@ -63,7 +63,7 @@ class CheckboxList extends MultiChoiceControl
 				array_merge($input->attrs, [
 					'id' => null,
 					'checked?' => $this->value,
-					'disabled:' => $this->disabled,
+					'disabled:' => $this->disabled ?: $this->disabledChoices,
 					'required' => null,
 					'data-nette-rules:' => [array_key_first($items) => $input->attrs['data-nette-rules']],
 				]),
@@ -86,7 +86,7 @@ class CheckboxList extends MultiChoiceControl
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, strict: true),
-			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
+			'disabled' => $this->disabled || isset($this->disabledChoices[$key]),
 			'required' => null,
 			'value' => $key,
 		]);
