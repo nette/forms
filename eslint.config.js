@@ -1,32 +1,22 @@
 import globals from 'globals';
-import pluginJs from '@eslint/js';
-import stylistic from '@stylistic/eslint-plugin';
-import tseslint from 'typescript-eslint';
+import nette from '@nette/eslint-plugin/typescript';
+import { defineConfig } from 'eslint/config';
 
-export default [
+export default defineConfig([
 	{
 		ignores: [
-			'*/', '!src/', '!tests/',
-			'**/netteForms*.*',
+			'vendor', 'temp',
 		],
 	},
 
-	pluginJs.configs.recommended,
-	...tseslint.configs.recommended,
-
-	stylistic.configs.customize({
-		indent: 'tab',
-		braceStyle: '1tbs',
-		arrowParens: true,
-		semi: true,
-		jsx: false,
-	}),
-
 	{
+		files: [
+			'*.ts',
+			'src/assets/*.ts',
+		],
+
 		languageOptions: {
-			ecmaVersion: 'latest',
 			globals: {
-				...globals.browser,
 				...globals.jasmine,
 				...globals.amd,
 				...globals.commonjs,
@@ -34,21 +24,9 @@ export default [
 				Tracy: 'writeable',
 			},
 		},
-		plugins: {
-			'@stylistic': stylistic,
-		},
-		rules: {
-			'@stylistic/no-multiple-empty-lines': ['error', { max: 2, maxEOF: 0 }],
-			'@stylistic/new-parens': ['error', 'never'],
-			'@stylistic/padded-blocks': 'off',
-			'@typescript-eslint/no-explicit-any': 'off',
-			'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
-			'prefer-arrow-callback': 'error',
-			'arrow-body-style': 'error',
-			'eqeqeq': ['error', 'always', { null: 'ignore' }],
-			'no-var': 'error',
-			'prefer-const': 'off',
-			'curly': 'error',
-		},
+
+		extends: [
+			nette.configs.typescript,
+		],
 	},
-];
+]);

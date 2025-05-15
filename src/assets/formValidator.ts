@@ -49,8 +49,8 @@ export class FormValidator {
 			} else if (elem.type === 'checkbox') {
 				return elem.name.endsWith('[]') // checkbox list
 					? this.#expandRadioElement(elem)
-						.filter((input) => input.checked)
-						.map((input) => input.value)
+							.filter((input) => input.checked)
+							.map((input) => input.value)
 					: elem.checked;
 
 			} else {
