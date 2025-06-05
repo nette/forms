@@ -35,7 +35,10 @@
 		"ext-intl": "to use date/time controls"
 	},
 	"autoload": {
-		"classmap": ["src/"]
+		"classmap": ["src/"],
+		"psr-4": {
+			"Nette\\": "src"
+		}
 	},
 	"minimum-stability": "dev",
 	"scripts": {
