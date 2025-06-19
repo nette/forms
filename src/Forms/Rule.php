@@ -11,6 +11,7 @@ namespace Nette\Forms;
 
 use Nette;
 use Stringable;
+use function is_string;
 
 
 /**

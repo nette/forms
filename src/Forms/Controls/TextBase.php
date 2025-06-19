@@ -13,6 +13,7 @@ use Nette;
 use Nette\Forms\Form;
 use Nette\Utils\Strings;
 use Stringable;
+use function get_debug_type, is_array, is_scalar, min, sprintf;
 
 
 /**

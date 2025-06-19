@@ -13,6 +13,8 @@ use Nette;
 use Nette\Utils\Arrays;
 use Nette\Utils\Html;
 use Stringable;
+use function array_key_first, array_merge, array_search, array_unique, count, headers_sent, in_array, is_array, is_scalar, is_string, sprintf, strcasecmp, strtolower;
+use const PHP_SAPI;
 
 
 /**

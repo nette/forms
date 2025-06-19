@@ -12,6 +12,8 @@ namespace Nette\Bridges\FormsLatte;
 use Nette;
 use Nette\Forms\Form;
 use Nette\Utils\Html;
+use function end, explode, is_object, parse_url, preg_replace, preg_split, urldecode;
+use const PHP_URL_QUERY, PREG_SPLIT_NO_EMPTY;
 
 
 /**

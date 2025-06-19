@@ -12,6 +12,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Application\UI\Presenter;
 use Stringable;
+use function base64_encode, sha1, substr;
 
 
 /**

@@ -12,6 +12,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Utils\Html;
 use Stringable;
+use function is_scalar, sprintf;
 
 
 /**

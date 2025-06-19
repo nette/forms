@@ -12,6 +12,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Utils\Html;
 use Stringable;
+use function array_flip, array_key_first, array_keys, array_merge, explode, func_num_args, in_array, is_array, key, substr;
 
 
 /**

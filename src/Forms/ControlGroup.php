@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
+use function func_num_args;
 
 
 /**

@@ -12,6 +12,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Forms\Form;
 use Stringable;
+use function in_array, is_scalar, max, min;
 
 
 /**

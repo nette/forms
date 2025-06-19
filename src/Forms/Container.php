@@ -12,6 +12,7 @@ namespace Nette\Forms;
 use Nette;
 use Nette\Utils\ArrayHash;
 use Stringable;
+use function array_combine, array_key_exists, array_map, array_merge, array_unique, explode, func_get_args, in_array, is_object, iterator_to_array, str_contains;
 
 
 /**

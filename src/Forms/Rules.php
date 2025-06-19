@@ -11,6 +11,7 @@ namespace Nette\Forms;
 
 use Nette;
 use Stringable;
+use function array_merge, end, is_array, is_bool, is_callable, is_scalar, is_string, ltrim, ord, strncmp, strtoupper;
 
 
 /**
