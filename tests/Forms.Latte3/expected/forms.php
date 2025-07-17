@@ -12,7 +12,7 @@
 			echo Nette\Bridges\FormsLatte\Runtime::item($name, $this->global)->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* line %d% */;
 			echo '
 		';
-			echo LR\Filters::escapeHtmlText(Nette\Bridges\FormsLatte\Runtime::item($name, $this->global)->getError()) /* line %d% */;
+			echo LR\%a%::escape%a%(Nette\Bridges\FormsLatte\Runtime::item($name, $this->global)->getError()) /* line %d% */;
 			echo '
 
 		<br>
@@ -25,7 +25,7 @@
 			echo $ʟ_label?->endTag() /* line %d% */;
 			echo '
 		';
-			echo LR\Filters::escapeHtmlText(Nette\Bridges\FormsLatte\Runtime::item($form[$name], $this->global)->getError()) /* line %d% */;
+			echo LR\%a%::escape%a%(Nette\Bridges\FormsLatte\Runtime::item($form[$name], $this->global)->getError()) /* line %d% */;
 			echo "\n";
 
 		}
@@ -82,7 +82,7 @@
 			echo ' ';
 			echo Nette\Bridges\FormsLatte\Runtime::item('sex', $this->global)->getControlPart($key) /* line %d% */;
 			echo ' ';
-			echo LR\Filters::escapeHtmlText($label) /* line %d% */;
+			echo LR\%a%::escape%a%($label) /* line %d% */;
 			echo $ʟ_label?->endTag() /* line %d% */;
 			echo '
 	<label';
@@ -153,7 +153,7 @@
 			echo ' ';
 			echo Nette\Bridges\FormsLatte\Runtime::item('checklist', $this->global)->getControlPart($key) /* line %d% */;
 			echo ' ';
-			echo LR\Filters::escapeHtmlText($label) /* line %d% */;
+			echo LR\%a%::escape%a%($label) /* line %d% */;
 			echo $ʟ_label?->endTag() /* line %d% */;
 			echo '
 	<label';
@@ -208,11 +208,11 @@
 		Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
 		echo '<form';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), ['class' => null], false) /* line %d% */;
-		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line %d% */;
+		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\%a%::escape%a%(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line %d% */;
 		echo '>
 	<input';
 		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('username', $this->global)->getControlPart())->addAttributes(['class' => null])->attributes() /* line %d% */;
-		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\Filters::escapeHtmlAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line %d% */;
+		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\%a%::escape%a%(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* line %d% */;
 		echo '>
 ';
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line %d% */;
@@ -246,9 +246,7 @@
 
 <textarea';
 		echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item('area', $this->global)->getControlPart())->addAttributes(['title' => null])->attributes() /* line %d% */;
-		echo ' title="';
-		echo LR\Filters::escapeHtmlAttr(10) /* line %d% */;
-		echo '">';
+		%A%
 		echo $ʟ_elem->getHtml() /* line %d% */;
 		echo '</textarea>
 
