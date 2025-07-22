@@ -522,15 +522,29 @@ class Form extends Container implements Nette\HtmlStringable
 			$args = [];
 			if ($params) {
 				$type = Helpers::getSingleType($params[0]);
-				$args[] = match (true) {
-					!$type => $button ?? $this,
-					$this instanceof $type => $this,
-					$button instanceof $type => $button,
-					default => $this->getValues($type),
-				};
-				if (isset($params[1])) {
-					$args[] = $this->getValues(Helpers::getSingleType($params[1]));
-				}
+
+                $autowireByTypes = false;
+                $valuesAsFirst = in_array($type, ['array', \Nette\Utils\ArrayHash::class, \stdClass::class], true);
+                if($valuesAsFirst && isset($params[1])){
+                    $type2 = Helpers::getSingleType($params[1]);
+                    $autowireByTypes = $this instanceof $type2;
+                }
+
+                if ($autowireByTypes) {
+                    $args[] = $this->getValues($type);
+                    $args[] = $this;
+
+                } else {
+                    $args[] = match (true) {
+                        !$type => $button ?? $this,
+                        $this instanceof $type => $this,
+                        $button instanceof $type => $button,
+                        default => $this->getValues($type),
+                    };
+                    if (isset($params[1])) {
+                        $args[] = $this->getValues(Helpers::getSingleType($params[1]));
+                    }
+                }
 			}
 
 			$handler(...$args);
