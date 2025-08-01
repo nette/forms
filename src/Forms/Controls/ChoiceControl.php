@@ -69,7 +69,8 @@ abstract class ChoiceControl extends BaseControl
 	 */
 	public function getValue(): mixed
 	{
-		return array_key_exists($this->value, $this->items)
+		return $this->value !== null
+			&& array_key_exists($this->value, $this->items)
 			&& !isset($this->disabled[$this->value])
 			? $this->value
 			: null;
