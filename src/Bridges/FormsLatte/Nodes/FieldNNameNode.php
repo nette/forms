@@ -13,6 +13,7 @@ use Latte\Compiler\Nodes\AreaNode;
 use Latte\Compiler\Nodes\AuxiliaryNode;
 use Latte\Compiler\Nodes\Html\AttributeNode;
 use Latte\Compiler\Nodes\Html\ElementNode;
+use Latte\Compiler\Nodes\Html\ExpressionAttributeNode;
 use Latte\Compiler\Nodes\NopNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\Scalar\StringNode;
@@ -104,6 +105,8 @@ final class FieldNNameNode extends StatementNode
 		foreach ($el->attributes?->children as $child) {
 			if ($child instanceof AttributeNode && $child->name instanceof TextNode) {
 				$res[] = $child->name->content;
+			} elseif ($child instanceof ExpressionAttributeNode) {
+				$res[] = $child->name;
 			}
 		}
 

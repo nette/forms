@@ -19,12 +19,12 @@ $latte->addExtension(new FormsExtension);
 Assert::match(
 	<<<'XX'
 		%A%
-				$form = $this->global->formsStack[] = $this->global->uiControl['foo'] /* line 1 */;
+				$form = $this->global->formsStack[] = $this->global->uiControl['foo'] /* %a% */;
 				Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
 				echo '<form';
-				echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* line 1 */;
+				echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* %a% */;
 				echo '>';
-				echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line 1 */;
+				echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* %a% */;
 				echo '</form>';
 				array_pop($this->global->formsStack);
 		%A%
@@ -36,16 +36,16 @@ Assert::match(
 Assert::match(
 	<<<'XX'
 		%A%
-				$form = $this->global->formsStack[] = $this->global->uiControl['foo'] /* line 1 */;
+				$form = $this->global->formsStack[] = $this->global->uiControl['foo'] /* %a% */;
 				Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
-				$ʟ_tag[0] = '';
-				if (0) /* line 1 */ {
+				%a%
+				if (0) /* %a% */ {
 					%A%
-					echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* line 1 */;
+					echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), [], false) /* %a% */;
 					echo '>';
-				}
-				echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* line 1 */;
-				echo $ʟ_tag[0];
+				%A%
+				echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(end($this->global->formsStack), false) /* %a% */;
+				%a%
 				array_pop($this->global->formsStack);
 		%A%
 		XX,
