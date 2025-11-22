@@ -54,6 +54,9 @@ class CheckboxList extends MultiChoiceControl
 	{
 		$input = parent::getControl();
 		$items = $this->getItems();
+		if (!$items) {
+			return Html::el();
+		}
 		return $this->container->setHtml(
 			Nette\Forms\Helpers::createInputList(
 				$this->translate($items),
