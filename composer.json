@@ -16,16 +16,16 @@
 	],
 	"require": {
 		"php": "8.2 - 8.5",
-		"nette/component-model": "^3.1",
+		"nette/component-model": "^3.2",
 		"nette/http": "^3.3",
-		"nette/utils": "^4.0.10"
+		"nette/utils": "^4.1"
 	},
 	"require-dev": {
-		"nette/application": "^3.0",
-		"nette/di": "^3.0",
+		"nette/application": "^3.3",
+		"nette/di": "^3.2",
 		"nette/tester": "^2.6",
 		"latte/latte": "^2.10.2 || ^3.0.12",
-		"tracy/tracy": "^2.9",
+		"tracy/tracy": "^2.11",
 		"phpstan/phpstan": "^2.1@stable",
 		"phpstan/extension-installer": "^1.4@stable",
 		"nette/phpstan-rules": "^1.0"
