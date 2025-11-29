@@ -49,7 +49,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function setDefaults(array|object $data, bool $erase = false): static
 	{
-		$form = $this->getForm(false);
+		$form = $this->getForm(throw: false);
 		$this->setValues($data, $erase, $form?->isAnchored() && $form->isSubmitted());
 		return $this;
 	}
@@ -87,7 +87,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getValues(string|object|bool|null $returnType = null, ?array $controls = null): object|array
 	{
-		$form = $this->getForm(false);
+		$form = $this->getForm(throw: false);
 		if ($form && ($submitter = $form->isSubmitted())) {
 			if ($this->validated === null) {
 				throw new Nette\InvalidStateException('You cannot call getValues() during the validation process. Use getUntrustedValues() instead.');
@@ -98,10 +98,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 			if ($controls === null && $submitter instanceof SubmitterControl) {
 				$controls = $submitter->getValidationScope();
-				if ($controls !== null && !in_array($this, $controls, true)) {
+				if ($controls !== null && !in_array($this, $controls, strict: true)) {
 					$scope = $this;
 					while (($scope = $scope->getParent()) instanceof self) {
-						if (in_array($scope, $controls, true)) {
+						if (in_array($scope, $controls, strict: true)) {
 							$controls[] = $this;
 							break;
 						}
@@ -130,7 +130,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			$properties = (new \ReflectionClass($resultObj))->getProperties();
 
 		} else {
-			$returnType = ($returnType ?? $this->mappedType ?? ArrayHash::class);
+			$returnType ??= $this->mappedType ?? ArrayHash::class;
 			$rc = new \ReflectionClass($returnType === self::Array ? \stdClass::class : $returnType);
 			$constructor = $rc->hasMethod('__construct') ? $rc->getMethod('__construct') : null;
 			if ($constructor?->getNumberOfRequiredParameters()) {
@@ -146,7 +146,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		$properties = array_combine(array_map(fn($p) => $p->getName(), $properties), $properties);
 
 		foreach ($this->getComponents() as $name => $control) {
-			$allowed = $controls === null || in_array($this, $controls, true) || in_array($control, $controls, true);
+			$allowed = $controls === null || in_array($this, $controls, strict: true) || in_array($control, $controls, strict: true);
 			$name = (string) $name;
 			$property = $properties[$name] ?? null;
 			if (

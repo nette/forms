@@ -31,12 +31,11 @@ final class Rules implements \IteratorAggregate
 	private array $rules = [];
 	private Rules $parent;
 	private array $toggles = [];
-	private Control $control;
 
 
-	public function __construct(Control $control)
-	{
-		$this->control = $control;
+	public function __construct(
+		private readonly Control $control,
+	) {
 	}
 
 
@@ -240,7 +239,7 @@ final class Rules implements \IteratorAggregate
 				continue;
 			}
 
-			$success = $this->validateRule($rule);
+			$success = self::validateRule($rule);
 			if (
 				$success
 				&& $rule->branch
@@ -327,7 +326,7 @@ final class Rules implements \IteratorAggregate
 			$rule->arg = Helpers::getSupportedImages();
 		}
 
-		if (!is_callable($this->getCallback($rule))) {
+		if (!is_callable(self::getCallback($rule))) {
 			$validator = is_scalar($rule->validator)
 				? " '$rule->validator'"
 				: '';
@@ -339,7 +338,7 @@ final class Rules implements \IteratorAggregate
 	private static function getCallback(Rule $rule)
 	{
 		$op = $rule->validator;
-		return is_string($op) && strncmp($op, ':', 1) === 0
+		return is_string($op) && str_starts_with($op, ':')
 			? [Validator::class, 'validate' . ltrim($op, ':')]
 			: $op;
 	}
