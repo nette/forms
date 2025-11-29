@@ -23,9 +23,9 @@ use const PHP_SAPI;
  * @property-read array $errors
  * @property-read array $ownErrors
  * @property-read Html $elementPrototype
- * @property-read FormRenderer $renderer
- * @property string $action
- * @property string $method
+ * @property-deprecated FormRenderer $renderer
+ * @property-deprecated string $action
+ * @property-deprecated string $method
  */
 class Form extends Container implements Nette\HtmlStringable
 {

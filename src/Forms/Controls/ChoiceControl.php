@@ -17,7 +17,7 @@ use function array_combine, array_fill_keys, array_key_exists, array_keys, array
  * Choice control that allows single item selection.
  *
  * @property   array $items
- * @property-read mixed $selectedItem
+ * @property-deprecated mixed $selectedItem
  */
 abstract class ChoiceControl extends BaseControl
 {

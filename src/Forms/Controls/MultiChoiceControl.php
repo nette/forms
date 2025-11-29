@@ -17,7 +17,7 @@ use function array_combine, array_diff, array_fill_keys, array_flip, array_keys,
  * Choice control that allows multiple items selection.
  *
  * @property   array $items
- * @property-read array $selectedItems
+ * @property-deprecated array $selectedItems
  */
 abstract class MultiChoiceControl extends BaseControl
 {
