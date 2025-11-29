@@ -339,8 +339,17 @@ final class Rules implements \IteratorAggregate
 	private static function getCallback(Rule $rule)
 	{
 		$op = $rule->validator;
-		return is_string($op) && strncmp($op, ':', 1) === 0
-			? [Validator::class, 'validate' . ltrim($op, ':')]
-			: $op;
+		if (!(is_string($op) && strncmp($op, ':', 1) === 0)) {
+			return $op;
+		}
+
+		if ($rule->control instanceof ValidatedControl) {
+			return function (...$args) use ($rule) {
+				array_shift($args); // drop the control
+				return $rule->control->validateRule($rule, ...$args);
+			};
+		}
+
+		return [Validator::class, 'validate' . ltrim($op, ':')];
 	}
 }

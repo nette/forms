@@ -12,7 +12,10 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Forms\Control;
 use Nette\Forms\Form;
+use Nette\Forms\Rule;
 use Nette\Forms\Rules;
+use Nette\Forms\ValidatedControl;
+use Nette\Forms\Validator;
 use Nette\Utils\Html;
 use Stringable;
 use function array_unique, explode, func_get_arg, func_num_args, get_parent_class, implode, is_array, sprintf, str_contains;
@@ -38,7 +41,7 @@ use function array_unique, explode, func_get_arg, func_num_args, get_parent_clas
  * @property-deprecated array $options
  * @property-read string $error
  */
-abstract class BaseControl extends Nette\ComponentModel\Component implements Control
+abstract class BaseControl extends Nette\ComponentModel\Component implements Control, ValidatedControl
 {
 	public static string $idMask = 'frm-%s';
 
@@ -466,6 +469,16 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 		$this->cleanErrors();
 		$this->rules->validate();
+	}
+
+
+	public function validateRule(Rule $rule, mixed ...$args): bool
+	{
+		$op = $rule->validator;
+		$cb = is_string($op) && strncmp($op, ':', 1) === 0
+			? [Validator::class, 'validate' . ltrim($op, ':')]
+			: $op;
+		return $cb($this, ...$args);
 	}
 
 
