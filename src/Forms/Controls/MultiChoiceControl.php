@@ -16,7 +16,7 @@ use function array_combine, array_diff, array_fill_keys, array_flip, array_keys,
  *
  * @property   mixed[] $items
  * @property   bool|array<bool> $disabled
- * @property-read mixed[] $selectedItems
+ * @property-deprecated mixed[] $selectedItems
  */
 abstract class MultiChoiceControl extends BaseControl
 {
