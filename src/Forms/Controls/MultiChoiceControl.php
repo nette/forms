@@ -23,7 +23,7 @@ abstract class MultiChoiceControl extends BaseControl
 	private array $items = [];
 
 
-	public function __construct($label = null, ?array $items = null)
+	public function __construct(string|\Stringable|null $label = null, ?array $items = null)
 	{
 		parent::__construct($label);
 		if ($items !== null) {

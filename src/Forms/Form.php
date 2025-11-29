@@ -256,7 +256,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/**
 	 * Returns form's action.
 	 */
-	public function getAction(): string|Stringable
+	public function getAction(): string
 	{
 		return $this->getElementPrototype()->action;
 	}
@@ -488,10 +488,10 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->validate();
 		}
 
-		$handled = count($this->onSuccess ?? []) || count($this->onSubmit ?? []) || $this->submittedBy === true;
+		$handled = count($this->onSuccess) || count($this->onSubmit) || $this->submittedBy === true;
 
 		if ($this->submittedBy instanceof Controls\SubmitButton) {
-			$handled = $handled || count($this->submittedBy->onClick ?? []);
+			$handled = $handled || count($this->submittedBy->onClick);
 			if ($this->isValid()) {
 				$this->invokeHandlers($this->submittedBy->onClick, $this->submittedBy);
 			} else {
@@ -767,7 +767,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 		self::$defaultHttpRequest = (new Nette\Http\RequestFactory)->fromGlobals();
 
-		if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+		if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], strict: true)) {
 			if (headers_sent($file, $line)) {
 				throw new Nette\InvalidStateException(
 					'Create a form or call Nette\Forms\Form::initialize() before the headers are sent to initialize CSRF protection.'

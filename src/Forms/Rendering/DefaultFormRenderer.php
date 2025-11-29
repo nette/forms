@@ -11,7 +11,7 @@ use Nette;
 use Nette\HtmlStringable;
 use Nette\Utils\Html;
 use function array_merge, count, explode, implode, parse_url, preg_split, str_replace, strtolower, urldecode;
-use const PHP_URL_QUERY, PREG_SPLIT_NO_EMPTY;
+use const PHP_URL_QUERY;
 
 
 /**

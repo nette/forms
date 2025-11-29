@@ -83,7 +83,7 @@ final class FieldNNameNode extends StatementNode
 		} elseif ($elName === 'button') {
 			if ($el->content instanceof NopNode) {
 				$el->content = new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-					'echo %escape($ʟ_elem->value) %line;',
+					'echo %escape($ʟ_elem->getValue()) %line;',
 					$this->position,
 				));
 			}

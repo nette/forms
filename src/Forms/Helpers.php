@@ -12,7 +12,6 @@ use Nette\Utils\Html;
 use Nette\Utils\Image;
 use Nette\Utils\Strings;
 use function array_fill_keys, array_map, array_values, explode, html_entity_decode, htmlspecialchars, in_array, ini_get, is_a, is_array, is_numeric, is_scalar, is_string, str_ends_with, str_replace, strip_tags, strpos, strtolower, strtr, substr, substr_replace;
-use const ENT_HTML5, ENT_NOQUOTES, ENT_QUOTES;
 
 
 /**
@@ -66,7 +65,7 @@ final class Helpers
 	}
 
 
-	private static function sanitize(int $type, $value): string|array|Nette\Http\FileUpload|null
+	private static function sanitize(int $type, $value): string|Nette\Http\FileUpload|null
 	{
 		if ($type === Form::DataText) {
 			return is_scalar($value)
@@ -92,7 +91,7 @@ final class Helpers
 	 */
 	public static function generateHtmlName(string $id): string
 	{
-		$name = str_replace(Nette\ComponentModel\IComponent::NAME_SEPARATOR, '][', $id, $count);
+		$name = str_replace(Nette\ComponentModel\IComponent::NameSeparator, '][', $id, $count);
 		if ($count) {
 			$name = substr_replace($name, '', strpos($name, ']'), 1) . ']';
 		}
@@ -317,6 +316,6 @@ final class Helpers
 	/** @internal */
 	public static function getSupportedImages(): array
 	{
-		return array_values(array_map(fn($type) => Image::typeToMimeType($type), Image::getSupportedTypes()));
+		return array_values(array_map(Image::typeToMimeType(...), Image::getSupportedTypes()));
 	}
 }
