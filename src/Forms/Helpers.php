@@ -94,7 +94,7 @@ final class Helpers
 	 */
 	public static function generateHtmlName(string $id): string
 	{
-		$name = str_replace(Nette\ComponentModel\IComponent::NAME_SEPARATOR, '][', $id, $count);
+		$name = str_replace(Nette\ComponentModel\IComponent::NameSeparator, '][', $id, $count);
 		if ($count) {
 			$name = substr_replace($name, '', strpos($name, ']'), 1) . ']';
 		}
