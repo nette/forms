@@ -36,7 +36,7 @@ $sex = [
 
 $form = new Form;
 
-$renderer = $form->renderer;
+$renderer = $form->getRenderer();
 $renderer->wrappers['form']['container'] = Html::el('div')->id('form');
 $renderer->wrappers['form']['errors'] = false;
 $renderer->wrappers['group']['container'] = null;

@@ -26,19 +26,14 @@ class DateTimeControl extends BaseControl
 	public const
 		FormatObject = 'object',
 		FormatTimestamp = 'timestamp';
-
-	private int $type;
-	private bool $withSeconds;
 	private string $format = self::FormatObject;
 
 
 	public function __construct(
 		string|Stringable|null $label = null,
-		int $type = self::TypeDate,
-		bool $withSeconds = false,
+		private int $type = self::TypeDate,
+		private bool $withSeconds = false,
 	) {
-		$this->type = $type;
-		$this->withSeconds = $withSeconds;
 		parent::__construct($label);
 		$this->control->step = $withSeconds ? 1 : null;
 		$this->setOption('type', 'datetime');

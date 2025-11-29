@@ -16,7 +16,7 @@ use function is_string, ltrim, preg_match, strtolower;
  */
 class ColorPicker extends BaseControl
 {
-	public function __construct($label = null)
+	public function __construct(string|\Stringable|null $label = null)
 	{
 		parent::__construct($label);
 		$this->setOption('type', 'color');

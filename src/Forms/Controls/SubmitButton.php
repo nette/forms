@@ -8,6 +8,8 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Nette\Forms\Container;
+use Nette\Forms\Control;
 use Stringable;
 use function is_string;
 
@@ -57,7 +59,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 
 	/**
 	 * Sets the validation scope. Clicking the button validates only the controls within the specified scope.
-	 * @param  ?iterable<Nette\Forms\Control|Nette\Forms\Container|string>  $scope
+	 * @param  ?iterable<Control|Container|string>  $scope
 	 */
 	public function setValidationScope(?iterable $scope): static
 	{
@@ -71,7 +73,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 			if (is_string($control)) {
 				$control = $this->getForm()->getComponent($control);
 			}
-			if (!$control instanceof Nette\Forms\Container && !$control instanceof Nette\Forms\Control) {
+			if (!$control instanceof Container && !$control instanceof Control) {
 				throw new Nette\InvalidArgumentException('Validation scope accepts only Nette\Forms\Container or Nette\Forms\Control instances.');
 			}
 
@@ -83,7 +85,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 
 	/**
 	 * Gets the validation scope.
-	 * @return ?array<Nette\Forms\Control|Nette\Forms\Container>
+	 * @return ?array<Control|Container>
 	 */
 	public function getValidationScope(): ?array
 	{
