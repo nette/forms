@@ -769,7 +769,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 		self::$defaultHttpRequest = (new Nette\Http\RequestFactory)->fromGlobals();
 
-		if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+		if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], strict: true)) {
 			if (headers_sent($file, $line)) {
 				throw new Nette\InvalidStateException(
 					'Create a form or call Nette\Forms\Form::initialize() before the headers are sent to initialize CSRF protection.'
