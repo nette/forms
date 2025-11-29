@@ -16,7 +16,7 @@ use function array_combine, array_fill_keys, array_key_exists, array_keys, array
  *
  * @property   mixed[] $items
  * @property   bool|array<bool> $disabled
- * @property-read mixed $selectedItem
+ * @property-deprecated mixed $selectedItem
  */
 abstract class ChoiceControl extends BaseControl
 {
