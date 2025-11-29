@@ -22,20 +22,20 @@ use function array_unique, explode, func_get_arg, func_num_args, get_parent_clas
  * Base class that implements the basic functionality common to form controls.
  *
  * @property-read Form $form
- * @property-read string $htmlName
- * @property   string|bool|null $htmlId
+ * @property-deprecated string $htmlName
+ * @property-deprecated   string|bool|null $htmlId
  * @property   mixed $value
- * @property   string|Stringable $caption
+ * @property-deprecated   string|Stringable $caption
  * @property   bool $disabled
- * @property   bool $omitted
+ * @property-deprecated   bool $omitted
  * @property-read Html $control
  * @property-read Html $label
  * @property-read Html $controlPrototype
  * @property-read Html $labelPrototype
  * @property   bool $required
- * @property-read bool $filled
+ * @property-deprecated bool $filled
  * @property-read array $errors
- * @property-read array $options
+ * @property-deprecated array $options
  * @property-read string $error
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
