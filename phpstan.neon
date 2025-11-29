@@ -159,11 +159,6 @@ parameters:
 			path: src/Forms/Container.php
 			count: 1
 
-		-   # getComponents() returns iterable; narrowing to Iterator not detected
-			message: '#^Method Nette\\Forms\\Container::getControls\(\) should return#'
-			path: src/Forms/Container.php
-			count: 1
-
 		-
 			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
