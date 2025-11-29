@@ -325,7 +325,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 		$this->control->$name = $value;
 		if (
 			$name === 'name'
-			&& ($form = $this->getForm(false))
+			&& ($form = $this->getForm(throw: false))
 			&& !$this->isDisabled()
 			&& $form->isAnchored()
 			&& $form->isSubmitted()
@@ -365,7 +365,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	public function getTranslator(): ?Nette\Localization\Translator
 	{
 		if ($this->translator === true) {
-			return $this->getForm(false)
+			return $this->getForm(throw: false)
 				? $this->getForm()->getTranslator()
 				: null;
 		}

@@ -31,7 +31,7 @@ class SelectBox extends ChoiceControl
 	private array $optionAttributes = [];
 
 
-	public function __construct($label = null, ?array $items = null)
+	public function __construct(string|\Stringable|null $label = null, ?array $items = null)
 	{
 		parent::__construct($label, $items);
 		$this->setOption('type', 'select');

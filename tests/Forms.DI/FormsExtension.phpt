@@ -24,9 +24,9 @@ test('', function () {
 	$config = $loader->load(Tester\FileMock::create('
 	forms:
 		messages:
-			EQUAL: "Testing equal %s."
-			FILLED: "Testing filled"
-			\'Nette\Forms\Controls\SelectBox::VALID\': "SelectBox test"
+			Equal: "Testing equal %s."
+			Filled: "Testing filled"
+			\'Nette\Forms\Controls\SelectBox::Valid\': "SelectBox test"
 	', 'neon'));
 
 	eval($compiler->addConfig($config)->setClassName('Container1')->compile());
