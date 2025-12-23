@@ -324,13 +324,7 @@ final class Rules implements \IteratorAggregate
 				$name = strncmp($rule->validator, ':', 1)
 					? $rule->validator
 					: 'Form:' . strtoupper($rule->validator);
-				trigger_error("Negative validation rules such as ~$name are deprecated.", E_USER_DEPRECATED);
-			}
-
-			if (isset(self::NegRules[$rule->validator])) {
-				$rule->validator = self::NegRules[$rule->validator];
-				$rule->isNegative = false;
-				trigger_error('Replace negative validation rule ~Form::Filled with Form::Blank and vice versa.', E_USER_DEPRECATED);
+				throw new Nette\InvalidArgumentException("Negative validation rules such as ~$name are deprecated.");
 			}
 		}
 
