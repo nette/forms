@@ -85,7 +85,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * Returns the values submitted by the form.
 	 * @param  Control[]|null  $controls
 	 */
-	public function getValues(string|object|bool|null $returnType = null, ?array $controls = null): object|array
+	public function getValues(string|object|null $returnType = null, ?array $controls = null): object|array
 	{
 		$form = $this->getForm(throw: false);
 		if ($form && ($submitter = $form->isSubmitted())) {
@@ -108,11 +108,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 					}
 				}
 			}
-		}
-
-		if ($returnType === true) {
-			trigger_error(static::class . '::' . __FUNCTION__ . "(true) is deprecated, use getValues('array').", E_USER_DEPRECATED);
-			$returnType = self::Array;
 		}
 
 		return $this->getUntrustedValues($returnType, $controls);

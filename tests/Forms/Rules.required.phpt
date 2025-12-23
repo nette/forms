@@ -56,20 +56,13 @@ test('combining required with other validations', function () {
 	Assert::same(Form::Required, $items[0]->validator);
 	Assert::same(Form::Email, $items[1]->validator);
 
-	@$rules->addRule(~$form::Required); // @ - negative rules are deprecated
-	$items = iterator_to_array($rules);
-	Assert::count(3, $items);
-	Assert::same(Form::Blank, $items[0]->validator);
-	Assert::false($items[0]->isNegative);
-
 	Assert::false($rules->validate());
 	Assert::same(['This field is required.'], $input->getErrors());
 
 	$rules->addCondition($form::Blank);
 	$items = iterator_to_array($rules);
-	Assert::count(4, $items);
+	Assert::count(3, $items);
 	Assert::same(Form::Blank, $items[0]->validator);
-	Assert::same(Form::Blank, $items[1]->validator);
 
 	Assert::false($rules->validate());
 	Assert::same(['This field is required.'], $input->getErrors());
@@ -105,14 +98,4 @@ test('conditional required based on checkbox', function () {
 
 	Assert::false($input->getRules()->validate());
 	Assert::same(['This field is required.'], $input->getErrors());
-});
-
-
-test('negative required rule handling', function () {
-	$form = new Form;
-	$input = $form->addText('text');
-
-	Assert::false($input->isRequired());
-	Assert::same($input, @$input->addRule(~Form::Required)); // @ - negative rules are deprecated
-	Assert::false($input->isRequired());
 });
