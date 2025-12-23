@@ -15,7 +15,7 @@ use Nette\Forms\Form;
 use Nette\Forms\Rules;
 use Nette\Utils\Html;
 use Stringable;
-use function array_unique, explode, func_get_arg, func_num_args, get_parent_class, implode, is_array, sprintf, str_contains;
+use function array_unique, explode, get_parent_class, implode, is_array, sprintf, str_contains;
 
 
 /**
@@ -547,11 +547,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 */
 	public function getOption($key): mixed
 	{
-		if (func_num_args() > 1) {
-			trigger_error(__METHOD__ . '() parameter $default is deprecated, use operator ??', E_USER_DEPRECATED);
-			$default = func_get_arg(1);
-		}
-		return $this->options[$key] ?? $default ?? null;
+		return $this->options[$key] ?? null;
 	}
 
 
