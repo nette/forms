@@ -130,18 +130,6 @@ test('conditional validation', function () {
 });
 
 
-test('negative rule handling', function () {
-	$_POST = ['number' => ' 10,5 '];
-
-	$form = new Form;
-	$input = @$form->addText('number')
-		->addRule(~$form::Float); // @ - negative rules are deprecated
-
-	$input->validate();
-	Assert::same(10.5, $input->getValue()); // side effect
-});
-
-
 test('URL auto-correction', function () {
 	$_POST = ['url' => 'nette.org'];
 
