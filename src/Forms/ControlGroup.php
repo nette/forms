@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Nette\Forms;
 
 use Nette;
-use function func_num_args;
 
 
 /**
@@ -105,11 +104,7 @@ class ControlGroup
 	 */
 	public function getOption(string $key): mixed
 	{
-		if (func_num_args() > 1) {
-			trigger_error(__METHOD__ . '() parameter $default is deprecated, use operator ??', E_USER_DEPRECATED);
-			$default = func_get_arg(1);
-		}
-		return $this->options[$key] ?? $default ?? null;
+		return $this->options[$key] ?? null;
 	}
 
 
