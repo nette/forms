@@ -6,24 +6,24 @@
 		"@rollup/plugin-node-resolve": "^16.0.1",
 		"@rollup/plugin-terser": "^0.4.4",
 		"@rollup/plugin-typescript": "^12.1.2",
+		"@vitest/ui": "^4.0.16",
 		"eslint": "^9.26.0",
 		"globals": "^15.3.0",
-		"jasmine": "^5.7.1",
-		"jasmine-core": "^5.7.1",
-		"karma": "^6.4.4",
-		"karma-chrome-launcher": "^3.2.0",
-		"karma-jasmine": "^5.1.0",
+		"jsdom": "^27.3.0",
 		"rollup": "^4.40.2",
 		"rollup-plugin-dts": "^6.2.1",
 		"terser": "^5.39.1",
 		"typescript": "^5.8.3",
-		"typescript-eslint": "^8.32.1"
+		"typescript-eslint": "^8.32.1",
+		"vitest": "^4.0.16"
 	},
 	"scripts": {
 		"typecheck": "tsc -noemit",
 		"lint": "eslint --cache",
 		"lint:fix": "eslint --cache --fix",
-		"test": "karma start tests/netteForms/karma.conf.ts",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"test:ui": "vitest --ui",
 		"build": "rollup -c",
 		"postbuild": "npm run test"
 	}

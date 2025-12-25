@@ -1,3 +1,5 @@
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+
 describe('Nette.getValue & validateRule', () => {
 	let testContainer;
 
@@ -5,7 +7,7 @@ describe('Nette.getValue & validateRule', () => {
 		testContainer.innerHTML = '<form><input type="text" name="input"></form>';
 
 		let form = testContainer.querySelector('form'),
-			el = form.input;
+			el = form.elements['input'];
 
 		expect(Nette.getValue(el)).toBe('');
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -85,7 +87,7 @@ describe('Nette.getValue & validateRule', () => {
 		testContainer.innerHTML = '<form><input type="number" name="input"></form>';
 
 		let form = testContainer.querySelector('form'),
-			el = form.input;
+			el = form.elements['input'];
 
 		expect(Nette.getValue(el)).toBe('');
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -144,7 +146,7 @@ describe('Nette.getValue & validateRule', () => {
 		testContainer.innerHTML = '<form><textarea name="input"></textarea></form>';
 
 		let form = testContainer.querySelector('form'),
-			el = form.input;
+			el = form.elements['input'];
 
 		expect(Nette.getValue(el)).toBe('');
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -164,7 +166,7 @@ describe('Nette.getValue & validateRule', () => {
 		testContainer.innerHTML = '<form method="post" enctype="multipart/form-data"><input type="file" name="input"></form>';
 
 		let form = testContainer.querySelector('form'),
-			el = form.input;
+			el = form.elements['input'];
 
 		expect(Nette.getValue(el) instanceof FileList).toBe(true);
 		expect(Nette.getValue(el).length).toBe(0);
@@ -175,7 +177,7 @@ describe('Nette.getValue & validateRule', () => {
 		testContainer.innerHTML = '<form method="post" enctype="multipart/form-data"><input type="file" name="input[]" multiple></form>';
 
 		let form = testContainer.querySelector('form'),
-			el = form['input[]'];
+			el = form.elements['input[]'];
 
 		expect(Nette.getValue(el) instanceof FileList).toBe(true);
 		expect(Nette.getValue(el).length).toBe(0);
@@ -186,7 +188,7 @@ describe('Nette.getValue & validateRule', () => {
 		testContainer.innerHTML = '<form><input type="checkbox" name="input" value="r"></form>';
 
 		let form = testContainer.querySelector('form'),
-			el = form.input;
+			el = form.elements['input'];
 
 		expect(Nette.getValue(el)).toBe(false);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -209,7 +211,7 @@ describe('Nette.getValue & validateRule', () => {
 		</form>`;
 
 		let form = testContainer.querySelector('form'),
-			el = form['input[]'][0];
+			el = form.elements['input[]'][0];
 
 		expect(Nette.getValue(el)).toEqual([]);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -243,7 +245,7 @@ describe('Nette.getValue & validateRule', () => {
 		testContainer.innerHTML = '<form><input type="checkbox" name="input[]" value="r" id="input-r"></form>';
 
 		let form = testContainer.querySelector('form'),
-			el = form['input[]'];
+			el = form.elements['input[]'];
 
 		expect(Nette.getValue(el)).toEqual([]);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -266,7 +268,7 @@ describe('Nette.getValue & validateRule', () => {
 		testContainer.innerHTML = '<form><input type="radio" name="input" value="f"><form>';
 
 		let form = testContainer.querySelector('form'),
-			el = form.input;
+			el = form.elements['input'];
 
 		expect(Nette.getValue(el)).toBe(null);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -290,7 +292,7 @@ describe('Nette.getValue & validateRule', () => {
 		</form>`;
 
 		let form = testContainer.querySelector('form'),
-			el = form.input[0];
+			el = form.elements['input'][0];
 
 		expect(Nette.getValue(el)).toBe(null);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -320,7 +322,7 @@ describe('Nette.getValue & validateRule', () => {
 		</form>`;
 
 		let form = testContainer.querySelector('form'),
-			el = form.input;
+			el = form.elements['input'];
 
 		expect(Nette.getValue(el)).toBe('');
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
@@ -348,7 +350,7 @@ describe('Nette.getValue & validateRule', () => {
 		</form>`;
 
 		let form = testContainer.querySelector('form'),
-			el = form['input[]'];
+			el = form.elements['input[]'];
 
 		expect(Nette.getValue(el)).toEqual([]);
 		expect(Nette.validateRule(el, 'filled')).toBe(false);
