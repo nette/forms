@@ -22,7 +22,6 @@ class ChoiceControl extends Nette\Forms\Controls\ChoiceControl
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	ob_start();
 	Form::initialize(true);
 });
 

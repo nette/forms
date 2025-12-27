@@ -16,19 +16,19 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_GET = $_POST = $_FILES = $_COOKIE = [];
-	ob_start();
 	Form::initialize(true);
 });
 
 
-test('form success without strict cookie', function () {
+test('missing Sec-Fetch header in POST', function () {
 	$form = new Form;
-	Assert::false($form->isSuccess());
+	Assert::false($form->isSubmitted());
 });
 
 
-test('strict cookie form submission', function () {
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
+test('present Sec-Fetch header in POST', function () {
+	$request = new Nette\Http\Request(new Nette\Http\UrlScript, method: 'POST', headers: ['Sec-Fetch-Site' => 'same-origin']);
+	Form::initialize($request);
 
 	$form = new Form;
 	Assert::true($form->isSuccess());
