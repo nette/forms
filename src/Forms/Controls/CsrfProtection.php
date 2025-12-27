@@ -16,7 +16,7 @@ use function base64_encode, sha1, substr;
 
 
 /**
- * CSRF protection field.
+ * @deprecated default protection is sufficient
  */
 class CsrfProtection extends HiddenField
 {
