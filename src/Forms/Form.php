@@ -319,7 +319,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 
 	/**
-	 * Cross-Site Request Forgery (CSRF) form protection.
+	 * @deprecated default protection is sufficient
 	 */
 	public function addProtection(?string $errorMessage = null): Controls\CsrfProtection
 	{
