@@ -302,7 +302,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 
 	/**
-	 * Adds a CSRF protection token field using a SameSite cookie.
+	 * @deprecated default protection is sufficient
 	 */
 	public function addProtection(?string $errorMessage = null): Controls\CsrfProtection
 	{
