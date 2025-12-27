@@ -44,7 +44,6 @@ setUp(function () {
 			],
 		],
 	];
-	ob_start();
 	Form::initialize(true);
 });
 
