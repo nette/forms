@@ -14,7 +14,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'GET';
 	$_GET = $_POST = $_FILES = [];
-	ob_start();
 	Form::initialize(true);
 });
 
@@ -33,6 +32,7 @@ test('empty GET form submission', function () {
 
 test('unsubmitted form handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addSubmit('send', 'Send');
 
 	Assert::false($form->isSubmitted());
