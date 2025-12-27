@@ -10,8 +10,6 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-ob_start();
-
 testException('unattached component ID exception', function () {
 	$input = new TextInput('name');
 	$input->getHtmlId();
