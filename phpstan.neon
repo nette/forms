@@ -36,15 +36,6 @@ parameters:
 			path: src/Forms/Controls/SubmitButton.php
 			count: 1
 
-		-   # isSameSite() exists on the Nette\Http\Request implementation but the IRequest
-			# interface does not declare it (it is deprecated there in favour of isFrom()).
-			# We deliberately keep calling isSameSite() for compatibility with older nette/http
-			# ^3.3 releases where isFrom() does not yet exist.
-			identifier: method.notFound
-			message: '#^Call to an undefined method Nette\\Http\\IRequest::isSameSite\(\)\.$#'
-			path: src/Forms/Form.php
-			count: 1
-
 		-   # Nette\Forms\Control interface is intentionally minimal and missing common methods
 			# (getControl, getLabel, getForm, getOption, setOption, getHtmlName, getName, getParent,
 			# lookupPath, hasErrors, isRequired, isFilled, isDisabled, addError). In practice all
