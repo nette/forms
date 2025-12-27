@@ -14,7 +14,6 @@ use Nette\Utils\Arrays;
 use Nette\Utils\Html;
 use Stringable;
 use function array_key_first, array_merge, array_search, array_unique, count, headers_sent, in_array, is_array, is_scalar, is_string, sprintf, strcasecmp, strtolower;
-use const PHP_SAPI;
 
 
 /**
@@ -573,7 +572,7 @@ class Form extends Container implements Nette\HtmlStringable
 		}
 
 		if ($httpRequest->isMethod('post')) {
-			if (!$this->crossOrigin && !$httpRequest->isSameSite()) {
+			if (!$this->crossOrigin && !$httpRequest->isFrom('same-origin')) {
 				return null;
 			}
 
@@ -769,29 +768,13 @@ class Form extends Container implements Nette\HtmlStringable
 	/**
 	 * Initialize standalone forms.
 	 */
-	public static function initialize(bool $reinit = false): void
+	public static function initialize(bool|Nette\Http\IRequest $reinit = false): void
 	{
-		if ($reinit) {
-			self::$defaultHttpRequest = null;
-			return;
-		} elseif (self::$defaultHttpRequest) {
-			return;
-		}
-
-		self::$defaultHttpRequest = (new Nette\Http\RequestFactory)->fromGlobals();
-
-		if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], strict: true)) {
-			if (headers_sent($file, $line)) {
-				throw new Nette\InvalidStateException(
-					'Create a form or call Nette\Forms\Form::initialize() before the headers are sent to initialize CSRF protection.'
-					. ($file ? " (output started at $file:$line)" : '') . '. ',
-				);
-			}
-
-			$response = new Nette\Http\Response;
-			$response->cookieSecure = self::$defaultHttpRequest->isSecured();
-			Nette\Http\Helpers::initCookie(self::$defaultHttpRequest, $response);
-		}
+		self::$defaultHttpRequest = match ($reinit) {
+			true => null,
+			false => self::$defaultHttpRequest ?? (new Nette\Http\RequestFactory)->fromGlobals(),
+			default => $reinit,
+		};
 	}
 
 
