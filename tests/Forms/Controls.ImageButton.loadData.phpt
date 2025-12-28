@@ -16,7 +16,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -31,6 +30,7 @@ test('image button captures coordinates', function () {
 	];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addImageButton('image');
 	Assert::true($input->isFilled());
 	Assert::same([1, 2], $input->getValue());
@@ -42,6 +42,7 @@ test('image button captures coordinates', function () {
 
 test('missing image button data', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addImageButton('missing');
 	Assert::false($input->isFilled());
 	Assert::null($input->getValue());
@@ -55,6 +56,7 @@ test('malformed image button data', function () {
 	];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addImageButton('malformed1');
 	Assert::true($input->isFilled());
 	Assert::same([1, 0], $input->getValue());

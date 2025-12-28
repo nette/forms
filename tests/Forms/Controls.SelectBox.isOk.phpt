@@ -15,6 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $form = new Form;
+$form->allowCrossOrigin();
 $select = $form->addSelect('foo', null, ['bar' => 'Bar']);
 
 Assert::false($select->isOk());
@@ -43,10 +44,10 @@ Assert::false($select->isOk());
 
 // error message is processed via Rules
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 Form::initialize(true);
 Validator::$messages[Nette\Forms\Controls\SelectBox::Valid] = 'SelectBox "%label" must be filled.';
 $form = new Form;
+$form->allowCrossOrigin();
 $form->addSelect('foo', 'Foo', ['bar' => 'Bar']);
 $form->onSuccess[] = function () {};
 $form->fireEvents();

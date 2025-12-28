@@ -22,7 +22,6 @@ class ChoiceControl extends Nette\Forms\Controls\ChoiceControl
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -40,6 +39,7 @@ test('valid selection handling', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -53,6 +53,7 @@ test('invalid selection ignored', function () use ($series) {
 	$_POST = ['select' => 'days-of-our-lives'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -66,6 +67,7 @@ test('zero value as valid key', function () use ($series) {
 	$_POST = ['zero' => '0'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['zero'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -80,6 +82,7 @@ test('empty string as valid key', function () use ($series) {
 	$_POST = ['empty' => ''];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['empty'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -91,6 +94,7 @@ test('empty string as valid key', function () use ($series) {
 
 test('missing input results in null', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['missing'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -104,6 +108,7 @@ test('disabled input ignores submission', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['disabled'] = new ChoiceControl(null, $series);
 	$input->setDisabled();
 
@@ -117,6 +122,7 @@ test('malformed array input handling', function () use ($series) {
 	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['malformed'] = new ChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -130,6 +136,7 @@ test('using keys as items without labels', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl;
 	$input->setItems(array_keys($series), useKeys: false);
 	Assert::same([
@@ -148,6 +155,7 @@ test('using keys as items without labels', function () use ($series) {
 
 testException('exception on invalid value', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl(null, $series);
 	$input->setValue('unknown');
 }, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
@@ -155,6 +163,7 @@ testException('exception on invalid value', function () use ($series) {
 
 test('invalid value ignored with checkDefaultValue', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl(null, $series);
 	$input->checkDefaultValue(false);
 	$input->setValue('unknown');
@@ -164,6 +173,7 @@ test('invalid value ignored with checkDefaultValue', function () use ($series) {
 
 test('dateTime object as value', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl(null, ['2013-07-05 00:00:00' => 1]);
 	$input->setValue(new DateTime('2013-07-05'));
 
@@ -173,6 +183,7 @@ test('dateTime object as value', function () {
 
 test('dateTime items without keys', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl;
 	$input->setItems([new DateTime('2013-07-05')], useKeys: false)
 		->setValue(new DateTime('2013-07-05'));
@@ -185,6 +196,7 @@ test('disabled items ignored', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl(null, $series);
 	$input->setDisabled(['red-dwarf']);
 
@@ -202,6 +214,7 @@ test('items with null labels', function () {
 	$_POST = ['select' => '1'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new ChoiceControl(null);
 	$input->setItems([
 		1 => null,
