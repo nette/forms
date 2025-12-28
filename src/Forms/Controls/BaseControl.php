@@ -113,10 +113,16 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Loads HTTP data.
+	 * TODO: rename to getSubmittedValue()
 	 */
 	protected function getHttpData($type, ?string $htmlTail = null): mixed
 	{
-		return $this->getForm()->getHttpData($type, $this->getHtmlName() . $htmlTail);
+		// TODO
+		if ($htmlTail) {
+			trigger_error('', E_USER_DEPRECATED);
+			return $this->getForm()->getHttpData($type, $this->getHtmlName() . $htmlTail);
+		}
+		return $this->getParent()->getSubmittedValue($this->getName(), $type);
 	}
 
 
@@ -125,6 +131,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 */
 	public function getHtmlName(): string
 	{
+		// TODO
 		return $this->control->name ?? Nette\Forms\Helpers::generateHtmlName($this->lookupPath(Form::class));
 	}
 

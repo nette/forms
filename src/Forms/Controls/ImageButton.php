@@ -9,6 +9,8 @@ declare(strict_types=1);
 
 namespace Nette\Forms\Controls;
 
+use Nette\Forms\Form;
+
 
 /**
  * Submittable image button form control.
@@ -30,10 +32,15 @@ class ImageButton extends SubmitButton
 
 	public function loadHttpData(): void
 	{
-		parent::loadHttpData();
-		$this->value = $this->value
-			? [(int) array_shift($this->value), (int) array_shift($this->value)]
+		$value = $this->getHttpData(Form::DataList | Form::DataText);
+		$this->value = $value
+			? [(int) array_shift($value), (int) array_shift($value)]
 			: null;
+
+		if ($this->value) {
+			$this->getForm()->setSubmittedBy($this);
+		}
+
 	}
 
 

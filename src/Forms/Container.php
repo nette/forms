@@ -45,6 +45,24 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
+	 * Returns submitted data pro celý
+	 */
+	public function getSubmittedData(): array
+	{
+		return $this->getParent()->getSubmittedValue($this->getName(), Form::DataArray);
+	}
+
+
+	/**
+	 * Returns submitted data pro jednu polžku
+	 */
+	public function getSubmittedValue(string $name, int $type): string|array|Nette\Http\FileUpload|null
+	{
+		return Helpers::sanitize($type, $this->getSubmittedData()[$name] ?? null);
+	}
+
+
+	/**
 	 * Fill-in with default values.
 	 * @param  array|\Traversable|\stdClass  $values
 	 */
@@ -239,7 +257,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Returns all validation errors.
 	 */
-	public function getErrors(): array
+	public function getErrors(): array // getAllErrors()?
 	{
 		$errors = [];
 		foreach ($this->getControls() as $control) {

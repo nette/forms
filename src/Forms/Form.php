@@ -76,7 +76,8 @@ class Form extends Container implements Nette\HtmlStringable
 		DataText = 1,
 		DataLine = 2,
 		DataFile = 3,
-		DataKeys = 8;
+		DataArray = 8,
+		DataList = 16;
 
 	/** @internal tracker ID */
 	public const TrackerId = '_form_';
@@ -178,7 +179,7 @@ class Form extends Container implements Nette\HtmlStringable
 	public const DATA_FILE = self::DataFile;
 
 	/** @deprecated use Form::DataKeys */
-	public const DATA_KEYS = self::DataKeys;
+	public const DATA_KEYS = self::DataArray;
 
 	/** @deprecated use Form::TrackerId */
 	public const TRACKER_ID = self::TrackerId;
@@ -428,10 +429,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function isSubmitted(): SubmitterControl|bool
 	{
-		if (!isset($this->httpData)) {
-			$this->getHttpData();
-		}
-
+		$this->getSubmittedData();
 		return $this->submittedBy;
 	}
 
@@ -457,9 +455,9 @@ class Form extends Container implements Nette\HtmlStringable
 
 
 	/**
-	 * Returns submitted HTTP data.
+	 * Returns submitted data pro celý
 	 */
-	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
+	public function getSubmittedData(): array
 	{
 		if (!isset($this->httpData)) {
 			if (!$this->isAnchored()) {
@@ -471,9 +469,30 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->submittedBy = is_array($data);
 		}
 
+		return $this->httpData; // rename property
+	}
+
+
+	/**
+	 * Returns submitted data pro jednu polžku
+	 */
+	public function getSubmittedValue(string $name, int $type): string|array|Nette\Http\FileUpload|null
+	{
+		$name = ($type & self::DataList) ? $name : Helpers::sanitizeHtmlName($name);
+		$value = $this->getSubmittedData()[$name] ?? null;
+		return Helpers::sanitize($type, $value);
+	}
+
+
+	/**
+	 * Returns submitted HTTP data.
+	 * @deprecated use getSubmittedData() or ...
+	 */
+	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
+	{
 		return $htmlName === null
-			? $this->httpData
-			: Helpers::extractHttpData($this->httpData, $htmlName, $type);
+			? $this->getSubmittedData()
+			: Helpers::extractHttpData($this->getSubmittedData(), $htmlName, $type);
 	}
 
 

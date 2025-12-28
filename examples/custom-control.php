@@ -60,7 +60,9 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 
 	public function loadHttpData(): void
 	{
-		$this->day = $this->getHttpData(Form::DataLine, '[day]');
+		$data = $this->getParent()->getSubmittedValue($this->getName(), Form::DataLine | Form::DataList);
+		$this->day = $data['day'] ?? '';
+		//$this->day = $this->getHttpData(Form::DataLine, '[day]');
 		$this->month = $this->getHttpData(Form::DataLine, '[month]');
 		$this->year = $this->getHttpData(Form::DataLine, '[year]');
 	}

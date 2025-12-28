@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Stringable;
 use function array_flip, array_key_first, array_keys, array_merge, explode, func_num_args, in_array, is_array, key, substr;
@@ -42,9 +43,9 @@ class CheckboxList extends MultiChoiceControl
 
 	public function loadHttpData(): void
 	{
-		$data = $this->getForm()->getHttpData(Nette\Forms\Form::DataText, substr($this->getHtmlName(), 0, -2));
+		$data = $this->getHttpData(Form::DataText);
 		$data = $data === null
-			? $this->getHttpData(Nette\Forms\Form::DataText)
+			? $this->getHttpData(Form::DataList | Form::DataText)
 			: explode(',', $data);
 		$this->value = array_keys(array_flip($data));
 	}

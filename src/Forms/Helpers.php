@@ -32,8 +32,8 @@ final class Helpers
 
 	/**
 	 * Extracts and sanitizes submitted form data for single control.
-	 * @param  int  $type  type Form::DataText, DataLine, DataFile, DataKeys
-	 * @internal
+	 * @param  int  $type  type Form::DataText, DataLine, DataFile, DataKeys, DataArray
+	 * @deprecated
 	 */
 	public static function extractHttpData(
 		array $data,
@@ -41,36 +41,41 @@ final class Helpers
 		int $type,
 	): string|array|Nette\Http\FileUpload|null
 	{
-		$name = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName));
-		$data = Nette\Utils\Arrays::get($data, $name, null);
-		$itype = $type & ~Form::DataKeys;
+		// TODO: nechat asi jen back compatibility
+		$name = str_contains($htmlName, '[')
+			? explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName))
+			: explode(Nette\ComponentModel\IComponent::NameSeparator, $htmlName);
 
-		if (str_ends_with($htmlName, '[]')) {
-			if (!is_array($data)) {
-				return [];
-			}
+		$value = Nette\Utils\Arrays::get($data, $name, null);
 
-			foreach ($data as $k => $v) {
-				$data[$k] = $v = static::sanitize($itype, $v);
-				if ($v === null) {
-					unset($data[$k]);
-				}
-			}
-
-			if ($type & Form::DataKeys) {
-				return $data;
-			}
-
-			return array_values($data);
-		} else {
-			return static::sanitize($itype, $data);
-		}
+		$type |= str_ends_with($htmlName, '[]') ? Form::DataList : 0;
+		return static::sanitize($type, $value);
 	}
 
 
-	private static function sanitize(int $type, $value): string|array|Nette\Http\FileUpload|null
+	// TODO: rename sanitizeHtmlData? a prohodit argumenty
+	public static function sanitize(int $type, $value): string|array|Nette\Http\FileUpload|null
 	{
-		if ($type === Form::DataText) {
+		if (($type & Form::DataList) || ($type & Form::DataArray)) {
+			if (!is_array($value)) {
+				return [];
+			}
+
+			$itype = $type & ~(Form::DataList | Form::DataArray);
+			if ($itype) {
+				foreach ($value as $k => $v) {
+					$value[$k] = $v = static::sanitize($itype, $v);
+					if ($v === null) {
+						unset($value[$k]);
+					}
+				}
+			}
+
+			return $type & Form::DataArray
+				? $value
+				: array_values($value);
+
+		} elseif ($type === Form::DataText) {
 			return is_scalar($value)
 				? Strings::unixNewLines((string) $value)
 				: null;
@@ -99,11 +104,18 @@ final class Helpers
 			$name = substr_replace($name, '', strpos($name, ']'), 1) . ']';
 		}
 
-		if (is_numeric($name) || in_array($name, self::UnsafeNames, strict: true)) {
-			$name = '_' . $name;
-		}
+		return static::sanitizeHtmlName($name);
+	}
 
-		return $name;
+
+	/**
+	 * ....
+	 */
+	public static function sanitizeHtmlName(string $name): string
+	{
+		return is_numeric($name) || in_array($name, self::UnsafeNames, strict: true)
+			? '_' . $name
+			: $name;
 	}
 
 

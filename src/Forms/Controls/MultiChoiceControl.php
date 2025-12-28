@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Nette\Forms\Form;
 use function array_combine, array_diff, array_fill_keys, array_flip, array_keys, array_map, count, get_debug_type, implode, is_array, is_scalar, sprintf, var_export;
 
 
@@ -36,7 +37,8 @@ abstract class MultiChoiceControl extends BaseControl
 
 	public function loadHttpData(): void
 	{
-		$this->value = array_keys(array_flip($this->getHttpData(Nette\Forms\Form::DataText)));
+		$data = $this->getHttpData(Form::DataList | Form::DataText);
+		$this->value = array_keys(array_flip($data));
 	}
 
 
