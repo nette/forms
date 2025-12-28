@@ -16,7 +16,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -34,6 +33,7 @@ test('selection within grouped items', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('multi', null, [
 		'usa' => [
 			'the-simpsons' => 'The Simpsons',
@@ -55,6 +55,7 @@ test('single value treated as empty', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('select', null, $series);
 
 	Assert::true($form->isValid());
@@ -68,6 +69,7 @@ test('multiple selections with invalid entries', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('multi', null, $series);
 
 	Assert::true($form->isValid());
@@ -82,6 +84,7 @@ test('empty string as valid selection', function () use ($series) {
 	$_POST = ['empty' => ['']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('empty', null, $series);
 
 	Assert::true($form->isValid());
@@ -93,6 +96,7 @@ test('empty string as valid selection', function () use ($series) {
 
 test('missing multi-select input', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('missing', null, $series);
 
 	Assert::true($form->isValid());
@@ -106,6 +110,7 @@ test('disabled multi-select ignores input', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('disabled', null, $series)
 		->setDisabled();
 
@@ -118,6 +123,7 @@ test('malformed array input', function () use ($series) {
 	$_POST = ['malformed' => [['']]];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('malformed', null, $series);
 
 	Assert::true($form->isValid());
@@ -131,6 +137,7 @@ test('selection length validation', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('multi', null, $series);
 
 	Assert::true(Validator::validateLength($input, 2));
@@ -144,6 +151,7 @@ test('equality validation with mixed values', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('multi', null, $series);
 
 	Assert::true(Validator::validateEqual($input, ['red-dwarf', 0]));
@@ -158,6 +166,7 @@ test('empty submission validation', function () use ($series) {
 	$_POST = [];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('multi', null, $series);
 
 	Assert::false(Validator::validateEqual($input, ['red-dwarf', 0]));
@@ -172,6 +181,7 @@ test('keys as items without labels', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('multi')->setItems(array_keys($series), useKeys: false);
 	Assert::same([
 		'red-dwarf' => 'red-dwarf',
@@ -189,6 +199,7 @@ test('keys as items without labels', function () use ($series) {
 
 test('numeric keys handling', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('select')->setItems(range(1, 5), useKeys: false);
 	Assert::same([1 => 1, 2, 3, 4, 5], $input->getItems());
 });
@@ -198,6 +209,7 @@ test('grouped items without keys', function () {
 	$_POST = ['multi' => ['red-dwarf']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('multi')->setItems([
 		'usa' => ['the-simpsons', 0],
 		'uk' => ['red-dwarf'],
@@ -212,6 +224,7 @@ test('grouped items without keys', function () {
 
 testException('exception on invalid value', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('select', null, $series);
 	$input->setValue('unknown');
 }, Nette\InvalidArgumentException::class, "Value 'unknown' are out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
@@ -219,6 +232,7 @@ testException('exception on invalid value', function () use ($series) {
 
 test('dateTime object as value', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('select', null, ['2013-07-05 00:00:00' => 1])
 		->setValue([new DateTime('2013-07-05')]);
 
@@ -228,6 +242,7 @@ test('dateTime object as value', function () {
 
 test('dateTime items without keys', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('select')
 		->setItems([
 			'group' => [new DateTime('2013-07-05')],
@@ -243,6 +258,7 @@ test('disabled items ignored in multi-select', function () use ($series) {
 	$_POST = ['select' => ['red-dwarf', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('select', null, $series)
 		->setDisabled(['red-dwarf']);
 

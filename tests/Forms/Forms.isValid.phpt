@@ -13,13 +13,13 @@ require __DIR__ . '/../bootstrap.php';
 
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_GET = $_POST = $_FILES = [];
 });
 
 
 test('error accumulation and validation', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('item');
 
 	Assert::true($form->isSubmitted());
@@ -50,6 +50,7 @@ test('error accumulation and validation', function () {
 
 test('global form errors', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('item');
 
 	$form->addError('1');
@@ -62,6 +63,7 @@ test('global form errors', function () {
 
 test('control-specific errors', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('item');
 
 	$form['item']->addError('1');
@@ -74,6 +76,7 @@ test('control-specific errors', function () {
 
 test('combined global and control errors', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('item');
 
 	$form->addError('1');
@@ -87,6 +90,7 @@ test('combined global and control errors', function () {
 
 test('errors after event firing', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('item');
 
 	$form->addError('1');

@@ -13,7 +13,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -23,6 +22,7 @@ test('default color for empty input', function () {
 	$_POST = ['color' => ''];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addColor('color');
 
 	Assert::same('#000000', $input->getValue());
@@ -34,6 +34,7 @@ test('invalid color format handling', function () {
 	$_POST = ['color' => '#abc'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addColor('color');
 
 	Assert::same('#000000', $input->getValue());
@@ -45,6 +46,7 @@ test('valid color value handling', function () {
 	$_POST = ['color' => '#1020aa'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addColor('color');
 
 	Assert::same('#1020aa', $input->getValue());

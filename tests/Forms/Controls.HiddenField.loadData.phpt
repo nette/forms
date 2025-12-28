@@ -14,7 +14,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -23,6 +22,7 @@ setUp(function () {
 test('input normalization', function () {
 	$_POST = ['text' => "  a\r b \n c "];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('text');
 	Assert::same("  a\n b \n c ", $input->getValue());
 	Assert::true($input->isFilled());
@@ -31,6 +31,7 @@ test('input normalization', function () {
 
 test('missing POST data handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('unknown');
 	Assert::same('', $input->getValue());
 	Assert::false($input->isFilled());
@@ -40,6 +41,7 @@ test('missing POST data handling', function () {
 test('malformed array input', function () {
 	$_POST = ['malformed' => ['']];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('malformed');
 	Assert::same('', $input->getValue());
 	Assert::false($input->isFilled());
@@ -48,6 +50,7 @@ test('malformed array input', function () {
 
 test('error propagation to form', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('hidden');
 	$input->addError('error');
 	Assert::same([], $input->getErrors());
@@ -57,6 +60,7 @@ test('error propagation to form', function () {
 
 testException('array value exception', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('hidden');
 	$input->setValue([]);
 }, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'hidden'.");
@@ -64,6 +68,7 @@ testException('array value exception', function () {
 
 test('object value retention', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('hidden')
 		->setValue($data = new Nette\Utils\DateTime('2013-07-05'));
 
@@ -75,6 +80,7 @@ test('filter application on validation', function () {
 	$date = new Nette\Utils\DateTime('2013-07-05');
 	$_POST = ['text' => (string) $date];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('text');
 	$input->addFilter(fn($value) => $value ? new Nette\Utils\DateTime($value) : $value);
 
@@ -87,6 +93,7 @@ test('filter application on validation', function () {
 test('integer validation and conversion', function () {
 	$_POST = ['text' => '10'];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('text');
 	$input->addRule($form::Integer);
 
@@ -98,6 +105,7 @@ test('integer validation and conversion', function () {
 
 test('persistent value handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['hidden'] = new Nette\Forms\Controls\HiddenField('persistent');
 	$input->setValue('other');
 
@@ -107,6 +115,7 @@ test('persistent value handling', function () {
 
 test('nullable with empty string', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('hidden');
 	$input->setValue('');
 	$input->setNullable();
@@ -116,6 +125,7 @@ test('nullable with empty string', function () {
 
 test('nullable with null', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addHidden('hidden');
 	$input->setValue(null);
 	$input->setNullable();

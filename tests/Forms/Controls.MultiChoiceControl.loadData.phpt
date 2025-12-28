@@ -21,7 +21,6 @@ class MultiChoiceControl extends Nette\Forms\Controls\MultiChoiceControl
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -39,6 +38,7 @@ test('single value treated as empty', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -52,6 +52,7 @@ test('multiple selections with invalid entries', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['multi'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -66,6 +67,7 @@ test('empty string as valid selection', function () use ($series) {
 	$_POST = ['empty' => ['']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['empty'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -77,6 +79,7 @@ test('empty string as valid selection', function () use ($series) {
 
 test('missing multi-choice input', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['missing'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -90,6 +93,7 @@ test('disabled multi-choice ignores input', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['disabled'] = new MultiChoiceControl(null, $series);
 	$input->setDisabled();
 
@@ -102,6 +106,7 @@ test('malformed array input', function () use ($series) {
 	$_POST = ['malformed' => [['']]];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['malformed'] = new MultiChoiceControl(null, $series);
 
 	Assert::true($form->isValid());
@@ -115,6 +120,7 @@ test('keys as items without labels', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['multi'] = new MultiChoiceControl;
 	$input->setItems(array_keys($series), useKeys: false);
 	Assert::same([
@@ -135,6 +141,7 @@ test('selection length validation', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['multi'] = new MultiChoiceControl(null, $series);
 
 	Assert::true(Validator::validateLength($input, 2));
@@ -148,6 +155,7 @@ test('equality validation with mixed values', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['multi'] = new MultiChoiceControl(null, $series);
 
 	Assert::true(Validator::validateEqual($input, ['red-dwarf', 0]));
@@ -162,6 +170,7 @@ test('empty submission validation', function () use ($series) {
 	$_POST = [];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['multi'] = new MultiChoiceControl(null, $series);
 
 	Assert::false(Validator::validateEqual($input, ['red-dwarf', 0]));
@@ -174,6 +183,7 @@ test('empty submission validation', function () use ($series) {
 
 test('exceptions for invalid values', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
 	$input->setValue(null);
 
@@ -199,6 +209,7 @@ test('exceptions for invalid values', function () use ($series) {
 
 test('invalid values ignored with checkDefaultValue', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
 	$input->checkDefaultValue(false);
 	$input->setValue('unknown');
@@ -220,6 +231,7 @@ test('invalid values ignored with checkDefaultValue', function () use ($series) 
 
 test('dateTime object as value', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new MultiChoiceControl(null, ['2013-07-05 00:00:00' => 1]);
 	$input->setValue([new DateTime('2013-07-05')]);
 
@@ -231,6 +243,7 @@ test('disabled items ignored in multi-choice', function () use ($series) {
 	$_POST = ['select' => ['red-dwarf', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
 	$input->setDisabled(['red-dwarf']);
 
@@ -250,6 +263,7 @@ test('order of selected items preserved', function () {
 	$_POST = ['select' => ['3', '2']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form['select'] = new MultiChoiceControl(null, $series);
 
 	Assert::same([3, 2], $input->getValue());
