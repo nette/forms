@@ -16,7 +16,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -29,6 +28,7 @@ test('checkbox on/off states from POST', function () {
 	];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckbox('off');
 
 	Assert::false($input->getValue());
@@ -45,6 +45,7 @@ test('malformed checkbox array handling', function () {
 	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckbox('malformed');
 
 	Assert::false($input->getValue());
@@ -54,6 +55,7 @@ test('malformed checkbox array handling', function () {
 
 testException('array value exception for checkbox', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckbox('checkbox');
 	$input->setValue([]);
 }, Nette\InvalidArgumentException::class, "Value must be scalar or null, array given in field 'checkbox'.");

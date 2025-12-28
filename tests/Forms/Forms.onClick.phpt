@@ -12,11 +12,11 @@ require __DIR__ . '/../bootstrap.php';
 
 test('valid submission event order', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_POST = ['btn' => ''];
 
 	$called = [];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('name');
 	$button = $form->addSubmit('btn');
 
@@ -42,11 +42,11 @@ test('valid submission event order', function () {
 
 test('error during onClick propagation', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_POST = ['btn' => ''];
 
 	$called = [];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('name');
 	$button = $form->addSubmit('btn');
 
@@ -79,11 +79,11 @@ test('error during onClick propagation', function () {
 
 test('invalid submission due to validation', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_POST = ['btn' => ''];
 
 	$called = [];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('name')
 		->setRequired();
 	$button = $form->addSubmit('btn');
