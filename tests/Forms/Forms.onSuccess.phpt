@@ -15,10 +15,10 @@ require __DIR__ . '/../bootstrap.php';
 
 test('basic success event order', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$called = [];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('name');
 	$form->addSubmit('submit');
 
@@ -38,10 +38,10 @@ test('basic success event order', function () {
 
 test('error during onSuccess chain', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$called = [];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('name');
 	$form->addSubmit('submit');
 
@@ -68,10 +68,10 @@ test('error during onSuccess chain', function () {
 
 test('validation failure event flow', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$called = [];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('name')
 		->setRequired();
 	$form->addSubmit('submit');

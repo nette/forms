@@ -17,7 +17,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -35,6 +34,7 @@ test('valid select box selection', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, $series);
 
 	Assert::true($form->isValid());
@@ -48,6 +48,7 @@ test('no items handling', function () {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select');
 
 	Assert::true($form->isValid());
@@ -61,6 +62,7 @@ test('select box with prompt', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, $series)->setPrompt('Select series');
 
 	Assert::true($form->isValid());
@@ -72,6 +74,7 @@ test('select box with prompt', function () use ($series) {
 
 test('control prototype modification', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, $series);
 	$input->getControlPrototype()->size = 2;
 
@@ -86,6 +89,7 @@ test('grouped items selection', function () {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, [
 		'usa' => [
 			'the-simpsons' => 'The Simpsons',
@@ -107,6 +111,7 @@ test('invalid selection handling', function () use ($series) {
 	$_POST = ['select' => 'days-of-our-lives'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, $series);
 
 	Assert::false($form->isValid());
@@ -118,6 +123,7 @@ test('invalid selection handling', function () use ($series) {
 
 test('unselected prompt handling', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, $series)->setPrompt('Select series');
 
 	Assert::true($form->isValid());
@@ -131,6 +137,7 @@ test('zero value selection', function () use ($series) {
 	$_POST = ['zero' => '0'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('zero', null, $series);
 
 	Assert::true($form->isValid());
@@ -145,6 +152,7 @@ test('empty string selection', function () use ($series) {
 	$_POST = ['empty' => ''];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('empty', null, $series);
 
 	Assert::true($form->isValid());
@@ -156,6 +164,7 @@ test('empty string selection', function () use ($series) {
 
 test('missing data handling', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('missing', null, $series);
 
 	Assert::false($form->isValid());
@@ -169,6 +178,7 @@ test('disabled select box', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('disabled', null, $series)
 		->setDisabled();
 
@@ -181,6 +191,7 @@ test('malformed select data', function () use ($series) {
 	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('malformed', null, $series);
 
 	Assert::false($form->isValid());
@@ -194,6 +205,7 @@ test('items without keys', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select')->setItems(array_keys($series), useKeys: false);
 	Assert::same([
 		'red-dwarf' => 'red-dwarf',
@@ -211,6 +223,7 @@ test('items without keys', function () use ($series) {
 
 test('numeric range items', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select')->setItems(range(1, 5), useKeys: false);
 	Assert::same([1 => 1, 2, 3, 4, 5], $input->getItems());
 });
@@ -220,6 +233,7 @@ test('grouped items without keys', function () {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select')->setItems([
 		'usa' => ['the-simpsons', 0],
 		'uk' => ['red-dwarf'],
@@ -234,6 +248,7 @@ test('grouped items without keys', function () {
 
 testException('invalid value exception', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, $series);
 	$input->setValue('unknown');
 }, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'select'.");
@@ -241,6 +256,7 @@ testException('invalid value exception', function () use ($series) {
 
 test('dateTime value handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, ['2013-07-05 00:00:00' => 1])
 		->setValue(new DateTime('2013-07-05'));
 
@@ -250,6 +266,7 @@ test('dateTime value handling', function () {
 
 test('dateTime items in groups', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select')
 		->setItems([
 			'group' => [new DateTime('2013-07-05')],
@@ -265,6 +282,7 @@ test('disabled options handling', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, $series)
 		->setDisabled(['red-dwarf']);
 
@@ -282,6 +300,7 @@ test('null item caption handling', function () {
 	$_POST = ['select' => '1'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSelect('select', null, [
 		1 => null,
 		2 => 'Red dwarf',

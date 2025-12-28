@@ -15,58 +15,60 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$_SERVER['REQUEST_METHOD'] = 'POST';
-$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
+setUp(function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
 
-$_FILES = [
-	'avatar' => [
-		'name' => 'license.txt',
-		'type' => 'text/plain',
-		'tmp_name' => __DIR__ . '/files/logo.gif',
-		'error' => 0,
-		'size' => 3013,
-	],
-	'container' => [
-		'name' => ['avatar' => "invalid\xAA\xAA\xAAutf"],
-		'type' => ['avatar' => 'text/plain'],
-		'tmp_name' => ['avatar' => 'C:\PHP\temp\php1D5C.tmp'],
-		'error' => ['avatar' => 0],
-		'size' => ['avatar' => 3013],
-	],
-	'multiple' => [
-		'name' => ['avatar' => ['image.gif', 'image.png']],
-		'type' => ['avatar' => ['a', 'b']],
-		'tmp_name' => ['avatar' => [__DIR__ . '/files/logo.gif', __DIR__ . '/files/logo.gif']],
-		'error' => ['avatar' => [0, 0]],
-		'size' => ['avatar' => [100, 200]],
-	],
-	'empty' => [
-		'name' => [''],
-		'type' => [''],
-		'tmp_name' => [''],
-		'error' => [UPLOAD_ERR_NO_FILE],
-		'size' => [0],
-	],
-	'invalid1' => [
-		'name' => [null],
-		'type' => [null],
-		'tmp_name' => [null],
-		'error' => [null],
-		'size' => [null],
-	],
-	'invalid2' => '',
-	'partial' => [
-		'name' => 'license.txt',
-		'type' => 'text/plain',
-		'tmp_name' => __DIR__ . '/files/logo.gif',
-		'error' => UPLOAD_ERR_PARTIAL,
-		'size' => 3013,
-	],
-];
+	$_FILES = [
+		'avatar' => [
+			'name' => 'license.txt',
+			'type' => 'text/plain',
+			'tmp_name' => __DIR__ . '/files/logo.gif',
+			'error' => 0,
+			'size' => 3013,
+		],
+		'container' => [
+			'name' => ['avatar' => "invalid\xAA\xAA\xAAutf"],
+			'type' => ['avatar' => 'text/plain'],
+			'tmp_name' => ['avatar' => 'C:\PHP\temp\php1D5C.tmp'],
+			'error' => ['avatar' => 0],
+			'size' => ['avatar' => 3013],
+		],
+		'multiple' => [
+			'name' => ['avatar' => ['image.gif', 'image.png']],
+			'type' => ['avatar' => ['a', 'b']],
+			'tmp_name' => ['avatar' => [__DIR__ . '/files/logo.gif', __DIR__ . '/files/logo.gif']],
+			'error' => ['avatar' => [0, 0]],
+			'size' => ['avatar' => [100, 200]],
+		],
+		'empty' => [
+			'name' => [''],
+			'type' => [''],
+			'tmp_name' => [''],
+			'error' => [UPLOAD_ERR_NO_FILE],
+			'size' => [0],
+		],
+		'invalid1' => [
+			'name' => [null],
+			'type' => [null],
+			'tmp_name' => [null],
+			'error' => [null],
+			'size' => [null],
+		],
+		'invalid2' => '',
+		'partial' => [
+			'name' => 'license.txt',
+			'type' => 'text/plain',
+			'tmp_name' => __DIR__ . '/files/logo.gif',
+			'error' => UPLOAD_ERR_PARTIAL,
+			'size' => 3013,
+		],
+	];
+});
 
 
 test('valid file upload handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addUpload('avatar');
 
 	Assert::true($form->isValid());
@@ -84,6 +86,7 @@ test('valid file upload handling', function () {
 
 test('container file upload with invalid UTF', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addContainer('container')->addUpload('avatar');
 
 	Assert::true($form->isValid());
@@ -101,6 +104,7 @@ test('container file upload with invalid UTF', function () {
 
 test('multiple file uploads', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addContainer('multiple')->addMultiUpload('avatar');
 
 	Assert::true($form->isValid());
@@ -124,6 +128,7 @@ test('multiple file uploads', function () {
 
 test('required multi-upload with empty data', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiUpload('empty')
 		->setRequired();
 
@@ -136,6 +141,7 @@ test('required multi-upload with empty data', function () {
 
 test('missing upload field handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addUpload('missing')
 		->setRequired();
 
@@ -148,6 +154,7 @@ test('missing upload field handling', function () {
 
 test('nullable multi-upload handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiUpload('empty')
 		->setNullable() // has no effect
 		->setRequired();
@@ -161,6 +168,7 @@ test('nullable multi-upload handling', function () {
 
 test('nullable single upload handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addUpload('missing')
 		->setNullable()
 		->setRequired();
@@ -174,6 +182,7 @@ test('nullable single upload handling', function () {
 
 test('invalid upload data structures', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addUpload('invalid1');
 
 	Assert::true($form->isValid());
@@ -182,6 +191,7 @@ test('invalid upload data structures', function () {
 	Assert::false($input->isOk());
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addUpload('invalid2');
 
 	Assert::true($form->isValid());
@@ -190,6 +200,7 @@ test('invalid upload data structures', function () {
 	Assert::false($input->isOk());
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiUpload('avatar');
 
 	Assert::true($form->isValid());
@@ -198,6 +209,7 @@ test('invalid upload data structures', function () {
 	Assert::false($input->isOk());
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addContainer('multiple')->addUpload('avatar');
 
 	Assert::true($form->isValid());
@@ -209,6 +221,7 @@ test('invalid upload data structures', function () {
 
 test('partial upload error handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addUpload('partial')
 		->setRequired();
 
@@ -227,6 +240,7 @@ test('partial upload error handling', function () {
 
 test('file size and MIME validation', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addUpload('avatar')
 		->addRule($form::MaxFileSize, null, 3000);
 
@@ -246,6 +260,7 @@ test('file size and MIME validation', function () {
 
 test('multi-upload file validations', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addContainer('multiple')->addMultiUpload('avatar')
 		->addRule($form::MaxFileSize, null, 3000);
 
@@ -265,6 +280,7 @@ test('multi-upload file validations', function () {
 
 test('upload control rule count', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addUpload('invalid1');
 
 	$rules = iterator_to_array($input->getRules());
