@@ -49,7 +49,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function getSubmittedData(): array
 	{
-		return $this->getParent()->getSubmittedValue($this->getName(), Form::DataArray);
+		$parent = $this->getParent() ?? throw new Nette\InvalidStateException('Container has no parent.');
+		return $parent->getSubmittedValue($this->getName(), Form::DataArray);
 	}
 
 
@@ -587,6 +588,15 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function addImage(): Controls\ImageButton
 	{
 		return $this->addImageButton(...func_get_args());
+	}
+
+
+	/**
+	 * Adds repeater (dynamic container) to the form.
+	 */
+	public function addRepeater(string $name, \Closure $factory): Repeater
+	{
+		return $this[$name] = new Repeater($factory);
 	}
 
 

@@ -122,7 +122,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 			trigger_error('', E_USER_DEPRECATED);
 			return $this->getForm()->getHttpData($type, $this->getHtmlName() . $htmlTail);
 		}
-		return $this->getParent()->getSubmittedValue($this->getName(), $type);
+		$parent = $this->getParent() ?? throw new Nette\InvalidStateException('Control is not attached to any form.');
+		return $parent->getSubmittedValue($this->getName(), $type);
 	}
 
 

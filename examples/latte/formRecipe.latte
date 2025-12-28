@@ -1,0 +1,89 @@
+{* Generic form template *}
+
+{formRecipe [name], extends: name}
+	{case form}
+		{formRender form-errors}
+		{formRender groups}
+		{formRender container}
+
+	{case form-errors}
+		<ul class=error n:ifcontent>
+			<li n:foreach="$form->ownErrors as $error">{$error}</li>
+		</ul>
+
+	{case container:table}
+		<table>
+		<tr n:foreach="$container->getControls(recursive: false) as $control"
+			n:if="!$control->getOption(rendered) && $control->getOption(type) !== hidden"
+			n:class="$control->required ? required">
+
+			<th>{formRender label}</th>
+
+			<td>{formRender control}</td>
+		</tr>
+		</table>
+
+		<table>
+			{formRender}  {* iteruje nad $container->getComponents() *}
+		</table>
+
+	{case pair}
+		{* skipIf !$control->getOption(rendered) && $control->getOption(type) !== hidden *}
+		<tr n:class="$control->required ? required">
+			<th>{label $control /}</th> {* formRender label *}
+
+			<td>
+				{input $control}  {* formRender control *}
+
+				<span class=info n:ifcontent>{$control->getOption(description)}</span>
+				<span class=error n:ifcontent>{$control->error}</span>
+			</td>		
+		</tr>
+
+	{case label}
+
+	{case repeater}
+		<div class="repeater" n:name="$repeater">
+			
+		</div>
+
+		<button n:name="$control->getCreateButton()" />
+
+	{case control}
+		{input $control}
+
+		<span class=info n:ifcontent>{$control->getOption(description)}</span>
+		<span class=error n:ifcontent>{$control->error}</span>
+
+		
+	{case group}
+		<fieldset id="$group->getOption(id)">
+			<label n:ifcontent>{$group->getOption(label)}</label>
+			{formRender container, $group->getControls()}
+		</fieldset>
+
+	{case control, 'foo'} {* $control->getName() === 'foo' *}
+
+	{case hidden}
+{/formRecipe}
+
+
+
+<form n:name=$name>
+	{formRender form-errors}
+
+	{formRender controls} {* nějak ukládá přeskočené input hidden *}
+</form>
+
+
+{form $form, recipe: name /} totéž jako {formRender form, $form, recipe: name}
+
+{form $form}
+	{formRecipe}{/formRecipe}  {* netreba uvadět jméno *}
+	{formRender form, $form}
+{/form}
+
+
+{formRender controls, [name, '...', email], recipe: name}
+
+

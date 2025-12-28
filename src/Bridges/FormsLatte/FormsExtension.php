@@ -27,11 +27,14 @@ final class FormsExtension extends Latte\Extension
 			'label' => Nodes\LabelNode::create(...),
 			'input' => Nodes\InputNode::create(...),
 			'inputError' => Nodes\InputErrorNode::create(...),
+			'formRepeater' => Nodes\FormRepeaterNode::create(...),
 			'formPrint' => Nodes\FormPrintNode::create(...),
 			'formClassPrint' => Nodes\FormPrintNode::create(...),
 			'n:name' => fn(Latte\Compiler\Tag $tag) => yield from strtolower($tag->htmlElement->name) === 'form'
 				? Nodes\FormNNameNode::create($tag)
 				: Nodes\FieldNNameNode::create($tag),
+			'n:repeater-add' => Nodes\FormRepeaterButtonNode::create(...),
+			'n:repeater-remove' => Nodes\FormRepeaterButtonNode::create(...),
 		];
 	}
 

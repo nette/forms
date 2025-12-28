@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Repeater Example - Latte Template</title>
+	<style>
+		body { font-family: sans-serif; margin: 2em; }
+		.person-item {
+			border: 2px solid #007bff;
+			padding: 1.5em;
+			margin-bottom: 1.5em;
+			border-radius: 5px;
+			background: #f8f9fa;
+		}
+		.email-row {
+			border: 1px solid #6c757d;
+			padding: 0.75em;
+			margin: 0.5em 0;
+			border-radius: 3px;
+			background: white;
+		}
+		.btn {
+			padding: 0.5em 1em;
+			margin: 0.25em;
+			cursor: pointer;
+			border: none;
+			border-radius: 3px;
+		}
+		.btn-success { background: #28a745; color: white; }
+		.btn-danger { background: #dc3545; color: white; }
+		.btn-primary { background: #007bff; color: white; }
+		label { display: inline-block; margin: 0.5em 0; font-weight: bold; }
+		input[type="text"], input[type="email"] {
+			padding: 0.5em;
+			width: 300px;
+			border: 1px solid #ced4da;
+			border-radius: 3px;
+		}
+		h3 { margin-top: 0; color: #007bff; }
+		h4 { color: #6c757d; }
+	</style>
+	<script src="../src/assets/repeater.js"></script>
+</head>
+<body>
+	<h1>Formulář s Repeater - Latte Template</h1>
+
+	{form $form}
+		<div>
+			{formRepeater persons}
+				<div class="person-item">
+					<h3>Osoba #{$iterator->counter}</h3>
+
+					<label>
+						Jméno:
+						{input firstname}
+					</label>
+
+					<label>
+						Příjmení:
+						{input surname}
+					</label>
+
+					<h4>Emaily:</h4>
+					{formRepeater emails}
+						<div class="email-row">
+							{input email}
+
+							{* Remove button for email *}
+							<button n:repeater-remove>× Odebrat</button>
+						</div>
+					{/formRepeater}
+
+					{* Add button for emails *}
+					<button n:repeater-add="emails">+ Přidat email</button>
+
+					<hr>
+
+					{* Remove button for person *}
+					<button n:repeater-remove>Odebrat osobu</button>
+				</div>
+			{/formRepeater}
+
+			{* Add button for persons *}
+			<button n:repeater-add="persons">+ Přidat osobu</button>
+		</div>
+
+		<div style="margin-top: 2em;">
+			{input submit}
+		</div>
+	{/form}
+</body>
+</html>
