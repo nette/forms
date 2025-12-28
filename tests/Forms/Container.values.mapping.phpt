@@ -32,7 +32,6 @@ class FormSecondLevel
 
 
 setUp(function () {
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = [
 		'title' => 'sent title',
@@ -43,15 +42,15 @@ setUp(function () {
 			],
 		],
 	];
+	ob_start();
+	Form::initialize(true);
 });
 
 
 function createForm(): Form
 {
-	ob_start();
-	Form::initialize(true);
-
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('title');
 
 	$first = $form->addContainer('first');

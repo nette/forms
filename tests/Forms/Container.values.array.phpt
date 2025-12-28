@@ -8,24 +8,26 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
-$_POST = [
-	'title' => 'sent title',
-	'first' => [
-		'age' => '999',
-		'second' => [
-			'city' => 'sent city',
+setUp(function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST = [
+		'title' => 'sent title',
+		'first' => [
+			'age' => '999',
+			'second' => [
+				'city' => 'sent city',
+			],
 		],
-	],
-];
+	];
+	ob_start();
+	Form::initialize(true);
+});
 
 
 function createForm(): Form
 {
-	ob_start();
-	Form::initialize(true);
-
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('title');
 
 	$first = $form->addContainer('first');
@@ -39,6 +41,8 @@ function createForm(): Form
 
 
 test('setting form defaults and retrieving array values', function () {
+	$_SERVER['REQUEST_METHOD'] = 'GET';
+
 	$form = createForm();
 	Assert::false($form->isSubmitted());
 
@@ -68,8 +72,6 @@ test('setting form defaults and retrieving array values', function () {
 
 
 test('handles POST submission with nested data', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	Assert::truthy($form->isSubmitted());
 	Assert::equal([
@@ -86,8 +88,6 @@ test('handles POST submission with nested data', function () {
 
 
 test('resetting form clears submitted values', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	Assert::truthy($form->isSubmitted());
 
@@ -108,8 +108,6 @@ test('resetting form clears submitted values', function () {
 
 
 test('setting form values with erase option', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	Assert::truthy($form->isSubmitted());
 
@@ -153,8 +151,6 @@ test('setting form values with erase option', function () {
 
 
 test('updating form values without erasing', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 
 	Assert::truthy($form->isSubmitted());
@@ -180,8 +176,6 @@ test('updating form values without erasing', function () {
 
 
 test('using array as mapped type for form values', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	$form->setMappedType('array');
 
@@ -208,8 +202,6 @@ test('using array as mapped type for form values', function () {
 
 
 test('triggering onSuccess with correct value types', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	$form->onSuccess[] = function (Form $form, array $values) {
 		Assert::same([
@@ -261,7 +253,6 @@ test('triggering onSuccess with correct value types', function () {
 
 
 test('validation scope limits submitted data', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
 	$form = createForm();
@@ -279,7 +270,6 @@ test('validation scope limits submitted data', function () {
 
 
 test('validation scope applied to container', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
 	$form = createForm();
@@ -296,7 +286,6 @@ test('validation scope applied to container', function () {
 });
 
 test('validation scope on nested container fields', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST['send'] = '';
 
 	$form = createForm();

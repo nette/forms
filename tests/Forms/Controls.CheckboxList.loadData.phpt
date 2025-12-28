@@ -16,7 +16,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -34,6 +33,7 @@ test('empty checkbox list submission', function () use ($series) {
 	$_POST = [];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('list', null, $series);
 
 	Assert::true($form->isValid());
@@ -47,6 +47,7 @@ test('multiple valid selections', function () use ($series) {
 	$_POST = ['list' => 'red-dwarf,0'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('list', null, $series);
 
 	Assert::true($form->isValid());
@@ -60,6 +61,7 @@ test('filtering invalid selections', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('multi', null, $series);
 
 	Assert::true($form->isValid());
@@ -74,6 +76,7 @@ test('empty string as valid selection', function () use ($series) {
 	$_POST = ['empty' => ['']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('empty', null, $series);
 
 	Assert::true($form->isValid());
@@ -85,6 +88,7 @@ test('empty string as valid selection', function () use ($series) {
 
 test('missing checkbox list data', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('missing', null, $series);
 
 	Assert::true($form->isValid());
@@ -98,6 +102,7 @@ test('disabled checkbox list ignores input', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('disabled', null, $series)
 		->setDisabled();
 
@@ -110,6 +115,7 @@ test('nested malformed array input', function () use ($series) {
 	$_POST = ['malformed' => [['']]];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('malformed', null, $series);
 
 	Assert::true($form->isValid());
@@ -123,6 +129,7 @@ test('selection length validation', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('multi', null, $series);
 
 	Assert::true(Validator::validateLength($input, 2));
@@ -136,6 +143,7 @@ test('equality validation with mixed values', function () use ($series) {
 	$_POST = ['multi' => ['red-dwarf', 'unknown', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('multi', null, $series);
 
 	Assert::true(Validator::validateEqual($input, ['red-dwarf', 0]));
@@ -150,6 +158,7 @@ test('empty list equality checks', function () use ($series) {
 	$_POST = [];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('multi', null, $series);
 
 	Assert::false(Validator::validateEqual($input, ['red-dwarf', 0]));
@@ -162,6 +171,7 @@ test('empty list equality checks', function () use ($series) {
 
 testException('invalid selection exception', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('list', null, $series);
 	$input->setValue(null);
 	$input->setValue('unknown');
@@ -170,6 +180,7 @@ testException('invalid selection exception', function () use ($series) {
 
 test('dateTime object as selection key', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('list', null, ['2013-07-05 00:00:00' => 1])
 		->setValue([new DateTime('2013-07-05')]);
 
@@ -179,6 +190,7 @@ test('dateTime object as selection key', function () {
 
 test('dateTime items without keys', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('list')
 		->setItems([new DateTime('2013-07-05')], useKeys: false)
 		->setValue('2013-07-05 00:00:00');
@@ -191,6 +203,7 @@ test('disabled item filtering', function () use ($series) {
 	$_POST = ['list' => ['red-dwarf', '0']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addCheckboxList('list', null, $series)
 		->setDisabled(['red-dwarf']);
 

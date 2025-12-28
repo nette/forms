@@ -8,24 +8,26 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
-$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
-$_POST = [
-	'title' => 'sent title',
-	'first' => [
-		'age' => '999',
-		'second' => [
-			'city' => 'sent city',
+setUp(function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST = [
+		'title' => 'sent title',
+		'first' => [
+			'age' => '999',
+			'second' => [
+				'city' => 'sent city',
+			],
 		],
-	],
-];
+	];
+	ob_start();
+	Form::initialize(true);
+});
 
 
 function createForm(): Form
 {
-	ob_start();
-	Form::initialize(true);
-
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('title');
 
 	$first = $form->addContainer('first');
@@ -39,6 +41,8 @@ function createForm(): Form
 
 
 test('setting defaults using ArrayHash', function () {
+	$_SERVER['REQUEST_METHOD'] = 'GET';
+
 	$form = createForm();
 	Assert::false($form->isSubmitted());
 
@@ -68,8 +72,6 @@ test('setting defaults using ArrayHash', function () {
 
 
 test('retrieving POST data as ArrayHash', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	Assert::truthy($form->isSubmitted());
 	Assert::equal(ArrayHash::from([
@@ -86,8 +88,6 @@ test('retrieving POST data as ArrayHash', function () {
 
 
 test('resetting form with ArrayHash values', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	Assert::truthy($form->isSubmitted());
 
@@ -108,8 +108,6 @@ test('resetting form with ArrayHash values', function () {
 
 
 test('updating values with ArrayHash and erase', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	Assert::truthy($form->isSubmitted());
 
@@ -153,8 +151,6 @@ test('updating values with ArrayHash and erase', function () {
 
 
 test('onSuccess event with ArrayHash values', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
-
 	$form = createForm();
 	$form->onSuccess[] = function (Form $form, array $values) {
 		Assert::same([

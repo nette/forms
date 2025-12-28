@@ -14,34 +14,9 @@ require __DIR__ . '/../bootstrap.php';
 
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	$_GET = $_POST = $_FILES = [];
 	ob_start();
 	Form::initialize(true);
-});
-
-
-test('POST submission with strict cookie', function () {
-	$form = new Form;
-	$form->addSubmit('send', 'Send');
-
-	Assert::truthy($form->isSubmitted());
-	Assert::true($form->isSuccess());
-	Assert::same([], $form->getHttpData());
-	Assert::same([], $form->getValues('array'));
-});
-
-
-test('missing cookie in POST', function () {
-	unset($_COOKIE[Nette\Http\Helpers::StrictCookieName]);
-
-	$form = new Form;
-	$form->addSubmit('send', 'Send');
-
-	Assert::false($form->isSubmitted());
-	Assert::false($form->isSuccess());
-	Assert::same([], $form->getHttpData());
-	Assert::same([], $form->getValues('array'));
 });
 
 
@@ -62,6 +37,7 @@ test('tracker ID in POST submission', function () {
 	$_POST = [Form::TrackerId => $name];
 
 	$form = new Form($name);
+	$form->allowCrossOrigin();
 	$form->addSubmit('send', 'Send');
 
 	Assert::truthy($form->isSubmitted());
@@ -73,6 +49,7 @@ test('tracker ID in POST submission', function () {
 
 test('submit button not pressed', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSubmit('send', 'Send');
 	Assert::false($input->isSubmittedBy());
 	Assert::false(Validator::validateSubmitted($input));
@@ -82,6 +59,7 @@ test('submit button not pressed', function () {
 test('successful POST submission', function () {
 	$_POST = ['send' => ''];
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSubmit('send', 'Send');
 	Assert::true($input->isSubmittedBy());
 	Assert::true(Validator::validateSubmitted($input));

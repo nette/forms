@@ -13,6 +13,8 @@ require __DIR__ . '/../bootstrap.php';
 
 
 setUp(function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST = $_FILES = [];
 	ob_start();
 	Form::initialize(true);
 });
@@ -20,6 +22,7 @@ setUp(function () {
 
 test('error handling for required text input', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addText('text')
 		->setRequired('error');
 
@@ -40,6 +43,7 @@ test('error handling for required text input', function () {
 
 test('validation methods for text input values', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addText('text');
 	$input->setValue(123);
 
@@ -77,6 +81,7 @@ test('validation methods for text input values', function () {
 
 test('multiSelect validation and length checks', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addMultiSelect('select', null, ['a', 'b', 'c', 'd']);
 	$input->setValue([1, 2, 3]);
 
@@ -100,6 +105,7 @@ test('multiSelect validation and length checks', function () {
 
 test('custom HTML ID for text input', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addText('text')->setHtmlId('myId');
 
 	Assert::same('<input type="text" name="text" id="myId">', (string) $input->getControl());
@@ -108,6 +114,7 @@ test('custom HTML ID for text input', function () {
 
 test('input name conflict resolution', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addText('submit');
 
 	Assert::same('<input type="text" name="_submit" id="frm-submit">', (string) $input->getControl());
@@ -115,7 +122,10 @@ test('input name conflict resolution', function () {
 
 
 test('disabled input retains default value', function () {
+	$_SERVER['REQUEST_METHOD'] = 'GET';
+
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('disabled')
 		->setDisabled()
 		->setDefaultValue('default');
@@ -127,11 +137,10 @@ test('disabled input retains default value', function () {
 
 
 test('disabled inputs ignore POST data', function () {
-	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = ['disabled' => 'submitted value'];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addText('disabled')
 		->setDisabled()
 		->setDefaultValue('default');
@@ -156,6 +165,7 @@ test('disabled inputs ignore POST data', function () {
 
 test('translator integration for labels and errors', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->setTranslator(new class implements Nette\Localization\ITranslator {
 		public function translate($s, ...$parameters): string
 		{
@@ -190,7 +200,9 @@ test('translator integration for labels and errors', function () {
 
 test('dynamic HTML name attribute handling', function () {
 	$_POST = ['b' => '123', 'send' => ''];
+
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$form->addSubmit('send', 'Send');
 	$input = $form->addText('a');
 

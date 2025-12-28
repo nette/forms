@@ -1,5 +1,4 @@
-<?php
-%A%
+<?php%A%
 		$form = $this->global->formsStack[] = $this->global->uiControl['myForm'] /* %a% */;
 		Nette\Bridges\FormsLatte\Runtime::initializeForm($form);
 		echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin($form, ['id' => 'myForm', 'class' => 'ajax']) /* %a% */;

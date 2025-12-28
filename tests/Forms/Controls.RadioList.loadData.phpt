@@ -15,7 +15,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -33,6 +32,7 @@ test('valid radio selection', function () use ($series) {
 	$_POST = ['radio' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('radio', null, $series);
 
 	Assert::true($form->isValid());
@@ -46,6 +46,7 @@ test('invalid radio selection', function () use ($series) {
 	$_POST = ['radio' => 'days-of-our-lives'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('radio', null, $series);
 
 	Assert::true($form->isValid());
@@ -59,6 +60,7 @@ test('zero value handling', function () use ($series) {
 	$_POST = ['zero' => '0'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('zero', null, $series);
 
 	Assert::true($form->isValid());
@@ -73,6 +75,7 @@ test('empty string value handling', function () use ($series) {
 	$_POST = ['empty' => ''];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('empty', null, $series);
 
 	Assert::true($form->isValid());
@@ -84,6 +87,7 @@ test('empty string value handling', function () use ($series) {
 
 test('missing POST data handling', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('missing', null, $series);
 
 	Assert::true($form->isValid());
@@ -97,6 +101,7 @@ test('disabled radio list handling', function () use ($series) {
 	$_POST = ['disabled' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('disabled', null, $series)
 		->setDisabled();
 
@@ -110,6 +115,7 @@ test('malformed radio data', function () use ($series) {
 	$_POST = ['malformed' => ['']];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('malformed', null, $series);
 
 	Assert::true($form->isValid());
@@ -123,6 +129,7 @@ test('items without keys handling', function () use ($series) {
 	$_POST = ['select' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('select')->setItems(array_keys($series), useKeys: false);
 
 	Assert::true($form->isValid());
@@ -134,6 +141,7 @@ test('items without keys handling', function () use ($series) {
 
 testException('invalid value exception', function () use ($series) {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('radio', null, $series);
 	$input->setValue('unknown');
 }, Nette\InvalidArgumentException::class, "Value 'unknown' is out of allowed set ['red-dwarf', 'the-simpsons', 0, ''] in field 'radio'.");
@@ -141,6 +149,7 @@ testException('invalid value exception', function () use ($series) {
 
 test('dateTime value handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('radio', null, ['2013-07-05 00:00:00' => 1])
 		->setValue(new DateTime('2013-07-05'));
 
@@ -150,6 +159,7 @@ test('dateTime value handling', function () {
 
 test('dateTime items handling', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('radio')
 		->setItems([new DateTime('2013-07-05')], useKeys: false)
 		->setValue(new DateTime('2013-07-05'));
@@ -162,6 +172,7 @@ test('disabled options handling', function () use ($series) {
 	$_POST = ['radio' => 'red-dwarf'];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addRadioList('radio', null, $series)
 		->setDisabled(['red-dwarf']);
 

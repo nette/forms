@@ -14,7 +14,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
 	ob_start();
 	Form::initialize(true);
 });
@@ -26,6 +25,7 @@ test('submit button captures POST value', function () {
 	];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSubmit('button');
 	Assert::true($input->isFilled());
 	Assert::same('x', $input->getValue());
@@ -39,11 +39,13 @@ test('submit button with empty and zero values', function () {
 	];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSubmit('button1');
 	Assert::true($input->isFilled());
 	Assert::same('', $input->getValue());
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSubmit('button2');
 	Assert::true($input->isFilled());
 	Assert::same('0', $input->getValue());
@@ -52,6 +54,7 @@ test('submit button with empty and zero values', function () {
 
 test('unsubmitted button state', function () {
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSubmit('button');
 	Assert::false($input->isFilled());
 	Assert::null($input->getValue());
@@ -64,6 +67,7 @@ test('handling malformed POST data for button', function () {
 	];
 
 	$form = new Form;
+	$form->allowCrossOrigin();
 	$input = $form->addSubmit('malformed');
 	Assert::false($input->isFilled());
 	Assert::null($input->getValue());
