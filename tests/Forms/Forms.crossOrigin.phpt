@@ -21,7 +21,7 @@ setUp(function () {
 });
 
 
-test('form success without data', function () {
+test('form success without strict cookie', function () {
 	$form = new Form;
 	Assert::false($form->isSuccess());
 });
@@ -35,7 +35,7 @@ test('strict cookie form submission', function () {
 });
 
 
-test('cross-origin form submission', function () {
+test('allowed cross-origin form submission', function () {
 	$form = new Form;
 	$form->allowCrossOrigin();
 	Assert::true($form->isSuccess());

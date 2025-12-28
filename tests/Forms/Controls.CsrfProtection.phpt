@@ -15,10 +15,9 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_COOKIE[Nette\Http\Helpers::StrictCookieName] = '1';
-
 
 $form = new Form;
+$form->allowCrossOrigin();
 
 $input = $form->addProtection('Security token did not match. Possible CSRF attack.');
 
@@ -49,6 +48,7 @@ Assert::false(CsrfProtection::validateCsrf($input));
 
 // protection is always the first
 $form = new Form;
+$form->allowCrossOrigin();
 $form->addText('text');
 $form->addProtection();
 Assert::same([
