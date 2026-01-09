@@ -25,12 +25,15 @@ class SelectBox extends ChoiceControl
 	/** @deprecated use SelectBox::Valid */
 	public const VALID = self::Valid;
 
-	/** of option / optgroup */
+	/** @var mixed[]  option / optgroup */
 	private array $options = [];
 	private string|Stringable|false $prompt = false;
+
+	/** @var array<string, mixed> */
 	private array $optionAttributes = [];
 
 
+	/** @param  ?mixed[]  $items */
 	public function __construct(string|\Stringable|null $label = null, ?array $items = null)
 	{
 		parent::__construct($label, $items);
@@ -64,6 +67,7 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * Sets options and option groups from which to choose.
+	 * @param  mixed[]  $items
 	 * @return static
 	 */
 	public function setItems(array $items, bool $useKeys = true)
@@ -118,7 +122,10 @@ class SelectBox extends ChoiceControl
 	}
 
 
-	/** @deprecated use setOptionAttribute() */
+	/**
+	 * @param  array<string, mixed>  $attributes
+	 * @deprecated use setOptionAttribute()
+	 */
 	public function addOptionAttributes(array $attributes): static
 	{
 		$this->optionAttributes = $attributes + $this->optionAttributes;
@@ -143,6 +150,7 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	/** @return array<string, mixed> */
 	public function getOptionAttributes(): array
 	{
 		return $this->optionAttributes;

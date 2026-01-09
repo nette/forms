@@ -16,15 +16,19 @@ use function array_combine, array_diff, array_fill_keys, array_flip, array_keys,
 /**
  * Choice control that allows multiple items selection.
  *
- * @property   array $items
- * @property-read array $selectedItems
+ * @property   mixed[] $items
+ * @property   bool|array<int|string,bool> $disabled
+ * @property-read mixed[] $selectedItems
  */
 abstract class MultiChoiceControl extends BaseControl
 {
 	private bool $checkDefaultValue = true;
+
+	/** @var mixed[] */
 	private array $items = [];
 
 
+	/** @param ?mixed[]  $items */
 	public function __construct(string|\Stringable|null $label = null, ?array $items = null)
 	{
 		parent::__construct($label);
@@ -78,6 +82,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected keys.
+	 * @return list<int|string>
 	 */
 	public function getValue(): array
 	{
@@ -87,6 +92,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected keys (not checked).
+	 * @return list<int|string>
 	 */
 	public function getRawValue(): array
 	{
@@ -96,6 +102,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Sets items from which to choose.
+	 * @param mixed[]  $items
 	 * @return static
 	 */
 	public function setItems(array $items, bool $useKeys = true)
@@ -107,6 +114,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns items from which to choose.
+	 * @return mixed[]
 	 */
 	public function getItems(): array
 	{
@@ -116,6 +124,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected values.
+	 * @return mixed[]
 	 */
 	public function getSelectedItems(): array
 	{
@@ -131,6 +140,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Disables or enables control or items.
+	 * @param bool|array<int|string>  $value
 	 */
 	public function setDisabled(bool|array $value = true): static
 	{

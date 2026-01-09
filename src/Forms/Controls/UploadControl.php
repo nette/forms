@@ -77,6 +77,7 @@ class UploadControl extends BaseControl
 	}
 
 
+	/** @return FileUpload|FileUpload[]|null */
 	public function getValue(): FileUpload|array|null
 	{
 		return $this->value ?? ($this->nullable ? null : new FileUpload(null));
@@ -122,7 +123,10 @@ class UploadControl extends BaseControl
 	}
 
 
-	/** @return static */
+	/**
+	 * @param  (callable(self): bool)|string  $validator
+	 * @return static
+	 */
 	public function addRule(
 		callable|string $validator,
 		string|Stringable|null $errorMessage = null,

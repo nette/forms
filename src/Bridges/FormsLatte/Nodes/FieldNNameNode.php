@@ -98,7 +98,10 @@ final class FieldNNameNode extends StatementNode
 	}
 
 
-	/** @internal */
+	/**
+	 * @internal
+	 * @return string[]
+	 */
 	public static function findUsedAttributes(ElementNode $el): array
 	{
 		$res = [];

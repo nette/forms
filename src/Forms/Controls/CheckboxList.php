@@ -29,6 +29,7 @@ class CheckboxList extends MultiChoiceControl
 	protected Html $itemLabel;
 
 
+	/** @param  ?mixed[]  $items */
 	public function __construct(string|Stringable|null $label = null, ?array $items = null)
 	{
 		parent::__construct($label, $items);

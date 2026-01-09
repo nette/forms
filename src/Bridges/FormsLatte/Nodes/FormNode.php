@@ -34,7 +34,7 @@ class FormNode extends StatementNode
 	public ?Position $endLine;
 
 
-	/** @return \Generator<int, ?array, array{AreaNode, ?Tag}, static|AreaNode> */
+	/** @return \Generator<int, ?array<mixed>, array{AreaNode, ?Tag}, static|AreaNode> */
 	public static function create(Tag $tag): \Generator
 	{
 		if ($tag->isNAttribute()) {

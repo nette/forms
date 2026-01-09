@@ -126,7 +126,10 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	/** @return static */
+	/**
+	 * @param  (callable(self): bool)|string  $validator
+	 * @return static
+	 */
 	public function addRule(
 		callable|string $validator,
 		string|Stringable|null $errorMessage = null,
