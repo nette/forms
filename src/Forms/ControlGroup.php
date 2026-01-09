@@ -32,7 +32,7 @@ class ControlGroup
 
 
 	/** @param Control|Container|iterable<Control|Container> ...$items */
-	public function add(...$items): static
+	public function add(Control|Container|iterable ...$items): static
 	{
 		foreach ($items as $item) {
 			if ($item instanceof Control) {

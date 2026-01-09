@@ -79,7 +79,7 @@ class Runtime
 
 
 	/** @param object{formsStack: Form[]}  $global */
-	public static function item($item, $global): object
+	public static function item(object|string|int $item, object $global): object
 	{
 		if (is_object($item)) {
 			return $item;

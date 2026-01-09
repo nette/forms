@@ -59,7 +59,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	private Rules $rules;
 
 	/** true means autodetect */
-	private Nette\Localization\Translator|bool|null $translator = true;
+	private Nette\Localization\Translator|true|null $translator = true;
 
 	/** @var array<string, mixed> */
 	private array $options = [];
@@ -172,7 +172,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Sets control's default value.
 	 * @return static
 	 */
-	public function setDefaultValue($value)
+	public function setDefaultValue(mixed $value)
 	{
 		$form = $this->getForm(throw: false);
 		if ($this->isDisabled() || !$form || !$form->isAnchored() || !$form->isSubmitted()) {
@@ -381,7 +381,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Returns translated string.
 	 */
-	public function translate($value, ...$parameters): mixed
+	public function translate(mixed $value, mixed ...$parameters): mixed
 	{
 		if ($translator = $this->getTranslator()) {
 			$tmp = is_array($value) ? [&$value] : [[&$value]];
@@ -418,7 +418,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Adds a validation condition a returns new branch.
 	 * @param  (callable(self): bool)|string|bool  $validator
 	 */
-	public function addCondition($validator, $value = null): Rules
+	public function addCondition($validator, mixed $value = null): Rules
 	{
 		return $this->rules->addCondition($validator, $value);
 	}
@@ -428,7 +428,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Adds a validation condition based on another control a returns new branch.
 	 * @param  (callable(self): bool)|string  $validator
 	 */
-	public function addConditionOn(Control $control, $validator, $value = null): Rules
+	public function addConditionOn(Control $control, $validator, mixed $value = null): Rules
 	{
 		return $this->rules->addConditionOn($control, $validator, $value);
 	}
