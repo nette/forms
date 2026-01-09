@@ -115,7 +115,7 @@ final class Validator
 	/**
 	 * Is control's value equal with second parameter?
 	 */
-	public static function validateEqual(Control $control, $arg): bool
+	public static function validateEqual(Control $control, mixed $arg): bool
 	{
 		$value = $control->getValue();
 		$values = is_array($value) ? $value : [$value];
@@ -142,7 +142,7 @@ final class Validator
 	/**
 	 * Is control's value not equal with second parameter?
 	 */
-	public static function validateNotEqual(Control $control, $arg): bool
+	public static function validateNotEqual(Control $control, mixed $arg): bool
 	{
 		return !static::validateEqual($control, $arg);
 	}
@@ -201,7 +201,7 @@ final class Validator
 	/**
 	 * Is a control's value number greater than or equal to the specified minimum?
 	 */
-	public static function validateMin(Control $control, $minimum): bool
+	public static function validateMin(Control $control, int|float|string|\DateTimeInterface $minimum): bool
 	{
 		return Validators::isInRange($control->getValue(), [$minimum === '' ? null : $minimum, null]);
 	}
@@ -210,7 +210,7 @@ final class Validator
 	/**
 	 * Is a control's value number less than or equal to the specified maximum?
 	 */
-	public static function validateMax(Control $control, $maximum): bool
+	public static function validateMax(Control $control, int|float|string|\DateTimeInterface $maximum): bool
 	{
 		return Validators::isInRange($control->getValue(), [null, $maximum === '' ? null : $maximum]);
 	}
@@ -234,7 +234,7 @@ final class Validator
 	/**
 	 * Has control's value minimal count/length?
 	 */
-	public static function validateMinLength(Control $control, $length): bool
+	public static function validateMinLength(Control $control, int $length): bool
 	{
 		return static::validateLength($control, [$length, null]);
 	}
@@ -243,7 +243,7 @@ final class Validator
 	/**
 	 * Is control's value count/length in limit?
 	 */
-	public static function validateMaxLength(Control $control, $length): bool
+	public static function validateMaxLength(Control $control, int $length): bool
 	{
 		return static::validateLength($control, [null, $length]);
 	}
@@ -361,7 +361,7 @@ final class Validator
 	/**
 	 * Is file size in limit?
 	 */
-	public static function validateFileSize(Controls\UploadControl $control, $limit): bool
+	public static function validateFileSize(Controls\UploadControl $control, int $limit): bool
 	{
 		foreach (static::toArray($control->getValue()) as $file) {
 			if ($file->getSize() > $limit || $file->getError() === UPLOAD_ERR_INI_SIZE) {
@@ -407,7 +407,7 @@ final class Validator
 
 
 	/** @return mixed[] */
-	private static function toArray($value): array
+	private static function toArray(mixed $value): array
 	{
 		return is_object($value) ? [$value] : (array) $value;
 	}

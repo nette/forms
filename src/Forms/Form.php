@@ -523,7 +523,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 
 	/** @param  iterable<callable>  $handlers */
-	private function invokeHandlers(iterable $handlers, $button = null): void
+	private function invokeHandlers(iterable $handlers, ?SubmitterControl $button = null): void
 	{
 		foreach ($handlers as $handler) {
 			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
@@ -732,7 +732,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/**
 	 * Renders form.
 	 */
-	public function render(...$args): void
+	public function render(mixed ...$args): void
 	{
 		$this->fireRenderEvents();
 		echo $this->getRenderer()->render($this, ...$args);

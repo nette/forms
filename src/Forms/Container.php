@@ -405,7 +405,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Adds input for date selection.
 	 */
-	public function addDate(string $name, string|object|null $label = null): Controls\DateTimeControl
+	public function addDate(string $name, string|Stringable|null $label = null): Controls\DateTimeControl
 	{
 		return $this[$name] = new Controls\DateTimeControl($label, Controls\DateTimeControl::TypeDate);
 	}
@@ -416,7 +416,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addTime(
 		string $name,
-		string|object|null $label = null,
+		string|Stringable|null $label = null,
 		bool $withSeconds = false,
 	): Controls\DateTimeControl
 	{
@@ -429,7 +429,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addDateTime(
 		string $name,
-		string|object|null $label = null,
+		string|Stringable|null $label = null,
 		bool $withSeconds = false,
 	): Controls\DateTimeControl
 	{
@@ -458,7 +458,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/**
 	 * Adds hidden form control used to store a non-displayed value.
 	 */
-	public function addHidden(string $name, $default = null): Controls\HiddenField
+	public function addHidden(string $name, mixed $default = null): Controls\HiddenField
 	{
 		return $this[$name] = (new Controls\HiddenField)
 			->setDefaultValue($default);
@@ -595,7 +595,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/** @param mixed[] $args */
-	public function __call(string $name, array $args)
+	public function __call(string $name, array $args): mixed
 	{
 		if (isset(self::$extMethods[$name])) {
 			return (self::$extMethods[$name])($this, ...$args);
@@ -606,7 +606,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/** @param callable(self): mixed  $callback */
-	public static function extensionMethod(string $name, /*callable*/ $callback): void
+	public static function extensionMethod(string $name, callable $callback): void
 	{
 		if (str_contains($name, '::')) { // back compatibility
 			[, $name] = explode('::', $name);

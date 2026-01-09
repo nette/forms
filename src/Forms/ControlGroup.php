@@ -32,7 +32,7 @@ class ControlGroup
 
 
 	/** @param Control|Container|iterable<Control|Container> ...$items */
-	public function add(...$items): static
+	public function add(Control|Container|iterable ...$items): static
 	{
 		foreach ($items as $item) {
 			if ($item instanceof Control) {
@@ -42,12 +42,8 @@ class ControlGroup
 				foreach ($item->getComponents() as $component) {
 					$this->add($component);
 				}
-			} elseif (is_iterable($item)) {
-				$this->add(...$item);
-
 			} else {
-				$type = get_debug_type($item);
-				throw new Nette\InvalidArgumentException("Control or Container items expected, $type given.");
+				$this->add(...$item);
 			}
 		}
 

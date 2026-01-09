@@ -25,7 +25,7 @@ class FormFirstLevelConstruct
 	public function __construct(
 		public string $name,
 		public ?FormSecondLevelConstruct $second = null,
-		public int|null $age = null,
+		public ?int $age = null,
 	) {
 	}
 }
