@@ -26,7 +26,7 @@ class FormContainerNode extends StatementNode
 	public AreaNode $content;
 
 
-	/** @return \Generator<int, ?array, array{AreaNode, ?Tag}, static|AreaNode> */
+	/** @return \Generator<int, ?array<mixed>, array{AreaNode, ?Tag}, static|AreaNode> */
 	public static function create(Tag $tag): \Generator
 	{
 		$tag->outputMode = $tag::OutputRemoveIndentation;

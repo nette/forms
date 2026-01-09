@@ -56,6 +56,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	 *      \---
 	 *    \---
 	 *  \--
+	 * @var array<string, array<string, Html|string|null>>
 	 */
 	public array $wrappers = [
 		'form' => [
@@ -220,6 +221,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	}
 
 
+	/** @param  list<string|\Stringable>  $errors */
 	private function doRenderErrors(array $errors, bool $control): string
 	{
 		if (!$errors) {

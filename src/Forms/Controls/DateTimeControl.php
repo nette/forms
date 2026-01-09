@@ -53,7 +53,7 @@ class DateTimeControl extends BaseControl
 
 
 	/**
-	 * @param \DateTimeInterface|string|int|null $value
+	 * @param \DateTimeInterface|string|int|null  $value
 	 */
 	public function setValue($value): static
 	{
@@ -75,7 +75,7 @@ class DateTimeControl extends BaseControl
 
 
 	/**
-	 * @param \DateTimeInterface|string|int $value
+	 * @param \DateTimeInterface|string|int  $value
 	 */
 	private function normalizeValue(mixed $value): \DateTimeImmutable
 	{
@@ -143,6 +143,7 @@ class DateTimeControl extends BaseControl
 	}
 
 
+	/** @return array<string, ?string> */
 	private function getAttributesFromRules(): array
 	{
 		$attrs = [];

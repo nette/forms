@@ -20,8 +20,8 @@ use const PHP_SAPI;
 /**
  * Creates, validates and renders HTML forms.
  *
- * @property-read array $errors
- * @property-read array $ownErrors
+ * @property-read string[] $errors
+ * @property-read array<string|Stringable> $ownErrors
  * @property-read Html $elementPrototype
  * @property-read FormRenderer $renderer
  * @property string $action
@@ -189,7 +189,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Occurs when the form is submitted and successfully validated
-	 * @var array<callable(self, array|object): void|callable(array|object): void>
+	 * @var array<callable(self, mixed[]|object): void | callable(mixed[]|object): void>
 	 */
 	public array $onSuccess = [];
 
@@ -209,6 +209,8 @@ class Form extends Container implements Nette\HtmlStringable
 	protected $crossOrigin = false;
 	private static ?Nette\Http\IRequest $defaultHttpRequest = null;
 	private SubmitterControl|bool $submittedBy = false;
+
+	/** @var mixed[] */
 	private array $httpData;
 	private Html $element;
 	private FormRenderer $renderer;
@@ -216,6 +218,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/** @var ControlGroup[] */
 	private array $groups = [];
+
+	/** @var list<string|Stringable> */
 	private array $errors = [];
 	private bool $beforeRenderCalled = false;
 
@@ -459,6 +463,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns submitted HTTP data.
+	 * @return string|string[]|Nette\Http\FileUpload|null
 	 */
 	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
 	{
@@ -517,6 +522,7 @@ class Form extends Container implements Nette\HtmlStringable
 	}
 
 
+	/** @param  iterable<callable>  $handlers */
 	private function invokeHandlers(iterable $handlers, $button = null): void
 	{
 		foreach ($handlers as $handler) {
@@ -557,6 +563,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Internal: returns submitted HTTP data or null when form was not submitted.
+	 * @return ?mixed[]
 	 */
 	protected function receiveHttpData(): ?array
 	{
@@ -591,6 +598,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/********************* validation ****************d*g**/
 
 
+	/** @param  ?(Control|Container)[]  $controls */
 	public function validate(?array $controls = null): void
 	{
 		$this->cleanErrors();
@@ -632,6 +640,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns global validation errors.
+	 * @return list<string|Stringable>
 	 */
 	public function getErrors(): array
 	{
@@ -653,6 +662,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns form's validation errors.
+	 * @return list<string|Stringable>
 	 */
 	public function getOwnErrors(): array
 	{
@@ -739,6 +749,7 @@ class Form extends Container implements Nette\HtmlStringable
 	}
 
 
+	/** @return array<string, bool> */
 	public function getToggles(): array
 	{
 		$toggles = [];

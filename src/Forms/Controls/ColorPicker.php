@@ -26,7 +26,7 @@ class ColorPicker extends BaseControl
 
 
 	/**
-	 * @param  ?string $value
+	 * @param  ?string  $value
 	 */
 	public function setValue($value): static
 	{
