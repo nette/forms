@@ -22,7 +22,7 @@ class HiddenField extends BaseControl
 	private bool $nullable = false;
 
 
-	public function __construct($persistentValue = null)
+	public function __construct(mixed $persistentValue = null)
 	{
 		parent::__construct();
 		$this->control->type = 'hidden';

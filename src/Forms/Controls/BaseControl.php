@@ -113,7 +113,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Returns submitted HTTP value for this control.
 	 */
-	protected function getHttpData($type, ?string $htmlTail = null): mixed
+	protected function getHttpData(int $type, ?string $htmlTail = null): mixed
 	{
 		return $this->getForm()->getHttpData($type, $this->getHtmlName() . $htmlTail);
 	}
@@ -163,7 +163,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Sets the default value. Has no effect on submitted or disabled controls.
 	 * @return static
 	 */
-	public function setDefaultValue($value)
+	public function setDefaultValue(mixed $value)
 	{
 		$form = $this->getForm(throw: false);
 		if ($this->isDisabled() || !$form || !$form->isAnchored() || !$form->isSubmitted()) {
@@ -369,7 +369,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Translates a string or array of strings using the configured translator, or returns the value unchanged if no translator is set or the value is HtmlStringable.
 	 */
-	public function translate($value, ...$parameters): mixed
+	public function translate(mixed $value, mixed ...$parameters): mixed
 	{
 		if ($translator = $this->getTranslator()) {
 			$tmp = is_array($value) ? [&$value] : [[&$value]];
@@ -406,7 +406,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Adds a validation condition and returns a new branch.
 	 * @param  (callable(Control): bool)|string|bool  $validator
 	 */
-	public function addCondition($validator, $value = null): Rules
+	public function addCondition($validator, mixed $value = null): Rules
 	{
 		return $this->rules->addCondition($validator, $value);
 	}
@@ -416,7 +416,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Adds a validation condition based on another control and returns a new branch.
 	 * @param  (callable(Control): bool)|string  $validator
 	 */
-	public function addConditionOn(Control $control, $validator, $value = null): Rules
+	public function addConditionOn(Control $control, $validator, mixed $value = null): Rules
 	{
 		return $this->rules->addConditionOn($control, $validator, $value);
 	}
@@ -518,7 +518,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Sets a rendering or user-specific option (e.g. 'description', 'class', 'id').
 	 */
-	public function setOption($key, mixed $value): static
+	public function setOption(string $key, mixed $value): static
 	{
 		if ($value === null) {
 			unset($this->options[$key]);
@@ -533,7 +533,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Returns a rendering or user-specific option value.
 	 */
-	public function getOption($key): mixed
+	public function getOption(string $key): mixed
 	{
 		if (func_num_args() > 1) {
 			trigger_error(__METHOD__ . '() parameter $default is deprecated, use operator ??', E_USER_DEPRECATED);
@@ -573,7 +573,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/** @param callable(static): mixed  $callback */
-	public static function extensionMethod(string $name, /*callable*/ $callback): void
+	public static function extensionMethod(string $name, callable $callback): void
 	{
 		if (str_contains($name, '::')) { // back compatibility
 			[, $name] = explode('::', $name);
