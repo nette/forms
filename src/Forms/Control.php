@@ -32,6 +32,7 @@ interface Control
 
 	/**
 	 * Returns errors corresponding to control.
+	 * @return string[]
 	 */
 	function getErrors(): array;
 

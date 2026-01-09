@@ -22,6 +22,8 @@ use function array_combine, array_fill_keys, array_key_exists, array_keys, array
 abstract class ChoiceControl extends BaseControl
 {
 	private bool $checkDefaultValue = true;
+
+	/** @var array<int|string, mixed> */
 	private array $items = [];
 
 
@@ -108,6 +110,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns items from which to choose.
+	 * @return array<int|string, mixed>
 	 */
 	public function getItems(): array
 	{

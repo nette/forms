@@ -49,15 +49,19 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/** @var bool|bool[] */
 	protected bool|array $disabled = false;
 
-	/** @var callable[][]  extension methods */
+	/** @var array<string, array<class-string, \Closure>> */
 	private static array $extMethods = [];
 	private string|Stringable|null $caption;
+
+	/** @var string[] */
 	private array $errors = [];
 	private ?bool $omitted = null;
 	private Rules $rules;
 
 	/** true means autodetect */
 	private Nette\Localization\Translator|bool|null $translator = true;
+
+	/** @var array<string, mixed> */
 	private array $options = [];
 
 
@@ -429,6 +433,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds an input filter callback.
+	 * @param callable(mixed): mixed  $filter
 	 */
 	public function addFilter(callable $filter): static
 	{
@@ -548,6 +553,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns user-specific options.
+	 * @return array<string, mixed>
 	 */
 	public function getOptions(): array
 	{
@@ -573,7 +579,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
-	public static function extensionMethod(string $name, /*callable*/ $callback): void
+	public static function extensionMethod(string $name, \Closure $callback): void
 	{
 		if (str_contains($name, '::')) { // back compatibility
 			[, $name] = explode('::', $name);

@@ -172,6 +172,11 @@ final class Helpers
 	}
 
 
+	/**
+	 * @param  array<int|string, mixed>  $items
+	 * @param  ?array<string, mixed>  $inputAttrs
+	 * @param  ?array<string, mixed>  $labelAttrs
+	 */
 	public static function createInputList(
 		array $items,
 		?array $inputAttrs = null,
@@ -208,6 +213,10 @@ final class Helpers
 	}
 
 
+	/**
+	 * @param  array<int|string, mixed>  $items
+	 * @param  ?array<string, mixed>  $optionAttrs
+	 */
 	public static function createSelectBox(array $items, ?array $optionAttrs = null, $selected = null): Html
 	{
 		if ($selected !== null) {
@@ -253,6 +262,10 @@ final class Helpers
 	}
 
 
+	/**
+	 * @param  ?array<string, mixed>  $attrs
+	 * @return array{array<string, mixed>, string}
+	 */
 	private static function prepareAttrs(?array $attrs, string $name): array
 	{
 		$dynamic = [];
@@ -285,8 +298,11 @@ final class Helpers
 	}
 
 
-	/** @internal */
-	public static function getSingleType($reflection): ?string
+	/**
+	 * @param \ReflectionParameter|\ReflectionProperty  $reflection
+	 * @internal
+	 */
+	public static function getSingleType(\ReflectionParameter|\ReflectionProperty $reflection): ?string
 	{
 		$type = Nette\Utils\Type::fromReflection($reflection);
 		if (!$type) {
@@ -301,8 +317,14 @@ final class Helpers
 	}
 
 
-	/** @internal */
-	public static function tryEnumConversion(mixed $value, $reflection): mixed
+	/**
+	 * @param \ReflectionParameter|\ReflectionProperty|null  $reflection
+	 * @internal
+	 */
+	public static function tryEnumConversion(
+	    mixed $value,
+	    \ReflectionParameter|\ReflectionProperty|null $reflection,
+	): mixed
 	{
 		if ($value !== null
 			&& $reflection
@@ -316,7 +338,10 @@ final class Helpers
 	}
 
 
-	/** @internal */
+	/**
+	 * @internal
+	 * @return string[]
+	 */
 	public static function getSupportedImages(): array
 	{
 		return array_values(array_map(Image::typeToMimeType(...), Image::getSupportedTypes()));

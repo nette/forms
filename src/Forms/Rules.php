@@ -30,6 +30,8 @@ final class Rules implements \IteratorAggregate
 	/** @var Rule[] */
 	private array $rules = [];
 	private Rules $parent;
+
+	/** @var array<string, bool> */
 	private array $toggles = [];
 
 
@@ -175,6 +177,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a filter callback.
+	 * @param callable(mixed): mixed  $filter
 	 */
 	public function addFilter(callable $filter): static
 	{
@@ -198,13 +201,18 @@ final class Rules implements \IteratorAggregate
 	}
 
 
+	/** @return array<string, bool> */
 	public function getToggles(bool $actual = false): array
 	{
 		return $actual ? $this->getToggleStates() : $this->toggles;
 	}
 
 
-	/** @internal */
+	/**
+	 * @internal
+	 * @param  array<string, bool>  $toggles
+	 * @return array<string, bool>
+	 */
 	public function getToggleStates(array $toggles = [], bool $success = true, ?bool $emptyOptional = null): array
 	{
 		foreach ($this->toggles as $id => $hide) {

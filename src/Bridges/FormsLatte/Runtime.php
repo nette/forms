@@ -35,6 +35,7 @@ class Runtime
 
 	/**
 	 * Renders form begin.
+	 * @param array<string, mixed>  $attrs
 	 */
 	public static function renderFormBegin(Form $form, array $attrs, bool $withTags = true): string
 	{
@@ -77,7 +78,7 @@ class Runtime
 	}
 
 
-	public static function item($item, $global): object
+	public static function item(object|string $item, object $global): object
 	{
 		if (is_object($item)) {
 			return $item;

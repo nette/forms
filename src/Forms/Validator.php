@@ -185,6 +185,7 @@ final class Validator
 
 	/**
 	 * Is a control's value number in specified range?
+	 * @param  array{0?: int|float|string|\DateTimeInterface|null, 1?: int|float|string|\DateTimeInterface|null}  $range
 	 */
 	public static function validateRange(Control $control, array $range): bool
 	{
@@ -216,6 +217,7 @@ final class Validator
 
 	/**
 	 * Count/length validator. Range is array, min and max length pair.
+	 * @param  array{0?: ?int, 1?: ?int}|int  $range
 	 */
 	public static function validateLength(Control $control, array|int $range): bool
 	{

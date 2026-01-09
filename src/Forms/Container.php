@@ -20,7 +20,8 @@ use function array_combine, array_key_exists, array_map, array_merge, array_uniq
  *
  * @property   ArrayHash $values
  * @property-read \Iterator $controls
- * @property-read Form|null $form
+ * @property-read ?Form $form
+ * @implements \ArrayAccess<string, Nette\ComponentModel\IComponent>
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
@@ -35,7 +36,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public array $onValidate = [];
 	protected ?ControlGroup $currentGroup = null;
 
-	/** @var callable[]  extension methods */
+	/** @var array<string, \Closure> */
 	private static array $extMethods = [];
 	private ?bool $validated = false;
 	private ?string $mappedType = null;
@@ -83,7 +84,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns the values submitted by the form.
-	 * @param  Control[]|null  $controls
+	 * @template T of object
+	 * @param  class-string<T>|T|'array'|true|null  $returnType
+	 * @param  ?list<Control>  $controls
+	 * @return ($returnType is class-string<T> ? T : ($returnType is 'array'|true ? array<string, mixed> : ($returnType is object ? $returnType : ArrayHash)))
 	 */
 	public function getValues(string|object|bool|null $returnType = null, ?array $controls = null): object|array
 	{
@@ -121,7 +125,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns the potentially unvalidated values submitted by the form.
-	 * @param  Control[]|null  $controls
+	 * @template T of object
+	 * @param  class-string<T>|T|'array'|null  $returnType
+	 * @param  ?list<Control>  $controls
+	 * @return ($returnType is class-string<T> ? T : ($returnType is 'array' ? array<string, mixed> : ($returnType is object ? $returnType : ArrayHash)))
 	 */
 	public function getUntrustedValues(string|object|null $returnType = null, ?array $controls = null): object|array
 	{
@@ -179,6 +186,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
+	/**
+	 * @param class-string  $type
+	 */
 	public function setMappedType(string $type): static
 	{
 		$this->mappedType = $type;
@@ -237,6 +247,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns all validation errors.
+	 * @return string[]
 	 */
 	public function getErrors(): array
 	{
@@ -286,6 +297,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Iterates over all form controls.
+	 * @return \Iterator<int, Control>
 	 */
 	public function getControls(): \Iterator
 	{
@@ -547,8 +559,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds graphical button used to submit form.
-	 * @param  string|null  $src  URI of the image
-	 * @param  string|null  $alt  alternate text for the image
 	 */
 	public function addImageButton(string $name, ?string $src = null, ?string $alt = null): Controls\ImageButton
 	{
@@ -588,7 +598,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	public static function extensionMethod(string $name, /*callable*/ $callback): void
+	public static function extensionMethod(string $name, \Closure $callback): void
 	{
 		if (str_contains($name, '::')) { // back compatibility
 			[, $name] = explode('::', $name);

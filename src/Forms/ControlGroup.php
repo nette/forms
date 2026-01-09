@@ -18,7 +18,10 @@ use function func_num_args;
  */
 class ControlGroup
 {
+	/** @var \WeakMap<Control, null> */
 	protected \WeakMap $controls;
+
+	/** @var array<string, mixed> */
 	private array $options = [];
 
 
@@ -115,6 +118,7 @@ class ControlGroup
 
 	/**
 	 * Returns user-specific options.
+	 * @return array<string, mixed>
 	 */
 	public function getOptions(): array
 	{

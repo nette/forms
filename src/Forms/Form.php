@@ -214,8 +214,10 @@ class Form extends Container implements Nette\HtmlStringable
 	private FormRenderer $renderer;
 	private ?Nette\Localization\Translator $translator = null;
 
-	/** @var ControlGroup[] */
+	/** @var array<string, ControlGroup> */
 	private array $groups = [];
+
+	/** @var list<string|\Stringable> */
 	private array $errors = [];
 	private bool $beforeRenderCalled = false;
 
@@ -739,6 +741,9 @@ class Form extends Container implements Nette\HtmlStringable
 	}
 
 
+	/**
+	 * @return array<string, bool>
+	 */
 	public function getToggles(): array
 	{
 		$toggles = [];
