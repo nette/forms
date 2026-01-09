@@ -18,8 +18,10 @@ use function is_array;
  */
 class MultiSelectBox extends MultiChoiceControl
 {
-	/** of option / optgroup */
+	/** @var array<int|string, mixed>  option / optgroup */
 	private array $options = [];
+
+	/** @var array<string, mixed> */
 	private array $optionAttributes = [];
 
 
@@ -89,6 +91,7 @@ class MultiSelectBox extends MultiChoiceControl
 	}
 
 
+	/** @return array<string, mixed> */
 	public function getOptionAttributes(): array
 	{
 		return $this->optionAttributes;

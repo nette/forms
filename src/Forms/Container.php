@@ -237,6 +237,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns all validation errors.
+	 * @return string[]
 	 */
 	public function getErrors(): array
 	{
@@ -286,6 +287,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Iterates over all form controls.
+	 * @return \Iterator<int, Control>
 	 */
 	public function getControls(): \Iterator
 	{

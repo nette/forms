@@ -29,6 +29,8 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 
 	/** @var array<callable(self): void>  Occurs when the button is clicked and form is not validated */
 	public array $onInvalidClick = [];
+
+	/** @var list<Nette\Forms\Control|Nette\Forms\Container>|null */
 	private ?array $validationScope = null;
 
 

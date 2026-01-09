@@ -52,12 +52,16 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/** @var callable[][]  extension methods */
 	private static array $extMethods = [];
 	private string|Stringable|null $caption;
+
+	/** @var string[] */
 	private array $errors = [];
 	private ?bool $omitted = null;
 	private Rules $rules;
 
 	/** true means autodetect */
 	private Nette\Localization\Translator|bool|null $translator = true;
+
+	/** @var array<string, mixed> */
 	private array $options = [];
 
 
@@ -548,6 +552,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns user-specific options.
+	 * @return array<string, mixed>
 	 */
 	public function getOptions(): array
 	{

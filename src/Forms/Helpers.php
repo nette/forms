@@ -172,6 +172,11 @@ final class Helpers
 	}
 
 
+	/**
+	 * @param  array<int|string, mixed>  $items
+	 * @param  array<string, mixed>|null  $inputAttrs
+	 * @param  array<string, mixed>|null  $labelAttrs
+	 */
 	public static function createInputList(
 		array $items,
 		?array $inputAttrs = null,
@@ -208,6 +213,10 @@ final class Helpers
 	}
 
 
+	/**
+	 * @param  array<int|string, mixed>  $items
+	 * @param  array<string, mixed>|null  $optionAttrs
+	 */
 	public static function createSelectBox(array $items, ?array $optionAttrs = null, $selected = null): Html
 	{
 		if ($selected !== null) {
@@ -253,6 +262,10 @@ final class Helpers
 	}
 
 
+	/**
+	 * @param  array<string, mixed>|null  $attrs
+	 * @return array{array<string, mixed>, string}
+	 */
 	private static function prepareAttrs(?array $attrs, string $name): array
 	{
 		$dynamic = [];
@@ -316,7 +329,10 @@ final class Helpers
 	}
 
 
-	/** @internal */
+	/**
+	 * @internal
+	 * @return string[]
+	 */
 	public static function getSupportedImages(): array
 	{
 		return array_values(array_map(Image::typeToMimeType(...), Image::getSupportedTypes()));

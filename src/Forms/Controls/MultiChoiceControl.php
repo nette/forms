@@ -22,6 +22,8 @@ use function array_combine, array_diff, array_fill_keys, array_flip, array_keys,
 abstract class MultiChoiceControl extends BaseControl
 {
 	private bool $checkDefaultValue = true;
+
+	/** @var array<int|string, mixed> */
 	private array $items = [];
 
 
@@ -78,6 +80,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected keys.
+	 * @return list<int|string>
 	 */
 	public function getValue(): array
 	{
@@ -87,6 +90,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected keys (not checked).
+	 * @return list<int|string>
 	 */
 	public function getRawValue(): array
 	{
@@ -107,6 +111,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns items from which to choose.
+	 * @return array<int|string, mixed>
 	 */
 	public function getItems(): array
 	{
@@ -116,6 +121,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 	/**
 	 * Returns selected values.
+	 * @return array<int|string, mixed>
 	 */
 	public function getSelectedItems(): array
 	{

@@ -25,9 +25,11 @@ class SelectBox extends ChoiceControl
 	/** @deprecated use SelectBox::Valid */
 	public const VALID = self::Valid;
 
-	/** of option / optgroup */
+	/** @var array<int|string, mixed>  option / optgroup */
 	private array $options = [];
 	private string|Stringable|false $prompt = false;
+
+	/** @var array<string, mixed> */
 	private array $optionAttributes = [];
 
 
@@ -143,6 +145,7 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	/** @return array<string, mixed> */
 	public function getOptionAttributes(): array
 	{
 		return $this->optionAttributes;
