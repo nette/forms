@@ -13,6 +13,8 @@ use function defined;
 
 /**
  * Forms extension for Nette DI.
+ *
+ * @property object{messages: array<string, string>} $config
  */
 class FormsExtension extends Nette\DI\CompilerExtension
 {

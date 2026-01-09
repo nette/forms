@@ -26,6 +26,7 @@ interface Control
 
 	/**
 	 * Returns errors corresponding to control.
+	 * @return list<string|\Stringable>
 	 */
 	function getErrors(): array;
 

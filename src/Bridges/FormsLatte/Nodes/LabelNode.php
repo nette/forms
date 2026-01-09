@@ -33,7 +33,7 @@ class LabelNode extends StatementNode
 	public ?Position $endLine;
 
 
-	/** @return \Generator<int, ?array, array{AreaNode, ?Tag}, static|AreaNode> */
+	/** @return \Generator<int, ?list<string>, array{AreaNode, ?Tag}, static> */
 	public static function create(Tag $tag): \Generator
 	{
 		if ($tag->isNAttribute()) {

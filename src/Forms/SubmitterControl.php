@@ -15,6 +15,7 @@ interface SubmitterControl extends Control
 {
 	/**
 	 * Returns the validation scope. Clicking the button validates only the controls within the scope, or null for all.
+	 * @return ?list<Control|Container>
 	 */
 	function getValidationScope(): ?array;
 }

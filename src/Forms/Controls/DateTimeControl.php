@@ -29,6 +29,9 @@ class DateTimeControl extends BaseControl
 	private string $format = self::FormatObject;
 
 
+	/**
+	 * @param  self::TypeDate|self::TypeTime|self::TypeDateTime  $type
+	 */
 	public function __construct(
 		string|Stringable|null $label = null,
 		private readonly int $type = self::TypeDate,
@@ -51,7 +54,7 @@ class DateTimeControl extends BaseControl
 
 
 	/**
-	 * @param \DateTimeInterface|string|int|null $value
+	 * @param \DateTimeInterface|string|int|null  $value
 	 */
 	public function setValue($value): static
 	{
@@ -73,7 +76,7 @@ class DateTimeControl extends BaseControl
 
 
 	/**
-	 * @param \DateTimeInterface|string|int $value
+	 * @param \DateTimeInterface|string|int  $value
 	 */
 	private function normalizeValue(mixed $value): \DateTimeImmutable
 	{
@@ -141,6 +144,7 @@ class DateTimeControl extends BaseControl
 	}
 
 
+	/** @return array<string, ?string> */
 	private function getAttributesFromRules(): array
 	{
 		$attrs = [];

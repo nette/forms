@@ -29,7 +29,9 @@ final class Helpers
 
 	/**
 	 * Extracts and sanitizes submitted form data for single control.
+	 * @param  mixed[]  $data
 	 * @param  int  $type  type Form::DataText, DataLine, DataFile, DataKeys
+	 * @return string|mixed[]|Nette\Http\FileUpload|null
 	 * @internal
 	 */
 	public static function extractHttpData(
@@ -175,6 +177,9 @@ final class Helpers
 
 	/**
 	 * Generates an HTML list of labeled inputs (radio buttons or checkboxes).
+	 * @param  mixed[]  $items  value => label pairs
+	 * @param  ?array<string, mixed>  $inputAttrs
+	 * @param  ?array<string, mixed>  $labelAttrs
 	 */
 	public static function createInputList(
 		array $items,
@@ -214,6 +219,8 @@ final class Helpers
 
 	/**
 	 * Generates a <select> HTML element from the items array.
+	 * @param  mixed[]  $items
+	 * @param  ?array<string, mixed>  $optionAttrs
 	 */
 	public static function createSelectBox(array $items, ?array $optionAttrs = null, $selected = null): Html
 	{
@@ -260,6 +267,10 @@ final class Helpers
 	}
 
 
+	/**
+	 * @param  ?array<string, mixed>  $attrs
+	 * @return array{array<string, mixed>, string}
+	 */
 	private static function prepareAttrs(?array $attrs, string $name): array
 	{
 		$dynamic = [];
@@ -326,7 +337,10 @@ final class Helpers
 	}
 
 
-	/** @internal */
+	/**
+	 * @internal
+	 * @return list<string>
+	 */
 	public static function getSupportedImages(): array
 	{
 		return array_values(array_map(Image::typeToMimeType(...), Image::getSupportedTypes()));

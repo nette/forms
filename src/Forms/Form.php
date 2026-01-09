@@ -18,8 +18,8 @@ use const PHP_SAPI;
 /**
  * Creates, validates and renders HTML forms.
  *
- * @property-read array $errors
- * @property-read array $ownErrors
+ * @property-read string[] $errors
+ * @property-read array<string|Stringable> $ownErrors
  * @property-read Html $elementPrototype
  * @property-read FormRenderer $renderer
  * @property string $action
@@ -187,17 +187,17 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Occurs when the form is submitted and successfully validated
-	 * @var array<callable(self, array|object): void|callable(array|object): void>
+	 * @var array<callable(static, mixed[]|object): void | callable(mixed[]|object): void>
 	 */
 	public array $onSuccess = [];
 
-	/** @var array<callable(self): void>  Occurs when the form is submitted and is not valid */
+	/** @var array<callable(static): void>  Occurs when the form is submitted and is not valid */
 	public array $onError = [];
 
-	/** @var array<callable(self): void>  Occurs when the form is submitted */
+	/** @var array<callable(static): void>  Occurs when the form is submitted */
 	public array $onSubmit = [];
 
-	/** @var array<callable(self): void>  Occurs before the form is rendered */
+	/** @var array<callable(static): void>  Occurs before the form is rendered */
 	public array $onRender = [];
 
 	/** @internal used only by standalone form */
@@ -207,6 +207,8 @@ class Form extends Container implements Nette\HtmlStringable
 	protected $crossOrigin = false;
 	private static ?Nette\Http\IRequest $defaultHttpRequest = null;
 	private SubmitterControl|bool $submittedBy = false;
+
+	/** @var mixed[] */
 	private array $httpData;
 	private Html $element;
 	private FormRenderer $renderer;
@@ -214,6 +216,8 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/** @var ControlGroup[] */
 	private array $groups = [];
+
+	/** @var list<string|Stringable> */
 	private array $errors = [];
 	private bool $beforeRenderCalled = false;
 
@@ -435,6 +439,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns raw submitted HTTP data for a control, or all form data when called without arguments.
+	 * @return string|string[]|Nette\Http\FileUpload|null
 	 */
 	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
 	{
@@ -493,6 +498,7 @@ class Form extends Container implements Nette\HtmlStringable
 	}
 
 
+	/** @param  iterable<callable>  $handlers */
 	private function invokeHandlers(iterable $handlers, $button = null): void
 	{
 		foreach ($handlers as $handler) {
@@ -533,6 +539,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Internal: returns submitted HTTP data or null when form was not submitted.
+	 * @return ?mixed[]
 	 */
 	protected function receiveHttpData(): ?array
 	{
@@ -567,6 +574,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/********************* validation ****************d*g**/
 
 
+	/** @param  ?(Control|Container)[]  $controls */
 	public function validate(?array $controls = null): void
 	{
 		$this->cleanErrors();
@@ -608,6 +616,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns all validation errors (own form errors merged with control errors).
+	 * @return list<string|Stringable>
 	 */
 	public function getErrors(): array
 	{
@@ -629,6 +638,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Returns form-level errors only, excluding control errors.
+	 * @return list<string|Stringable>
 	 */
 	public function getOwnErrors(): array
 	{

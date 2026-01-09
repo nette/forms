@@ -36,6 +36,7 @@ class Runtime
 
 	/**
 	 * Renders form begin.
+	 * @param array<string, mixed>  $attrs
 	 */
 	public static function renderFormBegin(Form $form, array $attrs, bool $withTags = true): string
 	{

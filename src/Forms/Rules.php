@@ -28,6 +28,8 @@ final class Rules implements \IteratorAggregate
 	/** @var Rule[] */
 	private array $rules = [];
 	private Rules $parent;
+
+	/** @var array<string, bool> */
 	private array $toggles = [];
 
 
@@ -63,6 +65,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation rule for the current control.
+	 * @param  (callable(Control): bool)|string  $validator
 	 */
 	public function addRule(
 		callable|string $validator,
@@ -92,6 +95,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Removes a validation rule for the current control.
+	 * @param  (callable(Control): bool)|string  $validator
 	 */
 	public function removeRule(callable|string $validator): static
 	{
@@ -111,6 +115,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation condition and returns new branch.
+	 * @param  (callable(Control): bool)|string|bool  $validator
 	 */
 	public function addCondition($validator, $arg = null): static
 	{
@@ -127,6 +132,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation condition on a specified control and returns new branch.
+	 * @param  (callable(Control): bool)|string  $validator
 	 */
 	public function addConditionOn(Control $control, $validator, $arg = null): static
 	{
@@ -173,6 +179,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a value filter applied before validation.
+	 * @param callable(mixed): mixed  $filter
 	 */
 	public function addFilter(callable $filter): static
 	{
@@ -206,7 +213,11 @@ final class Rules implements \IteratorAggregate
 	}
 
 
-	/** @internal */
+	/**
+	 * @internal
+	 * @param  array<string, bool>  $toggles
+	 * @return array<string, bool>
+	 */
 	public function getToggleStates(array $toggles = [], bool $success = true, ?bool $emptyOptional = null): array
 	{
 		foreach ($this->toggles as $id => $hide) {
@@ -285,7 +296,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Iterates over all rules in priority order (Blank first, then Required, then others).
-	 * @return \ArrayIterator<int, Rule>
+	 * @return \Iterator<int, Rule>
 	 */
 	public function getIterator(): \Iterator
 	{
