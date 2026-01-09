@@ -117,7 +117,7 @@ final class Rules implements \IteratorAggregate
 	 * Adds a validation condition and returns new branch.
 	 * @param  (callable(Control): bool)|string|bool  $validator
 	 */
-	public function addCondition($validator, $arg = null): static
+	public function addCondition(callable|string|bool $validator, mixed $arg = null): static
 	{
 		if ($validator === Form::Valid || $validator === ~Form::Valid) {
 			throw new Nette\InvalidArgumentException('You cannot use Form::Valid in the addCondition method.');
@@ -134,7 +134,7 @@ final class Rules implements \IteratorAggregate
 	 * Adds a validation condition on specified control a returns new branch.
 	 * @param  (callable(Control): bool)|string  $validator
 	 */
-	public function addConditionOn(Control $control, $validator, $arg = null): static
+	public function addConditionOn(Control $control, callable|string $validator, mixed $arg = null): static
 	{
 		$rule = new Rule;
 		$rule->control = $control;
@@ -345,7 +345,7 @@ final class Rules implements \IteratorAggregate
 	}
 
 
-	private static function getCallback(Rule $rule)
+	private static function getCallback(Rule $rule): array|callable|string
 	{
 		$op = $rule->validator;
 		return is_string($op) && str_starts_with($op, ':')

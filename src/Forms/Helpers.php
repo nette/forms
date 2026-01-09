@@ -69,7 +69,7 @@ final class Helpers
 
 
 	/** @return string|mixed[]|Nette\Http\FileUpload|null */
-	private static function sanitize(int $type, $value): string|array|Nette\Http\FileUpload|null
+	private static function sanitize(int $type, mixed $value): string|array|Nette\Http\FileUpload|null
 	{
 		if ($type === Form::DataText) {
 			return is_scalar($value)
@@ -183,7 +183,7 @@ final class Helpers
 		array $items,
 		?array $inputAttrs = null,
 		?array $labelAttrs = null,
-		$wrapper = null,
+		Html|string|null $wrapper = null,
 	): string
 	{
 		[$inputAttrs, $inputTag] = self::prepareAttrs($inputAttrs, 'input');
@@ -219,7 +219,7 @@ final class Helpers
 	 * @param  mixed[]  $items
 	 * @param  ?array<string, mixed>  $optionAttrs
 	 */
-	public static function createSelectBox(array $items, ?array $optionAttrs = null, $selected = null): Html
+	public static function createSelectBox(array $items, ?array $optionAttrs = null, mixed $selected = null): Html
 	{
 		if ($selected !== null) {
 			$optionAttrs['selected?'] = $selected;
@@ -304,7 +304,7 @@ final class Helpers
 	 * @internal
 	 * @return ?class-string
 	 */
-	public static function getSingleType($reflection): ?string
+	public static function getSingleType(\ReflectionParameter|\ReflectionProperty $reflection): ?string
 	{
 		$type = Nette\Utils\Type::fromReflection($reflection);
 		if (!$type) {
@@ -320,7 +320,10 @@ final class Helpers
 
 
 	/** @internal */
-	public static function tryEnumConversion(mixed $value, $reflection): mixed
+	public static function tryEnumConversion(
+		mixed $value,
+		\ReflectionParameter|\ReflectionProperty|null $reflection,
+	): mixed
 	{
 		if ($value !== null
 			&& $reflection
