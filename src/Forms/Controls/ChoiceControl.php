@@ -14,15 +14,19 @@ use function array_combine, array_fill_keys, array_key_exists, array_keys, array
 /**
  * Choice control that allows single item selection.
  *
- * @property   array $items
+ * @property   mixed[] $items
+ * @property   bool|array<bool> $disabled
  * @property-read mixed $selectedItem
  */
 abstract class ChoiceControl extends BaseControl
 {
 	private bool $checkDefaultValue = true;
+
+	/** @var mixed[] */
 	private array $items = [];
 
 
+	/** @param ?mixed[]  $items */
 	public function __construct(string|\Stringable|null $label = null, ?array $items = null)
 	{
 		parent::__construct($label);
@@ -95,6 +99,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Sets items from which to choose.
+	 * @param mixed[]  $items
 	 * @return static
 	 */
 	public function setItems(array $items, bool $useKeys = true)
@@ -106,6 +111,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Returns items from which to choose.
+	 * @return mixed[]
 	 */
 	public function getItems(): array
 	{
@@ -125,6 +131,7 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Disables or enables control or items.
+	 * @param bool|array<int|string>  $value
 	 */
 	public function setDisabled(bool|array $value = true): static
 	{

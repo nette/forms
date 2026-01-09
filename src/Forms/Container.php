@@ -16,9 +16,10 @@ use function array_combine, array_key_exists, array_map, array_merge, array_uniq
 /**
  * Container for form controls.
  *
- * @property   ArrayHash $values
+ * @property   ArrayHash<mixed> $values
  * @property-read \Iterator $controls
- * @property-read Form|null $form
+ * @property-read ?Form $form
+ * @implements \ArrayAccess<string|int, (Control|Container)&Nette\ComponentModel\IComponent>
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
@@ -28,12 +29,12 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Occurs when the form was validated
-	 * @var array<callable(self, array|object): void|callable(array|object): void>
+	 * @var array<callable(self, mixed[]|object): void | callable(mixed[]|object): void>
 	 */
 	public array $onValidate = [];
 	protected ?ControlGroup $currentGroup = null;
 
-	/** @var callable[]  extension methods */
+	/** @var array<string, callable(self): mixed> */
 	private static array $extMethods = [];
 	private ?bool $validated = false;
 	private ?string $mappedType = null;
@@ -44,6 +45,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with default values.
+	 * @param mixed[]|object  $values
 	 */
 	public function setDefaults(array|object $values, bool $erase = false): static
 	{
@@ -55,6 +57,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Fill-in with values.
+	 * @param mixed[]|object  $values
 	 * @internal
 	 */
 	public function setValues(array|object $values, bool $erase = false, bool $onlyDisabled = false): static
@@ -81,7 +84,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns the values submitted by the form.
-	 * @param  Control[]|null  $controls
+	 * @template T of object
+	 * @param  class-string<T>|T|'array'|true|null  $returnType
+	 * @param  ?list<Control>  $controls
+	 * @return ($returnType is class-string<T>|T ? T : ($returnType is 'array'|true ? mixed[] : ArrayHash<mixed>))
 	 */
 	public function getValues(string|object|bool|null $returnType = null, ?array $controls = null): object|array
 	{
@@ -119,7 +125,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns the potentially unvalidated values submitted by the form.
-	 * @param  Control[]|null  $controls
+	 * @template T of object
+	 * @param  class-string<T>|T|'array'|null  $returnType
+	 * @param  ?list<Control>  $controls
+	 * @return ($returnType is class-string<T>|T ? T : ($returnType is 'array' ? mixed[] : ArrayHash<mixed>))
 	 */
 	public function getUntrustedValues(string|object|null $returnType = null, ?array $controls = null): object|array
 	{
@@ -177,6 +186,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
+	/** @param class-string  $type */
 	public function setMappedType(string $type): static
 	{
 		$this->mappedType = $type;
@@ -235,6 +245,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Returns all validation errors.
+	 * @return list<string|Stringable>
 	 */
 	public function getErrors(): array
 	{
@@ -284,6 +295,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Iterates over all form controls.
+	 * @return iterable<Control>
 	 */
 	public function getControls(): \Iterator
 	{
@@ -462,6 +474,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds set of radio button controls to the form.
+	 * @param ?mixed[]  $items
 	 */
 	public function addRadioList(
 		string $name,
@@ -475,6 +488,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds set of checkbox controls to the form.
+	 * @param ?mixed[]  $items
 	 */
 	public function addCheckboxList(
 		string $name,
@@ -488,6 +502,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds select box control that allows single item selection.
+	 * @param ?mixed[]  $items
 	 */
 	public function addSelect(
 		string $name,
@@ -503,6 +518,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds select box control that allows multiple item selection.
+	 * @param ?mixed[]  $items
 	 */
 	public function addMultiSelect(
 		string $name,
@@ -576,6 +592,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/********************* extension methods ****************d*g**/
 
 
+	/** @param mixed[] $args */
 	public function __call(string $name, array $args)
 	{
 		if (isset(self::$extMethods[$name])) {
@@ -586,6 +603,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
+	/** @param callable(self): mixed  $callback */
 	public static function extensionMethod(string $name, /*callable*/ $callback): void
 	{
 		if (str_contains($name, '::')) { // back compatibility

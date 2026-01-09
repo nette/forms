@@ -16,11 +16,14 @@ use function is_array;
  */
 class MultiSelectBox extends MultiChoiceControl
 {
-	/** of option / optgroup */
+	/** @var mixed[]  option / optgroup */
 	private array $options = [];
+
+	/** @var array<string, mixed> */
 	private array $optionAttributes = [];
 
 
+	/** @param  ?mixed[]  $items */
 	public function __construct($label = null, ?array $items = null)
 	{
 		parent::__construct($label, $items);
@@ -30,6 +33,7 @@ class MultiSelectBox extends MultiChoiceControl
 
 	/**
 	 * Sets options and option groups from which to choose.
+	 * @param  mixed[]  $items
 	 * @return static
 	 */
 	public function setItems(array $items, bool $useKeys = true)
@@ -72,7 +76,10 @@ class MultiSelectBox extends MultiChoiceControl
 	}
 
 
-	/** @deprecated use setOptionAttribute() */
+	/**
+	 * @param  array<string, mixed>  $attributes
+	 * @deprecated use setOptionAttribute()
+	 */
 	public function addOptionAttributes(array $attributes): static
 	{
 		$this->optionAttributes = $attributes + $this->optionAttributes;
@@ -87,6 +94,7 @@ class MultiSelectBox extends MultiChoiceControl
 	}
 
 
+	/** @return array<string, mixed> */
 	public function getOptionAttributes(): array
 	{
 		return $this->optionAttributes;

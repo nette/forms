@@ -18,6 +18,8 @@ use function is_string;
 final class Rule
 {
 	public Control $control;
+
+	/** @var (callable(Control): bool)|string */
 	public mixed $validator;
 	public mixed $arg = null;
 	public bool $isNegative = false;

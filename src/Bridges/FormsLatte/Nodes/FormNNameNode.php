@@ -26,6 +26,7 @@ final class FormNNameNode extends StatementNode
 	public AreaNode $content;
 
 
+	/** @return \Generator<int, ?list<string>, array{AreaNode, ?Tag}, static> */
 	public static function create(Tag $tag): \Generator
 	{
 		$tag->expectArguments();

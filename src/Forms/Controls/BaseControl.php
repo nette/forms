@@ -32,8 +32,8 @@ use function array_unique, explode, func_get_arg, func_num_args, get_parent_clas
  * @property-read Html $labelPrototype
  * @property   bool $required
  * @property-read bool $filled
- * @property-read array $errors
- * @property-read array $options
+ * @property-read string[] $errors
+ * @property-read array<string,mixed> $options
  * @property-read string $error
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
@@ -47,15 +47,19 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/** @var bool|bool[] */
 	protected bool|array $disabled = false;
 
-	/** @var callable[][]  extension methods */
+	/** @var array<string, array<class-string, callable(self): mixed>> */
 	private static array $extMethods = [];
 	private string|Stringable|null $caption;
+
+	/** @var list<string|Stringable> */
 	private array $errors = [];
 	private ?bool $omitted = null;
 	private Rules $rules;
 
 	/** true means autodetect */
 	private Nette\Localization\Translator|bool|null $translator = true;
+
+	/** @var array<string, mixed> */
 	private array $options = [];
 
 
@@ -395,6 +399,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation rule.
+	 * @param  (callable(Control): bool)|string  $validator
 	 * @return static
 	 */
 	public function addRule(
@@ -409,6 +414,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation condition a returns new branch.
+	 * @param  (callable(Control): bool)|string|bool  $validator
 	 */
 	public function addCondition($validator, $value = null): Rules
 	{
@@ -418,6 +424,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation condition based on another control a returns new branch.
+	 * @param  (callable(Control): bool)|string  $validator
 	 */
 	public function addConditionOn(Control $control, $validator, $value = null): Rules
 	{
@@ -427,6 +434,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds an input filter callback.
+	 * @param callable(mixed): mixed  $filter
 	 */
 	public function addFilter(callable $filter): static
 	{
@@ -494,6 +502,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns errors corresponding to control.
+	 * @return list<string|Stringable>
 	 */
 	public function getErrors(): array
 	{
@@ -546,6 +555,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns user-specific options.
+	 * @return array<string, mixed>
 	 */
 	public function getOptions(): array
 	{
@@ -556,6 +566,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/********************* extension methods ****************d*g**/
 
 
+	/** @param mixed[] $args */
 	public function __call(string $name, array $args)
 	{
 		$class = static::class;
@@ -571,6 +582,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
+	/** @param callable(self): mixed  $callback */
 	public static function extensionMethod(string $name, /*callable*/ $callback): void
 	{
 		if (str_contains($name, '::')) { // back compatibility

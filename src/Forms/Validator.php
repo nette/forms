@@ -21,6 +21,7 @@ final class Validator
 {
 	use Nette\StaticClass;
 
+	/** @var array<string, string> */
 	public static array $messages = [
 		Controls\CsrfProtection::Protection => 'Your session has expired. Please return to the home page and try again.',
 		Form::Equal => 'Please enter %s.',
@@ -183,6 +184,7 @@ final class Validator
 
 	/**
 	 * Is a control's value number in specified range?
+	 * @param  array{int|float|string|\DateTimeInterface|null, int|float|string|\DateTimeInterface|null}  $range
 	 */
 	public static function validateRange(Control $control, array $range): bool
 	{
@@ -214,6 +216,7 @@ final class Validator
 
 	/**
 	 * Count/length validator. Range is array, min and max length pair.
+	 * @param  array{?int, ?int}|int  $range
 	 */
 	public static function validateLength(Control $control, array|int $range): bool
 	{
@@ -401,6 +404,7 @@ final class Validator
 	}
 
 
+	/** @return mixed[] */
 	private static function toArray($value): array
 	{
 		return is_object($value) ? [$value] : (array) $value;

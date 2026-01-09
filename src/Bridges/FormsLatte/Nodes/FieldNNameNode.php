@@ -31,6 +31,7 @@ final class FieldNNameNode extends StatementNode
 	public AreaNode $content;
 
 
+	/** @return \Generator<int, ?list<string>, array{AreaNode, ?Tag}, static> */
 	public static function create(Tag $tag): \Generator
 	{
 		$tag->expectArguments();
@@ -96,7 +97,10 @@ final class FieldNNameNode extends StatementNode
 	}
 
 
-	/** @internal */
+	/**
+	 * @internal
+	 * @return string[]
+	 */
 	public static function findUsedAttributes(ElementNode $el): array
 	{
 		$res = [];
