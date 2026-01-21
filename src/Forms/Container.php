@@ -25,6 +25,7 @@ use function array_combine, array_key_exists, array_map, array_merge, array_uniq
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
+	use Nette\SmartObject;
 	use Nette\ComponentModel\ArrayAccess;
 
 	public const Array = 'array';

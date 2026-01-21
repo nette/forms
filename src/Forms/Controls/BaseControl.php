@@ -40,6 +40,8 @@ use function array_unique, explode, get_parent_class, implode, is_array, sprintf
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
 {
+	use Nette\SmartObject;
+
 	public static string $idMask = 'frm-%s';
 
 	protected mixed $value = null;
