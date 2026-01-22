@@ -1,68 +1,15 @@
 parameters:
-	level: 5
+	level: 6
 
 	paths:
 		- src
 		- tests/types
 
-	scanFiles:
-		- .phpstan/ComponentModel.php
-
 	excludePaths:
-		# Latte 2 compatibility - entire file uses classes that don't exist in Latte 3
 		- src/Bridges/FormsLatte/FormMacros.php
-
-		# compatibility.php uses if(false) intentionally for IDE support
 		- src/compatibility.php
 
-	treatPhpDocTypesAsCertain: false
-
-	ignoreErrors:
-		# Control interface vs BaseControl - methods exist in BaseControl but not in interface
-		- identifier: method.notFound
-
-		# new static() is safe in these node classes
-		- identifier: new.static
-
-		# nullsafe on non-nullable is intentional defensive coding
-		- identifier: nullsafe.neverNull
-
-		# Callable signatures are dynamic in onValidate handlers
-		-
-			identifier: arguments.count
-			path: src/Forms/Container.php
-		-
-			identifier: argument.type
-			path: src/Forms/Container.php
-			message: '#Parameter \#1 of callable#'
-
-		# Blueprint uses anonymous classes that PHPStan can't fully analyze
-		-
-			identifier: return.unusedType
-			path: src/Forms/Blueprint.php
-
-		# $disabled property accepts bool|array
-		-
-			identifier: assign.propertyType
-			path: src/Forms/Controls/ChoiceControl.php
-		-
-			identifier: assign.propertyType
-			path: src/Forms/Controls/MultiChoiceControl.php
-
-		# getForm returns Form which extends Container, lookup returns IComponent
-		-
-			message: '#should return Nette\\Forms\\Form\|null but returns Nette\\ComponentModel\\IComponent\|null#'
-
-		# Form.php uses array_key_first on getComponents() result - actual implementation returns array
-		-
-			identifier: argument.type
-			path: src/Forms/Form.php
-			message: '#array_key_first expects array#'
-		-
-			identifier: ternary.alwaysTrue
-			path: src/Forms/Form.php
-
+	checkMissingCallableSignature: true
 
 includes:
 	- phpstan-baseline.neon
-	- vendor/phpstan/phpstan-nette/extension.neon

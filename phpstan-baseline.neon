@@ -1,0 +1,43 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Cannot access property \$messages on array\|object\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: src/Bridges/FormsDI/FormsExtension.php
+
+		-
+			message: '#^Match expression does not handle remaining values\: int\<min, 0\>\|int\<4, max\>$#'
+			identifier: match.unhandled
+			count: 4
+			path: src/Forms/Controls/DateTimeControl.php
+
+		-
+			message: '#^Method Nette\\Forms\\Helpers\:\:sanitize\(\) never returns array so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: src/Forms/Helpers.php
+
+		-
+			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(Nette\\Utils\\ImageType\)\: mixed\)\|null, Closure\(1\|2\|3\|6\|18\|19\)\: string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Forms/Helpers.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between '''' and '''' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: src/Forms/Helpers.php
+
+		-
+			message: '#^Variable \$control might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: src/Forms/Rendering/DefaultFormRenderer.php
+
+		-
+			message: '#^Access to an undefined property Nette\\Forms\\Control\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: src/Forms/Rules.php
