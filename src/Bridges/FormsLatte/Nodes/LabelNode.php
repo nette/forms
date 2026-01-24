@@ -19,7 +19,9 @@ use Latte\Compiler\Tag;
 
 
 /**
- * {label ...} ... {/label}
+ * {label name[:part] [, attributes]} ... {/label}
+ * {label name /}
+ * Renders form control label.
  */
 class LabelNode extends StatementNode
 {

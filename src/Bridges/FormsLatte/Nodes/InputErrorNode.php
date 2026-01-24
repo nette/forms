@@ -14,7 +14,8 @@ use Latte\Compiler\Tag;
 
 
 /**
- * {inputError ...}
+ * {inputError name}
+ * Renders form control error message.
  */
 class InputErrorNode extends StatementNode
 {
