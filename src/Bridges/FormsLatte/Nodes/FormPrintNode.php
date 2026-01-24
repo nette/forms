@@ -16,8 +16,9 @@ use Latte\Compiler\Tag;
 
 
 /**
- * {formPrint [ClassName]}
- * {formClassPrint [ClassName]}
+ * {formPrint [name]}
+ * {formClassPrint [name]}
+ * Generates Latte template or data class blueprint for form.
  */
 class FormPrintNode extends StatementNode
 {
