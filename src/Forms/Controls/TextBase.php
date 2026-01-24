@@ -15,7 +15,7 @@ use function get_debug_type, is_array, is_scalar, min, sprintf;
 
 
 /**
- * Implements the basic functionality common to text input controls.
+ * Base for text-based controls (TextInput, TextArea) with nullable and empty-value support.
  */
 abstract class TextBase extends BaseControl
 {
@@ -25,7 +25,6 @@ abstract class TextBase extends BaseControl
 
 
 	/**
-	 * Sets control's value.
 	 * @return static
 	 * @internal
 	 */
@@ -44,7 +43,7 @@ abstract class TextBase extends BaseControl
 
 
 	/**
-	 * Returns control's value.
+	 * Returns the value, substituting empty string when it matches the empty value. Returns null when nullable is set and value is empty.
 	 * @return mixed
 	 */
 	public function getValue(): mixed

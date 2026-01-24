@@ -62,7 +62,7 @@ abstract class ChoiceControl extends BaseControl
 
 
 	/**
-	 * Returns selected key.
+	 * Returns the selected key, or null if no valid item is selected or the selection is disabled.
 	 * @return string|int|null
 	 */
 	public function getValue(): mixed
@@ -76,7 +76,7 @@ abstract class ChoiceControl extends BaseControl
 
 
 	/**
-	 * Returns selected key (not checked).
+	 * Returns the raw submitted key without validation against the available items.
 	 */
 	public function getRawValue(): string|int|null
 	{
@@ -94,7 +94,7 @@ abstract class ChoiceControl extends BaseControl
 
 
 	/**
-	 * Sets items from which to choose.
+	 * Sets items from which to choose. When $useKeys is false, values are used as keys too.
 	 * @return static
 	 */
 	public function setItems(array $items, bool $useKeys = true)
@@ -138,6 +138,9 @@ abstract class ChoiceControl extends BaseControl
 	}
 
 
+	/**
+	 * Enables or disables validation that the set value exists in the items list.
+	 */
 	public function checkDefaultValue(bool $value = true): static
 	{
 		$this->checkDefaultValue = $value;

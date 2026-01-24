@@ -37,7 +37,6 @@ class HiddenField extends BaseControl
 
 
 	/**
-	 * Sets control's value.
 	 * @return static
 	 * @internal
 	 */

@@ -15,13 +15,16 @@ use const PHP_URL_QUERY;
 
 
 /**
- * Runtime helpers for Latte v2 & v3.
+ * Runtime rendering helpers used by Latte v2 & v3.
  * @internal
  */
 class Runtime
 {
 	use Nette\StaticClass;
 
+	/**
+	 * Fires render events and resets the 'rendered' option on all controls.
+	 */
 	public static function initializeForm(Form $form): void
 	{
 		$form->fireRenderEvents();
@@ -75,6 +78,10 @@ class Runtime
 	}
 
 
+	/**
+	 * Resolves a control or container from the current form on the stack.
+	 * @param object{formsStack: Form[]}  $global
+	 */
 	public static function item($item, $global): object
 	{
 		if (is_object($item)) {

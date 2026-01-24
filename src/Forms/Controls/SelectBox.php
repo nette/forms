@@ -124,6 +124,9 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	/**
+	 * Sets an attribute on all <option> elements. Use trailing ':' for per-item values or '?' for boolean attributes.
+	 */
 	public function setOptionAttribute(string $name, mixed $value = true): static
 	{
 		$this->optionAttributes[$name] = $value;
@@ -131,6 +134,9 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	/**
+	 * Checks whether the current selection is valid (a non-prompt item is selected, or the control has a prompt/is disabled).
+	 */
 	public function isOk(): bool
 	{
 		return $this->isDisabled()
@@ -141,6 +147,10 @@ class SelectBox extends ChoiceControl
 	}
 
 
+	/**
+	 * Returns all option attributes.
+	 * @return array<string, mixed>
+	 */
 	public function getOptionAttributes(): array
 	{
 		return $this->optionAttributes;

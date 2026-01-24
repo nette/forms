@@ -39,7 +39,6 @@ abstract class MultiChoiceControl extends BaseControl
 
 
 	/**
-	 * Sets selected items (by keys).
 	 * @return static
 	 * @internal
 	 */
@@ -84,7 +83,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 
 	/**
-	 * Returns selected keys (not checked).
+	 * Returns raw submitted keys without validation against the available items.
 	 */
 	public function getRawValue(): array
 	{
@@ -93,7 +92,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 
 	/**
-	 * Sets items from which to choose.
+	 * Sets items from which to choose. When $useKeys is false, values are used as keys too.
 	 * @return static
 	 */
 	public function setItems(array $items, bool $useKeys = true)
@@ -113,7 +112,7 @@ abstract class MultiChoiceControl extends BaseControl
 
 
 	/**
-	 * Returns selected values.
+	 * Returns key-value pairs for valid, non-disabled selected items.
 	 */
 	public function getSelectedItems(): array
 	{
@@ -151,6 +150,9 @@ abstract class MultiChoiceControl extends BaseControl
 	}
 
 
+	/**
+	 * Enables or disables validation that set values exist in the items list.
+	 */
 	public function checkDefaultValue(bool $value = true): static
 	{
 		$this->checkDefaultValue = $value;

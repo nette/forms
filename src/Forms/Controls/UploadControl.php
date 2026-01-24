@@ -75,6 +75,10 @@ class UploadControl extends BaseControl
 	}
 
 
+	/**
+	 * Returns the uploaded file(s), a dummy FileUpload(null) when nothing was uploaded, or null when nullable is set.
+	 * @return FileUpload|FileUpload[]|null
+	 */
 	public function getValue(): FileUpload|array|null
 	{
 		return $this->value ?? ($this->nullable ? null : new FileUpload(null));

@@ -13,7 +13,7 @@ use function array_merge, end, is_array, is_bool, is_callable, is_scalar, is_str
 
 
 /**
- * List of validation & condition rules.
+ * Manages validation rules and conditions for a single form control.
  * @implements \IteratorAggregate<int, Rule>
  */
 final class Rules implements \IteratorAggregate
@@ -126,7 +126,7 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Adds a validation condition on specified control a returns new branch.
+	 * Adds a validation condition on a specified control and returns new branch.
 	 */
 	public function addConditionOn(Control $control, $validator, $arg = null): static
 	{
@@ -144,7 +144,7 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Adds a else statement.
+	 * Adds an else branch to the current condition and returns it.
 	 */
 	public function elseCondition(): static
 	{
@@ -172,7 +172,7 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Adds a filter callback.
+	 * Adds a value filter applied before validation.
 	 */
 	public function addFilter(callable $filter): static
 	{
@@ -187,7 +187,7 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Toggles HTML element visibility.
+	 * Shows or hides an HTML element (selected by CSS selector) when the condition is met.
 	 */
 	public function toggle(string $id, bool $hide = true): static
 	{
@@ -196,6 +196,10 @@ final class Rules implements \IteratorAggregate
 	}
 
 
+	/**
+	 * Returns toggle definitions, or current evaluated states when $actual is true.
+	 * @return array<string, bool>
+	 */
 	public function getToggles(bool $actual = false): array
 	{
 		return $actual ? $this->getToggleStates() : $this->toggles;
@@ -227,7 +231,7 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Validates against ruleset.
+	 * Validates the control against all rules. Returns false and sets an error message on failure.
 	 */
 	public function validate(?bool $emptyOptional = null): bool
 	{
@@ -256,7 +260,7 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Clear all validation rules.
+	 * Removes all validation rules.
 	 */
 	public function reset(): void
 	{
@@ -280,7 +284,7 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Iterates over complete ruleset.
+	 * Iterates over all rules in priority order (Blank first, then Required, then others).
 	 * @return \ArrayIterator<int, Rule>
 	 */
 	public function getIterator(): \Iterator
@@ -299,7 +303,7 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Process 'operation' string.
+	 * Normalizes the validator identifier and verifies that a callable exists.
 	 */
 	private function adjustOperation(Rule $rule): void
 	{

@@ -15,7 +15,7 @@ use const PHP_URL_QUERY;
 
 
 /**
- * Converts a Form into the HTML output.
+ * Converts a form into HTML output using a table-based layout configurable via the $wrappers array.
  */
 class DefaultFormRenderer implements Nette\Forms\FormRenderer
 {
@@ -512,6 +512,9 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	}
 
 
+	/**
+	 * Returns a clone of the wrapper element specified by 'section key' (e.g. 'control errorcontainer').
+	 */
 	public function getWrapper(string $name): Html
 	{
 		$data = $this->getValue($name);

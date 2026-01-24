@@ -78,6 +78,9 @@ class CheckboxList extends MultiChoiceControl
 	}
 
 
+	/**
+	 * Returns the HTML input element for a specific checkbox item by key.
+	 */
 	public function getControlPart($key = null): Html
 	{
 		$key = key([(string) $key => null]);
@@ -91,6 +94,9 @@ class CheckboxList extends MultiChoiceControl
 	}
 
 
+	/**
+	 * Returns the label element for the whole checkbox list, or the item label for a specific key.
+	 */
 	public function getLabelPart($key = null): Html
 	{
 		$itemLabel = clone $this->itemLabel;

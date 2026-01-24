@@ -87,7 +87,7 @@ final class Helpers
 
 
 	/**
-	 * Converts control name to HTML name.
+	 * Converts a component path (e.g. 'form-person-name') to the HTML name attribute format (e.g. 'person[name]').
 	 */
 	public static function generateHtmlName(string $id): string
 	{
@@ -104,6 +104,10 @@ final class Helpers
 	}
 
 
+	/**
+	 * Exports validation rules into a JSON-serializable structure for the data-nette-rules attribute.
+	 * @return list<array<string, mixed>>
+	 */
 	public static function exportRules(Rules $rules): array
 	{
 		$payload = [];
@@ -169,6 +173,9 @@ final class Helpers
 	}
 
 
+	/**
+	 * Generates an HTML list of labeled inputs (radio buttons or checkboxes).
+	 */
 	public static function createInputList(
 		array $items,
 		?array $inputAttrs = null,
@@ -205,6 +212,9 @@ final class Helpers
 	}
 
 
+	/**
+	 * Generates a <select> HTML element from the items array.
+	 */
 	public static function createSelectBox(array $items, ?array $optionAttrs = null, $selected = null): Html
 	{
 		if ($selected !== null) {
@@ -282,7 +292,10 @@ final class Helpers
 	}
 
 
-	/** @internal */
+	/**
+	 * Returns the single type name from reflection, or null if no type is defined.
+	 * @internal
+	 */
 	public static function getSingleType($reflection): ?string
 	{
 		$type = Nette\Utils\Type::fromReflection($reflection);

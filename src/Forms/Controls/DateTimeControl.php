@@ -14,7 +14,7 @@ use function get_debug_type, is_numeric, is_scalar, is_string;
 
 
 /**
- * Selects date or time or date & time.
+ * Date, time, or date-time input returning DateTimeImmutable (or string/timestamp based on format).
  */
 class DateTimeControl extends BaseControl
 {
@@ -164,6 +164,10 @@ class DateTimeControl extends BaseControl
 	}
 
 
+	/**
+	 * Checks whether the control's value falls within the given date/time range.
+	 * For TypeTime, wraps around midnight (e.g. 22:00–02:00) if min > max.
+	 */
 	public function validateMinMax(mixed $min, mixed $max): bool
 	{
 		$value = $this->normalizeValue($this->value);

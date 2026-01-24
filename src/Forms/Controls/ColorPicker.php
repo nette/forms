@@ -12,7 +12,7 @@ use function is_string, ltrim, preg_match, strtolower;
 
 
 /**
- * Color picker.
+ * Color picker returning a hex color string (e.g. '#336699').
  */
 class ColorPicker extends BaseControl
 {
@@ -24,7 +24,8 @@ class ColorPicker extends BaseControl
 
 
 	/**
-	 * @param  ?string $value
+	 * Sets the color value in #rrggbb format. Null resets to black (#000000).
+	 * @param  ?string  $value
 	 */
 	public function setValue($value): static
 	{

@@ -43,7 +43,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Fill-in with default values.
+	 * Populates controls with default values. Has no effect on submitted forms.
 	 */
 	public function setDefaults(array|object $values, bool $erase = false): static
 	{
@@ -54,7 +54,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Fill-in with values.
+	 * Fills controls with values.
 	 * @internal
 	 */
 	public function setValues(array|object $values, bool $erase = false, bool $onlyDisabled = false): static
@@ -177,6 +177,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
+	/**
+	 * Sets the default class used when getValues() is called without an explicit type.
+	 */
 	public function setMappedType(string $type): static
 	{
 		$this->mappedType = $type;
@@ -188,7 +191,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Is form valid?
+	 * Checks whether all controls pass validation.
 	 */
 	public function isValid(): bool
 	{
@@ -250,6 +253,9 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/********************* form building ****************d*g**/
 
 
+	/**
+	 * Sets the group that newly added controls will be assigned to.
+	 */
 	public function setCurrentGroup(?ControlGroup $group = null): static
 	{
 		$this->currentGroup = $group;
@@ -257,9 +263,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/**
-	 * Returns current group.
-	 */
 	public function getCurrentGroup(): ?ControlGroup
 	{
 		return $this->currentGroup;
@@ -267,7 +270,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Adds the specified component to the IContainer.
+	 * Adds a component and assigns it to the current group if one is set.
 	 * @throws Nette\InvalidStateException
 	 */
 	public function addComponent(
@@ -351,7 +354,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Adds input for email.
+	 * Adds a text input with built-in email validation.
 	 */
 	public function addEmail(
 		string $name,
@@ -365,7 +368,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Adds input for integer.
+	 * Adds a text input with built-in integer validation.
 	 */
 	public function addInteger(string $name, string|Stringable|null $label = null): Controls\TextInput
 	{
@@ -376,7 +379,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Adds input for float.
+	 * Adds a numeric input with built-in float validation.
 	 */
 	public function addFloat(string $name, string|Stringable|null $label = null): Controls\TextInput
 	{
@@ -517,7 +520,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Adds color picker.
+	 * Adds an HTML color picker returning a hex color string (e.g. '#336699').
 	 */
 	public function addColor(string $name, string|Stringable|null $label = null): Controls\ColorPicker
 	{
@@ -562,7 +565,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Adds naming container to the form.
+	 * Adds a named sub-container for grouping related controls.
 	 */
 	public function addContainer(string|int $name): self
 	{

@@ -12,7 +12,7 @@ use function func_num_args;
 
 
 /**
- * A user group of form controls.
+ * Named group of form controls, typically rendered as a fieldset.
  */
 class ControlGroup
 {
@@ -55,6 +55,9 @@ class ControlGroup
 	}
 
 
+	/**
+	 * Removes controls that are no longer attached to a form.
+	 */
 	public function removeOrphans(): void
 	{
 		foreach ($this->controls as $control => $foo) {
@@ -65,7 +68,10 @@ class ControlGroup
 	}
 
 
-	/** @return Control[] */
+	/**
+	 * Returns all controls in this group.
+	 * @return list<Control>
+	 */
 	public function getControls(): array
 	{
 		$res = [];
@@ -77,13 +83,12 @@ class ControlGroup
 
 
 	/**
-	 * Sets user-specific option.
-	 * Options recognized by DefaultFormRenderer
-	 * - 'label' - textual or Nette\HtmlStringable object label
-	 * - 'visual' - indicates visual group
-	 * - 'container' - container as Html object
-	 * - 'description' - textual or Nette\HtmlStringable object description
-	 * - 'embedNext' - describes how render next group
+	 * Sets a rendering option. Options recognized by DefaultFormRenderer:
+	 * - 'label' - group label (string or HtmlStringable)
+	 * - 'visual' - whether the group is rendered as a visual fieldset
+	 * - 'container' - custom container Html element
+	 * - 'description' - group description (string or HtmlStringable)
+	 * - 'embedNext' - whether to embed the next group inside this group's container
 	 */
 	public function setOption(string $key, mixed $value): static
 	{
@@ -99,7 +104,7 @@ class ControlGroup
 
 
 	/**
-	 * Returns user-specific option.
+	 * Returns a rendering option value.
 	 */
 	public function getOption(string $key): mixed
 	{
@@ -112,7 +117,7 @@ class ControlGroup
 
 
 	/**
-	 * Returns user-specific options.
+	 * Returns all rendering options.
 	 */
 	public function getOptions(): array
 	{

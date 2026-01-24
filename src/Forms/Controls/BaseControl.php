@@ -17,7 +17,7 @@ use function array_unique, explode, func_get_arg, func_num_args, get_parent_clas
 
 
 /**
- * Base class that implements the basic functionality common to form controls.
+ * Base implementation for form controls with HTML rendering, validation, translation, and option support.
  *
  * @property-read Form $form
  * @property-read string $htmlName
@@ -74,9 +74,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
-	/**
-	 * Sets textual caption or label.
-	 */
 	public function setCaption(string|Stringable|null $caption): static
 	{
 		$this->caption = $caption;
@@ -110,7 +107,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Loads HTTP data.
+	 * Returns submitted HTTP value for this control.
 	 */
 	protected function getHttpData($type, ?string $htmlTail = null): mixed
 	{
@@ -131,7 +128,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Sets control's value.
 	 * @return static
 	 * @internal
 	 */
@@ -142,10 +138,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
-	/**
-	 * Returns control's value.
-	 * @return mixed
-	 */
+	/** @return mixed */
 	public function getValue()
 	{
 		return $this->value;
@@ -163,7 +156,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Sets control's default value.
+	 * Sets the default value. Has no effect on submitted or disabled controls.
 	 * @return static
 	 */
 	public function setDefaultValue($value)
@@ -204,7 +197,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Sets whether control value is excluded from $form->getValues() result.
+	 * Excludes or includes the control value from $form->getValues() result.
 	 */
 	public function setOmitted(bool $state = true): static
 	{
@@ -347,9 +340,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/********************* translator ****************d*g**/
 
 
-	/**
-	 * Sets translate adapter.
-	 */
 	public function setTranslator(?Nette\Localization\Translator $translator): static
 	{
 		$this->translator = $translator;
@@ -358,7 +348,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Returns translate adapter.
+	 * Returns the translator, or inherits it from the form when not explicitly set.
 	 */
 	public function getTranslator(): ?Nette\Localization\Translator
 	{
@@ -373,7 +363,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Returns translated string.
+	 * Translates a string or array of strings using the configured translator, or returns the value unchanged if no translator is set or the value is HtmlStringable.
 	 */
 	public function translate($value, ...$parameters): mixed
 	{
@@ -408,7 +398,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Adds a validation condition a returns new branch.
+	 * Adds a validation condition and returns a new branch.
 	 */
 	public function addCondition($validator, $value = null): Rules
 	{
@@ -417,7 +407,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Adds a validation condition based on another control a returns new branch.
+	 * Adds a validation condition based on another control and returns a new branch.
 	 */
 	public function addConditionOn(Control $control, $validator, $value = null): Rules
 	{
@@ -461,7 +451,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Performs the server side validation.
+	 * Performs server-side validation against all rules.
 	 */
 	public function validate(): void
 	{
@@ -484,7 +474,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Returns errors corresponding to control.
+	 * Returns all control errors joined into one string, or null if there are no errors.
 	 */
 	public function getError(): ?string
 	{
@@ -493,7 +483,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Returns errors corresponding to control.
+	 * Returns all unique validation errors for this control.
 	 */
 	public function getErrors(): array
 	{
@@ -517,7 +507,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Sets user-specific option.
+	 * Sets a rendering or user-specific option (e.g. 'description', 'class', 'id').
 	 */
 	public function setOption($key, mixed $value): static
 	{
@@ -532,7 +522,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Returns user-specific option.
+	 * Returns a rendering or user-specific option value.
 	 */
 	public function getOption($key): mixed
 	{
@@ -545,7 +535,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Returns user-specific options.
+	 * Returns all rendering and user-specific options.
 	 */
 	public function getOptions(): array
 	{

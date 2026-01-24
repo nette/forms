@@ -80,6 +80,9 @@ class MultiSelectBox extends MultiChoiceControl
 	}
 
 
+	/**
+	 * Sets an attribute on all <option> elements. Use trailing ':' for per-item values or '?' for boolean attributes.
+	 */
 	public function setOptionAttribute(string $name, mixed $value = true): static
 	{
 		$this->optionAttributes[$name] = $value;
@@ -87,6 +90,10 @@ class MultiSelectBox extends MultiChoiceControl
 	}
 
 
+	/**
+	 * Returns all option attributes.
+	 * @return array<string, mixed>
+	 */
 	public function getOptionAttributes(): array
 	{
 		return $this->optionAttributes;

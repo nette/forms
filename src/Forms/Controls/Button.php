@@ -44,6 +44,9 @@ class Button extends BaseControl
 	}
 
 
+	/**
+	 * Renders as a <button> element instead of <input type="button">.
+	 */
 	public function renderAsButton(bool $state = true): static
 	{
 		$this->control->setName($state ? 'button' : 'input');

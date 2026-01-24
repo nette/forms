@@ -75,6 +75,9 @@ class RadioList extends ChoiceControl
 	}
 
 
+	/**
+	 * Returns the HTML input element for a specific radio button item by key.
+	 */
 	public function getControlPart($key = null): Html
 	{
 		$key = key([(string) $key => null]);
@@ -87,6 +90,9 @@ class RadioList extends ChoiceControl
 	}
 
 
+	/**
+	 * Returns the label element for the whole radio list, or the item label for a specific key.
+	 */
 	public function getLabelPart($key = null): Html
 	{
 		$itemLabel = clone $this->itemLabel;

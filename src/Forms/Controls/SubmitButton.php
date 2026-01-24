@@ -84,7 +84,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 
 
 	/**
-	 * Gets the validation scope.
+	 * Returns the validation scope, or null if the entire form is validated.
 	 * @return ?array<Control|Container>
 	 */
 	public function getValidationScope(): ?array
@@ -94,7 +94,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 
 
 	/**
-	 * Fires click event.
+	 * Invokes the onClick handlers.
 	 */
 	public function click(): void
 	{
