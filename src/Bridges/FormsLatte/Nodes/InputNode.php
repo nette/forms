@@ -18,7 +18,8 @@ use Latte\Compiler\Tag;
 
 
 /**
- * {input ...}
+ * {input name[:part] [, attributes]}
+ * Renders form control HTML.
  */
 class InputNode extends StatementNode
 {

@@ -21,8 +21,9 @@ use Latte\Compiler\Tag;
 
 
 /**
- * {form name} ... {/form}
- * {formContext ...}
+ * {form name [, attributes]} ... {/form}
+ * {formContext name} ... {/formContext}
+ * Renders form tags and initializes form context.
  */
 class FormNode extends StatementNode
 {
