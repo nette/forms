@@ -17,7 +17,8 @@ use Latte\Compiler\Tag;
 
 
 /**
- * {formContainer ...}
+ * {formContainer name} ... {/formContainer}
+ * Enters form container context for nested controls.
  */
 class FormContainerNode extends StatementNode
 {
