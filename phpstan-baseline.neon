@@ -1,12 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Using nullsafe property access on non\-nullable type Latte\\Compiler\\Nodes\\FragmentNode\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: src/Bridges/FormsLatte/Nodes/FieldNNameNode.php
-
-		-
 			message: '#^Call to an undefined method Nette\\Forms\\Control\:\:getControl\(\)\.$#'
 			identifier: method.notFound
 			count: 1
