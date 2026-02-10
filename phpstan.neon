@@ -1,5 +1,187 @@
 parameters:
-	level: 5
+	level: 8
 
 	paths:
 		- src
+
+	excludePaths:
+		- src/Bridges/FormsLatte/FormMacros.php
+		- src/compatibility.php
+
+	ignoreErrors:
+		-   # Latte nodes use new static() by design for extensibility
+			identifier: new.static
+			path: src/Bridges/FormsLatte/Nodes/*
+			count: 6
+
+		-   # Html properties accept broader types (bool for attribute removal, mixed for flexibility)
+			identifier: assign.propertyType
+			message: '#^Property Nette\\Utils\\Html::\$\w+ \([^)]+\) does not accept [^.]+\.$#'
+			paths:
+				- src/Forms/Controls/BaseControl.php
+				- src/Forms/Controls/TextBase.php
+				- src/Forms/Controls/TextInput.php
+				- src/Forms/Form.php
+
+		-   # Form::$renderer and Form::$httpRequest are late-initialized via setters that
+			# accept nullable arguments but the properties are non-nullable for ergonomics.
+			identifier: assign.propertyType
+			message: '#^Property Nette\\Forms\\Form::\$(renderer|httpRequest) \([^)]+\) does not accept [^.]+\.$#'
+			path: src/Forms/Form.php
+			count: 2
+
+		-   # SubmitButton::getScopeForValidation() walks getParent() which is typed as
+			# Container|Control; lookupPath() exists on Container at runtime.
+			identifier: method.notFound
+			message: '#^Call to an undefined method Nette\\Forms\\Container\|Nette\\Forms\\Control::lookupPath\(\)\.$#'
+			path: src/Forms/Controls/SubmitButton.php
+			count: 1
+
+		-   # Nette\Forms\Control interface is intentionally minimal and missing common methods
+			# (getControl, getLabel, getForm, getOption, setOption, getHtmlName, getName, getParent,
+			# lookupPath, hasErrors, isRequired, isFilled, isDisabled, addError). In practice all
+			# Control instances are BaseControl descendants which provide these methods.
+			identifier: method.notFound
+			message: '#^Call to an undefined method [\w\\&]*Nette\\Forms\\Control(&[\w\\]+)?::\w+\(\)\.$#'
+			paths:
+				- src/Bridges/FormsLatte/Runtime.php
+				- src/Forms/Blueprint.php
+				- src/Forms/Container.php
+				- src/Forms/ControlGroup.php
+				- src/Forms/Form.php
+				- src/Forms/Helpers.php
+				- src/Forms/Rendering/DefaultFormRenderer.php
+				- src/Forms/Rules.php
+				- src/Forms/Validator.php
+
+		-   # Anonymous BaseControl in Blueprint widens return type to match parent contract,
+			# even though it returns only string literals in this case.
+			identifier: return.unusedType
+			path: src/Forms/Blueprint.php
+			count: 2
+
+		-   # parent::getControl()/getLabel() returns the wider public contract (Html|string|null),
+			# but BaseControl implementation deterministically returns Html, so chaining is safe.
+			identifier: method.nonObject
+			message: '#^Cannot call method \w+\(\) on Nette\\Utils\\Html\|string(\|null)?\.$#'
+			paths:
+				- src/Forms/Controls/Checkbox.php
+				- src/Forms/Controls/CheckboxList.php
+				- src/Forms/Controls/ColorPicker.php
+				- src/Forms/Controls/DateTimeControl.php
+				- src/Forms/Controls/RadioList.php
+
+		-   # Same as above - property access on parent::getControl() result.
+			identifier: property.nonObject
+			message: '#^Cannot access property \$\w+ on Nette\\Utils\\Html\|string\.$#'
+			paths:
+				- src/Forms/Controls/CheckboxList.php
+				- src/Forms/Controls/MultiSelectBox.php
+				- src/Forms/Controls/RadioList.php
+				- src/Forms/Controls/SelectBox.php
+				- src/Forms/Controls/TextBase.php
+
+		-   # getControl()/getLabelPart() in children narrow the wider public contract back to Html.
+			message: '#^Method Nette\\Forms\\Controls\\(TextBase::getControl|Checkbox::getLabelPart)\(\) should return Nette\\Utils\\Html but returns Nette\\Utils\\Html\|string(\|null)?\.$#'
+			paths:
+				- src/Forms/Controls/TextBase.php
+				- src/Forms/Controls/Checkbox.php
+
+		-   # Generic callable - handlers and validators may have any signature.
+			identifier: missingType.callable
+			path: src/Forms/Form.php
+			count: 1
+
+		-
+			identifier: missingType.callable
+			path: src/Forms/Rules.php
+			count: 1
+
+		-   # Parameters $caption / $key keep untyped for BC - adding native types would break
+			# existing user overrides of these methods in custom form controls.
+			identifier: missingType.parameter
+			message: '#^Method Nette\\Forms\\Controls\\\w+::(getLabel|getControl|getControlPart|getLabelPart)\(\) has parameter \$(caption|key) with no type specified\.$#'
+			paths:
+				- src/Forms/Controls/Button.php
+				- src/Forms/Controls/Checkbox.php
+				- src/Forms/Controls/CheckboxList.php
+				- src/Forms/Controls/HiddenField.php
+				- src/Forms/Controls/RadioList.php
+				- src/Forms/Controls/SubmitButton.php
+
+		-   # beforeRender() keeps untyped return for BC - user overrides may not declare void.
+			identifier: missingType.return
+			path: src/Forms/Form.php
+			count: 1
+
+		-   # Form::getForm() always returns $this, but parent contract is nullable conditional type.
+			# Adding ?static or conditional PHPDoc would break BC for existing user overrides.
+			identifier: method.childReturnType
+			path: src/Forms/Form.php
+			count: 1
+
+		-   # $control may be undefined if $controls is empty, but in practice renderPairMulti()
+			# is only called with non-empty arrays from renderControls().
+			identifier: variable.undefined
+			path: src/Forms/Rendering/DefaultFormRenderer.php
+			count: 1
+
+		-   # Form controls intentionally narrow setValue() $value from mixed to specific types
+			# for better type safety - the contravariance is by design.
+			identifier: method.childParameterType
+			message: '#^Parameter \#1 \$value \([^)]+\) of method Nette\\Forms\\Controls\\\w+::setValue\(\) should be contravariant with parameter \$value \(mixed\) of method Nette\\Forms\\(Control|Controls\\BaseControl)::setValue\(\)$#'
+
+		-   # Rules::getCallback() returns callable-array [class, method] without value type.
+			message: '#^Method Nette\\Forms\\Rules::getCallback\(\) return type has no value type specified in iterable type array\.$#'
+			path: src/Forms/Rules.php
+			count: 1
+
+		-   # DateTimeControl formatHtmlValue accepts broader types from rule args
+			message: '#^Parameter \#1 \$value of method Nette\\Forms\\Controls\\DateTimeControl::formatHtmlValue\(\)#'
+			path: src/Forms/Controls/DateTimeControl.php
+			count: 1
+
+		-   # Recursive internal calls pass ?string from Helpers::getSingleType() (reflection)
+			# which may be a class-string OR a built-in type name - PHPStan cannot distinguish.
+			# Refactoring to satisfy the template would require BC-breaking signature changes
+			# in the public getValues()/getUntrustedValues() API.
+			identifier: argument.templateType
+			message: '#^Unable to resolve the template type T in call to method Nette\\Forms\\Container::(getValues|getUntrustedValues)\(\)$#'
+			paths:
+				- src/Forms/Container.php
+				- src/Forms/Form.php
+
+		-   # Same root cause as argument.templateType above - ?string from reflection cannot
+			# be narrowed to class-string<T> at static analysis time.
+			message: '#^Parameter \#1 \$returnType of method Nette\\Forms\\Container::(getValues|getUntrustedValues)\(\) expects#'
+			paths:
+				- src/Forms/Container.php
+				- src/Forms/Form.php
+
+		-   # Complex template type T cannot be fully tracked through getValues delegation
+			message: '#^Method Nette\\Forms\\Container::getValues\(\) should return#'
+			path: src/Forms/Container.php
+			count: 1
+
+		-   # getComponents() returns iterable; narrowing to Iterator not detected
+			message: '#^Method Nette\\Forms\\Container::getControls\(\) should return#'
+			path: src/Forms/Container.php
+			count: 1
+
+		-
+			message: '#^Using nullsafe property access on non\-nullable type Latte\\Compiler\\Nodes\\FragmentNode\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: src/Bridges/FormsLatte/Nodes/FieldNNameNode.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Forms/Controls/ColorPicker.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between '''' and '''' will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: src/Forms/Helpers.php

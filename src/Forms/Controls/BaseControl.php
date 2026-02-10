@@ -250,20 +250,22 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 		$label->for = $this->getHtmlId();
 		$caption ??= $this->caption;
 		$translator = $this->getForm()->getTranslator();
-		$label->setText($translator && !$caption instanceof Nette\HtmlStringable ? $translator->translate($caption) : $caption);
+		$label->setText($translator && $caption !== null && !$caption instanceof Nette\HtmlStringable ? $translator->translate($caption) : $caption);
 		return $label;
 	}
 
 
 	public function getControlPart(): ?Html
 	{
-		return $this->getControl();
+		$control = $this->getControl();
+		return $control instanceof Html ? $control : null;
 	}
 
 
 	public function getLabelPart(): ?Html
 	{
-		return $this->getLabel();
+		$label = $this->getLabel();
+		return $label instanceof Html ? $label : null;
 	}
 
 
@@ -362,7 +364,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 				: null;
 		}
 
-		return $this->translator;
+		return $this->translator ?: null;
 	}
 
 
@@ -496,7 +498,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 */
 	public function getErrors(): array
 	{
-		return array_unique($this->errors);
+		return array_values(array_unique($this->errors));
 	}
 
 

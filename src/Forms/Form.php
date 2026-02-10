@@ -253,7 +253,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	public function getAction(): string
 	{
-		return $this->getElementPrototype()->action;
+		return (string) $this->getElementPrototype()->action;
 	}
 
 
@@ -270,7 +270,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	public function getMethod(): string
 	{
-		return $this->getElementPrototype()->method;
+		return (string) $this->getElementPrototype()->method;
 	}
 
 
@@ -279,7 +279,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function isMethod(string $method): bool
 	{
-		return strcasecmp($this->getElementPrototype()->method, $method) === 0;
+		return strcasecmp((string) $this->getElementPrototype()->method, $method) === 0;
 	}
 
 
@@ -453,9 +453,15 @@ class Form extends Container implements Nette\HtmlStringable
 			$this->submittedBy = is_array($data);
 		}
 
-		return $htmlName === null
-			? $this->httpData
-			: Helpers::extractHttpData($this->httpData, $htmlName, $type);
+		if ($htmlName === null) {
+			return $this->httpData;
+		}
+
+		return Helpers::extractHttpData(
+			$this->httpData,
+			$htmlName,
+			$type ?? throw new Nette\InvalidArgumentException('Parameter $type must be provided when $htmlName is specified.'),
+		);
 	}
 
 
@@ -620,7 +626,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function getErrors(): array
 	{
-		return array_unique(array_merge($this->errors, parent::getErrors()));
+		return array_values(array_unique(array_merge($this->errors, parent::getErrors())));
 	}
 
 
@@ -642,7 +648,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function getOwnErrors(): array
 	{
-		return array_unique($this->errors);
+		return array_values(array_unique($this->errors));
 	}
 
 

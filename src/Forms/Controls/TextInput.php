@@ -108,7 +108,7 @@ class TextInput extends TextBase
 			&& is_scalar($arg)
 			&& in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], strict: true)
 		) {
-			$this->control->pattern = $arg;
+			$this->control->pattern = (string) $arg;
 		}
 
 		return parent::addRule($validator, $errorMessage, $arg);

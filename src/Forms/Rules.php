@@ -140,12 +140,12 @@ final class Rules implements \IteratorAggregate
 		$rule->control = $control;
 		$rule->validator = $validator;
 		$rule->arg = $arg;
-		$rule->branch = new static($this->control);
-		$rule->branch->parent = $this;
+		$branch = $rule->branch = new static($this->control);
+		$branch->parent = $this;
 		$this->adjustOperation($rule);
 
 		$this->rules[] = $rule;
-		return $rule->branch;
+		return $branch;
 	}
 
 
@@ -154,8 +154,9 @@ final class Rules implements \IteratorAggregate
 	 */
 	public function elseCondition(): static
 	{
+		assert($this->parent->rules !== []);
 		$rule = clone end($this->parent->rules);
-		if (isset(self::NegRules[$rule->validator])) {
+		if (is_string($rule->validator) && isset(self::NegRules[$rule->validator])) {
 			$rule->validator = self::NegRules[$rule->validator];
 		} else {
 			$rule->isNegative = !$rule->isNegative;
@@ -289,8 +290,10 @@ final class Rules implements \IteratorAggregate
 			$val = $val instanceof Control ? $val->getValue() : $val;
 		}
 
+		$callback = self::getCallback($rule);
+		assert(is_callable($callback));
 		return $rule->isNegative
-			xor self::getCallback($rule)($rule->control, is_array($rule->arg) ? $args : $args[0]);
+			xor $callback($rule->control, is_array($rule->arg) ? $args : $args[0]);
 	}
 
 

@@ -85,7 +85,7 @@ final class Blueprint
 	{
 		$dict = new \SplObjectStorage;
 		$dummyForm = new class extends Form {
-			protected function receiveHttpData(): ?array
+			protected function receiveHttpData(): array
 			{
 				return [];
 			}
@@ -93,7 +93,7 @@ final class Blueprint
 
 		foreach ($form->getControls() as $input) {
 			$dict[$input] = $dummyInput = new class extends Controls\BaseControl {
-				public $inner;
+				public Control $inner;
 
 
 				public function getLabel(string|\Stringable|null $caption = null): Html|string|null
@@ -206,7 +206,7 @@ final class Blueprint
 					$type = '?' . $type;
 				}
 			} elseif ($input instanceof Container) {
-				$type = $baseName . ucwords($name);
+				$type = $baseName . ucwords((string) $name);
 				$nextCode .= $this->generateDataClass($input, $propertyPromotion, $type);
 				$type .= self::ClassNameSuffix;
 			} else {

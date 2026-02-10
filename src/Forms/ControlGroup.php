@@ -7,7 +7,6 @@
 
 namespace Nette\Forms;
 
-use Nette;
 use function func_num_args;
 
 
@@ -38,7 +37,9 @@ class ControlGroup
 
 			} elseif ($item instanceof Container) {
 				foreach ($item->getComponents() as $component) {
-					$this->add($component);
+					if ($component instanceof Control || $component instanceof Container) {
+						$this->add($component);
+					}
 				}
 			} else {
 				$this->add(...$item);

@@ -44,7 +44,7 @@ class Runtime
 		$el->action = (string) $el->action;
 		$el = clone $el;
 		if ($form->isMethod('get')) {
-			$el->action = preg_replace('~\?[^#]*~', '', $el->action, 1);
+			$el->action = preg_replace('~\?[^#]*~', '', (string) $el->action, 1);
 		}
 
 		$el->addAttributes($attrs);
@@ -59,7 +59,7 @@ class Runtime
 	{
 		$s = '';
 		if ($form->isMethod('get')) {
-			foreach (preg_split('#[;&]#', (string) parse_url($form->getElementPrototype()->action, PHP_URL_QUERY), -1, PREG_SPLIT_NO_EMPTY) as $param) {
+			foreach (preg_split('#[;&]#', (string) parse_url((string) $form->getElementPrototype()->action, PHP_URL_QUERY), -1, PREG_SPLIT_NO_EMPTY) as $param) {
 				$parts = explode('=', $param, 2);
 				$name = urldecode($parts[0]);
 				$prefix = explode('[', $name, 2)[0];

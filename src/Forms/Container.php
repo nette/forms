@@ -138,6 +138,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 		} else {
 			$returnType ??= $this->mappedType ?? ArrayHash::class;
+			/** @var class-string|'array' $returnType */
 			$rc = new \ReflectionClass($returnType === self::Array ? \stdClass::class : $returnType);
 			$constructor = $rc->hasMethod('__construct') ? $rc->getMethod('__construct') : null;
 			if ($constructor?->getNumberOfRequiredParameters()) {
@@ -261,7 +262,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			$errors = array_merge($errors, $control->getErrors());
 		}
 
-		return array_unique($errors);
+		return array_values(array_unique($errors));
 	}
 
 
@@ -295,7 +296,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	): static
 	{
 		parent::addComponent($component, $name, $insertBefore);
-		$this->currentGroup?->add($component);
+		if ($component instanceof Control || $component instanceof self) {
+			$this->currentGroup?->add($component);
+		}
+
 		return $this;
 	}
 

@@ -95,7 +95,9 @@ final class Helpers
 	{
 		$name = str_replace(Nette\ComponentModel\IComponent::NameSeparator, '][', $id, $count);
 		if ($count) {
-			$name = substr_replace($name, '', strpos($name, ']'), 1) . ']';
+			$pos = strpos($name, ']');
+			assert($pos !== false);
+			$name = substr_replace($name, '', $pos, 1) . ']';
 		}
 
 		if (is_numeric($name) || in_array($name, self::UnsafeNames, strict: true)) {
@@ -296,6 +298,10 @@ final class Helpers
 	public static function iniGetSize(string $name): int
 	{
 		$value = ini_get($name);
+		if ($value === false) {
+			return 0;
+		}
+
 		$units = ['k' => 10, 'm' => 20, 'g' => 30];
 		return isset($units[$ch = strtolower(substr($value, -1))])
 			? (int) $value << $units[$ch]

@@ -384,10 +384,6 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	{
 		$s = [];
 		foreach ($controls as $control) {
-			if (!$control instanceof Nette\Forms\Control) {
-				throw new Nette\InvalidArgumentException('Argument must be array of Nette\Forms\Control instances.');
-			}
-
 			$description = $control->getOption('description');
 			if ($description instanceof HtmlStringable) {
 				$description = ' ' . $description;

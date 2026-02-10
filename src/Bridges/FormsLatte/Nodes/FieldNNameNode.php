@@ -60,6 +60,7 @@ final class FieldNNameNode extends StatementNode
 	private function init(Tag $tag): void
 	{
 		$el = $tag->htmlElement;
+		assert($el !== null);
 		$usedAttributes = self::findUsedAttributes($el);
 		$elName = strtolower($el->name);
 

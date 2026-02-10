@@ -77,9 +77,12 @@ final class Validator
 				case 'label':
 					if ($rule->control instanceof Controls\BaseControl) {
 						$caption = $rule->control->getCaption();
-						$caption = $caption instanceof Nette\HtmlStringable
-							? $caption->getText()
-							: ($translator ? $translator->translate($caption) : $caption);
+						$caption = match (true) {
+							$caption instanceof Nette\Utils\Html => $caption->getText(),
+							$caption instanceof Nette\HtmlStringable => (string) $caption,
+							$translator !== null => $translator->translate($caption),
+							default => $caption,
+						};
 						return rtrim((string) $caption, ':');
 					}
 

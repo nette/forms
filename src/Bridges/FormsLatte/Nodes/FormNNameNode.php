@@ -59,6 +59,7 @@ final class FormNNameNode extends StatementNode
 	private function init(Tag $tag): void
 	{
 		$el = $tag->htmlElement;
+		assert($el !== null);
 
 		$tag->replaceNAttribute(new AuxiliaryNode(fn(PrintContext $context) => $context->format(
 			'echo Nette\Bridges\FormsLatte\Runtime::renderFormBegin(end($this->global->formsStack), %dump, false) %line;',
@@ -66,6 +67,7 @@ final class FormNNameNode extends StatementNode
 			$this->position,
 		)));
 
+		assert($el->content !== null);
 		$el->content = new Latte\Compiler\Nodes\FragmentNode([
 			$el->content,
 			new AuxiliaryNode(fn(PrintContext $context) => $context->format(
