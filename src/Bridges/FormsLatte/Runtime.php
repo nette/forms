@@ -15,7 +15,7 @@ use const PHP_URL_QUERY;
 
 
 /**
- * Runtime rendering helpers used by Latte v2 & v3.
+ * Runtime rendering helpers used by Latte.
  * @internal
  */
 class Runtime
