@@ -3,9 +3,3 @@ parameters:
 
 	paths:
 		- src
-
-	treatPhpDocTypesAsCertain: false
-
-
-includes:
-	- vendor/phpstan/phpstan-nette/extension.neon
