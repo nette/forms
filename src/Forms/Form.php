@@ -76,9 +76,6 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @internal tracker ID */
 	public const TrackerId = '_form_';
 
-	/** @internal protection token ID */
-	public const ProtectorId = '_token_';
-
 	#[\Deprecated('use Form::Equal')]
 	public const EQUAL = self::Equal;
 
@@ -177,9 +174,6 @@ class Form extends Container implements Nette\HtmlStringable
 
 	#[\Deprecated('use Form::TrackerId')]
 	public const TRACKER_ID = self::TrackerId;
-
-	#[\Deprecated('use Form::ProtectorId')]
-	public const PROTECTOR_ID = self::ProtectorId;
 
 	/**
 	 * Occurs when the form is submitted and successfully validated
@@ -298,16 +292,10 @@ class Form extends Container implements Nette\HtmlStringable
 	}
 
 
-	/**
-	 * @deprecated default protection is sufficient
-	 */
-	public function addProtection(?string $errorMessage = null): Controls\CsrfProtection
+	#[\Deprecated('default protection is sufficient')]
+	public function addProtection(?string $errorMessage = null): void
 	{
-		$control = new Controls\CsrfProtection($errorMessage);
-		$children = $this->getComponents();
-		$first = $children ? (string) array_key_first($children) : null;
-		$this->addComponent($control, self::ProtectorId, $first);
-		return $control;
+		trigger_error(__METHOD__ . '() is deprecated, default protection is sufficient', E_USER_DEPRECATED);
 	}
 
 
