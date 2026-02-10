@@ -1,18 +1,10 @@
 <?php declare(strict_types=1);
 
-/**
- * Test: FormMacros: {formContainer}
- */
-
-use Nette\Bridges\FormsLatte\FormMacros;
+use Nette\Bridges\FormsLatte\FormsExtension;
 use Nette\Forms\Form;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
-
-if (version_compare(Latte\Engine::VERSION, '3', '>')) {
-	Tester\Environment::skip('Test for Latte 2');
-}
 
 
 $form = new Form;
@@ -40,14 +32,14 @@ $form->addSubmit('input8', 'Input 8');
 
 
 $latte = new Latte\Engine;
-FormMacros::install($latte->getCompiler());
+$latte->addExtension(new FormsExtension);
 $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
-	__DIR__ . '/expected/FormMacros.formContainer.php',
+	__DIR__ . '/expected/forms.formContainer.php',
 	$latte->compile(__DIR__ . '/templates/forms.formContainer.latte'),
 );
 Assert::matchFile(
-	__DIR__ . '/expected/FormMacros.formContainer.html',
+	__DIR__ . '/expected/forms.formContainer.html',
 	$latte->renderToString(__DIR__ . '/templates/forms.formContainer.latte'),
 );
