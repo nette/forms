@@ -105,7 +105,7 @@ final class FieldNNameNode extends StatementNode
 	public static function findUsedAttributes(ElementNode $el): array
 	{
 		$res = [];
-		foreach ($el->attributes?->children as $child) {
+		foreach ($el->attributes->children as $child) {
 			if ($child instanceof AttributeNode && $child->name instanceof TextNode) {
 				$res[] = $child->name->content;
 			} elseif ($child instanceof ExpressionAttributeNode) {
