@@ -15,7 +15,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $form = new Form('name');
-$form->addProtection();
+@$form->addProtection();
 $form->addText('input');
 $form->addText('omittedInput')
 	->setOmitted();

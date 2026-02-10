@@ -25,7 +25,6 @@ final class Validator
 
 	/** @var array<string, string> */
 	public static array $messages = [
-		Controls\CsrfProtection::Protection => 'Your session has expired. Please return to the home page and try again.',
 		Form::Equal => 'Please enter %s.',
 		Form::NotEqual => 'This value should not be %s.',
 		Form::Filled => 'This field is required.',
