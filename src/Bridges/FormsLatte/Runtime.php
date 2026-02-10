@@ -17,7 +17,7 @@ use const PHP_URL_QUERY, PREG_SPLIT_NO_EMPTY;
 
 
 /**
- * Runtime helpers for Latte v2 & v3.
+ * Runtime helpers for Latte v3.
  * @internal
  */
 class Runtime

@@ -4,9 +4,6 @@ parameters:
 	paths:
 		- src
 
-	excludePaths:
-		- src/Bridges/FormsLatte/FormMacros.php
-
 	ignoreErrors:
 		-   # Latte nodes use new static() by design for extensibility
 			identifier: new.static
