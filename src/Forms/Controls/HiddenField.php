@@ -40,10 +40,9 @@ class HiddenField extends BaseControl
 
 	/**
 	 * Sets control's value.
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		if ($value === null) {
 			$value = '';
@@ -98,7 +97,7 @@ class HiddenField extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null): Html|string|null
+	public function getLabel(string|Stringable|null $caption = null): Html|string|null
 	{
 		return null;
 	}

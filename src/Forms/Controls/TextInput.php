@@ -61,15 +61,13 @@ class TextInput extends TextBase
 	}
 
 
-	/**
-	 * @param  (callable(Nette\Forms\Control): bool)|string  $validator
-	 * @return static
-	 */
+	/** @param  (callable(Nette\Forms\Control): bool)|string  $validator */
 	public function addRule(
 		callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
-	) {
+	): static
+	{
 		foreach ($this->getRules() as $rule) {
 			if (!$rule->canExport() && !$rule->branch) {
 				return parent::addRule($validator, $errorMessage, $arg);

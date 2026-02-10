@@ -97,54 +97,6 @@ parameters:
 			path: src/Forms/ControlGroup.php
 
 		-
-			message: '#^Method Nette\\Forms\\Controls\\BaseControl\:\:getHttpData\(\) has parameter \$type with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/BaseControl.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\BaseControl\:\:getOption\(\) has parameter \$key with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/BaseControl.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\BaseControl\:\:setOption\(\) has parameter \$key with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/BaseControl.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\Button\:\:getLabel\(\) has parameter \$caption with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/Button.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\Checkbox\:\:getLabel\(\) has parameter \$caption with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/Checkbox.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\CheckboxList\:\:getControlPart\(\) has parameter \$key with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/CheckboxList.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\CheckboxList\:\:getLabel\(\) has parameter \$caption with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/CheckboxList.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\CheckboxList\:\:getLabelPart\(\) has parameter \$key with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/CheckboxList.php
-
-		-
 			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
@@ -155,36 +107,6 @@ parameters:
 			identifier: match.unhandled
 			count: 4
 			path: src/Forms/Controls/DateTimeControl.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\HiddenField\:\:getLabel\(\) has parameter \$caption with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/HiddenField.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\RadioList\:\:getControlPart\(\) has parameter \$key with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/RadioList.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\RadioList\:\:getLabel\(\) has parameter \$caption with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/RadioList.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\RadioList\:\:getLabelPart\(\) has parameter \$key with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/RadioList.php
-
-		-
-			message: '#^Method Nette\\Forms\\Controls\\SubmitButton\:\:getControl\(\) has parameter \$caption with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Forms/Controls/SubmitButton.php
 
 		-
 			message: '#^Call to an undefined method Nette\\ComponentModel\\IComponent\:\:getValue\(\)\.$#'

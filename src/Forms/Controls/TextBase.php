@@ -28,10 +28,9 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Sets control's value.
-	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue($value): static
 	{
 		if ($value === null) {
 			$value = '';
@@ -47,7 +46,6 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Returns control's value.
-	 * @return mixed
 	 */
 	public function getValue(): mixed
 	{
@@ -126,15 +124,13 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	/**
-	 * @param  (callable(Nette\Forms\Control): bool)|string  $validator
-	 * @return static
-	 */
+	/** @param  (callable(Nette\Forms\Control): bool)|string  $validator */
 	public function addRule(
 		callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
-	) {
+	): static
+	{
 		foreach ($this->getRules() as $rule) {
 			if (!$rule->canExport() && !$rule->branch) {
 				return parent::addRule($validator, $errorMessage, $arg);

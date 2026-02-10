@@ -75,13 +75,13 @@ class CheckboxList extends MultiChoiceControl
 	}
 
 
-	public function getLabel($caption = null): Html
+	public function getLabel(string|Stringable|null $caption = null): Html
 	{
 		return parent::getLabel($caption)->for(null);
 	}
 
 
-	public function getControlPart($key = null): Html
+	public function getControlPart(int|string|null $key = null): Html
 	{
 		$key = key([(string) $key => null]);
 		return parent::getControl()->addAttributes([
@@ -94,7 +94,7 @@ class CheckboxList extends MultiChoiceControl
 	}
 
 
-	public function getLabelPart($key = null): Html
+	public function getLabelPart(int|string|null $key = null): Html
 	{
 		$itemLabel = clone $this->itemLabel;
 		return func_num_args()
