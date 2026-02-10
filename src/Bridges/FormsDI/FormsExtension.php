@@ -8,7 +8,7 @@
 namespace Nette\Bridges\FormsDI;
 
 use Nette;
-use function defined;
+use function defined, is_object;
 
 
 /**
@@ -29,6 +29,7 @@ class FormsExtension extends Nette\DI\CompilerExtension
 	{
 		$initialize = $this->initialization ?? $class->getMethod('initialize');
 
+		assert(is_object($this->config));
 		foreach ($this->config->messages as $name => $text) {
 			if (defined('Nette\Forms\Form::' . $name)) {
 				$initialize->addBody('Nette\Forms\Validator::$messages[Nette\Forms\Form::?] = ?;', [$name, $text]);

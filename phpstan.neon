@@ -1,11 +1,17 @@
 parameters:
-	level: 5
+	level: 6
 
 	paths:
 		- src
 
-	treatPhpDocTypesAsCertain: false
+	excludePaths:
+		- src/Bridges/FormsLatte/FormMacros.php
+		- src/compatibility.php
 
+	ignoreErrors:
+		-   # Latte nodes use new static() by design for extensibility
+			identifier: new.static
+			path: src/Bridges/FormsLatte/Nodes/*
 
 includes:
-	- vendor/phpstan/phpstan-nette/extension.neon
+	- phpstan-baseline.neon
