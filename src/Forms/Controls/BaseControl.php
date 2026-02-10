@@ -128,18 +128,17 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * @return static
 	 * @internal
 	 */
-	public function setValue(mixed $value)
+	public function setValue($value): static
 	{
 		$this->value = $value;
 		return $this;
 	}
 
 
-	/** @return mixed */
 	public function getValue()
+	public function getValue(): mixed
 	{
 		return $this->value;
 	}
@@ -157,9 +156,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Sets the default value. Has no effect on submitted or disabled controls.
-	 * @return static
 	 */
-	public function setDefaultValue(mixed $value)
+	public function setDefaultValue(mixed $value): static
 	{
 		$form = $this->getForm(throw: false);
 		if ($this->isDisabled() || !$form || !$form->isAnchored() || !$form->isSubmitted()) {
@@ -172,9 +170,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Disables or enables control.
-	 * @return static
 	 */
-	public function setDisabled(bool $state = true)
+	public function setDisabled(bool $state = true): static
 	{
 		$this->disabled = $state;
 		if ($state) {
@@ -220,9 +217,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Generates control's HTML element.
-	 * @return Html|string
 	 */
-	public function getControl()
+	public function getControl(): Html|string
 	{
 		$this->setOption('rendered', true);
 		$el = clone $this->control;
@@ -238,9 +234,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Generates label's HTML element.
-	 * @return Html|string|null
 	 */
-	public function getLabel(string|Stringable|null $caption = null)
+	public function getLabel(string|Stringable|null $caption = null): Html|string|null
 	{
 		$label = clone $this->label;
 		$label->for = $this->getHtmlId();
@@ -387,13 +382,13 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/**
 	 * Adds a validation rule.
 	 * @param  (callable(Control): bool)|string  $validator
-	 * @return static
 	 */
 	public function addRule(
 		callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
-	) {
+	): static
+	{
 		$this->rules->addRule($validator, $errorMessage, $arg);
 		return $this;
 	}
@@ -403,7 +398,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Adds a validation condition and returns a new branch.
 	 * @param  (callable(Control): bool)|string|bool  $validator
 	 */
-	public function addCondition($validator, mixed $value = null): Rules
+	public function addCondition(callable|string|bool $validator, mixed $value = null): Rules
 	{
 		return $this->rules->addCondition($validator, $value);
 	}
@@ -413,7 +408,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 * Adds a validation condition based on another control and returns a new branch.
 	 * @param  (callable(Control): bool)|string  $validator
 	 */
-	public function addConditionOn(Control $control, $validator, mixed $value = null): Rules
+	public function addConditionOn(Control $control, callable|string $validator, mixed $value = null): Rules
 	{
 		return $this->rules->addConditionOn($control, $validator, $value);
 	}
@@ -550,7 +545,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/** @param mixed[] $args */
-	public function __call(string $name, array $args)
+	public function __call(string $name, array $args): mixed
 	{
 		$class = static::class;
 		do {
