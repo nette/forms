@@ -13,7 +13,7 @@ use Nette;
 use Nette\Utils\Arrays;
 use Nette\Utils\Html;
 use Stringable;
-use function array_key_first, array_merge, array_search, array_unique, count, headers_sent, in_array, is_array, is_scalar, is_string, sprintf, strcasecmp, strtolower;
+use function array_key_first, array_merge, array_search, array_unique, count, in_array, is_array, is_scalar, is_string, sprintf, strcasecmp, strtolower;
 
 
 /**
@@ -22,9 +22,6 @@ use function array_key_first, array_merge, array_search, array_unique, count, he
  * @property-read string[] $errors
  * @property-read array<string|Stringable> $ownErrors
  * @property-read Html $elementPrototype
- * @property-deprecated FormRenderer $renderer
- * @property-deprecated string $action
- * @property-deprecated string $method
  */
 class Form extends Container implements Nette\HtmlStringable
 {

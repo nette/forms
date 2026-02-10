@@ -18,8 +18,6 @@ use function is_string;
 
 /**
  * Submittable button control.
- *
- * @property-deprecated bool $submittedBy
  */
 class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 {
