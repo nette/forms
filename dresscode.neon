@@ -25,9 +25,6 @@ overrides:
 		use:
 			- compilerOptimizations
 			- deprecations
-	- # the BC branch of the deprecated addProtection() and its message
-		paths: [src/Forms/Form.php, src/Forms/Validator.php]
-		upgrading: {declarations: {deprecatedClass: keep}}
 	- # Form::URL is established public API
 		paths: [src/Forms/Form.php]
 		naming: {constant: keep}
