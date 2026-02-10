@@ -44,11 +44,10 @@ class TextInput extends TextBase
 	}
 
 
-	/**
-	 * @deprecated  use setHtmlType()
-	 */
+	#[\Deprecated('use setHtmlType()')]
 	public function setType(string $type): static
 	{
+		trigger_error(__METHOD__ . '() was renamed to setHtmlType()', E_USER_DEPRECATED);
 		return $this->setHtmlType($type);
 	}
 

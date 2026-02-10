@@ -90,9 +90,10 @@ class Checkbox extends BaseControl
 	}
 
 
-	/** @deprecated  use getContainerPrototype() */
+	#[\Deprecated('use getContainerPrototype()')]
 	public function getSeparatorPrototype(): Html
 	{
+		trigger_error(__METHOD__ . '() was renamed to getContainerPrototype()', E_USER_DEPRECATED);
 		return $this->container;
 	}
 }

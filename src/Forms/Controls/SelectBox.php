@@ -22,7 +22,7 @@ class SelectBox extends ChoiceControl
 	/** validation rule */
 	public const Valid = ':selectBoxValid';
 
-	/** @deprecated use SelectBox::Valid */
+	#[\Deprecated('use SelectBox::Valid')]
 	public const VALID = self::Valid;
 
 	/** @var mixed[]  option / optgroup */
@@ -124,10 +124,11 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * @param  array<string, mixed>  $attributes
-	 * @deprecated use setOptionAttribute()
 	 */
+	#[\Deprecated('use setOptionAttribute()')]
 	public function addOptionAttributes(array $attributes): static
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use setOptionAttribute()', E_USER_DEPRECATED);
 		$this->optionAttributes = $attributes + $this->optionAttributes;
 		return $this;
 	}
