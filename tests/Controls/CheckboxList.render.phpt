@@ -190,3 +190,17 @@ test('item label prototype styling', function () {
 	Assert::same('<label class="foo" for="frm-list-a">b</label>', (string) $input->getLabelPart('a'));
 	Assert::same('<label class="foo"><input type="checkbox" name="list[]" value="a">b</label>', (string) $input->getControl());
 });
+
+
+testException('invalid key in getControlPart', function () {
+	$form = new Form;
+	$input = $form->addCheckboxList('list', 'Label', ['a' => 'First']);
+	$input->getControlPart('unknown');
+}, Nette\InvalidArgumentException::class, "Item 'unknown' does not exist in field 'list'.");
+
+
+testException('invalid key in getLabelPart', function () {
+	$form = new Form;
+	$input = $form->addCheckboxList('list', 'Label', ['a' => 'First']);
+	$input->getLabelPart('unknown');
+}, Nette\InvalidArgumentException::class, "Item 'unknown' does not exist in field 'list'.");
