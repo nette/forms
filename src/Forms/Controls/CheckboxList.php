@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Utils\Html;
 use Stringable;
-use function array_flip, array_key_first, array_keys, array_merge, explode, func_num_args, in_array, is_array, key, substr;
+use function array_flip, array_key_exists, array_key_first, array_keys, array_merge, explode, func_num_args, in_array, is_array, is_string, key, substr;
 
 
 /**
@@ -87,6 +87,10 @@ class CheckboxList extends MultiChoiceControl
 	public function getControlPart($key = null): Html
 	{
 		$key = key([(string) $key => null]);
+		if (!array_key_exists($key, $this->getItems())) {
+			throw new Nette\InvalidArgumentException("Item '$key' does not exist in field '{$this->getName()}'.");
+		}
+
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, strict: true),
@@ -102,10 +106,17 @@ class CheckboxList extends MultiChoiceControl
 	 */
 	public function getLabelPart($key = null): Html
 	{
+		if (!func_num_args()) {
+			return $this->getLabel();
+		}
+
+		$key = key([(string) $key => null]);
+		if (!array_key_exists($key, $this->getItems())) {
+			throw new Nette\InvalidArgumentException("Item '$key' does not exist in field '{$this->getName()}'.");
+		}
+
 		$itemLabel = clone $this->itemLabel;
-		return func_num_args()
-			? $itemLabel->setText($this->translate($this->getItems()[$key]))->for($this->getHtmlId() . '-' . $key)
-			: $this->getLabel();
+		return $itemLabel->setText($this->translate($this->getItems()[$key]))->for($this->getHtmlId() . '-' . $key);
 	}
 
 
