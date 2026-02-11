@@ -153,4 +153,16 @@ abstract class ChoiceControl extends BaseControl
 		$this->checkDefaultValue = $value;
 		return $this;
 	}
+
+
+	/**
+	 * Returns the item label for the given key, or throws an exception if the key does not exist.
+	 */
+	protected function getItem(mixed &$key): mixed
+	{
+		$key = key([(string) $key => null]);
+		return array_key_exists($key, $this->items)
+			? $this->items[$key]
+			: throw new Nette\InvalidArgumentException("Item '$key' does not exist in field '{$this->getName()}'.");
+	}
 }

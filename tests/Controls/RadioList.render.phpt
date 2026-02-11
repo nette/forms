@@ -191,3 +191,17 @@ test('radio list control options', function () {
 	$input->getControl();
 	Assert::true($input->getOption('rendered'));
 });
+
+
+testException('invalid key in getControlPart', function () {
+	$form = new Form;
+	$input = $form->addRadioList('list', 'Label', ['a' => 'First']);
+	$input->getControlPart('unknown');
+}, Nette\InvalidArgumentException::class, "Item 'unknown' does not exist in field 'list'.");
+
+
+testException('invalid key in getLabelPart', function () {
+	$form = new Form;
+	$input = $form->addRadioList('list', 'Label', ['a' => 'First']);
+	$input->getLabelPart('unknown');
+}, Nette\InvalidArgumentException::class, "Item 'unknown' does not exist in field 'list'.");

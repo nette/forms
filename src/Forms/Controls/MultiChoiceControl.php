@@ -8,7 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use function array_combine, array_diff, array_fill_keys, array_flip, array_keys, array_map, count, get_debug_type, implode, is_array, is_scalar, sprintf, var_export;
+use function array_combine, array_diff, array_fill_keys, array_flip, array_key_exists, array_keys, array_map, count, get_debug_type, implode, is_array, is_scalar, key, sprintf, var_export;
 
 
 /**
@@ -167,5 +167,17 @@ abstract class MultiChoiceControl extends BaseControl
 	{
 		$this->checkDefaultValue = $value;
 		return $this;
+	}
+
+
+	/**
+	 * Returns the item label for the given key, or throws an exception if the key does not exist.
+	 */
+	protected function getItem(mixed &$key): mixed
+	{
+		$key = key([(string) $key => null]);
+		return array_key_exists($key, $this->items)
+			? $this->items[$key]
+			: throw new Nette\InvalidArgumentException("Item '$key' does not exist in field '{$this->getName()}'.");
 	}
 }
