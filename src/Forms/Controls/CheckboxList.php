@@ -87,10 +87,7 @@ class CheckboxList extends MultiChoiceControl
 	public function getControlPart($key = null): Html
 	{
 		$key = key([(string) $key => null]);
-		if (!array_key_exists($key, $this->getItems())) {
-			throw new Nette\InvalidArgumentException("Item '$key' does not exist in field '{$this->getName()}'.");
-		}
-
+		$this->getItem($key);
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, strict: true),
@@ -111,12 +108,8 @@ class CheckboxList extends MultiChoiceControl
 		}
 
 		$key = key([(string) $key => null]);
-		if (!array_key_exists($key, $this->getItems())) {
-			throw new Nette\InvalidArgumentException("Item '$key' does not exist in field '{$this->getName()}'.");
-		}
-
 		$itemLabel = clone $this->itemLabel;
-		return $itemLabel->setText($this->translate($this->getItems()[$key]))->for($this->getHtmlId() . '-' . $key);
+		return $itemLabel->setText($this->translate($this->getItem($key)))->for($this->getHtmlId() . '-' . $key);
 	}
 
 

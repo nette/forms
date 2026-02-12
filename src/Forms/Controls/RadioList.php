@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Utils\Html;
 use Stringable;
-use function array_key_exists, array_key_first, array_merge, func_num_args, in_array, is_array, key;
+use function array_key_first, array_merge, func_num_args, in_array, is_array, key;
 
 
 /**
@@ -82,10 +82,7 @@ class RadioList extends ChoiceControl
 	public function getControlPart($key = null): Html
 	{
 		$key = key([(string) $key => null]);
-		if (!array_key_exists($key, $this->getItems())) {
-			throw new Nette\InvalidArgumentException("Item '$key' does not exist in field '{$this->getName()}'.");
-		}
-
+		$this->getItem($key);
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
 			'checked' => in_array($key, (array) $this->value, strict: true),
@@ -105,12 +102,8 @@ class RadioList extends ChoiceControl
 		}
 
 		$key = key([(string) $key => null]);
-		if (!array_key_exists($key, $this->getItems())) {
-			throw new Nette\InvalidArgumentException("Item '$key' does not exist in field '{$this->getName()}'.");
-		}
-
 		$itemLabel = clone $this->itemLabel;
-		return $itemLabel->setText($this->translate($this->getItems()[$key]))->for($this->getHtmlId() . '-' . $key);
+		return $itemLabel->setText($this->translate($this->getItem($key)))->for($this->getHtmlId() . '-' . $key);
 	}
 
 
