@@ -12,6 +12,7 @@ namespace Nette\Forms;
 use Nette;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
+use Stringable;
 use function array_map, count, explode, in_array, is_array, is_float, is_int, is_object, is_string, preg_replace, preg_replace_callback, rtrim, str_replace, strtolower;
 use const UPLOAD_ERR_INI_SIZE;
 
@@ -57,6 +58,9 @@ final class Validator
 		$message = $rule->message;
 		if ($message instanceof Nette\HtmlStringable) {
 			return $message;
+
+		} elseif ($message instanceof Stringable) {
+			return (string)$message;
 
 		} elseif ($message === null && is_string($rule->validator) && isset(static::$messages[$rule->validator])) {
 			$message = static::$messages[$rule->validator];
