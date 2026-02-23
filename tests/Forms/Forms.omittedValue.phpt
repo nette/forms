@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Forms ignored input.
  */
-
-declare(strict_types=1);
 
 use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;

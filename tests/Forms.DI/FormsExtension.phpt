@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: FormsExtension.
  */
-
-declare(strict_types=1);
 
 use Nette\Bridges\FormsDI\FormsExtension;
 use Nette\DI;

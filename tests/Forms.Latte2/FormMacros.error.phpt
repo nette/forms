@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: FormMacros errors.
  */
-
-declare(strict_types=1);
 
 use Nette\Bridges\FormsLatte\FormMacros;
 use Tester\Assert;

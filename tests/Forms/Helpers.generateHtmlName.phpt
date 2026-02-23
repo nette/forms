@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Forms\Helpers::generateHtmlName()
  */
-
-declare(strict_types=1);
 
 use Nette\Forms\Helpers;
 use Tester\Assert;

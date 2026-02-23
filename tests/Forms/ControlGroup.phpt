@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Forms\ControlGroup.
  */
-
-declare(strict_types=1);
 
 use Nette\Forms\ControlGroup;
 use Tester\Assert;

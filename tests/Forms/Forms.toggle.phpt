@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Forms and toggle.
  */
-
-declare(strict_types=1);
 
 use Nette\Forms\Form;
 use Tester\Assert;

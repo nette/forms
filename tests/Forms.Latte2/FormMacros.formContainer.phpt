@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: FormMacros: {formContainer}
  */
-
-declare(strict_types=1);
 
 use Nette\Bridges\FormsLatte\FormMacros;
 use Nette\Forms\Form;

@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Forms\Controls\TextBase validators.
  */
-
-declare(strict_types=1);
 
 use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Controls\UploadControl;

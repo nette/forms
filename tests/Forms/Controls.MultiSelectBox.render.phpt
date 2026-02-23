@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Forms\Controls\MultiSelectBox.
  */
-
-declare(strict_types=1);
 
 use Nette\Forms\Form;
 use Nette\Utils\Html;

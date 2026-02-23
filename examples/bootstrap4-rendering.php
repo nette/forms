@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Nette Forms & Bootstap v4 rendering example.
  */
-
-declare(strict_types=1);
 
 
 if (@!include __DIR__ . '/../vendor/autoload.php') {

@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: Nette\Forms\Controls\DateTimeControl.
  */
-
-declare(strict_types=1);
 
 use Nette\Forms\Controls\DateTimeControl;
 use Nette\Forms\Form;
