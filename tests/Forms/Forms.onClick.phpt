@@ -104,3 +104,23 @@ test('invalid submission due to validation', function () {
 	$form->fireEvents();
 	Assert::same(['invalidClick', 'error', 'submit'], $called);
 });
+
+
+test('addSubmit() with $onSubmit parameter', function () {
+	$_SERVER['REQUEST_METHOD'] = 'POST';
+	$_POST = ['btn' => ''];
+
+	$called = [];
+	$form = new Form;
+	$form->allowCrossOrigin();
+	$form->addText('name');
+	$form->addSubmit('btn', null, function (SubmitButton $button) use (&$called) {
+		$called[] = 'click';
+	});
+
+	$form->onSuccess[] = function (Form $form) use (&$called) {
+		$called[] = 'success';
+	};
+	$form->fireEvents();
+	Assert::same(['click', 'success'], $called);
+});
