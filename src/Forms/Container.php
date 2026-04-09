@@ -561,10 +561,19 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Adds button used to submit form.
+	 * @param (\Closure(Controls\SubmitButton, mixed[]|object): void | \Closure(static, mixed[]|object): void | \Closure(mixed[]|object): void)  $onSubmit
 	 */
-	public function addSubmit(string $name, string|Stringable|null $caption = null): Controls\SubmitButton
+	public function addSubmit(
+		string $name,
+		string|Stringable|null $caption = null,
+		?\Closure $onSubmit = null,
+	): Controls\SubmitButton
 	{
-		return $this[$name] = new Controls\SubmitButton($caption);
+		$control = $this[$name] = new Controls\SubmitButton($caption);
+		if ($onSubmit) {
+			$control->onClick[] = $onSubmit;
+		}
+		return $control;
 	}
 
 
