@@ -65,7 +65,7 @@ final class FieldNNameNode extends StatementNode
 		$elName = strtolower($el->name);
 
 		$tag->replaceNAttribute(new AuxiliaryNode(fn(PrintContext $context) => $context->format(
-			'echo ($ʟ_elem = Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global)'
+			'echo ($ʟ_elem = $this->global->forms->get(%node)'
 			. ($elName === 'label' ? '->getLabelPart(%node))' : '->getControlPart(%node))')
 			. ($usedAttributes ? '->addAttributes(%dump)' : '')
 			. '->attributes() %3.line;',
