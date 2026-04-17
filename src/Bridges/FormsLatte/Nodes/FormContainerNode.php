@@ -40,10 +40,12 @@ class FormContainerNode extends StatementNode
 	public function print(PrintContext $context): string
 	{
 		return $context->format(
-			'$this->global->formsStack[] = $formContainer = Nette\Bridges\FormsLatte\Runtime::item(%node, $this->global) %line; '
-			. '%node '
-			. 'array_pop($this->global->formsStack); $formContainer = end($this->global->formsStack);'
-			. "\n\n",
+			<<<'XX'
+				$this->global->forms->begin($formContainer = $this->global->forms->get(%node, Nette\Forms\Container::class)) %line;
+				%node
+				$this->global->forms->end(); $formContainer = $this->global->forms->getScope();
+
+				XX,
 			$this->name,
 			$this->position,
 			$this->content,
