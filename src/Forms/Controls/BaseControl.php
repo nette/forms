@@ -57,7 +57,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	private Rules $rules;
 
 	/** true means autodetect */
-	private Nette\Localization\Translator|bool|null $translator = true;
+	private Nette\Localization\Translator|true|null $translator = true;
 
 	/** @var array<string, mixed> */
 	private array $options = [];

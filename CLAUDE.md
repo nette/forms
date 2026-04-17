@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Nette Forms is a mature PHP library (since 2004) for creating, validating, and processing web forms with both server-side (PHP) and client-side (JavaScript) validation. Part of the Nette Framework ecosystem.
 
-- **PHP Requirements:** 8.2 - 8.5
+- **PHP Requirements:** 8.3 - 8.5
 - **Dependencies:** nette/component-model, nette/http, nette/utils
 - **Latte Integration:** Requires Latte 3.1+ (conflict with < 3.1 or >= 3.2)
 - **Current Branch:** v3.3-dev
