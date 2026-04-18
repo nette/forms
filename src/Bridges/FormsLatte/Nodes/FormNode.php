@@ -18,16 +18,22 @@ use Latte\Compiler\Tag;
 
 
 /**
- * {form name [, attributes]} ... {/form}
+ * {form [scope] name [, attributes]} ... {/form}
  * {formContext name} ... {/formContext}
  * Renders form tags and initializes form context.
+ * The `scope` keyword makes {form} skip the <form> tag emission while still pushing the
+ * form on the stack — semantically identical to {formContext}, but with the canonical
+ * {form} tag.
  */
 class FormNode extends StatementNode
 {
+	private const Modes = ['scope'];
+
 	public ExpressionNode $name;
 	public ArrayNode $attributes;
 	public AreaNode $content;
 	public bool $print;
+	public ?string $mode = null;
 
 
 	/** @return \Generator<int, ?list<string>, array{AreaNode, ?Tag}, static> */
@@ -40,13 +46,16 @@ class FormNode extends StatementNode
 		$tag->outputMode = $tag::OutputKeepIndentation;
 		$tag->expectArguments();
 		$node = $tag->node = new static;
+		$node->mode = $tag->name === 'form' && in_array($tag->parser->stream->tryPeek()?->text, self::Modes, strict: true)
+			? $tag->parser->stream->consume()->text
+			: null;
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();
 		if (!$tag->parser->stream->tryConsume(',') && !$tag->parser->isEnd()) {
 			$position = $tag->parser->stream->peek()->position;
 			trigger_error("Missing comma before arguments in {{$tag->name}} tag $position.", E_USER_DEPRECATED);
 		}
 		$node->attributes = $tag->parser->parseArguments();
-		$node->print = $tag->name === 'form';
+		$node->print = $tag->name === 'form' && $node->mode !== 'scope';
 
 		[$node->content, $endTag] = yield;
 		if ($endTag && $node->name instanceof StringNode) {

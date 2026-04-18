@@ -1,0 +1,34 @@
+{* {form scope name}: form context without emitting <form> tag. Equivalent to {formContext}. *}
+
+{form scope myForm}
+	{label name /}
+	{input name}
+	{input email}
+{/form}
+
+
+{* Same with {formContext} — produces identical output. *}
+
+{formContext myForm}
+	{label name /}
+	{input name}
+	{input email}
+{/formContext}
+
+
+{* Attributes are accepted but ignored in scope mode (no <form> tag to apply them to). *}
+
+{form scope myForm, class: "ignored"}
+	{input name}
+{/form}
+
+
+{* Nested use: outer {form} emits <form>, inner {form scope} only resolves inputs. *}
+
+{form myForm, class: "outer"}
+	{input name}
+
+	{form scope myForm}
+		{input email}
+	{/form}
+{/form}
