@@ -1,0 +1,36 @@
+{* {form scope name}: form context without emitting <form> tag. Equivalent to {formContext}. *}
+
+{form scope myForm}
+	{label name /}
+	{input name}
+{/form}
+
+
+{* Same with {formContext} — produces identical output. *}
+
+{formContext myForm}
+	{label name /}
+	{input name}
+{/formContext}
+
+
+{* Nested: {form scope} inside a form resolves a child container relatively, like {formContainer}. *}
+
+{form myForm, class: "outer"}
+	{input name}
+
+	{form scope person}
+		{input city}
+	{/form}
+{/form}
+
+
+{* The same nested block written with {formContainer} — resolves the same child container. *}
+
+{form myForm, class: "outer"}
+	{input name}
+
+	{formContainer person}
+		{input city}
+	{/formContainer}
+{/form}
