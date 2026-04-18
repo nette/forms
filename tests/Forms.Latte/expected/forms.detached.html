@@ -1,0 +1,27 @@
+<form action="" method="post" id="frm-myForm"><input type="hidden" name="_form_" value="myForm"><input type="hidden" name="id" value="42"></form>
+
+	<div class="layout">
+		<label for="frm-myForm-name">Name:</label>
+		<input type="text" name="name" form="frm-myForm" id="frm-myForm-name">
+		<input type="text" name="email" form="frm-myForm" id="frm-myForm-email">
+		<input type="submit" name="_submit" form="frm-myForm" value="Save">
+	</div>
+
+
+
+<form action="" method="post" id="frm-myForm" class="shell"><input type="hidden" name="_form_" value="myForm"><input type="hidden" name="id" value="42"></form>
+
+	<div><input type="text" name="name" form="frm-myForm" id="frm-myForm-name"></div>
+
+
+
+<form action="" method="post" id="frm-myForm"><input type="hidden" name="_form_" value="myForm"><input type="hidden" name="id" value="42"></form>
+
+	<div>
+		<input type="text" name="name" form="frm-myForm" id="frm-myForm-name">
+		<form action="/other">
+			<input name="foo">
+		</form>
+		<input type="submit" name="_submit" form="frm-myForm" value="Save">
+	</div>
+

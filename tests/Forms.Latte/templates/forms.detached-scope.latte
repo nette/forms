@@ -1,0 +1,21 @@
+{* A: {form scope <container>} nested inside {form detached}.
+   The sub-container's controls inherit the detached form= link. *}
+
+{form detached main}
+	{input name}
+	{form scope address}
+		{input street}
+	{/form}
+{/form}
+
+
+{* B: {form detached} nested inside {form scope}.
+   Detached resolves the top-level form (not relatively) and its controls link to it; the
+   scope is not detached, so its own controls stay unlinked and it emits no <form>. *}
+
+{form scope wrap}
+	{input title}
+	{form detached side}
+		{input note}
+	{/form}
+{/form}

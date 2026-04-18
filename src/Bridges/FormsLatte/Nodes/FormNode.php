@@ -19,7 +19,7 @@ use function in_array;
 
 
 /**
- * {form [scope] name [, attributes]} ... {/form}
+ * {form [scope|detached] name [, attributes]} ... {/form}
  * {formContext name} ... {/formContext}
  * Renders form tags and initializes form context.
  */
@@ -27,6 +27,7 @@ class FormNode extends StatementNode
 {
 	private const ModeLegacyScope = 'context';
 	private const ModeScope = 'scope';
+	private const ModeDetached = 'detached';
 
 	public ExpressionNode $name;
 	public ArrayNode $attributes;
@@ -46,7 +47,7 @@ class FormNode extends StatementNode
 		$node = $tag->node = new static;
 		$node->mode = match (true) {
 			$tag->name === 'formContext' => self::ModeLegacyScope,
-			in_array($tag->parser->stream->tryPeek()?->text, [self::ModeScope], strict: true) => $tag->parser->stream->consume()->text,
+			in_array($tag->parser->stream->tryPeek()?->text, [self::ModeScope, self::ModeDetached], strict: true) => $tag->parser->stream->consume()->text,
 			default => null,
 		};
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();
@@ -55,7 +56,7 @@ class FormNode extends StatementNode
 			trigger_error("Missing comma before arguments in {{$tag->name}} tag $position.", E_USER_DEPRECATED);
 		}
 		$node->attributes = $tag->parser->parseArguments();
-		if ($node->mode !== null && $node->attributes->items) {
+		if ($node->mode !== null && $node->mode !== self::ModeDetached && $node->attributes->items) {
 			$label = '{' . $tag->name . ($node->mode === self::ModeScope ? ' scope' : '') . '}';
 			throw new CompileException("Arguments are not allowed in $label because it does not render a <form> tag.", $tag->position);
 		}
@@ -81,9 +82,11 @@ class FormNode extends StatementNode
 				$this->name instanceof StringNode => '$this->global->uiControl[%node]',
 				default => '(is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp])',
 			})
+			. ($this->mode === self::ModeDetached ? ', detached: true' : '')
 			. ', global: $this->global) %line;'
 			. (match ($this->mode) {
 				self::ModeScope, self::ModeLegacyScope => ' %3.node ',
+				self::ModeDetached => $renderBegin . $renderEnd . ' %3.node ',
 				default => $renderBegin . ' %3.node ' . $renderEnd,
 			})
 			. '$this->global->forms->end();'
