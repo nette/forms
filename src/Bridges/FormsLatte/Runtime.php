@@ -120,4 +120,11 @@ class Runtime
 	{
 		return end($this->stack) ?: throw new Nette\InvalidStateException('Form declaration is missing, did you use {form} or <form n:name> tag?');
 	}
+
+
+	/** Are we nested inside an already open form? */
+	public function isNested(): bool
+	{
+		return (bool) $this->stack;
+	}
 }
