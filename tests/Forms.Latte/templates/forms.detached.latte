@@ -1,0 +1,33 @@
+{* {form detached name}: empty <form>...</form> is emitted at the opening position,
+   controls get form="frm-<formname>" attribute so they submit to that form
+   even if placed outside the <form> element in the DOM. *}
+
+{form detached myForm}
+	<div class="layout">
+		{label name /}
+		{input name}
+		{input email}
+		{input submit}
+	</div>
+{/form}
+
+
+{* Attributes still apply to the emitted <form> tag. *}
+
+{form detached myForm, class: "shell"}
+	<div>{input name}</div>
+{/form}
+
+
+{* Real-world use: layout contains another component that emits its own <form>. *}
+
+{form detached myForm}
+	<div>
+		{input name}
+		{* imagine some component rendering its own <form> here *}
+		<form action="/other">
+			<input name="foo">
+		</form>
+		{input submit}
+	</div>
+{/form}
