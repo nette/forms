@@ -41,7 +41,10 @@ class FormNode extends StatementNode
 		$tag->expectArguments();
 		$node = $tag->node = new static;
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();
-		$tag->parser->stream->tryConsume(',');
+		if (!$tag->parser->stream->tryConsume(',') && !$tag->parser->isEnd()) {
+			$position = $tag->parser->stream->peek()->position;
+			trigger_error("Missing comma before arguments in {{$tag->name}} tag $position.", E_USER_DEPRECATED);
+		}
 		$node->attributes = $tag->parser->parseArguments();
 		$node->print = $tag->name === 'form';
 
