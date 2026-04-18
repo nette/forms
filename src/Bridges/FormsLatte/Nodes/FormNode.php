@@ -18,16 +18,20 @@ use Latte\Compiler\Tag;
 
 
 /**
- * {form [scope] name [, attributes]} ... {/form}
+ * {form [scope|detached] name [, attributes]} ... {/form}
  * {formContext name} ... {/formContext}
  * Renders form tags and initializes form context.
  * The `scope` keyword makes {form} skip the <form> tag emission while still pushing the
  * form on the stack — semantically identical to {formContext}, but with the canonical
  * {form} tag.
+ * The `detached` keyword emits an empty <form>...</form> at the opening position and links
+ * every control to it via the HTML5 `form=` attribute. Use it when the layout contains a
+ * component that renders its own <form> — HTML rejects nested forms, so the controls must
+ * live outside the <form> element.
  */
 class FormNode extends StatementNode
 {
-	private const Modes = ['scope'];
+	private const Modes = ['scope', 'detached'];
 
 	public ExpressionNode $name;
 	public ArrayNode $attributes;
@@ -68,19 +72,22 @@ class FormNode extends StatementNode
 
 	public function print(PrintContext $context): string
 	{
+		$detached = $this->mode === 'detached';
+		$renderBegin = $this->print ? 'echo $this->global->forms->renderFormBegin(%node) %1.line;' : '';
+		$renderEnd = $this->print ? 'echo $this->global->forms->renderFormEnd() %4.line;' : '';
+
 		return $context->format(
 			'$this->global->forms->begin($form = '
 			. ($this->name instanceof StringNode
 				? '$this->global->uiControl[%node]'
 				: '(is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp])')
+			. ($detached ? ', detached: true' : '')
 			. ') %line;'
-			. ($this->print
-				? 'echo $this->global->forms->renderFormBegin(%node) %1.line;'
-				: '')
+			// In detached mode the <form>...</form> is emitted up front, then content (with controls
+			// linked back via form= attribute). Otherwise the form wraps the content as usual.
+			. ($detached ? $renderBegin . $renderEnd : $renderBegin)
 			. ' %3.node '
-			. ($this->print
-				? 'echo $this->global->forms->renderFormEnd() %4.line;'
-				: '')
+			. ($detached ? '' : $renderEnd)
 			. '$this->global->forms->end();'
 			. "\n\n",
 			$this->name,
