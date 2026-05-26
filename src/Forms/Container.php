@@ -312,18 +312,16 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Iterates over all form controls.
+	 * Iterates over all form controls including nested. Keys are control names and are not unique across containers.
 	 * @return iterable<Control>
 	 */
 	public function getControls(): iterable
 	{
-		return Nette\Utils\Iterables::repeatable(function () {
-			foreach ($this->getComponentTree() as $component) {
-				if ($component instanceof Control) {
-					yield $component->getName() => $component;
-				}
+		foreach ($this->getComponentTree() as $component) {
+			if ($component instanceof Control) {
+				yield $component->getName() => $component;
 			}
-		});
+		}
 	}
 
 
