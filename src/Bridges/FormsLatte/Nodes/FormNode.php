@@ -13,7 +13,6 @@ use Latte\Compiler\Nodes\Php\Expression\ArrayNode;
 use Latte\Compiler\Nodes\Php\ExpressionNode;
 use Latte\Compiler\Nodes\Php\Scalar\StringNode;
 use Latte\Compiler\Nodes\StatementNode;
-use Latte\Compiler\Position;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
 
@@ -29,7 +28,6 @@ class FormNode extends StatementNode
 	public ArrayNode $attributes;
 	public AreaNode $content;
 	public bool $print;
-	public ?Position $endLine;
 
 
 	/** @return \Generator<int, ?list<string>, array{AreaNode, ?Tag}, static> */
@@ -48,7 +46,6 @@ class FormNode extends StatementNode
 		$node->print = $tag->name === 'form';
 
 		[$node->content, $endTag] = yield;
-		$node->endLine = $endTag?->position;
 		if ($endTag && $node->name instanceof StringNode) {
 			$endTag->parser->stream->tryConsume($node->name->value);
 		}
@@ -78,7 +75,7 @@ class FormNode extends StatementNode
 			$this->position,
 			$this->attributes,
 			$this->content,
-			$this->endLine,
+			end($this->tagRanges),
 		);
 	}
 
