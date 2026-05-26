@@ -173,12 +173,6 @@ parameters:
 			count: 1
 
 		-
-			message: '#^Using nullsafe property access on non\-nullable type Latte\\Compiler\\Nodes\\FragmentNode\. Use \-\> instead\.$#'
-			identifier: nullsafe.neverNull
-			count: 1
-			path: src/Bridges/FormsLatte/Nodes/FieldNNameNode.php
-
-		-
 			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
