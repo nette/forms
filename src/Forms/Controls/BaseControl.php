@@ -20,20 +20,14 @@ use function array_unique, explode, get_parent_class, implode, is_array, sprintf
  * Base implementation for form controls with HTML rendering, validation, translation, and option support.
  *
  * @property-read Form $form
- * @property-deprecated string $htmlName
- * @property-deprecated   string|bool|null $htmlId
  * @property   mixed $value
- * @property-deprecated   string|Stringable $caption
  * @property   bool $disabled
- * @property-deprecated   bool $omitted
  * @property-read Html $control
  * @property-read Html $label
  * @property-read Html $controlPrototype
  * @property-read Html $labelPrototype
  * @property   bool $required
- * @property-deprecated bool $filled
  * @property-read string[] $errors
- * @property-deprecated array<string,mixed> $options
  * @property-read string $error
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
