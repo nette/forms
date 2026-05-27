@@ -490,6 +490,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 
 		if ($nextTo = $control->getOption('nextTo')) {
 			$control = $control->getForm()->getComponent($nextTo);
+			assert($control instanceof Nette\Forms\Control);
 			$body->class($this->getValue('control .multi'), true);
 			goto renderControl;
 		}
