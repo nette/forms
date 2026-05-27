@@ -130,6 +130,7 @@ parameters:
 			# for better type safety - the contravariance is by design.
 			identifier: method.childParameterType
 			message: '#^Parameter \#1 \$value \([^)]+\) of method Nette\\Forms\\Controls\\\w+::setValue\(\) should be contravariant with parameter \$value \(mixed\) of method Nette\\Forms\\(Control|Controls\\BaseControl)::setValue\(\)$#'
+			path: src/Forms/Controls
 
 		-   # Rules::getCallback() returns callable-array [class, method] without value type.
 			message: '#^Method Nette\\Forms\\Rules::getCallback\(\) return type has no value type specified in iterable type array\.$#'
