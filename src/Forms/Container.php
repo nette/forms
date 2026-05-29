@@ -16,6 +16,7 @@ use function array_key_exists, func_get_args, is_object;
 /**
  * Container for form controls.
  *
+ * @property-read string $name
  * @property   ArrayHash<mixed> $values
  * @property-read \Iterator $controls
  * @property-read ?Form $form
