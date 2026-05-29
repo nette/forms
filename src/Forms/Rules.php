@@ -65,7 +65,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation rule for the current control.
-	 * @param  (callable(Control): bool)|string  $validator
+	 * @param  (callable(Control, mixed): bool)|string  $validator
 	 */
 	public function addRule(
 		callable|string $validator,
@@ -95,7 +95,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Removes a validation rule for the current control.
-	 * @param  (callable(Control): bool)|string  $validator
+	 * @param  (callable(Control, mixed): bool)|string  $validator
 	 */
 	public function removeRule(callable|string $validator): static
 	{
@@ -115,7 +115,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation condition and returns new branch.
-	 * @param  (callable(Control): bool)|string|bool  $validator
+	 * @param  (callable(Control, mixed): bool)|string|bool  $validator
 	 */
 	public function addCondition(callable|string|bool $validator, mixed $arg = null): static
 	{
@@ -132,7 +132,7 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation condition on a specified control and returns new branch.
-	 * @param  (callable(Control): bool)|string  $validator
+	 * @param  (callable(Control, mixed): bool)|string  $validator
 	 */
 	public function addConditionOn(Control $control, callable|string $validator, mixed $arg = null): static
 	{
@@ -230,11 +230,11 @@ final class Rules implements \IteratorAggregate
 			if ($rule->branch) {
 				$toggles = $rule->branch->getToggleStates(
 					$toggles,
-					$success && static::validateRule($rule),
+					$success && Rules::validateRule($rule),
 					$rule->validator === Form::Blank ? false : $emptyOptional,
 				);
 			} elseif (!$emptyOptional || $rule->validator === Form::Filled) {
-				$success = $success && static::validateRule($rule);
+				$success = $success && Rules::validateRule($rule);
 			}
 		}
 
