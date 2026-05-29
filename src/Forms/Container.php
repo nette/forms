@@ -16,6 +16,7 @@ use function array_combine, array_key_exists, array_map, array_merge, array_uniq
 /**
  * Container for form controls.
  *
+ * @property-read string $name
  * @property   ArrayHash<mixed> $values
  * @property-read \Iterator $controls
  * @property-read ?Form $form

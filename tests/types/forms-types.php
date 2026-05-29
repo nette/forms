@@ -50,3 +50,63 @@ function testFormEvents(Form $form): void
 		assertType(Form::class, $form);
 	};
 }
+
+
+// Issue #350: addRule() must accept validators with a second $arg parameter
+function testAddRuleValidatorOneParam(Form $form): void
+{
+	$form->addText('field')
+		->addRule(fn(Nette\Forms\Control $input): bool => (bool) $input->getValue());
+}
+
+
+function testAddRuleValidatorTwoParams(Form $form): void
+{
+	$form->addInteger('num')
+		->addRule(
+			fn(Nette\Forms\Control $input, mixed $arg): bool => $input->getValue() > $arg,
+			'Must be greater than %d',
+			0,
+		);
+}
+
+
+function testAddRuleStaticCallableWithArg(Form $form): void
+{
+	$form->addInteger('num')
+		->addRule(
+			[CustomValidators::class, 'validateDivisibility'],
+			'Must be divisible by %d',
+			8,
+		);
+}
+
+
+// addCondition() with one-parameter handler
+function testAddConditionOneParam(Form $form): void
+{
+	$form->addText('field')
+		->addCondition(fn(Nette\Forms\Control $input): bool => (bool) $input->getValue())
+			->setRequired();
+}
+
+
+// addCondition() with two-parameter handler
+function testAddConditionTwoParams(Form $form): void
+{
+	$form->addInteger('num')
+		->addCondition(
+			fn(Nette\Forms\Control $input, mixed $arg): bool => $input->getValue() > $arg,
+			0,
+		)
+			->setRequired();
+}
+
+
+class CustomValidators
+{
+	public static function validateDivisibility(Nette\Forms\Control $input, mixed $arg): bool
+	{
+		return $input->getValue() % $arg === 0;
+	}
+}
