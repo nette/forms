@@ -124,7 +124,7 @@ abstract class TextBase extends BaseControl
 
 
 	/**
-	 * @param  (callable(Nette\Forms\Control): bool)|string  $validator
+	 * @param  (callable(Nette\Forms\Control, mixed): bool)|string  $validator
 	 * @return static
 	 */
 	public function addRule(
