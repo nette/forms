@@ -20,7 +20,6 @@ use function in_array;
 
 /**
  * {form [scope|detached] name [, attributes]} ... {/form}
- * {formContext name} ... {/formContext}
  * Renders form tags and initializes form context.
  */
 class FormNode extends StatementNode
@@ -45,6 +44,9 @@ class FormNode extends StatementNode
 		$tag->outputMode = $tag::OutputKeepIndentation;
 		$tag->expectArguments();
 		$node = $tag->node = new static;
+		if ($tag->name === 'formContext') {
+			trigger_error('Tag {formContext} is deprecated, use {form scope}', E_USER_DEPRECATED);
+		}
 		$node->mode = match (true) {
 			$tag->name === 'formContext' => self::ModeLegacyScope,
 			in_array($tag->parser->stream->tryPeek()?->text, [self::ModeScope, self::ModeDetached], strict: true) => $tag->parser->stream->consume()->text,
