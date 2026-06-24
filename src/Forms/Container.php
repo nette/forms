@@ -619,11 +619,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/********************* extension methods ****************d*g**/
 
 
-	/**
-	 * @param  mixed[]  $args
-	 * @return mixed
-	 */
-	public function __call(string $name, array $args)
+	/** @param  mixed[]  $args */
+	public function __call(string $name, array $args): mixed
 	{
 		if (isset(self::$extMethods[$name])) {
 			return (self::$extMethods[$name])($this, ...$args);
