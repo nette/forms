@@ -173,11 +173,6 @@ parameters:
 			path: src/Forms/Container.php
 			count: 1
 
-		-   # getComponents() returns iterable; narrowing to Iterator not detected
-			message: '#^Method Nette\\Forms\\Container::getControls\(\) should return#'
-			path: src/Forms/Container.php
-			count: 1
-
 		-
 			message: '#^Using nullsafe property access on non\-nullable type Latte\\Compiler\\Nodes\\FragmentNode\. Use \-\> instead\.$#'
 			identifier: nullsafe.neverNull

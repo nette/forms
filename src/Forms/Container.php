@@ -24,6 +24,7 @@ use function array_combine, array_key_exists, array_map, array_merge, array_uniq
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
+	use Nette\SmartObject;
 	use Nette\ComponentModel\ArrayAccess;
 
 	public const Array = 'array';
@@ -302,11 +303,17 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Iterates over all form controls.
-	 * @return \Iterator<Control>
+	 * @return iterable<Control>
 	 */
-	public function getControls(): \Iterator
+	public function getControls(): iterable
 	{
-		return $this->getComponents(true, Control::class);
+		return Nette\Utils\Iterables::repeatable(function () {
+			foreach ($this->getComponentTree() as $component) {
+				if ($component instanceof Control) {
+					yield $component->getName() => $component;
+				}
+			}
+		});
 	}
 
 
@@ -609,7 +616,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			return (self::$extMethods[$name])($this, ...$args);
 		}
 
-		return parent::__call($name, $args);
+		Nette\Utils\ObjectHelpers::strictCall(static::class, $name);
 	}
 
 

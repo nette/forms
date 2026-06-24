@@ -39,6 +39,8 @@ use function array_unique, explode, get_parent_class, implode, is_array, sprintf
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
 {
+	use Nette\SmartObject;
+
 	public static string $idMask = 'frm-%s';
 
 	protected mixed $value = null;
@@ -570,7 +572,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 			$class = get_parent_class($class);
 		} while ($class);
 
-		return parent::__call($name, $args);
+		Nette\Utils\ObjectHelpers::strictCall(static::class, $name);
 	}
 
 
