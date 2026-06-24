@@ -18,12 +18,12 @@ $latte->addProvider('uiControl', ['myForm' => $form]);
 
 Assert::matchFile(
 	__DIR__ . '/expected/forms.scope.php',
-	$latte->compile(__DIR__ . '/templates/forms.scope.latte'),
+	@$latte->compile(__DIR__ . '/templates/forms.scope.latte'), // @ {formContext} and {formContainer} are deprecated
 );
 
 Assert::matchFile(
 	__DIR__ . '/expected/forms.scope.html',
-	$latte->renderToString(__DIR__ . '/templates/forms.scope.latte'),
+	@$latte->renderToString(__DIR__ . '/templates/forms.scope.latte'), // @ {formContext} and {formContainer} are deprecated
 );
 
 
@@ -46,7 +46,7 @@ test('arguments are rejected in {formContext}', function () {
 	$latte->addExtension(new FormsExtension);
 
 	Assert::exception(
-		fn() => $latte->compile('{formContext myForm, class: x}{/formContext}'),
+		fn() => @$latte->compile('{formContext myForm, class: x}{/formContext}'), // @ {formContext} is deprecated
 		Latte\CompileException::class,
 		'Arguments are not allowed in {formContext}%a%',
 	);
