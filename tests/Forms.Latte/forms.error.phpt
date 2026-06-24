@@ -36,9 +36,9 @@ Assert::exception(
 );
 
 Assert::exception(
-	fn() => $latte->compile('<html>{formContainer /}'),
+	fn() => $latte->compile('<html>{form scope /}'),
 	Latte\CompileException::class,
-	'Missing arguments in {formContainer} (on line 1 at column 7)',
+	'Unexpected end (on line 1 at column 19)',
 );
 
 
