@@ -27,6 +27,7 @@ class FormContainerNode extends StatementNode
 	/** @return \Generator<int, ?list<string>, array{AreaNode, ?Tag}, static> */
 	public static function create(Tag $tag): \Generator
 	{
+		trigger_error('Tag {formContainer} is deprecated, use {form scope}', E_USER_DEPRECATED);
 		$tag->outputMode = $tag::OutputRemoveIndentation;
 		$tag->expectArguments();
 
