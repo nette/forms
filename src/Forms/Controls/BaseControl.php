@@ -557,11 +557,8 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/********************* extension methods ****************d*g**/
 
 
-	/**
-	 * @param  mixed[]  $args
-	 * @return mixed
-	 */
-	public function __call(string $name, array $args)
+	/** @param  mixed[]  $args */
+	public function __call(string $name, array $args): mixed
 	{
 		$class = static::class;
 		do {
