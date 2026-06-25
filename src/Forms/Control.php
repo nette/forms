@@ -13,13 +13,9 @@ namespace Nette\Forms;
  */
 interface Control
 {
-	/**
-	 * @return static
-	 */
-	function setValue(mixed $value);
+	function setValue(mixed $value): static;
 
-	/** @return mixed */
-	function getValue();
+	function getValue(): mixed;
 
 	function validate(): void;
 

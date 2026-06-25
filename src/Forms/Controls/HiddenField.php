@@ -36,11 +36,8 @@ class HiddenField extends BaseControl
 	}
 
 
-	/**
-	 * @return static
-	 * @internal
-	 */
-	public function setValue(mixed $value)
+	/** @internal */
+	public function setValue(mixed $value): static
 	{
 		if ($value === null) {
 			$value = '';
@@ -99,7 +96,7 @@ class HiddenField extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null): Html|string|null
+	public function getLabel(string|Stringable|null $caption = null): Html|string|null
 	{
 		return null;
 	}
