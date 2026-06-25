@@ -75,7 +75,7 @@ class CheckboxList extends MultiChoiceControl
 	}
 
 
-	public function getLabel($caption = null): Html
+	public function getLabel(string|Stringable|null $caption = null): Html
 	{
 		return parent::getLabel($caption)->for(null);
 	}
@@ -84,7 +84,7 @@ class CheckboxList extends MultiChoiceControl
 	/**
 	 * Returns the HTML input element for a specific checkbox item by key.
 	 */
-	public function getControlPart($key = null): Html
+	public function getControlPart(int|string|null $key = null): Html
 	{
 		$this->getItem($key);
 		return parent::getControl()->addAttributes([
@@ -100,7 +100,7 @@ class CheckboxList extends MultiChoiceControl
 	/**
 	 * Returns the label element for the whole checkbox list, or the item label for a specific key.
 	 */
-	public function getLabelPart($key = null): Html
+	public function getLabelPart(int|string|null $key = null): Html
 	{
 		$itemLabel = clone $this->itemLabel;
 		return func_num_args()
