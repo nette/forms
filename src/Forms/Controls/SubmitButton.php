@@ -104,7 +104,7 @@ class SubmitButton extends Button implements Nette\Forms\SubmitterControl
 	}
 
 
-	public function getControl($caption = null): Nette\Utils\Html
+	public function getControl(string|Stringable|null $caption = null): Nette\Utils\Html
 	{
 		$scope = [];
 		foreach ((array) $this->validationScope as $control) {

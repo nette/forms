@@ -65,11 +65,8 @@ class UploadControl extends BaseControl
 	}
 
 
-	/**
-	 * @return static
-	 * @internal
-	 */
-	public function setValue($value)
+	/** @internal */
+	public function setValue($value): static
 	{
 		return $this;
 	}
@@ -124,15 +121,13 @@ class UploadControl extends BaseControl
 	}
 
 
-	/**
-	 * @param  (callable(Nette\Forms\Control, mixed): bool)|string  $validator
-	 * @return static
-	 */
+	/** @param  (callable(Nette\Forms\Control, mixed): bool)|string  $validator */
 	public function addRule(
 		callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
-	) {
+	): static
+	{
 		if ($validator === Form::Image) {
 			$this->control->accept = implode(', ', Forms\Helpers::getSupportedImages());
 
