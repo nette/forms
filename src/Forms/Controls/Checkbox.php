@@ -30,11 +30,8 @@ class Checkbox extends BaseControl
 	}
 
 
-	/**
-	 * @return static
-	 * @internal
-	 */
-	public function setValue(mixed $value)
+	/** @internal */
+	public function setValue(mixed $value): static
 	{
 		if (!is_scalar($value) && $value !== null) {
 			throw new Nette\InvalidArgumentException(sprintf(
@@ -64,7 +61,7 @@ class Checkbox extends BaseControl
 	/**
 	 * Bypasses label generation.
 	 */
-	public function getLabel($caption = null): Html|string|null
+	public function getLabel(string|Stringable|null $caption = null): Html|string|null
 	{
 		return null;
 	}
