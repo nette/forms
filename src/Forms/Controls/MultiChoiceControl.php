@@ -42,11 +42,8 @@ abstract class MultiChoiceControl extends BaseControl
 	}
 
 
-	/**
-	 * @return static
-	 * @internal
-	 */
-	public function setValue(mixed $values)
+	/** @internal */
+	public function setValue(mixed $values): static
 	{
 		if (is_scalar($values) || $values === null) {
 			$values = (array) $values;
@@ -112,9 +109,8 @@ abstract class MultiChoiceControl extends BaseControl
 	/**
 	 * Sets items from which to choose. When $useKeys is false, values are used as keys too.
 	 * @param mixed[]  $items
-	 * @return static
 	 */
-	public function setItems(array $items, bool $useKeys = true)
+	public function setItems(array $items, bool $useKeys = true): static
 	{
 		$this->items = $useKeys ? $items : array_combine($items, $items);
 		return $this;
