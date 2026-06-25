@@ -44,7 +44,6 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Returns the value, substituting empty string when it matches the empty value. Returns null when nullable is set and value is empty.
-	 * @return mixed
 	 */
 	public function getValue(): mixed
 	{
