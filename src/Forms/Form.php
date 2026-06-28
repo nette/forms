@@ -48,6 +48,7 @@ class Form extends Container implements Nette\HtmlStringable
 		URL = ':url',
 		Pattern = ':pattern',
 		PatternInsensitive = ':patternCaseInsensitive',
+		Enum = ':enum',
 		Integer = ':integer',
 		Numeric = ':numeric',
 		Float = ':float',
