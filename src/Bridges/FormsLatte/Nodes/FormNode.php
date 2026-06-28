@@ -61,7 +61,7 @@ class FormNode extends StatementNode
 			. ($this->name instanceof StringNode
 				? '$this->global->uiControl[%node]'
 				: '(is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp])')
-			. ') %line;'
+			. ', global: $this->global) %line;'
 			. ($this->print
 				? 'echo $this->global->forms->renderFormBegin(%node) %1.line;'
 				: '')

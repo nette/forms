@@ -1,5 +1,5 @@
 <?php %A%
-		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* pos %d%:1 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos %d%:1 */;
 		echo $this->global->forms->renderFormBegin(['id' => 'myForm', 'class' => 'ajax']) /* pos %d%:1 */;
 		echo "\n";
 		foreach (['id', 'username', 'select', 'area', 'send'] as $name) /* pos %d%:2 */ {
@@ -63,7 +63,7 @@
 
 
 ';
-		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* pos %d%:1 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos %d%:1 */;
 		echo $this->global->forms->renderFormBegin([]) /* pos %d%:1 */;
 		echo $this->global->forms->renderFormEnd() /* pos %d%:1 */;
 		$this->global->forms->end();
@@ -71,7 +71,7 @@
 		echo '
 
 ';
-		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* pos %d%:1 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos %d%:1 */;
 		echo $this->global->forms->renderFormBegin([]) /* pos %d%:1 */;
 		echo "\n";
 		foreach ($form['sex']->items as $key => $label) /* pos %d%:1 */ {
@@ -185,7 +185,7 @@
 
 ';
 		if (1) /* pos %d%:48 */ {
-			$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* pos %d%:7 */;
+			$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos %d%:7 */;
 			echo '<form';
 			echo $this->global->forms->renderFormBegin(['id' => null, 'class' => null], false) /* pos %d%:7 */;
 			echo ' id="myForm" class="ajax">
@@ -201,7 +201,7 @@
 		echo '
 
 ';
-		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* pos %d%:7 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos %d%:7 */;
 		echo '<form';
 		echo $this->global->forms->renderFormBegin(['class' => null], false) /* pos %d%:7 */;
 		echo ($ʟ_tmp = array_filter(['nclass'])) ? ' class="' . LR\HtmlHelpers::escapeAttr(implode(" ", array_unique($ʟ_tmp))) . '"' : "" /* pos %d%:23 */;
@@ -245,7 +245,7 @@
 
 
 ';
-		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* pos %d%:1 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos %d%:1 */;
 		echo '
 <label';
 		echo ($ʟ_elem = $this->global->forms->get('sex')->getLabelPart())->attributes() /* pos %d%:8 */;
