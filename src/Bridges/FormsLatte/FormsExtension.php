@@ -46,6 +46,6 @@ final class FormsExtension extends Latte\Extension
 
 	public function getCacheKey(Latte\Engine $engine): mixed
 	{
-		return 2;
+		return 3;
 	}
 }
