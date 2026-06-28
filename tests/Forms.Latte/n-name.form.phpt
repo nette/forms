@@ -13,7 +13,7 @@ $latte->addExtension(new FormsExtension);
 Assert::match(
 	<<<'XX'
 		%A%
-				$this->global->forms->begin($form = $this->global->uiControl['foo'], global: $this->global) /* pos 1:7 */;
+				$this->global->forms->begin($form = $this->global->uiControl['foo']) /* pos 1:7 */;
 				echo '<form';
 				echo $this->global->forms->renderFormBegin([], false) /* pos 1:7 */;
 				echo '>';
@@ -29,7 +29,7 @@ Assert::match(
 Assert::match(
 	<<<'XX'
 		%A%
-				$this->global->forms->begin($form = $this->global->uiControl['foo'], global: $this->global) /* pos 1:18 */;
+				$this->global->forms->begin($form = $this->global->uiControl['foo']) /* pos 1:18 */;
 				$ʟ_tag = '';
 				if (0) /* pos 1:7 */ {
 					$ʟ_tag = '</form>' . $ʟ_tag;

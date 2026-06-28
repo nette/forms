@@ -110,12 +110,8 @@ class Runtime
 	}
 
 
-	public function begin(Container $form, bool $detached = false, ?\stdClass $global = null, bool $bindsForm = true): void
+	public function begin(Container $form, bool $detached = false, bool $bindsForm = true): void
 	{
-		if ($global !== null) {
-			$global->formsStack = &$this->stack; // BC alias for the removed formsStack provider
-		}
-
 		$this->stack[] = $form;
 		$this->formBindings[] = $bindsForm;
 
