@@ -334,15 +334,21 @@ final class Helpers
 		\ReflectionParameter|\ReflectionProperty|null $reflection,
 	): mixed
 	{
-		if ($value !== null
-			&& $reflection
-			&& ($type = Nette\Utils\Type::fromReflection($reflection)?->getSingleName())
-			&& is_a($type, \BackedEnum::class, allow_string: true)
+		if ($value === null
+			|| !$reflection
+			|| !($type = Nette\Utils\Type::fromReflection($reflection)?->getSingleName())
+			|| !is_a($type, \BackedEnum::class, allow_string: true)
 		) {
-			return $type::from($value);
+			return $value;
 		}
 
-		return $value;
+		// form values arrive as strings, so int-backed enums need explicit conversion
+		if ((new \ReflectionEnum($type))->getBackingType()?->getName() === 'int') {
+			$int = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+			return $int === null ? $value : ($type::tryFrom($int) ?? $value);
+		}
+
+		return is_string($value) ? ($type::tryFrom($value) ?? $value) : $value;
 	}
 
 
