@@ -83,7 +83,7 @@ class FormNode extends StatementNode
 				default => '(is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp])',
 			})
 			. ($this->mode === self::ModeDetached ? ', detached: true' : '')
-			. ', global: $this->global) %line;'
+			. ') %line;'
 			. (match ($this->mode) {
 				self::ModeScope, self::ModeLegacyScope => ' %3.node ',
 				self::ModeDetached => $renderBegin . $renderEnd . ' %3.node ',
