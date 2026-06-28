@@ -1,5 +1,5 @@
 <?php %A%
-		$this->global->forms->begin($form = $this->global->uiControl['myForm'], detached: true, global: $this->global) /* pos 5:1 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm'], detached: true) /* pos 5:1 */;
 		echo $this->global->forms->renderFormBegin([]) /* pos 5:1 */;
 		echo $this->global->forms->renderFormEnd() /* pos 12:1 */;
 		echo '
@@ -24,7 +24,7 @@
 
 
 ';
-		$this->global->forms->begin($form = $this->global->uiControl['myForm'], detached: true, global: $this->global) /* pos 17:1 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm'], detached: true) /* pos 17:1 */;
 		echo $this->global->forms->renderFormBegin(['class' => 'shell']) /* pos 17:1 */;
 		echo $this->global->forms->renderFormEnd() /* pos 19:1 */;
 		echo '
@@ -38,7 +38,7 @@
 
 
 ';
-		$this->global->forms->begin($form = $this->global->uiControl['myForm'], detached: true, global: $this->global) /* pos 24:1 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm'], detached: true) /* pos 24:1 */;
 		echo $this->global->forms->renderFormBegin([]) /* pos 24:1 */;
 		echo $this->global->forms->renderFormEnd() /* pos 33:1 */;
 		echo '

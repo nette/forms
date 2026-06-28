@@ -1,5 +1,5 @@
 <?php %A%
-		$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos %d%:1 */;
+		$this->global->forms->begin($form = $this->global->uiControl['myForm']) /* pos %d%:1 */;
 		echo $this->global->forms->renderFormBegin([]) /* pos %d%:1 */;
 		echo '
 <table>
