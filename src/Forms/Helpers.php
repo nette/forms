@@ -11,7 +11,7 @@ use Nette;
 use Nette\Utils\Html;
 use Nette\Utils\Image;
 use Nette\Utils\Strings;
-use function array_fill_keys, array_map, array_values, explode, filter_var, html_entity_decode, htmlspecialchars, in_array, ini_get, is_a, is_array, is_numeric, is_scalar, is_string, str_ends_with, str_replace, strip_tags, strpos, strtolower, strtr, substr, substr_replace;
+use function array_column, array_fill_keys, array_map, array_values, explode, filter_var, html_entity_decode, htmlspecialchars, in_array, ini_get, is_a, is_array, is_numeric, is_scalar, is_string, str_ends_with, str_replace, strip_tags, strpos, strtolower, strtr, substr, substr_replace;
 
 
 /**
@@ -149,7 +149,11 @@ final class Helpers
 				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => $msg];
 			}
 
-			if (is_array($rule->arg)) {
+			if ($op === Form::Enum && is_string($rule->arg) && is_a($rule->arg, \BackedEnum::class, allow_string: true)) {
+				// the enum validator has no JS counterpart; export as membership check against the case values
+				$item['op'] = ($rule->isNegative ? '~' : '') . Form::Equal;
+				$item['arg'] = array_column(($rule->arg)::cases(), 'value');
+			} elseif (is_array($rule->arg)) {
 				$item['arg'] = [];
 				foreach ($rule->arg as $key => $value) {
 					$item['arg'][$key] = self::exportArgument($value, $rule->control);

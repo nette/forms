@@ -175,6 +175,14 @@ testException('description', function () {
 - `{form detached name}` for layouts that nest other forms
 - Missing comma before `{form}` arguments is now deprecated
 
+### New validation rules (v3.3)
+
+- `Form::Enum` - validates that the value is a valid case of a backed enum, e.g.
+  `$form->addText('status')->addRule($form::Enum, 'message', StatusEnum::class)`.
+  Catches invalid input before mapping to a typed object (`getValues(Dto::class)`),
+  so a bad value yields a normal form error instead of a TypeError/HTTP 500.
+  Exports to JS as an `:equal` membership check against the enum case values.
+
 ## Key Configuration Files
 
 - `composer.json` - PHP dependencies, scripts
@@ -299,6 +307,7 @@ All rules are constants of `Nette\Forms\Form` class:
 - `Email` - valid email address
 - `URL` - absolute URL (auto-completes scheme)
 - `Pattern` / `PatternInsensitive` - regex matching
+- `Enum` - value is a valid case of a backed enum (arg is the enum class-string)
 - `Integer` / `Numeric` / `Float` - numeric validation
 - `Min` / `Max` / `Range` - numeric range
 

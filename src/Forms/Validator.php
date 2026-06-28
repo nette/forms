@@ -10,7 +10,7 @@ namespace Nette\Forms;
 use Nette;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
-use function array_map, count, explode, in_array, is_array, is_float, is_int, is_object, is_string, preg_replace, preg_replace_callback, rtrim, str_replace, strtolower;
+use function array_map, count, explode, filter_var, in_array, is_a, is_array, is_float, is_int, is_object, is_string, preg_replace, preg_replace_callback, rtrim, str_replace, strtolower;
 
 
 /**
@@ -32,6 +32,7 @@ final class Validator
 		Form::Length => 'Please enter a value between %d and %d characters long.',
 		Form::Email => 'Please enter a valid email address.',
 		Form::URL => 'Please enter a valid URL.',
+		Form::Enum => 'Please select a valid option.',
 		Form::Integer => 'Please enter a valid integer.',
 		Form::Float => 'Please enter a valid number.',
 		Form::Min => 'Please enter a value greater than or equal to %d.',
@@ -307,6 +308,32 @@ final class Validator
 	public static function validatePatternCaseInsensitive(Control $control, string $pattern): bool
 	{
 		return self::validatePattern($control, $pattern, caseInsensitive: true);
+	}
+
+
+	/**
+	 * Checks whether the control's value is a valid case of the given backed enum.
+	 * @param  class-string  $enum  backed enum class
+	 */
+	public static function validateEnum(Control $control, string $enum): bool
+	{
+		if (!is_a($enum, \BackedEnum::class, allow_string: true)) {
+			throw new Nette\InvalidArgumentException("The Enum validator requires a backed enum class, '$enum' given.");
+		}
+
+		$intBacked = (new \ReflectionEnum($enum))->getBackingType()?->getName() === 'int';
+		foreach (static::toArray($control->getValue()) as $value) {
+			if ($intBacked) {
+				$value = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+				if ($value === null || $enum::tryFrom($value) === null) {
+					return false;
+				}
+			} elseif (!is_string($value) || $enum::tryFrom($value) === null) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 
