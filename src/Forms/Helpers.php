@@ -11,7 +11,7 @@ use Nette;
 use Nette\Utils\Html;
 use Nette\Utils\Image;
 use Nette\Utils\Strings;
-use function array_fill_keys, array_map, array_values, explode, html_entity_decode, htmlspecialchars, in_array, ini_get, is_a, is_array, is_numeric, is_scalar, is_string, str_ends_with, str_replace, strip_tags, strpos, strtolower, strtr, substr, substr_replace;
+use function array_fill_keys, array_map, array_values, explode, filter_var, html_entity_decode, htmlspecialchars, in_array, ini_get, is_a, is_array, is_numeric, is_scalar, is_string, str_ends_with, str_replace, strip_tags, strpos, strtolower, strtr, substr, substr_replace;
 
 
 /**
@@ -334,15 +334,22 @@ final class Helpers
 		\ReflectionParameter|\ReflectionProperty|null $reflection,
 	): mixed
 	{
-		if ($value !== null
-			&& $reflection
-			&& ($type = Nette\Utils\Type::fromReflection($reflection)?->getSingleName())
-			&& is_a($type, \BackedEnum::class, allow_string: true)
+		if ($value === null
+			|| !$reflection
+			|| !($type = Nette\Utils\Type::fromReflection($reflection)?->getSingleName())
+			|| !is_a($type, \BackedEnum::class, allow_string: true)
 		) {
-			return $type::from($value);
+			return $value;
 		}
 
-		return $value;
+		// coerce only when the value matches the enum backing type (HTTP values arrive as
+		// strings); leave incompatible input unchanged so from() cannot raise TypeError/ValueError
+		if ((new \ReflectionEnum($type))->getBackingType()?->getName() === 'int') {
+			$int = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
+			return $int === null ? $value : ($type::tryFrom($int) ?? $value);
+		}
+
+		return is_string($value) ? ($type::tryFrom($value) ?? $value) : $value;
 	}
 
 
