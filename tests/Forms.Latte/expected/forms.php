@@ -18,9 +18,9 @@
 		';
 			echo ($ʟ_label = $this->global->forms->get($form[$name])->getLabel())?->addAttributes(['title' => 'hello'])?->startTag() /* pos %d%:3 */;
 			echo ' ';
-			echo $this->global->forms->get($form[$name])->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* pos %d%:39 */;
+			echo $this->global->forms->get($form[$name])->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* pos %d%:40 */;
 			echo ' ';
-			echo $ʟ_label?->endTag() /* pos %d%:87 */;
+			echo $ʟ_label?->endTag() /* pos %d%:89 */;
 			echo '
 		';
 			echo LR\HtmlHelpers::escapeText($this->global->forms->get($form[$name])->getError()) /* pos %d%:3 */;

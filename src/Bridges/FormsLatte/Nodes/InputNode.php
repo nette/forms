@@ -37,7 +37,7 @@ class InputNode extends StatementNode
 				? new StringNode('')
 				: $tag->parser->parseUnquotedStringOrExpression();
 		}
-		$tag->parser->stream->tryConsume(',');
+		$tag->parser->consumeCommaBeforeArguments(strict: false);
 		$node->attributes = $tag->parser->parseArguments();
 		return $node;
 	}
