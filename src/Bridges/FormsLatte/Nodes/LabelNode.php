@@ -49,7 +49,7 @@ class LabelNode extends StatementNode
 				: $tag->parser->parseUnquotedStringOrExpression();
 		}
 
-		$tag->parser->stream->tryConsume(',');
+		$tag->parser->consumeCommaBeforeArguments(strict: false);
 		$node->attributes = $tag->parser->parseArguments();
 		$node->void = $tag->void;
 		[$node->content] = yield;

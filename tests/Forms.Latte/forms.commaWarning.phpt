@@ -30,6 +30,33 @@ test('deprecation warning when comma is missing before arguments', function () u
 	Assert::error(
 		fn() => $latte->compile("{form myForm class => 'a'}{/form}\n"),
 		E_USER_DEPRECATED,
-		'Missing comma before arguments in {form} tag on line 1 at column 14.',
+		'Missing comma before tag arguments on line 1 at column 14.',
+	);
+});
+
+
+test('deprecation warning when comma is missing in {input}', function () use ($latte) {
+	Assert::error(
+		fn() => $latte->compile("{input name class => 'a'}\n"),
+		E_USER_DEPRECATED,
+		'Missing comma before tag arguments on line 1 at column 13.',
+	);
+});
+
+
+test('deprecation warning when comma is missing in {label}', function () use ($latte) {
+	Assert::error(
+		fn() => $latte->compile("{label name class => 'a' /}\n"),
+		E_USER_DEPRECATED,
+		'Missing comma before tag arguments on line 1 at column 13.',
+	);
+});
+
+
+test('deprecation warning also fires after the :part syntax', function () use ($latte) {
+	Assert::error(
+		fn() => $latte->compile("{input name:x class => 'a'}\n"),
+		E_USER_DEPRECATED,
+		'Missing comma before tag arguments on line 1 at column 15.',
 	);
 });
