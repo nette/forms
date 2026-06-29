@@ -16,6 +16,7 @@ use function array_combine, array_key_exists, array_map, array_merge, array_uniq
 /**
  * Container for form controls.
  *
+ * @property-read string $name
  * @property   ArrayHash<mixed> $values
  * @property-read \Iterator $controls
  * @property-read ?Form $form
@@ -603,8 +604,11 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	/********************* extension methods ****************d*g**/
 
 
-	/** @param mixed[] $args */
-	public function __call(string $name, array $args): mixed
+	/**
+	 * @param  mixed[]  $args
+	 * @return mixed
+	 */
+	public function __call(string $name, array $args)
 	{
 		if (isset(self::$extMethods[$name])) {
 			return (self::$extMethods[$name])($this, ...$args);

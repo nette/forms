@@ -19,6 +19,7 @@ use function array_unique, explode, func_get_arg, func_num_args, get_parent_clas
 /**
  * Base implementation for form controls with HTML rendering, validation, translation, and option support.
  *
+ * @property-read string $name
  * @property-read Form $form
  * @property-read string $htmlName
  * @property   string|bool|null $htmlId
@@ -391,7 +392,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation rule.
-	 * @param  (callable(Control): bool)|string  $validator
+	 * @param  (callable(Control, mixed): bool)|string  $validator
 	 * @return static
 	 */
 	public function addRule(
@@ -406,7 +407,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation condition and returns a new branch.
-	 * @param  (callable(Control): bool)|string|bool  $validator
+	 * @param  (callable(Control, mixed): bool)|string|bool  $validator
 	 */
 	public function addCondition($validator, mixed $value = null): Rules
 	{
@@ -416,7 +417,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation condition based on another control and returns a new branch.
-	 * @param  (callable(Control): bool)|string  $validator
+	 * @param  (callable(Control, mixed): bool)|string  $validator
 	 */
 	public function addConditionOn(Control $control, $validator, mixed $value = null): Rules
 	{
@@ -558,7 +559,10 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/********************* extension methods ****************d*g**/
 
 
-	/** @param mixed[] $args */
+	/**
+	 * @param  mixed[]  $args
+	 * @return mixed
+	 */
 	public function __call(string $name, array $args)
 	{
 		$class = static::class;

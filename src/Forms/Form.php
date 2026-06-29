@@ -11,7 +11,7 @@ use Nette;
 use Nette\Utils\Arrays;
 use Nette\Utils\Html;
 use Stringable;
-use function array_key_first, array_merge, array_search, array_unique, count, headers_sent, in_array, is_array, is_scalar, is_string, sprintf, strcasecmp, strtolower;
+use function array_merge, array_search, array_unique, count, headers_sent, in_array, is_array, is_scalar, is_string, sprintf, strcasecmp, strtolower;
 use const PHP_SAPI;
 
 
@@ -308,8 +308,12 @@ class Form extends Container implements Nette\HtmlStringable
 	public function addProtection(?string $errorMessage = null): Controls\CsrfProtection
 	{
 		$control = new Controls\CsrfProtection($errorMessage);
-		$children = $this->getComponents();
-		$first = $children ? (string) array_key_first($children) : null;
+		$first = null;
+		foreach ($this->getComponents() as $name => $component) {
+			$first = (string) $name;
+			break;
+		}
+
 		$this->addComponent($control, self::ProtectorId, $first);
 		return $control;
 	}

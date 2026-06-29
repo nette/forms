@@ -44,7 +44,6 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Returns the value, substituting empty string when it matches the empty value. Returns null when nullable is set and value is empty.
-	 * @return mixed
 	 */
 	public function getValue(): mixed
 	{
@@ -124,7 +123,7 @@ abstract class TextBase extends BaseControl
 
 
 	/**
-	 * @param  (callable(Nette\Forms\Control): bool)|string  $validator
+	 * @param  (callable(Nette\Forms\Control, mixed): bool)|string  $validator
 	 * @return static
 	 */
 	public function addRule(

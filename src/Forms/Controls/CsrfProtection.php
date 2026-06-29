@@ -35,9 +35,7 @@ class CsrfProtection extends HiddenField
 
 		$this->monitor(Presenter::class, function (Presenter $presenter): void {
 			if (!$this->session) {
-				$session = $presenter->getSession();
-				assert($session instanceof Nette\Http\Session);
-				$this->session = $session;
+				$this->session = $presenter->getSession();
 				$this->session->start();
 			}
 		});
