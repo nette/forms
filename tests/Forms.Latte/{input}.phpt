@@ -15,9 +15,10 @@ Assert::match(
 	$latte->compile('{input foo}'),
 );
 
-Assert::match(
-	'%A%echo $this->global->forms->get(\'foo\')->getControl()->addAttributes([\'class\' => \'foo\']) %A%',
-	$latte->compile('{input foo class => foo}'),
+Assert::error(
+	fn() => $latte->compile('{input foo class => foo}'),
+	E_USER_DEPRECATED,
+	'Missing comma before tag arguments on line 1 at column 12.',
 );
 
 Assert::match(
@@ -30,11 +31,13 @@ Assert::match(
 	$latte->compile('{input foo:}'),
 );
 
-Assert::exception(
-	fn() => $latte->compile('{input foo: class => foo}'),
-	Latte\CompileException::class,
-	"Unexpected '=>', expecting end of tag in {input} (on line 1 at column 19)",
-);
+Assert::error(function () use ($latte) {
+	Assert::exception(
+		fn() => $latte->compile('{input foo: class => foo}'),
+		Latte\CompileException::class,
+		"Unexpected '=>', expecting end of tag in {input} (on line 1 at column 19)",
+	);
+}, E_USER_DEPRECATED, 'Missing comma before tag arguments on line 1 at column 19.');
 
 Assert::match(
 	'%A%echo $this->global->forms->get(\'foo\')->getControlPart(\'\') %A%',
