@@ -110,3 +110,11 @@ class CustomValidators
 		return $input->getValue() % $arg === 0;
 	}
 }
+
+
+// Issue #351: getHttpData() without arguments returns the whole nested data, not string[]
+function testFormGetHttpData(Form $form): void
+{
+	assertType('array<mixed>', $form->getHttpData());
+	assertType('array<Nette\Http\FileUpload|string>|Nette\Http\FileUpload|string|null', $form->getHttpData(Form::DataLine, 'name'));
+}
