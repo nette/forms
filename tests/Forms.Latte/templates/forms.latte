@@ -1,12 +1,12 @@
 {form myForm, id => myForm, class=>"ajax"}
 	{foreach [id, username, select, area, send] as $name}
 		{label $name /}
-		{input $name title => Hello, size => 10}
+		{input $name, title => Hello, size => 10}
 		{inputError $name}
 
 		<br>
 
-		{label $form[$name] title => hello} {input $form[$name] title => Hello, size => 10} {/label}
+		{label $form[$name], title => hello} {input $form[$name], title => Hello, size => 10} {/label}
 		{inputError $form[$name]}
 	{/foreach}
 
