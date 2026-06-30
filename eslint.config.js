@@ -5,7 +5,7 @@ import { defineConfig } from 'eslint/config';
 export default defineConfig([
 	{
 		ignores: [
-			'vendor', 'temp',
+			'vendor', 'temp', 'exam',
 		],
 	},
 
