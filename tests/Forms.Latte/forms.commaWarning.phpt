@@ -30,6 +30,6 @@ test('deprecation warning when comma is missing before arguments', function () u
 	Assert::error(
 		fn() => $latte->compile("{form myForm class => 'a'}{/form}\n"),
 		E_USER_DEPRECATED,
-		'Missing comma before arguments in {form} tag on line 1 at column 14.',
+		'Missing comma before tag arguments on line 1 at column 14.',
 	);
 });

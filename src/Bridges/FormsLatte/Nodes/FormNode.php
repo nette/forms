@@ -52,10 +52,7 @@ class FormNode extends StatementNode
 			default => null,
 		};
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();
-		if (!$tag->parser->stream->tryConsume(',') && !$tag->parser->isEnd()) {
-			$position = $tag->parser->stream->peek()->position;
-			trigger_error("Missing comma before arguments in {{$tag->name}} tag $position.", E_USER_DEPRECATED);
-		}
+		$tag->parser->consumeCommaBeforeArguments(strict: false);
 		$node->attributes = $tag->parser->parseArguments();
 		if ($node->mode !== null && $node->mode !== self::ModeDetached && $node->attributes->items) {
 			$label = '{' . $tag->name . ($node->mode === self::ModeScope ? ' scope' : '') . '}';
