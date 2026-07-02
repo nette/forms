@@ -25,6 +25,6 @@ test('GET method form submission', function () {
 	$form->addSubmit('send', 'Send');
 
 	Assert::truthy($form->isSubmitted());
-	Assert::same(['item'], $form->getHttpData());
+	Assert::same(['item'], $form->getSubmittedData());
 	Assert::same([], $form->getValues('array'));
 });

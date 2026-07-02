@@ -8,6 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
+use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Stringable;
 use function func_num_args, is_string;
@@ -41,9 +42,9 @@ class CheckboxList extends MultiChoiceControl
 
 	public function loadHttpData(): void
 	{
-		$data = $this->getForm()->getHttpData(Nette\Forms\Form::DataText, substr($this->getHtmlName(), 0, -2));
+		$data = $this->getSubmittedValue(Form::DataText);
 		$data = match (true) {
-			$data === null => $this->getHttpData(Nette\Forms\Form::DataText),
+			$data === null => $this->getSubmittedValue(Form::DataList | Form::DataText),
 			is_string($data) => explode(',', $data),
 			default => [],
 		};

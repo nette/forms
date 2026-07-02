@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Test: Nette\Forms\Helpers::extractHttpData()
+ * Test: Nette\Forms\Helpers::extractHttpData() (deprecated API)
  */
 
 use Nette\Forms\{Form, Helpers};
@@ -37,7 +37,7 @@ test('handling array data in HTTP extraction', function () {
 	Assert::same(['1', '2'], Helpers::extractHttpData(['multi' => ['x' => '1', 2 => '2']], 'multi[]', Form::DataText));
 	Assert::same(
 		['x' => '1', 2 => '2'],
-		Helpers::extractHttpData(['multi' => ['x' => '1', 2 => '2']], 'multi[]', Form::DataKeys | Form::DataText),
+		Helpers::extractHttpData(['multi' => ['x' => '1', 2 => '2']], 'multi[]', Form::DataArray | Form::DataText),
 	);
 
 	Assert::same(['3', '4'], Helpers::extractHttpData([
@@ -80,7 +80,7 @@ test('file upload data extraction', function () {
 
 	Assert::equal(['x' => $file, $file], Helpers::extractHttpData([
 		'multiple' => ['avatar' => ['x' => $file, $file]],
-	], 'multiple[avatar][]', Form::DataKeys | Form::DataFile));
+	], 'multiple[avatar][]', Form::DataArray | Form::DataFile));
 
 	Assert::same([], Helpers::extractHttpData([], 'missing[]', Form::DataFile));
 	Assert::same([], Helpers::extractHttpData(['invalid' => null], 'invalid[]', Form::DataFile));

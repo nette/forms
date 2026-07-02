@@ -195,17 +195,18 @@ test('translator integration for labels and errors', function () {
 });
 
 
-test('dynamic HTML name attribute handling', function () {
-	$_POST = ['b' => '123', 'send' => ''];
+test('overridden HTML name attribute redirects both rendering and loading', function () {
+	$_POST = ['a' => '123', 'b' => '456', 'send' => ''];
 
 	$form = new Form;
 	$form->allowCrossOrigin();
 	$form->addSubmit('send', 'Send');
 	$input = $form->addText('a');
 
-	Assert::same('', $input->getValue());
-	$input->setHtmlAttribute('name', 'b');
 	Assert::same('123', $input->getValue());
+	$input->setHtmlAttribute('name', 'b');
+	// value is reloaded using the overridden HTML name
+	Assert::same('456', $input->getValue());
 
-	Assert::match('<input type="text" name="b" id="frm-a" value="123">', (string) $input->getControl());
+	Assert::match('<input type="text" name="b" id="frm-a" value="456">', (string) $input->getControl());
 });

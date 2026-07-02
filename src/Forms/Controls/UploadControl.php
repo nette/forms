@@ -54,7 +54,7 @@ class UploadControl extends BaseControl
 
 	public function loadHttpData(): void
 	{
-		$this->value = $this->getHttpData(Form::DataFile);
+		$this->value = $this->getSubmittedValue($this->control->multiple ? Form::DataList | Form::DataFile : Form::DataFile);
 	}
 
 

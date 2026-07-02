@@ -39,7 +39,7 @@ abstract class ChoiceControl extends BaseControl
 
 	public function loadHttpData(): void
 	{
-		$value = $this->getHttpData(Nette\Forms\Form::DataText);
+		$value = $this->getSubmittedValue(Nette\Forms\Form::DataText);
 		$this->value = $value === null ? null : key([$value => null]);
 	}
 
