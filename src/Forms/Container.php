@@ -328,9 +328,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		}
 
 		parent::addComponent($component, $name, $insertBefore);
-		if ($component instanceof Control || $component instanceof self) {
-			$this->currentGroup?->add($component);
-		}
+		$this->currentGroup?->add($component);
 
 		return $this;
 	}

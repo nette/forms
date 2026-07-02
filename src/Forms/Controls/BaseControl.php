@@ -132,7 +132,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/** @internal */
-	public function setValue($value): static
+	public function setValue(mixed $value): static
 	{
 		$this->value = $value;
 		return $this;
