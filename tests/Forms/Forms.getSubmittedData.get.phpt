@@ -24,7 +24,7 @@ test('empty GET form submission', function () {
 
 	Assert::false($form->isSubmitted());
 	Assert::false($form->isSuccess());
-	Assert::same([], $form->getHttpData());
+	Assert::same([], $form->getSubmittedData());
 	Assert::same([], $form->getValues('array'));
 });
 
@@ -35,7 +35,7 @@ test('unsubmitted form handling', function () {
 	$form->addSubmit('send', 'Send');
 
 	Assert::false($form->isSubmitted());
-	Assert::same([], $form->getHttpData());
+	Assert::same([], $form->getSubmittedData());
 	Assert::same([], $form->getValues('array'));
 });
 
@@ -50,7 +50,7 @@ test('tracker ID in GET submission', function () {
 	$form->addSubmit('send', 'Send');
 
 	Assert::truthy($form->isSubmitted());
-	Assert::same([Form::TrackerId => $name], $form->getHttpData());
+	Assert::same([Form::TrackerId => $name], $form->getSubmittedData());
 	Assert::same([], $form->getValues('array'));
 	Assert::same($name, $form[Form::TrackerId]->getValue());
 });

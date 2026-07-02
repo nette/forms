@@ -29,7 +29,7 @@ final class Helpers
 	/**
 	 * Extracts and sanitizes submitted form data for single control.
 	 * @param  mixed[]  $data
-	 * @param  int  $type  type Form::DataText, DataLine, DataFile, DataKeys
+	 * @param  int  $type  type Form::DataText, DataLine, DataFile, DataArray
 	 * @return string|mixed[]|Nette\Http\FileUpload|null
 	 * @internal
 	 */
@@ -40,36 +40,41 @@ final class Helpers
 	): string|array|Nette\Http\FileUpload|null
 	{
 		$name = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName));
-		$data = Nette\Utils\Arrays::get($data, $name, null);
-		$itype = $type & ~Form::DataKeys;
-
-		if (str_ends_with($htmlName, '[]')) {
-			if (!is_array($data)) {
-				return [];
-			}
-
-			foreach ($data as $k => $v) {
-				$data[$k] = $v = static::sanitize($itype, $v);
-				if ($v === null) {
-					unset($data[$k]);
-				}
-			}
-
-			if ($type & Form::DataKeys) {
-				return $data;
-			}
-
-			return array_values($data);
-
-		} else {
-			return static::sanitize($itype, $data);
-		}
+		$value = Nette\Utils\Arrays::get($data, $name, null);
+		$type = str_ends_with($htmlName, '[]')
+			? $type | Form::DataList
+			: $type & ~Form::DataArray;
+		return static::sanitizeData($type, $value);
 	}
 
 
-	private static function sanitize(int $type, mixed $value): string|Nette\Http\FileUpload|null
+	/**
+	 * Sanitizes a submitted value according to the given data type (Form::DataText, DataLine, DataFile,
+	 * optionally combined with DataArray to keep array keys or DataList to renumber them).
+	 * @return string|mixed[]|Nette\Http\FileUpload|null
+	 */
+	public static function sanitizeData(int $type, mixed $value): string|array|Nette\Http\FileUpload|null
 	{
-		if ($type === Form::DataText) {
+		if (($type & Form::DataList) || ($type & Form::DataArray)) {
+			if (!is_array($value)) {
+				return [];
+			}
+
+			$itype = $type & ~(Form::DataList | Form::DataArray);
+			if ($itype) {
+				foreach ($value as $k => $v) {
+					$value[$k] = $v = static::sanitizeData($itype, $v);
+					if ($v === null) {
+						unset($value[$k]);
+					}
+				}
+			}
+
+			return $type & Form::DataArray
+				? $value
+				: array_values($value);
+
+		} elseif ($type === Form::DataText) {
 			return is_scalar($value)
 				? Strings::unixNewLines((string) $value)
 				: null;
@@ -100,11 +105,19 @@ final class Helpers
 			$name = substr_replace($name, '', $pos, 1) . ']';
 		}
 
-		if (is_numeric($name) || in_array($name, self::UnsafeNames, true)) {
-			$name = '_' . $name;
-		}
+		return static::sanitizeHtmlName($name);
+	}
 
-		return $name;
+
+	/**
+	 * Prefixes names that would clash with JavaScript form properties or are numeric,
+	 * mirroring the transformation applied by generateHtmlName().
+	 */
+	public static function sanitizeHtmlName(string $name): string
+	{
+		return is_numeric($name) || in_array($name, self::UnsafeNames, true)
+			? '_' . $name
+			: $name;
 	}
 
 

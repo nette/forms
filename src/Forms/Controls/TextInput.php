@@ -28,7 +28,7 @@ class TextInput extends TextBase
 
 	public function loadHttpData(): void
 	{
-		$this->setValue($this->getHttpData(Form::DataLine));
+		$this->setValue($this->getSubmittedValue(Form::DataLine));
 	}
 
 

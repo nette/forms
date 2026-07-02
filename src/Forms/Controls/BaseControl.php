@@ -11,7 +11,7 @@ use Nette;
 use Nette\Forms\{Control, Form, Rules};
 use Nette\Utils\Html;
 use Stringable;
-use function is_array;
+use function is_array, is_string;
 
 
 /**
@@ -106,21 +106,68 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	 */
 	public function loadHttpData(): void
 	{
-		$this->setValue($this->getHttpData(Form::DataText));
+		$this->setValue($this->getSubmittedValue(Form::DataText));
 	}
 
 
 	/**
-	 * Returns submitted HTTP value for this control.
+	 * Returns the submitted HTTP value for this control, or one of its sub-values when $key is specified.
+	 */
+	protected function getSubmittedValue(int $type, ?string $key = null): mixed
+	{
+		$htmlName = $this->control->name;
+		if (is_string($htmlName)) {
+			// overridden HTML name attribute is an absolute pointer into the raw submitted data, bypassing the component hierarchy
+			$path = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName . ($key === null ? '' : "[$key]")));
+			$value = Nette\Utils\Arrays::get($this->getForm()->getSubmittedData(), $path, null);
+			return Nette\Forms\Helpers::sanitizeData($type, $value);
+		}
+
+		$parent = $this->getParent() ?? throw new Nette\InvalidStateException('Control is not attached to any form.');
+		assert($parent instanceof Nette\Forms\Container);
+		$name = $this->getName();
+		assert($name !== null);
+		if ($parent instanceof Form) {
+			$name = Nette\Forms\Helpers::sanitizeHtmlName($name); // mirrors generateHtmlName() which sanitizes only top-level names
+		}
+
+		$value = $parent->getSubmittedData()[$name] ?? null;
+		if ($key !== null) {
+			$value = is_array($value) ? ($value[$key] ?? null) : null;
+		}
+
+		return Nette\Forms\Helpers::sanitizeData($type, $value);
+	}
+
+
+	/**
+	 * Returns the submitted HTTP value for this control.
 	 */
 	protected function getHttpData(int $type, ?string $htmlTail = null): mixed
 	{
-		return $this->getForm()->getHttpData($type, $this->getHtmlName() . $htmlTail);
+		if ($htmlTail === null || $htmlTail === '') {
+			return $this->getSubmittedValue($type);
+		}
+
+		if (str_ends_with($htmlTail, '[]')) {
+			$type |= Form::DataList;
+			$htmlTail = substr($htmlTail, 0, -2);
+		}
+
+		$keys = explode('[', str_replace([']', '.'], ['', '_'], $htmlTail));
+		if ($keys[0] === '') {
+			array_shift($keys);
+		}
+
+		$data = $this->getSubmittedValue(Form::DataArray);
+		assert(is_array($data));
+		return Nette\Forms\Helpers::sanitizeData($type, Nette\Utils\Arrays::get($data, $keys, null));
 	}
 
 
 	/**
-	 * Returns HTML name of control.
+	 * Returns HTML name of control. When the 'name' attribute is overridden, it is used
+	 * both for rendering and as an absolute key for reading submitted data.
 	 */
 	public function getHtmlName(): string
 	{
