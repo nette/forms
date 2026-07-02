@@ -98,18 +98,6 @@ parameters:
 			path: src/Forms/Rules.php
 			count: 1
 
-		-   # Parameters $caption / $key keep untyped for BC - adding native types would break
-			# existing user overrides of these methods in custom form controls.
-			identifier: missingType.parameter
-			message: '#^Method Nette\\Forms\\Controls\\\w+::(getLabel|getControl|getControlPart|getLabelPart)\(\) has parameter \$(caption|key) with no type specified\.$#'
-			paths:
-				- src/Forms/Controls/Button.php
-				- src/Forms/Controls/Checkbox.php
-				- src/Forms/Controls/CheckboxList.php
-				- src/Forms/Controls/HiddenField.php
-				- src/Forms/Controls/RadioList.php
-				- src/Forms/Controls/SubmitButton.php
-
 		-   # beforeRender() keeps untyped return for BC - user overrides may not declare void.
 			identifier: missingType.return
 			path: src/Forms/Form.php
