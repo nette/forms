@@ -74,7 +74,8 @@ class Form extends Container implements Nette\HtmlStringable
 		DataText = 1,
 		DataLine = 2,
 		DataFile = 3,
-		DataKeys = 8;
+		DataArray = 8,
+		DataList = 16;
 
 	/** @internal tracker ID */
 	public const TrackerId = '_form_';
@@ -172,8 +173,11 @@ class Form extends Container implements Nette\HtmlStringable
 	#[\Deprecated('use Form::DataFile')]
 	public const DATA_FILE = self::DataFile;
 
-	#[\Deprecated('use Form::DataKeys')]
-	public const DATA_KEYS = self::DataKeys;
+	#[\Deprecated('use Form::DataArray')]
+	public const DataKeys = self::DataArray;
+
+	#[\Deprecated('use Form::DataArray')]
+	public const DATA_KEYS = self::DataArray;
 
 	#[\Deprecated('use Form::TrackerId')]
 	public const TRACKER_ID = self::TrackerId;
@@ -200,7 +204,7 @@ class Form extends Container implements Nette\HtmlStringable
 	private SubmitterControl|bool $submittedBy = false;
 
 	/** @var mixed[] */
-	private array $httpData;
+	private array $submittedData;
 	private Html $element;
 	private FormRenderer $renderer;
 	private ?Nette\Localization\Translator $translator = null;
@@ -250,7 +254,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 	public function setMethod(string $method): static
 	{
-		if (isset($this->httpData)) {
+		if (isset($this->submittedData)) {
 			throw new Nette\InvalidStateException(__METHOD__ . '() must be called until the form is empty.');
 		}
 
@@ -395,10 +399,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function isSubmitted(): SubmitterControl|bool
 	{
-		if (!isset($this->httpData)) {
-			$this->getHttpData();
-		}
-
+		$this->getSubmittedData();
 		return $this->submittedBy;
 	}
 
@@ -423,30 +424,40 @@ class Form extends Container implements Nette\HtmlStringable
 
 
 	/**
-	 * Returns raw submitted HTTP data for a control, or all form data when called without arguments.
-	 * @return ($htmlName is null ? mixed[] : string|string[]|Nette\Http\FileUpload|Nette\Http\FileUpload[]|null)
+	 * Returns the raw submitted HTTP data for the entire form. Individual values are
+	 * unsanitized; controls sanitize them when reading via BaseControl::getSubmittedValue().
+	 * @return mixed[]
 	 */
-	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
+	public function getSubmittedData(): array
 	{
-		if (!isset($this->httpData)) {
+		if (!isset($this->submittedData)) {
 			if (!$this->isAnchored()) {
 				throw new Nette\InvalidStateException('Form is not anchored and therefore can not determine whether it was submitted.');
 			}
 
 			$data = $this->receiveHttpData();
-			$this->httpData = (array) $data;
+			$this->submittedData = (array) $data;
 			$this->submittedBy = is_array($data);
 		}
 
-		if ($htmlName === null) {
-			return $this->httpData;
-		}
+		return $this->submittedData;
+	}
 
-		return Helpers::extractHttpData(
-			$this->httpData,
-			$htmlName,
-			$type ?? throw new Nette\InvalidArgumentException('Parameter $type must be provided when $htmlName is specified.'),
-		);
+
+	/**
+	 * Returns submitted HTTP data. Note: inside a Repeater it operates on the raw,
+	 * not renumbered data; use BaseControl::getSubmittedValue() instead.
+	 * @return ($htmlName is null ? mixed[] : string|string[]|Nette\Http\FileUpload|Nette\Http\FileUpload[]|null)
+	 */
+	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
+	{
+		return $htmlName === null
+			? $this->getSubmittedData()
+			: Helpers::extractHttpData(
+				$this->getSubmittedData(),
+				$htmlName,
+				$type ?? throw new Nette\InvalidArgumentException('Parameter $type must be provided when $htmlName is specified.'),
+			);
 	}
 
 

@@ -10,7 +10,7 @@ namespace Nette\Forms;
 use Nette;
 use Nette\Utils\ArrayHash;
 use Stringable;
-use function array_key_exists, func_get_args, is_object;
+use function array_key_exists, func_get_args, is_array, is_object;
 
 
 /**
@@ -45,6 +45,26 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/********************* data exchange ****************d*g**/
+
+
+	/**
+	 * Returns the raw submitted HTTP data for this container's subtree. Individual values are
+	 * unsanitized; controls sanitize them when reading via BaseControl::getSubmittedValue().
+	 * @return mixed[]
+	 */
+	public function getSubmittedData(): array
+	{
+		$parent = $this->getParent() ?? throw new Nette\InvalidStateException('Container has no parent.');
+		assert($parent instanceof self);
+		$name = $this->getName();
+		assert($name !== null);
+		if ($parent instanceof Form) {
+			$name = Helpers::sanitizeHtmlName($name); // mirrors generateHtmlName() which sanitizes only top-level names
+		}
+
+		$data = $parent->getSubmittedData()[$name] ?? null;
+		return is_array($data) ? $data : [];
+	}
 
 
 	/**

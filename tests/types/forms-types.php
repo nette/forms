@@ -57,3 +57,10 @@ function testFormGetHttpData(Form $form): void
 	assertType('array<mixed>', $form->getHttpData());
 	assertType('array<Nette\Http\FileUpload|string>|Nette\Http\FileUpload|string|null', $form->getHttpData(Form::DataLine, 'name'));
 }
+
+
+function testFormGetSubmittedData(Form $form, Nette\Forms\Container $container): void
+{
+	assertType('array<mixed>', $form->getSubmittedData());
+	assertType('array<mixed>', $container->getSubmittedData());
+}
