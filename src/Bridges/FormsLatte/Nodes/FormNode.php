@@ -51,7 +51,7 @@ class FormNode extends StatementNode
 			default => null,
 		};
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();
-		$tag->parser->consumeCommaBeforeArguments($tag->name);
+		$tag->parser->consumeCommaBeforeArguments(strict: false);
 		$node->attributes = $tag->parser->parseArguments();
 		if ($node->mode !== null && $node->mode !== self::ModeDetached && $node->attributes->items) {
 			$label = '{' . $tag->name . ($node->mode === self::ModeScope ? ' scope' : '') . '}';
