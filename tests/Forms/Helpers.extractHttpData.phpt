@@ -9,6 +9,8 @@ use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
+error_reporting(E_ALL & ~E_USER_DEPRECATED);
+
 
 test('extracting simple HTTP data values', function () {
 	Assert::same('jim', Helpers::extractHttpData(['name' => 'jim'], 'name', Form::DataLine));

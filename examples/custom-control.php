@@ -27,7 +27,7 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 	}
 
 
-	public function setValue($value)
+	public function setValue(mixed $value): static
 	{
 		if ($value === null) {
 			$this->day = $this->month = $this->year = '';
@@ -57,16 +57,16 @@ class DateInput extends Nette\Forms\Controls\BaseControl
 
 	public function loadHttpData(): void
 	{
-		$this->day = $this->getHttpData(Form::DataLine, '[day]');
-		$this->month = $this->getHttpData(Form::DataLine, '[month]');
-		$this->year = $this->getHttpData(Form::DataLine, '[year]');
+		$this->day = $this->getSubmittedValue(Form::DataLine, 'day') ?? '';
+		$this->month = $this->getSubmittedValue(Form::DataLine, 'month') ?? '';
+		$this->year = $this->getSubmittedValue(Form::DataLine, 'year') ?? '';
 	}
 
 
 	/**
 	 * Generates control's HTML element.
 	 */
-	public function getControl()
+	public function getControl(): Html|string
 	{
 		$name = $this->getHtmlName();
 		return Html::el('input', [

@@ -31,8 +31,9 @@ final class Helpers
 	 * @param  mixed[]  $data
 	 * @param  int  $type  type Form::DataText, DataLine, DataFile, DataArray
 	 * @return string|mixed[]|Nette\Http\FileUpload|null
-	 * @internal
+	 * @deprecated use getSubmittedData()
 	 */
+	#[\Deprecated('use getSubmittedData()')]
 	public static function extractHttpData(
 		array $data,
 		string $htmlName,
