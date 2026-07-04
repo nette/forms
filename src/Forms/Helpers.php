@@ -149,7 +149,11 @@ final class Helpers
 				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => $msg];
 			}
 
-			if (is_array($rule->arg)) {
+			if ($op === Form::Enum && is_string($rule->arg) && is_a($rule->arg, \BackedEnum::class, allow_string: true)) {
+				// the enum validator has no JS counterpart; export as membership check against the case values
+				$item['op'] = ($rule->isNegative ? '~' : '') . Form::Equal;
+				$item['arg'] = array_column(($rule->arg)::cases(), 'value');
+			} elseif (is_array($rule->arg)) {
 				$item['arg'] = [];
 				foreach ($rule->arg as $key => $value) {
 					$item['arg'][$key] = self::exportArgument($value, $rule->control);
