@@ -448,12 +448,15 @@ class Form extends Container implements Nette\HtmlStringable
 	 * Returns submitted HTTP data. Note: inside a Repeater it operates on the raw,
 	 * not renumbered data; use BaseControl::getSubmittedValue() instead.
 	 * @return ($htmlName is null ? mixed[] : string|string[]|Nette\Http\FileUpload|Nette\Http\FileUpload[]|null)
+	 * @deprecated use getSubmittedData()
 	 */
+	#[\Deprecated('use getSubmittedData()')]
 	public function getHttpData(?int $type = null, ?string $htmlName = null): string|array|Nette\Http\FileUpload|null
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use getSubmittedData()', E_USER_DEPRECATED);
 		return $htmlName === null
 			? $this->getSubmittedData()
-			: Helpers::extractHttpData(
+			: @Helpers::extractHttpData( // @ the deprecation is already reported above
 				$this->getSubmittedData(),
 				$htmlName,
 				$type ?? throw new Nette\InvalidArgumentException('Parameter $type must be provided when $htmlName is specified.'),

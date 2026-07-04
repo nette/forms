@@ -31,14 +31,16 @@ final class Helpers
 	 * @param  mixed[]  $data
 	 * @param  int  $type  type Form::DataText, DataLine, DataFile, DataArray
 	 * @return string|mixed[]|Nette\Http\FileUpload|null
-	 * @internal
+	 * @deprecated use getSubmittedData()
 	 */
+	#[\Deprecated('use getSubmittedData()')]
 	public static function extractHttpData(
 		array $data,
 		string $htmlName,
 		int $type,
 	): string|array|Nette\Http\FileUpload|null
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use getSubmittedData()', E_USER_DEPRECATED);
 		$name = explode('[', str_replace(['[]', ']', '.'], ['', '', '_'], $htmlName));
 		$value = Nette\Utils\Arrays::get($data, $name, null);
 		$type = str_ends_with($htmlName, '[]')

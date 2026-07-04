@@ -25,6 +25,9 @@ overrides:
 		use:
 			- compilerOptimizations
 			- deprecations
+	- # the deprecated getHttpData() keeps working through the deprecated extractHttpData()
+		paths: [src/Forms/Form.php]
+		upgrading: {declarations: {deprecatedMember: keep}}
 	- # Form::URL is established public API
 		paths: [src/Forms/Form.php]
 		naming: {constant: keep}

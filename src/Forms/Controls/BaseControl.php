@@ -142,9 +142,12 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Returns the submitted HTTP value for this control.
+	 * @deprecated use getSubmittedValue()
 	 */
+	#[\Deprecated('use getSubmittedValue()')]
 	protected function getHttpData(int $type, ?string $htmlTail = null): mixed
 	{
+		trigger_error(__METHOD__ . '() is deprecated, use getSubmittedValue()', E_USER_DEPRECATED);
 		if ($htmlTail === null || $htmlTail === '') {
 			return $this->getSubmittedValue($type);
 		}
