@@ -34,6 +34,7 @@ final class Validator
 		Form::URL => 'Please enter a valid URL.',
 		Form::Enum => 'Please select a valid option.',
 		Form::Integer => 'Please enter a valid integer.',
+		Form::Numeric => 'Please enter a non-negative integer.',
 		Form::Float => 'Please enter a valid number.',
 		Form::Min => 'Please enter a value greater than or equal to %d.',
 		Form::Max => 'Please enter a value less than or equal to %d.',
