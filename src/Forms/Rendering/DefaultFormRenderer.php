@@ -75,6 +75,10 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			'container' => 'table',
 		],
 
+		'repeater' => [
+			'container' => 'fieldset class=repeater',
+		],
+
 		'pair' => [
 			'container' => 'tr',
 			'.required' => 'required',
@@ -119,6 +123,9 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	protected Nette\Forms\Form $form;
 	protected int $counter = 0;
 
+	/** @var ?\WeakMap<Nette\Forms\Repeater, true> */
+	private ?\WeakMap $renderedRepeaters = null;
+
 
 	/**
 	 * Provides complete form rendering.
@@ -158,6 +165,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	public function renderBegin(): string
 	{
 		$this->counter = 0;
+		$this->renderedRepeaters = null;
 
 		foreach ($this->form->getControls() as $control) {
 			$control->setOption('rendered', false);
@@ -321,14 +329,34 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	 */
 	public function renderControls(Nette\Forms\Container|Nette\Forms\ControlGroup $parent): string
 	{
+		$s = '';
 		$container = $this->getWrapper('controls container');
 
 		$buttons = null;
-		foreach ($parent->getControls() as $control) {
+		// a container is walked by components, so that a repeater without items is rendered too
+		$components = $parent instanceof Nette\Forms\Container ? $parent->getComponentTree() : $parent->getControls();
+		foreach ($components as $control) {
 			if (
-				$control->getOption('rendered')
-				|| $control->getOption('type') === 'hidden'
+				(!$control instanceof Nette\Forms\Control && !$control instanceof Nette\Forms\Repeater)
 				|| $control->getForm(false) !== $this->form
+			) {
+				// skip
+
+			} elseif ($repeater = $this->findUnrenderedRepeater($control)) {
+				if ($buttons) {
+					$container->addHtml($this->renderPairMulti($buttons));
+					$buttons = null;
+				}
+
+				// the repeater interrupts the controls container
+				$s .= count($container) ? "\n" . $container . "\n" : '';
+				$s .= $this->renderRepeater($repeater);
+				$container = $this->getWrapper('controls container');
+
+			} elseif (
+				!$control instanceof Nette\Forms\Control
+				|| $control->getOption('rendered')
+				|| $control->getOption('type') === 'hidden'
 			) {
 				// skip
 
@@ -349,12 +377,46 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			$container->addHtml($this->renderPairMulti($buttons));
 		}
 
-		$s = '';
 		if (count($container)) {
 			$s .= "\n" . $container . "\n";
 		}
 
 		return $s;
+	}
+
+
+	/**
+	 * Renders the repeater with its items, the template for new items and the add and remove
+	 * buttons made from the repeater's prototypes. Each item is wrapped in the repeater's item prototype.
+	 */
+	public function renderRepeater(Nette\Forms\Repeater $repeater): string
+	{
+		$this->renderedRepeaters ??= new \WeakMap;
+		$this->renderedRepeaters[$repeater] = true;
+
+		$container = $this->getWrapper('repeater container')->addAttributes($repeater->getContainerAttributes());
+		$items = $repeater->renderItems(function (Nette\Forms\Container $item) use ($repeater): void {
+			echo $this->renderControls($item), $repeater->getRemoveButtonPrototype(), "\n";
+		});
+
+		return $container->startTag() . "\n" . $items . $container->endTag() . "\n"
+			. $repeater->getAddButtonPrototype() . "\n";
+	}
+
+
+	/**
+	 * Returns the outermost repeater among the component and its ancestors that has not been rendered yet.
+	 */
+	private function findUnrenderedRepeater(Nette\Forms\Control|Nette\Forms\Repeater $component): ?Nette\Forms\Repeater
+	{
+		$repeaters = [];
+		for ($parent = $component; $parent; $parent = $parent->getParent()) {
+			if ($parent instanceof Nette\Forms\Repeater) {
+				$repeaters[] = $parent;
+			}
+		}
+
+		return array_find(array_reverse($repeaters), fn($repeater) => !isset($this->renderedRepeaters[$repeater]));
 	}
 
 

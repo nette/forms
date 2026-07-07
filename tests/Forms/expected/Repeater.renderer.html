@@ -1,0 +1,109 @@
+<form action="" method="post">
+<fieldset class="repeater" data-nette-repeater="persons" data-nette-repeater-min="0">
+<div data-repeater-index="0">
+<table>
+<tr>
+	<th><label for="frm-persons-0-name">Name</label></th>
+
+	<td><input type="text" name="persons[0][name]" id="frm-persons-0-name" class="text"></td>
+</tr>
+</table>
+<fieldset class="repeater" data-nette-repeater="persons-0-emails" data-nette-repeater-min="1">
+<div data-repeater-index="0">
+<table>
+<tr>
+	<th><label for="frm-persons-0-emails-0-address">Address</label></th>
+
+	<td><input type="text" name="persons[0][emails][0][address]" id="frm-persons-0-emails-0-address" class="text"></td>
+</tr>
+</table>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+</div>
+<template>
+<div data-repeater-index="__index1__">
+<table>
+<tr>
+	<th><label for="frm-persons-0-emails-__index1__-address">Address</label></th>
+
+	<td><input type="text" name="persons[0][emails][__index1__][address]" id="frm-persons-0-emails-__index1__-address" class="text"></td>
+</tr>
+</table>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+</div>
+</template>
+</fieldset>
+<button type="button" data-nette-repeater-add="persons-0-emails">Add</button>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+<input type="hidden" name="persons[0][id]" value=""></div>
+<template>
+<div data-repeater-index="__index0__">
+<table>
+<tr>
+	<th><label for="frm-persons-__index0__-name">Name</label></th>
+
+	<td><input type="text" name="persons[__index0__][name]" id="frm-persons-__index0__-name" class="text"></td>
+</tr>
+</table>
+<fieldset class="repeater" data-nette-repeater="persons-__index0__-emails" data-nette-repeater-min="1">
+<div data-repeater-index="0">
+<table>
+<tr>
+	<th><label for="frm-persons-__index0__-emails-0-address">Address</label></th>
+
+	<td><input type="text" name="persons[__index0__][emails][0][address]" id="frm-persons-__index0__-emails-0-address" class="text"></td>
+</tr>
+</table>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+</div>
+<template>
+<div data-repeater-index="__index1__">
+<table>
+<tr>
+	<th><label for="frm-persons-__index0__-emails-__index1__-address">Address</label></th>
+
+	<td><input type="text" name="persons[__index0__][emails][__index1__][address]" id="frm-persons-__index0__-emails-__index1__-address" class="text"></td>
+</tr>
+</table>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+</div>
+</template>
+</fieldset>
+<button type="button" data-nette-repeater-add="persons-__index0__-emails">Add</button>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+<input type="hidden" name="persons[__index0__][id]" value=""></div>
+</template>
+</fieldset>
+<button type="button" data-nette-repeater-add="persons">Add person</button>
+
+<table>
+<tr>
+	<th><label for="frm-note">Note</label></th>
+
+	<td><input type="text" name="note" id="frm-note" class="text"></td>
+</tr>
+</table>
+<fieldset class="repeater" data-nette-repeater="empty" data-nette-repeater-min="0">
+<template>
+<div data-repeater-index="__index0__">
+<table>
+<tr>
+	<th><label for="frm-empty-__index0__-x"></label></th>
+
+	<td><input type="text" name="empty[__index0__][x]" id="frm-empty-__index0__-x" class="text"></td>
+</tr>
+</table>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+</div>
+</template>
+</fieldset>
+<button type="button" data-nette-repeater-add="empty">Add</button>
+
+<table>
+<tr>
+	<th></th>
+
+	<td><input type="submit" name="send" value="Send" class="button"></td>
+</tr>
+</table>
+
+</form>

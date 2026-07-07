@@ -5,7 +5,7 @@
  */
 
 use Nette\Forms\Controls\SelectBox;
-use Nette\Forms\{Form, Validation, Validator};
+use Nette\Forms\{Form, Repeater, Validation, Validator};
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -122,6 +122,28 @@ test('late override of the select box default message applies (lazy resolution)'
 	try {
 		$select->validate();
 		Assert::same(['Choose something!'], array_map(strval(...), $select->getErrors()));
+	} finally {
+		Validator::$messages = [];
+	}
+});
+
+
+test('formatStandalone: id translation with plurals, English fallback, %d overrides', function () {
+	$message = new Validation\Message(Repeater::MinItems, 'Please add at least %count items.', count: 3);
+
+	$plural = new CatalogTranslator([
+		Repeater::MinItems => [
+			'Přidejte alespoň %count položku.',
+			'Přidejte alespoň %count položky.',
+			'Přidejte alespoň %count položek.',
+		],
+	]);
+	Assert::same('Přidejte alespoň 3 položky.', Nette\Forms\MessageFormatter::formatStandalone($message, $plural));
+	Assert::same('Please add at least 3 items.', Nette\Forms\MessageFormatter::formatStandalone($message, null));
+
+	Validator::$messages[Repeater::MinItems] = 'At least %d pieces.'; // legacy %d placeholder keeps working
+	try {
+		Assert::same('At least 3 pieces.', Nette\Forms\MessageFormatter::formatStandalone($message, null));
 	} finally {
 		Validator::$messages = [];
 	}

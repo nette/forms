@@ -210,6 +210,10 @@ final class Blueprint
 				}
 			} elseif ($input instanceof Controls\ColorPicker) {
 				$type = 'string';
+			} elseif ($input instanceof Repeater) {
+				$itemType = $baseName . ucwords((string) $name);
+				$nextCode .= $this->generateDataClass($input->getTemplate(), $propertyPromotion, $itemType);
+				$type = 'array';
 			} elseif ($input instanceof Container) {
 				$type = $baseName . ucwords((string) $name);
 				$nextCode .= $this->generateDataClass($input, $propertyPromotion, $type);

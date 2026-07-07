@@ -381,10 +381,22 @@ class Form extends Container implements Nette\HtmlStringable
 		$this->submissionSource = $source;
 		// a form with nothing to load defers reading the data, so that e.g. setMethod() may still follow
 		$tree = $this->getComponentTree();
-		$hasData = array_filter($tree, fn($component) => $component instanceof Control);
+		$hasData = array_filter($tree, fn($component) => $component instanceof Control || $component instanceof Repeater);
 		if ($hasData && $this->isSubmitted()) {
+			// repeaters first: they build the item containers, whose controls then load at attach;
+			// loading may also detach surplus components, so membership is re-checked per component
 			foreach ($tree as $component) {
-				if ($component instanceof Control && !$component->isDisabled()) {
+				if ($component instanceof Repeater && $component->getForm(throw: false) === $this) {
+					$component->loadHttpData();
+				}
+			}
+
+			foreach ($tree as $component) {
+				if (
+					$component instanceof Control
+					&& !$component->isDisabled()
+					&& $component->getForm(throw: false) === $this
+				) {
 					$component->loadHttpData();
 				}
 			}
@@ -566,6 +578,12 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		$this->setSubmittedBy(null);
 		$this->setValues([], erase: true);
+		foreach ($this->getComponentTree() as $component) {
+			if ($component instanceof Repeater && $component->getForm(throw: false) === $this) {
+				$component->reset();
+			}
+		}
+
 		return $this;
 	}
 
