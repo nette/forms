@@ -43,6 +43,8 @@ final class Validator
 		Form::Image => 'The uploaded file must be image in format JPEG, GIF, PNG or WebP.',
 		Controls\SelectBox::Valid => 'Please select a valid option.',
 		Controls\UploadControl::Valid => 'An error occurred during file upload.',
+		Repeater::MinItems => 'Please add at least %d items.',
+		Repeater::MaxItems => 'Please add no more than %d items.',
 	];
 
 

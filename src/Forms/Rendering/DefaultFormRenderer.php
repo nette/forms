@@ -75,6 +75,11 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			'container' => 'table',
 		],
 
+		'repeater' => [
+			'container' => 'fieldset class=repeater',
+			'item' => null,
+		],
+
 		'pair' => [
 			'container' => 'tr',
 			'.required' => 'required',
@@ -119,6 +124,9 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	protected Nette\Forms\Form $form;
 	protected int $counter = 0;
 
+	/** @var array<int, true>  object ids of already rendered repeaters */
+	private array $renderedRepeaters = [];
+
 
 	/**
 	 * Provides complete form rendering.
@@ -158,6 +166,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	public function renderBegin(): string
 	{
 		$this->counter = 0;
+		$this->renderedRepeaters = [];
 
 		foreach ($this->form->getControls() as $control) {
 			$control->setOption('rendered', false);
@@ -329,6 +338,14 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			) {
 				// skip
 
+			} elseif ($repeater = $this->findUnrenderedRepeater($control)) {
+				if ($buttons) {
+					$container->addHtml($this->renderPairMulti($buttons));
+					$buttons = null;
+				}
+
+				$container->addHtml($this->renderRepeater($repeater));
+
 			} elseif ($control->getOption('type') === 'button') {
 				$buttons[] = $control;
 
@@ -352,6 +369,50 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		}
 
 		return $s;
+	}
+
+
+	/**
+	 * Renders repeater items as a static block. Client-side adding/removing of items
+	 * is not supported by this renderer and requires Latte or manual rendering.
+	 */
+	public function renderRepeater(Nette\Forms\Repeater $repeater): string
+	{
+		$this->renderedRepeaters[spl_object_id($repeater)] = true;
+
+		$container = $this->getWrapper('repeater container');
+		foreach ($repeater->getComponents() as $item) {
+			assert($item instanceof Nette\Forms\Container);
+			$wrapper = $this->getWrapper('repeater item');
+			$wrapper->setHtml($this->renderControls($item));
+			$container->addHtml($wrapper);
+		}
+
+		return $container->render(0);
+	}
+
+
+	/**
+	 * Returns the outermost repeater the control belongs to that has not been rendered yet.
+	 */
+	private function findUnrenderedRepeater(Nette\Forms\Control $control): ?Nette\Forms\Repeater
+	{
+		$repeaters = [];
+		$parent = $control->getParent();
+		while ($parent instanceof Nette\Forms\Container) {
+			if ($parent instanceof Nette\Forms\Repeater) {
+				$repeaters[] = $parent;
+			}
+			$parent = $parent->getParent();
+		}
+
+		foreach (array_reverse($repeaters) as $repeater) {
+			if (!isset($this->renderedRepeaters[spl_object_id($repeater)])) {
+				return $repeater;
+			}
+		}
+
+		return null;
 	}
 
 

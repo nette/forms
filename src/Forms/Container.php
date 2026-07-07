@@ -655,6 +655,23 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
+	 * Adds repeater (dynamic container) to the form.
+	 * @param  \Closure(Container): void  $factory
+	 */
+	public function addRepeater(
+		string $name,
+		\Closure $factory,
+		int $min = 0,
+		?int $max = null,
+		?int $default = null,
+	): Repeater
+	{
+		// bounds are set before attaching, when the submitted items are built
+		return $this[$name] = (new Repeater($factory))->setBounds($min, $max, $default);
+	}
+
+
+	/**
 	 * Adds a named sub-container for grouping related controls.
 	 */
 	public function addContainer(string|int $name): self
