@@ -80,3 +80,28 @@ Assert::match(
 </form>',
 	$res,
 );
+
+
+// form with repeater generates {repeater} block
+$form = new Form('orderForm');
+$persons = $form->addRepeater('persons', function (Nette\Forms\Container $person) {
+	$person->addText('name', 'Name');
+	$person->addRepeater('emails', function (Nette\Forms\Container $email) {
+		$email->addText('address', 'Address');
+	});
+});
+$persons->getAddButtonPrototype()->setText('Add person');
+$form->addSubmit('send', 'Send');
+
+$res = (new Blueprint)->generateLatte($form);
+
+Assert::match('%A%{repeater persons}
+	{label name /} {input name}
+	{repeater emails}
+		{label address /} {input address}
+		<button n:repeater-remove>Remove</button>
+	{/repeater}
+	<button n:repeater-add="emails">Add</button>
+	<button n:repeater-remove>Remove</button>
+{/repeater}
+<button n:repeater-add="persons">Add person</button>%A%', $res);
