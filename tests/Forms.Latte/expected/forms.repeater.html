@@ -1,0 +1,33 @@
+<form action="" method="post">
+<div data-nette-repeater="persons" data-nette-repeater-min="1" data-nette-repeater-max="3">
+<div data-repeater-index="0">	<label for="frm-persons-0-name">Name</label> <input type="text" name="persons[0][name]" id="frm-persons-0-name">
+<div data-nette-repeater="persons-0-emails" data-nette-repeater-min="0">
+<template>
+<div data-repeater-index="">
+		<input type="text" name="[email]" id="frm--email">
+		<button type="button" data-nette-repeater-remove="true">x</button>
+</div>
+</template>
+</div>
+	<button type="button" data-nette-repeater-add="persons-0-emails">add email</button>
+	<button type="button" data-nette-repeater-remove="true">Remove person</button>
+</div>
+<template>
+<div data-repeater-index="">
+	<label for="frm--name">Name</label> <input type="text" name="[name]" id="frm--name">
+<div data-nette-repeater="emails" data-nette-repeater-min="0">
+<template>
+<div data-repeater-index="">
+		<input type="text" name="[email]" id="frm--email">
+		<button type="button" data-nette-repeater-remove="true">x</button>
+</div>
+</template>
+</div>
+	<button type="button" data-nette-repeater-add="emails">add email</button>
+	<button type="button" data-nette-repeater-remove="true">Remove person</button>
+</div>
+</template>
+</div>
+<button type="button" data-nette-repeater-add="persons">Add person</button>
+<input type="submit" name="send" value="Send">
+</form>

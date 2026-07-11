@@ -1,0 +1,20 @@
+{form myForm}
+<table>
+	<tbody n:repeater=items>
+		<tr n:repeater-item class=row>
+			<td>{input description}</td>
+			<td>{input quantity}</td>
+			<td><button n:repeater-remove>Remove</button></td>
+		</tr>
+	</tbody>
+</table>
+<button n:repeater-add="items">Add row</button>
+
+<div n:repeater=tags class=tags>
+	{input name}
+	<button n:repeater-remove>x</button>
+</div>
+<button n:repeater-add="tags">Add tag</button>
+
+{input send}
+{/form}
