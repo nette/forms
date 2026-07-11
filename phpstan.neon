@@ -50,11 +50,11 @@ parameters:
 				- src/Forms/Rules.php
 				- src/Forms/Validator.php
 
-		-   # Anonymous BaseControl in Blueprint widens return type to match parent contract,
-			# even though it returns only string literals in this case.
+		-   # Anonymous BaseControls in Blueprint widen return types to match parent contract,
+			# even though they return only string literals in this case.
 			identifier: return.unusedType
 			path: src/Forms/Blueprint.php
-			count: 2
+			count: 3
 
 		-   # parent::getControl()/getLabel() returns the wider public contract (Html|string|null),
 			# but BaseControl implementation deterministically returns Html, so chaining is safe.

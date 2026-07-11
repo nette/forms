@@ -28,6 +28,9 @@ class Runtime
 	/** @var list<bool>  parallel to $stack; true = scope the template's $form variable was bound to */
 	private array $formBindings = [];
 
+	/** @var Nette\Forms\Repeater[] */
+	private array $repeaters = [];
+
 
 	/**
 	 * Renders form begin.
@@ -157,6 +160,25 @@ class Runtime
 	{
 		return end($this->stack)
 			?: throw new Nette\InvalidStateException('Form declaration is missing, did you use {form} or <form n:name> tag?');
+	}
+
+
+	public function beginRepeater(Nette\Forms\Repeater $repeater): void
+	{
+		$this->repeaters[] = $repeater;
+	}
+
+
+	public function endRepeater(): void
+	{
+		array_pop($this->repeaters);
+	}
+
+
+	/** Returns the innermost repeater currently being rendered. */
+	public function currentRepeater(): Nette\Forms\Repeater
+	{
+		return end($this->repeaters) ?: throw new Nette\InvalidStateException('Tag must be used inside {repeater} or n:repeater.');
 	}
 
 

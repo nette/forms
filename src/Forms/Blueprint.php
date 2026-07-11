@@ -7,6 +7,7 @@
 
 namespace Nette\Forms;
 
+use Nette\ComponentModel\IComponent;
 use Nette\Utils\Html;
 
 
@@ -91,7 +92,35 @@ final class Blueprint
 			}
 		};
 
-		foreach ($form->getControls() as $input) {
+		foreach ($form->getComponentTree() as $input) {
+			if ($input instanceof Repeater && !$this->findRepeater($input)) {
+				// topmost repeater renders as a single {repeater} block
+				$dict[$input] = $dummyInput = new class extends Controls\BaseControl {
+					public string $block = '';
+
+
+					public function getLabel(string|\Stringable|null $caption = null): Html|string|null
+					{
+						return null;
+					}
+
+
+					public function getControl(): Html|string
+					{
+						return $this->block;
+					}
+				};
+				$dummyInput->block = $this->generateRepeaterLatte($input, $input->lookupPath(Form::class));
+				$dummyForm->addComponent($dummyInput, (string) $dict->count());
+				continue;
+
+			} elseif (!$input instanceof Control || $this->findRepeater($input)) {
+				if ($input instanceof Control) {
+					$dict[$input] = null; // controls inside repeaters are covered by the block
+				}
+				continue;
+			}
+
 			$dict[$input] = $dummyInput = new class extends Controls\BaseControl {
 				public Control $inner;
 
@@ -169,6 +198,58 @@ final class Blueprint
 	}
 
 
+	/**
+	 * Returns the outermost repeater the component belongs to.
+	 */
+	private function findRepeater(IComponent $component): ?Repeater
+	{
+		$res = null;
+		$parent = $component->getParent();
+		while ($parent instanceof Container) {
+			if ($parent instanceof Repeater) {
+				$res = $parent;
+			}
+			$parent = $parent->getParent();
+		}
+
+		return $res;
+	}
+
+
+	private function generateRepeaterLatte(Repeater $repeater, string $name, int $depth = 0): string
+	{
+		$components = $repeater->getComponents();
+		$item = reset($components) ?: $repeater->createTemplate();
+		assert($item instanceof Container);
+
+		$pad = str_repeat("\t", $depth);
+		return $pad . '{repeater ' . $name . "}\n"
+			. $this->generateRepeaterItem($item, '', $depth + 1)
+			. $pad . "\t<button n:repeater-remove>" . $repeater->getRemoveButtonPrototype()->getText() . "</button>\n"
+			. $pad . "{/repeater}\n"
+			. $pad . '<button n:repeater-add="' . $name . '">' . $repeater->getAddButtonPrototype()->getText() . "</button>\n";
+	}
+
+
+	private function generateRepeaterItem(Container $container, string $prefix, int $depth): string
+	{
+		$pad = str_repeat("\t", $depth);
+		$s = '';
+		foreach ($container->getComponents() as $name => $child) {
+			if ($child instanceof Repeater) {
+				$s .= $this->generateRepeaterLatte($child, $prefix . $name, $depth);
+			} elseif ($child instanceof Container) {
+				$s .= $this->generateRepeaterItem($child, "$prefix$name-", $depth);
+			} elseif ($child instanceof Controls\BaseControl) {
+				$label = $child->getLabel() ? '{label ' . $prefix . $name . ' /} ' : '';
+				$s .= $pad . $label . '{input ' . $prefix . $name . "}\n";
+			}
+		}
+
+		return $s;
+	}
+
+
 	public function generateDataClass(
 		Container $container,
 		?bool $propertyPromotion = false,
@@ -207,6 +288,10 @@ final class Blueprint
 				if (!$input->isRequired()) {
 					$type = '?' . $type;
 				}
+			} elseif ($input instanceof Repeater) {
+				$itemType = $baseName . ucwords((string) $name);
+				$nextCode .= $this->generateDataClass($input->createTemplate(), $propertyPromotion, $itemType);
+				$type = 'array';
 			} elseif ($input instanceof Container) {
 				$type = $baseName . ucwords((string) $name);
 				$nextCode .= $this->generateDataClass($input, $propertyPromotion, $type);

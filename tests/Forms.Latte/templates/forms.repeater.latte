@@ -1,0 +1,13 @@
+{form myForm}
+{repeater persons}
+	{label name /} {input name}
+	{repeater emails}
+		{input email}
+		<button n:repeater-remove>x</button>
+	{/repeater}
+	<button n:repeater-add="emails">add email</button>
+	<button n:repeater-remove>Remove person</button>
+{/repeater}
+<button n:repeater-add="persons">Add person</button>
+{input send}
+{/form}

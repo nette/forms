@@ -25,7 +25,7 @@ new rendering work goes through Latte.
 `Bridges/FormsLatte/Runtime` keeps three **parallel** stacks: `$stack` (the current
 form/container scope), `$detachedIds` (the detached form id per stack level,
 `null` when not detached) and `$formBindings` (whether the level is bound to the
-template's `$form` variable; `{formContainer}` is not). `begin()` pushes and, for a
+template's `$form` variable; `{formContainer}` and repeater items are not). `begin()` pushes and, for a
 `Form`, fires the render events **and resets every control's `rendered` option** —
 `renderFormEnd` (and the default renderer's `renderEnd`) rely on that flag to emit
 not-yet-rendered hidden fields before `</form>`; `end()` pops all three and returns

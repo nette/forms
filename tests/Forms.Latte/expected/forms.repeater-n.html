@@ -1,0 +1,35 @@
+<form action="" method="post" id="frm-orderForm">
+<table>
+	<tbody data-nette-repeater="items" data-nette-repeater-min="1" data-nette-repeater-max="5">
+		<tr data-repeater-index="0" class=row>
+			<td><input type="text" name="items[0][description]" id="frm-orderForm-items-0-description"></td>
+			<td><input type="number" name="items[0][quantity]" id="frm-orderForm-items-0-quantity" data-nette-rules='[{"op":":integer","msg":"Please enter a valid integer."}]'></td>
+			<td><button type="button" data-nette-repeater-remove="true">Remove</button></td>
+		</tr>
+<template>
+		<tr data-repeater-index="" class=row>
+			<td><input type="text" name="[description]" id="frm--description"></td>
+			<td><input type="number" name="[quantity]" id="frm--quantity" data-nette-rules='[{"op":":integer","msg":"Please enter a valid integer."}]'></td>
+			<td><button type="button" data-nette-repeater-remove="true">Remove</button></td>
+		</tr>
+</template>
+	</tbody>
+</table>
+<button type="button" data-nette-repeater-add="items">Add row</button>
+
+<div data-nette-repeater="tags" data-nette-repeater-min="0" class=tags><div data-repeater-index="0">
+	<input type="text" name="tags[0][name]" id="frm-orderForm-tags-0-name">
+	<button type="button" data-nette-repeater-remove="true">x</button>
+</div>
+<template>
+<div data-repeater-index="">
+
+	<input type="text" name="[name]" id="frm--name">
+	<button type="button" data-nette-repeater-remove="true">x</button>
+</div>
+</template>
+</div>
+<button type="button" data-nette-repeater-add="tags">Add tag</button>
+
+<input type="submit" name="send" value="Send">
+%A?%</form>
