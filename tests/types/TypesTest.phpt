@@ -5,3 +5,4 @@ require __DIR__ . '/../bootstrap.php';
 use Nette\PHPStan\Tester\TypeAssert;
 
 TypeAssert::assertTypes(__DIR__ . '/forms-types.php');
+TypeAssert::assertNoErrors(__DIR__ . '/forms-accepted.php');
