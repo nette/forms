@@ -36,7 +36,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public array $onValidate = [];
 	protected ?ControlGroup $currentGroup = null;
 
-	/** @var array<string, callable(static): mixed> */
+	/** @var array<string, callable(static, never, never, never, never, never, never, never, never, never): mixed> */
 	private static array $extMethods = [];
 	private ?bool $validated = false;
 	private ?string $mappedType = null;
@@ -626,6 +626,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function __call(string $name, array $args)
 	{
 		if (isset(self::$extMethods[$name])) {
+			/** @var never[] $args */
 			return (self::$extMethods[$name])($this, ...$args);
 		}
 
@@ -633,7 +634,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/** @param callable(static): mixed  $callback */
+	/** @param callable(static, never, never, never, never, never, never, never, never, never): mixed  $callback */
 	public static function extensionMethod(string $name, callable $callback): void
 	{
 		if (str_contains($name, '::')) { // back compatibility

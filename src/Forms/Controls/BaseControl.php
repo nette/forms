@@ -50,7 +50,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	/** @var bool|bool[] */
 	protected bool|array $disabled = false;
 
-	/** @var array<string, array<class-string, callable(static): mixed>> */
+	/** @var array<string, array<class-string, callable(static, never, never, never, never, never, never, never, never, never): mixed>> */
 	private static array $extMethods = [];
 	private string|Stringable|null $caption;
 
@@ -566,6 +566,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 		$class = static::class;
 		do {
 			if (isset(self::$extMethods[$name][$class])) {
+				/** @var never[] $args */
 				return (self::$extMethods[$name][$class])($this, ...$args);
 			}
 
@@ -576,7 +577,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
-	/** @param callable(static): mixed  $callback */
+	/** @param callable(static, never, never, never, never, never, never, never, never, never): mixed  $callback */
 	public static function extensionMethod(string $name, callable $callback): void
 	{
 		if (str_contains($name, '::')) { // back compatibility
