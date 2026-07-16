@@ -436,7 +436,10 @@ export class FormValidator {
 			form.addEventListener('formdata', (e) => this.compactCheckboxes(form, e.formData));
 		}
 
-		if (!Array.from(form.elements).some((elem) => elem.getAttribute('data-nette-rules'))) {
+		// a repeater may start empty, with validated fields only in its <template>
+		if (!Array.from(form.elements).some((elem) => elem.getAttribute('data-nette-rules'))
+			&& !form.querySelector('[data-nette-repeater]')
+		) {
 			return;
 		}
 
