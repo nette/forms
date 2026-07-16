@@ -36,7 +36,8 @@ rules with a `{value}` **ref object**; normalizing validators (`url`, `integer`,
 
 ## Form wiring (`initForm`)
 
-Forms without any `data-nette-rules` element are left alone. Otherwise the
+Forms without any `data-nette-rules` element are left alone, unless they contain
+a repeater (whose validated fields may exist only in its `<template>`). Otherwise the
 engine computes initial toggles and — unless the form already had `novalidate` —
 sets `form.noValidate = true` (taking over from HTML5) and installs a `submit`
 handler that cancels submission on failure. `validateForm()` first fails on any
