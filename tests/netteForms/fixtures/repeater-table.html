@@ -1,0 +1,17 @@
+<form action="" method="post" id="frm-invoice">
+<table>
+	<tbody data-nette-repeater="rows" data-nette-repeater-min="0">
+		<tr data-repeater-index="0">
+			<td><input type="text" name="rows[0][product]" id="frm-invoice-rows-0-product" list="frm-invoice-rows-0-product-list"></td>
+			<td><button type="button" data-nette-repeater-remove="true">x</button></td>
+		<input type="hidden" name="rows[0][id]" value=""></tr>
+<template>
+		<tr data-repeater-index="__index0__">
+			<td><input type="text" name="rows[__index0__][product]" id="frm-invoice-rows-__index0__-product" list="frm-invoice-rows-__index0__-product-list"></td>
+			<td><button type="button" data-nette-repeater-remove="true">x</button></td>
+		<input type="hidden" name="rows[__index0__][id]" value=""><datalist id="frm-invoice-rows-__index0__-product-list"><option value="Apple"></option><option value="Pear"></option></datalist></tr>
+</template>
+	</tbody>
+</table>
+<button type="button" data-nette-repeater-add="rows">Add row</button>
+<datalist id="frm-invoice-rows-0-product-list"><option value="Apple"></option><option value="Pear"></option></datalist><input type="hidden" name="_form_" value="invoice"></form>

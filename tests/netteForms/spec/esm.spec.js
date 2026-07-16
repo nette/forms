@@ -8,6 +8,7 @@ describe('ES module build', () => {
 
 	it('default export is a ready instance', () => {
 		expect(esm.default.validators).toBeDefined();
+		expect(esm.default.repeater).toBeDefined();
 		expect(typeof esm.default.version).toBe('string');
 		expect(typeof esm.default.initOnLoad).toBe('function');
 	});
@@ -25,6 +26,7 @@ describe('ES module build', () => {
 
 	it('exports named classes', () => {
 		expect(typeof esm.FormValidator).toBe('function');
+		expect(typeof esm.Repeater).toBe('function');
 		expect(esm.default).toBeInstanceOf(esm.FormValidator);
 	});
 });

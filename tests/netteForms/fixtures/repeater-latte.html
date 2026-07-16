@@ -1,0 +1,36 @@
+<form action="" method="post">
+<div data-nette-repeater="persons" data-nette-repeater-min="1" data-nette-repeater-max="3">
+<div data-repeater-index="0">	<label for="frm-persons-0-name">Name</label> <input type="text" name="persons[0][name]" id="frm-persons-0-name" required data-nette-rules='[{"op":":filled","msg":"This field is required."}]' list="frm-persons-0-name-list">
+<div data-nette-repeater="persons-0-emails" data-nette-repeater-min="0">
+<div data-repeater-index="0">		<label for="frm-persons-0-emails-0-email">Email</label> <input type="email" name="persons[0][emails][0][email]" maxlength="255" id="frm-persons-0-emails-0-email" data-nette-rules='[{"op":":email","msg":"Please enter a valid email address."},{"op":":filled","rules":[{"op":":filled","msg":"This field is required."}],"control":"persons[0][name]"}]'>
+		<button type="button" data-nette-repeater-remove="true">x</button>
+</div>
+<template>
+<div data-repeater-index="__index1__">		<label for="frm-persons-0-emails-__index1__-email">Email</label> <input type="email" name="persons[0][emails][__index1__][email]" maxlength="255" id="frm-persons-0-emails-__index1__-email" data-nette-rules='[{"op":":email","msg":"Please enter a valid email address."},{"op":":filled","rules":[{"op":":filled","msg":"This field is required."}],"control":"persons[0][name]"}]'>
+		<button type="button" data-nette-repeater-remove="true">x</button>
+</div>
+</template>
+</div>
+	<button type="button" data-nette-repeater-add="persons-0-emails">Add email</button>
+	<button type="button" data-nette-repeater-remove="true">Remove person</button>
+<input type="hidden" name="persons[0][id]" value=""></div>
+<template>
+<div data-repeater-index="__index0__">	<label for="frm-persons-__index0__-name">Name</label> <input type="text" name="persons[__index0__][name]" id="frm-persons-__index0__-name" required data-nette-rules='[{"op":":filled","msg":"This field is required."}]' list="frm-persons-__index0__-name-list">
+<div data-nette-repeater="persons-__index0__-emails" data-nette-repeater-min="0">
+<div data-repeater-index="0">		<label for="frm-persons-__index0__-emails-0-email">Email</label> <input type="email" name="persons[__index0__][emails][0][email]" maxlength="255" id="frm-persons-__index0__-emails-0-email" data-nette-rules='[{"op":":email","msg":"Please enter a valid email address."},{"op":":filled","rules":[{"op":":filled","msg":"This field is required."}],"control":"persons[__index0__][name]"}]'>
+		<button type="button" data-nette-repeater-remove="true">x</button>
+</div>
+<template>
+<div data-repeater-index="__index1__">		<label for="frm-persons-__index0__-emails-__index1__-email">Email</label> <input type="email" name="persons[__index0__][emails][__index1__][email]" maxlength="255" id="frm-persons-__index0__-emails-__index1__-email" data-nette-rules='[{"op":":email","msg":"Please enter a valid email address."},{"op":":filled","rules":[{"op":":filled","msg":"This field is required."}],"control":"persons[__index0__][name]"}]'>
+		<button type="button" data-nette-repeater-remove="true">x</button>
+</div>
+</template>
+</div>
+	<button type="button" data-nette-repeater-add="persons-__index0__-emails">Add email</button>
+	<button type="button" data-nette-repeater-remove="true">Remove person</button>
+<input type="hidden" name="persons[__index0__][id]" value=""><datalist id="frm-persons-__index0__-name-list"><option value="Jim"></option><option value="Joe"></option></datalist></div>
+</template>
+</div>
+<button type="button" data-nette-repeater-add="persons">Add person</button>
+<input type="submit" name="send" value="Send">
+<datalist id="frm-persons-0-name-list"><option value="Jim"></option><option value="Joe"></option></datalist></form>

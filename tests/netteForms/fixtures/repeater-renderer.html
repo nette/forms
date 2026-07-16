@@ -1,0 +1,37 @@
+<form action="" method="post" id="frm-order">
+<fieldset class="repeater" data-nette-repeater="items" data-nette-repeater-min="0">
+<div data-repeater-index="0">
+<table>
+<tr>
+	<th><label for="frm-order-items-0-description">Description</label></th>
+
+	<td><input type="text" name="items[0][description]" id="frm-order-items-0-description" class="text"></td>
+</tr>
+</table>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+</div>
+<template>
+<div data-repeater-index="__index0__">
+<table>
+<tr>
+	<th><label for="frm-order-items-__index0__-description">Description</label></th>
+
+	<td><input type="text" name="items[__index0__][description]" id="frm-order-items-__index0__-description" class="text"></td>
+</tr>
+</table>
+<button type="button" data-nette-repeater-remove="true">Remove</button>
+</div>
+</template>
+</fieldset>
+<button type="button" data-nette-repeater-add="items">Add</button>
+
+<table>
+<tr>
+	<th></th>
+
+	<td><input type="submit" name="send" value="Send" class="button"></td>
+</tr>
+</table>
+
+<input type="hidden" name="_form_" value="order">
+</form>
