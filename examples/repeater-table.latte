@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Repeater Example - Table Rows</title>
+	<style>
+		body { font-family: sans-serif; margin: 2em; }
+		table { border-collapse: collapse; min-width: 700px; }
+		th, td { border: 1px solid #dee2e6; padding: 0.5em 0.75em; text-align: left; }
+		thead { background: #f8f9fa; }
+		input { padding: 0.4em; border: 1px solid #ced4da; border-radius: 3px; width: 95%; box-sizing: border-box; }
+		td:nth-child(2) input, td:nth-child(3) input { width: 6em; }
+		.btn {
+			padding: 0.4em 0.9em;
+			margin: 0.25em 0;
+			cursor: pointer;
+			border: none;
+			border-radius: 3px;
+		}
+		.btn-success { background: #28a745; color: white; }
+		.btn-danger { background: #dc3545; color: white; }
+		.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+	</style>
+	<script src="../src/assets/dist/nette-forms.umd.js"></script>
+</head>
+<body>
+	<h1>Faktura - položky jako řádky tabulky</h1>
+
+	{form $form}
+		<ul class=error n:ifcontent>
+			<li n:foreach="$form->getOwnErrors() as $error">{$error}</li>
+		</ul>
+
+		<table>
+			<thead>
+				<tr>
+					<th>Popis</th>
+					<th>Množství</th>
+					<th>Cena/ks</th>
+					<th></th>
+				</tr>
+			</thead>
+			{repeater items}
+				<td>{input description}</td>
+				<td>{input quantity}</td>
+				<td>{input unitPrice}</td>
+				<td><button n:repeater-remove class="btn btn-danger">×</button></td>
+			{/repeater}
+		</table>
+
+		<button n:repeater-add="items">+ Přidat řádek</button>
+
+		<div style="margin-top: 1.5em;">
+			{input submit}
+		</div>
+	{/form}
+</body>
+</html>
