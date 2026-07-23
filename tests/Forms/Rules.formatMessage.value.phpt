@@ -52,8 +52,6 @@ test('uploaded file shows its name, not the temporary path', function () {
 		],
 	];
 
-	Form::initialize(true);
-
 	$form = new Form;
 	$form->allowCrossOrigin();
 	$form->addUpload('single')

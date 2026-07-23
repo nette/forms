@@ -24,7 +24,6 @@ test('fixed value is rendered disabled and kept among values', function () {
 test('submitted value is ignored', function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = ['id' => 'tampered', 'name' => 'John'];
-	Form::initialize(true);
 
 	$form = new Form;
 	$form->allowCrossOrigin();
