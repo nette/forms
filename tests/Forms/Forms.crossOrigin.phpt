@@ -5,6 +5,7 @@
  */
 
 use Nette\Forms\Form;
+use Nette\Forms\Sources\HttpSource;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -25,8 +26,7 @@ test('missing Sec-Fetch header in POST', function () {
 test('present Sec-Fetch header in POST', function () {
 	$request = new Nette\Http\Request(new Nette\Http\UrlScript, method: 'POST', headers: ['Sec-Fetch-Site' => 'same-origin']);
 
-	$form = new Form;
-	$form->httpRequest = $request;
+	$form = (new Form)->setSubmissionSource(new HttpSource($request));
 	Assert::true($form->isSuccess());
 });
 

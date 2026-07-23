@@ -14,7 +14,9 @@ use function count, is_array, is_scalar, is_string;
 
 
 /**
- * Creates, validates and renders HTML forms.
+ * Creates, validates and renders HTML forms. Submitted data are read through a submission source;
+ * by default the form reads its own HTTP request (standalone usage), inside Nette Application
+ * use Nette\Application\UI\Form, other sources are set via setSubmissionSource().
  *
  * @property-read string[] $errors
  * @property-read array<string|Stringable> $ownErrors
@@ -76,9 +78,6 @@ class Form extends Container implements Nette\HtmlStringable
 		DataFile = 3,
 		DataArray = 8,
 		DataList = 16;
-
-	/** @internal tracker ID */
-	public const TrackerId = '_form_';
 
 	#[\Deprecated('use Form::Equal')]
 	public const EQUAL = self::Equal;
@@ -179,9 +178,6 @@ class Form extends Container implements Nette\HtmlStringable
 	#[\Deprecated('use Form::DataArray')]
 	public const DATA_KEYS = self::DataArray;
 
-	#[\Deprecated('use Form::TrackerId')]
-	public const TRACKER_ID = self::TrackerId;
-
 	/**
 	 * Occurs when the form is submitted and successfully validated
 	 * @var array<callable(static, mixed[]|object): void | callable(mixed[]|object): void>
@@ -197,9 +193,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @var array<callable(static): void>  Occurs before the form is rendered */
 	public array $onRender = [];
 
-	/** @internal used only by standalone form */
-	public Nette\Http\IRequest $httpRequest;
-	protected bool $crossOrigin = false;
+	private ?SubmissionSource $submissionSource = null;
 	private SubmitterControl|bool $submittedBy = false;
 
 	/** @var mixed[] */
@@ -220,9 +214,6 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		if ($name !== null) {
 			$this->getElementPrototype()->id = 'frm-' . $name;
-			$tracker = new Controls\HiddenField($name);
-			$tracker->setOmitted();
-			$this[self::TrackerId] = $tracker;
 			$this->setParent(null, $name);
 		}
 
@@ -284,15 +275,6 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		$this->getElementPrototype()->$name = $value;
 		return $this;
-	}
-
-
-	/**
-	 * Disables the SameSite cookie CSRF protection, allowing cross-origin form submissions.
-	 */
-	public function allowCrossOrigin(): void
-	{
-		$this->crossOrigin = true;
 	}
 
 
@@ -385,11 +367,79 @@ class Form extends Container implements Nette\HtmlStringable
 
 
 	/**
-	 * Checks whether the form is attached to a request (always true for standalone forms).
+	 * Sets the source of submitted data and lets already attached controls load their values.
+	 * The source can be set only once and before the default source materializes. Experimental.
+	 */
+	public function setSubmissionSource(SubmissionSource $source): static
+	{
+		if ($this->submissionSource !== null) {
+			throw new Nette\InvalidStateException('Submission source has already been set.');
+		}
+
+		$this->submissionSource = $source;
+		// a form with nothing to load defers reading the data, so that e.g. setMethod() may still follow
+		$tree = $this->getComponentTree();
+		$hasData = array_filter($tree, fn($component) => $component instanceof Control || $component instanceof Repeater);
+		if ($hasData && $this->isSubmitted()) {
+			// repeaters first: they build the item containers, whose controls then load at attach;
+			// loading may also detach surplus components, so membership is re-checked per component
+			foreach ($tree as $component) {
+				if ($component instanceof Repeater && $component->getForm(throw: false) === $this) {
+					$component->loadHttpData();
+				}
+			}
+
+			foreach ($tree as $component) {
+				if (
+					$component instanceof Control
+					&& !$component->isDisabled()
+					&& $component->getForm(throw: false) === $this
+				) {
+					$component->loadHttpData();
+				}
+			}
+		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Returns the source used when none was set explicitly. Form reads its own HTTP request;
+	 * descendants anchored elsewhere (e.g. to a presenter) return null and set the source later. Experimental.
+	 */
+	protected function createDefaultSource(): ?SubmissionSource
+	{
+		return new Sources\HttpSource;
+	}
+
+
+	private function resolveSubmissionSource(): ?SubmissionSource
+	{
+		return $this->submissionSource ??= $this->createDefaultSource();
+	}
+
+
+	/**
+	 * Tells whether the form is attached to a source of submitted data.
 	 */
 	public function isAnchored(): bool
 	{
-		return true;
+		return $this->resolveSubmissionSource() !== null;
+	}
+
+
+	/**
+	 * Disables the same-origin (Sec-Fetch) CSRF check, allowing cross-origin form submissions.
+	 */
+	public function allowCrossOrigin(): void
+	{
+		$source = $this->resolveSubmissionSource();
+		if (!$source instanceof Sources\HttpSource) {
+			throw new Nette\InvalidStateException(__METHOD__ . '() requires the HttpSource submission source.');
+		}
+
+		$source->allowCrossOrigin();
 	}
 
 
@@ -431,7 +481,7 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		if (!isset($this->submittedData)) {
 			if (!$this->isAnchored()) {
-				throw new Nette\InvalidStateException('Form is not anchored and therefore can not determine whether it was submitted.');
+				throw new Nette\InvalidStateException('Form has no source of submitted data yet, e.g. it is not yet attached to a presenter.');
 			}
 
 			$data = $this->receiveHttpData();
@@ -528,36 +578,17 @@ class Form extends Container implements Nette\HtmlStringable
 
 	/**
 	 * Internal: returns submitted HTTP data or null when form was not submitted.
+	 * By default delegates to the submission source; descendants may override it together with isAnchored().
 	 * @return ?mixed[]
 	 */
 	protected function receiveHttpData(): ?array
 	{
-		$httpRequest = $this->getHttpRequest();
-		if (strcasecmp($this->getMethod(), $httpRequest->getMethod())) {
-			return null;
+		if ($source = $this->resolveSubmissionSource()) {
+			return $source->receiveData($this);
 		}
 
-		if ($httpRequest->isMethod('post')) {
-			if (!$this->crossOrigin && !$httpRequest->isFrom(Nette\Http\FetchSite::SameOrigin)) {
-				return null;
-			}
-
-			$data = Nette\Utils\Arrays::mergeTree($httpRequest->getPost(), $httpRequest->getFiles());
-
-		} else {
-			$data = $httpRequest->getQuery();
-			if (!$data) {
-				return null;
-			}
-		}
-
-		if ($tracker = $this->getComponent(self::TrackerId, throw: false)) {
-			if (!isset($data[self::TrackerId]) || $data[self::TrackerId] !== $tracker->getValue()) {
-				return null;
-			}
-		}
-
-		return $data;
+		// reachable only when a descendant overrides isAnchored() without providing a data source
+		throw new Nette\InvalidStateException(static::class . ' overrides isAnchored() and therefore must also override receiveHttpData() or set a submission source.');
 	}
 
 
@@ -683,6 +714,7 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		if (!$this->beforeRenderCalled) {
 			$this->beforeRenderCalled = true;
+			$this->resolveSubmissionSource()?->prepare($this);
 			$this->beforeRender();
 			Arrays::invoke($this->onRender, $this);
 		}
@@ -717,14 +749,5 @@ class Form extends Container implements Nette\HtmlStringable
 		}
 
 		return $toggles;
-	}
-
-
-	/********************* backend ****************d*g**/
-
-
-	private function getHttpRequest(): Nette\Http\IRequest
-	{
-		return $this->httpRequest ??= (new Nette\Http\RequestFactory)->fromGlobals();
 	}
 }
