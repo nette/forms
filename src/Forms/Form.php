@@ -200,7 +200,6 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @internal used only by standalone form */
 	public Nette\Http\IRequest $httpRequest;
 	protected bool $crossOrigin = false;
-	private static ?Nette\Http\IRequest $defaultHttpRequest = null;
 	private SubmitterControl|bool $submittedBy = false;
 
 	/** @var mixed[] */
@@ -724,26 +723,8 @@ class Form extends Container implements Nette\HtmlStringable
 	/********************* backend ****************d*g**/
 
 
-	/**
-	 * Initializes HTTP request and SameSite CSRF cookie for standalone (non-DI) usage.
-	 */
-	public static function initialize(bool|Nette\Http\IRequest $reinit = false): void
-	{
-		self::$defaultHttpRequest = match ($reinit) {
-			true => null,
-			false => self::$defaultHttpRequest ?? (new Nette\Http\RequestFactory)->fromGlobals(),
-			default => $reinit,
-		};
-	}
-
-
 	private function getHttpRequest(): Nette\Http\IRequest
 	{
-		if (!isset($this->httpRequest)) {
-			self::initialize();
-			$this->httpRequest = self::$defaultHttpRequest;
-		}
-
-		return $this->httpRequest;
+		return $this->httpRequest ??= (new Nette\Http\RequestFactory)->fromGlobals();
 	}
 }
