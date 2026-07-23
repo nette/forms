@@ -40,7 +40,6 @@ Assert::false($select->isOk());
 
 // error message is processed via Rules
 $_SERVER['REQUEST_METHOD'] = 'POST';
-Form::initialize(true);
 Validator::$messages[Nette\Forms\Controls\SelectBox::Valid] = 'SelectBox "%label" must be filled.';
 $form = new Form;
 $form->allowCrossOrigin();

@@ -13,7 +13,6 @@ require __DIR__ . '/../bootstrap.php';
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_GET = $_POST = $_FILES = $_COOKIE = [];
-	Form::initialize(true);
 });
 
 
@@ -25,9 +24,9 @@ test('missing Sec-Fetch header in POST', function () {
 
 test('present Sec-Fetch header in POST', function () {
 	$request = new Nette\Http\Request(new Nette\Http\UrlScript, method: 'POST', headers: ['Sec-Fetch-Site' => 'same-origin']);
-	Form::initialize($request);
 
 	$form = new Form;
+	$form->httpRequest = $request;
 	Assert::true($form->isSuccess());
 });
 

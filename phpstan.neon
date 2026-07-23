@@ -19,12 +19,12 @@ parameters:
 				- src/Forms/Controls/TextInput.php
 				- src/Forms/Form.php
 
-		-   # Form::$renderer and Form::$httpRequest are late-initialized via setters that
-			# accept nullable arguments but the properties are non-nullable for ergonomics.
+		-   # Form::$renderer is late-initialized via a setter that accepts a nullable
+			# argument but the property is non-nullable for ergonomics.
 			identifier: assign.propertyType
-			message: '#^Property Nette\\Forms\\Form::\$(renderer|httpRequest) \([^)]+\) does not accept [^.]+\.$#'
+			message: '#^Property Nette\\Forms\\Form::\$renderer \([^)]+\) does not accept [^.]+\.$#'
 			path: src/Forms/Form.php
-			count: 2
+			count: 1
 
 		-   # SubmitButton::getScopeForValidation() walks getParent() which is typed as
 			# Container|Control; lookupPath() exists on Container at runtime.

@@ -39,7 +39,6 @@ setUp(function () {
 			],
 		],
 	];
-	Form::initialize(true);
 });
 
 

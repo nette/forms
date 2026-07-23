@@ -19,7 +19,6 @@ class MultiChoiceControl extends Nette\Forms\Controls\MultiChoiceControl
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_POST = $_FILES = [];
-	Form::initialize(true);
 });
 
 
