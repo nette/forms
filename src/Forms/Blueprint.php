@@ -84,12 +84,7 @@ final class Blueprint
 	public function generateLatte(Form $form): string
 	{
 		$dict = new \SplObjectStorage;
-		$dummyForm = new class extends Form {
-			protected function receiveHttpData(): array
-			{
-				return [];
-			}
-		};
+		$dummyForm = (new Form)->setSubmissionSource(new Sources\NullSource); // never submitted, dummy controls never load HTTP data
 
 		foreach ($form->getControls() as $input) {
 			$dict[$input] = $dummyInput = new class extends Controls\BaseControl {

@@ -5,6 +5,7 @@
  */
 
 use Nette\Forms\{Form, Validator};
+use Nette\Forms\Sources\HttpSource;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -30,16 +31,17 @@ test('GET method in POST context', function () {
 
 test('tracker ID in POST submission', function () {
 	$name = 'name';
-	$_POST = [Form::TrackerId => $name];
+	$_POST = [HttpSource::TrackerId => $name];
 
 	$form = new Form($name);
 	$form->allowCrossOrigin();
 	$form->addSubmit('send', 'Send');
 
 	Assert::truthy($form->isSubmitted());
-	Assert::same([Form::TrackerId => $name], $form->getSubmittedData());
+	Assert::same([HttpSource::TrackerId => $name], $form->getSubmittedData());
 	Assert::same([], $form->getValues('array'));
-	Assert::same($name, $form[Form::TrackerId]->getValue());
+	$form->fireRenderEvents(); // installs the tracker
+	Assert::same($name, $form[HttpSource::TrackerId]->getValue());
 });
 
 

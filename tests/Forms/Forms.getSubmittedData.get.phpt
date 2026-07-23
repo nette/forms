@@ -5,6 +5,7 @@
  */
 
 use Nette\Forms\Form;
+use Nette\Forms\Sources\HttpSource;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -41,7 +42,7 @@ test('unsubmitted form handling', function () {
 
 test('tracker ID in GET submission', function () {
 	$name = 'name';
-	$_GET = [Form::TrackerId => $name];
+	$_GET = [HttpSource::TrackerId => $name];
 	$_SERVER['REQUEST_URI'] = '/?' . http_build_query($_GET);
 
 	$form = new Form($name);
@@ -49,7 +50,8 @@ test('tracker ID in GET submission', function () {
 	$form->addSubmit('send', 'Send');
 
 	Assert::truthy($form->isSubmitted());
-	Assert::same([Form::TrackerId => $name], $form->getSubmittedData());
+	Assert::same([HttpSource::TrackerId => $name], $form->getSubmittedData());
 	Assert::same([], $form->getValues('array'));
-	Assert::same($name, $form[Form::TrackerId]->getValue());
+	$form->fireRenderEvents(); // installs the tracker
+	Assert::same($name, $form[HttpSource::TrackerId]->getValue());
 });
