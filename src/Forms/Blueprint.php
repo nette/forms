@@ -85,12 +85,7 @@ final class Blueprint
 	public function generateLatte(Form $form): string
 	{
 		$dict = new \SplObjectStorage;
-		$dummyForm = new class extends Form {
-			protected function receiveHttpData(): array
-			{
-				return [];
-			}
-		};
+		$dummyForm = (new Form)->setSubmissionSource(new Sources\NullSource); // never submitted, dummy controls never load HTTP data
 
 		foreach ($form->getComponentTree() as $input) {
 			if ($input instanceof Repeater && !$this->findRepeater($input)) {

@@ -311,12 +311,7 @@ class Repeater extends Container
 	{
 		$container = new Container;
 		($this->factory)($container);
-		$container->setParent(new class extends Form {
-			public function receiveHttpData(): ?array
-			{
-				return null;
-			}
-		}, '');
+		$container->setParent((new Form)->setSubmissionSource(new Sources\NullSource), ''); // never submitted, controls never load HTTP data
 		return $container;
 	}
 
