@@ -94,20 +94,20 @@ final class Blueprint
 				public function getLabel(string|\Stringable|null $caption = null): Html|string|null
 				{
 					return $this->inner->getLabel()
-						? '{label ' . $this->inner->lookupPath(Form::class) . '/}'
+						? '{label ' . Helpers::lookupPathToForm($this->inner) . '/}'
 						: null;
 				}
 
 
 				public function getControl(): Html|string
 				{
-					return '{input ' . $this->inner->lookupPath(Form::class) . '}';
+					return '{input ' . Helpers::lookupPathToForm($this->inner) . '}';
 				}
 
 
 				public function isRequired(): bool
 				{
-					return $this->inner->isRequired();
+					return $this->inner->getRules()->isRequired();
 				}
 
 
@@ -120,7 +120,7 @@ final class Blueprint
 			};
 			$dummyInput->inner = $input;
 			$dummyForm->addComponent($dummyInput, (string) $dict->count());
-			$dummyInput->addError('{inputError ' . $input->lookupPath(Form::class) . '}');
+			$dummyInput->addError('{inputError ' . Helpers::lookupPathToForm($input) . '}');
 		}
 
 		foreach ($form->getGroups() as $group) {
@@ -174,7 +174,7 @@ final class Blueprint
 		$nextCode = '';
 		$props = [];
 		foreach ($container->getComponents() as $name => $input) {
-			if ($input instanceof Controls\BaseControl && $input->isOmitted()) {
+			if ($input instanceof Control && $input->isOmitted()) {
 				continue;
 			} elseif ($input instanceof Controls\Checkbox) {
 				$type = 'bool';
