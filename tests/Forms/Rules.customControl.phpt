@@ -5,6 +5,7 @@
  */
 
 use Nette\Forms\{Control, Form, Rules};
+use Nette\Utils\Html;
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -27,6 +28,47 @@ class CustomControl extends Nette\ComponentModel\Component implements Control
 	public function getValue(): mixed
 	{
 		return $this->value;
+	}
+
+
+	public function loadHttpData(): void
+	{
+	}
+
+
+	public function isDisabled(): bool
+	{
+		return false;
+	}
+
+
+	public function getHtmlName(): string
+	{
+		return (string) $this->getName();
+	}
+
+
+	public function getControl(): Html|string
+	{
+		return '';
+	}
+
+
+	public function getLabel(string|Stringable|null $caption = null): Html|string|null
+	{
+		return null;
+	}
+
+
+	public function setOption(string $key, mixed $value): static
+	{
+		return $this;
+	}
+
+
+	public function getOption(string $key): mixed
+	{
+		return null;
 	}
 
 

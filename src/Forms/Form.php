@@ -321,7 +321,7 @@ class Form extends Container implements Nette\HtmlStringable
 		}
 
 		foreach ($group->getControls() as $control) {
-			$control->getParent()->removeComponent($control);
+			$control->getParent()?->removeComponent($control);
 		}
 
 		unset($this->groups[$name]);
@@ -743,7 +743,7 @@ class Form extends Container implements Nette\HtmlStringable
 	{
 		$toggles = [];
 		foreach ($this->getComponentTree() as $control) {
-			if ($control instanceof Controls\BaseControl) {
+			if ($control instanceof Control) {
 				$toggles = $control->getRules()->getToggleStates($toggles);
 			}
 		}

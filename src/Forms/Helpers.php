@@ -96,6 +96,27 @@ final class Helpers
 
 
 	/**
+	 * Returns the path of component names between the form and the component (e.g. 'person-name').
+	 */
+	public static function lookupPathToForm(Nette\ComponentModel\IComponent $component): string
+	{
+		$path = [];
+		while (!$component instanceof Form) {
+			$name = $component->getName();
+			$parent = $component->getParent();
+			if ($name === null || $parent === null) {
+				throw new Nette\InvalidStateException('Component is not attached to a form.');
+			}
+
+			$path[] = $name;
+			$component = $parent;
+		}
+
+		return implode(Nette\ComponentModel\IComponent::NameSeparator, array_reverse($path));
+	}
+
+
+	/**
 	 * Converts a component path (e.g. 'form-person-name') to the HTML name attribute format (e.g. 'person[name]').
 	 */
 	public static function generateHtmlName(string $id): string

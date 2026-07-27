@@ -424,8 +424,8 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		$pair = $this->getWrapper('pair container');
 		$pair->addHtml($this->renderLabel($control));
 		$pair->addHtml($this->renderControl($control));
-		$pair->class($this->getValue($control->isRequired() ? 'pair .required' : 'pair .optional'), true);
-		$pair->class($control->hasErrors() ? $this->getValue('pair .error') : null, true);
+		$pair->class($this->getValue($control->getRules()->isRequired() ? 'pair .required' : 'pair .optional'), true);
+		$pair->class($control->getErrors() !== [] ? $this->getValue('pair .error') : null, true);
 		$pair->class($control->getOption('class'), true);
 		if (++$this->counter % 2) {
 			$pair->class($this->getValue('pair .odd'), true);
@@ -466,7 +466,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 					$el->class($this->getValue("control .$el->type"), true);
 				}
 
-				$el->class($this->getValue('control .error'), $control->hasErrors());
+				$el->class($this->getValue('control .error'), $control->getErrors() !== []);
 			}
 
 			$s[] = $el . $description;
@@ -484,11 +484,11 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	 */
 	public function renderLabel(Nette\Forms\Control $control): Html
 	{
-		$suffix = $this->getValue('label suffix') . ($control->isRequired() ? $this->getValue('label requiredsuffix') : '');
+		$suffix = $this->getValue('label suffix') . ($control->getRules()->isRequired() ? $this->getValue('label requiredsuffix') : '');
 		$label = $this->renderLabelElement($control);
 		if ($label instanceof Html) {
 			$label->addHtml($suffix);
-			if ($control->isRequired()) {
+			if ($control->getRules()->isRequired()) {
 				$label->class($this->getValue('control .required'), true);
 			}
 		} elseif ($label != null) { // @intentionally ==
@@ -529,7 +529,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			$description = '';
 		}
 
-		if ($control->isRequired()) {
+		if ($control->getRules()->isRequired()) {
 			$description = $this->getValue('control requiredsuffix') . $description;
 		}
 
@@ -542,7 +542,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				$el->class($this->getValue("control .$el->type"), true);
 			}
 
-			$el->class($this->getValue('control .error'), $control->hasErrors());
+			$el->class($this->getValue('control .error'), $control->getErrors() !== []);
 		}
 
 		$els[] = $el;
