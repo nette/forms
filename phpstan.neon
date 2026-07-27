@@ -26,30 +26,6 @@ parameters:
 			path: src/Forms/Form.php
 			count: 1
 
-		-   # SubmitButton::getScopeForValidation() walks getParent() which is typed as
-			# Container|Control; lookupPath() exists on Container at runtime.
-			identifier: method.notFound
-			message: '#^Call to an undefined method Nette\\Forms\\Container\|Nette\\Forms\\Control::lookupPath\(\)\.$#'
-			path: src/Forms/Controls/SubmitButton.php
-			count: 1
-
-		-   # Nette\Forms\Control interface is intentionally minimal and missing common methods
-			# (getControl, getLabel, getForm, getOption, setOption, getHtmlName, getName, getParent,
-			# lookupPath, hasErrors, isRequired, isFilled, isDisabled, addError). In practice all
-			# Control instances are BaseControl descendants which provide these methods.
-			identifier: method.notFound
-			message: '#^Call to an undefined method [\w\\&]*Nette\\Forms\\Control(&[\w\\]+)?::\w+\(\)\.$#'
-			paths:
-				- src/Bridges/FormsLatte/Runtime.php
-				- src/Forms/Blueprint.php
-				- src/Forms/Container.php
-				- src/Forms/ControlGroup.php
-				- src/Forms/Form.php
-				- src/Forms/Helpers.php
-				- src/Forms/Rendering/DefaultFormRenderer.php
-				- src/Forms/Rules.php
-				- src/Forms/Validator.php
-
 		-   # Anonymous BaseControls in Blueprint widen return types to match parent contract,
 			# even though they return only string literals in this case.
 			identifier: return.unusedType

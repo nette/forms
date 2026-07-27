@@ -68,6 +68,7 @@ final class Validator
 			);
 		}
 
+		$message ??= '';
 		if ($translator = $rule->control->getForm()->getTranslator()) {
 			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : null);
 		}
@@ -80,6 +81,7 @@ final class Validator
 					if ($rule->control instanceof Controls\BaseControl) {
 						$caption = $rule->control->getCaption();
 						$caption = match (true) {
+							$caption === null => '',
 							$caption instanceof Nette\Utils\Html => $caption->getText(),
 							$caption instanceof Nette\HtmlStringable => (string) $caption,
 							$translator !== null => $translator->translate($caption),
