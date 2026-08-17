@@ -259,7 +259,7 @@ final class Rules implements \IteratorAggregate
 				return false;
 
 			} elseif ($failure && !$rule->branch) {
-				$rule->control->addError(Validator::formatMessage($rule), translate: false);
+				$rule->control->addError(MessageFormatter::format($rule, failure: $failure), translate: false);
 				return false;
 			}
 		}
