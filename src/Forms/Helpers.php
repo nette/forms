@@ -177,7 +177,7 @@ final class Helpers
 					continue;
 				}
 			} else {
-				$msg = Validator::formatMessage($rule, withValue: false);
+				$msg = MessageFormatter::format($rule, withValue: false);
 				if ($msg instanceof Nette\HtmlStringable) {
 					$msg = html_entity_decode(strip_tags((string) $msg), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 				}

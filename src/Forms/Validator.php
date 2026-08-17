@@ -9,18 +9,28 @@ namespace Nette\Forms;
 
 use Nette;
 use Nette\Utils\{Strings, Validators};
-use function count, is_array, is_float, is_int, is_object, is_string;
+use function count, is_array, is_int, is_string;
 
 
 /**
- * Common validators.
+ * Default message catalog and legacy static validators.
+ *
+ * Message rendering lives in MessageFormatter; validator logic lives in the
+ * Nette\Forms\Validation classes. The validateXxx() statics with an object
+ * equivalent are thin delegates; the others remain because the
+ * engine still needs them: Equal/NotEqual/Static/Valid/Submitted/Numeric
+ * (operations without an object equivalent), Min/Max/Range (DateTimeControl
+ * midnight wrap-around), MinLength/MaxLength/Length (item-count semantics
+ * on multi-value controls) and Enum (invalid-class error path).
  */
 final class Validator
 {
 	use Nette\StaticClass;
 
-	/** @var array<string, string> */
-	public static array $messages = [
+	/**
+	 * The immutable catalog of default validation messages.
+	 */
+	public const Defaults = [
 		Form::Equal => 'Please enter %s.',
 		Form::NotEqual => 'This value should not be %s.',
 		Form::Filled => 'This field is required.',
@@ -47,85 +57,22 @@ final class Validator
 		Repeater::MaxItems => 'Please add no more than %d items.',
 	];
 
+	/**
+	 * App-wide overrides of the default validation messages; a changed entry takes
+	 * precedence over the default message of the mapped validator object.
+	 * @var array<string, string>
+	 */
+	public static array $messages = self::Defaults;
+
 
 	/**
-	 * @internal
+	 * Renders the failure message of the given rule.
+	 * @deprecated use Nette\Forms\MessageFormatter::format()
 	 */
+	#[\Deprecated('use Nette\Forms\MessageFormatter::format()')]
 	public static function formatMessage(Rule $rule, bool $withValue = true): string|Nette\HtmlStringable
 	{
-		$message = $rule->message;
-		if ($message instanceof Nette\HtmlStringable) {
-			return $message;
-
-		} elseif ($message === null && is_string($rule->validator) && isset(static::$messages[$rule->validator])) {
-			$message = static::$messages[$rule->validator];
-
-		} elseif ($message == null) { // intentionally ==
-			trigger_error(
-				"Missing validation message for control '{$rule->control->getName()}'"
-				. (is_string($rule->validator) ? " (validator '{$rule->validator}')." : '.'),
-				E_USER_WARNING,
-			);
-		}
-
-		$message ??= '';
-		if ($translator = $rule->control->getForm()->getTranslator()) {
-			$message = $translator->translate($message, is_int($rule->arg) ? $rule->arg : null);
-		}
-
-		$message = preg_replace_callback('#%(name|label|value|\d+\$[ds]|[ds])#', function (array $m) use ($rule, $withValue, $translator) {
-			static $i = -1;
-			switch ($m[1]) {
-				case 'name': return $rule->control->getName();
-				case 'label':
-					if ($rule->control instanceof Controls\BaseControl) {
-						$caption = $rule->control->getCaption();
-						$caption = match (true) {
-							$caption === null => '',
-							$caption instanceof Nette\Utils\Html => $caption->getText(),
-							$caption instanceof Nette\HtmlStringable => (string) $caption,
-							$translator !== null => $translator->translate($caption),
-							default => $caption,
-						};
-						return rtrim((string) $caption, ':');
-					}
-
-					return '';
-
-				case 'value': return $withValue
-					? self::formatValue($rule->control, $rule->control->getValue())
-					: $m[0];
-				default:
-					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
-					$i = (int) $m[1] ? (int) $m[1] - 1 : $i + 1;
-					$arg = $args[$i] ?? null;
-					if ($arg === null) {
-						return '';
-					} elseif ($arg instanceof Control) {
-						return $withValue ? self::formatValue($arg, $arg->getValue()) : "%$i";
-					} elseif ($rule->control instanceof Controls\DateTimeControl) {
-						return $rule->control->formatLocaleText($arg);
-					} else {
-						return $arg;
-					}
-			}
-		}, (string) $message);
-		return $message;
-	}
-
-
-	/**
-	 * Formats a control value for a human-readable error message.
-	 */
-	private static function formatValue(Control $control, mixed $value): string
-	{
-		return match (true) {
-			is_array($value) => implode(', ', array_map(fn($item) => self::formatValue($control, $item), $value)),
-			$value instanceof Nette\Http\FileUpload => $value->getUntrustedName(),
-			$value instanceof \DateTimeInterface && $control instanceof Controls\DateTimeControl => $control->formatLocaleText($value),
-			$value instanceof \DateTimeInterface => $value->format('Y-m-d H:i:s'),
-			default => (string) $value,
-		};
+		return MessageFormatter::format($rule, $withValue);
 	}
 
 
@@ -137,25 +84,7 @@ final class Validator
 	 */
 	public static function validateEqual(Control $control, mixed $arg): bool
 	{
-		$value = $control->getValue();
-		$values = is_array($value) ? $value : [$value];
-		$args = is_array($arg) ? $arg : [$arg];
-
-		foreach ($values as $val) {
-			foreach ($args as $item) {
-				if ($item instanceof \BackedEnum) {
-					$item = $item->value;
-				}
-
-				if ((string) $val === (string) $item) {
-					continue 2;
-				}
-			}
-
-			return false;
-		}
-
-		return (bool) $values;
+		return (new Validation\EqualValidator($arg))->validate($control->getValue()) === null;
 	}
 
 
@@ -182,7 +111,7 @@ final class Validator
 	 */
 	public static function validateFilled(Control $control): bool
 	{
-		return $control->isFilled();
+		return (new Validation\FilledValidator)->validateControl($control) === null;
 	}
 
 
@@ -191,7 +120,7 @@ final class Validator
 	 */
 	public static function validateBlank(Control $control): bool
 	{
-		return !$control->isFilled();
+		return (new Validation\BlankValidator)->validateControl($control) === null;
 	}
 
 
@@ -283,7 +212,7 @@ final class Validator
 	 */
 	public static function validateEmail(Control $control): bool
 	{
-		return Validators::isEmail((string) $control->getValue());
+		return (new Validation\EmailValidator)->validate($control->getValue()) === null;
 	}
 
 
@@ -292,18 +221,13 @@ final class Validator
 	 */
 	public static function validateUrl(Control $control): bool
 	{
-		$value = (string) $control->getValue();
-		if (Validators::isUrl($value)) {
-			return true;
+		$validator = new Validation\UrlValidator;
+		if ($validator->validate($value = $control->getValue()) !== null) {
+			return false;
 		}
 
-		$value = "https://$value";
-		if (Validators::isUrl($value)) {
-			$control->setValue($value);
-			return true;
-		}
-
-		return false;
+		$control->setValue($validator->filter($value));
+		return true;
 	}
 
 
@@ -312,21 +236,13 @@ final class Validator
 	 */
 	public static function validatePattern(Control $control, string $pattern, bool $caseInsensitive = false): bool
 	{
-		$regexp = "\x01^(?:$pattern)$\x01Du" . ($caseInsensitive ? 'i' : '');
-		foreach (static::toArray($control->getValue()) as $item) {
-			$value = $item instanceof Nette\Http\FileUpload ? $item->getUntrustedName() : $item;
-			if (!Strings::match((string) $value, $regexp)) {
-				return false;
-			}
-		}
-
-		return true;
+		return (new Validation\PatternValidator($pattern, $caseInsensitive))->validate($control->getValue()) === null;
 	}
 
 
 	public static function validatePatternCaseInsensitive(Control $control, string $pattern): bool
 	{
-		return self::validatePattern($control, $pattern, caseInsensitive: true);
+		return (new Validation\PatternValidator($pattern, caseInsensitive: true))->validate($control->getValue()) === null;
 	}
 
 
@@ -336,23 +252,7 @@ final class Validator
 	 */
 	public static function validateEnum(Control $control, string $enum): bool
 	{
-		if (!is_a($enum, \BackedEnum::class, allow_string: true)) {
-			throw new Nette\InvalidArgumentException("The Enum validator requires a backed enum class, '$enum' given.");
-		}
-
-		$intBacked = (new \ReflectionEnum($enum))->getBackingType()?->getName() === 'int';
-		foreach (static::toArray($control->getValue()) as $value) {
-			if ($intBacked) {
-				$value = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
-				if ($value === null || $enum::tryFrom($value) === null) {
-					return false;
-				}
-			} elseif (!is_string($value) || $enum::tryFrom($value) === null) {
-				return false;
-			}
-		}
-
-		return true;
+		return (new Validation\EnumValidator($enum))->validate($control->getValue()) === null;
 	}
 
 
@@ -372,15 +272,13 @@ final class Validator
 	 */
 	public static function validateInteger(Control $control): bool
 	{
-		if (
-			Validators::isNumericInt($value = $control->getValue())
-			&& !is_float($tmp = $value * 1) // too big for int?
-		) {
-			$control->setValue($tmp);
-			return true;
+		$validator = new Validation\IntegerValidator;
+		if ($validator->validate($value = $control->getValue()) !== null) {
+			return false;
 		}
 
-		return false;
+		$control->setValue($validator->filter($value));
+		return true;
 	}
 
 
@@ -389,17 +287,13 @@ final class Validator
 	 */
 	public static function validateFloat(Control $control): bool
 	{
-		$value = $control->getValue();
-		if (is_string($value)) {
-			$value = str_replace([' ', ','], ['', '.'], $value);
+		$validator = new Validation\FloatValidator;
+		if ($validator->validate($value = $control->getValue()) !== null) {
+			return false;
 		}
 
-		if (Validators::isNumeric($value)) {
-			$control->setValue((float) $value);
-			return true;
-		}
-
-		return false;
+		$control->setValue($validator->filter($value));
+		return true;
 	}
 
 
@@ -408,13 +302,7 @@ final class Validator
 	 */
 	public static function validateFileSize(Controls\UploadControl $control, int $limit): bool
 	{
-		foreach (static::toArray($control->getValue()) as $file) {
-			if ($file->getSize() > $limit || $file->getError() === UPLOAD_ERR_INI_SIZE) {
-				return false;
-			}
-		}
-
-		return true;
+		return (new Validation\FileSizeValidator($limit))->validate($control->getValue()) === null;
 	}
 
 
@@ -424,15 +312,7 @@ final class Validator
 	 */
 	public static function validateMimeType(Controls\UploadControl $control, string|array $mimeType): bool
 	{
-		$mimeTypes = is_array($mimeType) ? $mimeType : explode(',', $mimeType);
-		foreach (static::toArray($control->getValue()) as $file) {
-			$type = strtolower($file->getContentType() ?? '');
-			if (!in_array($type, $mimeTypes, true) && !in_array(preg_replace('#/.*#', '/*', $type), $mimeTypes, true)) {
-				return false;
-			}
-		}
-
-		return true;
+		return (new Validation\MimeTypeValidator($mimeType))->validate($control->getValue()) === null;
 	}
 
 
@@ -441,19 +321,6 @@ final class Validator
 	 */
 	public static function validateImage(Controls\UploadControl $control): bool
 	{
-		foreach (static::toArray($control->getValue()) as $file) {
-			if (!$file->isImage()) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-
-	/** @return mixed[] */
-	private static function toArray(mixed $value): array
-	{
-		return is_object($value) ? [$value] : (array) $value;
+		return (new Validation\ImageValidator)->validate($control->getValue()) === null;
 	}
 }
