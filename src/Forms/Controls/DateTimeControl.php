@@ -152,9 +152,10 @@ class DateTimeControl extends BaseControl
 			? $this->formatHtmlValue($val)
 			: null;
 		foreach ($this->getRules() as $rule) {
-			if ($rule->branch) {
-			} elseif (!$rule->canExport()) {
+			if ($rule->mutatesValue() || $rule->branch?->containsMutating()) {
+				// the value changes on the server, following attributes must not pre-validate the raw input
 				break;
+			} elseif ($rule->branch || !$rule->canExport()) {
 			} elseif ($rule->validator === Form::Min) {
 				$attrs['min'] = $format($rule->arg);
 			} elseif ($rule->validator === Form::Max) {
