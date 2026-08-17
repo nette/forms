@@ -676,3 +676,18 @@ test('complex rule-based toggles', function () {
 		'b' => true,
 	], $form->getToggles());
 });
+
+
+test('computing toggle states does not apply filters to control values', function () {
+	$form = new Form;
+	$input = $form->addText('name');
+	$input->setDefaultValue('A');
+	$input->addFilter(fn($value) => $value . '!');
+	$input->addCondition(Form::Filled)
+		->toggle('#box');
+
+	Assert::same(['#box' => true], $form->getToggles());
+	Assert::same('A', $input->getValue());
+	$form->getToggles();
+	Assert::same('A', $input->getValue());
+});
