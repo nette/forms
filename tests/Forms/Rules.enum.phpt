@@ -4,7 +4,7 @@
  * Test: Nette\Forms\Form::Enum validation rule.
  */
 
-use Nette\Forms\{Form, Helpers};
+use Nette\Forms\{ClientRuleExporter, Form};
 use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
@@ -90,7 +90,7 @@ test('the rule exports to JS as a membership check against case values', functio
 
 	Assert::same([
 		['op' => ':equal', 'msg' => 'Choose wisely', 'arg' => ['active', 'inactive']],
-	], Helpers::exportRules($input->getRules()));
+	], ClientRuleExporter::export($input->getRules()));
 
 	$form2 = new Form;
 	$input2 = $form2->addText('value');
@@ -98,7 +98,7 @@ test('the rule exports to JS as a membership check against case values', functio
 
 	Assert::same([
 		['op' => ':equal', 'msg' => 'Choose wisely', 'arg' => [1, 2]],
-	], Helpers::exportRules($input2->getRules()));
+	], ClientRuleExporter::export($input2->getRules()));
 });
 
 

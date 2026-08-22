@@ -13,18 +13,22 @@ use function is_string;
 
 
 /**
- * Single validation rule or condition represented as value object.
+ * Single validation rule or condition represented as an immutable value object.
  */
-final readonly class Rule
+final class Rule
 {
+	private ?Validation\Validator $resolved = null;
+	private bool $isResolved = false;
+
+
 	public function __construct(
-		public Control $control,
+		public readonly Control $control,
 		/** @var Validation\Validator|Validation\Filter|(callable(never, never): bool)|string */
-		public mixed $validator,
-		public mixed $arg = null,
-		public string|Stringable|null $message = null,
-		public bool $isNegative = false,
-		public ?Rules $branch = null,
+		public readonly mixed $validator,
+		public readonly mixed $arg = null,
+		public readonly string|Stringable|null $message = null,
+		public readonly bool $isNegative = false,
+		public readonly ?Rules $branch = null,
 	) {
 	}
 
@@ -53,15 +57,35 @@ final readonly class Rule
 
 
 	/**
+	 * Returns the validator object performing this rule: either the object given
+	 * to addRule() directly, or the shared object the string operation maps to.
+	 * Null for callables and operations without an object counterpart.
+	 * The rule is immutable, so the resolution is memoized.
+	 * @internal
+	 */
+	public function getValidationObject(): ?Validation\Validator
+	{
+		if (!$this->isResolved) {
+			$this->resolved = match (true) {
+				$this->validator instanceof Validation\Validator => $this->validator,
+				is_string($this->validator) => Validation\Operations::toValidator($this->validator, $this->arg, $this->control),
+				default => null,
+			};
+			$this->isResolved = true;
+		}
+
+		return $this->resolved;
+	}
+
+
+	/**
 	 * Client-side counterparts of the rule's validator, empty for server-only rules.
 	 * @internal
 	 * @return list<Validation\ClientRule>
 	 */
 	public function getClientRules(): array
 	{
-		return $this->validator instanceof Validation\Validator
-			? $this->validator->getClientRules()
-			: [];
+		return $this->getValidationObject()?->getClientRules() ?? [];
 	}
 
 
@@ -72,7 +96,7 @@ final readonly class Rule
 	public function checksFilled(): bool
 	{
 		return !$this->isNegative
-			&& ($this->getOp() === Form::Filled || $this->validator instanceof Validation\FilledValidator);
+			&& $this->getValidationObject() instanceof Validation\FilledValidator;
 	}
 
 
@@ -85,8 +109,8 @@ final readonly class Rule
 	public function checksBlank(): bool
 	{
 		return $this->isNegative
-			? ($this->getOp() === Form::Filled || $this->validator instanceof Validation\FilledValidator)
-			: ($this->getOp() === Form::Blank || $this->validator instanceof Validation\BlankValidator);
+			? $this->getValidationObject() instanceof Validation\FilledValidator
+			: $this->getValidationObject() instanceof Validation\BlankValidator;
 	}
 
 

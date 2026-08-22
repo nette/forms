@@ -9,7 +9,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Forms;
-use Nette\Forms\Form;
+use Nette\Forms\{Form, Validation};
 use Nette\Http\FileUpload;
 use Stringable;
 use function ini_get, is_array;
@@ -120,9 +120,9 @@ class UploadControl extends BaseControl
 	}
 
 
-	/** @param  (callable(never, never): bool)|string  $validator */
+	/** @param  Validation\Validator|(callable(never, never): bool)|string  $validator */
 	public function addRule(
-		callable|string $validator,
+		Validation\Validator|callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
 	): static
