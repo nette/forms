@@ -18,8 +18,11 @@ class Translator implements ITranslator
 
 	public function translate($message, ...$parameters): string
 	{
-		@$this->counter[$message]++; // @ intentionally
-		return strtoupper($message);
+		$key = $message instanceof Nette\Forms\Validation\Message
+			? $message->id
+			: (string) $message;
+		@$this->counter[$key]++; // @ intentionally
+		return strtoupper((string) $message);
 	}
 }
 
@@ -51,7 +54,7 @@ Assert::same([
 	'or email' => 1,
 	'Please enter your username' => 1,
 	'Password' => 1,
-	'This field is required.' => 1,
+	'forms.filled' => 1, // default messages are translated by their stable identifier
 	'Minimal length is %d chars' => 1,
 	'Send' => 1,
 ], $translator->counter);

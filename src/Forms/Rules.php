@@ -65,10 +65,10 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation rule for the current control.
-	 * @param  (callable(never, never): bool)|string  $validator
+	 * @param  Validation\Validator|(callable(never, never): bool)|string  $validator
 	 */
 	public function addRule(
-		callable|string $validator,
+		Validation\Validator|callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
 	): static
@@ -77,11 +77,8 @@ final class Rules implements \IteratorAggregate
 			throw new Nette\InvalidArgumentException('You cannot use Form::Valid in the addRule method.');
 		}
 
+		self::checkValidatorArg($validator, $arg);
 		[$validator, $isNegative] = $this->normalizeValidator($validator, $this->control, isCondition: false);
-		if ($validator === Form::Image) {
-			$arg = Helpers::getSupportedImages();
-		}
-
 		$rule = new Rule($this->control, $validator, $arg, $errorMessage, $isNegative);
 		if ($rule->checksFilled()) {
 			$this->required = $rule;
@@ -94,16 +91,23 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Removes a validation rule for the current control.
-	 * @param  (callable(never, never): bool)|string  $validator
+	 * Removes a validation rule for the current control. Rules with validator objects
+	 * are removed by passing the object's class name.
+	 * @param  Validation\Validator|(callable(never, never): bool)|string  $validator
 	 */
-	public function removeRule(callable|string $validator): static
+	public function removeRule(Validation\Validator|callable|string $validator): static
 	{
-		if ($validator === Form::Filled) {
+		$class = match (true) {
+			$validator instanceof Validation\Validator => $validator::class,
+			is_string($validator) && is_a($validator, Validation\Validator::class, allow_string: true) => $validator,
+			default => null,
+		};
+
+		if ($validator === Form::Filled || ($class !== null && $this->required?->validator instanceof $class)) {
 			$this->required = null;
 		} else {
 			foreach ($this->rules as $i => $rule) {
-				if (!$rule->branch && $rule->validator === $validator) {
+				if (!$rule->branch && ($class !== null ? $rule->validator instanceof $class : $rule->validator === $validator)) {
 					unset($this->rules[$i]);
 				}
 			}
@@ -115,9 +119,12 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation condition and returns new branch.
-	 * @param  (callable(never, never): bool)|string|bool  $validator
+	 * @param  Validation\Validator|(callable(never, never): bool)|string|bool  $validator
 	 */
-	public function addCondition(callable|string|bool $validator, mixed $arg = null): static
+	public function addCondition(
+		Validation\Validator|callable|string|bool $validator,
+		mixed $arg = null,
+	): static
 	{
 		if ($validator === Form::Valid || $validator === ~Form::Valid) {
 			throw new Nette\InvalidArgumentException('You cannot use Form::Valid in the addCondition method.');
@@ -132,14 +139,16 @@ final class Rules implements \IteratorAggregate
 
 	/**
 	 * Adds a validation condition on a specified control and returns new branch.
-	 * @param  (callable(never, never): bool)|string  $validator
+	 * @param  Validation\Validator|(callable(never, never): bool)|string  $validator
 	 */
-	public function addConditionOn(Control $control, callable|string $validator, mixed $arg = null): static
+	public function addConditionOn(
+		Control $control,
+		Validation\Validator|callable|string $validator,
+		mixed $arg = null,
+	): static
 	{
+		self::checkValidatorArg($validator, $arg);
 		[$validator, $isNegative] = $this->normalizeValidator($validator, $control, isCondition: true);
-		if ($validator === Form::Image) {
-			$arg = Helpers::getSupportedImages();
-		}
 
 		$branch = new static($this->control);
 		$branch->parent = $this;
@@ -315,6 +324,17 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
+	 * Validator objects carry their configuration themselves.
+	 */
+	private static function checkValidatorArg(mixed $validator, mixed $arg): void
+	{
+		if ($validator instanceof Validation\Validator && $arg !== null) {
+			throw new Nette\InvalidArgumentException('Validator objects carry their configuration themselves, the $arg argument must be null.');
+		}
+	}
+
+
+	/**
 	 * Validates single rule.
 	 */
 	public static function validateRule(Rule $rule): bool
@@ -331,7 +351,7 @@ final class Rules implements \IteratorAggregate
 	 */
 	public static function evaluateRule(Rule $rule, bool $applyFilters = true): ?Validation\Message
 	{
-		$validator = $rule->validator;
+		$validator = $rule->getValidationObject();
 		if ($validator instanceof Validation\FilledValidator || $validator instanceof Validation\BlankValidator) {
 			// filledness is a control state, not a value property; the engine evaluates these two directly
 			$failure = $validator->validateControl($rule->control);
@@ -342,9 +362,9 @@ final class Rules implements \IteratorAggregate
 			if ($failure === null && $applyFilters && !$rule->isNegative && $validator instanceof Validation\Filter) {
 				$rule->control->setValue($validator->filter($value));
 			}
-		} elseif ($validator instanceof Validation\Filter) {
+		} elseif ($rule->validator instanceof Validation\Filter) {
 			if ($applyFilters) {
-				$rule->control->setValue($validator->filter($rule->control->getValue()));
+				$rule->control->setValue($rule->validator->filter($rule->control->getValue()));
 			}
 
 			$failure = null;

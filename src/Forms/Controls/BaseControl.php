@@ -8,7 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use Nette\Forms\{Control, Form, Rules};
+use Nette\Forms\{Control, Form, Rules, Validation};
 use Nette\Utils\Html;
 use Stringable;
 use function is_array, is_string;
@@ -278,7 +278,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 			'id' => $this->getHtmlId(),
 			'required' => $this->isRequired(),
 			'disabled' => $this->isDisabled(),
-			'data-nette-rules' => Nette\Forms\Helpers::exportRules($this->rules) ?: null,
+			'data-nette-rules' => Nette\Forms\ClientRuleExporter::export($this->rules) ?: null,
 		]);
 	}
 
@@ -434,10 +434,10 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation rule.
-	 * @param  (callable(never, never): bool)|string  $validator
+	 * @param  Validation\Validator|(callable(never, never): bool)|string  $validator
 	 */
 	public function addRule(
-		callable|string $validator,
+		Validation\Validator|callable|string $validator,
 		string|Stringable|null $errorMessage = null,
 		mixed $arg = null,
 	): static
@@ -449,9 +449,12 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation condition and returns a new branch.
-	 * @param  (callable(never, never): bool)|string|bool  $validator
+	 * @param  Validation\Validator|(callable(never, never): bool)|string|bool  $validator
 	 */
-	public function addCondition(callable|string|bool $validator, mixed $value = null): Rules
+	public function addCondition(
+		Validation\Validator|callable|string|bool $validator,
+		mixed $value = null,
+	): Rules
 	{
 		return $this->rules->addCondition($validator, $value);
 	}
@@ -459,9 +462,13 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/**
 	 * Adds a validation condition based on another control and returns a new branch.
-	 * @param  (callable(never, never): bool)|string  $validator
+	 * @param  Validation\Validator|(callable(never, never): bool)|string  $validator
 	 */
-	public function addConditionOn(Control $control, callable|string $validator, mixed $value = null): Rules
+	public function addConditionOn(
+		Control $control,
+		Validation\Validator|callable|string $validator,
+		mixed $value = null,
+	): Rules
 	{
 		return $this->rules->addConditionOn($control, $validator, $value);
 	}

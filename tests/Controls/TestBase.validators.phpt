@@ -11,6 +11,9 @@ use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
+// the deprecated Validator::validateXxx facade is intentionally exercised here
+error_reporting(error_reporting() & ~E_USER_DEPRECATED);
+
 
 test('min length validation', function () {
 	$control = new TextInput;

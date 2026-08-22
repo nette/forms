@@ -10,7 +10,6 @@ namespace Nette\Forms;
 use Nette;
 use Nette\Utils\{Html, Image, Strings};
 use function is_array, is_scalar, is_string;
-use const ENT_HTML5, ENT_QUOTES;
 
 
 /**
@@ -147,73 +146,12 @@ final class Helpers
 	/**
 	 * Exports validation rules into a JSON-serializable structure for the data-nette-rules attribute.
 	 * @return list<array<string, mixed>>
+	 * @deprecated use Nette\Forms\ClientRuleExporter::export()
 	 */
+	#[\Deprecated('use Nette\Forms\ClientRuleExporter::export()')]
 	public static function exportRules(Rules $rules): array
 	{
-		$payload = [];
-		foreach ($rules as $rule) {
-			if (!$rule->canExport()) {
-				if ($rule->branch) {
-					continue;
-				}
-
-				break;
-			}
-
-			$op = $rule->validator;
-			if (!is_string($op)) {
-				$op = Nette\Utils\Callback::toString($op);
-			}
-
-			if ($rule->branch) {
-				$item = [
-					'op' => ($rule->isNegative ? '~' : '') . $op,
-					'rules' => static::exportRules($rule->branch),
-					'control' => $rule->control->getHtmlName(),
-				];
-				if ($rule->branch->getToggles()) {
-					$item['toggle'] = $rule->branch->getToggles();
-				} elseif (!$item['rules']) {
-					continue;
-				}
-			} else {
-				$msg = MessageFormatter::format($rule, withValue: false);
-				if ($msg instanceof Nette\HtmlStringable) {
-					$msg = html_entity_decode(strip_tags((string) $msg), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-				}
-
-				$item = ['op' => ($rule->isNegative ? '~' : '') . $op, 'msg' => $msg];
-			}
-
-			if ($op === Form::Enum && is_string($rule->arg) && is_a($rule->arg, \BackedEnum::class, allow_string: true)) {
-				// the enum validator has no JS counterpart; export as membership check against the case values
-				$item['op'] = ($rule->isNegative ? '~' : '') . Form::Equal;
-				$item['arg'] = array_column(($rule->arg)::cases(), 'value');
-			} elseif (is_array($rule->arg)) {
-				$item['arg'] = [];
-				foreach ($rule->arg as $key => $value) {
-					$item['arg'][$key] = self::exportArgument($value, $rule->control);
-				}
-			} elseif ($rule->arg !== null) {
-				$item['arg'] = self::exportArgument($rule->arg, $rule->control);
-			}
-
-			$payload[] = $item;
-		}
-
-		return $payload;
-	}
-
-
-	private static function exportArgument(mixed $value, Control $control): mixed
-	{
-		if ($value instanceof Control) {
-			return ['control' => $value->getHtmlName()];
-		} elseif ($control instanceof Controls\DateTimeControl) {
-			return $control->formatHtmlValue($value);
-		} else {
-			return $value;
-		}
+		return ClientRuleExporter::export($rules);
 	}
 
 

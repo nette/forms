@@ -9,6 +9,9 @@ use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
+// the deprecated Validator::validateXxx facade is intentionally exercised here
+error_reporting(error_reporting() & ~E_USER_DEPRECATED);
+
 
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
