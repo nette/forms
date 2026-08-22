@@ -17,7 +17,7 @@ use function count, is_array, is_int, is_string;
  *
  * Message rendering lives in MessageFormatter; validator logic lives in the
  * Nette\Forms\Validation classes. The validateXxx() statics with an object
- * equivalent are thin delegates; the others remain because the
+ * equivalent are deprecated thin delegates; the others remain because the
  * engine still needs them: Equal/NotEqual/Static/Valid/Submitted/Numeric
  * (operations without an object equivalent), Min/Max/Range (DateTimeControl
  * midnight wrap-around), MinLength/MaxLength/Length (item-count semantics
@@ -106,7 +106,9 @@ final class Validator
 
 	/**
 	 * Checks whether the control is filled.
+	 * @deprecated use Nette\Forms\Validation\FilledValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\FilledValidator', since: '4.0')]
 	public static function validateFilled(Control $control): bool
 	{
 		return (new Validation\FilledValidator)->validateControl($control) === null;
@@ -115,7 +117,9 @@ final class Validator
 
 	/**
 	 * Checks whether the control is not filled.
+	 * @deprecated use Nette\Forms\Validation\BlankValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\BlankValidator', since: '4.0')]
 	public static function validateBlank(Control $control): bool
 	{
 		return (new Validation\BlankValidator)->validateControl($control) === null;
@@ -207,7 +211,9 @@ final class Validator
 
 	/**
 	 * Checks whether the control's value is a valid email address.
+	 * @deprecated use Nette\Forms\Validation\EmailValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\EmailValidator', since: '4.0')]
 	public static function validateEmail(Control $control): bool
 	{
 		return (new Validation\EmailValidator)->validate($control->getValue()) === null;
@@ -216,7 +222,9 @@ final class Validator
 
 	/**
 	 * Checks whether the control's value is a valid URL. Auto-prepends 'https://' if the scheme is missing.
+	 * @deprecated use Nette\Forms\Validation\UrlValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\UrlValidator', since: '4.0')]
 	public static function validateUrl(Control $control): bool
 	{
 		$validator = new Validation\UrlValidator;
@@ -231,13 +239,17 @@ final class Validator
 
 	/**
 	 * Checks whether the control's value matches the regular expression (anchored, case-sensitive by default).
+	 * @deprecated use Nette\Forms\Validation\PatternValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\PatternValidator', since: '4.0')]
 	public static function validatePattern(Control $control, string $pattern, bool $caseInsensitive = false): bool
 	{
 		return new Validation\PatternValidator($pattern, $caseInsensitive)->validate($control->getValue()) === null;
 	}
 
 
+	/** @deprecated use Nette\Forms\Validation\PatternValidator */
+	#[\Deprecated('use Nette\Forms\Validation\PatternValidator', since: '4.0')]
 	public static function validatePatternCaseInsensitive(Control $control, string $pattern): bool
 	{
 		return new Validation\PatternValidator($pattern, caseInsensitive: true)->validate($control->getValue()) === null;
@@ -267,7 +279,9 @@ final class Validator
 
 	/**
 	 * Checks whether the control's value is an integer. Normalizes the value by casting it to int.
+	 * @deprecated use Nette\Forms\Validation\IntegerValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\IntegerValidator', since: '4.0')]
 	public static function validateInteger(Control $control): bool
 	{
 		$validator = new Validation\IntegerValidator;
@@ -282,7 +296,9 @@ final class Validator
 
 	/**
 	 * Checks whether the control's value is a number. Normalizes spaces and commas and casts it to float.
+	 * @deprecated use Nette\Forms\Validation\FloatValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\FloatValidator', since: '4.0')]
 	public static function validateFloat(Control $control): bool
 	{
 		$validator = new Validation\FloatValidator;
@@ -297,7 +313,9 @@ final class Validator
 
 	/**
 	 * Checks whether all uploaded files are within the size limit (in bytes).
+	 * @deprecated use Nette\Forms\Validation\FileSizeValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\FileSizeValidator', since: '4.0')]
 	public static function validateFileSize(Controls\UploadControl $control, int $limit): bool
 	{
 		return new Validation\FileSizeValidator($limit)->validate($control->getValue()) === null;
@@ -307,7 +325,9 @@ final class Validator
 	/**
 	 * Checks whether all uploaded files match one of the allowed MIME types (wildcards like 'image/*' are supported).
 	 * @param  string|string[]  $mimeType
+	 * @deprecated use Nette\Forms\Validation\MimeTypeValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\MimeTypeValidator', since: '4.0')]
 	public static function validateMimeType(Controls\UploadControl $control, string|array $mimeType): bool
 	{
 		return new Validation\MimeTypeValidator($mimeType)->validate($control->getValue()) === null;
@@ -316,7 +336,9 @@ final class Validator
 
 	/**
 	 * Checks whether all uploaded files are images (JPEG, PNG, GIF, WebP, AVIF).
+	 * @deprecated use Nette\Forms\Validation\ImageValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\ImageValidator', since: '4.0')]
 	public static function validateImage(Controls\UploadControl $control): bool
 	{
 		return (new Validation\ImageValidator)->validate($control->getValue()) === null;
