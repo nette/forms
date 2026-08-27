@@ -13,7 +13,7 @@ use Nette\Forms\Form;
 use Nette\Forms\Rules;
 use Nette\Utils\Html;
 use Stringable;
-use function array_unique, explode, get_parent_class, implode, is_array, sprintf, str_contains;
+use function is_array, sprintf;
 
 
 /**

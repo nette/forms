@@ -10,7 +10,7 @@ namespace Nette\Forms;
 use Nette;
 use Nette\Utils\Strings;
 use Nette\Utils\Validators;
-use function array_map, count, explode, in_array, is_array, is_float, is_int, is_object, is_string, preg_replace, preg_replace_callback, rtrim, str_replace, strtolower;
+use function count, in_array, is_array, is_float, is_int, is_object, is_string;
 
 
 /**

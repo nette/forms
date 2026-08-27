@@ -10,7 +10,7 @@ namespace Nette\Forms\Rendering;
 use Nette;
 use Nette\HtmlStringable;
 use Nette\Utils\Html;
-use function array_merge, count, explode, implode, parse_url, preg_split, str_replace, strtolower, urldecode;
+use function count;
 use const PHP_URL_QUERY;
 
 

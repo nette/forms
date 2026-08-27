@@ -11,7 +11,7 @@ use Nette;
 use Nette\Utils\Html;
 use Nette\Utils\Image;
 use Nette\Utils\Strings;
-use function array_fill_keys, array_map, array_values, explode, filter_var, html_entity_decode, htmlspecialchars, in_array, ini_get, is_a, is_array, is_numeric, is_scalar, is_string, str_ends_with, str_replace, strip_tags, strpos, strtolower, strtr, substr, substr_replace;
+use function in_array, is_array, is_scalar, is_string;
 
 
 /**

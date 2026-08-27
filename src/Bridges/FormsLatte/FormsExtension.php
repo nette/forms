@@ -8,7 +8,6 @@
 namespace Nette\Bridges\FormsLatte;
 
 use Latte;
-use function strtolower;
 
 
 /**

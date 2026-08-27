@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Utils\Html;
 use Stringable;
-use function array_key_first, array_merge, func_num_args, in_array, is_array;
+use function func_num_args, in_array, is_array;
 
 
 /**

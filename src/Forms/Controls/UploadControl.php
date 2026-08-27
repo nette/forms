@@ -13,7 +13,7 @@ use Nette\Forms\Form;
 use Nette\Http\FileUpload;
 use Nette\Utils\Arrays;
 use Stringable;
-use function implode, ini_get, is_array;
+use function is_array;
 
 
 /**

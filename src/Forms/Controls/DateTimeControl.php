@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Forms\Form;
 use Stringable;
-use function get_debug_type, is_numeric, is_scalar, is_string;
+use function is_scalar, is_string;
 
 
 /**

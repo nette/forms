@@ -8,7 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use function array_combine, array_fill_keys, array_key_exists, array_keys, array_map, implode, is_array, key, var_export;
+use function array_key_exists, is_array;
 
 
 /**
