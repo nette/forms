@@ -15,8 +15,6 @@ parameters:
 			message: '#^Property Nette\\Utils\\Html::\$\w+ \([^)]+\) does not accept [^.]+\.$#'
 			paths:
 				- src/Forms/Controls/BaseControl.php
-				- src/Forms/Controls/TextBase.php
-				- src/Forms/Controls/TextInput.php
 				- src/Forms/Form.php
 
 		-   # Form::$renderer is late-initialized via a setter that accepts a nullable
@@ -100,11 +98,6 @@ parameters:
 		-   # Rules::getCallback() returns callable-array [class, method] without value type.
 			message: '#^Method Nette\\Forms\\Rules::getCallback\(\) return type has no value type specified in iterable type array\.$#'
 			path: src/Forms/Rules.php
-			count: 1
-
-		-   # DateTimeControl formatHtmlValue accepts broader types from rule args
-			message: '#^Parameter \#1 \$value of method Nette\\Forms\\Controls\\DateTimeControl::formatHtmlValue\(\)#'
-			path: src/Forms/Controls/DateTimeControl.php
 			count: 1
 
 		-   # Recursive internal calls pass ?string from Helpers::getSingleType() (reflection)
