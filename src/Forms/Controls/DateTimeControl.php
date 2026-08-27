@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Forms\Form;
 use Stringable;
-use function is_scalar, is_string;
+use function is_int, is_string;
 
 
 /**
@@ -131,6 +131,12 @@ class DateTimeControl extends BaseControl
 	}
 
 
+	protected function getRuleAttributeNames(): array
+	{
+		return ['min', 'max'];
+	}
+
+
 	/**
 	 * Formats a date/time according to the locale and formatting options.
 	 */
@@ -144,13 +150,27 @@ class DateTimeControl extends BaseControl
 	}
 
 
-	/** @return array<string, ?string> */
+	/**
+	 * Formats the min/max bounds declared by the rules (both validator objects and
+	 * string operations) in the date/time format matching the control's type.
+	 * @return array<string, ?string>
+	 */
 	private function getAttributesFromRules(): array
 	{
 		$attrs = [];
-		$format = fn($val) => is_scalar($val) || $val instanceof \DateTimeInterface
+		$format = fn($val) => is_string($val) || is_int($val) || $val instanceof \DateTimeInterface
 			? $this->formatHtmlValue($val)
 			: null;
+
+		// bounds declared by validator objects; BaseControl skips them as non-scalar
+		$declared = $this->getRules()->getHtmlAttributes();
+		foreach ($this->getRuleAttributeNames() as $name) {
+			if (isset($declared[$name])) {
+				$attrs[$name] = $format($declared[$name]);
+			}
+		}
+
+		// the Min/Max/Range operations have no validator-object counterpart on date/time controls
 		foreach ($this->getRules() as $rule) {
 			if ($rule->mutatesValue() || $rule->branch?->containsMutating()) {
 				// the value changes on the server, following attributes must not pre-validate the raw input
@@ -165,6 +185,7 @@ class DateTimeControl extends BaseControl
 				$attrs['max'] = $format($rule->arg[1] ?? null);
 			}
 		}
+
 		return $attrs;
 	}
 
