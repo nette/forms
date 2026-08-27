@@ -324,6 +324,51 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
+	 * Collects HTML validation attributes declared by validator objects. The first
+	 * rule wins; conditional and negated rules never force attributes and a mutating
+	 * rule stops the collection just like it stops the client-side export.
+	 * @internal
+	 * @return array<string, mixed>
+	 */
+	public function getHtmlAttributes(): array
+	{
+		$attrs = [];
+		foreach ($this as $rule) {
+			if ($rule->mutatesValue() || $rule->branch?->containsMutating()) {
+				break;
+			} elseif ($rule->branch || $rule->isNegative) {
+				continue;
+			}
+
+			foreach ($rule->getClientRules() as $clientRule) {
+				foreach ($clientRule->attributes as $name => $value) {
+					$attrs[$name] = isset($attrs[$name])
+						? self::mergeAttribute($name, $attrs[$name], $value)
+						: $value;
+				}
+			}
+		}
+
+		return $attrs;
+	}
+
+
+	/**
+	 * When multiple rules (or a rule and a manually set attribute) declare the same
+	 * bound, the stricter one wins.
+	 * @internal
+	 */
+	public static function mergeAttribute(string $name, mixed $a, mixed $b): mixed
+	{
+		return match ($name) {
+			'maxlength', 'max' => min($a, $b),
+			'min' => max($a, $b),
+			default => $a,
+		};
+	}
+
+
+	/**
 	 * Validator objects carry their configuration themselves.
 	 */
 	private static function checkValidatorArg(mixed $validator, mixed $arg): void

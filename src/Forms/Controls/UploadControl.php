@@ -128,17 +128,16 @@ class UploadControl extends BaseControl
 		mixed $arg = null,
 	): static
 	{
-		if ($validator === Form::Image) {
-			$this->control->accept = implode(', ', Forms\Helpers::getSupportedImages());
-
-		} elseif ($validator === Form::MimeType) {
-			$this->control->accept = implode(', ', (array) $arg);
-
-		} elseif ($validator === Form::MaxFileSize) {
-			if ($arg > ($ini = Forms\Helpers::iniGetSize('upload_max_filesize'))) {
-				trigger_error("Value of MaxFileSize ($arg) is greater than value of directive upload_max_filesize ($ini).", E_USER_WARNING);
+		if ($validator === Form::MaxFileSize || $validator instanceof Validation\FileSizeValidator) {
+			$limit = $validator instanceof Validation\FileSizeValidator ? $validator->limit : $arg;
+			if ($limit > ($ini = Forms\Helpers::iniGetSize('upload_max_filesize'))) {
+				trigger_error(
+					"Value of MaxFileSize ($limit) is greater than value of directive upload_max_filesize ($ini).",
+					E_USER_WARNING,
+				);
 			}
-			$this->getRules()->removeRule($validator);
+			$this->getRules()->removeRule(Form::MaxFileSize);
+			$this->getRules()->removeRule(Validation\FileSizeValidator::class);
 
 		} elseif ($validator === Form::MaxLength) {
 			if ($arg > ($ini = ini_get('max_file_uploads'))) {
@@ -148,5 +147,11 @@ class UploadControl extends BaseControl
 		}
 
 		return parent::addRule($validator, $errorMessage, $arg);
+	}
+
+
+	protected function getRuleAttributeNames(): array
+	{
+		return ['accept'];
 	}
 }

@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Forms\{Form, Validation};
 use Stringable;
-use function in_array, is_scalar;
+use function in_array;
 
 
 /**
@@ -66,48 +66,37 @@ class TextInput extends TextBase
 		mixed $arg = null,
 	): static
 	{
-		foreach ($this->getRules() as $rule) {
-			if (!$rule->canExport() && !$rule->branch) {
-				return parent::addRule($validator, $errorMessage, $arg);
-			}
+		if ($this->getRules()->containsMutating()) {
+			// the value changes on the server, so HTML attributes must not pre-validate the raw input
+			return parent::addRule($validator, $errorMessage, $arg);
 		}
 
-		if ($this->control->type === null && in_array($validator, [Form::Email, Form::URL, Form::Integer], true)) {
-			$types = [Form::Email => 'email', Form::URL => 'url', Form::Integer => 'number'];
-			$this->control->type = $types[$validator];
-
-		} elseif (
-			in_array($validator, [Form::Min, Form::Max, Form::Range], true)
-			&& in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], true)
-		) {
-			if ($validator === Form::Min) {
-				$range = [$arg, null];
-			} elseif ($validator === Form::Max) {
-				$range = [null, $arg];
-			} else {
-				$range = $arg;
-			}
-
-			if (isset($range[0]) && is_scalar($range[0])) {
-				$this->control->min = isset($this->control->min)
-					? max($this->control->min, $range[0])
-					: $range[0];
-			}
-
-			if (isset($range[1]) && is_scalar($range[1])) {
-				$this->control->max = isset($this->control->max)
-					? min($this->control->max, $range[1])
-					: $range[1];
-			}
-
-		} elseif (
-			$validator === Form::Pattern
-			&& is_scalar($arg)
-			&& in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], true)
-		) {
-			$this->control->pattern = (string) $arg;
+		$type = match (true) {
+			$validator === Form::Email, $validator instanceof Validation\EmailValidator => 'email',
+			$validator === Form::URL, $validator instanceof Validation\UrlValidator => 'url',
+			$validator === Form::Integer, $validator instanceof Validation\IntegerValidator => 'number',
+			default => null,
+		};
+		if ($type !== null && $this->control->type === null) {
+			$this->control->type = $type;
 		}
 
 		return parent::addRule($validator, $errorMessage, $arg);
+	}
+
+
+	protected function getRuleAttributeNames(): array
+	{
+		$names = parent::getRuleAttributeNames();
+		if (in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], true)) {
+			$names[] = 'min';
+			$names[] = 'max';
+		}
+
+		if (in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], true)) {
+			$names[] = 'pattern';
+		}
+
+		return $names;
 	}
 }

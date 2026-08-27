@@ -11,7 +11,7 @@ use Nette;
 use Nette\Forms\{Control, Form, Rules, Validation};
 use Nette\Utils\Html;
 use Stringable;
-use function is_array, is_string;
+use function is_array, is_scalar, is_string;
 
 
 /**
@@ -273,13 +273,43 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	{
 		$this->setOption('rendered', true);
 		$el = clone $this->control;
-		return $el->addAttributes([
+		$attrs = [
 			'name' => $this->getHtmlName(),
 			'id' => $this->getHtmlId(),
 			'required' => $this->isRequired(),
 			'disabled' => $this->isDisabled(),
-			'data-nette-rules' => Nette\Forms\ClientRuleExporter::export($this->rules) ?: null,
-		]);
+		];
+		if ($names = $this->getRuleAttributeNames()) {
+			$declared = $this->rules->getHtmlAttributes();
+			foreach ($names as $name) {
+				$value = $declared[$name] ?? null;
+				if (!is_scalar($value)) {
+					// a non-scalar bound (e.g. DateTimeInterface) is applied by the control that understands it
+					continue;
+				}
+
+				if (!isset($el->attrs[$name])) {
+					$attrs[$name] = $value;
+				} elseif (is_scalar($el->attrs[$name])) {
+					$attrs[$name] = Rules::mergeAttribute($name, $el->attrs[$name], $value);
+				}
+				// a manually set non-scalar attribute always wins
+			}
+		}
+
+		$attrs['data-nette-rules'] = Nette\Forms\ClientRuleExporter::export($this->rules) ?: null;
+		return $el->addAttributes($attrs);
+	}
+
+
+	/**
+	 * HTML validation attributes this control renders from the attributes declared
+	 * by its rules' validator objects (the validator offers, the control decides).
+	 * @return list<string>
+	 */
+	protected function getRuleAttributeNames(): array
+	{
+		return [];
 	}
 
 

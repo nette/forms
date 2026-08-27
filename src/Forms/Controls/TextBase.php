@@ -8,10 +8,9 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use Nette\Forms\{Form, Validation};
 use Nette\Utils\Strings;
 use Stringable;
-use function is_array, is_scalar, sprintf;
+use function is_scalar, sprintf;
 
 
 /**
@@ -123,28 +122,8 @@ abstract class TextBase extends BaseControl
 	}
 
 
-	/** @param  Validation\Validator|(callable(never, never): bool)|string  $validator */
-	public function addRule(
-		Validation\Validator|callable|string $validator,
-		string|Stringable|null $errorMessage = null,
-		mixed $arg = null,
-	): static
+	protected function getRuleAttributeNames(): array
 	{
-		foreach ($this->getRules() as $rule) {
-			if (!$rule->canExport() && !$rule->branch) {
-				return parent::addRule($validator, $errorMessage, $arg);
-			}
-		}
-
-		if ($validator === Form::Length || $validator === Form::MaxLength) {
-			$tmp = is_array($arg) ? $arg[1] : $arg;
-			if (is_scalar($tmp)) {
-				$this->control->maxlength = isset($this->control->maxlength)
-					? min($this->control->maxlength, $tmp)
-					: $tmp;
-			}
-		}
-
-		return parent::addRule($validator, $errorMessage, $arg);
+		return ['maxlength'];
 	}
 }
