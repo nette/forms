@@ -17,8 +17,8 @@ use function array_key_exists, is_array;
  */
 class SelectBox extends ChoiceControl
 {
-	/** validation rule */
-	public const Valid = ':selectBoxValid';
+	/** validation message key */
+	public const Valid = 'forms.selectBox';
 
 	#[\Deprecated('use SelectBox::Valid')]
 	public const VALID = self::Valid;
@@ -40,7 +40,7 @@ class SelectBox extends ChoiceControl
 			fn() => $this->prompt === false
 				&& $this->options
 				&& $this->control->size < 2,
-		)->addRule(Nette\Forms\Form::Filled, Nette\Forms\Validator::$messages[self::Valid]);
+		)->addRule(Nette\Forms\Form::Filled, new Nette\Forms\Validation\Message(self::Valid, 'Please select a valid option.'));
 	}
 
 

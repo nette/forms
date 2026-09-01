@@ -21,8 +21,9 @@ use function ini_get, is_array;
  */
 class UploadControl extends BaseControl
 {
-	/** validation rule */
-	public const Valid = ':uploadControlValid';
+	/** validation message keys */
+	public const Valid = 'forms.upload';
+	public const MaxFiles = 'forms.upload.maxFiles';
 
 	#[\Deprecated('use UploadControl::Valid')]
 	public const VALID = self::Valid;
@@ -37,10 +38,15 @@ class UploadControl extends BaseControl
 		$this->control->multiple = $multiple;
 		$this->setOption('type', 'file');
 		$this->addCondition(true) // not to block the export of rules to JS
-			->addRule($this->isOk(...), Forms\Validator::$messages[self::Valid]);
+			->addRule($this->isOk(...), new Validation\Message(self::Valid, 'An error occurred during file upload.'));
 		$this->addRule(Form::MaxFileSize, null, Forms\Helpers::iniGetSize('upload_max_filesize'));
 		if ($multiple) {
-			$this->addRule(Form::MaxLength, 'The maximum allowed number of uploaded files is %d', (int) ini_get('max_file_uploads'));
+			$maxFiles = (int) ini_get('max_file_uploads');
+			$this->addRule(
+				Form::MaxLength,
+				new Validation\Message(self::MaxFiles, 'The maximum allowed number of uploaded files is %count.', count: $maxFiles),
+				$maxFiles,
+			);
 		}
 
 		$this->monitor(Form::class, function (Form $form): void {

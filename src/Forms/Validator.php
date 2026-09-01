@@ -48,13 +48,14 @@ final class Validator
 		Form::Max => 'Please enter a value less than or equal to %d.',
 		Form::Range => 'Please enter a value between %d and %d.',
 		Form::MaxFileSize => 'The size of the uploaded file can be up to %d bytes.',
-		Form::MaxPostSize => 'The uploaded data exceeds the limit of %d bytes.',
+		Form::MaxPostSize => 'The uploaded data exceeds the limit of %limit bytes.',
 		Form::MimeType => 'The uploaded file is not in the expected format.',
 		Form::Image => 'The uploaded file must be image in format JPEG, GIF, PNG or WebP.',
 		Controls\SelectBox::Valid => 'Please select a valid option.',
 		Controls\UploadControl::Valid => 'An error occurred during file upload.',
-		Repeater::MinItems => 'Please add at least %d items.',
-		Repeater::MaxItems => 'Please add no more than %d items.',
+		Controls\UploadControl::MaxFiles => 'The maximum allowed number of uploaded files is %count.',
+		Repeater::MinItems => 'Please add at least %count items.',
+		Repeater::MaxItems => 'Please add no more than %count items.',
 	];
 
 	/**

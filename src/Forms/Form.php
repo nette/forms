@@ -617,7 +617,10 @@ class Form extends Container implements Nette\HtmlStringable
 
 		$maxSize = Helpers::iniGetSize('post_max_size');
 		if ($maxSize > 0 && $maxSize < $_SERVER['CONTENT_LENGTH']) {
-			$this->addError(sprintf(Validator::$messages[self::MaxPostSize], $maxSize));
+			$this->addError(MessageFormatter::formatStandalone(
+				new Validation\Message(self::MaxPostSize, 'The uploaded data exceeds the limit of %limit bytes.', ['limit' => $maxSize]),
+				$this->getTranslator(),
+			), translate: false);
 		}
 	}
 
