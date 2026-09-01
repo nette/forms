@@ -19,8 +19,8 @@ class Repeater extends Container
 {
 	/** validation message keys */
 	public const
-		MinItems = ':repeaterMinItems',
-		MaxItems = ':repeaterMaxItems';
+		MinItems = 'forms.repeater.min',
+		MaxItems = 'forms.repeater.max';
 
 	/** how many items above the maximum are still built, so a genuine overshoot stays visible and removable */
 	private const OverflowReserve = 8;
@@ -174,21 +174,18 @@ class Repeater extends Container
 		}
 
 		if ($this->submittedCount < $this->minCount) {
-			$this->addCountError(Validator::$messages[self::MinItems], $this->minCount);
+			$this->addCountError(new Validation\Message(self::MinItems, 'Please add at least %count items.', count: $this->minCount));
 		}
 		if ($this->maxCount !== null && $this->submittedCount > $this->maxCount) {
-			$this->addCountError(Validator::$messages[self::MaxItems], $this->maxCount);
+			$this->addCountError(new Validation\Message(self::MaxItems, 'Please add no more than %count items.', count: $this->maxCount));
 		}
 	}
 
 
-	private function addCountError(string $message, int $count): void
+	private function addCountError(Validation\Message $message): void
 	{
 		$form = $this->getForm();
-		if ($translator = $form->getTranslator()) {
-			$message = (string) $translator->translate($message, $count);
-		}
-		$form->addError(sprintf($message, $count), translate: false);
+		$form->addError(MessageFormatter::formatStandalone($message, $form->getTranslator()), translate: false);
 	}
 
 
