@@ -8,7 +8,7 @@
 namespace Nette\Forms;
 
 use Nette;
-use function count, is_array, is_string;
+use function count, is_array;
 use const ENT_HTML5, ENT_QUOTES;
 
 
@@ -52,12 +52,9 @@ final class ClientRuleExporter
 			$clientRules = $rule->getClientRules();
 			if (!$clientRules) {
 				// a rule without an object equivalent exports its operation and argument as-is
-				$validator = $rule->validator;
-				$operation = match (true) {
-					is_string($validator) => $validator,
-					is_callable($validator) => Nette\Utils\Callback::toString($validator),
-					default => throw new Nette\InvalidStateException('Unknown validator type.'),
-				};
+				$operation = $rule->getOp()
+					?? $rule->getCallableName()
+					?? throw new Nette\InvalidStateException('Unknown validator type.');
 				$clientRules = [new Validation\ClientRule($operation, $rule->arg)];
 			}
 
