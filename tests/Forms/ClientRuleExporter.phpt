@@ -172,3 +172,38 @@ test('condition whose validator splits into several client rules exports the ori
 });
 
 
+class ExportValidators
+{
+	public static function check(): bool
+	{
+		return true;
+	}
+}
+
+
+test('static callable exports under Class::method regardless of declaration style', function () {
+	$form = new Form;
+	$array = $form->addText('array');
+	$array->addRule([ExportValidators::class, 'check'], 'msg', 8);
+
+	$firstClass = $form->addText('firstClass');
+	$firstClass->addRule(ExportValidators::check(...), 'msg', 8);
+
+	$expected = [['op' => 'ExportValidators::check', 'msg' => 'msg', 'arg' => 8]];
+	Assert::same($expected, ClientRuleExporter::export($array->getRules()));
+	Assert::same($expected, ClientRuleExporter::export($firstClass->getRules()));
+});
+
+
+test('instance-bound and anonymous closures stay server-only', function () {
+	$form = new Form;
+	$input = $form->addText('text');
+	$input->addRule((new class {
+		public function check(): bool
+		{
+			return true;
+		}
+	})->check(...), 'server only');
+	$input->addRule(fn() => true, 'server only');
+	Assert::same([], ClientRuleExporter::export($input->getRules()));
+});

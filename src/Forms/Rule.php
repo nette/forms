@@ -114,12 +114,33 @@ final class Rule
 	}
 
 
+	/**
+	 * Name of the validation callback in Class::method form when the rule uses
+	 * a statically callable validator (including first-class callable syntax), or null.
+	 * The JS counterpart is registered under this name in Nette.validators.
+	 * @internal
+	 */
+	public function getCallableName(): ?string
+	{
+		$validator = $this->validator;
+		if ($validator instanceof \Closure) {
+			$validator = Nette\Utils\Callback::unwrap($validator);
+		}
+
+		return !$validator instanceof Validation\Validator
+			&& is_callable($validator)
+			&& Nette\Utils\Callback::isStatic($validator)
+			? Nette\Utils\Callback::toString($validator)
+			: null;
+	}
+
+
 	/** @internal */
 	public function canExport(): bool
 	{
 		return !$this->mutatesValue()
 			&& (is_string($this->validator)
 				|| $this->getClientRules() !== []
-				|| (is_callable($this->validator) && Nette\Utils\Callback::isStatic($this->validator)));
+				|| $this->getCallableName() !== null);
 	}
 }
