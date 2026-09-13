@@ -269,3 +269,54 @@ test('mime type validator passes the detected type to the message (issue #302)',
 
 	Assert::null((new Validation\MimeTypeValidator('text/*'))->validate($file));
 });
+
+
+test('mistyped operation argument fails at the place of declaration, not at submit time', function () {
+	$form = new Form;
+	$input = $form->addText('name');
+
+	Assert::exception(
+		fn() => $input->addRule(Form::MinLength, null, '3'),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :minLength for control 'name' expects int as the argument, string given.",
+	);
+
+	Assert::exception(
+		fn() => $input->addRule(Form::Pattern, null, 123),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :pattern for control 'name' expects string pattern as the argument, int given.",
+	);
+
+	Assert::exception(
+		fn() => $input->addRule(Form::Min),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :min for control 'name' expects int, float, string, date/time or Control as the argument, null given.",
+	);
+
+	Assert::exception(
+		fn() => $form->addUpload('file')->addRule(Form::MaxFileSize, null, '1M'),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :fileSize for control 'file' expects int (bytes) as the argument, string given.",
+	);
+
+	Assert::exception(
+		fn() => $input->addCondition(Form::Length, '5'),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :length for control 'name' expects int or array of two int bounds as the argument, string given.",
+	);
+
+	// a mixed bounds array gets the friendly exception too, not a TypeError from the validator constructor
+	Assert::exception(
+		fn() => $form->addCheckboxList('tags', items: ['a' => 'A'])->addRule(Form::Count, null, ['2', 5]),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :length for control 'tags' expects int or array of two int bounds as the argument, array given.",
+	);
+
+	// valid declarations are unaffected
+	$input->addRule(Form::MinLength, null, 3);
+	$input->addRule(Form::MaxLength, null, $form->addInteger('limit'));
+	$input->addCondition(Form::Length, [1, 5]);
+	// Control-valued arguments resolve at validation time and stay declarable
+	$input->addRule(Form::Pattern, null, $form->addText('patternSource'));
+	$input->addRule(Form::Length, null, [$form['limit'], 5]);
+});

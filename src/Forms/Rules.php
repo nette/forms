@@ -77,8 +77,8 @@ final class Rules implements \IteratorAggregate
 			throw new Nette\InvalidArgumentException('You cannot use Form::Valid in the addRule method.');
 		}
 
-		self::checkValidatorArg($validator, $arg);
 		[$validator, $isNegative] = $this->normalizeValidator($validator, $this->control, isCondition: false);
+		self::checkValidatorArg($validator, $arg, $this->control);
 		$rule = new Rule($this->control, $validator, $arg, $errorMessage, $isNegative);
 		if ($rule->checksFilled()) {
 			$this->required = $rule;
@@ -147,8 +147,8 @@ final class Rules implements \IteratorAggregate
 		mixed $arg = null,
 	): static
 	{
-		self::checkValidatorArg($validator, $arg);
 		[$validator, $isNegative] = $this->normalizeValidator($validator, $control, isCondition: true);
+		self::checkValidatorArg($validator, $arg, $control);
 
 		$branch = new static($this->control);
 		$branch->parent = $this;
@@ -369,12 +369,15 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Validator objects carry their configuration themselves.
+	 * Validator objects carry their configuration themselves; string operations
+	 * verify the argument type eagerly, at the place of declaration.
 	 */
-	private static function checkValidatorArg(mixed $validator, mixed $arg): void
+	private static function checkValidatorArg(mixed $validator, mixed $arg, Control $control): void
 	{
 		if ($validator instanceof Validation\Validator && $arg !== null) {
 			throw new Nette\InvalidArgumentException('Validator objects carry their configuration themselves, the $arg argument must be null.');
+		} elseif (is_string($validator)) {
+			Validation\Operations::assertArgument($validator, $arg, $control);
 		}
 	}
 
