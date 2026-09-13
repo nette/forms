@@ -12,7 +12,7 @@ use Nette\Forms;
 use Nette\Forms\{Form, Validation};
 use Nette\Http\FileUpload;
 use Stringable;
-use function ini_get, is_array;
+use function ini_get, is_array, is_int;
 
 
 /**
@@ -135,7 +135,7 @@ class UploadControl extends BaseControl
 	{
 		if ($validator === Form::MaxFileSize || $validator instanceof Validation\FileSizeValidator) {
 			$limit = $validator instanceof Validation\FileSizeValidator ? $validator->limit : $arg;
-			if ($limit > ($ini = Forms\Helpers::iniGetSize('upload_max_filesize'))) {
+			if (is_int($limit) && $limit > ($ini = Forms\Helpers::iniGetSize('upload_max_filesize'))) {
 				trigger_error(
 					"Value of MaxFileSize ($limit) is greater than value of directive upload_max_filesize ($ini).",
 					E_USER_WARNING,

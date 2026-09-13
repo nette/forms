@@ -10,7 +10,7 @@ namespace Nette\Forms\Validation;
 use Nette;
 use Nette\Forms\{Control, Form};
 use Nette\Forms\Controls\DateTimeControl;
-use function is_array, is_float, is_int, is_string;
+use function is_array, is_bool, is_float, is_int, is_string, sprintf;
 
 
 /**
@@ -64,17 +64,57 @@ final class Operations
 
 
 	/**
-	 * Two-element array of int bounds where at least one is given.
+	 * Two-element array of int bounds where at least one is given, optionally
+	 * also bounds referencing controls.
 	 */
-	private static function isIntBounds(mixed $value): bool
+	private static function isIntBounds(mixed $value, bool $orControl = false): bool
 	{
 		if (!is_array($value)) {
 			return false;
 		}
 
-		$isBound = fn($bound) => $bound === null || is_int($bound);
+		$isBound = fn($bound) => $bound === null || is_int($bound) || ($orControl && $bound instanceof Control);
 		$min = $value[0] ?? null;
 		$max = $value[1] ?? null;
 		return $isBound($min) && $isBound($max) && ($min !== null || $max !== null);
+	}
+
+
+	/**
+	 * Verifies the argument type of a string operation at declaration time, so that a mistyped
+	 * argument fails in addRule() instead of a TypeError at submit time. A Control stands for its value.
+	 */
+	public static function assertArgument(string $op, mixed $arg, Control $control): void
+	{
+		$expected = match ($op) {
+			':static' => is_bool($arg) ? null : 'bool',
+			Form::Min, Form::Max => is_int($arg)
+				|| is_float($arg)
+				|| is_string($arg)
+				|| $arg instanceof \DateTimeInterface
+				|| $arg instanceof Control
+				? null
+				: 'int, float, string, date/time or Control',
+			Form::Range => is_array($arg) ? null : 'array of two bounds',
+			Form::MinLength, Form::MaxLength => is_int($arg) || $arg instanceof Control ? null : 'int',
+			Form::Length => is_int($arg) || self::isIntBounds($arg, orControl: true) || $arg instanceof Control
+				? null
+				: 'int or array of two int bounds',
+			Form::Pattern, Form::PatternInsensitive => is_string($arg) || $arg instanceof Control ? null : 'string pattern',
+			Form::Enum => is_string($arg) || $arg instanceof Control ? null : 'class name of a backed enum',
+			Form::MimeType => is_string($arg) || is_array($arg) || $arg instanceof Control ? null : 'string or array of strings',
+			Form::MaxFileSize => is_int($arg) || $arg instanceof Control ? null : 'int (bytes)',
+			default => null,
+		};
+
+		if ($expected !== null) {
+			throw new Nette\InvalidArgumentException(sprintf(
+				"Validation rule %s for control '%s' expects %s as the argument, %s given.",
+				$op,
+				(string) $control->getName(),
+				$expected,
+				get_debug_type($arg),
+			));
+		}
 	}
 }
