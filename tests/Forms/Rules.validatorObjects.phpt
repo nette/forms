@@ -271,6 +271,44 @@ test('mime type validator passes the detected type to the message (issue #302)',
 });
 
 
+test('length rules on multi-value controls count items and carry stable ids with plurals', function () {
+	// value-based validator is usable without a form
+	$failure = (new Validation\ItemCountValidator(min: 2))->validate(['a']);
+	Assert::same('forms.count.min', $failure->id);
+	Assert::same(2, $failure->count);
+	Assert::same('Please select at least 2 items.', (string) $failure);
+
+	$form = new Form;
+	$list = $form->addCheckboxList('tags', items: ['a' => 'A', 'b' => 'B', 'c' => 'C']);
+	$list->setValue(['a']);
+	$list->addRule(Form::MinLength, null, 2);
+	$list->validate();
+	Assert::same(['Please select at least 2 items.'], array_map(strval(...), $list->getErrors()));
+	Assert::same(
+		[['op' => ':minLength', 'msg' => 'Please select at least 2 items.', 'arg' => 2]],
+		Nette\Forms\ClientRuleExporter::export($list->getRules()),
+	);
+
+	$select = $form->addMultiSelect('cities', items: ['p' => 'Praha', 'b' => 'Brno', 'o' => 'Ostrava']);
+	$select->setValue(['p', 'b', 'o']);
+	$select->addRule(Form::Count, null, [null, 2]);
+	$select->validate();
+	Assert::same(['Please select no more than 2 items.'], array_map(strval(...), $select->getErrors()));
+
+	$exact = $form->addCheckboxList('pair', items: ['a' => 'A', 'b' => 'B', 'c' => 'C']);
+	$exact->setValue(['a']);
+	$exact->addRule(Form::Length, null, 2);
+	$exact->validate();
+	Assert::same(['Please select exactly 2 items.'], array_map(strval(...), $exact->getErrors()));
+
+	// text controls keep character semantics
+	$text = $form->addText('note')->setValue('x');
+	$text->addRule(Form::MinLength, null, 2);
+	$text->validate();
+	Assert::same(['Please enter at least 2 characters.'], array_map(strval(...), $text->getErrors()));
+});
+
+
 test('mistyped operation argument fails at the place of declaration, not at submit time', function () {
 	$form = new Form;
 	$input = $form->addText('name');
