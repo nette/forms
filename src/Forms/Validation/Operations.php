@@ -34,6 +34,9 @@ final class Operations
 			|| is_int($value) || is_float($value) || is_string($value)
 			|| $value instanceof \DateTimeInterface || $value instanceof Control;
 		$isText = $control instanceof Nette\Forms\Controls\TextBase;
+		// controls whose length rules mean the number of items, not characters
+		$isMulti = $control instanceof Nette\Forms\Controls\MultiChoiceControl
+			|| ($control instanceof Nette\Forms\Controls\UploadControl && $control->getControlPrototype()->multiple);
 
 		return match (true) {
 			$op === Form::Filled => new FilledValidator,
@@ -47,11 +50,15 @@ final class Operations
 			$op === Form::Max && $isBound($arg) && $arg !== null => new RangeValidator(max: $arg),
 			$op === Form::Range && is_array($arg) && $isBound($arg[0] ?? null) && $isBound($arg[1] ?? null)
 				=> new RangeValidator($arg[0] ?? null, $arg[1] ?? null),
-			// for multi-value controls the length means the number of items, which the classic validators handle
 			$op === Form::MinLength && $isText && is_int($arg) => new LengthValidator(min: $arg),
 			$op === Form::MaxLength && $isText && is_int($arg) => new LengthValidator(max: $arg),
 			$op === Form::Length && $isText && is_int($arg) => new LengthValidator($arg, $arg),
 			$op === Form::Length && $isText && self::isIntBounds($arg) => new LengthValidator($arg[0] ?? null, $arg[1] ?? null),
+			// for multi-value controls the length rules mean the number of items
+			$op === Form::MinLength && $isMulti && is_int($arg) => new ItemCountValidator(min: $arg),
+			$op === Form::MaxLength && $isMulti && is_int($arg) => new ItemCountValidator(max: $arg),
+			$op === Form::Length && $isMulti && is_int($arg) => new ItemCountValidator($arg, $arg),
+			$op === Form::Length && $isMulti && self::isIntBounds($arg) => new ItemCountValidator($arg[0] ?? null, $arg[1] ?? null),
 			$op === Form::Pattern && is_string($arg) => new PatternValidator($arg),
 			$op === Form::PatternInsensitive && is_string($arg) => new PatternValidator($arg, caseInsensitive: true),
 			$op === Form::Enum && is_string($arg) && is_a($arg, \BackedEnum::class, allow_string: true) => new EnumValidator($arg),
