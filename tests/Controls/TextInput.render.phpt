@@ -300,6 +300,36 @@ test('float input rendering', function () {
 });
 
 
+test('float rule on a plain text input adds only the decimal keyboard hint', function () {
+	$form = new Form;
+	$input = $form->addText('price')->addRule(Form::Float);
+
+	Assert::same(
+		'<input type="text" name="price" inputmode="decimal" id="frm-price" data-nette-rules=\'[{"op":":float","msg":"Please enter a valid number."}]\'>',
+		(string) $input->getControl(),
+	);
+});
+
+
+test('addUrl() sets the url type and validation', function () {
+	$form = new Form;
+	$input = $form->addUrl('web');
+
+	Assert::same(
+		'<input type="url" name="web" id="frm-web" data-nette-rules=\'[{"op":":url","msg":"Please enter a valid URL."}]\'>',
+		(string) $input->getControl(),
+	);
+});
+
+
+test('addPhone() sets the tel type and autofill hint, no validation', function () {
+	$form = new Form;
+	$input = $form->addPhone('phone');
+
+	Assert::same('<input type="tel" name="phone" autocomplete="tel" id="frm-phone">', (string) $input->getControl());
+});
+
+
 test('rule and filter interaction', function () {
 	$form = new Form;
 	$input = $form->addText('text')

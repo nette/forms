@@ -444,6 +444,35 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
+	 * Adds a text input with built-in URL validation.
+	 */
+	public function addUrl(
+		string $name,
+		string|Stringable|null $label = null,
+		?int $maxLength = null,
+	): Controls\TextInput
+	{
+		return $this[$name] = (new Controls\TextInput($label, $maxLength))
+			->addRule(Form::URL);
+	}
+
+
+	/**
+	 * Adds a telephone number input; the number format is not validated.
+	 */
+	public function addPhone(
+		string $name,
+		string|Stringable|null $label = null,
+		?int $maxLength = null,
+	): Controls\TextInput
+	{
+		return $this[$name] = (new Controls\TextInput($label, $maxLength))
+			->setHtmlType('tel')
+			->setHtmlAttribute('autocomplete', 'tel');
+	}
+
+
+	/**
 	 * Adds a text input with built-in integer validation.
 	 */
 	public function addInteger(string $name, string|Stringable|null $label = null): Controls\TextInput
