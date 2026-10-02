@@ -80,6 +80,14 @@ class TextInput extends TextBase
 			$this->control->type = $type;
 		}
 
+		// only a keyboard hint, type=number would reject decimal commas the server accepts
+		if (
+			($validator === Form::Float || $validator instanceof Validation\FloatValidator)
+			&& $this->control->type === null
+		) {
+			$this->control->inputmode ??= 'decimal';
+		}
+
 		return parent::addRule($validator, $errorMessage, $arg);
 	}
 
