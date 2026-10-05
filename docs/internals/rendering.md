@@ -28,7 +28,8 @@ form/container scope), `$detachedIds` (the detached form id per stack level,
 template's `$form` variable; `{formContainer}` and repeater items are not). `begin()` pushes and, for a
 `Form`, fires the render events **and resets every control's `rendered` option** —
 `renderFormEnd` (and the default renderer's `renderEnd`) rely on that flag to emit
-not-yet-rendered hidden fields before `</form>`; `end()` pops all three and returns
+not-yet-rendered hidden fields (and the `<datalist>` of every rendered input with
+suggestions) before `</form>`; `end()` pops all three and returns
 the nearest remaining level bound to `$form`, which the compiled `{/form}` assigns
 back to `$form` (at the top level `$form` keeps the closed form). `get()` resolves an element from the
 current scope and —

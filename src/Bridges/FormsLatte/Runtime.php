@@ -85,6 +85,8 @@ class Runtime
 		foreach ($form->getControls() as $control) {
 			if ($control->getOption('type') === 'hidden' && !$control->getOption('rendered')) {
 				$s .= $control->getControl();
+			} elseif ($control instanceof Nette\Forms\Controls\TextInput && $control->getOption('rendered')) {
+				$s .= $control->getDatalist(); // suggestions of a rendered input
 			}
 		}
 
