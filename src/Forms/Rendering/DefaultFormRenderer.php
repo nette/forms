@@ -201,9 +201,12 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 	public function renderEnd(): string
 	{
 		$s = '';
+		$datalists = '';
 		foreach ($this->form->getControls() as $control) {
 			if ($control->getOption('type') === 'hidden' && !$control->getOption('rendered')) {
 				$s .= $control->getControl();
+			} elseif ($control instanceof Nette\Forms\Controls\TextInput && $control->getOption('rendered')) {
+				$datalists .= $control->getDatalist(); // suggestions of a rendered input
 			}
 		}
 
@@ -211,7 +214,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			$s = $this->getWrapper('hidden container')->setHtml($s) . "\n";
 		}
 
-		return $s . $this->form->getElementPrototype()->endTag() . "\n";
+		return $s . $datalists . $this->form->getElementPrototype()->endTag() . "\n";
 	}
 
 
