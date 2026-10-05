@@ -358,3 +358,61 @@ test('email input rendering', function () {
 		(string) $input->getControl(),
 	);
 });
+
+
+test('suggestions render as a datalist linked via the list attribute', function () {
+	$form = new Form;
+	$input = $form->addText('city')->setSuggestions(['Praha', 'Brno']);
+
+	// the control itself stays a plain input, so renderers can style it as usual
+	Assert::same(
+		'<input type="text" name="city" id="frm-city" list="frm-city-list">',
+		(string) $input->getControl(),
+	);
+	Assert::same(
+		'<datalist id="frm-city-list"><option value="Praha"></option><option value="Brno"></option></datalist>',
+		(string) $input->getDatalist(),
+	);
+
+	// the datalist of a rendered input is emitted before the form end, like hidden fields
+	$rendered = $form->__toString(true);
+	Assert::contains('list="frm-city-list"', $rendered);
+	Assert::same(1, substr_count($rendered, '<datalist id="frm-city-list">'));
+	Assert::true(strpos($rendered, '<datalist id="frm-city-list">') < strpos($rendered, '</form>'));
+
+	// value => label pairs and translation
+	$pairs = $form->addText('country')
+		->setSuggestions(['CZ' => 'Czechia'])
+		->setTranslator(new Translator);
+	$pairs->getControl();
+	Assert::same(
+		'<datalist id="frm-country-list"><option value="CZ" label="CZECHIA"></option></datalist>',
+		(string) $pairs->getDatalist(),
+	);
+});
+
+
+test('suggestions: a list of values is not translated', function () {
+	$form = new Form;
+	$input = $form->addText('city')
+		->setSuggestions(['Praha', 'Brno'])
+		->setTranslator(new Translator);
+	$input->getControl();
+	Assert::same(
+		'<datalist id="frm-city-list"><option value="Praha"></option><option value="Brno"></option></datalist>',
+		(string) $input->getDatalist(),
+	);
+});
+
+
+test('suggestions: numeric values with labels', function () {
+	$form = new Form;
+	$input = $form->addText('amount')
+		->setSuggestions([10 => 'Ten', 20 => 'Twenty'])
+		->setTranslator(new Translator);
+	$input->getControl();
+	Assert::same(
+		'<datalist id="frm-amount-list"><option value="10" label="TEN"></option><option value="20" label="TWENTY"></option></datalist>',
+		(string) $input->getDatalist(),
+	);
+});

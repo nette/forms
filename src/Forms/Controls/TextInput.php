@@ -9,6 +9,7 @@ namespace Nette\Forms\Controls;
 
 use Nette;
 use Nette\Forms\{Form, Validation};
+use Nette\Utils\Html;
 use Stringable;
 use function in_array;
 
@@ -18,6 +19,10 @@ use function in_array;
  */
 class TextInput extends TextBase
 {
+	/** @var array<int|string, string|Stringable> */
+	private array $suggestions = [];
+
+
 	public function __construct(string|Stringable|null $label = null, ?int $maxLength = null)
 	{
 		parent::__construct($label);
@@ -49,12 +54,53 @@ class TextInput extends TextBase
 	}
 
 
+	/**
+	 * Sets autocompletion suggestions rendered as a <datalist>. A list of values,
+	 * or value => label pairs (any array that is not a list); labels are translated, values are not.
+	 * @param  array<int|string, string|Stringable>  $items
+	 */
+	public function setSuggestions(array $items): static
+	{
+		$this->suggestions = $items;
+		return $this;
+	}
+
+
 	public function getControl(): Nette\Utils\Html
 	{
-		return parent::getControl()->addAttributes([
+		$input = parent::getControl()->addAttributes([
 			'value' => $this->control->type === 'password' ? $this->control->value : $this->getRenderedValue(),
 			'type' => $this->control->type ?? 'text',
 		]);
+		if ($this->suggestions) {
+			$input->list ??= $this->getHtmlId() . '-list';
+		}
+
+		return $input;
+	}
+
+
+	/**
+	 * Returns the <datalist> with the suggestions, or null when there are none.
+	 * Renderers emit it before the form end, like unrendered hidden fields.
+	 */
+	public function getDatalist(): ?Html
+	{
+		if (!$this->suggestions) {
+			return null;
+		}
+
+		$datalist = Html::el('datalist')->id($this->control->list ?? $this->getHtmlId() . '-list');
+		$isList = array_is_list($this->suggestions);
+		foreach ($this->suggestions as $value => $label) {
+			$datalist->addHtml(
+				$isList
+					? Html::el('option')->value((string) $label)
+					: Html::el('option')->value((string) $value)->label((string) $this->translate($label)),
+			);
+		}
+
+		return $datalist;
 	}
 
 
