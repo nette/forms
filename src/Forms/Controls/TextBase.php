@@ -99,6 +99,22 @@ abstract class TextBase extends BaseControl
 	}
 
 
+	/**
+	 * Validates the control, including the maxlength attribute the browser enforces.
+	 */
+	public function validate(): void
+	{
+		parent::validate();
+		$max = $this->control->maxlength;
+		if ($max !== null && !$this->isDisabled() && !$this->hasErrors()) {
+			$failure = (new Nette\Forms\Validation\LengthValidator(max: (int) $max))->validate($this->rawValue);
+			if ($failure) {
+				$this->addError(Nette\Forms\MessageFormatter::formatStandalone($failure, $this->getTranslator()), translate: false);
+			}
+		}
+	}
+
+
 	public function getControl(): Nette\Utils\Html
 	{
 		$el = parent::getControl();
