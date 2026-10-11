@@ -44,6 +44,12 @@ are still client-exportable**; once a non-exportable non-branch rule (a filter)
 precedes it, the attribute shortcut is disabled, consistent with the export
 `break` (the browser must not hard-enforce a limit the filter may change).
 
+The control's own `maxlength` attribute (`setMaxLength()`, the `$maxLength`
+factory parameter) is also checked by `TextBase::validate()` against `$rawValue`,
+after the rules and only when they passed, so a forged request cannot bypass it.
+It is no rule, so it exports nothing to the client, where the attribute itself
+already limits the input.
+
 ## UploadControl: value comes only from HTTP
 
 `setValue()` is a **no-op** — uploads cannot be defaulted; `getValue()` returns
