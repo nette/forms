@@ -138,6 +138,30 @@ test('max length attribute', function () {
 });
 
 
+test('max length attribute is enforced on the server', function () {
+	$form = new Form;
+	$input = $form->addText('text', maxLength: 3);
+
+	$input->setValue('abc');
+	$input->validate();
+	Assert::same([], $input->getErrors());
+
+	$input->setValue('abcd');
+	$input->validate();
+	Assert::same(['Please enter no more than 3 characters.'], $input->getErrors());
+
+	// a failing explicit rule keeps its own message
+	$input->addRule($form::MaxLength, 'Custom message', 2);
+	$input->validate();
+	Assert::same(['Custom message'], $input->getErrors());
+
+	$input->setMaxLength(null);
+	$input->setValue('ab');
+	$input->validate();
+	Assert::same([], $input->getErrors());
+});
+
+
 test('length rule precedence', function () {
 	$form = new Form;
 	$input = $form->addText('text')
