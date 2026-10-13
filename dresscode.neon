@@ -1,0 +1,42 @@
+use:
+	- nette
+	- modernizations
+
+typeAnalysis: phpstan
+
+paths:
+	- src
+	- tests
+	- examples
+
+excludePaths:
+	- tests/**/expected
+
+fileExtensions:
+	- php
+	- phpt
+
+imports: {grouping: {class: grouped}}
+
+overrides:
+	-
+		paths: [src]
+		nameResolution: certain
+		use:
+			- compilerOptimizations
+			- deprecations
+	- # the BC branch of the deprecated addProtection() and its message
+		paths: [src/Forms/Form.php, src/Forms/Validator.php]
+		upgrading: {declarations: {deprecatedClass: keep}}
+	- # Form::URL is established public API
+		paths: [src/Forms/Form.php]
+		naming: {constant: keep}
+	- # setValue($values) keeps its name, renaming it breaks named arguments
+		paths: [src/Forms/Controls/MultiChoiceControl.php]
+		classes: {overridingMethod: {parameterName: keep}}
+	- # the parameter names come from the trait of nette/component-model
+		paths: [src/Forms/Container.php]
+		classes: {overridingMethod: {parameterName: keep}}
+	- # the alternative syntax suits PHP inside HTML
+		paths: [examples/manual-rendering.php]
+		braces: {alternativeSyntax: keep}
