@@ -8,7 +8,6 @@
 namespace Nette\Bridges\FormsDI;
 
 use Nette;
-use function defined;
 
 
 /**

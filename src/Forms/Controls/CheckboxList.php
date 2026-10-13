@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Utils\Html;
 use Stringable;
-use function array_flip, array_key_first, array_keys, array_merge, explode, func_num_args, in_array, is_array, is_string, substr;
+use function func_num_args, is_array, is_string;
 
 
 /**
@@ -89,7 +89,7 @@ class CheckboxList extends MultiChoiceControl
 		$this->getItem($key);
 		return parent::getControl()->addAttributes([
 			'id' => $this->getHtmlId() . '-' . $key,
-			'checked' => in_array($key, (array) $this->value, strict: true),
+			'checked' => in_array($key, (array) $this->value, true),
 			'disabled' => is_array($this->disabled) ? isset($this->disabled[$key]) : $this->disabled,
 			'required' => null,
 			'value' => $key,

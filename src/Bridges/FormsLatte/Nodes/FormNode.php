@@ -15,7 +15,6 @@ use Latte\Compiler\Nodes\Php\Scalar\StringNode;
 use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\PrintContext;
 use Latte\Compiler\Tag;
-use function in_array;
 
 
 /**
@@ -47,7 +46,7 @@ class FormNode extends StatementNode
 		$node = $tag->node = new static;
 		$node->mode = match (true) {
 			$tag->name === 'formContext' => self::ModeLegacyScope,
-			in_array($tag->parser->stream->tryPeek()?->text, [self::ModeScope, self::ModeDetached], strict: true) => $tag->parser->stream->consume()->text,
+			in_array($tag->parser->stream->tryPeek()?->text, [self::ModeScope, self::ModeDetached], true) => $tag->parser->stream->consume()->text,
 			default => null,
 		};
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();

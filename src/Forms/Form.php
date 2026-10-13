@@ -11,7 +11,7 @@ use Nette;
 use Nette\Utils\Arrays;
 use Nette\Utils\Html;
 use Stringable;
-use function array_merge, array_search, array_unique, count, in_array, is_array, is_scalar, is_string, sprintf, strcasecmp, strtolower;
+use function count, is_array, is_scalar, is_string;
 
 
 /**
@@ -345,7 +345,7 @@ class Form extends Container implements Nette\HtmlStringable
 		if (is_string($name) && isset($this->groups[$name])) {
 			$group = $this->groups[$name];
 
-		} elseif ($name instanceof ControlGroup && in_array($name, $this->groups, strict: true)) {
+		} elseif ($name instanceof ControlGroup && in_array($name, $this->groups, true)) {
 			$group = $name;
 			$name = array_search($group, $this->groups, strict: true);
 
