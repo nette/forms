@@ -123,7 +123,7 @@ class Form extends Container implements Nette\HtmlStringable
 	/** @deprecated use Form::Pattern */
 	public const PATTERN = self::Pattern;
 
-	/** @deprecated use Form::PatternCI */
+	/** @deprecated use Form::PatternInsensitive */
 	public const PATTERN_ICASE = self::PatternInsensitive;
 
 	/** @deprecated use Form::Integer */
@@ -562,6 +562,7 @@ class Form extends Container implements Nette\HtmlStringable
 			}
 
 			$data = Nette\Utils\Arrays::mergeTree($httpRequest->getPost(), $httpRequest->getFiles());
+
 		} else {
 			$data = $httpRequest->getQuery();
 			if (!$data) {
@@ -628,7 +629,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function getErrors(): array
 	{
-		return array_values(array_unique(array_merge($this->errors, parent::getErrors())));
+		return array_values(array_unique([...$this->errors, ...parent::getErrors()]));
 	}
 
 

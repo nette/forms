@@ -4,7 +4,6 @@ use Nette\Forms\Controls\TextInput;
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

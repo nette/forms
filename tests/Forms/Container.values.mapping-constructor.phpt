@@ -3,7 +3,6 @@
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -67,7 +66,6 @@ test('mapping form values to constructor-injected objects', function () {
 		title: 'new1',
 		first: new FormFirstLevelConstruct(
 			name: 'new2',
-			age: null,
 			second: new FormSecondLevelConstruct(
 				city: '',
 			),
@@ -82,7 +80,6 @@ test('mapping form values to constructor-injected objects', function () {
 		title: 'new1',
 		first: new FormFirstLevelConstruct(
 			name: 'new2',
-			age: null,
 			second: new FormSecondLevelConstruct(
 				city: '',
 			),

@@ -4,10 +4,9 @@
  * Test: Nette\Forms\Controls\CsrfProtection.
  */
 
-use Nette\Forms\Controls\CsrfProtection;
+use Nette\Forms\Controls\{BaseControl, CsrfProtection};
 use Nette\Forms\Form;
 use Tester\Assert;
-
 
 require __DIR__ . '/../bootstrap.php';
 
@@ -31,15 +30,16 @@ Assert::same('hidden', $input->getOption('type'));
 $input->setValue(null);
 Assert::false(CsrfProtection::validateCsrf($input));
 
-@call_user_func([$input, 'Nette\Forms\Controls\BaseControl::setValue'], '12345678901234567890123456789012345678'); // deprecated since PHP 8.2
+$setValue = new ReflectionMethod(BaseControl::class, 'setValue');
+$setValue->invoke($input, '12345678901234567890123456789012345678');
 Assert::false(CsrfProtection::validateCsrf($input));
 
 $value = $input->getControl()->value;
-@call_user_func([$input, 'Nette\Forms\Controls\BaseControl::setValue'], $value); // deprecated since PHP 8.2
+$setValue->invoke($input, $value);
 Assert::true(CsrfProtection::validateCsrf($input));
 
 session_regenerate_id();
-@call_user_func([$input, 'Nette\Forms\Controls\BaseControl::setValue'], $value); // deprecated since PHP 8.2
+$setValue->invoke($input, $value);
 Assert::false(CsrfProtection::validateCsrf($input));
 
 

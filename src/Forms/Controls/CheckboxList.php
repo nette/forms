@@ -61,13 +61,14 @@ class CheckboxList extends MultiChoiceControl
 		return $this->container->setHtml(
 			Nette\Forms\Helpers::createInputList(
 				$this->translate($items),
-				array_merge($input->attrs, [
+				[
+					...$input->attrs,
 					'id' => null,
 					'checked?' => $this->value,
 					'disabled:' => $this->disabled,
 					'required' => null,
 					'data-nette-rules:' => [array_key_first($items) => $input->attrs['data-nette-rules']],
-				]),
+				],
 				$this->itemLabel->attrs,
 				$this->separator,
 			),

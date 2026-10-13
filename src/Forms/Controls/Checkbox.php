@@ -37,7 +37,11 @@ class Checkbox extends BaseControl
 	public function setValue($value)
 	{
 		if (!is_scalar($value) && $value !== null) {
-			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", get_debug_type($value), $this->getName()));
+			throw new Nette\InvalidArgumentException(sprintf(
+				"Value must be scalar or null, %s given in field '%s'.",
+				get_debug_type($value),
+				$this->getName(),
+			));
 		}
 
 		$this->value = (bool) $value;

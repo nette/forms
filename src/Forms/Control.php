@@ -14,7 +14,6 @@ namespace Nette\Forms;
 interface Control
 {
 	/**
-	 * @param  mixed  $value
 	 * @return static
 	 */
 	function setValue(mixed $value);

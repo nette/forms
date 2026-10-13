@@ -7,7 +7,6 @@
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -19,13 +18,13 @@ $datasets = [
 
 function myValidator1($item, $arg)
 {
-	return $item->getValue() != $arg;
+	return $item->getValue() != $arg; // intentionally !=, a submitted value is a string
 }
 
 
 foreach ($datasets as $case) {
 	$form = new Form;
-	$control = @$form->addText('value', 'Value:')
+	$control = $form->addText('value', 'Value:')
 		->addRule('myValidator1', 'Value %d is not allowed!', 11);
 
 	$control->setValue($case[0])->validate();

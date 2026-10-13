@@ -7,7 +7,6 @@
 use Nette\Forms\{Form, Helpers};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -36,7 +35,10 @@ test('handling array data in HTTP extraction', function () {
 	Assert::same(['1', '2'], Helpers::extractHttpData(['multi' => ['1', '2']], 'multi[]', Form::DataLine));
 	Assert::same(['1', '2'], Helpers::extractHttpData(['multi' => ['1', '2']], 'multi[]', Form::DataText));
 	Assert::same(['1', '2'], Helpers::extractHttpData(['multi' => ['x' => '1', 2 => '2']], 'multi[]', Form::DataText));
-	Assert::same(['x' => '1', 2 => '2'], Helpers::extractHttpData(['multi' => ['x' => '1', 2 => '2']], 'multi[]', Form::DataKeys | Form::DataText));
+	Assert::same(
+		['x' => '1', 2 => '2'],
+		Helpers::extractHttpData(['multi' => ['x' => '1', 2 => '2']], 'multi[]', Form::DataKeys | Form::DataText),
+	);
 
 	Assert::same(['3', '4'], Helpers::extractHttpData([
 		'container' => ['image' => ['3', '4']],

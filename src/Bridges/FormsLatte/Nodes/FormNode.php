@@ -44,7 +44,11 @@ class FormNode extends StatementNode
 		$node = $tag->node = new static;
 		$node->mode = match (true) {
 			$tag->name === 'formContext' => self::ModeLegacyScope,
-			in_array($tag->parser->stream->tryPeek()?->text, [self::ModeScope, self::ModeDetached], true) => $tag->parser->stream->consume()->text,
+			in_array(
+				$tag->parser->stream->tryPeek()?->text,
+				[self::ModeScope, self::ModeDetached],
+				true,
+			) => $tag->parser->stream->consume()->text,
 			default => null,
 		};
 		$node->name = $tag->parser->parseUnquotedStringOrExpression();

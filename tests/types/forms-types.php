@@ -26,7 +26,7 @@ function testFormContainerGetValues(Container $container): void
 
 function testFormContainerGetUntrustedValues(Container $container): void
 {
-	assertType('Nette\Utils\ArrayHash<mixed>', $container->getUntrustedValues(null));
+	assertType('Nette\Utils\ArrayHash<mixed>', $container->getUntrustedValues());
 	assertType('array|array<mixed>', $container->getUntrustedValues('array'));
 	assertType(FormDto::class, $container->getUntrustedValues(FormDto::class));
 }

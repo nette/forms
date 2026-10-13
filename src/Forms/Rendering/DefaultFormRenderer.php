@@ -485,7 +485,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 		}
 
 		$els[] = $el;
-		$errors = array_merge($errors, $control->getErrors());
+		$errors = [...$errors, ...$control->getErrors()];
 
 		if ($nextTo = $control->getOption('nextTo')) {
 			$control = $control->getForm()->getComponent($nextTo);
@@ -494,7 +494,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 			goto renderControl;
 		}
 
-		return $body->setHtml(implode('', $els) . $description . $this->doRenderErrors($errors, true));
+		return $body->setHtml(implode('', $els) . $description . $this->doRenderErrors($errors, control: true));
 	}
 
 

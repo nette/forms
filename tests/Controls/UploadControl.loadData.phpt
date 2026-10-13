@@ -8,7 +8,6 @@ use Nette\Forms\{Form, Validator};
 use Nette\Http\FileUpload;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

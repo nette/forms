@@ -8,7 +8,6 @@ use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -36,7 +35,10 @@ test('radio list rendering basics', function () {
 	Assert::same('<label for="frm-list-0">Second</label>', (string) $input->getLabelPart(0));
 
 	Assert::type(Html::class, $input->getControl());
-	Assert::same('<label><input type="radio" name="list" value="a">First</label><br><label><input type="radio" name="list" value="0">Second</label>', (string) $input->getControl());
+	Assert::same(
+		'<label><input type="radio" name="list" value="a">First</label><br><label><input type="radio" name="list" value="0">Second</label>',
+		(string) $input->getControl(),
+	);
 
 	Assert::type(Html::class, $input->getControlPart(0));
 	Assert::same('<input type="radio" name="list" id="frm-list-0" value="0">', (string) $input->getControlPart(0));
@@ -50,7 +52,10 @@ test('selected radio button', function () {
 		0 => 'Second',
 	])->setValue(0);
 
-	Assert::same('<label><input type="radio" name="list" value="a">First</label><br><label><input type="radio" name="list" checked value="0">Second</label>', (string) $input->getControl());
+	Assert::same(
+		'<label><input type="radio" name="list" value="a">First</label><br><label><input type="radio" name="list" checked value="0">Second</label>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -66,7 +71,10 @@ test('translating radio options', function () {
 	Assert::same('<label>Another label</label>', (string) $input->getLabel('Another label'));
 	Assert::same('<label for="frm-list-0">SECOND</label>', (string) $input->getLabelPart(0));
 
-	Assert::same('<label><input type="radio" name="list" value="a">FIRST</label><br><label><input type="radio" name="list" value="0">SECOND</label>', (string) $input->getControl());
+	Assert::same(
+		'<label><input type="radio" name="list" value="a">FIRST</label><br><label><input type="radio" name="list" value="0">SECOND</label>',
+		(string) $input->getControl(),
+	);
 	Assert::same('<input type="radio" name="list" id="frm-list-0" value="0">', (string) $input->getControlPart(0));
 });
 
@@ -93,8 +101,14 @@ test('required radio list', function () {
 		0 => 'Second',
 	])->setRequired('required');
 
-	Assert::same('<label><input type="radio" name="list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\' value="a">First</label><br><label><input type="radio" name="list" required value="0">Second</label>', (string) $input->getControl());
-	Assert::same('<input type="radio" name="list" id="frm-list-0" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\' value="0">', (string) $input->getControlPart(0));
+	Assert::same(
+		'<label><input type="radio" name="list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\' value="a">First</label><br><label><input type="radio" name="list" required value="0">Second</label>',
+		(string) $input->getControl(),
+	);
+	Assert::same(
+		'<input type="radio" name="list" id="frm-list-0" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\' value="0">',
+		(string) $input->getControlPart(0),
+	);
 });
 
 
@@ -106,7 +120,10 @@ test('container naming in radio', function () {
 		0 => 'Second',
 	]);
 
-	Assert::same('<label><input type="radio" name="container[list]" value="a">First</label><br><label><input type="radio" name="container[list]" value="0">Second</label>', (string) $input->getControl());
+	Assert::same(
+		'<label><input type="radio" name="container[list]" value="a">First</label><br><label><input type="radio" name="container[list]" value="0">Second</label>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -127,9 +144,12 @@ test('disabled radio list', function () {
 	$input = $form->addRadioList('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	])->setDisabled(true);
+	])->setDisabled();
 
-	Assert::same('<label><input type="radio" name="list" disabled value="a">First</label><br><label><input type="radio" name="list" disabled value="0">Second</label>', (string) $input->getControl());
+	Assert::same(
+		'<label><input type="radio" name="list" disabled value="a">First</label><br><label><input type="radio" name="list" disabled value="0">Second</label>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -140,7 +160,10 @@ test('disabled radio options', function () {
 		0 => 'Second',
 	])->setDisabled(['a']);
 
-	Assert::same('<label><input type="radio" name="list" disabled value="a">First</label><br><label><input type="radio" name="list" value="0">Second</label>', (string) $input->getControl());
+	Assert::same(
+		'<label><input type="radio" name="list" disabled value="a">First</label><br><label><input type="radio" name="list" value="0">Second</label>',
+		(string) $input->getControl(),
+	);
 	Assert::same('<input type="radio" name="list" id="frm-list-a" disabled value="a">', (string) $input->getControlPart('a'));
 });
 
@@ -166,7 +189,10 @@ test('auto-generated IDs', function () {
 	]);
 	$input->generateId = true;
 
-	Assert::same('<label for="frm-list-a"><input type="radio" name="list" id="frm-list-a" value="a">First</label><br><label for="frm-list-0"><input type="radio" name="list" id="frm-list-0" value="0">Second</label>', (string) $input->getControl());
+	Assert::same(
+		'<label for="frm-list-a"><input type="radio" name="list" id="frm-list-a" value="a">First</label><br><label for="frm-list-0"><input type="radio" name="list" id="frm-list-0" value="0">Second</label>',
+		(string) $input->getControl(),
+	);
 });
 
 

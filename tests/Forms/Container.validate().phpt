@@ -7,7 +7,6 @@
 use Nette\Forms\{Container, Form};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 $form = new Form;

@@ -50,7 +50,10 @@ $container->addComponent(createContainer(), 'child');
 $form->addComponent($container, 'parent');
 
 Assert::equal(4, count($group->getControls()));
-Assert::equal([$form['parent']['street'], $form['parent']['town'], $form['parent']['child']['street'], $form['parent']['child']['town']], $group->getControls());
+Assert::equal(
+	[$form['parent']['street'], $form['parent']['town'], $form['parent']['child']['street'], $form['parent']['child']['town']],
+	$group->getControls(),
+);
 
 
 // container and controls
