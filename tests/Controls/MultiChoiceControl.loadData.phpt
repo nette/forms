@@ -4,8 +4,7 @@
  * Test: Nette\Forms\Controls\MultiChoiceControl.
  */
 
-use Nette\Forms\Form;
-use Nette\Forms\Validator;
+use Nette\Forms\{Form, Validator};
 use Nette\Utils\DateTime;
 use Tester\Assert;
 

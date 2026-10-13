@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-use Nette\Forms\Form;
-use Nette\Forms\Rules;
+use Nette\Forms\{Form, Rules};
 use Tester\Assert;
 
 

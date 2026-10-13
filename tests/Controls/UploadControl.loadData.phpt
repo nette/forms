@@ -4,8 +4,7 @@
  * Test: Nette\Forms\Controls\UploadControl.
  */
 
-use Nette\Forms\Form;
-use Nette\Forms\Validator;
+use Nette\Forms\{Form, Validator};
 use Nette\Http\FileUpload;
 use Tester\Assert;
 

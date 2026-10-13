@@ -8,8 +8,7 @@
 namespace Nette\Forms;
 
 use Nette;
-use Nette\Utils\Strings;
-use Nette\Utils\Validators;
+use Nette\Utils\{Strings, Validators};
 use function count, is_array, is_float, is_int, is_object, is_string;
 
 

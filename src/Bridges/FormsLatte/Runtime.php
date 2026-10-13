@@ -8,9 +8,7 @@
 namespace Nette\Bridges\FormsLatte;
 
 use Nette;
-use Nette\Forms\Container;
-use Nette\Forms\Control;
-use Nette\Forms\Form;
+use Nette\Forms\{Container, Control, Form};
 use Nette\Utils\Html;
 use function is_object;
 

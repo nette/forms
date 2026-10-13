@@ -4,8 +4,7 @@
  * Test: Nette\Forms\Controls\SelectBox::isOk()
  */
 
-use Nette\Forms\Form;
-use Nette\Forms\Validator;
+use Nette\Forms\{Form, Validator};
 use Tester\Assert;
 
 

@@ -4,8 +4,7 @@
  * Test: Nette\Forms\Controls\TextBase validators.
  */
 
-use Nette\Forms\Controls\TextInput;
-use Nette\Forms\Controls\UploadControl;
+use Nette\Forms\Controls\{TextInput, UploadControl};
 use Nette\Forms\Validator;
 use Nette\Http\FileUpload;
 use Tester\Assert;
