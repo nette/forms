@@ -8,7 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use function is_string, ltrim, preg_match, strtolower;
+use function is_string;
 
 
 /**

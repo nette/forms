@@ -10,7 +10,7 @@ namespace Nette\Forms;
 use Nette;
 use Nette\Utils\ArrayHash;
 use Stringable;
-use function array_combine, array_key_exists, array_map, array_merge, array_unique, explode, func_get_args, in_array, is_object, iterator_to_array, str_contains;
+use function array_key_exists, func_get_args, is_object;
 
 
 /**
@@ -108,10 +108,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 			if ($controls === null && $submitter instanceof SubmitterControl) {
 				$controls = $submitter->getValidationScope();
-				if ($controls !== null && !in_array($this, $controls, strict: true)) {
+				if ($controls !== null && !in_array($this, $controls, true)) {
 					$scope = $this;
 					while (($scope = $scope->getParent()) instanceof self) {
-						if (in_array($scope, $controls, strict: true)) {
+						if (in_array($scope, $controls, true)) {
 							$controls[] = $this;
 							break;
 						}
@@ -155,7 +155,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		$properties = array_combine(array_map(fn($p) => $p->getName(), $properties), $properties);
 
 		foreach ($this->getComponents() as $name => $control) {
-			$allowed = $controls === null || in_array($this, $controls, strict: true) || in_array($control, $controls, strict: true);
+			$allowed = $controls === null || in_array($this, $controls, true) || in_array($control, $controls, true);
 			$name = (string) $name;
 			$property = $properties[$name] ?? null;
 			if (

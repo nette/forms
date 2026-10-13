@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Forms\Form;
 use Stringable;
-use function in_array, is_scalar, max, min;
+use function in_array, is_scalar;
 
 
 /**
@@ -75,13 +75,13 @@ class TextInput extends TextBase
 			}
 		}
 
-		if ($this->control->type === null && in_array($validator, [Form::Email, Form::URL, Form::Integer], strict: true)) {
+		if ($this->control->type === null && in_array($validator, [Form::Email, Form::URL, Form::Integer], true)) {
 			$types = [Form::Email => 'email', Form::URL => 'url', Form::Integer => 'number'];
 			$this->control->type = $types[$validator];
 
 		} elseif (
-			in_array($validator, [Form::Min, Form::Max, Form::Range], strict: true)
-			&& in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], strict: true)
+			in_array($validator, [Form::Min, Form::Max, Form::Range], true)
+			&& in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], true)
 		) {
 			if ($validator === Form::Min) {
 				$range = [$arg, null];
@@ -106,7 +106,7 @@ class TextInput extends TextBase
 		} elseif (
 			$validator === Form::Pattern
 			&& is_scalar($arg)
-			&& in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], strict: true)
+			&& in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], true)
 		) {
 			$this->control->pattern = (string) $arg;
 		}
