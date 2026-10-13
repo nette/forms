@@ -29,11 +29,9 @@ class DateTimeControl extends BaseControl
 	private string $format = self::FormatObject;
 
 
-	/**
-	 * @param  self::TypeDate|self::TypeTime|self::TypeDateTime  $type
-	 */
 	public function __construct(
 		string|Stringable|null $label = null,
+		/** @var self::TypeDate|self::TypeTime|self::TypeDateTime */
 		private readonly int $type = self::TypeDate,
 		private readonly bool $withSeconds = false,
 	) {
@@ -112,7 +110,9 @@ class DateTimeControl extends BaseControl
 			...$this->getAttributesFromRules(),
 			'value' => $this->value ? $this->formatHtmlValue($this->value) : null,
 			'type' => match ($this->type) {
-				self::TypeDate => 'date', self::TypeTime => 'time', self::TypeDateTime => 'datetime-local'
+				self::TypeDate => 'date',
+				self::TypeTime => 'time',
+				self::TypeDateTime => 'datetime-local',
 			},
 		]);
 	}
@@ -149,8 +149,8 @@ class DateTimeControl extends BaseControl
 	{
 		$attrs = [];
 		$format = fn($val) => is_scalar($val) || $val instanceof \DateTimeInterface
-				? $this->formatHtmlValue($val)
-				: null;
+			? $this->formatHtmlValue($val)
+			: null;
 		foreach ($this->getRules() as $rule) {
 			if ($rule->branch) {
 			} elseif (!$rule->canExport()) {

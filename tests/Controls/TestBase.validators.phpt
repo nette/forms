@@ -9,7 +9,6 @@ use Nette\Forms\Validator;
 use Nette\Http\FileUpload;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -95,7 +94,7 @@ test('pattern matching validation', function () {
 test('object-based pattern validation', function () {
 	$control = new TextInput;
 
-	$control->value = new class () {
+	$control->value = new class {
 		public string $lorem = 'ipsum';
 
 

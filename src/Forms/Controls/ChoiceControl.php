@@ -56,7 +56,11 @@ abstract class ChoiceControl extends BaseControl
 		}
 
 		if ($this->checkDefaultValue && $value !== null && !array_key_exists((string) $value, $this->items)) {
-			$set = Nette\Utils\Strings::truncate(implode(', ', array_map(fn($s) => var_export($s, return: true), array_keys($this->items))), 70, '...');
+			$set = Nette\Utils\Strings::truncate(
+				implode(', ', array_map(fn($s) => var_export($s, return: true), array_keys($this->items))),
+				70,
+				'...',
+			);
 			throw new Nette\InvalidArgumentException("Value '$value' is out of allowed set [$set] in field '{$this->getName()}'.");
 		}
 
@@ -131,16 +135,16 @@ abstract class ChoiceControl extends BaseControl
 
 	/**
 	 * Disables or enables control or items.
-	 * @param bool|array<int|string>  $value
+	 * @param bool|array<int|string>  $state
 	 */
-	public function setDisabled(bool|array $value = true): static
+	public function setDisabled(bool|array $state = true): static
 	{
-		if (!is_array($value)) {
-			return parent::setDisabled($value);
+		if (!is_array($state)) {
+			return parent::setDisabled($state);
 		}
 
 		parent::setDisabled(false);
-		$this->disabled = array_fill_keys($value, value: true);
+		$this->disabled = array_fill_keys($state, value: true);
 		return $this;
 	}
 

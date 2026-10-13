@@ -7,7 +7,6 @@
 use Nette\Forms\{Form, Validator};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -99,7 +98,7 @@ test('datetime with seconds extraction', function () {
 
 test('datetime range validation', function () {
 	$form = new Form;
-	$input = $form->addDateTime('time', null, true)
+	$input = $form->addDateTime('time', withSeconds: true)
 		->setValue(new DateTime('2023-10-05'));
 
 	Assert::true(Validator::validateRange($input, [new DateTime('2023-09-05'), new DateTime('2023-11-05')]));
@@ -111,7 +110,7 @@ test('datetime range validation', function () {
 
 test('time range validation', function () {
 	$form = new Form;
-	$input = $form->addTime('time', null, true)
+	$input = $form->addTime('time', withSeconds: true)
 		->setValue(new DateTime('12:30'));
 
 	Assert::true(Validator::validateRange($input, [new DateTime('12:30'), new DateTime('14:00')]));

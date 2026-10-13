@@ -8,7 +8,6 @@ use Nette\Forms\Form;
 use Nette\Utils\DateTime;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -212,7 +211,7 @@ test('items with null labels', function () {
 
 	$form = new Form;
 	$form->allowCrossOrigin();
-	$input = $form['select'] = new ChoiceControl(null);
+	$input = $form['select'] = new ChoiceControl;
 	$input->setItems([
 		1 => null,
 		2 => 'Red dwarf',

@@ -5,12 +5,11 @@
  */
 
 
-if (@!include __DIR__ . '/../vendor/autoload.php') {
+if (@!include __DIR__ . '/../vendor/autoload.php') { // @ dependencies may not be installed
 	die('Install packages using `composer install`');
 }
 
-use Nette\Forms\Form;
-use Nette\Forms\Helpers;
+use Nette\Forms\{Form, Helpers};
 use Nette\Utils\Html;
 
 

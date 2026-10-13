@@ -7,7 +7,6 @@
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -21,12 +20,9 @@ class Translator implements Nette\Localization\ITranslator
 
 class StringWrapper
 {
-	public $message;
-
-
-	public function __construct($message)
-	{
-		$this->message = $message;
+	public function __construct(
+		public $message,
+	) {
 	}
 
 
@@ -35,7 +31,6 @@ class StringWrapper
 		return (string) $this->message;
 	}
 }
-
 
 
 test('translating labels with objects', function () {
@@ -87,7 +82,10 @@ test('validation messages with objects', function () {
 		->setRequired('error')
 		->addRule($form::Email, 'error');
 
-	Assert::match('<input type="email" name="email" id="frm-email" required data-nette-rules=\'[{"op":":filled","msg":"error"},{"op":":email","msg":"error"}]\'>', (string) $email->getControl());
+	Assert::match(
+		'<input type="email" name="email" id="frm-email" required data-nette-rules=\'[{"op":":filled","msg":"error"},{"op":":email","msg":"error"}]\'>',
+		(string) $email->getControl(),
+	);
 	$email->validate();
 	Assert::same(['error'], $email->getErrors());
 
@@ -95,7 +93,10 @@ test('validation messages with objects', function () {
 		->setRequired(new StringWrapper('Your name'))
 		->addRule($form::Email, new StringWrapper('Your name'));
 
-	Assert::match('<input type="email" name="email2" id="frm-email2" required data-nette-rules=\'[{"op":":filled","msg":"StringWrapper"},{"op":":email","msg":"StringWrapper"}]\'>', (string) $email2->getControl());
+	Assert::match(
+		'<input type="email" name="email2" id="frm-email2" required data-nette-rules=\'[{"op":":filled","msg":"StringWrapper"},{"op":":email","msg":"StringWrapper"}]\'>',
+		(string) $email2->getControl(),
+	);
 	$email2->validate();
 	Assert::same(['StringWrapper'], $email2->getErrors());
 });

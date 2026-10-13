@@ -8,7 +8,6 @@ use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -33,7 +32,10 @@ test('select box basic rendering', function () {
 	Assert::same('<label for="frm-list">Another label</label>', (string) $input->getLabel('Another label'));
 
 	Assert::type(Html::class, $input->getControl());
-	Assert::same('<select name="list" id="frm-list"><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -44,7 +46,10 @@ test('selected option rendering', function () {
 		0 => 'Second',
 	])->setValue(0);
 
-	Assert::same('<select name="list" id="frm-list"><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="a">First</option><option value="0" selected>Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -55,7 +60,10 @@ test('grouped options rendering', function () {
 		['a' => 'First'],
 	])->setValue('a');
 
-	Assert::same('<select name="list" id="frm-list"><optgroup label="0"><option value="a" selected>First</option></optgroup><optgroup label="1"><option value="a">First</option></optgroup></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><optgroup label="0"><option value="a" selected>First</option></optgroup><optgroup label="1"><option value="a">First</option></optgroup></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -66,11 +74,17 @@ test('prompt option rendering', function () {
 		0 => 'Second',
 	])->setPrompt('prompt');
 
-	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 
 	$input->setValue(0);
 
-	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -81,11 +95,17 @@ test('required select with prompt', function () {
 		0 => 'Second',
 	])->setPrompt('prompt')->setRequired();
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 
 	$input->setValue(0);
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden>prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden>prompt</option><option value="a">First</option><option value="0" selected>Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -96,11 +116,17 @@ test('select with prompt and invalid selected value', function () {
 		0 => 'Second',
 	])->setPrompt('prompt')->checkDefaultValue(false);
 
-	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 
 	$input->setValue('does not exists');
 
-	Assert::same('<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="">prompt</option><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -111,11 +137,17 @@ test('required select with prompt and invalid selected value', function () {
 		0 => 'Second',
 	])->setPrompt('prompt')->setRequired()->checkDefaultValue(false);
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 
 	$input->setValue('does not exists');
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"This field is required."}]\'><option value="" disabled hidden selected>prompt</option><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -125,11 +157,17 @@ test('empty value and prompt', function () {
 		'' => 'First',
 	])->setPrompt('prompt');
 
-	Assert::same('<select name="list" id="frm-list"><option value="' . "\t" . '">prompt</option><option value="">First</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="' . "\t" . '">prompt</option><option value="">First</option></select>',
+		(string) $input->getControl(),
+	);
 
 	$input->setValue('');
 
-	Assert::same('<select name="list" id="frm-list"><option value="' . "\t" . '">prompt</option><option value="" selected>First</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="' . "\t" . '">prompt</option><option value="" selected>First</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -143,7 +181,10 @@ test('translating prompt and options', function () {
 
 	Assert::same('<label for="frm-list">Label</label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-list">Another label</label>', (string) $input->getLabel('Another label'));
-	Assert::same('<select name="list" id="frm-list"><option value="">PROMPT</option><option value="a">FIRST</option><optgroup label="GROUP"><option value="0">SECOND</option><option value="1">THIRD</option></optgroup></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="">PROMPT</option><option value="a">FIRST</option><optgroup label="GROUP"><option value="0">SECOND</option><option value="1">THIRD</option></optgroup></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -157,7 +198,10 @@ test('HTML in prompt and options', function () {
 
 	Assert::same('<label for="frm-list"><b>Label</b></label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-list"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
-	Assert::same('<select name="list" id="frm-list"><option class="class" value="">Prompt</option><option class="class" value="a">First</option><optgroup label="GROUP"><option value="0">Second</option></optgroup></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option class="class" value="">Prompt</option><option class="class" value="a">First</option><optgroup label="GROUP"><option value="0">Second</option></optgroup></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -168,7 +212,10 @@ test('required select box', function () {
 		0 => 'Second',
 	])->setRequired('required');
 
-	Assert::same('<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\'><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\'><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -180,7 +227,10 @@ test('container naming in select', function () {
 		0 => 'Second',
 	]);
 
-	Assert::same('<select name="container[list]" id="frm-container-list"><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="container[list]" id="frm-container-list"><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -189,9 +239,12 @@ test('disabled select rendering', function () {
 	$input = $form->addSelect('list', 'Label', [
 		'a' => 'First',
 		0 => 'Second',
-	])->setDisabled(true);
+	])->setDisabled();
 
-	Assert::same('<select name="list" id="frm-list" disabled><option value="a">First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list" disabled><option value="a">First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -202,7 +255,10 @@ test('disabled options rendering', function () {
 		0 => 'Second',
 	])->setDisabled(['a']);
 
-	Assert::same('<select name="list" id="frm-list"><option value="a" disabled>First</option><option value="0">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option value="a" disabled>First</option><option value="0">Second</option></select>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -227,5 +283,8 @@ test('dynamic option attributes', function () {
 	$input->addOptionAttributes(['bar' => 'b', 'selected?' => 2]);
 	$input->addOptionAttributes(['bar' => 'c']);
 	$input->setOptionAttribute('foo:', [1 => 'a', 2 => 'b']);
-	Assert::same('<select name="list" id="frm-list"><option bar="c" value="1" selected foo="a">First</option><option bar="c" value="2" foo="b">Second</option></select>', (string) $input->getControl());
+	Assert::same(
+		'<select name="list" id="frm-list"><option bar="c" value="1" selected foo="a">First</option><option bar="c" value="2" foo="b">Second</option></select>',
+		(string) $input->getControl(),
+	);
 });

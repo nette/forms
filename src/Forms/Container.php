@@ -65,7 +65,10 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	public function setValues(array|object $values, bool $erase = false, bool $onlyDisabled = false): static
 	{
 		if (is_object($values) && !($values instanceof \Traversable || $values instanceof \stdClass)) {
-			trigger_error(__METHOD__ . ': argument should be array|Traversable|stdClass, ' . get_debug_type($values) . ' given.', E_USER_DEPRECATED);
+			trigger_error(
+				__METHOD__ . ': argument should be array|Traversable|stdClass, ' . get_debug_type($values) . ' given.',
+				E_USER_DEPRECATED,
+			);
 		}
 
 		$values = $values instanceof \Traversable
@@ -260,7 +263,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		$errors = [];
 		foreach ($this->getControls() as $control) {
-			$errors = array_merge($errors, $control->getErrors());
+			$errors = [...$errors, ...$control->getErrors()];
 		}
 
 		return array_values(array_unique($errors));
@@ -376,7 +379,8 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	): Controls\TextArea
 	{
 		return $this[$name] = (new Controls\TextArea($label))
-			->setHtmlAttribute('cols', $cols)->setHtmlAttribute('rows', $rows);
+			->setHtmlAttribute('cols', $cols)
+			->setHtmlAttribute('rows', $rows);
 	}
 
 
@@ -458,7 +462,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addUpload(string $name, string|Stringable|null $label = null): Controls\UploadControl
 	{
-		return $this[$name] = new Controls\UploadControl($label, multiple: false);
+		return $this[$name] = new Controls\UploadControl($label);
 	}
 
 

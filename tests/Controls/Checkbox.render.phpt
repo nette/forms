@@ -8,7 +8,6 @@ use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -55,7 +54,10 @@ test('required checkbox attributes', function () {
 	$form = new Form;
 	$input = $form->addCheckbox('on')->setRequired('required');
 
-	Assert::same('<label for="frm-on"><input type="checkbox" name="on" id="frm-on" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\'></label>', (string) $input->getControl());
+	Assert::same(
+		'<label for="frm-on"><input type="checkbox" name="on" id="frm-on" required data-nette-rules=\'[{"op":":filled","msg":"required"}]\'></label>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -64,7 +66,10 @@ test('checkbox within container naming', function () {
 	$container = $form->addContainer('container');
 	$input = $container->addCheckbox('on');
 
-	Assert::same('<label for="frm-container-on"><input type="checkbox" name="container[on]" id="frm-container-on"></label>', (string) $input->getControl());
+	Assert::same(
+		'<label for="frm-container-on"><input type="checkbox" name="container[on]" id="frm-container-on"></label>',
+		(string) $input->getControl(),
+	);
 });
 
 

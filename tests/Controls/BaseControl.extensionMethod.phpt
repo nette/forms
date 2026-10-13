@@ -3,7 +3,6 @@
 use Nette\Forms\Controls\{Button, Checkbox, TextBase, TextInput};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

@@ -38,8 +38,8 @@ class SelectBox extends ChoiceControl
 		$this->setOption('type', 'select');
 		$this->addCondition(
 			fn() => $this->prompt === false
-			&& $this->options
-			&& $this->control->size < 2,
+				&& $this->options
+				&& $this->control->size < 2,
 		)->addRule(Nette\Forms\Form::Filled, Nette\Forms\Validator::$messages[self::Valid]);
 	}
 

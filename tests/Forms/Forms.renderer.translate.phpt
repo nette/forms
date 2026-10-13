@@ -34,7 +34,7 @@ $form->addText('username', 'Username')
 	->setOption('description', 'or email')
 	->setRequired('Please enter your username');
 $form->addPassword('password', 'Password')
-	->setRequired(true)
+	->setRequired()
 	->addRule(Form::MinLength, 'Minimal length is %d chars', 8)
 	->addError('Weak password');
 $form->addSubmit('submit', 'Send');

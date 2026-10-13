@@ -57,12 +57,13 @@ class RadioList extends ChoiceControl
 		return $this->container->setHtml(
 			Nette\Forms\Helpers::createInputList(
 				$this->translate($items),
-				array_merge($input->attrs, [
+				[
+					...$input->attrs,
 					'id:' => $ids,
 					'checked?' => $this->value,
 					'disabled:' => $this->disabled,
 					'data-nette-rules:' => [array_key_first($items) => $input->attrs['data-nette-rules']],
-				]),
+				],
 				['for:' => $ids] + $this->itemLabel->attrs,
 				$this->separator,
 			),

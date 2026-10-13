@@ -148,8 +148,10 @@ final class Blueprint
 
 		if ($renderer instanceof Rendering\DefaultFormRenderer) {
 			$renderer->wrappers['error']['container'] = $renderer->getWrapper('error container')->setAttribute('n:ifcontent', true);
-			$renderer->wrappers['error']['item'] = $renderer->getWrapper('error item')->setAttribute('n:foreach', '$form->getOwnErrors() as $error');
-			$renderer->wrappers['control']['errorcontainer'] = $renderer->getWrapper('control errorcontainer')->setAttribute('n:ifcontent', true);
+			$renderer->wrappers['error']['item'] = $renderer->getWrapper('error item')
+				->setAttribute('n:foreach', '$form->getOwnErrors() as $error');
+			$renderer->wrappers['control']['errorcontainer'] = $renderer->getWrapper('control errorcontainer')
+				->setAttribute('n:ifcontent', true);
 			$dummyForm->addError('{$error}');
 
 			ob_start();
@@ -221,8 +223,8 @@ final class Blueprint
 			. "{\n"
 			. ($propertyPromotion
 				? "\tpublic function __construct(\n"
-				. ($props ? "\t\t" . implode(",\n\t\t", $props) . ",\n" : '')
-				. "\t) {\n\t}\n"
+					. ($props ? "\t\t" . implode(",\n\t\t", $props) . ",\n" : '')
+					. "\t) {\n\t}\n"
 				: ($props ? "\t" . implode(";\n\t", $props) . ";\n" : '')
 			)
 			. "}\n\n"

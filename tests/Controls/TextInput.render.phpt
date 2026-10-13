@@ -8,7 +8,6 @@ use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -46,7 +45,10 @@ test('translated attributes', function () {
 
 	Assert::same('<label for="frm-text">Label</label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-text">Another label</label>', (string) $input->getLabel('Another label'));
-	Assert::same('<input type="text" name="text" placeholder="PLACE" id="frm-text" data-nette-empty-value="XXX" value="text">', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="text" placeholder="PLACE" id="frm-text" data-nette-empty-value="XXX" value="text">',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -68,7 +70,10 @@ test('required rule with HTML', function () {
 	Assert::same('<label for="frm-text"><b>Label:</b></label>', (string) $input->getLabel());
 	Assert::same('<label for="frm-text"><b>Another label</b></label>', (string) $input->getLabel(Html::el('b', 'Another label')));
 	Assert::type(Html::class, $input->getControl());
-	Assert::same('<input type="text" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"Please fill in Label"}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="text" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"Please fill in Label"}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -89,14 +94,25 @@ test('input types and patterns', function () {
 
 	foreach (['text', 'search', 'tel', 'url', 'email'] as $type) {
 		$input->setHtmlType($type);
-		Assert::same('<input type="' . $type . '" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
+		Assert::same(
+			'<input type="'
+			. $type
+			. '" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>',
+			(string) $input->getControl(),
+		);
 	}
 
 	$input->setHtmlType('password');
-	Assert::same('<input type="password" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="password" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>',
+		(string) $input->getControl(),
+	);
 
 	$input->setHtmlType('number');
-	Assert::same('<input type="number" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="number" name="text" pattern="[0-9]+" id="frm-text" required data-nette-rules=\'[{"op":":filled","msg":"required"},{"op":":pattern","msg":"error message","arg":"[0-9]+"}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -104,9 +120,12 @@ test('nested validation rules', function () {
 	$form = new Form;
 	$input = $form->addText('text');
 	$input->addCondition($form::Filled)
-			->addRule($form::Filled);
+		->addRule($form::Filled);
 
-	Assert::same('<input type="text" name="text" id="frm-text" data-nette-rules=\'[{"op":":filled","rules":[{"op":":filled","msg":"This field is required."}],"control":"text"}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="text" id="frm-text" data-nette-rules=\'[{"op":":filled","rules":[{"op":":filled","msg":"This field is required."}],"control":"text"}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -125,7 +144,10 @@ test('length rule precedence', function () {
 		->setMaxLength(30)
 		->addRule($form::Length, null, [10, 20]);
 
-	Assert::same('<input type="text" name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -134,7 +156,10 @@ test('max length rule application', function () {
 	$input = $form->addText('text', null, null, 30)
 		->addRule($form::MaxLength, null, 10);
 
-	Assert::same('<input type="text" name="text" maxlength="10" id="frm-text" data-nette-rules=\'[{"op":":maxLength","msg":"Please enter no more than 10 characters.","arg":10}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="text" maxlength="10" id="frm-text" data-nette-rules=\'[{"op":":maxLength","msg":"Please enter no more than 10 characters.","arg":10}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -148,7 +173,10 @@ test('range and Min/Max rules', function () {
 		->addRule(Form::Max, 'Must be less than or equal to %d', 101)
 		->addRule(Form::Range, 'Must be in range from %d to %d', [$minInput, $maxInput]);
 
-	Assert::same('<input type="text" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="count" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -163,7 +191,10 @@ test('number input rules', function () {
 		->addRule(Form::Max, 'Must be less than or equal to %d', 101)
 		->addRule(Form::Range, 'Must be in range from %d to %d', [$minInput, $maxInput]);
 
-	Assert::same('<input type="number" name="count" min="1" max="100" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="number" name="count" min="1" max="100" id="frm-count" data-nette-rules=\'[{"op":":range","msg":"Must be in range from 0 to 100","arg":[0,100]},{"op":":min","msg":"Must be greater than or equal to 1","arg":1},{"op":":max","msg":"Must be less than or equal to 101","arg":101},{"op":":range","msg":"Must be in range from %0 to %1","arg":[{"control":"min"},{"control":"max"}]}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -172,7 +203,10 @@ test('empty value attribute', function () {
 	$input = $form->addText('text')
 		->setEmptyValue('empty ');
 
-	Assert::same('<input type="text" name="text" id="frm-text" data-nette-empty-value="empty" value="empty ">', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="text" id="frm-text" data-nette-empty-value="empty" value="empty ">',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -192,7 +226,10 @@ test('nullable empty value', function () {
 		->setNullable();
 
 	Assert::null($input->getValue());
-	Assert::same('<input type="text" name="text" id="frm-text" data-nette-empty-value="empty" value="empty ">', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="text" id="frm-text" data-nette-empty-value="empty" value="empty ">',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -232,7 +269,10 @@ test('integer input rendering', function () {
 
 	Assert::null($input->getValue());
 
-	Assert::same('<input type="number" name="text" id="frm-text" data-nette-rules=\'[{"op":":integer","msg":"Please enter a valid integer."}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="number" name="text" id="frm-text" data-nette-rules=\'[{"op":":integer","msg":"Please enter a valid integer."}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -242,7 +282,10 @@ test('float input rendering', function () {
 
 	Assert::null($input->getValue());
 
-	Assert::same('<input type="number" name="text" step="any" id="frm-text" data-nette-rules=\'[{"op":":float","msg":"Please enter a valid number."}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="number" name="text" step="any" id="frm-text" data-nette-rules=\'[{"op":":float","msg":"Please enter a valid number."}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -254,7 +297,10 @@ test('rule and filter interaction', function () {
 		->addRule(Form::Max, 'max', 10)
 		->addRule(Form::MaxLength, 'maxl', 10);
 
-	Assert::same('<input type="text" name="text" id="frm-text" data-nette-rules=\'[{"op":":min","msg":"min","arg":1}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="text" name="text" id="frm-text" data-nette-rules=\'[{"op":":min","msg":"min","arg":1}]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 
@@ -266,5 +312,8 @@ test('email input rendering', function () {
 	Assert::same('<label for="frm-email">Label</label>', (string) $input->getLabel());
 
 	Assert::type(Html::class, $input->getControl());
-	Assert::same('<input type="email" name="email" maxlength="255" id="frm-email" data-nette-rules=\'[{"op":":email","msg":"Please enter a valid email address."}]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="email" name="email" maxlength="255" id="frm-email" data-nette-rules=\'[{"op":":email","msg":"Please enter a valid email address."}]\'>',
+		(string) $input->getControl(),
+	);
 });

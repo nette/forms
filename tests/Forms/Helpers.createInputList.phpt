@@ -8,7 +8,6 @@ use Nette\Forms\Helpers;
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -86,7 +85,7 @@ test('generating input lists with various configurations', function () {
 			['a' => 'First', 'b' => 'Second'],
 			null,
 			null,
-			Html::el(null),
+			Html::el(),
 		),
 	);
 });
