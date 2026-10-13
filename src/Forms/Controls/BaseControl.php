@@ -8,9 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use Nette\Forms\Control;
-use Nette\Forms\Form;
-use Nette\Forms\Rules;
+use Nette\Forms\{Control, Form, Rules};
 use Nette\Utils\Html;
 use Stringable;
 use function is_array;

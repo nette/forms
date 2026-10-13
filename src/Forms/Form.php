@@ -8,8 +8,7 @@
 namespace Nette\Forms;
 
 use Nette;
-use Nette\Utils\Arrays;
-use Nette\Utils\Html;
+use Nette\Utils\{Arrays, Html};
 use Stringable;
 use function count, is_array, is_scalar, is_string;
 

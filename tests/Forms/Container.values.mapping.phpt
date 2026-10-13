@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
 
 use Nette\Forms\Form;
-use Nette\Utils\ArrayHash;
-use Nette\Utils\Arrays;
+use Nette\Utils\{ArrayHash, Arrays};
 use Tester\Assert;
 
 

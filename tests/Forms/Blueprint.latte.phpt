@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-use Nette\Forms\Blueprint;
-use Nette\Forms\Form;
+use Nette\Forms\{Blueprint, Form};
 use Nette\Utils\Html;
 use Tester\Assert;
 

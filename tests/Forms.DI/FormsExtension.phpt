@@ -6,8 +6,7 @@
 
 use Nette\Bridges\FormsDI\FormsExtension;
 use Nette\DI;
-use Nette\Forms\Form;
-use Nette\Forms\Validator;
+use Nette\Forms\{Form, Validator};
 use Tester\Assert;
 
 
