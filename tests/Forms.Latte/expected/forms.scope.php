@@ -7,7 +7,7 @@
 	';
 		echo $this->global->forms->get('name')->getControl() /* pos 5:2 */;
 		echo "\n";
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -21,7 +21,7 @@
 	';
 		echo $this->global->forms->get('name')->getControl() /* pos 13:2 */;
 		echo "\n";
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -41,11 +41,11 @@
 		echo $this->global->forms->get('city')->getControl() /* pos 23:3 */;
 		echo '
 	';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo "\n";
 		echo $this->global->forms->renderFormEnd() /* pos 25:1 */;
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -59,7 +59,7 @@
 		echo '
 
 ';
-		$this->global->forms->begin($formContainer = $this->global->forms->get('person', Nette\Forms\Container::class)) /* pos 33:2 */;
+		$this->global->forms->begin($formContainer = $this->global->forms->get('person', Nette\Forms\Container::class), bindsForm: false) /* pos 33:2 */;
 		echo '		';
 		echo $this->global->forms->get('city')->getControl() /* pos 34:3 */;
 		echo "\n";
@@ -67,7 +67,7 @@
 		$this->global->forms->end();
 		$formContainer = $this->global->forms->getScope();
 		echo $this->global->forms->renderFormEnd() /* pos 36:1 */;
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo "\n";
 %A%

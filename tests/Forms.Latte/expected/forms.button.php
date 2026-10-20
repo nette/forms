@@ -22,5 +22,5 @@
 		echo $this->global->forms->renderFormEnd(false) /* pos 1:7 */;
 		echo '</form>
 ';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 %A%

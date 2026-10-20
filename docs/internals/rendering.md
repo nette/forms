@@ -22,12 +22,15 @@ new rendering work goes through Latte.
 
 ## Latte runtime: the `$stack` / `$detachedIds` machinery
 
-`Bridges/FormsLatte/Runtime` keeps two **parallel** stacks: `$stack` (the current
-form/container scope) and `$detachedIds` (the detached form id per stack level,
-`null` when not detached). `begin()` pushes and, for a `Form`, fires the render
-events **and resets every control's `rendered` option** — `renderFormEnd` (and the
-default renderer's `renderEnd`) rely on that flag to emit not-yet-rendered hidden
-fields before `</form>`; `end()` pops both. `get()` resolves an element from the
+`Bridges/FormsLatte/Runtime` keeps three **parallel** stacks: `$stack` (the current
+form/container scope), `$detachedIds` (the detached form id per stack level,
+`null` when not detached) and `$formBindings` (whether the level is bound to the
+template's `$form` variable; `{formContainer}` is not). `begin()` pushes and, for a
+`Form`, fires the render events **and resets every control's `rendered` option** —
+`renderFormEnd` (and the default renderer's `renderEnd`) rely on that flag to emit
+not-yet-rendered hidden fields before `</form>`; `end()` pops all three and returns
+the nearest remaining level bound to `$form`, which the compiled `{/form}` assigns
+back to `$form` (at the top level `$form` keeps the closed form). `get()` resolves an element from the
 current scope and —
 **this is the detached-form wiring** — if a detached id is active and the element is
 a `BaseControl`, sets `setHtmlAttribute('form', $id)` on it. `isNested()` is just

@@ -13,10 +13,10 @@
 		echo $this->global->forms->get('street')->getControl() /* pos 7:3 */;
 		echo '
 	';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo "\n";
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -36,10 +36,10 @@
 		echo $this->global->forms->get('note')->getControl() /* pos 19:3 */;
 		echo '
 	';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo "\n";
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo "\n";
 	}

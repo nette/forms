@@ -2,7 +2,7 @@
 		$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos 1:1 */;
 		echo $this->global->forms->renderFormBegin([]) /* pos 1:1 */;
 		echo $this->global->forms->renderFormEnd() /* pos 1:1 */;
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -15,5 +15,5 @@
 		echo $this->global->forms->renderFormEnd(false) /* pos 3:7 */;
 		echo '</form>
 ';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 %A%
