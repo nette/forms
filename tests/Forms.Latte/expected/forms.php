@@ -57,7 +57,7 @@
 		echo $this->global->forms->get('my')->getControl() /* pos %d%:13 */;
 		echo "\n";
 		echo $this->global->forms->renderFormEnd() /* pos %d%:1 */;
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -66,7 +66,7 @@
 		$this->global->forms->begin($form = $this->global->uiControl['myForm'], global: $this->global) /* pos %d%:1 */;
 		echo $this->global->forms->renderFormBegin([]) /* pos %d%:1 */;
 		echo $this->global->forms->renderFormEnd() /* pos %d%:1 */;
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -196,7 +196,7 @@
 			echo $this->global->forms->renderFormEnd(false) /* pos %d%:7 */;
 			echo '</form>
 ';
-			$this->global->forms->end();
+			$form = $this->global->forms->end() ?? $form;
 		}
 		echo '
 
@@ -214,7 +214,7 @@
 		echo $this->global->forms->renderFormEnd(false) /* pos %d%:7 */;
 		echo '</form>
 ';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 		echo '
 
 <select';
@@ -239,7 +239,7 @@
 		echo '</select>
 ';
 		echo $this->global->forms->renderFormEnd() /* pos %d%:1 */;
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -256,5 +256,5 @@
 		echo ($ʟ_elem = $this->global->forms->get('username')->getControlPart())->attributes() /* pos %d%:8 */;
 		echo '>
 ';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 %A%

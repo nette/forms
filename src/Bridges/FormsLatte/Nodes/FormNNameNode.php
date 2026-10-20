@@ -44,7 +44,7 @@ final class FormNNameNode extends StatementNode
 				: '(is_object($ʟ_tmp = %node) ? $ʟ_tmp : $this->global->uiControl[$ʟ_tmp])')
 			. ', global: $this->global) %line;'
 			. '%node '
-			. '$this->global->forms->end();',
+			. '$form = $this->global->forms->end() ?? $form;',
 			$this->name,
 			$this->position,
 			$this->content,

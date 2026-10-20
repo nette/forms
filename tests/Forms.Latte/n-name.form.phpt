@@ -19,7 +19,7 @@ Assert::match(
 				echo '>';
 				echo $this->global->forms->renderFormEnd(false) /* pos 1:7 */;
 				echo '</form>';
-				$this->global->forms->end();
+				$form = $this->global->forms->end() ?? $form;
 		%A%
 		XX,
 	$latte->compile('<form n:name="foo"></form>'),
@@ -40,7 +40,7 @@ Assert::match(
 				$ʟ_tags[0] = $ʟ_tag;
 				echo $this->global->forms->renderFormEnd(false) /* pos 1:18 */;
 				echo $ʟ_tags[0];
-				$this->global->forms->end();
+				$form = $this->global->forms->end() ?? $form;
 		%A%
 		XX,
 	$latte->compile('<form n:tag-if=0 n:name="foo"></form>'),

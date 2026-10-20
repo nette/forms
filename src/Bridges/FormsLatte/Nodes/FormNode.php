@@ -87,7 +87,7 @@ class FormNode extends StatementNode
 				self::ModeDetached => $renderBegin . $renderEnd . ' %3.node ',
 				default => $renderBegin . ' %3.node ' . $renderEnd,
 			})
-			. '$this->global->forms->end();'
+			. '$form = $this->global->forms->end() ?? $form;'
 			. "\n\n",
 			$this->name,
 			$this->position,

@@ -10,7 +10,7 @@ namespace Nette\Bridges\FormsLatte;
 use Nette;
 use Nette\Forms\{Container, Control, Form};
 use Nette\Utils\Html;
-use function is_object;
+use function count, is_object;
 
 
 /**
@@ -24,6 +24,9 @@ class Runtime
 
 	/** @var list<?string>  parallel to $stack; non-null element = id of a detached form */
 	private array $detachedIds = [];
+
+	/** @var list<bool>  parallel to $stack; true = scope the template's $form variable was bound to */
+	private array $formBindings = [];
 
 
 	/**
@@ -107,13 +110,14 @@ class Runtime
 	}
 
 
-	public function begin(Container $form, bool $detached = false, ?\stdClass $global = null): void
+	public function begin(Container $form, bool $detached = false, ?\stdClass $global = null, bool $bindsForm = true): void
 	{
 		if ($global !== null) {
 			$global->formsStack = &$this->stack; // BC alias for the removed formsStack provider
 		}
 
 		$this->stack[] = $form;
+		$this->formBindings[] = $bindsForm;
 
 		if ($form instanceof Form) {
 			$form->fireRenderEvents();
@@ -137,10 +141,19 @@ class Runtime
 	}
 
 
-	public function end(): void
+	/** Closes the current scope and returns the nearest enclosing scope bound to $form, if any. */
+	public function end(): ?Container
 	{
 		array_pop($this->stack);
 		array_pop($this->detachedIds);
+		array_pop($this->formBindings);
+		for ($i = count($this->stack) - 1; $i >= 0; $i--) {
+			if ($this->formBindings[$i]) {
+				return $this->stack[$i];
+			}
+		}
+
+		return null;
 	}
 
 

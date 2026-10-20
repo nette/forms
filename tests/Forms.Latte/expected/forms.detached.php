@@ -18,7 +18,7 @@
 		echo '
 	</div>
 ';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -32,7 +32,7 @@
 		echo $this->global->forms->get('name')->getControl() /* pos 18:7 */;
 		echo '</div>
 ';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 
 		echo '
 
@@ -54,5 +54,5 @@
 		echo '
 	</div>
 ';
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 %A%

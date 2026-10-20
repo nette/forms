@@ -12,7 +12,7 @@
 		echo '</td>
 	</tr>
 ';
-		$this->global->forms->begin($formContainer = $this->global->forms->get('cont1', Nette\Forms\Container::class)) /* pos %d%:2 */;
+		$this->global->forms->begin($formContainer = $this->global->forms->get('cont1', Nette\Forms\Container::class), bindsForm: false) /* pos %d%:2 */;
 		echo '	<tr>
 		<th>';
 		echo ($ʟ_label = $this->global->forms->get('input2')->getLabel()) /* pos %d%:7 */;
@@ -33,7 +33,7 @@
 		<th>Checkboxes</th>
 		<td>
 ';
-		$this->global->forms->begin($formContainer = $this->global->forms->get('cont2', Nette\Forms\Container::class)) /* pos %d%:8 */;
+		$this->global->forms->begin($formContainer = $this->global->forms->get('cont2', Nette\Forms\Container::class), bindsForm: false) /* pos %d%:8 */;
 		echo '			<ol>
 ';
 		foreach ($formContainer->controls as $name => $field) /* pos %d%:32 */ {
@@ -63,7 +63,7 @@
 
 		$this->global->forms->end();
 		$formContainer = $this->global->forms->getScope();
-		$this->global->forms->begin($formContainer = $this->global->forms->get('items', Nette\Forms\Container::class)) /* pos %d%:2 */;
+		$this->global->forms->begin($formContainer = $this->global->forms->get('items', Nette\Forms\Container::class), bindsForm: false) /* pos %d%:2 */;
 		echo '	<tr>
 		<th>Items</th>
 		<td>
@@ -71,7 +71,7 @@
 		$items = [1, 2, 3] /* pos %d%:3 */;
 		foreach ($items as $item) /* pos %d%:3 */ {
 			if (!isset($formContainer[$item])) /* pos %d%:4 */ continue;
-			$this->global->forms->begin($formContainer = $this->global->forms->get($item, Nette\Forms\Container::class)) /* pos %d%:4 */;
+			$this->global->forms->begin($formContainer = $this->global->forms->get($item, Nette\Forms\Container::class), bindsForm: false) /* pos %d%:4 */;
 			echo '				';
 			echo $this->global->forms->get('input')->getControl() /* pos %d%:5 */;
 			echo "\n";
@@ -98,5 +98,5 @@
 </table>
 ';
 		echo $this->global->forms->renderFormEnd() /* pos %d%:1 */;
-		$this->global->forms->end();
+		$form = $this->global->forms->end() ?? $form;
 %A%

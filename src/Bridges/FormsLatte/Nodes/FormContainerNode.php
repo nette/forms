@@ -39,7 +39,7 @@ class FormContainerNode extends StatementNode
 	{
 		return $context->format(
 			<<<'XX'
-				$this->global->forms->begin($formContainer = $this->global->forms->get(%node, Nette\Forms\Container::class)) %line;
+				$this->global->forms->begin($formContainer = $this->global->forms->get(%node, Nette\Forms\Container::class), bindsForm: false) %line;
 				%node
 				$this->global->forms->end(); $formContainer = $this->global->forms->getScope();
 
