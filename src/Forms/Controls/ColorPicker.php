@@ -31,7 +31,7 @@ class ColorPicker extends BaseControl
 	{
 		if ($value === null) {
 			$this->value = '#000000';
-		} elseif (is_string($value) && preg_match('~#?[0-9a-f]{6}~Ai', $value)) {
+		} elseif (is_string($value) && preg_match('~#?[0-9a-f]{6}\z~Ai', $value)) {
 			$this->value = '#' . strtolower(ltrim($value, '#'));
 		} else {
 			throw new Nette\InvalidArgumentException('Color must have #rrggbb format.');
