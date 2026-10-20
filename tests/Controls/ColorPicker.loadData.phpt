@@ -51,3 +51,20 @@ test('valid color value handling', function () {
 	Assert::same('#1020aa', $input->getValue());
 	Assert::true($input->isFilled());
 });
+
+
+test('too long values are rejected, not truncated', function () {
+	$_POST = ['color' => '#336699ff'];
+
+	$form = new Form;
+	$form->allowCrossOrigin();
+	$input = $form->addColor('color');
+
+	Assert::same('#000000', $input->getValue());
+
+	Assert::exception(
+		fn() => $input->setValue('1234567'),
+		Nette\InvalidArgumentException::class,
+		'Color must have #rrggbb format.',
+	);
+});
