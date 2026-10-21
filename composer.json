@@ -1,17 +1,13 @@
 {
 	"name": "nette/forms",
-	"description": "📝 Nette Forms: generating, validating and processing secure forms in PHP. Handy API, fully customizable, server & client side validation and mature design.",
-	"keywords": ["nette", "forms", "validation", "csrf", "javascript", "bootstrap"],
-	"homepage": "https://nette.org",
+	"description": "📝 Nette Forms: secure forms with one set of validation rules for server and browser, CSRF protection, and rendering done automatically or by hand in Latte.",
+	"keywords": ["nette", "forms", "form validation", "form builder", "client-side validation", "csrf"],
+	"homepage": "https://doc.nette.org/forms",
 	"license": ["BSD-3-Clause", "GPL-2.0-only", "GPL-3.0-only"],
 	"authors": [
 		{
 			"name": "David Grudl",
 			"homepage": "https://davidgrudl.com"
-		},
-		{
-			"name": "Nette Community",
-			"homepage": "https://nette.org/contributors"
 		}
 	],
 	"require": {
