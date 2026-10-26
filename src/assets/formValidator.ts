@@ -287,6 +287,10 @@ export class FormValidator {
 		method = method.replace('::', '_').replaceAll('\\', '');
 
 		let args = Array.isArray(arg) ? arg : [arg];
+		if (args.some((arg) => arg?.control && !this.#getFormElement(elem.form, arg.control))) {
+			return null; // the referenced control is not rendered
+		}
+
 		args = args.map((arg) => {
 			if (arg?.control) {
 				let control = this.#getFormElement(elem.form, arg.control)!;

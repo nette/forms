@@ -48,22 +48,26 @@ export class Validators {
 	}
 
 	minLength(elem: FormElement, arg: number, val: string | number | unknown[]): boolean {
-		val = typeof val === 'number' ? val.toString() : val;
-		return val.length >= arg;
+		return Validators.lengthOf(val) >= arg;
 	}
 
 	maxLength(elem: FormElement, arg: number, val: string | number | unknown[]): boolean {
-		val = typeof val === 'number' ? val.toString() : val;
-		return val.length <= arg;
+		return Validators.lengthOf(val) <= arg;
 	}
 
 	length(elem: FormElement, arg: number | [number | null, number | null], val: string | number | unknown[]): boolean {
-		val = typeof val === 'number' ? val.toString() : val;
 		arg = Array.isArray(arg) ? arg : [arg, arg];
+		let len = Validators.lengthOf(val);
 		return (
-			(arg[0] === null || val.length >= arg[0])
-			&& (arg[1] === null || val.length <= arg[1])
+			(arg[0] === null || len >= arg[0])
+			&& (arg[1] === null || len <= arg[1])
 		);
+	}
+
+	// strings are measured in code points to match the server-side Strings::length()
+	private static lengthOf(val: string | number | unknown[]): number {
+		val = typeof val === 'number' ? val.toString() : val;
+		return typeof val === 'string' ? [...val].length : val.length;
 	}
 
 	email(elem: FormElement, arg: undefined, val: string): boolean {
@@ -74,7 +78,7 @@ export class Validators {
 		if (!(/^[a-z\d+.-]+:/).test(val)) {
 			val = 'https://' + val;
 		}
-		if ((/^https?:\/\/((([-_0-9a-z\u00C0-\u02FF\u0370-\u1EFF]+\.)*[0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)?[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[[0-9a-f:]{3,39}\])(:\d{1,5})?(\/\S*)?$/i).test(val)) {
+		if ((/^https?:\/\/((([-_0-9a-z\u00C0-\u02FF\u0370-\u1EFF]+\.)*[0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)?[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[[0-9a-f:]{3,39}\])(:\d{1,5})?(\/\S*)?(\?\S*)?(#\S*)?$/i).test(val)) {
 			newValue.value = val;
 			return true;
 		}
@@ -143,17 +147,24 @@ export class Validators {
 	}
 
 	min(elem: FormElement, arg: string | number, val: string | number): boolean {
-		if (Number.isFinite(arg)) {
-			val = parseFloat(val as string);
-		}
+		[val, arg] = Validators.toComparable(val, arg);
 		return val >= arg;
 	}
 
 	max(elem: FormElement, arg: string | number, val: string | number): boolean {
-		if (Number.isFinite(arg)) {
-			val = parseFloat(val as string);
-		}
+		[val, arg] = Validators.toComparable(val, arg);
 		return val <= arg;
+	}
+
+	// if either side is numeric (a bound referencing another control arrives as a string),
+	// both compare as numbers and a partially numeric value fails; otherwise as strings (dates, times)
+	private static toComparable(a: string | number, b: string | number): [string | number, string | number] {
+		let isNumeric = (v: string | number) => typeof v === 'number'
+			|| (/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/).test(v);
+		let toNumber = (v: string | number) => isNumeric(v) ? parseFloat(v as string) : NaN;
+		return isNumeric(a) || isNumeric(b)
+			? [toNumber(a), toNumber(b)]
+			: [String(a), String(b)];
 	}
 
 	range(elem: FormElement, arg: [string | number | null, string | number | null], val: string | number): boolean | null {
@@ -183,7 +194,7 @@ export class Validators {
 	}
 
 	image(elem: FormElement, arg: string | string[] | undefined, val: FileList): boolean {
-		return this.mimeType(elem, arg ?? ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
+		return this.mimeType(elem, arg ?? ['image/gif', 'image/png', 'image/jpeg', 'image/webp', 'image/avif'], val);
 	}
 
 	static(elem: FormElement, arg: unknown): unknown {

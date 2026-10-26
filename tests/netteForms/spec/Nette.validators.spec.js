@@ -35,6 +35,12 @@ describe('Nette.validators', () => {
 		expect(Nette.validators.min(null, 0, -1)).toBe(false);
 		expect(Nette.validators.min(null, '2023-10-29', '2023-10-30')).toBe(true);
 		expect(Nette.validators.min(null, '2023-10-29', '2023-10-28')).toBe(false);
+		// a numeric bound arriving as a string (reference to another control) compares numerically
+		expect(Nette.validators.min(null, '9', '10')).toBe(true);
+		expect(Nette.validators.min(null, '10', '9')).toBe(false);
+		// partially numeric garbage must not pass via prefix parsing, the server rejects it
+		expect(Nette.validators.min(null, '5', '10 pieces')).toBe(false);
+		expect(Nette.validators.min(null, 5, '10 pieces')).toBe(false);
 	});
 
 
@@ -49,6 +55,19 @@ describe('Nette.validators', () => {
 		expect(Nette.validators.max(null, 0, -1)).toBe(true);
 		expect(Nette.validators.max(null, '2023-10-29', '2023-10-30')).toBe(false);
 		expect(Nette.validators.max(null, '2023-10-29', '2023-10-28')).toBe(true);
+		expect(Nette.validators.max(null, '10', '9')).toBe(true);
+		expect(Nette.validators.max(null, '9', '10')).toBe(false);
+		expect(Nette.validators.max(null, '50', '10 pieces')).toBe(false);
+	});
+
+
+	it('length counts code points like the server side', () => {
+		expect(Nette.validators.maxLength(null, 2, '😀😀')).toBe(true);
+		expect(Nette.validators.maxLength(null, 1, '😀😀')).toBe(false);
+		expect(Nette.validators.minLength(null, 2, '😀😀')).toBe(true);
+		expect(Nette.validators.minLength(null, 3, '😀😀')).toBe(false);
+		expect(Nette.validators.length(null, 2, '😀😀')).toBe(true);
+		expect(Nette.validators.length(null, [1, 3], ['a', 'b'])).toBe(true); // arrays count items
 	});
 
 
@@ -117,6 +136,10 @@ describe('Nette.validators', () => {
 		expect(Nette.validators.url(null, null, 'http://one_two.example.com', v)).toBe(true);
 		expect(Nette.validators.url(null, null, 'http://_.example.com', v)).toBe(true);
 		expect(Nette.validators.url(null, null, 'http://_e_.example.com', v)).toBe(true);
+		// query and fragment without a path, like Validators::isUrl() on the server
+		expect(Nette.validators.url(null, null, 'https://nette.org?a=1', v)).toBe(true);
+		expect(Nette.validators.url(null, null, 'https://nette.org#top', v)).toBe(true);
+		expect(Nette.validators.url(null, null, 'https://nette.org/path?a=1#top', v)).toBe(true);
 	});
 
 

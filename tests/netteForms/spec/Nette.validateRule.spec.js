@@ -67,7 +67,8 @@ describe('Nette.getValue & validateRule', () => {
 		expect(Nette.validateRule(el, 'max', -2000)).toBe(false);
 		expect(Nette.validateRule(el, 'max', -1000)).toBe(true);
 		expect(Nette.validateRule(el, 'range', [-2000, -1000])).toBe(true);
-		expect(Nette.validateRule(el, 'range', ['-1200', '-1300'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-1300', '-1200'])).toBe(true); // string bounds compare numerically, like on the server
+		expect(Nette.validateRule(el, 'range', ['-1200', '-1300'])).toBe(false);
 		expect(Nette.validateRule(el, 'range', [10, null])).toBe(false);
 
 		el.value = '-12.5';
@@ -78,7 +79,8 @@ describe('Nette.getValue & validateRule', () => {
 		expect(Nette.validateRule(el, 'max', -2000)).toBe(false);
 		expect(Nette.validateRule(el, 'max', -10)).toBe(true);
 		expect(Nette.validateRule(el, 'range', [-12.6, -12.4])).toBe(true);
-		expect(Nette.validateRule(el, 'range', ['-12.4', '-12.6'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-12.6', '-12.4'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-12.4', '-12.6'])).toBe(false);
 		expect(Nette.validateRule(el, 'range', [-5, 10])).toBe(false);
 	});
 
@@ -126,7 +128,8 @@ describe('Nette.getValue & validateRule', () => {
 		expect(Nette.validateRule(el, 'max', -2000)).toBe(false);
 		expect(Nette.validateRule(el, 'max', -1000)).toBe(true);
 		expect(Nette.validateRule(el, 'range', [-2000, -1000])).toBe(true);
-		expect(Nette.validateRule(el, 'range', ['-1200', '-1300'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-1300', '-1200'])).toBe(true); // string bounds compare numerically, like on the server
+		expect(Nette.validateRule(el, 'range', ['-1200', '-1300'])).toBe(false);
 		expect(Nette.validateRule(el, 'range', [10, null])).toBe(false);
 
 		el.value = -12.5;
@@ -137,7 +140,8 @@ describe('Nette.getValue & validateRule', () => {
 		expect(Nette.validateRule(el, 'max', -2000)).toBe(false);
 		expect(Nette.validateRule(el, 'max', -10)).toBe(true);
 		expect(Nette.validateRule(el, 'range', [-12.6, -12.4])).toBe(true);
-		expect(Nette.validateRule(el, 'range', ['-12.4', '-12.6'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-12.6', '-12.4'])).toBe(true);
+		expect(Nette.validateRule(el, 'range', ['-12.4', '-12.6'])).toBe(false);
 		expect(Nette.validateRule(el, 'range', [-5, 10])).toBe(false);
 	});
 
@@ -388,6 +392,16 @@ describe('Nette.getValue & validateRule', () => {
 		expect(Nette.getValue(el)).toEqual('');
 		el.value = ' hello ';
 		expect(Nette.getValue(el)).toBe('hello');
+	});
+
+
+	it('rule referencing a control that is not rendered', () => {
+		testContainer.innerHTML = '<form><input name="input" value="hello"></form>';
+
+		let form = testContainer.querySelector('form'),
+			el = form.elements[0];
+
+		expect(Nette.validateRule(el, 'equal', { control: 'missing' })).toBe(null);
 	});
 
 
