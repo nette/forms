@@ -138,9 +138,12 @@ export class FormValidator {
 				}
 				if (!onlyCheck) {
 					let arr = Array.isArray(rule.arg) ? rule.arg : [rule.arg],
+						toDisplay = (val: FormElementValue | undefined): string => val instanceof FileList
+							? Array.from(val, (file) => file.name).join(', ')
+							: val as string,
 						message = rule.msg.replace(
 							/%(value|\d+)/g,
-							(foo, m) => this.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control) as FormElement | RadioNodeList) as string,
+							(foo, m) => toDisplay(this.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control) as FormElement | RadioNodeList)),
 						);
 					this.addError(curElem, message);
 				}
