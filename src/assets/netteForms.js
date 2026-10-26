@@ -50,18 +50,21 @@
 			return arg === undefined ? null : !this.equal(elem, arg, val);
 		}
 		minLength(elem, arg, val) {
-			val = typeof val === 'number' ? val.toString() : val;
-			return val.length >= arg;
+			return Validators.lengthOf(val) >= arg;
 		}
 		maxLength(elem, arg, val) {
-			val = typeof val === 'number' ? val.toString() : val;
-			return val.length <= arg;
+			return Validators.lengthOf(val) <= arg;
 		}
 		length(elem, arg, val) {
-			val = typeof val === 'number' ? val.toString() : val;
 			arg = Array.isArray(arg) ? arg : [arg, arg];
-			return ((arg[0] === null || val.length >= arg[0])
-				&& (arg[1] === null || val.length <= arg[1]));
+			let len = Validators.lengthOf(val);
+			return ((arg[0] === null || len >= arg[0])
+				&& (arg[1] === null || len <= arg[1]));
+		}
+		// strings are measured in code points to match the server-side Strings::length()
+		static lengthOf(val) {
+			val = typeof val === 'number' ? val.toString() : val;
+			return typeof val === 'string' ? [...val].length : val.length;
 		}
 		email(elem, arg, val) {
 			return (/^("([ !#-[\]-~]|\\[ -~])+"|[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*)@([0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)+[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?$/i).test(val);
@@ -70,7 +73,7 @@
 			if (!(/^[a-z\d+.-]+:/).test(val)) {
 				val = 'https://' + val;
 			}
-			if ((/^https?:\/\/((([-_0-9a-z\u00C0-\u02FF\u0370-\u1EFF]+\.)*[0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)?[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[[0-9a-f:]{3,39}\])(:\d{1,5})?(\/\S*)?$/i).test(val)) {
+			if ((/^https?:\/\/((([-_0-9a-z\u00C0-\u02FF\u0370-\u1EFF]+\.)*[0-9a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,61}[0-9a-z\u00C0-\u02FF\u0370-\u1EFF])?\.)?[a-z\u00C0-\u02FF\u0370-\u1EFF]([-0-9a-z\u00C0-\u02FF\u0370-\u1EFF]{0,17}[a-z\u00C0-\u02FF\u0370-\u1EFF])?|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|\[[0-9a-f:]{3,39}\])(:\d{1,5})?(\/\S*)?(\?\S*)?(#\S*)?$/i).test(val)) {
 				newValue.value = val;
 				return true;
 			}
@@ -127,16 +130,22 @@
 			return false;
 		}
 		min(elem, arg, val) {
-			if (Number.isFinite(arg)) {
-				val = parseFloat(val);
-			}
+			[val, arg] = Validators.toComparable(val, arg);
 			return val >= arg;
 		}
 		max(elem, arg, val) {
-			if (Number.isFinite(arg)) {
-				val = parseFloat(val);
-			}
+			[val, arg] = Validators.toComparable(val, arg);
 			return val <= arg;
+		}
+		// if either side is numeric (a bound referencing another control arrives as a string),
+		// both compare as numbers and a partially numeric value fails; otherwise as strings (dates, times)
+		static toComparable(a, b) {
+			let isNumeric = (v) => typeof v === 'number'
+				|| (/^[+-]?([0-9]+\.?[0-9]*|\.[0-9]+)$/).test(v);
+			let toNumber = (v) => isNumeric(v) ? parseFloat(v) : NaN;
+			return isNumeric(a) || isNumeric(b)
+				? [toNumber(a), toNumber(b)]
+				: [String(a), String(b)];
 		}
 		range(elem, arg, val) {
 			if (!Array.isArray(arg)) {
@@ -162,7 +171,7 @@
 			return Array.from(val).every((file) => !file.type || re.test(file.type));
 		}
 		image(elem, arg, val) {
-			return this.mimeType(elem, arg ?? ['image/gif', 'image/png', 'image/jpeg', 'image/webp'], val);
+			return this.mimeType(elem, arg ?? ['image/gif', 'image/png', 'image/jpeg', 'image/webp', 'image/avif'], val);
 		}
 		static(elem, arg) {
 			return arg;
@@ -285,7 +294,9 @@
 						continue;
 					}
 					if (!onlyCheck) {
-						let arr = Array.isArray(rule.arg) ? rule.arg : [rule.arg], message = rule.msg.replace(/%(value|\d+)/g, (foo, m) => this.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control)));
+						let arr = Array.isArray(rule.arg) ? rule.arg : [rule.arg], toDisplay = (val) => val instanceof FileList
+							? Array.from(val, (file) => file.name).join(', ')
+							: val, message = rule.msg.replace(/%(value|\d+)/g, (foo, m) => toDisplay(this.getValue(m === 'value' ? curElem : elem.form.elements.namedItem(arr[m].control))));
 						this.addError(curElem, message);
 					}
 					return false;
@@ -399,6 +410,9 @@
 			let method = op.charAt(0) === ':' ? op.substring(1) : op;
 			method = method.replace('::', '_').replaceAll('\\', '');
 			let args = Array.isArray(arg) ? arg : [arg];
+			if (args.some((arg) => arg?.control && !this.#getFormElement(elem.form, arg.control))) {
+				return null; // the referenced control is not rendered
+			}
 			args = args.map((arg) => {
 				if (arg?.control) {
 					let control = this.#getFormElement(elem.form, arg.control);
@@ -552,7 +566,7 @@
 		return res.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 	}
 
-	var version = "3.5.3";
+	var version = "3.5.4";
 
 	let nette = new FormValidator;
 	nette.version = version;
