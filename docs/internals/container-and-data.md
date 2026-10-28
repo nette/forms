@@ -56,9 +56,10 @@ how "which button submitted" is known.
 if there are no errors yet; then `$submittedBy->onClick`/`onInvalidClick` (for a
 `SubmitButton`), then `onSuccess` (if valid), then `onError` (if invalid), then
 always `onSubmit`; a warning fires if nothing was handled. `invokeHandlers`
-inspects each handler's first parameter type by reflection to pass `$form` / the
-button / `getValues($type)` (a second parameter, if present, always gets
-`getValues`), and **stops the chain the moment a handler invalidates the form**.
+inspects the types of each handler's first two parameters by reflection
+(`Container::resolveHandlerArguments()`, shared with `onValidate`) to pass `$form` /
+the button / `getValues($type)` in whichever order they are declared, and **stops
+the chain the moment a handler invalidates the form**.
 
 `Form::validate()` (override) pulls the validation scope from the clicked
 `SubmitterControl`, runs `validateMaxPostSize()` (a form-level error when
