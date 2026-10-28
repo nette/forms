@@ -4,7 +4,7 @@ The TypeScript sources in `src/assets/` re-implement the server's rule evaluatio
 in the browser. `formValidator.ts` is the engine (`FormValidator` class:
 evaluation, toggles, form wiring), `validators.ts` holds the rule twins
 (`Validators` class, one method per op), `index.umd.ts` glues them into the
-exported `Nette` object (plus `version` and `webalize`). The Rollup build's
+exported `Nette` object (plus `version`). The Rollup build's
 `fix()` plugin rewrites the UMD banner so the built file **auto-runs
 `initOnLoad()`** unless the page pre-sets `Nette = {noInit: true}`.
 
