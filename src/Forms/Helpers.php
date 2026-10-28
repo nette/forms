@@ -11,7 +11,8 @@ use Nette;
 use Nette\Utils\Html;
 use Nette\Utils\Image;
 use Nette\Utils\Strings;
-use function array_fill_keys, array_map, array_values, explode, html_entity_decode, htmlspecialchars, in_array, ini_get, is_a, is_array, is_numeric, is_scalar, is_string, str_ends_with, str_replace, strip_tags, strpos, strtolower, strtr, substr, substr_replace;
+use function is_array, is_scalar, is_string;
+use const ENT_HTML5, ENT_QUOTES;
 
 
 /**
@@ -100,7 +101,7 @@ final class Helpers
 			$name = substr_replace($name, '', $pos, 1) . ']';
 		}
 
-		if (is_numeric($name) || in_array($name, self::UnsafeNames, strict: true)) {
+		if (is_numeric($name) || in_array($name, self::UnsafeNames, true)) {
 			$name = '_' . $name;
 		}
 

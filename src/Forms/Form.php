@@ -11,8 +11,7 @@ use Nette;
 use Nette\Utils\Arrays;
 use Nette\Utils\Html;
 use Stringable;
-use function array_key_first, array_merge, array_search, array_unique, count, headers_sent, in_array, is_array, is_scalar, is_string, sprintf, strcasecmp, strtolower;
-use const PHP_SAPI;
+use function count, in_array, is_array, is_scalar, is_string;
 
 
 /**
@@ -342,7 +341,7 @@ class Form extends Container implements Nette\HtmlStringable
 		if (is_string($name) && isset($this->groups[$name])) {
 			$group = $this->groups[$name];
 
-		} elseif ($name instanceof ControlGroup && in_array($name, $this->groups, strict: true)) {
+		} elseif ($name instanceof ControlGroup && in_array($name, $this->groups, true)) {
 			$group = $name;
 			$name = array_search($group, $this->groups, strict: true);
 
@@ -753,7 +752,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 		self::$defaultHttpRequest = (new Nette\Http\RequestFactory)->fromGlobals();
 
-		if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], strict: true)) {
+		if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
 			if (headers_sent($file, $line)) {
 				throw new Nette\InvalidStateException(
 					'Create a form or call Nette\Forms\Form::initialize() before the headers are sent to initialize CSRF protection.'

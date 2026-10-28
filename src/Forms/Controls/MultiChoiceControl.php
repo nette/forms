@@ -8,7 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use function array_combine, array_diff, array_fill_keys, array_flip, array_keys, array_map, count, get_debug_type, implode, is_array, is_scalar, sprintf, var_export;
+use function count, is_array, is_scalar, sprintf;
 
 
 /**
