@@ -51,7 +51,7 @@ class CsrfProtection extends HiddenField
 	/**
 	 * @internal
 	 */
-	public function setValue($value): static
+	public function setValue(mixed $value): static
 	{
 		return $this;
 	}
