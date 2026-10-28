@@ -24,7 +24,9 @@ use function array_key_exists, func_get_args, is_object;
  */
 class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 {
-	use Nette\SmartObject;
+	use Nette\SmartObject {
+		__call as private callEvent;
+	}
 	use Nette\ComponentModel\ArrayAccess;
 
 	public const Array = 'array';
@@ -633,7 +635,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 			return (self::$extMethods[$name])($this, ...$args);
 		}
 
-		Nette\Utils\ObjectHelpers::strictCall(static::class, $name);
+		return $this->callEvent($name, $args);
 	}
 
 
