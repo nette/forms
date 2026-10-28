@@ -160,7 +160,7 @@ export class FormValidator {
 	 */
 	validateForm(sender: HTMLFormElement | FormElement, onlyCheck: boolean = false): boolean {
 		let form: HTMLFormElement = sender.form ?? sender,
-			scope;
+			scope: RegExp | undefined;
 
 		this.formErrors = [];
 
@@ -174,16 +174,20 @@ export class FormValidator {
 			}
 		}
 
+		let inScope = (elem: FormElement) => !scope || scope.test(elem.name.replace(/]\[|\[|]|$/g, '-'));
+
 		for (let elem of form.elements as any as FormElement[]) {
-			if (elem.willValidate && elem.validity.badInput) {
-				elem.reportValidity();
+			if (elem.willValidate && elem.validity.badInput && inScope(elem)) {
+				if (!onlyCheck) {
+					elem.reportValidity();
+				}
 				return false;
 			}
 		}
 
 		for (let elem of form.elements as any as FormElement[]) {
 			if (elem.getAttribute('data-nette-rules')
-				&& (!scope || elem.name.replace(/]\[|\[|]|$/g, '-').match(scope))
+				&& inScope(elem)
 				&& !this.isDisabled(elem)
 				&& !this.validateControl(elem, undefined, onlyCheck)
 				&& !this.formErrors.length

@@ -39,11 +39,11 @@ rules with a `{value}` **ref object**; normalizing validators (`url`, `integer`,
 Forms without any `data-nette-rules` element are left alone. Otherwise the
 engine computes initial toggles and — unless the form already had `novalidate` —
 sets `form.noValidate = true` (taking over from HTML5) and installs a `submit`
-handler that cancels submission on failure. `validateForm()` first lets the
-browser report any `badInput` element (`reportValidity`), then walks elements
-with rules; a sender with `formnovalidate` narrows validation via a **regex
-built from `data-nette-validation-scope`** matched against the rewritten control
-name (`a[b][c]` → `a-b-c-`). Errors accumulate in `formErrors` and are shown at
+handler that cancels submission on failure. `validateForm()` first fails on any
+`badInput` element (letting the browser report it via `reportValidity`, except in
+`onlyCheck` mode), then walks elements with rules; a sender with `formnovalidate`
+narrows both passes via a **regex built from `data-nette-validation-scope`**
+matched against the rewritten control name (`a[b][c]` → `a-b-c-`). Errors accumulate in `formErrors` and are shown at
 the end in a `<dialog>` modal (fallback `alert`), focusing the first offender.
 `reset` re-runs toggles; a GET form with `data-nette-compact` compacts
 checkbox-list values into one comma-joined field via the `formdata` event.
