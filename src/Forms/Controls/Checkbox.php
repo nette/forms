@@ -34,7 +34,7 @@ class Checkbox extends BaseControl
 	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue(mixed $value)
 	{
 		if (!is_scalar($value) && $value !== null) {
 			throw new Nette\InvalidArgumentException(sprintf(

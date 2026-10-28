@@ -46,7 +46,7 @@ abstract class MultiChoiceControl extends BaseControl
 	 * @return static
 	 * @internal
 	 */
-	public function setValue($values)
+	public function setValue(mixed $values)
 	{
 		if (is_scalar($values) || $values === null) {
 			$values = (array) $values;
