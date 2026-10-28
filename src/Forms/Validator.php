@@ -160,7 +160,7 @@ final class Validator
 	/**
 	 * Checks whether the control is filled.
 	 */
-	public static function validateFilled(Controls\BaseControl $control): bool
+	public static function validateFilled(Control $control): bool
 	{
 		return $control->isFilled();
 	}
@@ -169,7 +169,7 @@ final class Validator
 	/**
 	 * Checks whether the control is not filled.
 	 */
-	public static function validateBlank(Controls\BaseControl $control): bool
+	public static function validateBlank(Control $control): bool
 	{
 		return !$control->isFilled();
 	}
@@ -178,7 +178,7 @@ final class Validator
 	/**
 	 * Checks whether the control passes all its validation rules (used in conditions).
 	 */
-	public static function validateValid(Controls\BaseControl $control): bool
+	public static function validateValid(Control $control): bool
 	{
 		return $control->getRules()->validate();
 	}
