@@ -19,7 +19,7 @@ final class Rule
 {
 	public Control $control;
 
-	/** @var (callable(Control, mixed): bool)|string */
+	/** @var (callable(never, never): bool)|string */
 	public mixed $validator;
 	public mixed $arg = null;
 	public bool $isNegative = false;

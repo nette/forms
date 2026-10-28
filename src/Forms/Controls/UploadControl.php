@@ -125,7 +125,7 @@ class UploadControl extends BaseControl
 
 
 	/**
-	 * @param  (callable(Nette\Forms\Control, mixed): bool)|string  $validator
+	 * @param  (callable(never, never): bool)|string  $validator
 	 * @return static
 	 */
 	public function addRule(
