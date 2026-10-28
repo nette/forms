@@ -82,10 +82,17 @@ final class Rules implements \IteratorAggregate
 		$rule = new Rule($this->control, $validator, $arg, $errorMessage, $isNegative);
 		if ($rule->checksFilled()) {
 			$this->required = $rule;
-		} else {
-			$this->rules[] = $rule;
+			return $this;
 		}
 
+		foreach ($this->rules as $i => $existing) {
+			if (!$existing->branch && $existing->validator === $validator && $existing->arg === $arg) {
+				$this->rules[$i] = $rule; // an identical rule replaces the existing one, e.g. the built-in rule of addEmail()
+				return $this;
+			}
+		}
+
+		$this->rules[] = $rule;
 		return $this;
 	}
 
