@@ -37,7 +37,9 @@ use function is_array;
  */
 abstract class BaseControl extends Nette\ComponentModel\Component implements Control
 {
-	use Nette\SmartObject;
+	use Nette\SmartObject {
+		__call as private callEvent;
+	}
 
 	public static string $idMask = 'frm-%s';
 
@@ -571,7 +573,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 			$class = get_parent_class($class);
 		} while ($class);
 
-		Nette\Utils\ObjectHelpers::strictCall(static::class, $name);
+		return $this->callEvent($name, $args);
 	}
 
 
