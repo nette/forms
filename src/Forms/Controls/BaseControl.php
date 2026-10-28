@@ -221,6 +221,18 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
+	/**
+	 * Sets the value and disables the control, so it ignores submitted data and its value stays among
+	 * the form values. The code can still change it: setDefaults() overwrites it and Form::reset() clears it.
+	 */
+	public function setFixedValue(mixed $value): static
+	{
+		return $this->setDisabled()
+			->setOmitted(false)
+			->setValue($value);
+	}
+
+
 	/********************* rendering ****************d*g**/
 
 
