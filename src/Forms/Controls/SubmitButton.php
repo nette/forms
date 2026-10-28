@@ -8,8 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use Nette\Forms\Container;
-use Nette\Forms\Control;
+use Nette\Forms\{Container, Control};
 use Stringable;
 use function is_string;
 

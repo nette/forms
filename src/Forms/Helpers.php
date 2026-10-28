@@ -8,9 +8,7 @@
 namespace Nette\Forms;
 
 use Nette;
-use Nette\Utils\Html;
-use Nette\Utils\Image;
-use Nette\Utils\Strings;
+use Nette\Utils\{Html, Image, Strings};
 use function is_array, is_scalar, is_string;
 use const ENT_HTML5, ENT_QUOTES;
 

@@ -5,8 +5,7 @@
  * Run: vendor/bin/phpstan analyse tests/types
  */
 
-use Nette\Forms\Container;
-use Nette\Forms\Form;
+use Nette\Forms\{Container, Form};
 use Nette\Utils\ArrayHash;
 use function PHPStan\Testing\assertType;
 

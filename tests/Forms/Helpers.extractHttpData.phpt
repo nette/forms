@@ -4,8 +4,7 @@
  * Test: Nette\Forms\Helpers::extractHttpData()
  */
 
-use Nette\Forms\Form;
-use Nette\Forms\Helpers;
+use Nette\Forms\{Form, Helpers};
 use Tester\Assert;
 
 

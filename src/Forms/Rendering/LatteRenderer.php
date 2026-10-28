@@ -7,8 +7,7 @@
 
 namespace Nette\Forms\Rendering;
 
-use Nette\Forms\Blueprint;
-use Nette\Forms\Form;
+use Nette\Forms\{Blueprint, Form};
 
 
 /**

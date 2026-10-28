@@ -8,10 +8,8 @@
 namespace Nette\Bridges\FormsLatte;
 
 use Latte;
-use Latte\CompileException;
-use Latte\MacroNode;
+use Latte\{CompileException, MacroNode, PhpWriter};
 use Latte\Macros\MacroSet;
-use Latte\PhpWriter;
 
 
 /**
