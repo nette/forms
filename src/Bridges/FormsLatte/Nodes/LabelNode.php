@@ -58,8 +58,12 @@ class LabelNode extends StatementNode
 	public function print(PrintContext $context): string
 	{
 		return $context->format(
-			'echo ($ʟ_label = $this->global->forms->get(%node)->'
-			. ($this->part ? 'getLabelPart(%node)' : 'getLabel()')
+			'echo ($ʟ_label = '
+			. match (true) {
+				(bool) $this->part => '$this->global->forms->get(%node)->getLabelPart(%node)',
+				$this->void && !$this->attributes->items => '$this->global->forms->get(%node)->getLabel()',
+				default => '$this->global->forms->getLabelElement(%node)',
+			}
 			. ')'
 			. ($this->attributes->items ? '?->addAttributes(%2.node)' : '')
 			. ($this->void ? ' %3.line;' : '?->startTag() %3.line; %4.node echo $ʟ_label?->endTag() %5.line;'),
