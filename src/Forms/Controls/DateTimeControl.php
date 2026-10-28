@@ -10,7 +10,7 @@ namespace Nette\Forms\Controls;
 use Nette;
 use Nette\Forms\Form;
 use Stringable;
-use function is_int, is_string;
+use function is_array, is_int, is_string;
 
 
 /**
@@ -202,6 +202,22 @@ class DateTimeControl extends BaseControl
 		return $this->type === self::TypeTime && $min > $max
 			? $value >= $min || $value <= $max
 			: $value >= $min && ($max === null || $value <= $max);
+	}
+
+
+	/**
+	 * Checks whether the control's value equals one of the given dates/times in the control's precision.
+	 */
+	public function validateEqual(mixed $expected): bool
+	{
+		$value = $this->normalizeValue($this->value);
+		foreach (is_array($expected) ? $expected : [$expected] as $item) {
+			if ($item !== null && $item !== '' && $this->normalizeValue($item) == $value) { // intentionally ==
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 
