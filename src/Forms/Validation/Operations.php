@@ -26,8 +26,8 @@ final class Operations
 
 	public static function toValidator(string $op, mixed $arg, Control $control): ?Validator
 	{
-		if ($control instanceof DateTimeControl && in_array($op, [Form::Min, Form::Max, Form::Range], true)) {
-			return null; // DateTimeControl has its own range semantics (midnight wrap-around)
+		if ($control instanceof DateTimeControl && in_array($op, [Form::Equal, Form::Min, Form::Max, Form::Range], true)) {
+			return null; // DateTimeControl compares in its own precision, ranges wrap around midnight
 		}
 
 		$isBound = fn(mixed $value): bool => $value === null

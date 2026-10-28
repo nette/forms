@@ -73,12 +73,18 @@ stable message id; the op string is the only key.
 
 ## DateTimeControl is special-cased across the pipeline
 
-Three distant sites test `instanceof DateTimeControl` explicitly and will break
+Four distant sites test `instanceof DateTimeControl` explicitly and will break
 together in a refactor:
 
+- `Validation\Operations::toValidator()` maps no `Equal`/`Min`/`Max`/`Range` on it
+  to a validator object, so these run through the classic validators below.
 - `Validator::validateRange()` bypasses `Validators::isInRange` and delegates to
   `$control->validateMinMax()` — which for a time-only control **wraps around
-  midnight** when min > max (22:00–02:00 is a valid range).
+  midnight** when min > max (22:00–02:00 is a valid range). Likewise
+  `Validator::validateEqual()` delegates to `$control->validateEqual()`; both
+  normalize the expected values to the control's type, so a time compares by the
+  time of day and a date ignores the time part, the same as the client compares
+  the values exported in the input's format.
 - `Validator::formatMessage()` renders rule args via `formatLocaleText()`
   (`IntlDateFormatter`, needs ext-intl) instead of string interpolation.
 - `Helpers::exportArgument()` serializes args for the client via
