@@ -93,6 +93,11 @@ parameters:
 
 		-
 			identifier: missingType.callable
+			path: src/Forms/Container.php
+			count: 1
+
+		-
+			identifier: missingType.callable
 			path: src/Forms/Rules.php
 			count: 1
 
@@ -147,16 +152,12 @@ parameters:
 			# in the public getValues()/getUntrustedValues() API.
 			identifier: argument.templateType
 			message: '#^Unable to resolve the template type T in call to method Nette\\Forms\\Container::(getValues|getUntrustedValues)\(\)$#'
-			paths:
-				- src/Forms/Container.php
-				- src/Forms/Form.php
+			path: src/Forms/Container.php
 
 		-   # Same root cause as argument.templateType above - ?string from reflection cannot
 			# be narrowed to class-string<T> at static analysis time.
 			message: '#^Parameter \#1 \$returnType of method Nette\\Forms\\Container::(getValues|getUntrustedValues)\(\) expects#'
-			paths:
-				- src/Forms/Container.php
-				- src/Forms/Form.php
+			path: src/Forms/Container.php
 
 		-   # Complex template type T cannot be fully tracked through getValues delegation
 			message: '#^Method Nette\\Forms\\Container::getValues\(\) should return#'

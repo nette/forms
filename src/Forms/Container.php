@@ -247,13 +247,34 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		$this->validated = true;
 
 		foreach ($this->onValidate as $handler) {
-			$params = Nette\Utils\Callback::toReflection($handler)->getParameters();
-			$types = array_map(Helpers::getSingleType(...), $params);
-			$args = isset($types[0]) && !$this instanceof $types[0]
-				? [$this->getUntrustedValues($types[0])]
-				: [$this, isset($params[1]) ? $this->getUntrustedValues($types[1]) : null];
-			$handler(...$args);
+			$handler(...$this->resolveHandlerArguments($handler, untrusted: true));
 		}
+	}
+
+
+	/**
+	 * Resolves arguments of an event handler by the types of its first two parameters.
+	 * @return list<mixed>
+	 */
+	protected function resolveHandlerArguments(
+		callable $handler,
+		?SubmitterControl $button = null,
+		bool $untrusted = false,
+	): array
+	{
+		$args = [];
+		foreach (array_slice(Nette\Utils\Callback::toReflection($handler)->getParameters(), 0, 2) as $i => $param) {
+			$type = Helpers::getSingleType($param);
+			$args[] = match (true) {
+				!$type && !$i => $button ?? $this,
+				$type && $this instanceof $type => $this,
+				$type && $button instanceof $type => $button,
+				$untrusted => $this->getUntrustedValues($type),
+				default => $this->getValues($type),
+			};
+		}
+
+		return $args;
 	}
 
 

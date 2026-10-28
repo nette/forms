@@ -75,6 +75,18 @@ $f9 = function (ArrayHash $values) use (&$types) {
 	$types['f9'][] = $values instanceof ArrayHash;
 };
 
+// Test the closure with values first and form second
+$f10 = function (array $values, Form $form) use (&$types) {
+	$types['f10'][] = is_array($values);
+	$types['f10'][] = $form instanceof Form;
+};
+
+// Test the closure with ArrayHash values first and form second
+$f11 = function (ArrayHash $values, Form $form) use (&$types) {
+	$types['f11'][] = $values instanceof ArrayHash;
+	$types['f11'][] = $form instanceof Form;
+};
+
 // Test the closure single parameter without type-hint
 $b3 = function ($form) use (&$types) {
 	$types['b3'][] = $form instanceof SubmitButton;
@@ -90,10 +102,16 @@ $b5 = function (SubmitButton $form) use (&$types) {
 	$types['b5'][] = $form instanceof SubmitButton;
 };
 
+// Test the closure with values first and button second
+$b6 = function (array $values, SubmitButton $button) use (&$types) {
+	$types['b6'][] = is_array($values);
+	$types['b6'][] = $button instanceof SubmitButton;
+};
 
-$form->onSuccess = [$f1, $f2, $f1, $f4, $f5, $f6, $f7, $f8, $f9];
-$form->onValidate = [$f1, $f2, $f1, $f4, $f5, $f6, $f7, $f8, $f9];
-$form['btn']->onClick = [$b1, $b2, $b1, $f4, $f5, $b3, $b4, $b5];
+
+$form->onSuccess = [$f1, $f2, $f1, $f4, $f5, $f6, $f7, $f8, $f9, $f10, $f11];
+$form->onValidate = [$f1, $f2, $f1, $f4, $f5, $f6, $f7, $f8, $f9, $f10, $f11];
+$form['btn']->onClick = [$b1, $b2, $b1, $f4, $f5, $b3, $b4, $b5, $b6];
 $form->fireEvents();
 
 Assert::same([
@@ -103,10 +121,13 @@ Assert::same([
 	'f7' => [true, true],
 	'f8' => [true, true],
 	'f9' => [true, true],
+	'f10' => [true, true, true, true],
+	'f11' => [true, true, true, true],
 	'b1' => [true, true, true, true],
 	'b2' => [true, true],
 	'b3' => [true],
 	'b4' => [true],
 	'b5' => [true],
+	'b6' => [true, true],
 ], $types);
 Assert::same([true, true, true], $arrayHashIsImmutable);
