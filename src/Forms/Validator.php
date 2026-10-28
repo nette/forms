@@ -88,7 +88,7 @@ final class Validator
 					return '';
 
 				case 'value': return $withValue
-					? $rule->control->getValue()
+					? self::formatValue($rule->control, $rule->control->getValue())
 					: $m[0];
 				default:
 					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
@@ -97,7 +97,7 @@ final class Validator
 					if ($arg === null) {
 						return '';
 					} elseif ($arg instanceof Control) {
-						return $withValue ? $args[$i]->getValue() : "%$i";
+						return $withValue ? self::formatValue($arg, $arg->getValue()) : "%$i";
 					} elseif ($rule->control instanceof Controls\DateTimeControl) {
 						return $rule->control->formatLocaleText($arg);
 					} else {
@@ -106,6 +106,21 @@ final class Validator
 			}
 		}, (string) $message);
 		return $message;
+	}
+
+
+	/**
+	 * Formats a control value for a human-readable error message.
+	 */
+	private static function formatValue(Control $control, mixed $value): string
+	{
+		return match (true) {
+			is_array($value) => implode(', ', array_map(fn($item) => self::formatValue($control, $item), $value)),
+			$value instanceof Nette\Http\FileUpload => $value->getUntrustedName(),
+			$value instanceof \DateTimeInterface && $control instanceof Controls\DateTimeControl => $control->formatLocaleText($value),
+			$value instanceof \DateTimeInterface => $value->format('Y-m-d H:i:s'),
+			default => (string) $value,
+		};
 	}
 
 
