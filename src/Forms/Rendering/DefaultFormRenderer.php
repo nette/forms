@@ -174,7 +174,7 @@ class DefaultFormRenderer implements Nette\Forms\FormRenderer
 				$name = urldecode($parts[0]);
 				$prefix = explode('[', $name, 2)[0];
 				if (!isset($this->form[$prefix])) {
-					$s .= Html::el('input', ['type' => 'hidden', 'name' => $name, 'value' => urldecode($parts[1])]);
+					$s .= Html::el('input', ['type' => 'hidden', 'name' => $name, 'value' => urldecode($parts[1] ?? '')]);
 				}
 			}
 
