@@ -62,7 +62,7 @@ button / `getValues($type)` (a second parameter, if present, always gets
 
 `Form::validate()` (override) pulls the validation scope from the clicked
 `SubmitterControl`, runs `validateMaxPostSize()` (a form-level error when
-`CONTENT_LENGTH` exceeds `post_max_size` — reusing the `MaxFileSize` message),
+`CONTENT_LENGTH` exceeds `post_max_size`, with the `MaxPostSize` message),
 then delegates to `Container::validate($controls)`.
 
 ## Reading values back out of the tree

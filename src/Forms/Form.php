@@ -606,7 +606,7 @@ class Form extends Container implements Nette\HtmlStringable
 
 		$maxSize = Helpers::iniGetSize('post_max_size');
 		if ($maxSize > 0 && $maxSize < $_SERVER['CONTENT_LENGTH']) {
-			$this->addError(sprintf(Validator::$messages[self::MaxFileSize], $maxSize));
+			$this->addError(sprintf(Validator::$messages[self::MaxPostSize], $maxSize));
 		}
 	}
 

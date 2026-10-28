@@ -20,4 +20,4 @@ $form->isSuccess();
 
 $errors = $form->getErrors();
 Assert::count(1, $errors);
-Assert::match('The size of the uploaded file can be up to %d% bytes.', $errors[0]);
+Assert::match('The uploaded data exceeds the limit of %d% bytes.', $errors[0]);
