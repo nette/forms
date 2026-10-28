@@ -11,7 +11,9 @@ The densest part of the package, and the one with the sharpest traps.
 `op` field — the op string *is* the validator, mapped to a built-in via
 `getCallback()` (`':email'` → `[Validator::class, 'validateEmail']`).
 
-- `addRule`: a `Filled` rule goes to `$required`, everything else to `$rules[]`;
+- `addRule`: a `Filled` rule goes to `$required`, everything else to `$rules[]`,
+  where a rule with an identical validator and argument replaces the existing one
+  in place (so a custom message overrides the built-in rule of `addEmail()` etc.);
   `Valid` is rejected by both `addRule` and `addCondition` — only `addConditionOn`
   accepts it.
 - `addCondition` turns a bool argument into `:static`; `addConditionOn` creates a
