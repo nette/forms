@@ -16,12 +16,12 @@ Assert::match(
 );
 
 Assert::match(
-	'%A%echo ($ʟ_label = $this->global->forms->get(\'foo\')->getLabel())?->addAttributes([\'class\' => \'foo\']) %A%',
+	'%A%echo ($ʟ_label = $this->global->forms->getLabelElement(\'foo\'))?->addAttributes([\'class\' => \'foo\']) %A%',
 	$latte->compile('{label foo class => foo /}'),
 );
 
 Assert::match(
-	'%A%echo ($ʟ_label = $this->global->forms->get(\'foo\')->getLabel())?->addAttributes([\'class\' => \'foo\']) %A%',
+	'%A%echo ($ʟ_label = $this->global->forms->getLabelElement(\'foo\'))?->addAttributes([\'class\' => \'foo\']) %A%',
 	$latte->compile('{label foo, class => foo /}'),
 );
 

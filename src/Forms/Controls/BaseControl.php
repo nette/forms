@@ -11,7 +11,7 @@ use Nette;
 use Nette\Forms\{Control, Form, Rules};
 use Nette\Utils\Html;
 use Stringable;
-use function is_array;
+use function is_array, is_string;
 
 
 /**
@@ -274,14 +274,18 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	public function getControlPart(): ?Html
 	{
 		$control = $this->getControl();
-		return $control instanceof Html ? $control : null;
+		return is_string($control)
+			? throw new Nette\InvalidStateException("Control '{$this->getName()}' renders a string, not an Html element, so it cannot be used with n:name or rendered by parts.")
+			: $control;
 	}
 
 
 	public function getLabelPart(): ?Html
 	{
 		$label = $this->getLabel();
-		return $label instanceof Html ? $label : null;
+		return is_string($label)
+			? throw new Nette\InvalidStateException("Label of control '{$this->getName()}' is a string, not an Html element, so it cannot be used with n:name or rendered by parts.")
+			: $label;
 	}
 
 

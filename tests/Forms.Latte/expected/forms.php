@@ -7,7 +7,7 @@
 			echo ($ʟ_label = $this->global->forms->get($name)->getLabel()) /* pos %d%:3 */;
 			echo '
 		';
-			echo $this->global->forms->get($name)->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* pos %d%:3 */;
+			echo $this->global->forms->getControlElement($name)->addAttributes(['title' => 'Hello', 'size' => 10]) /* pos %d%:3 */;
 			echo '
 		';
 			echo %a%$this->global->forms->get($name)->getError()%a% /* pos %d%:3 */;
@@ -16,9 +16,9 @@
 		<br>
 
 		';
-			echo ($ʟ_label = $this->global->forms->get($form[$name])->getLabel())?->addAttributes(['title' => 'hello'])?->startTag() /* pos %d%:3 */;
+			echo ($ʟ_label = $this->global->forms->getLabelElement($form[$name]))?->addAttributes(['title' => 'hello'])?->startTag() /* pos %d%:3 */;
 			echo ' ';
-			echo $this->global->forms->get($form[$name])->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* pos %d%:39 */;
+			echo $this->global->forms->getControlElement($form[$name])->addAttributes(['title' => 'Hello', 'size' => 10]) /* pos %d%:39 */;
 			echo ' ';
 			echo $ʟ_label?->endTag() /* pos %d%:87 */;
 			echo '
