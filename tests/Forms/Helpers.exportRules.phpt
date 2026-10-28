@@ -7,7 +7,6 @@
 use Nette\Forms\{Form, Helpers};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -38,7 +37,7 @@ test('exporting email validation rules', function () {
 test('combining required and email validation rules', function () {
 	$form = new Form;
 	$input = $form->addText('text');
-	$input->setRequired(true);
+	$input->setRequired();
 	$input->addRule(Form::Email);
 	Assert::same([
 		['op' => ':filled', 'msg' => 'This field is required.'],
@@ -64,7 +63,7 @@ test('conditional validation rule exports', function () {
 	$input2 = $form->addText('text2');
 	$input2->setRequired(false);
 	$input2->addConditionOn($input1, Form::Email)
-		->setRequired(true)
+		->setRequired()
 		->addRule($form::Email);
 	$input2->addConditionOn($input1, Form::Integer)
 		->setRequired(false)

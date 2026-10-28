@@ -7,7 +7,6 @@
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -54,7 +53,7 @@ test('combining required with other validations', function () {
 	Assert::same(Form::Required, $items[0]->validator);
 	Assert::same(Form::Email, $items[1]->validator);
 
-	@$rules->addRule(~$form::Required); // @ - negative rules are deprecated
+	@$rules->addRule(~$form::Required); // @ negative rules are deprecated
 	$items = iterator_to_array($rules);
 	Assert::count(3, $items);
 	Assert::same(Form::Blank, $items[0]->validator);
@@ -111,6 +110,6 @@ test('negative required rule handling', function () {
 	$input = $form->addText('text');
 
 	Assert::false($input->isRequired());
-	Assert::same($input, @$input->addRule(~Form::Required)); // @ - negative rules are deprecated
+	Assert::same($input, @$input->addRule(~Form::Required)); // @ negative rules are deprecated
 	Assert::false($input->isRequired());
 });

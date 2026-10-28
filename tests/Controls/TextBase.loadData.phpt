@@ -7,7 +7,6 @@
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -130,7 +129,7 @@ test('conditional validation', function () {
 	$form->allowCrossOrigin();
 	$input = $form->addText('number');
 	$input->addCondition($form::Filled)
-			->addRule($form::Float);
+		->addRule($form::Float);
 
 	$input->validate();
 	Assert::same(10.5, $input->getValue());
@@ -142,8 +141,8 @@ test('negative rule handling', function () {
 
 	$form = new Form;
 	$form->allowCrossOrigin();
-	$input = @$form->addText('number')
-		->addRule(~$form::Float); // @ - negative rules are deprecated
+	$input = @$form->addText('number') // @ negative rules are deprecated
+		->addRule(~$form::Float);
 
 	$input->validate();
 	Assert::same(10.5, $input->getValue()); // side effect
@@ -194,7 +193,7 @@ test('conditional filtering', function () {
 	$form->allowCrossOrigin();
 	$input = $form->addText('text');
 	$input->addCondition($form::Filled)
-			->addFilter('strrev');
+		->addFilter('strrev');
 
 	Assert::same('hello', $input->getValue());
 	$input->validate();

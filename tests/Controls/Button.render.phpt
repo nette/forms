@@ -8,7 +8,6 @@ use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -48,7 +47,10 @@ test('button with HTML content', function () {
 
 	Assert::same('<button type="button" name="button"><b>Caption</b></button>', (string) $input->getControl());
 	Assert::same('<input type="button" name="button" value="Another caption">', (string) $input->getControl('Another caption'));
-	Assert::same('<button type="button" name="button"><b>Another label</b></button>', (string) $input->getControl(Html::el('b', 'Another label')));
+	Assert::same(
+		'<button type="button" name="button"><b>Another label</b></button>',
+		(string) $input->getControl(Html::el('b', 'Another label')),
+	);
 });
 
 
@@ -68,7 +70,10 @@ test('HTML content in button with translator', function () {
 	$input->setTranslator(new Translator);
 
 	Assert::same('<button type="button" name="button"><b>Caption</b></button>', (string) $input->getControl());
-	Assert::same('<button type="button" name="button"><b>Another label</b></button>', (string) $input->getControl(Html::el('b', 'Another label')));
+	Assert::same(
+		'<button type="button" name="button"><b>Another label</b></button>',
+		(string) $input->getControl(Html::el('b', 'Another label')),
+	);
 });
 
 
@@ -114,7 +119,10 @@ test('validation scope with specified fields', function () {
 	$select = $form->addSelect('select');
 	$input = $form->addSubmit('button', 'Caption')->setValidationScope([$text, $select]);
 
-	Assert::same('<input type="submit" name="button" value="Caption" formnovalidate data-nette-validation-scope=\'["text","select"]\'>', (string) $input->getControl());
+	Assert::same(
+		'<input type="submit" name="button" value="Caption" formnovalidate data-nette-validation-scope=\'["text","select"]\'>',
+		(string) $input->getControl(),
+	);
 });
 
 

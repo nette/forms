@@ -60,6 +60,7 @@ final class Helpers
 			}
 
 			return array_values($data);
+
 		} else {
 			return static::sanitize($itype, $data);
 		}

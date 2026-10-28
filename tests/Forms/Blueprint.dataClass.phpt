@@ -3,7 +3,6 @@
 use Nette\Forms\{Blueprint, Form};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 

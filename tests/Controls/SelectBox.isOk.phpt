@@ -7,7 +7,6 @@
 use Nette\Forms\{Form, Validator};
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -17,7 +16,7 @@ $select = $form->addSelect('foo', null, ['bar' => 'Bar']);
 
 Assert::false($select->isOk());
 
-$select->setDisabled(true);
+$select->setDisabled();
 Assert::true($select->isOk());
 $select->setDisabled(false);
 

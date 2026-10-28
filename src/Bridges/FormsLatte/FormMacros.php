@@ -27,9 +27,17 @@ final class FormMacros extends MacroSet
 	public static function install(Latte\Compiler $compiler): void
 	{
 		$me = new static($compiler);
-		$me->addMacro('form', [$me, 'macroForm'], 'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));');
+		$me->addMacro(
+			'form',
+			[$me, 'macroForm'],
+			'echo Nette\Bridges\FormsLatte\Runtime::renderFormEnd(array_pop($this->global->formsStack));',
+		);
 		$me->addMacro('formContext', [$me, 'macroFormContext'], 'array_pop($this->global->formsStack);');
-		$me->addMacro('formContainer', [$me, 'macroFormContainer'], 'array_pop($this->global->formsStack); $formContainer = end($this->global->formsStack)');
+		$me->addMacro(
+			'formContainer',
+			[$me, 'macroFormContainer'],
+			'array_pop($this->global->formsStack); $formContainer = end($this->global->formsStack)',
+		);
 		$me->addMacro('label', [$me, 'macroLabel'], [$me, 'macroLabelEnd'], null, self::AUTO_EMPTY);
 		$me->addMacro('input', [$me, 'macroInput']);
 		$me->addMacro('name', [$me, 'macroName'], [$me, 'macroNameEnd'], [$me, 'macroNameAttr']);
@@ -56,7 +64,7 @@ final class FormMacros extends MacroSet
 		}
 
 		$name = $node->tokenizer->fetchWord();
-		if ($name == null) { // null or false
+		if ($name == null) { // intentionally ==, null or false
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
 
@@ -89,7 +97,7 @@ final class FormMacros extends MacroSet
 		}
 
 		$name = $node->tokenizer->fetchWord();
-		if ($name == null) { // null or false
+		if ($name == null) { // intentionally ==, null or false
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
 
@@ -114,7 +122,7 @@ final class FormMacros extends MacroSet
 		}
 
 		$name = $node->tokenizer->fetchWord();
-		if ($name == null) { // null or false
+		if ($name == null) { // intentionally ==, null or false
 			throw new CompileException('Missing name in ' . $node->getNotation());
 		}
 
@@ -163,7 +171,7 @@ final class FormMacros extends MacroSet
 	 */
 	public function macroLabelEnd(MacroNode $node, PhpWriter $writer)
 	{
-		if ($node->content != null) {
+		if ($node->content != null) { // intentionally !=
 			$node->openingCode = rtrim($node->openingCode, '?> ') . '->startTag() ?>';
 			return $writer->write('if ($ʟ_label) echo $ʟ_label->endTag()');
 		}
@@ -312,7 +320,7 @@ final class FormMacros extends MacroSet
 	public function macroFormPrint(MacroNode $node, PhpWriter $writer)
 	{
 		$name = $node->tokenizer->fetchWord();
-		if ($name == null) { // null or false
+		if ($name == null) { // intentionally ==, null or false
 			throw new CompileException('Missing form name in ' . $node->getNotation());
 		}
 

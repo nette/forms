@@ -7,7 +7,6 @@
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
@@ -83,6 +82,6 @@ testException('exception on Valid in addCondition', function () {
 
 testException('exception on negative Valid rule', function () {
 	$form = new Form;
-	@$form->addText('foo')
-		->addRule(~Form::Valid); // @ - negative rules are deprecated
+	@$form->addText('foo') // @ negative rules are deprecated
+		->addRule(~Form::Valid);
 }, Nette\InvalidArgumentException::class, 'You cannot use Form::Valid in the addRule method.');

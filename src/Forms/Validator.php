@@ -86,9 +86,10 @@ final class Validator
 					}
 
 					return '';
+
 				case 'value': return $withValue
-						? $rule->control->getValue()
-						: $m[0];
+					? $rule->control->getValue()
+					: $m[0];
 				default:
 					$args = is_array($rule->arg) ? $rule->arg : [$rule->arg];
 					$i = (int) $m[1] ? (int) $m[1] - 1 : $i + 1;

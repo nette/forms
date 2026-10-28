@@ -558,6 +558,7 @@ class Form extends Container implements Nette\HtmlStringable
 			}
 
 			$data = Nette\Utils\Arrays::mergeTree($httpRequest->getPost(), $httpRequest->getFiles());
+
 		} else {
 			$data = $httpRequest->getQuery();
 			if (!$data) {
@@ -624,7 +625,7 @@ class Form extends Container implements Nette\HtmlStringable
 	 */
 	public function getErrors(): array
 	{
-		return array_values(array_unique(array_merge($this->errors, parent::getErrors())));
+		return array_values(array_unique([...$this->errors, ...parent::getErrors()]));
 	}
 
 

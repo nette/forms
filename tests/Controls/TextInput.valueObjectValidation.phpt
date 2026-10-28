@@ -7,18 +7,14 @@
 use Nette\Forms\Form;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
 class ValueObject
 {
-	private string $value;
-
-
-	public function __construct(string $value)
-	{
-		$this->value = $value;
+	public function __construct(
+		private string $value,
+	) {
 	}
 
 

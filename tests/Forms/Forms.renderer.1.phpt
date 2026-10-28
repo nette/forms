@@ -8,12 +8,24 @@ use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Tester\Assert;
 
-
 require __DIR__ . '/../bootstrap.php';
 
 
 $_SERVER['REQUEST_METHOD'] = 'POST';
-$_POST = ['name' => 'John Doe ', 'age' => '', 'email' => '  @ ', 'send' => 'on', 'street' => '', 'city' => '', 'country' => 'HU', 'password' => 'xxx', 'password2' => '', 'note' => '', 'submit1' => 'Send', 'userid' => '231'];
+$_POST = [
+	'name' => 'John Doe ',
+	'age' => '',
+	'email' => '  @ ',
+	'send' => 'on',
+	'street' => '',
+	'city' => '',
+	'country' => 'HU',
+	'password' => 'xxx',
+	'password2' => '',
+	'note' => '',
+	'submit1' => 'Send',
+	'userid' => '231',
+];
 
 
 $countries = [
@@ -38,7 +50,10 @@ $form->allowCrossOrigin();
 
 
 $form->addGroup('Personal data')
-	->setOption('description', 'We value your privacy and we ensure that the information you give to us will not be shared to other entities.')
+	->setOption(
+		'description',
+		'We value your privacy and we ensure that the information you give to us will not be shared to other entities.',
+	)
 	->setOption('id', 'test-group-id-set-via-option');
 
 $form->addText('name', 'Your name:')

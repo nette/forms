@@ -53,7 +53,7 @@ class CsrfProtection extends HiddenField
 	/**
 	 * @internal
 	 */
-	public function setValue($value): static
+	public function setValue(mixed $value): static
 	{
 		return $this;
 	}
@@ -82,7 +82,7 @@ class CsrfProtection extends HiddenField
 
 	private function generateToken(?string $random = null): string
 	{
-		$random ??= Nette\Utils\Random::generate(10);
+		$random ??= Nette\Utils\Random::generate();
 		return $random . base64_encode(sha1($this->getToken() . $random, binary: true));
 	}
 

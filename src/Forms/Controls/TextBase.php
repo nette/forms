@@ -28,12 +28,16 @@ abstract class TextBase extends BaseControl
 	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue(mixed $value)
 	{
 		if ($value === null) {
 			$value = '';
 		} elseif (!is_scalar($value) && !$value instanceof Stringable) {
-			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", get_debug_type($value), $this->getName()));
+			throw new Nette\InvalidArgumentException(sprintf(
+				"Value must be scalar or null, %s given in field '%s'.",
+				get_debug_type($value),
+				$this->getName(),
+			));
 		}
 
 		$this->value = $value;
@@ -44,7 +48,6 @@ abstract class TextBase extends BaseControl
 
 	/**
 	 * Returns the value, substituting empty string when it matches the empty value. Returns null when nullable is set and value is empty.
-	 * @return mixed
 	 */
 	public function getValue(): mixed
 	{

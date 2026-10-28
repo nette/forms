@@ -58,7 +58,12 @@ class Runtime
 	{
 		$s = '';
 		if ($form->isMethod('get')) {
-			foreach (preg_split('#[;&]#', (string) parse_url((string) $form->getElementPrototype()->action, PHP_URL_QUERY), -1, PREG_SPLIT_NO_EMPTY) as $param) {
+			foreach (preg_split(
+				'#[;&]#',
+				(string) parse_url((string) $form->getElementPrototype()->action, PHP_URL_QUERY),
+				-1,
+				PREG_SPLIT_NO_EMPTY,
+			) as $param) {
 				$parts = explode('=', $param, 2);
 				$name = urldecode($parts[0]);
 				$prefix = explode('[', $name, 2)[0];
@@ -87,7 +92,8 @@ class Runtime
 		if (is_object($item)) {
 			return $item;
 		}
-		$form = end($global->formsStack) ?: throw new \LogicException('Form declaration is missing, did you use {form} or <form n:name> tag?');
+		$form = end($global->formsStack)
+			?: throw new \LogicException('Form declaration is missing, did you use {form} or <form n:name> tag?');
 		return $form[$item];
 	}
 }

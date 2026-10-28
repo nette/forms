@@ -47,7 +47,6 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 	/** @var array<string, array<class-string, callable(static): mixed>> */
 	private static array $extMethods = [];
-	private string|Stringable|null $caption;
 
 	/** @var list<string|Stringable> */
 	private array $errors = [];
@@ -61,11 +60,11 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	private array $options = [];
 
 
-	public function __construct(string|Stringable|null $caption = null)
-	{
+	public function __construct(
+		private string|Stringable|null $caption = null,
+	) {
 		$this->control = Html::el('input', ['type' => null, 'name' => null]);
 		$this->label = Html::el('label');
-		$this->caption = $caption;
 		$this->rules = new Rules($this);
 		$this->setValue(null);
 		$this->monitor(Form::class, function (Form $form): void {
@@ -248,7 +247,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 		$label->for = $this->getHtmlId();
 		$caption ??= $this->caption;
 		$translator = $this->getForm()->getTranslator();
-		$label->setText($translator && $caption !== null && !$caption instanceof Nette\HtmlStringable ? $translator->translate($caption) : $caption);
+		$label->setText(
+			$translator && $caption !== null && !$caption instanceof Nette\HtmlStringable ? $translator->translate($caption) : $caption,
+		);
 		return $label;
 	}
 
@@ -367,7 +368,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 
 
 	/**
-	 * Translates a string or array of strings using the configured translator, or returns the value unchanged if no translator is set or the value is HtmlStringable.
+	 * Translates a string or array of strings, or returns the value unchanged without a translator or when it is HtmlStringable.
 	 */
 	public function translate(mixed $value, mixed ...$parameters): mixed
 	{

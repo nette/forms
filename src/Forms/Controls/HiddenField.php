@@ -40,14 +40,18 @@ class HiddenField extends BaseControl
 	 * @return static
 	 * @internal
 	 */
-	public function setValue($value)
+	public function setValue(mixed $value)
 	{
 		if ($value === null) {
 			$value = '';
 		} elseif ($value instanceof \BackedEnum) {
 			$value = $value->value;
 		} elseif (!is_scalar($value) && !$value instanceof Stringable) {
-			throw new Nette\InvalidArgumentException(sprintf("Value must be scalar or null, %s given in field '%s'.", get_debug_type($value), $this->getName()));
+			throw new Nette\InvalidArgumentException(sprintf(
+				"Value must be scalar or null, %s given in field '%s'.",
+				get_debug_type($value),
+				$this->getName(),
+			));
 		}
 
 		if (!$this->persistValue) {
