@@ -320,15 +320,18 @@
 					return true;
 				}
 			}
+			let inScope = (elem) => !scope || scope.test(elem.name.replace(/]\[|\[|]|$/g, '-'));
 			for (let elem of form.elements) {
-				if (elem.willValidate && elem.validity.badInput) {
-					elem.reportValidity();
+				if (elem.willValidate && elem.validity.badInput && inScope(elem)) {
+					if (!onlyCheck) {
+						elem.reportValidity();
+					}
 					return false;
 				}
 			}
 			for (let elem of form.elements) {
 				if (elem.getAttribute('data-nette-rules')
-					&& (!scope || elem.name.replace(/]\[|\[|]|$/g, '-').match(scope))
+					&& inScope(elem)
 					&& !this.isDisabled(elem)
 					&& !this.validateControl(elem, undefined, onlyCheck)
 					&& !this.formErrors.length) {
