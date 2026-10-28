@@ -61,7 +61,7 @@ class TextInput extends TextBase
 
 
 	/**
-	 * @param  (callable(Nette\Forms\Control, mixed): bool)|string  $validator
+	 * @param  (callable(never, never): bool)|string  $validator
 	 * @return static
 	 */
 	public function addRule(
