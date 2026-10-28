@@ -85,6 +85,9 @@ final class Validator
 	 */
 	public static function validateEqual(Control $control, mixed $arg): bool
 	{
+		if ($control instanceof Controls\DateTimeControl) {
+			return $control->validateEqual($arg);
+		}
 		return (new Validation\EqualValidator($arg))->validate($control->getValue()) === null;
 	}
 
