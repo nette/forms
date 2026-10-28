@@ -22,7 +22,7 @@ Assert::error(
 );
 
 Assert::match(
-	'%A%echo $this->global->forms->get(\'foo\')->getControl()->addAttributes([\'class\' => \'foo\']) %A%',
+	'%A%echo $this->global->forms->getControlElement(\'foo\')->addAttributes([\'class\' => \'foo\']) %A%',
 	$latte->compile('{input foo, class => foo}'),
 );
 

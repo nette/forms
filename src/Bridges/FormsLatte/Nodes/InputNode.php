@@ -46,8 +46,12 @@ class InputNode extends StatementNode
 	public function print(PrintContext $context): string
 	{
 		return $context->format(
-			'echo $this->global->forms->get(%node)->'
-			. ($this->part ? ('getControlPart(%node)') : 'getControl()')
+			'echo '
+			. match (true) {
+				(bool) $this->part => '$this->global->forms->get(%node)->getControlPart(%node)',
+				(bool) $this->attributes->items => '$this->global->forms->getControlElement(%node)',
+				default => '$this->global->forms->get(%node)->getControl()',
+			}
 			. ($this->attributes->items ? '->addAttributes(%2.node)' : '')
 			. ' %3.line;',
 			$this->name,

@@ -10,7 +10,7 @@ namespace Nette\Bridges\FormsLatte;
 use Nette;
 use Nette\Forms\{Container, Control, Form};
 use Nette\Utils\Html;
-use function count, is_object;
+use function count, is_object, is_string;
 
 
 /**
@@ -112,6 +112,32 @@ class Runtime
 			$item->setHtmlAttribute('form', $detachedId);
 		}
 		return $item;
+	}
+
+
+	/**
+	 * Returns the label of the control for a paired {label} or one with attributes, which a string label cannot serve.
+	 */
+	public function getLabelElement(object|string|int $item): ?Html
+	{
+		$control = $this->get($item);
+		$label = $control->getLabel();
+		return is_string($label)
+			? throw new Nette\InvalidStateException("Label of control '{$control->getName()}' is a string, not an Html element, so it cannot be paired or get attributes.")
+			: $label;
+	}
+
+
+	/**
+	 * Returns the element of the control for {input} with attributes, which a string cannot serve.
+	 */
+	public function getControlElement(object|string|int $item): Html
+	{
+		$control = $this->get($item);
+		$el = $control->getControl();
+		return is_string($el)
+			? throw new Nette\InvalidStateException("Control '{$control->getName()}' renders a string, not an Html element, so it cannot get attributes.")
+			: $el;
 	}
 
 
