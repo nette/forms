@@ -51,7 +51,7 @@ abstract class TextBase extends BaseControl
 	 */
 	public function getValue(): mixed
 	{
-		$value = $this->value === Strings::trim($this->translate($this->emptyValue))
+		$value = $this->value === Strings::trim((string) $this->translate($this->emptyValue))
 			? ''
 			: $this->value;
 		return $this->nullable && $value === '' ? null : $value;
@@ -107,7 +107,7 @@ abstract class TextBase extends BaseControl
 	{
 		$el = parent::getControl();
 		if ($this->emptyValue !== '') {
-			$el->attrs['data-nette-empty-value'] = Strings::trim($this->translate($this->emptyValue));
+			$el->attrs['data-nette-empty-value'] = Strings::trim((string) $this->translate($this->emptyValue));
 		}
 
 		if (isset($el->placeholder)) {
