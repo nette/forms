@@ -95,7 +95,7 @@ class SelectBox extends ChoiceControl
 	{
 		$items = [];
 		foreach ($this->options as $key => $value) {
-			$items[is_array($value) ? $this->translate($key) : $key] = $this->translate($value);
+			$items[is_array($value) ? (string) $this->translate($key) : $key] = $this->translate($value);
 		}
 
 		$attrs = $this->optionAttributes;

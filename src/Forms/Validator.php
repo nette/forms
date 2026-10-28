@@ -104,7 +104,7 @@ final class Validator
 						return $arg;
 					}
 			}
-		}, $message);
+		}, (string) $message);
 		return $message;
 	}
 
