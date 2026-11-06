@@ -26,7 +26,7 @@ is extended at release time from the git history.
 Nette Forms (since 2004) creates, validates, and processes web forms with **both**
 server-side (PHP) and client-side (`netteForms.ts`) validation kept in sync.
 
-- **PHP Version**: 8.3 - 8.6
+- **PHP Version**: 8.4 - 8.6
 - **Package**: `nette/forms`
 - **Dependencies**: nette/component-model, nette/http, nette/utils; Latte 3.1.5+.
 
