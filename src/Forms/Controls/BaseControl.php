@@ -350,9 +350,7 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 	}
 
 
-	/**
-	 * @deprecated  use setHtmlAttribute()
-	 */
+	#[\Deprecated('use setHtmlAttribute()')]
 	public function setAttribute(string $name, mixed $value = true): static
 	{
 		return $this->setHtmlAttribute($name, $value);

@@ -140,7 +140,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		if (is_object($returnType)) {
 			$resultObj = $returnType;
-			$properties = (new \ReflectionClass($resultObj))->getProperties();
+			$properties = new \ReflectionClass($resultObj)->getProperties();
 
 		} else {
 			$returnType ??= $this->mappedType ?? ArrayHash::class;
@@ -191,6 +191,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @return object|mixed[]
 	 * @deprecated use getUntrustedValues()
 	 */
+	#[\Deprecated('use getUntrustedValues()')]
 	public function getUnsafeValues(string|object|null $returnType, ?array $controls = null): object|array
 	{
 		return $this->getUntrustedValues($returnType, $controls);
@@ -370,7 +371,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		?int $maxLength = null,
 	): Controls\TextInput
 	{
-		return $this[$name] = (new Controls\TextInput($label, $maxLength))
+		return $this[$name] = new Controls\TextInput($label, $maxLength)
 			->setHtmlAttribute('size', $cols);
 	}
 
@@ -385,7 +386,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		?int $maxLength = null,
 	): Controls\TextInput
 	{
-		return $this[$name] = (new Controls\TextInput($label, $maxLength))
+		return $this[$name] = new Controls\TextInput($label, $maxLength)
 			->setHtmlAttribute('size', $cols)
 			->setHtmlType('password');
 	}
@@ -401,7 +402,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		?int $rows = null,
 	): Controls\TextArea
 	{
-		return $this[$name] = (new Controls\TextArea($label))
+		return $this[$name] = new Controls\TextArea($label)
 			->setHtmlAttribute('cols', $cols)
 			->setHtmlAttribute('rows', $rows);
 	}
@@ -416,7 +417,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		int $maxLength = 255,
 	): Controls\TextInput
 	{
-		return $this[$name] = (new Controls\TextInput($label, $maxLength))
+		return $this[$name] = new Controls\TextInput($label, $maxLength)
 			->addRule(Form::Email);
 	}
 
@@ -426,7 +427,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addInteger(string $name, string|Stringable|null $label = null): Controls\TextInput
 	{
-		return $this[$name] = (new Controls\TextInput($label))
+		return $this[$name] = new Controls\TextInput($label)
 			->setNullable()
 			->addRule(Form::Integer);
 	}
@@ -437,7 +438,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addFloat(string $name, string|Stringable|null $label = null): Controls\TextInput
 	{
-		return $this[$name] = (new Controls\TextInput($label))
+		return $this[$name] = new Controls\TextInput($label)
 			->setNullable()
 			->setHtmlType('number')
 			->setHtmlAttribute('step', 'any')
@@ -556,7 +557,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		?int $size = null,
 	): Controls\SelectBox
 	{
-		return $this[$name] = (new Controls\SelectBox($label, $items))
+		return $this[$name] = new Controls\SelectBox($label, $items)
 			->setHtmlAttribute('size', $size > 1 ? $size : null);
 	}
 
@@ -572,7 +573,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 		?int $size = null,
 	): Controls\MultiSelectBox
 	{
-		return $this[$name] = (new Controls\MultiSelectBox($label, $items))
+		return $this[$name] = new Controls\MultiSelectBox($label, $items)
 			->setHtmlAttribute('size', $size > 1 ? $size : null);
 	}
 
@@ -624,7 +625,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	}
 
 
-	/** @deprecated  use addImageButton() */
+	#[\Deprecated('use addImageButton()')]
 	public function addImage(): Controls\ImageButton
 	{
 		return $this->addImageButton(...func_get_args());

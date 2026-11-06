@@ -337,7 +337,7 @@ final class Validator
 			throw new Nette\InvalidArgumentException("The Enum validator requires a backed enum class, '$enum' given.");
 		}
 
-		$intBacked = (new \ReflectionEnum($enum))->getBackingType()?->getName() === 'int';
+		$intBacked = new \ReflectionEnum($enum)->getBackingType()?->getName() === 'int';
 		foreach (static::toArray($control->getValue()) as $value) {
 			if ($intBacked) {
 				$value = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
@@ -405,13 +405,10 @@ final class Validator
 	 */
 	public static function validateFileSize(Controls\UploadControl $control, int $limit): bool
 	{
-		foreach (static::toArray($control->getValue()) as $file) {
-			if ($file->getSize() > $limit || $file->getError() === UPLOAD_ERR_INI_SIZE) {
-				return false;
-			}
-		}
-
-		return true;
+		return array_all(
+			static::toArray($control->getValue()),
+			fn($file) => $file->getSize() <= $limit && $file->getError() !== UPLOAD_ERR_INI_SIZE,
+		);
 	}
 
 
@@ -438,13 +435,7 @@ final class Validator
 	 */
 	public static function validateImage(Controls\UploadControl $control): bool
 	{
-		foreach (static::toArray($control->getValue()) as $file) {
-			if (!$file->isImage()) {
-				return false;
-			}
-		}
-
-		return true;
+		return array_all(static::toArray($control->getValue()), fn($file) => $file->isImage());
 	}
 
 

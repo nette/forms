@@ -11,7 +11,6 @@ use Nette;
 use Nette\Forms;
 use Nette\Forms\Form;
 use Nette\Http\FileUpload;
-use Nette\Utils\Arrays;
 use Stringable;
 use function ini_get, is_array;
 
@@ -24,7 +23,7 @@ class UploadControl extends BaseControl
 	/** validation rule */
 	public const Valid = ':uploadControlValid';
 
-	/** @deprecated use UploadControl::Valid */
+	#[\Deprecated('use UploadControl::Valid')]
 	public const VALID = self::Valid;
 
 	private bool $nullable = false;
@@ -118,7 +117,7 @@ class UploadControl extends BaseControl
 	{
 		return match (true) {
 			!$this->value => false,
-			is_array($this->value) => Arrays::every($this->value, fn(FileUpload $upload): bool => $upload->isOk()),
+			is_array($this->value) => array_all($this->value, fn(FileUpload $upload): bool => $upload->isOk()),
 			default => $this->value->isOk(),
 		};
 	}
