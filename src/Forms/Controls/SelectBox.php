@@ -20,7 +20,7 @@ class SelectBox extends ChoiceControl
 	/** validation rule */
 	public const Valid = ':selectBoxValid';
 
-	/** @deprecated use SelectBox::Valid */
+	#[\Deprecated('use SelectBox::Valid', since: '3.2')]
 	public const VALID = self::Valid;
 
 	/** @var mixed[]  option / optgroup */
@@ -122,8 +122,8 @@ class SelectBox extends ChoiceControl
 
 	/**
 	 * @param  array<string, mixed>  $attributes
-	 * @deprecated use setOptionAttribute()
 	 */
+	#[\Deprecated('use setOptionAttribute()', since: '3.2')]
 	public function addOptionAttributes(array $attributes): static
 	{
 		$this->optionAttributes = $attributes + $this->optionAttributes;

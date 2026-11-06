@@ -347,7 +347,7 @@ final class Helpers
 		}
 
 		// form values arrive as strings, so int-backed enums need explicit conversion
-		if ((new \ReflectionEnum($type))->getBackingType()?->getName() === 'int') {
+		if (new \ReflectionEnum($type)->getBackingType()?->getName() === 'int') {
 			$int = filter_var($value, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
 			return $int === null ? $value : ($type::tryFrom($int) ?? $value);
 		}

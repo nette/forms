@@ -12,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $form = new Form;
-$input = $form->addProtection('Security token did not match. Possible CSRF attack.');
+$input = @$form->addProtection('Security token did not match. Possible CSRF attack.'); // @ addProtection() is deprecated
 $token = $input->getControl()->value;
 
 Assert::notSame($token, $input->getControl()->value);

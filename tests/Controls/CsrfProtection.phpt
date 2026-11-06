@@ -16,7 +16,7 @@ $_SERVER['REQUEST_METHOD'] = 'POST';
 $form = new Form;
 $form->allowCrossOrigin();
 
-$input = $form->addProtection('Security token did not match. Possible CSRF attack.');
+$input = @$form->addProtection('Security token did not match. Possible CSRF attack.'); // @ addProtection() is deprecated
 
 $form->onSuccess[] = function () {};
 $form->fireEvents();
@@ -48,7 +48,7 @@ Assert::false(CsrfProtection::validateCsrf($input));
 $form = new Form;
 $form->allowCrossOrigin();
 $form->addText('text');
-$form->addProtection();
+@$form->addProtection(); // @ addProtection() is deprecated
 Assert::same([
 	$form::ProtectorId => $form[$form::ProtectorId],
 	'text' => $form['text'],

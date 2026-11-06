@@ -83,7 +83,7 @@ test('mapping a numeric string to a string-backed enum', function () {
 
 test('incompatible values are left unchanged instead of raising TypeError/ValueError', function () {
 	$intRef = new ReflectionProperty(FormWithIntEnum::class, 'value');
-	$strRef = (new ReflectionClass(FormWithEnum::class))->getConstructor()->getParameters()[0];
+	$strRef = new ReflectionClass(FormWithEnum::class)->getConstructor()->getParameters()[0];
 	$strIntRef = new ReflectionProperty(FormWithStringIntEnum::class, 'value');
 
 	// int-backed enum

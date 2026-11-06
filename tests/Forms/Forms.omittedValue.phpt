@@ -12,7 +12,7 @@ require __DIR__ . '/../bootstrap.php';
 
 
 $form = new Form('name');
-$form->addProtection();
+@$form->addProtection(); // @ addProtection() is deprecated
 $form->addText('input');
 $form->addText('omittedInput')
 	->setOmitted();
