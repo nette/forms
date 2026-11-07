@@ -67,3 +67,10 @@ function testFormGetSubmittedData(Form $form, Nette\Forms\Container $container):
 	assertType('array<mixed>', $form->getSubmittedData());
 	assertType('array<mixed>', $container->getSubmittedData());
 }
+
+
+function testFormContainerControls(Container $container): void
+{
+	assertType('Iterator<string, Nette\Forms\Control>', $container->controls);
+	assertType('iterable<string, Nette\Forms\Control>', $container->getControls());
+}
