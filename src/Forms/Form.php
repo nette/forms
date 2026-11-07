@@ -18,8 +18,8 @@ use function count, is_array, is_scalar, is_string;
  * by default the form reads its own HTTP request (standalone usage), inside Nette Application
  * use Nette\Application\UI\Form, other sources are set via setSubmissionSource().
  *
- * @property-read string[] $errors
- * @property-read array<string|Stringable> $ownErrors
+ * @property-read list<string|Stringable> $errors
+ * @property-read list<string|Stringable> $ownErrors
  * @property-read Html $elementPrototype
  * @property-deprecated FormRenderer $renderer
  * @property-deprecated string $action

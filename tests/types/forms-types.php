@@ -74,3 +74,17 @@ function testFormContainerControls(Container $container): void
 	assertType('Iterator<string, Nette\Forms\Control>', $container->controls);
 	assertType('iterable<string, Nette\Forms\Control>', $container->getControls());
 }
+
+
+function testFormErrors(Form $form, Nette\Forms\Controls\TextInput $input): void
+{
+	assertType('list<string|Stringable>', $form->errors);
+	assertType('list<string|Stringable>', $form->ownErrors);
+	assertType('list<string|Stringable>', $input->errors);
+}
+
+
+function testUploadControlGetValue(Nette\Forms\Controls\UploadControl $upload): void
+{
+	assertType('list<Nette\Http\FileUpload>|Nette\Http\FileUpload|null', $upload->getValue());
+}
