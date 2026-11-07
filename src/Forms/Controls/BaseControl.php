@@ -31,7 +31,7 @@ use function is_array, is_scalar, is_string;
  * @property-read Html $labelPrototype
  * @property   bool $required
  * @property-deprecated bool $filled
- * @property-read string[] $errors
+ * @property-read list<string|Stringable> $errors
  * @property-deprecated array<string,mixed> $options
  * @property-read string $error
  */

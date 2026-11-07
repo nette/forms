@@ -19,7 +19,7 @@ use function count, is_object, is_string;
  */
 class Runtime
 {
-	/** @var Container[] */
+	/** @var list<Container> */
 	private array $stack = [];
 
 	/** @var list<?string>  parallel to $stack; non-null element = id of a detached form */
@@ -28,7 +28,7 @@ class Runtime
 	/** @var list<bool>  parallel to $stack; true = scope the template's $form variable was bound to */
 	private array $formBindings = [];
 
-	/** @var Nette\Forms\Repeater[] */
+	/** @var list<Nette\Forms\Repeater> */
 	private array $repeaters = [];
 
 

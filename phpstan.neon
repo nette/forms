@@ -113,11 +113,6 @@ parameters:
 			message: '#^Parameter \#1 \$returnType of method Nette\\Forms\\Container::(getValues|getUntrustedValues)\(\) expects#'
 			path: src/Forms/Container.php
 
-		-   # Complex template type T cannot be fully tracked through getValues delegation
-			message: '#^Method Nette\\Forms\\Container::getValues\(\) should return#'
-			path: src/Forms/Container.php
-			count: 1
-
 		-
 			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType

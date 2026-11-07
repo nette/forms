@@ -18,7 +18,7 @@ use function array_key_exists, func_get_args, is_array, is_object;
  *
  * @property-read string $name
  * @property   ArrayHash<mixed> $values
- * @property-read \Iterator $controls
+ * @property-read \Iterator<string,Control> $controls
  * @property-read ?Form $form
  * @implements \ArrayAccess<string|int, Nette\ComponentModel\IComponent>
  */
@@ -118,7 +118,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @template T of object
 	 * @param  class-string<T>|T|'array'|null  $returnType
 	 * @param  ?list<Control|self>  $controls
-	 * @return ($returnType is class-string<T>|T ? T : ($returnType is 'array' ? mixed[] : ArrayHash<mixed>))
+	 * @return ($returnType is 'array' ? array<int|string, mixed> : ($returnType is class-string<T>|T ? T : ArrayHash<mixed>))
 	 */
 	public function getValues(string|object|null $returnType = null, ?array $controls = null): object|array
 	{
@@ -154,7 +154,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @template T of object
 	 * @param  class-string<T>|T|'array'|null  $returnType
 	 * @param  ?list<Control|self>  $controls
-	 * @return ($returnType is class-string<T>|T ? T : ($returnType is 'array' ? mixed[] : ArrayHash<mixed>))
+	 * @return ($returnType is 'array' ? array<int|string, mixed> : ($returnType is class-string<T>|T ? T : ArrayHash<mixed>))
 	 */
 	public function getUntrustedValues(string|object|null $returnType = null, ?array $controls = null): object|array
 	{
@@ -356,13 +356,15 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 	/**
 	 * Iterates over all form controls including nested. Keys are control names and are not unique across containers.
-	 * @return iterable<Control>
+	 * @return iterable<string, Control>
 	 */
 	public function getControls(): iterable
 	{
 		foreach ($this->getComponentTree() as $component) {
 			if ($component instanceof Control) {
-				yield $component->getName() => $component;
+				$name = $component->getName();
+				assert($name !== null);
+				yield $name => $component;
 			}
 		}
 	}

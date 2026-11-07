@@ -19,15 +19,18 @@ class FormDto
 function testFormContainerGetValues(Container $container): void
 {
 	assertType('Nette\Utils\ArrayHash<mixed>', $container->getValues());
-	assertType('array|array<mixed>', $container->getValues('array'));
+	assertType('array<int|string, mixed>', $container->getValues('array'));
+	assertType('array<int|string, mixed>', $container->getValues(Container::Array));
 	assertType(FormDto::class, $container->getValues(FormDto::class));
+	assertType('array<int|string, mixed>|Nette\Utils\ArrayHash<mixed>', $container->getValues(rand() ? 'array' : null));
+	assertType('array<int|string, mixed>|FormDto', $container->getValues(rand() ? 'array' : FormDto::class));
 }
 
 
 function testFormContainerGetUntrustedValues(Container $container): void
 {
 	assertType('Nette\Utils\ArrayHash<mixed>', $container->getUntrustedValues());
-	assertType('array|array<mixed>', $container->getUntrustedValues('array'));
+	assertType('array<int|string, mixed>', $container->getUntrustedValues('array'));
 	assertType(FormDto::class, $container->getUntrustedValues(FormDto::class));
 }
 
@@ -63,4 +66,25 @@ function testFormGetSubmittedData(Form $form, Nette\Forms\Container $container):
 {
 	assertType('array<mixed>', $form->getSubmittedData());
 	assertType('array<mixed>', $container->getSubmittedData());
+}
+
+
+function testFormContainerControls(Container $container): void
+{
+	assertType('Iterator<string, Nette\Forms\Control>', $container->controls);
+	assertType('iterable<string, Nette\Forms\Control>', $container->getControls());
+}
+
+
+function testFormErrors(Form $form, Nette\Forms\Controls\TextInput $input): void
+{
+	assertType('list<string|Stringable>', $form->errors);
+	assertType('list<string|Stringable>', $form->ownErrors);
+	assertType('list<string|Stringable>', $input->errors);
+}
+
+
+function testUploadControlGetValue(Nette\Forms\Controls\UploadControl $upload): void
+{
+	assertType('list<Nette\Http\FileUpload>|Nette\Http\FileUpload|null', $upload->getValue());
 }
