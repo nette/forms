@@ -20,7 +20,7 @@ class FormsExtension extends Nette\DI\CompilerExtension
 	public function __construct()
 	{
 		$this->config = new class {
-			/** @var string[] */
+			/** @var array<string, string> */
 			public array $messages = [];
 		};
 	}
