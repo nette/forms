@@ -118,7 +118,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @template T of object
 	 * @param  class-string<T>|T|'array'|null  $returnType
 	 * @param  ?list<Control|self>  $controls
-	 * @return ($returnType is class-string<T>|T ? T : ($returnType is 'array' ? mixed[] : ArrayHash<mixed>))
+	 * @return ($returnType is 'array' ? mixed[] : ($returnType is class-string<T>|T ? T : ArrayHash<mixed>))
 	 */
 	public function getValues(string|object|null $returnType = null, ?array $controls = null): object|array
 	{
@@ -154,7 +154,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 * @template T of object
 	 * @param  class-string<T>|T|'array'|null  $returnType
 	 * @param  ?list<Control|self>  $controls
-	 * @return ($returnType is class-string<T>|T ? T : ($returnType is 'array' ? mixed[] : ArrayHash<mixed>))
+	 * @return ($returnType is 'array' ? mixed[] : ($returnType is class-string<T>|T ? T : ArrayHash<mixed>))
 	 */
 	public function getUntrustedValues(string|object|null $returnType = null, ?array $controls = null): object|array
 	{
