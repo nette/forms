@@ -170,16 +170,20 @@ class DateTimeControl extends BaseControl
 
 	/**
 	 * Checks whether the control's value falls within the given date/time range.
-	 * For TypeTime, wraps around midnight (e.g. 22:00–02:00) if min > max.
+	 * For TypeTime, wraps around midnight (e.g. 22:00–02:00) if min > max. An empty value is in no range,
+	 * a null or empty bound is open.
 	 */
 	public function validateMinMax(mixed $min, mixed $max): bool
 	{
+		if ($this->value === null) {
+			return false;
+		}
 		$value = $this->normalizeValue($this->value);
-		$min = $min === null ? null : $this->normalizeValue($min);
-		$max = $max === null ? null : $this->normalizeValue($max);
-		return $this->type === self::TypeTime && $min > $max
+		$min = $min === null || $min === '' ? null : $this->normalizeValue($min);
+		$max = $max === null || $max === '' ? null : $this->normalizeValue($max);
+		return $this->type === self::TypeTime && $min !== null && $max !== null && $min > $max
 			? $value >= $min || $value <= $max
-			: $value >= $min && ($max === null || $value <= $max);
+			: ($min === null || $value >= $min) && ($max === null || $value <= $max);
 	}
 
 
