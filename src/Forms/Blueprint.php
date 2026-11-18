@@ -42,7 +42,6 @@ final class Blueprint
 		$blueprint = new self;
 		$blueprint->printBegin();
 		$blueprint->printHeader('Form Data Class ' . $form->getName());
-		$blueprint->printCode($blueprint->generateDataClass($form), 'php');
 		$blueprint->printCode($blueprint->generateDataClass($form, true), 'php');
 		$blueprint->printEnd();
 		if ($exit) {
@@ -197,24 +196,33 @@ final class Blueprint
 				if (!$input->isRequired() && $input->isNullable()) {
 					$type = '?' . $type;
 				}
+			} elseif ($input instanceof Controls\UploadControl && $input->getControlPrototype()->multiple) {
+				$type = 'array';
 			} elseif ($input instanceof Controls\UploadControl) {
 				$type = '\Nette\Http\FileUpload';
 				if (!$input->isRequired()) {
 					$type = '?' . $type;
 				}
+			} elseif ($input instanceof Controls\DateTimeControl) {
+				$type = '\DateTimeImmutable';
+				if (!$input->isRequired()) {
+					$type = '?' . $type;
+				}
+			} elseif ($input instanceof Controls\ColorPicker) {
+				$type = 'string';
 			} elseif ($input instanceof Container) {
 				$type = $baseName . ucwords((string) $name);
 				$nextCode .= $this->generateDataClass($input, $propertyPromotion, $type);
 				$type .= self::ClassNameSuffix;
 			} else {
-				$type = '';
+				$type = 'mixed';
 			}
 
-			$props[] = 'public ' . ($type ? $type . ' ' : '') . '$' . $name;
+			$props[] = "public $type \$$name";
 		}
 
 		$class = $baseName . self::ClassNameSuffix;
-		return "class $class\n"
+		return ($propertyPromotion ? 'final readonly ' : '') . "class $class\n"
 			. "{\n"
 			. ($propertyPromotion
 				? "\tpublic function __construct(\n"

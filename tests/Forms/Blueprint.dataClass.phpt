@@ -39,7 +39,7 @@ class SignContFormData
 $res = (new Blueprint)->generateDataClass($form, true);
 
 Assert::match(
-	'class SignFormData
+	'final readonly class SignFormData
 {
 	public function __construct(
 		public string $name,
@@ -51,7 +51,7 @@ Assert::match(
 	}
 }
 
-class SignContFormData
+final readonly class SignContFormData
 {
 	public function __construct(
 		public string $name,

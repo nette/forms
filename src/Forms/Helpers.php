@@ -9,7 +9,7 @@ namespace Nette\Forms;
 
 use Nette;
 use Nette\Utils\{Html, Image, Strings};
-use function is_array, is_scalar, is_string;
+use function array_key_exists, is_array, is_object, is_scalar, is_string;
 use const ENT_HTML5, ENT_QUOTES;
 
 
@@ -364,6 +364,102 @@ final class Helpers
 				Nette\Utils\Reflection::toString($reflection) . " has unsupported type '$type'.",
 			);
 		}
+	}
+
+
+	/**
+	 * Returns the members of the mapped type that receive the values, by name: the constructor parameters
+	 * when the instance is created through the constructor, the properties otherwise.
+	 * @param  class-string|object  $type
+	 * @return array<string, \ReflectionParameter|\ReflectionProperty>
+	 * @internal
+	 */
+	public static function getMappedMembers(string|object $type): array
+	{
+		$members = self::getMappingConstructor($type)?->getParameters()
+			?? array_filter(new \ReflectionClass($type)->getProperties(), fn($prop) => !$prop->isStatic());
+		return array_combine(array_map(fn($member) => $member->getName(), $members), $members);
+	}
+
+
+	/**
+	 * Creates an instance of the class, or fills the given object, with the values of the container.
+	 * A class with constructor parameters is created through the constructor, otherwise the values
+	 * are assigned to its properties.
+	 * @template T of object
+	 * @param  class-string<T>|T  $type
+	 * @param  array<string|int, mixed>  $values
+	 * @return T
+	 * @throws Nette\InvalidStateException  when a value has no parameter or writable property, or a required parameter has no value
+	 * @internal
+	 */
+	public static function mapToObject(string|object $type, array $values, Container $container): object
+	{
+		$rc = new \ReflectionClass($type);
+		if ($constructor = self::getMappingConstructor($type)) {
+			foreach ($constructor->getParameters() as $param) {
+				if (!$param->isOptional() && !array_key_exists($param->name, $values)) {
+					throw new Nette\InvalidStateException("Cannot create $rc->name, required parameter \$$param->name has no value: "
+						. self::describeControl($container, $param->name) . ' is missing, omitted or outside the validation scope.');
+				}
+			}
+
+			$extra = $constructor->isVariadic() ? [] : array_diff_key($values, self::getMappedMembers($type));
+			if ($extra) {
+				$name = array_key_first($extra);
+				throw new Nette\InvalidStateException('Cannot map ' . self::describeControl($container, $name)
+					. " to $rc->name, its constructor has no parameter \$$name.");
+			}
+
+			return $rc->newInstanceArgs($values);
+		}
+
+		$obj = is_object($type) ? $type : $rc->newInstance();
+		foreach ($values as $name => $value) {
+			$prop = $rc->hasProperty((string) $name) ? $rc->getProperty((string) $name) : null;
+			if ($prop && (!$prop->isPublic() || $prop->isStatic() || $prop->isProtectedSet() || $prop->isPrivateSet())) {
+				throw new Nette\InvalidStateException('Cannot map ' . self::describeControl($container, $name)
+					. " to $rc->name, its property \$$name is not publicly writable.");
+			} elseif (!$prop && !self::allowsDynamicProperties($rc)) {
+				throw new Nette\InvalidStateException('Cannot map ' . self::describeControl($container, $name)
+					. " to $rc->name, it has no property \$$name.");
+			}
+			$obj->$name = $value;
+		}
+
+		return $obj;
+	}
+
+
+	/**
+	 * Returns the constructor of the class when it has parameters, so the instance is created through it.
+	 * @param  class-string|object  $type
+	 */
+	private static function getMappingConstructor(string|object $type): ?\ReflectionMethod
+	{
+		$constructor = is_string($type) ? new \ReflectionClass($type)->getConstructor() : null;
+		return $constructor?->getNumberOfParameters() ? $constructor : null;
+	}
+
+
+	/** @param \ReflectionClass<object>  $rc */
+	private static function allowsDynamicProperties(\ReflectionClass $rc): bool
+	{
+		for ($class = $rc; $class; $class = $class->getParentClass()) {
+			if ($class->getAttributes(\AllowDynamicProperties::class) || $class->hasMethod('__set')) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
+	private static function describeControl(Container $container, string|int $name): string
+	{
+		$path = $container instanceof Form ? null : $container->lookupPath(Form::class, throw: false);
+		$res = "control '" . ($path === null ? '' : $path . Nette\ComponentModel\IComponent::NameSeparator) . $name . "'";
+		$form = $container->getForm(throw: false)?->getName();
+		return $form === null ? $res : "$res of form '$form'";
 	}
 
 

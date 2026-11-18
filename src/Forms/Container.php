@@ -18,7 +18,7 @@ use function array_key_exists, func_get_args, is_array, is_object;
  *
  * @property-read string $name
  * @property   ArrayHash<mixed> $values
- * @property-read \Iterator $controls
+ * @property-read iterable<Control> $controls
  * @property-read ?Form $form
  * @implements \ArrayAccess<string|int, Nette\ComponentModel\IComponent>
  */
@@ -146,59 +146,43 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 
 
 	/**
-	 * Returns the potentially unvalidated values submitted by the form.
+	 * Returns the potentially unvalidated values submitted by the form. A class with constructor parameters
+	 * is created through its constructor, otherwise the values fill public properties of the new or given
+	 * object. A control that is omitted or outside the validation scope has no value.
 	 * @template T of object
 	 * @param  class-string<T>|T|'array'|null  $returnType
 	 * @param  ?list<Control|self>  $controls
 	 * @return ($returnType is class-string<T>|T ? T : ($returnType is 'array' ? mixed[] : ArrayHash<mixed>))
+	 * @throws Nette\InvalidStateException  when a value has no parameter or writable property, or a required parameter has no value
 	 */
 	public function getUntrustedValues(string|object|null $returnType = null, ?array $controls = null): object|array
 	{
-		if (is_object($returnType)) {
-			$resultObj = $returnType;
-			$properties = new \ReflectionClass($resultObj)->getProperties();
+		$returnType ??= $this->mappedType ?? ArrayHash::class;
+		/** @var class-string<T>|T|'array' $returnType */
+		$members = $returnType === self::Array ? [] : Helpers::getMappedMembers($returnType);
 
-		} else {
-			$returnType ??= $this->mappedType ?? ArrayHash::class;
-			/** @var class-string|'array' $returnType */
-			$rc = new \ReflectionClass($returnType === self::Array ? \stdClass::class : $returnType);
-			$constructor = $rc->hasMethod('__construct') ? $rc->getMethod('__construct') : null;
-			if ($constructor?->getNumberOfRequiredParameters()) {
-				$resultObj = new \stdClass;
-				$properties = $constructor->getParameters();
-			} else {
-				$constructor = null;
-				$resultObj = $rc->newInstance();
-				$properties = $rc->getProperties();
-			}
-		}
-
-		$properties = array_combine(array_map(fn($p) => $p->getName(), $properties), $properties);
-
+		$values = [];
 		foreach ($this->getComponents() as $name => $control) {
 			$allowed = $controls === null || in_array($this, $controls, true) || in_array($control, $controls, true);
-			$name = (string) $name;
-			$property = $properties[$name] ?? null;
+			$member = $members[$name] ?? null;
 			if (
 				$control instanceof Control
 				&& $allowed
 				&& !$control->isOmitted()
 			) {
-				$resultObj->$name = Helpers::tryEnumConversion($control->getValue(), $property);
+				$values[$name] = Helpers::tryEnumConversion($control->getValue(), $member);
 
 			} elseif ($control instanceof self) {
 				$type = $returnType === self::Array && !$control->mappedType
 					? self::Array
-					: ($property ? Helpers::getSingleType($property) : null);
-				$resultObj->$name = $control->getUntrustedValues($type, $allowed ? null : $controls);
+					: ($member ? Helpers::getSingleType($member) : null);
+				$values[$name] = $control->getUntrustedValues($type, $allowed ? null : $controls);
 			}
 		}
 
-		return match (true) {
-			isset($constructor) => new $returnType(...(array) $resultObj),
-			$returnType === self::Array => (array) $resultObj,
-			default => $resultObj,
-		};
+		return $returnType === self::Array
+			? $values
+			: Helpers::mapToObject($returnType, $values, $this);
 	}
 
 
@@ -522,7 +506,7 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	 */
 	public function addHidden(string $name, mixed $default = null): Controls\HiddenField
 	{
-		return $this[$name] = (new Controls\HiddenField)
+		return $this[$name] = new Controls\HiddenField()
 			->setDefaultValue($default);
 	}
 
