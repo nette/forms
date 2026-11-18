@@ -29,6 +29,7 @@ $form->addInteger('count', 'Number of results:')
 
 $form->addFloat('precision', 'Precision:')
 	->setHtmlType('range')
+	->setHtmlAttribute('step', 'any')
 	->setDefaultValue(50)
 	->addRule($form::Range, 'Precision must be in range from %d to %d', [0, 100]);
 

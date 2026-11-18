@@ -36,7 +36,7 @@ final class IntegerValidator implements ValueValidator, Filter
 	public function getClientRule(): ClientRule
 	{
 		// the client-side counterpart normalizes the value the same way
-		return new ClientRule(':integer', message: $this->createMessage());
+		return new ClientRule(':integer', message: $this->createMessage(), attributes: ['type' => 'number']);
 	}
 
 

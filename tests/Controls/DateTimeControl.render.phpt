@@ -38,7 +38,7 @@ test('date min/max attributes', function () {
 		->addRule($form::Max, null, new DateTime('2040-01-01 11:22:33'));
 
 	Assert::match(
-		'<input type="date" name="date" id="frm-date" data-nette-rules=\'[{"op":":min","msg":"Please enter a value greater than or equal to %a%.","arg":"2020-01-01"},{"op":":max","msg":"Please enter a value less than or equal to %a%.","arg":"2040-01-01"}]\' min="2020-01-01" max="2040-01-01">',
+		'<input type="date" name="date" id="frm-date" min="2020-01-01" max="2040-01-01" data-nette-rules=\'[{"op":":min","msg":"Please enter a value greater than or equal to %a%.","arg":"2020-01-01"},{"op":":max","msg":"Please enter a value less than or equal to %a%.","arg":"2040-01-01"}]\'>',
 		(string) $input->getControl(),
 	);
 });
@@ -50,7 +50,7 @@ test('date range attributes', function () {
 		->addRule($form::Range, null, [new DateTime('2020-01-01 11:22:33'), new DateTime('2040-01-01 22:33:44')]);
 
 	Assert::match(
-		'<input type="date" name="date" id="frm-date" data-nette-rules=\'[{"op":":range","msg":"Please enter a value between %a% and %a%.","arg":["2020-01-01","2040-01-01"]}]\' min="2020-01-01" max="2040-01-01">',
+		'<input type="date" name="date" id="frm-date" min="2020-01-01" max="2040-01-01" data-nette-rules=\'[{"op":":range","msg":"Please enter a value between %a% and %a%.","arg":["2020-01-01","2040-01-01"]}]\'>',
 		(string) $input->getControl(),
 	);
 });
@@ -62,7 +62,7 @@ test('time range attributes', function () {
 		->addRule($form::Range, null, [new DateTime('2020-01-01 11:22:33'), new DateTime('2040-01-01 22:33:44')]);
 
 	Assert::match(
-		'<input type="time" name="time" id="frm-time" data-nette-rules=\'[{"op":":range","msg":"Please enter a value between %a% and %a%.","arg":["11:22","22:33"]}]\' min="11:22" max="22:33">',
+		'<input type="time" name="time" id="frm-time" min="11:22" max="22:33" data-nette-rules=\'[{"op":":range","msg":"Please enter a value between %a% and %a%.","arg":["11:22","22:33"]}]\'>',
 		(string) $input->getControl(),
 	);
 });
@@ -74,7 +74,7 @@ test('time with seconds range', function () {
 		->addRule($form::Range, null, [new DateTime('2020-01-01 11:22:33'), new DateTime('2040-01-01 22:33:44')]);
 
 	Assert::match(
-		'<input type="time" name="time" step="1" id="frm-time" data-nette-rules=\'[{"op":":range","msg":"Please enter a value between %a% and %a%.","arg":["11:22:33","22:33:44"]}]\' min="11:22:33" max="22:33:44">',
+		'<input type="time" name="time" step="1" id="frm-time" min="11:22:33" max="22:33:44" data-nette-rules=\'[{"op":":range","msg":"Please enter a value between %a% and %a%.","arg":["11:22:33","22:33:44"]}]\'>',
 		(string) $input->getControl(),
 	);
 });

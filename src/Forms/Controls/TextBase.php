@@ -20,7 +20,16 @@ abstract class TextBase extends BaseControl
 {
 	protected string $emptyValue = '';
 	protected mixed $rawValue = '';
+
+	/** text sent by the browser, before any filter changed the value */
+	protected ?string $submittedText = null;
 	private bool $nullable = false;
+
+
+	public function loadHttpData(): void
+	{
+		$this->setValue($this->submittedText = $this->getSubmittedValue(Nette\Forms\Form::DataText));
+	}
 
 
 	/** @internal */
@@ -100,16 +109,18 @@ abstract class TextBase extends BaseControl
 
 
 	/**
-	 * Validates the control, including the maxlength attribute the browser enforces.
+	 * Validates the control, including the maxlength attribute the browser enforces on the submitted text.
+	 * The browser counts UTF-16 code units, the server characters, so the server is the more lenient side.
 	 */
 	public function validate(): void
 	{
 		parent::validate();
 		$max = $this->control->maxlength;
-		if ($max !== null && !$this->isDisabled() && !$this->hasErrors()) {
-			$failure = new Nette\Forms\Validation\LengthValidator(max: (int) $max)->validate($this->rawValue);
+		if ($max !== null && $this->submittedText !== null && !$this->isDisabled() && !$this->hasErrors()) {
+			$failure = new Nette\Forms\Validation\LengthValidator(max: (int) $max)->validate($this->submittedText);
 			if ($failure) {
-				$this->addError(Nette\Forms\MessageFormatter::formatStandalone($failure, $this->getTranslator()), translate: false);
+				$rule = new Nette\Forms\Rule($this, Nette\Forms\Form::MaxLength, (int) $max);
+				$this->addError(Nette\Forms\MessageFormatter::format($rule, failure: $failure), translate: false);
 			}
 		}
 	}

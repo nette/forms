@@ -44,8 +44,9 @@ final class FloatValidator implements ValueValidator, Filter
 
 	public function getClientRule(): ClientRule
 	{
-		// the client-side counterpart normalizes the value the same way
-		return new ClientRule(':float', message: $this->createMessage());
+		// the client-side counterpart normalizes the value the same way; only a keyboard hint,
+		// because type=number would reject the decimal comma the server accepts
+		return new ClientRule(':float', message: $this->createMessage(), attributes: ['inputmode' => 'decimal']);
 	}
 
 

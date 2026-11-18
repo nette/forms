@@ -471,8 +471,6 @@ class Container extends Nette\ComponentModel\Container implements \ArrayAccess
 	{
 		return $this[$name] = new Controls\TextInput($label)
 			->setNullable()
-			->setHtmlType('number')
-			->setHtmlAttribute('step', 'any')
 			->addRule(Form::Float);
 	}
 

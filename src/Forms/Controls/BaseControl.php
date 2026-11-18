@@ -294,8 +294,9 @@ abstract class BaseControl extends Nette\ComponentModel\Component implements Con
 			$declared = $this->rules->getHtmlAttributes();
 			foreach ($names as $name) {
 				$value = $declared[$name] ?? null;
-				if (!is_scalar($value)) {
-					// a non-scalar bound (e.g. DateTimeInterface) is applied by the control that understands it
+				if ($value instanceof \DateTimeInterface) {
+					$value = Nette\Forms\ClientRuleExporter::formatDateTime($value, $this);
+				} elseif (!is_scalar($value)) {
 					continue;
 				}
 

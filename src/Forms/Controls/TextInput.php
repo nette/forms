@@ -8,7 +8,7 @@
 namespace Nette\Forms\Controls;
 
 use Nette;
-use Nette\Forms\{Form, Validation};
+use Nette\Forms\Form;
 use Nette\Utils\Html;
 use Stringable;
 use function in_array;
@@ -33,7 +33,7 @@ class TextInput extends TextBase
 
 	public function loadHttpData(): void
 	{
-		$this->setValue($this->getSubmittedValue(Form::DataLine));
+		$this->setValue($this->submittedText = $this->getSubmittedValue(Form::DataLine));
 	}
 
 
@@ -68,9 +68,10 @@ class TextInput extends TextBase
 
 	public function getControl(): Nette\Utils\Html
 	{
-		$input = parent::getControl()->addAttributes([
-			'value' => $this->control->type === 'password' ? $this->control->value : $this->getRenderedValue(),
-			'type' => $this->control->type ?? 'text',
+		$input = parent::getControl();
+		$input->addAttributes([
+			'value' => $input->type === 'password' ? $this->control->value : $this->getRenderedValue(),
+			'type' => $input->type ?? 'text',
 		]);
 		if ($this->suggestions) {
 			$input->list ??= $this->getHtmlId() . '-list';
@@ -104,50 +105,22 @@ class TextInput extends TextBase
 	}
 
 
-	/** @param  Validation\Validator|(callable(never, never): bool)|string  $validator */
-	public function addRule(
-		Validation\Validator|callable|string $validator,
-		string|Stringable|null $errorMessage = null,
-		mixed $arg = null,
-	): static
-	{
-		if ($this->getRules()->containsMutating()) {
-			// the value changes on the server, so HTML attributes must not pre-validate the raw input
-			return parent::addRule($validator, $errorMessage, $arg);
-		}
-
-		$type = match (true) {
-			$validator === Form::Email, $validator instanceof Validation\EmailValidator => 'email',
-			$validator === Form::URL, $validator instanceof Validation\UrlValidator => 'url',
-			$validator === Form::Integer, $validator instanceof Validation\IntegerValidator => 'number',
-			default => null,
-		};
-		if ($type !== null && $this->control->type === null) {
-			$this->control->type = $type;
-		}
-
-		// only a keyboard hint, type=number would reject decimal commas the server accepts
-		if (
-			($validator === Form::Float || $validator instanceof Validation\FloatValidator)
-			&& $this->control->type === null
-		) {
-			$this->control->inputmode ??= 'decimal';
-		}
-
-		return parent::addRule($validator, $errorMessage, $arg);
-	}
-
-
 	protected function getRuleAttributeNames(): array
 	{
-		$names = parent::getRuleAttributeNames();
-		if (in_array($this->control->type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], true)) {
+		// the type set by setHtmlType() wins over the type the rules declare
+		$type = $this->control->type ?? $this->getRules()->getHtmlAttributes()['type'] ?? 'text';
+		$names = [...parent::getRuleAttributeNames(), 'type'];
+		if (in_array($type, ['number', 'range', 'datetime-local', 'datetime', 'date', 'month', 'week', 'time'], true)) {
 			$names[] = 'min';
 			$names[] = 'max';
 		}
 
-		if (in_array($this->control->type, [null, 'text', 'search', 'tel', 'url', 'email', 'password'], true)) {
+		if (in_array($type, ['text', 'search', 'tel', 'url', 'email', 'password'], true)) {
 			$names[] = 'pattern';
+		}
+
+		if ($type === 'text') {
+			$names[] = 'inputmode';
 		}
 
 		return $names;

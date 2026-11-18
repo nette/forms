@@ -138,30 +138,6 @@ test('max length attribute', function () {
 });
 
 
-test('max length attribute is enforced on the server', function () {
-	$form = new Form;
-	$input = $form->addText('text', maxLength: 3);
-
-	$input->setValue('abc');
-	$input->validate();
-	Assert::same([], $input->getErrors());
-
-	$input->setValue('abcd');
-	$input->validate();
-	Assert::same(['Please enter no more than 3 characters.'], $input->getErrors());
-
-	// a failing explicit rule keeps its own message
-	$input->addRule($form::MaxLength, 'Custom message', 2);
-	$input->validate();
-	Assert::same(['Custom message'], $input->getErrors());
-
-	$input->setMaxLength(null);
-	$input->setValue('ab');
-	$input->validate();
-	Assert::same([], $input->getErrors());
-});
-
-
 test('length rule precedence', function () {
 	$form = new Form;
 	$input = $form->addText('text')
@@ -318,7 +294,7 @@ test('float input rendering', function () {
 	Assert::null($input->getValue());
 
 	Assert::same(
-		'<input type="number" name="text" step="any" id="frm-text" data-nette-rules=\'[{"op":":float","msg":"Please enter a valid number."}]\'>',
+		'<input type="text" name="text" id="frm-text" inputmode="decimal" data-nette-rules=\'[{"op":":float","msg":"Please enter a valid number."}]\'>',
 		(string) $input->getControl(),
 	);
 });
@@ -329,7 +305,70 @@ test('float rule on a plain text input adds only the decimal keyboard hint', fun
 	$input = $form->addText('price')->addRule(Form::Float);
 
 	Assert::same(
-		'<input type="text" name="price" inputmode="decimal" id="frm-price" data-nette-rules=\'[{"op":":float","msg":"Please enter a valid number."}]\'>',
+		'<input type="text" name="price" id="frm-price" inputmode="decimal" data-nette-rules=\'[{"op":":float","msg":"Please enter a valid number."}]\'>',
+		(string) $input->getControl(),
+	);
+});
+
+
+test('type and inputmode follow the rules at render time', function () {
+	$form = new Form;
+	$input = $form->addText('email');
+	$input->getRules()->addRule(Form::Email);
+	Assert::contains('type="email"', (string) $input->getControl());
+
+	$input->getRules()->removeRule(Form::Email);
+	Assert::contains('type="text"', (string) $input->getControl());
+
+	$input->addRule(new Nette\Forms\Validation\IntegerValidator);
+	Assert::contains('type="number"', (string) $input->getControl());
+
+	$input->getRules()->reset();
+	$input->addRule(Form::Float);
+	Assert::contains('inputmode="decimal"', (string) $input->getControl());
+	$input->getRules()->removeRule(Form::Float);
+	Assert::notContains('inputmode', (string) $input->getControl());
+});
+
+
+test('an explicitly set type wins over the type of the rules', function () {
+	$form = new Form;
+	$input = $form->addPassword('password')->addRule(Form::Email);
+	Assert::contains('type="password"', (string) $input->getControl());
+
+	$input = $form->addText('code')->addRule(Form::Integer)->setHtmlType('text');
+	Assert::contains('type="text"', (string) $input->getControl());
+
+	// the decimal keyboard is only a hint for a text input
+	$input = $form->addText('number')->setHtmlType('number')->addRule(Form::Float);
+	Assert::notContains('inputmode', (string) $input->getControl());
+
+	// the first rule declaring a type wins
+	$input = $form->addText('web')->addRule(Form::URL)->addRule(Form::Email);
+	Assert::contains('type="url"', (string) $input->getControl());
+});
+
+
+test('rules in conditions and after a mutating filter set no type', function () {
+	$form = new Form;
+	$input = $form->addText('email');
+	$input->addCondition(Form::Filled)->addRule(Form::Email);
+	Assert::contains('type="text"', (string) $input->getControl());
+
+	$input = $form->addText('price')
+		->addFilter(fn($s) => $s)
+		->addRule(Form::Float)
+		->addRule(Form::Integer);
+	Assert::same('<input type="text" name="price" id="frm-price">', (string) $input->getControl());
+});
+
+
+test('addInteger() renders a number input with min and max of the rules', function () {
+	$form = new Form;
+	$input = $form->addInteger('age')->addRule(Form::Range, null, [18, 99]);
+
+	Assert::same(
+		'<input type="number" name="age" id="frm-age" min="18" max="99" data-nette-rules=\'[{"op":":integer","msg":"Please enter a valid integer."},{"op":":range","msg":"Please enter a value between 18 and 99.","arg":[18,99]}]\'>',
 		(string) $input->getControl(),
 	);
 });

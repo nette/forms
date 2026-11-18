@@ -176,13 +176,21 @@ test('equal validator against another control', function () {
 });
 
 
-test('date/time bounds on a control without own formatting export to client rules, not to attributes', function () {
+test('date/time bounds on a text input render in the value format of its type', function () {
 	$form = new Form;
 	$input = $form->addText('d')->setHtmlType('date');
-	$input->addRule(new Validation\RangeValidator(min: new DateTimeImmutable('2026-01-01')));
+	$input->addRule(new Validation\RangeValidator(min: new DateTimeImmutable('2026-01-01 10:30')));
 	$control = (string) $input->getControl();
-	Assert::notContains('min=', $control);
-	Assert::contains('"arg":"2026-01-01"', $control); // in the value format of the input type
+	Assert::contains('min="2026-01-01"', $control);
+	Assert::contains('"arg":"2026-01-01"', $control);
+
+	$month = $form->addText('m')->setHtmlType('month')
+		->addRule(Form::Range, null, [new DateTimeImmutable('2026-01-15'), new DateTimeImmutable('2026-06-15')]);
+	Assert::contains('min="2026-01" max="2026-06"', (string) $month->getControl());
+
+	$local = $form->addText('l')->setHtmlType('datetime-local')
+		->addRule(Form::Max, null, new DateTimeImmutable('2026-01-01 10:30'));
+	Assert::contains('max="2026-01-01T10:30"', (string) $local->getControl());
 
 	$legacy = $form->addText('x');
 	$legacy->addRule(Form::Min, 'after %d', new DateTimeImmutable('2026-01-01 10:30'));

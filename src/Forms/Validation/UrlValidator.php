@@ -39,7 +39,7 @@ final class UrlValidator implements ValueValidator, Filter
 	public function getClientRule(): ClientRule
 	{
 		// the client-side counterpart auto-prepends the scheme the same way
-		return new ClientRule(':url', message: $this->createMessage());
+		return new ClientRule(':url', message: $this->createMessage(), attributes: ['type' => 'url']);
 	}
 
 
