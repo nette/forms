@@ -1,105 +1,100 @@
-# Container tree & HTTP data flow
+# Container tree & data flow
 
 `Form extends Container extends Nette\ComponentModel\Container`. The tree and the
-way submitted data reaches each control are one emergent model.
+way submitted data reaches each control are one emergent model. How the form
+learns that it was submitted is in `docs/internals/submission.md`.
 
-## Data is pulled, per control, from one flat array
+## Data is pulled, per control, through the tree
 
 There is **no central distribution** of submitted data. Each control pulls its own
 value, lazily, driven by the component monitor:
 
 - `BaseControl`'s constructor registers `monitor(Form::class, …)`; when a
   **non-disabled** control is attached to an **anchored, submitted** form it calls
-  `loadHttpData()` (`BaseControl::loadHttpData` →
-  `setValue(getHttpData(Form::DataText))`). `loadHttpData` is the template-method
-  hook overridden by `SubmitButton`, `CsrfProtection`, etc.
-- `BaseControl::getHttpData()` asks `Form::getHttpData($type, $htmlName)`, where
-  `$htmlName` is the full bracketed path (`getHtmlName()` →
-  `Helpers::generateHtmlName(lookupPath(Form::class))`); an explicitly set `name`
-  attribute overrides the generated one, and setting it on a submitted form
-  re-triggers `loadHttpData()`.
-- `Form::getHttpData()` **lazily** fills `Form::$httpData` **once**, from
-  `receiveHttpData()`, and sets `$submittedBy = is_array($data)`. This is the only
-  place `$httpData` is populated.
-- `Helpers::extractHttpData()` walks that flat array by the path: it strips `]`,
-  turns `.`→`_`, splits on `[`, then `Arrays::get`s down the keys. A trailing `[]`
-  triggers per-element sanitization; `DataKeys` preserves keys, otherwise
-  `array_values` renumbers.
+  `loadHttpData()`, the template-method hook each control overrides to pick its
+  data type. `setDisabled(false)` on a submitted form loads again.
+- `BaseControl::getSubmittedValue($type, $key)` reads its parent's
+  `Container::getSubmittedData()`, which reads its own parent's, up to
+  `Form::getSubmittedData()`; each level returns the sub-array under its name (or
+  `[]`). Only a **top-level control** looks its name up through
+  `Helpers::sanitizeHtmlName()`, mirroring the `_` prefix `generateHtmlName()`
+  gives a whole HTML name that is numeric or clashes with a form property; a
+  container's name is never prefixed (`5[x]`).
+- `Repeater::getSubmittedData()` renumbers its items to a list, so item
+  containers `0`, `1`, … read the renumbered data. Anything that walks the raw
+  form data by HTML name (the deprecated `Form::getHttpData()`,
+  `BaseControl::getHttpData()`, `Helpers::extractHttpData()`) sees the original
+  keys instead.
+- **An explicitly set `name` attribute is an absolute path** into the raw form
+  data, bypassing the tree (and any repeater renumbering); setting it on a
+  submitted form reloads the value.
 
-**Sanitization is by data-type bit** (`Helpers::sanitize`): `DataText` normalizes
-newlines only; `DataLine` collapses newlines to spaces and trims (single-line
-inputs); `DataFile` passes only a real `FileUpload` (else `null`). An agent adding a
-control picks the bit that matches; picking `DataText` for a single-line field
-leaks newlines.
-
-## Submission detection lives in `receiveHttpData`
-
-`Form::receiveHttpData()` returns `null` (not submitted) unless **all** hold:
-
-1. the HTTP method matches the form's method;
-2. for POST, the request passes the **same-origin** check
-   (`!crossOrigin && $request->isFrom(FetchSite::SameOrigin)`) — the actual
-   Sec-Fetch-Site / cookie logic lives in **nette/http**, not here; Forms only calls
-   `isFrom`. `allowCrossOrigin()` disables this (and token protection via
-   `CsrfProtection`/`addProtection()` is deprecated in favor of it);
-3. the **`_form_` tracker** (present only for a **named** form) equals the form's
-   name. An unnamed form has no tracker, so detection rests on method + data alone;
-   for GET an **empty query string** already means "not submitted".
-
-`submittedBy` starts as the bool `true` and is **narrowed to a `SubmitButton`
-instance** by `SubmitButton::loadHttpData()` when that button is filled — that is
-how "which button submitted" is known.
+**Sanitization is by data-type bit** (`Helpers::sanitizeData`): `DataText`
+normalizes newlines; `DataLine` collapses newlines to spaces and trims
+(single-line inputs); `DataFile` passes only a `FileUpload`. `DataList` (renumber)
+or `DataArray` (keep keys) on top expects an array, sanitizes each element with
+the remaining bits and drops elements that became `null`; a non-array yields `[]`.
+A control picking `DataText` for a single-line field leaks newlines.
 
 ## `fireEvents` order
 
 `Form::fireEvents()` runs a fixed sequence: return if not submitted; validate only
 if there are no errors yet; then `$submittedBy->onClick`/`onInvalidClick` (for a
 `SubmitButton`), then `onSuccess` (if valid), then `onError` (if invalid), then
-always `onSubmit`; a warning fires if nothing was handled. `invokeHandlers`
-inspects the types of each handler's first two parameters by reflection
-(`Container::resolveHandlerArguments()`, shared with `onValidate`) to pass `$form` /
-the button / `getValues($type)` in whichever order they are declared, and **stops
-the chain the moment a handler invalidates the form**.
+always `onSubmit`; a warning fires if nothing was handled.
+`Container::resolveHandlerArguments()` (shared with `onValidate`) inspects the
+types of each handler's first two parameters to pass the form/container, the
+button or the values in whichever order they are declared; `onValidate` gets
+untrusted values. `invokeHandlers` **stops the chain the moment a handler
+invalidates the form**.
 
-`Form::validate()` (override) pulls the validation scope from the clicked
+`Form::validate()` takes the validation scope from the submitting
 `SubmitterControl`, runs `validateMaxPostSize()` (a form-level error when
-`CONTENT_LENGTH` exceeds `post_max_size`, with the `MaxPostSize` message),
-then delegates to `Container::validate($controls)`.
+`CONTENT_LENGTH` exceeds `post_max_size`), then `Container::validate($controls)`.
+A disabled control skips validation entirely.
 
 ## Reading values back out of the tree
 
-- **`getValues()` = `getUntrustedValues()` + guards.** It **throws** if called
-  during validation (`validated === null`), warns if the form is invalid, applies
-  the validation-scope narrowing, then delegates.
-- **`getUntrustedValues()`** walks the component tree: non-omitted `Control`s
-  contribute `getValue()` (with enum coercion against the target property type),
-  nested `Container`s recurse. The return shape is `ArrayHash` by default, or
-  `$mappedType` (`setMappedType`), or a class you pass — a **DTO class** is built by
-  reflection (constructor with required params, else property assignment).
-- **`isOmitted()`** controls exclusion (`setOmitted`, or a disabled control with
-  `omitted === null`); the tracker, buttons, and CSRF field are omitted.
-- **`setDefaults()` on a submitted form only fills *disabled* controls**
-  (`onlyDisabled: form->isSubmitted()`), which is why setting defaults after submit
-  appears to "do nothing" for normal fields.
+- **`getValues()` = `getUntrustedValues()` + guards.** On a submitted form it
+  **throws** if called during validation, warns if the form is invalid, and narrows
+  to the submitter's validation scope (a container is included when one of its
+  ancestors is in scope).
+- **`getUntrustedValues()`** walks the components: non-omitted `Control`s
+  contribute `getValue()` (coerced by `Helpers::tryEnumConversion()` when the target
+  member is a backed enum), nested containers recurse with the type of their target
+  member. A repeater yields its items indexed from 0
+  (`docs/internals/repeater.md`).
+- **Mapping to a class** (`$returnType`, or `setMappedType()`) goes through
+  `Helpers::mapToObject()`: a class whose constructor has **any** parameters is
+  created through it with named arguments; otherwise the values fill public
+  properties of a new instance or of the passed object. Errors are strict
+  `InvalidStateException`s: a value with no parameter or no publicly writable
+  property, or a required parameter without a value (because the control is
+  missing, omitted or outside the scope). Dynamic properties are allowed only with
+  `#[AllowDynamicProperties]` or `__set`.
+- **`isOmitted()`** excludes a control (`setOmitted()`, or a disabled control with
+  `omitted === null`); buttons and the `_form_` tracker are omitted.
+  `setFixedValue()` = disabled + not omitted + value.
+- **`setDefaults()` / `setDefaultValue()` on a submitted form only fill
+  *disabled* controls**, which is why setting defaults after submission appears to
+  "do nothing".
 
 ## Validation scope
 
-A `SubmitButton::setValidationScope(iterable)` accepts `Container`/`Control`
+`SubmitButton::setValidationScope(iterable)` accepts `Container`/`Control`
 targets or component-name strings (resolved via `$form->getComponent()`); anything
-else throws. `Form::validate()` passes them down; `Container::validate($controls)`
-validates only that subset (`[]` validates nothing). The same scope also narrows
-`getValues` (a container is included when any of its ancestors is in scope), and is
-exported to the client as `data-nette-validation-scope` (plus `formnovalidate` on
-the button).
+else throws. `Container::validate($controls)` validates only that subset (`[]`
+validates nothing). The scope also narrows `getValues()` and is exported to the
+client as `data-nette-validation-scope` (plus `formnovalidate` on the button).
 
-## The `Control` contract is deliberately minimal — and not honored
+## The `Control` interface is the contract
 
-`Control` declares only **five** methods: `setValue`, `getValue`, `validate`,
-`getErrors`, `isOmitted`. In practice the framework requires far more of every
-control (`getHtmlName`, `getControl`, `getLabel`, `getForm`, `getOption`,
-`isFilled`, …), so it is written against `BaseControl` everywhere. The current state
-papers over the gap with **`instanceof BaseControl` guards** (a handful of sites:
-`Validator` for `%label`, the renderer's `translate`, `Form`, `Blueprint`, the Latte
-runtime) and a **`method.notFound` ignore block in `phpstan.neon`** that enumerates
-the "missing" interface methods. Treat "a control is a `BaseControl`" as the real,
-if unstated, contract.
+`Control` declares what the framework calls on a control: value and state
+(`setValue`, `getValue`, `loadHttpData`, `isFilled`, `isDisabled`, `isOmitted`),
+validation (`getRules`, `validate`, `addError`, `getErrors`), and form and
+rendering (`getForm`, `getHtmlName`, `getControl`, `getLabel`, `getOption`,
+`setOption`). Code is written against `Control`; the few `instanceof BaseControl`
+checks only enable optional extras (the caption for `%label`, the translated
+description in the default renderer, the `form=` attribute in a detached Latte
+form). The Latte `n:name` and `{input name:part}` paths call
+`getControlPart()`/`getLabelPart()`, which the interface does not declare.

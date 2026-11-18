@@ -2,109 +2,166 @@
 
 The densest part of the package, and the one with the sharpest traps.
 
+## Validator objects and string operations
+
+A validator is an object in `src/Forms/Validation/`. `Validator` is the common
+interface (`getClientRule()`, `null` for server-only); a usable one also
+implements `ValueValidator` (`validate($value)`), `ControlValidator`
+(`validateControl($control)`) or `Filter` (`filter($value)`), otherwise `addRule()`
+throws. Failure is reported as a `Message` (stable id, default English template,
+parameters, optional `count`), success as `null`.
+
+String operations (`Form::Email`, `':minLength'`…) are a front end:
+`Validation\Operations::toValidator()` maps each to a validator object, choosing by
+the control (the length operations become `ItemCountValidator` on multi-value
+controls, `LengthValidator` otherwise). **Only `:static`, `:submitted` and `:valid`
+have no object**; the first two still run through `Validator::validateStatic()` /
+`validateSubmitted()`, `:valid` is handled inside `Rules`. A plain callable is
+called as `($control, $arg)` and reports only a bool. Adding a built-in rule means
+a validator class, its `Operations` entries (`toValidator`, `assertArgument`, the
+message-id map) and a client twin in `src/assets/validators.ts`.
+
 ## The rule tree
 
-`Rules` holds an ordered `$rules[]`, a **separate** `$required` slot, and a
-`$parent` pointer. A `Rule` is a **mutable** value object: `control`, `validator`
-(**either a string op like `':email'` or a callable**), `arg`, `isNegative`,
-`message`, and an optional `branch` (a nested `Rules` for conditions). There is no
-`op` field — the op string *is* the validator, mapped to a built-in via
-`getCallback()` (`':email'` → `[Validator::class, 'validateEmail']`).
+`Rules` holds an ordered `$rules[]`, a **separate** `$required` slot and a
+`$parent`. A `Rule` is an **immutable** value object: `control`, `validator`
+(string op, validator object, `Filter` or callable), `arg`, `message`,
+`isNegative`, and `branch` (a nested `Rules`) for conditions;
+`Rule::getValidationObject()` memoizes the object a string op maps to.
 
-- `addRule`: a `Filled` rule goes to `$required`, everything else to `$rules[]`,
-  where a rule with an identical validator and argument replaces the existing one
-  in place (so a custom message overrides the built-in rule of `addEmail()` etc.);
-  `Valid` is rejected by both `addRule` and `addCondition` — only `addConditionOn`
-  accepts it.
-- `addCondition` turns a bool argument into `:static`; `addConditionOn` creates a
-  `Rule` with a `branch` and **returns the branch**, which is why `addRule` chains
-  into the condition.
-- `elseCondition` clones the last rule and flips it — `Filled`↔`Blank` via a lookup,
-  otherwise `isNegative = !isNegative`.
-- **Negated ops (`~`) are deprecated for rules**: `adjustOperation` throws for a
-  negative non-branch rule; negation survives only in conditions (and via
-  `elseCondition`'s flip).
+- `addRule` checks the argument **eagerly**: a string op's `$arg` must match its
+  type (`Operations::assertArgument()`), a validator object takes no `$arg`. A rule
+  that checks filled-ness (`Rule::checksFilled()`, i.e. a `FilledValidator`) goes
+  to `$required`; any other rule with an identical validator and argument
+  (`===`) **replaces** the existing one in place, so a custom message overrides the
+  built-in rule of `addEmail()` etc.
+- `Form::Valid` is rejected by `addRule` and `addCondition`; only `addConditionOn`
+  accepts it. Negated (`~`) ops throw in `addRule`; negation exists only in
+  conditions and `elseCondition`, which flips `Filled`↔`Blank` for string ops and
+  `isNegative` otherwise.
+- `addCondition` turns a bool into `:static`; `addConditionOn` returns the branch,
+  which is why `addRule` chains into the condition.
+- `removeRule` never removes conditions. A validator class removes all rules
+  performed by it; a string op removes rules declared with it or, when its class
+  is not shared with other ops, with that class; an object or callable removes
+  only rules holding that very instance.
+- `addFilter` wraps the callable in a `CallbackFilter` rule.
 
-## Evaluation order and `$emptyOptional`
+## Evaluation
+
+`Rules::evaluateRule()` is the **single evaluation point** for all validator kinds.
+`ControlValidator` wins over `ValueValidator` when an object is both (equality and
+range validators use it to delegate to `DateTimeControl`). After a successful,
+non-negated rule whose object is a `Filter`, the control value is replaced by
+`filter(getValue())`: this is how `addFilter` works and how the built-in
+`Integer`, `Float` and `URL` normalize the value.
 
 `Rules::validate()`:
 
-- **`$emptyOptional`** = "not required and not filled". When set, every **non-branch**
-  rule except `Filled` is skipped — an empty optional field validates clean. It
-  propagates into branches, but a `Blank` branch resets it to `false`.
-- **Order is Blank → required → the rest**, imposed by `getIterator()` (priorities
-  0/1/2), not by insertion order. Priority 0 applies only to `Blank` targeting the
-  **same** control — a `Blank` condition on another control (`addConditionOn`) is an
-  ordinary priority-2 rule.
-- **Filters are ordinary rules.** `addFilter` appends a rule whose closure does
-  `setValue(filter(getValue())); return true;`, at priority 2 — so a filter runs
-  **after** Blank and Required, interleaved with other rules, not in a dedicated
-  phase.
+- **`$emptyOptional`** = "not required and not filled". When set, every
+  **non-branch** rule except the filled check is skipped, so an empty optional field
+  validates clean. It propagates into branches, but a branch on a blank check
+  (`Rule::checksBlank()`, including a negated filled check) resets it to `false`.
+- **Order is Blank → required → the rest**, imposed by `getIterator()`, not by
+  insertion order. The first group takes only blank checks on the **same**
+  control. Filters are ordinary rules in the last group, interleaved with the others.
+- The first failing rule adds its message to the control and stops the control's
+  validation.
+
+## Dry run: toggles never mutate
+
+`Rules::getToggleStates()` (behind `Form::getToggles()`) evaluates in a **dry run**:
+no filter is applied and no error added, also through `:valid` conditions. A dry
+run sees the unfiltered value, so its result can differ from real validation when
+a filter precedes the checked rule.
 
 ## Trap: filters re-apply on every validation pass
 
-A filter mutates the control's value in place and **nothing ever restores the raw
-value**. Every call to `validate()` — direct, via `:valid`, or via toggle
-computation — re-runs the filter on the **already-filtered** value. A
-`addFilter(fn($v) => $v.'x')` appends another `x` each pass. In particular,
-computing toggle states calls the same `validateRule()` with full side effects, so
-**every render that reads toggles mutates values and can add phantom errors**
-(there is no dry-run mode; `validateRule` always executes the callback).
+A filter mutates the control value in place and **nothing restores the raw value**.
+Every validating pass re-runs it on the already-filtered value:
+`addFilter(fn($v) => $v . 'x')` appends another `x` per pass. Passes come from each
+`validate()` call and from every `:valid` condition referencing the control: such
+a condition evaluates the referenced control's rules **for real**, applying its
+filters and adding errors to it, on top of that control's own validation (one
+`$form->validate()` then applies the filter twice).
 
-Filters are not the only mutators: several **built-in validators normalize via
-`setValue()`** — `Integer` casts to int, `Float` strips spaces/commas and casts to
-float, `URL` prepends `https://`. These run in toggle computation too.
+## `:valid` and its cycle guard
 
-## Trap: `:valid` runs full validation and has no recursion guard
+`Rules::evaluateReferenced()` runs the referenced control's full rule list and
+flags it while running; re-entering the same `Rules` throws
+`InvalidStateException` ("form a cycle"), in validation and toggles alike.
+`Validator::validateValid()` bypasses this path and the guard.
 
-The `:valid` op routes to `Validator::validateValid()`, which calls
-`$control->getRules()->validate()` — the **full** pipeline, applying filters and
-calling `addError`. Because toggle computation (`getToggleStates`) goes through the
-same `validateRule` path, a condition on `:valid` writes errors and mutates values
-on every toggle read. Worse, there is **no visited-set**: `A` conditioned on
-`B :valid` and `B` conditioned on `A :valid` recurse until the stack overflows.
+## Messages
 
-## Trap: `Validator::$messages` is keyed by op, so it misses callable validators
+`MessageFormatter::format()` chooses the template in this order:
 
-`Validator::formatMessage()` resolves the message template from `$rule->validator`
-**only when it is a string** (`is_string($rule->validator) && isset($messages[...])`).
-So `Validator::$messages[Form::Email]` (and the NEON `forms: messages:`) overrides
-`addRule(Form::Email)` but **never** a custom callable/object rule — those fall back
-to the rule's explicit message or a "Missing validation message" error. There is no
-stable message id; the op string is the only key.
+1. an `HtmlStringable` rule message is returned as is (no translation, no
+   placeholders);
+2. a string rule message is translated as a string, with the count (the failure's
+   `count`, or an int `arg`) as the second translator argument;
+3. otherwise the failure `Message` reported by the validator (or a `Message` given
+   as the rule message): `Validator::$messages[$id]`, then
+   `Validator::$messages[<operation of the id>]` (`Operations::getMessageOperation()`),
+   then its default template. **The translator receives the `Message` object**,
+   whose string form is the unsubstituted template, so a translator keyed by the
+   English text matches it;
+4. a callable (and `:static`, `:submitted`) reports no message: without a rule
+   message it is a "Missing validation message" warning.
+
+Overrides therefore reach validator objects by their message id and string ops by
+the op; a plain callable never picks one up. Parameters are substituted **after**
+translation: the named ones of the `Message`, then the positional `%d`/`%s` and
+`%label`, `%value`, `%name`. The DI extension writes `forms: messages:` keys
+containing a dot as ids, other keys as `Form` or global constant names.
+Errors without a rule (POST size, repeater counts) go through `formatStandalone()`,
+which applies the overrides and translation but leaves `%label`, `%value` and
+`%name` untouched. The `maxlength` check of `TextBase` formats its message as a
+`MaxLength` rule of the control, so all placeholders work there.
 
 ## DateTimeControl is special-cased across the pipeline
 
-Four distant sites test `instanceof DateTimeControl` explicitly and will break
-together in a refactor:
+Distant sites test `instanceof DateTimeControl` and break together in a refactor:
 
-- `Validation\Operations::toValidator()` maps no `Equal`/`Min`/`Max`/`Range` on it
-  to a validator object, so these run through the classic validators below.
-- `Validator::validateRange()` bypasses `Validators::isInRange` and delegates to
-  `$control->validateMinMax()` — which for a time-only control **wraps around
-  midnight** when min > max (22:00–02:00 is a valid range). Likewise
-  `Validator::validateEqual()` delegates to `$control->validateEqual()`; both
-  normalize the expected values to the control's type, so a time compares by the
-  time of day and a date ignores the time part, the same as the client compares
-  the values exported in the input's format.
-- `Validator::formatMessage()` renders rule args via `formatLocaleText()`
-  (`IntlDateFormatter`, needs ext-intl) instead of string interpolation.
-- `Helpers::exportArgument()` serializes args for the client via
-  `formatHtmlValue()` (the HTML `input` wire format `Y-m-d` / `H:i[:s]` /
-  `Y-m-d\TH:i[:s]`).
-
-Control-side value normalization lives in `docs/internals/controls.md`.
+- `Operations::toValidator()` converts string/int arguments of
+  `Equal`/`NotEqual`/`Min`/`Max`/`Range` to `DateTimeImmutable`.
+- `EqualValidator`/`NotEqualValidator::validateControl()` delegate to
+  `DateTimeControl::validateEqual()`, `RangeValidator::validateControl()` to
+  `validateMinMax()`. Both normalize to the control's type (a time compares by
+  time of day, a date ignores the time), and a time range **wraps around
+  midnight** when min > max.
+- `MessageFormatter` shows dates via `formatLocaleText()` (`IntlDateFormatter`,
+  needs ext-intl).
+- `ClientRuleExporter` exports arguments via `formatHtmlValue()` (the `<input>`
+  wire format), so the client compares strings in that format.
 
 ## Client export
 
-`Helpers::exportRules()` serializes rules into `data-nette-rules`. A rule exports
-only if `canExport()` — `is_string($validator) || Callback::isStatic($validator)`.
-A non-exportable **plain rule** (typically a mutating filter closure) **`break`s**
-and stops export of everything after it (the same logic applies inside each branch's
-own export); a non-exportable **condition** (a rule with a `branch`) is merely
-skipped (`continue`). This "a mutating filter halts client validation of later rules"
-behavior is intentional: the client cannot reproduce an opaque server-side mutation.
-`Form::Enum` has no JS counterpart and is exported as `Form::Equal` against the
-enum's case values.
-How the browser consumes this payload is described in
+`ClientRuleExporter::export()` serializes rules into `data-nette-rules`, each from
+`Rule::getClientRule()`, or from the op/static-callable name (`Class::method`) and
+the raw argument when there is no object. A rule exports only if
+`Rule::canExport()`:
+
+- A **mutating** rule (`Rule::mutatesValue()`: a `Filter` without a client rule,
+  typically `addFilter`) **stops** the export of everything after it, including
+  the rules after a condition whose branch contains one: the client cannot
+  reproduce the server-side value. A filter with a client rule (`Integer`,
+  `Float`, `URL`) is reproduced by its JS twin and does not stop it.
+- A non-mutating server-only rule (a non-static callable, an object with no client
+  rule, `SelectBox`'s closure condition) is skipped.
+- A condition with neither exported rules nor toggles is dropped.
+
+`Form::Enum` exports as `:equal` against the case values. Messages are exported
+with `%value` and control references (`%0`, `%1`) left for the client.
+
+**HTML validation attributes** (`maxlength`, `min`, `max`, `pattern`, `type`,
+`inputmode`, `accept`) are declared by validators in `ClientRule::$attributes` and
+collected by `Rules::getHtmlAttributes()` under the same stop rule; conditional
+and negated rules never contribute, and duplicates merge to the stricter bound
+(`Rules::mergeAttribute()`). The control renders only the names its
+`getRuleAttributeNames()` returns (see `docs/internals/controls.md`), and a value
+set on the prototype wins for non-bounds (`type`) or merges for bounds. So
+`addText()->addFilter(…)->addRule(Form::Email)` renders `type="text"`.
+
+How the browser consumes the payload is described in
 `docs/internals/client-side.md`.
