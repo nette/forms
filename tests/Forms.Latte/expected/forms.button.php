@@ -16,7 +16,7 @@
 	<button';
 		echo ($ʟ_elem = $this->global->forms->get('send')->getControlPart())->attributes() /* pos 8:10 */;
 		echo '>';
-		echo LR\HtmlHelpers::escapeText($ʟ_elem->getValue()) /* pos 8:10 */;
+		echo %a%$ʟ_elem->getValue()%a% /* pos 8:10 */;
 		echo '</button>
 ';
 		echo $this->global->forms->renderFormEnd(false) /* pos 1:7 */;

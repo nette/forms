@@ -10,7 +10,7 @@
 			echo $this->global->forms->get($name)->getControl()->addAttributes(['title' => 'Hello', 'size' => 10]) /* pos %d%:3 */;
 			echo '
 		';
-			echo LR\HtmlHelpers::escapeText($this->global->forms->get($name)->getError()) /* pos %d%:3 */;
+			echo %a%$this->global->forms->get($name)->getError()%a% /* pos %d%:3 */;
 			echo '
 
 		<br>
@@ -23,7 +23,7 @@
 			echo $ʟ_label?->endTag() /* pos %d%:87 */;
 			echo '
 		';
-			echo LR\HtmlHelpers::escapeText($this->global->forms->get($form[$name])->getError()) /* pos %d%:3 */;
+			echo %a%$this->global->forms->get($form[$name])->getError()%a% /* pos %d%:3 */;
 			echo "\n";
 
 		}
@@ -80,7 +80,7 @@
 			echo ' ';
 			echo $this->global->forms->get('sex')->getControlPart($key) /* pos %d%:19 */;
 			echo ' ';
-			echo LR\HtmlHelpers::escapeText($label) /* pos %d%:36 */;
+			echo %a%$label%a% /* pos %d%:36 */;
 			echo $ʟ_label?->endTag() /* pos %d%:44 */;
 			echo '
 	<label';
@@ -151,7 +151,7 @@
 			echo ' ';
 			echo $this->global->forms->get('checklist')->getControlPart($key) /* pos %d%:25 */;
 			echo ' ';
-			echo LR\HtmlHelpers::escapeText($label) /* pos %d%:48 */;
+			echo %a%$label%a% /* pos %d%:48 */;
 			echo $ʟ_label?->endTag() /* pos %d%:56 */;
 			echo '
 	<label';
