@@ -11,6 +11,16 @@ use Tester\Assert;
 require __DIR__ . '/../bootstrap.php';
 
 
+final readonly class UploadsData
+{
+	public function __construct(
+		public array $files,
+		public FileUpload $file,
+	) {
+	}
+}
+
+
 setUp(function () {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 
@@ -148,17 +158,30 @@ test('missing upload field handling', function () {
 });
 
 
-test('nullable multi-upload handling', function () {
+test('multi-upload cannot be nullable', function () {
 	$form = new Form;
-	$form->allowCrossOrigin();
-	$input = $form->addMultiUpload('empty')
-		->setNullable() // has no effect
-		->setRequired();
+	$input = $form->addMultiUpload('empty');
 
-	Assert::false($form->isValid());
-	Assert::equal([], $input->getValue());
-	Assert::false($input->isFilled());
-	Assert::false($input->isOk());
+	Assert::exception(
+		fn() => $input->setNullable(),
+		Nette\InvalidStateException::class,
+		"Multiple upload 'empty' cannot be nullable, it returns an empty array when nothing was uploaded.",
+	);
+	Assert::false($input->setNullable(false)->isNullable());
+});
+
+
+test('multi-upload of a form that was not submitted returns an empty array', function () {
+	unset($_SERVER['REQUEST_METHOD']);
+	$form = new Form;
+	$multi = $form->addMultiUpload('files');
+	$single = $form->addUpload('file');
+
+	Assert::false($form->isSubmitted());
+	Assert::same([], $multi->getValue());
+	Assert::false($multi->isFilled());
+	Assert::equal(new FileUpload(null), $single->getValue());
+	Assert::same([], $form->getValues(UploadsData::class)->files);
 });
 
 

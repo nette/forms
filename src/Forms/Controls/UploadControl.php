@@ -72,12 +72,17 @@ class UploadControl extends BaseControl
 
 
 	/**
-	 * Returns the uploaded file(s), a dummy FileUpload(null) when nothing was uploaded, or null when nullable is set.
+	 * Returns the uploaded file, a dummy FileUpload(null) when nothing was uploaded, or null when nullable is set.
+	 * A multiple upload returns a list of the uploaded files, empty when nothing was uploaded.
 	 * @return FileUpload|FileUpload[]|null
 	 */
 	public function getValue(): FileUpload|array|null
 	{
-		return $this->value ?? ($this->nullable ? null : new FileUpload(null));
+		return $this->value ?? match (true) {
+			(bool) $this->control->multiple => [],
+			$this->nullable => null,
+			default => new FileUpload(null),
+		};
 	}
 
 
@@ -95,6 +100,10 @@ class UploadControl extends BaseControl
 	 */
 	public function setNullable(bool $value = true): static
 	{
+		if ($value && $this->control->multiple) {
+			throw new Nette\InvalidStateException("Multiple upload '{$this->getName()}' cannot be nullable, it returns an empty array when nothing was uploaded.");
+		}
+
 		$this->nullable = $value;
 		return $this;
 	}
