@@ -52,14 +52,14 @@ final class Rule
 	public function mutatesValue(): bool
 	{
 		return $this->validator instanceof Validation\Filter
-			&& $this->getClientRules() === [];
+			&& $this->getClientRule() === null;
 	}
 
 
 	/**
 	 * Returns the validator object performing this rule: either the object given
-	 * to addRule() directly, or the shared object the string operation maps to.
-	 * Null for callables and operations without an object counterpart.
+	 * to addRule() directly, or the object the string operation maps to.
+	 * Null for callables, filters and the operations :static, :submitted and :valid.
 	 * The rule is immutable, so the resolution is memoized.
 	 * @internal
 	 */
@@ -79,13 +79,12 @@ final class Rule
 
 
 	/**
-	 * Client-side counterparts of the rule's validator, empty for server-only rules.
+	 * Client-side counterpart of the rule's validator, null for server-only rules.
 	 * @internal
-	 * @return list<Validation\ClientRule>
 	 */
-	public function getClientRules(): array
+	public function getClientRule(): ?Validation\ClientRule
 	{
-		return $this->getValidationObject()?->getClientRules() ?? [];
+		return $this->getValidationObject()?->getClientRule();
 	}
 
 
@@ -140,7 +139,7 @@ final class Rule
 	{
 		return !$this->mutatesValue()
 			&& (is_string($this->validator)
-				|| $this->getClientRules() !== []
+				|| $this->getClientRule() !== null
 				|| $this->getCallableName() !== null);
 	}
 }

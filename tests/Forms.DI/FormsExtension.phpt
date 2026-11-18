@@ -23,6 +23,7 @@ test('', function () {
 			Equal: "Testing equal %s."
 			Filled: "Testing filled"
 			\'Nette\Forms\Controls\SelectBox::Valid\': "SelectBox test"
+			forms.length.min: "At least %count characters"
 	', 'neon'));
 
 	eval($compiler->addConfig($config)->setClassName('Container1')->compile());
@@ -32,6 +33,7 @@ test('', function () {
 	Assert::same(Validator::$messages[Form::Filled], 'Testing filled');
 	Assert::same(Validator::$messages[Form::Equal], 'Testing equal %s.');
 	Assert::same(Validator::$messages[Nette\Forms\Controls\SelectBox::Valid], 'SelectBox test');
+	Assert::same(Validator::$messages['forms.length.min'], 'At least %count characters');
 });
 
 

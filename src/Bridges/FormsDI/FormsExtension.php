@@ -31,7 +31,9 @@ class FormsExtension extends Nette\DI\CompilerExtension
 		$initialize = $this->initialization ?? $class->getMethod('initialize');
 
 		foreach ($this->config->messages as $name => $text) {
-			if (defined('Nette\Forms\Form::' . $name)) {
+			if (str_contains($name, '.')) { // message identifier such as forms.length.min
+				$initialize->addBody('Nette\Forms\Validator::$messages[?] = ?;', [$name, $text]);
+			} elseif (defined('Nette\Forms\Form::' . $name)) {
 				$initialize->addBody('Nette\Forms\Validator::$messages[Nette\Forms\Form::?] = ?;', [$name, $text]);
 			} elseif (defined($name)) {
 				$initialize->addBody('Nette\Forms\Validator::$messages[' . $name . '] = ?;', [$text]);

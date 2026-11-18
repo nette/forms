@@ -309,3 +309,24 @@ test('upload control rule count', function () {
 	Assert::count(2, $rules);
 	Assert::same($form::MaxFileSize, $rules[1]->validator);
 });
+
+
+test('a file size rule replaces the previous one, whichever way it was declared', function () {
+	$form = new Form;
+	$input = $form->addUpload('file');
+
+	$input->addRule(new Nette\Forms\Validation\FileSizeValidator(1000));
+	$sizes = fn() => array_values(array_filter(array_map(
+		fn($rule) => $rule->getValidationObject() instanceof Nette\Forms\Validation\FileSizeValidator
+			? $rule->getValidationObject()->limit
+			: null,
+		iterator_to_array($input->getRules()),
+	)));
+	Assert::same([1000], $sizes());
+
+	$input->addRule($form::MaxFileSize, null, 500);
+	Assert::same([500], $sizes());
+
+	$input->addRule(new Nette\Forms\Validation\FileSizeValidator(200));
+	Assert::same([200], $sizes());
+});

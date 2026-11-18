@@ -42,10 +42,10 @@ final class FloatValidator implements ValueValidator, Filter
 	}
 
 
-	public function getClientRules(): array
+	public function getClientRule(): ClientRule
 	{
 		// the client-side counterpart normalizes the value the same way
-		return [new ClientRule(':float', message: $this->createMessage())];
+		return new ClientRule(':float', message: $this->createMessage());
 	}
 
 

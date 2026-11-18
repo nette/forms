@@ -8,7 +8,7 @@
 namespace Nette\Forms;
 
 use Nette;
-use function count, is_array;
+use function is_array;
 use const ENT_HTML5, ENT_QUOTES;
 
 
@@ -49,17 +49,15 @@ final class ClientRuleExporter
 				continue;
 			}
 
-			$clientRules = $rule->getClientRules();
-			if (!$clientRules) {
-				// a rule without an object equivalent exports its operation and argument as-is
-				$operation = $rule->getOp()
-					?? $rule->getCallableName()
-					?? throw new Nette\InvalidStateException('Unknown validator type.');
-				$clientRules = [new Validation\ClientRule($operation, $rule->arg)];
-			}
+			// a rule without a validator object exports its operation and argument as-is
+			$clientRule = $rule->getClientRule()
+				?? new Validation\ClientRule(
+					$rule->getOp() ?? $rule->getCallableName() ?? throw new Nette\InvalidStateException('Unknown validator type.'),
+					$rule->arg,
+				);
 
-			[$items, $stopped] = self::exportRule($rule, $clientRules);
-			foreach ($items as $item) {
+			[$item, $stopped] = self::exportRule($rule, $clientRule);
+			if ($item) {
 				$payload[] = $item;
 			}
 
@@ -73,54 +71,30 @@ final class ClientRuleExporter
 
 
 	/**
-	 * Exports one rule given its client-side counterparts. A single rule may translate
-	 * to several client-side items, each with its own message. A condition is
-	 * exportable only when it translates to exactly one client rule.
-	 * @param  list<Validation\ClientRule>  $clientRules
-	 * @return array{list<array<string, mixed>>, bool}
+	 * Exports one rule or condition given its client-side counterpart.
+	 * @return array{?array<string, mixed>, bool}
 	 */
-	private static function exportRule(Rule $rule, array $clientRules): array
+	private static function exportRule(Rule $rule, Validation\ClientRule $clientRule): array
 	{
-		$negative = $rule->isNegative ? '~' : '';
+		$item = ['op' => ($rule->isNegative ? '~' : '') . $clientRule->operation];
+		$stopped = false;
 		if ($rule->branch) {
-			if (count($clientRules) !== 1) {
-				// a condition needs a single operation, so a split one (Length with both bounds) is exported as written
-				if ($rule->getOp() === null) {
-					return [[], false];
-				}
-
-				$clientRules = [new Validation\ClientRule($rule->getOp(), $rule->arg)];
-			}
-
-			[$branchRules, $stopped] = self::exportRuleList($rule->branch);
-			$item = [
-				'op' => $negative . $clientRules[0]->operation,
-				'rules' => $branchRules,
-				'control' => $rule->control->getHtmlName(),
-			];
+			[$item['rules'], $stopped] = self::exportRuleList($rule->branch);
+			$item['control'] = $rule->control->getHtmlName();
 			if ($rule->branch->getToggles()) {
 				$item['toggle'] = $rule->branch->getToggles();
 			} elseif (!$item['rules']) {
-				return [[], $stopped];
+				return [null, $stopped];
 			}
-
-			self::exportArguments($item, $clientRules[0]->arg, $rule->control);
-			return [[$item], $stopped];
-		}
-
-		$items = [];
-		foreach ($clientRules as $clientRule) {
+		} else {
 			$msg = MessageFormatter::format($rule, withValue: false, failure: $clientRule->message);
-			if ($msg instanceof Nette\HtmlStringable) {
-				$msg = html_entity_decode(strip_tags((string) $msg), ENT_QUOTES | ENT_HTML5, 'UTF-8');
-			}
-
-			$item = ['op' => $negative . $clientRule->operation, 'msg' => $msg];
-			self::exportArguments($item, $clientRule->arg, $rule->control);
-			$items[] = $item;
+			$item['msg'] = $msg instanceof Nette\HtmlStringable
+				? html_entity_decode(strip_tags((string) $msg), ENT_QUOTES | ENT_HTML5, 'UTF-8')
+				: $msg;
 		}
 
-		return [$items, false];
+		self::exportArguments($item, $clientRule->arg, $rule->control);
+		return [$item, $stopped];
 	}
 
 
@@ -140,14 +114,31 @@ final class ClientRuleExporter
 
 	private static function exportArgument(mixed $value, Control $control): mixed
 	{
-		if ($value instanceof Control) {
-			return ['control' => $value->getHtmlName()];
-		} elseif ($control instanceof Controls\DateTimeControl) {
-			return $control->formatHtmlValue($value);
-		} elseif ($value instanceof \DateTimeInterface) {
-			return $value->format('Y-m-d\TH:i:s');
-		} else {
-			return $value;
-		}
+		return match (true) {
+			$value instanceof Control => ['control' => $value->getHtmlName()],
+			$value === null => null,
+			$control instanceof Controls\DateTimeControl => $control->formatHtmlValue($value),
+			$value instanceof \DateTimeInterface => self::formatDateTime($value, $control),
+			default => $value,
+		};
+	}
+
+
+	/**
+	 * Formats a date/time in the format of the value of the control's <input> type,
+	 * so that the client compares it with the value as a string.
+	 */
+	public static function formatDateTime(\DateTimeInterface $value, Control $control): string
+	{
+		$type = $control instanceof Controls\TextInput ? $control->getControlPrototype()->type : null;
+		$seconds = $value->format('s') !== '00';
+		return $value->format(match ($type) {
+			'date' => 'Y-m-d',
+			'month' => 'Y-m',
+			'week' => 'o-\WW',
+			'time' => $seconds ? 'H:i:s' : 'H:i',
+			'datetime-local' => $seconds ? 'Y-m-d\TH:i:s' : 'Y-m-d\TH:i',
+			default => 'Y-m-d\TH:i:s',
+		});
 	}
 }

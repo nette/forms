@@ -36,8 +36,7 @@ class UploadControl extends BaseControl
 		$this->control->type = 'file';
 		$this->control->multiple = $multiple;
 		$this->setOption('type', 'file');
-		$this->addCondition(true) // not to block the export of rules to JS
-			->addRule($this->isOk(...), new Validation\Message(self::Valid, 'An error occurred during file upload.'));
+		$this->addRule($this->isOk(...), new Validation\Message(self::Valid, 'An error occurred during file upload.'));
 		$this->addRule(Form::MaxFileSize, null, Forms\Helpers::iniGetSize('upload_max_filesize'));
 		if ($multiple) {
 			$maxFiles = (int) ini_get('max_file_uploads');
@@ -151,7 +150,6 @@ class UploadControl extends BaseControl
 				);
 			}
 			$this->getRules()->removeRule(Form::MaxFileSize);
-			$this->getRules()->removeRule(Validation\FileSizeValidator::class);
 
 		} elseif ($validator === Form::MaxLength) {
 			if ($arg > ($ini = ini_get('max_file_uploads'))) {

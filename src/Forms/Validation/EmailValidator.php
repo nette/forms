@@ -28,9 +28,9 @@ final class EmailValidator implements ValueValidator
 	}
 
 
-	public function getClientRules(): array
+	public function getClientRule(): ClientRule
 	{
-		return [new ClientRule(':email', message: $this->createMessage())];
+		return new ClientRule(':email', message: $this->createMessage());
 	}
 
 

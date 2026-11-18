@@ -10,107 +10,171 @@ namespace Nette\Forms\Validation;
 use Nette;
 use Nette\Forms\{Control, Form};
 use Nette\Forms\Controls\DateTimeControl;
-use function is_array, is_bool, is_float, is_int, is_string, sprintf;
+use function count, is_array, is_bool, is_float, is_int, is_string, sprintf;
 
 
 /**
- * Maps string operations (Form::Email, ':minLength'...) to the shared validator
- * objects implementing them, so that all rules get stable message identifiers
- * and a single evaluation path. Returns null when the operation or its argument
- * has no object counterpart; such rules run through the classic static validators.
+ * Maps string operations (Form::Email, ':minLength'...) to the validator objects
+ * implementing them, so that all rules get stable message identifiers and a single
+ * evaluation path. Only the operations :static, :submitted and :valid have no object.
  * @internal
  */
 final class Operations
 {
 	use Nette\StaticClass;
 
+	/** operations whose validator class is used by no other operation */
+	private const Classes = [
+		Form::Filled => FilledValidator::class,
+		Form::Blank => BlankValidator::class,
+		Form::Email => EmailValidator::class,
+		Form::URL => UrlValidator::class,
+		Form::Integer => IntegerValidator::class,
+		Form::Float => FloatValidator::class,
+		Form::Numeric => NumericValidator::class,
+		Form::Equal => EqualValidator::class,
+		Form::NotEqual => NotEqualValidator::class,
+		Form::Enum => EnumValidator::class,
+		Form::MimeType => MimeTypeValidator::class,
+		Form::Image => ImageValidator::class,
+		Form::MaxFileSize => FileSizeValidator::class,
+	];
+
+	/** message identifiers of the validators and the operations they belong to */
+	private const MessageOperations = [
+		FilledValidator::Required => Form::Filled,
+		BlankValidator::NotBlank => Form::Blank,
+		EmailValidator::InvalidSyntax => Form::Email,
+		UrlValidator::NotUrl => Form::URL,
+		IntegerValidator::NotInteger => Form::Integer,
+		FloatValidator::NotNumber => Form::Float,
+		NumericValidator::NotNumeric => Form::Numeric,
+		EqualValidator::NotEqual => Form::Equal,
+		NotEqualValidator::Equal => Form::NotEqual,
+		EnumValidator::Invalid => Form::Enum,
+		PatternValidator::Mismatch => Form::Pattern,
+		RangeValidator::NotInRange => Form::Range,
+		RangeValidator::TooSmall => Form::Min,
+		RangeValidator::TooLarge => Form::Max,
+		LengthValidator::NotInRange => Form::Length,
+		LengthValidator::NotExact => Form::Length,
+		LengthValidator::TooShort => Form::MinLength,
+		LengthValidator::TooLong => Form::MaxLength,
+		ItemCountValidator::NotInRange => Form::Length,
+		ItemCountValidator::NotExact => Form::Length,
+		ItemCountValidator::TooFew => Form::MinLength,
+		ItemCountValidator::TooMany => Form::MaxLength,
+		FileSizeValidator::TooBig => Form::MaxFileSize,
+		MimeTypeValidator::UnexpectedType => Form::MimeType,
+		ImageValidator::NotImage => Form::Image,
+	];
+
+
+	/**
+	 * Creates the validator performing the operation. The argument must have passed assertArgument().
+	 */
 	public static function toValidator(string $op, mixed $arg, Control $control): ?Validator
 	{
-		if ($control instanceof DateTimeControl && in_array($op, [Form::Equal, Form::Min, Form::Max, Form::Range], true)) {
-			return null; // DateTimeControl compares in its own precision, ranges wrap around midnight
+		if ($control instanceof DateTimeControl && in_array($op, [Form::Equal, Form::NotEqual, Form::Min, Form::Max, Form::Range], true)) {
+			$arg = is_array($arg) ? array_map(self::toDateTime(...), $arg) : self::toDateTime($arg);
 		}
 
-		$isBound = fn(mixed $value): bool => $value === null
-			|| is_int($value) || is_float($value) || is_string($value)
-			|| $value instanceof \DateTimeInterface || $value instanceof Control;
-		$isText = $control instanceof Nette\Forms\Controls\TextBase;
-		// controls whose length rules mean the number of items, not characters
+		// for multi-value controls the length rules mean the number of items
 		$isMulti = $control instanceof Nette\Forms\Controls\MultiChoiceControl
 			|| ($control instanceof Nette\Forms\Controls\UploadControl && $control->getControlPrototype()->multiple);
+		$bounds = is_array($arg) ? [$arg[0] ?? null, $arg[1] ?? null] : [$arg, $arg];
 
-		return match (true) {
-			$op === Form::Filled => new FilledValidator,
-			$op === Form::Blank => new BlankValidator,
-			$op === Form::Email => new EmailValidator,
-			$op === Form::URL => new UrlValidator,
-			$op === Form::Integer => new IntegerValidator,
-			$op === Form::Float => new FloatValidator,
-			$op === Form::Equal => new EqualValidator($arg),
-			$op === Form::Min && $isBound($arg) && $arg !== null => new RangeValidator(min: $arg),
-			$op === Form::Max && $isBound($arg) && $arg !== null => new RangeValidator(max: $arg),
-			$op === Form::Range && is_array($arg) && $isBound($arg[0] ?? null) && $isBound($arg[1] ?? null)
-				=> new RangeValidator($arg[0] ?? null, $arg[1] ?? null),
-			$op === Form::MinLength && $isText && is_int($arg) => new LengthValidator(min: $arg),
-			$op === Form::MaxLength && $isText && is_int($arg) => new LengthValidator(max: $arg),
-			$op === Form::Length && $isText && is_int($arg) => new LengthValidator($arg, $arg),
-			$op === Form::Length && $isText && self::isIntBounds($arg) => new LengthValidator($arg[0] ?? null, $arg[1] ?? null),
-			// for multi-value controls the length rules mean the number of items
-			$op === Form::MinLength && $isMulti && is_int($arg) => new ItemCountValidator(min: $arg),
-			$op === Form::MaxLength && $isMulti && is_int($arg) => new ItemCountValidator(max: $arg),
-			$op === Form::Length && $isMulti && is_int($arg) => new ItemCountValidator($arg, $arg),
-			$op === Form::Length && $isMulti && self::isIntBounds($arg) => new ItemCountValidator($arg[0] ?? null, $arg[1] ?? null),
-			$op === Form::Pattern && is_string($arg) => new PatternValidator($arg),
-			$op === Form::PatternInsensitive && is_string($arg) => new PatternValidator($arg, caseInsensitive: true),
-			$op === Form::Enum && is_string($arg) && is_a($arg, \BackedEnum::class, allow_string: true) => new EnumValidator($arg),
-			$op === Form::MimeType && (is_string($arg) || is_array($arg)) => new MimeTypeValidator($arg),
-			$op === Form::Image => new ImageValidator,
-			$op === Form::MaxFileSize && is_int($arg) => new FileSizeValidator($arg),
+		return match ($op) {
+			Form::Filled => new FilledValidator,
+			Form::Blank => new BlankValidator,
+			Form::Email => new EmailValidator,
+			Form::URL => new UrlValidator,
+			Form::Integer => new IntegerValidator,
+			Form::Float => new FloatValidator,
+			Form::Numeric => new NumericValidator,
+			Form::Equal => new EqualValidator($arg),
+			Form::NotEqual => new NotEqualValidator($arg),
+			Form::Min => new RangeValidator(min: $arg),
+			Form::Max => new RangeValidator(max: $arg),
+			Form::Range => new RangeValidator(...$bounds),
+			Form::MinLength => $isMulti ? new ItemCountValidator(min: $arg) : new LengthValidator(min: $arg),
+			Form::MaxLength => $isMulti ? new ItemCountValidator(max: $arg) : new LengthValidator(max: $arg),
+			Form::Length => $isMulti ? new ItemCountValidator(...$bounds) : new LengthValidator(...$bounds),
+			Form::Pattern => new PatternValidator($arg),
+			Form::PatternInsensitive => new PatternValidator($arg, caseInsensitive: true),
+			Form::Enum => new EnumValidator($arg),
+			Form::MimeType => new MimeTypeValidator($arg),
+			Form::Image => new ImageValidator,
+			Form::MaxFileSize => new FileSizeValidator($arg),
 			default => null,
 		};
 	}
 
 
 	/**
-	 * Two-element array of int bounds where at least one is given, optionally
-	 * also bounds referencing controls.
+	 * Date/time bounds of a date/time control are objects, so that messages show them in its locale format.
 	 */
-	private static function isIntBounds(mixed $value, bool $orControl = false): bool
+	private static function toDateTime(mixed $value): mixed
 	{
-		if (!is_array($value)) {
-			return false;
-		}
-
-		$isBound = fn($bound) => $bound === null || is_int($bound) || ($orControl && $bound instanceof Control);
-		$min = $value[0] ?? null;
-		$max = $value[1] ?? null;
-		return $isBound($min) && $isBound($max) && ($min !== null || $max !== null);
+		return match (true) {
+			is_int($value) => (new \DateTimeImmutable)->setTimestamp($value),
+			is_string($value) && $value !== '' => new \DateTimeImmutable($value),
+			default => $value,
+		};
 	}
 
 
 	/**
-	 * Verifies the argument type of a string operation at declaration time, so that a mistyped
-	 * argument fails in addRule() instead of a TypeError at submit time. A Control stands for its value.
+	 * Returns the validator class of an operation, unless the class is shared by several operations.
+	 * @return ?class-string<Validator>
+	 */
+	public static function getValidatorClass(string $op): ?string
+	{
+		return self::Classes[$op] ?? null;
+	}
+
+
+	/**
+	 * Returns the operation a message identifier belongs to.
+	 */
+	public static function getMessageOperation(string $id): ?string
+	{
+		return self::MessageOperations[$id] ?? null;
+	}
+
+
+	/**
+	 * Verifies the argument of a string operation at declaration time, so that a mistyped
+	 * argument fails in addRule() instead of at submit time. A reference to another control
+	 * is checked when the form is validated.
 	 */
 	public static function assertArgument(string $op, mixed $arg, Control $control): void
 	{
+		$isBound = fn(mixed $value): bool => is_int($value)
+			|| is_float($value)
+			|| is_string($value)
+			|| $value instanceof \DateTimeInterface
+			|| $value instanceof Control;
+
 		$expected = match ($op) {
 			':static' => is_bool($arg) ? null : 'bool',
-			Form::Min, Form::Max => is_int($arg)
-				|| is_float($arg)
-				|| is_string($arg)
-				|| $arg instanceof \DateTimeInterface
-				|| $arg instanceof Control
+			Form::Min, Form::Max => $isBound($arg) ? null : 'int, float, string, date/time or Control',
+			Form::Range => is_array($arg)
+				&& count($arg) === 2
+				&& array_all($arg, fn($bound) => $bound === null || $isBound($bound))
+				&& ($arg[0] ?? $arg[1] ?? null) !== null
 				? null
-				: 'int, float, string, date/time or Control',
-			Form::Range => is_array($arg) ? null : 'array of two bounds',
+				: 'array of two bounds',
 			Form::MinLength, Form::MaxLength => is_int($arg) || $arg instanceof Control ? null : 'int',
-			Form::Length => is_int($arg) || self::isIntBounds($arg, orControl: true) || $arg instanceof Control
+			Form::Length => is_int($arg) || self::isIntBounds($arg) || $arg instanceof Control
 				? null
 				: 'int or array of two int bounds',
 			Form::Pattern, Form::PatternInsensitive => is_string($arg) || $arg instanceof Control ? null : 'string pattern',
-			Form::Enum => is_string($arg) || $arg instanceof Control ? null : 'class name of a backed enum',
-			Form::MimeType => is_string($arg) || is_array($arg) || $arg instanceof Control ? null : 'string or array of strings',
-			Form::MaxFileSize => is_int($arg) || $arg instanceof Control ? null : 'int (bytes)',
+			Form::Enum => is_string($arg) && is_a($arg, \BackedEnum::class, allow_string: true) ? null : 'class name of a backed enum',
+			Form::MimeType => is_string($arg) || (is_array($arg) && $arg !== [] && array_all($arg, fn($type) => is_string($type)))
+				? null
+				: 'string or array of strings',
+			Form::MaxFileSize => is_int($arg) ? null : 'int (bytes)',
 			default => null,
 		};
 
@@ -123,5 +187,21 @@ final class Operations
 				get_debug_type($arg),
 			));
 		}
+	}
+
+
+	/**
+	 * Two-element array of int bounds or control references, at least one of them given.
+	 */
+	private static function isIntBounds(mixed $value): bool
+	{
+		if (!is_array($value)) {
+			return false;
+		}
+
+		$isBound = fn($bound) => $bound === null || is_int($bound) || $bound instanceof Control;
+		$min = $value[0] ?? null;
+		$max = $value[1] ?? null;
+		return $isBound($min) && $isBound($max) && ($min !== null || $max !== null);
 	}
 }

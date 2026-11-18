@@ -9,7 +9,7 @@ namespace Nette\Forms;
 
 use Nette;
 use Stringable;
-use function is_array, is_bool, is_scalar, is_string;
+use function is_array, is_bool, is_scalar, is_string, sprintf;
 
 
 /**
@@ -31,6 +31,9 @@ final class Rules implements \IteratorAggregate
 
 	/** @var array<string, bool> */
 	private array $toggles = [];
+
+	/** guards against Form::Valid conditions referring to each other */
+	private bool $evaluating = false;
 
 
 	public function __construct(
@@ -98,25 +101,31 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Removes a validation rule for the current control. Rules with validator objects
-	 * are removed by passing the object's class name.
+	 * Removes validation rules (not conditions) of the current control, whichever way they
+	 * were declared: a class name removes the rules performed by that validator class,
+	 * an operation the rules declared with it or with its validator class, and a validator
+	 * object or callable only the rules declared with that very instance. An operation that
+	 * shares its validator class with others (Min, Max and Range; MinLength, MaxLength and
+	 * Length; Pattern and PatternInsensitive) removes only the rules declared with it.
 	 * @param  Validation\Validator|(callable(never, never): bool)|string  $validator
 	 */
 	public function removeRule(Validation\Validator|callable|string $validator): static
 	{
 		$class = match (true) {
-			$validator instanceof Validation\Validator => $validator::class,
-			is_string($validator) && is_a($validator, Validation\Validator::class, allow_string: true) => $validator,
-			default => null,
+			!is_string($validator) => null,
+			is_a($validator, Validation\Validator::class, allow_string: true) => $validator,
+			default => Validation\Operations::getValidatorClass($validator),
 		};
+		$matches = fn(Rule $rule): bool => $rule->validator === $validator
+			|| ($class !== null && $rule->getValidationObject() instanceof $class);
 
-		if ($validator === Form::Filled || ($class !== null && $this->required?->validator instanceof $class)) {
+		if ($this->required && $matches($this->required)) {
 			$this->required = null;
-		} else {
-			foreach ($this->rules as $i => $rule) {
-				if (!$rule->branch && ($class !== null ? $rule->validator instanceof $class : $rule->validator === $validator)) {
-					unset($this->rules[$i]);
-				}
+		}
+
+		foreach ($this->rules as $i => $rule) {
+			if (!$rule->branch && $matches($rule)) {
+				unset($this->rules[$i]);
 			}
 		}
 
@@ -157,7 +166,7 @@ final class Rules implements \IteratorAggregate
 		[$validator, $isNegative] = $this->normalizeValidator($validator, $control, isCondition: true);
 		self::checkValidatorArg($validator, $arg, $control);
 
-		$branch = new static($this->control);
+		$branch = new self($this->control);
 		$branch->parent = $this;
 		$this->rules[] = new Rule($control, $validator, $arg, isNegative: $isNegative, branch: $branch);
 		return $branch;
@@ -171,7 +180,7 @@ final class Rules implements \IteratorAggregate
 	{
 		assert($this->parent->rules !== []);
 		$last = end($this->parent->rules);
-		$branch = new static($this->parent->control);
+		$branch = new self($this->parent->control);
 		$branch->parent = $this->parent;
 		$negable = is_string($last->validator) ? (self::NegRules[$last->validator] ?? null) : null;
 		$this->parent->rules[] = new Rule(
@@ -238,16 +247,16 @@ final class Rules implements \IteratorAggregate
 		}
 
 		$emptyOptional ??= $this->isEmptyOptional();
-		// filters must not run here: computing toggle states cannot modify control values
+		// computing toggle states must not modify control values nor add errors
 		foreach ($this as $rule) {
 			if ($rule->branch) {
 				$toggles = $rule->branch->getToggleStates(
 					$toggles,
-					$success && self::evaluateRule($rule, applyFilters: false) === null,
+					$success && self::evaluateRule($rule, dryRun: true) === null,
 					$rule->checksBlank() ? false : $emptyOptional,
 				);
 			} elseif (!self::shouldSkip($rule, $emptyOptional)) {
-				$success = $success && self::evaluateRule($rule, applyFilters: false) === null;
+				$success = $success && self::evaluateRule($rule, dryRun: true) === null;
 			}
 		}
 
@@ -260,27 +269,56 @@ final class Rules implements \IteratorAggregate
 	 */
 	public function validate(?bool $emptyOptional = null): bool
 	{
+		return $this->evaluate($emptyOptional, dryRun: false);
+	}
+
+
+	/**
+	 * In a dry run, filters are not applied and no error is added.
+	 */
+	private function evaluate(?bool $emptyOptional, bool $dryRun): bool
+	{
 		$emptyOptional ??= $this->isEmptyOptional();
 		foreach ($this as $rule) {
 			if (self::shouldSkip($rule, $emptyOptional)) {
 				continue;
 			}
 
-			$failure = self::evaluateRule($rule);
+			$failure = self::evaluateRule($rule, $dryRun);
 			if (
-				!$failure
+				$failure === null
 				&& $rule->branch
-				&& !$rule->branch->validate($rule->checksBlank() ? false : $emptyOptional)
+				&& !$rule->branch->evaluate($rule->checksBlank() ? false : $emptyOptional, $dryRun)
 			) {
 				return false;
 
-			} elseif ($failure && !$rule->branch) {
-				$rule->control->addError(MessageFormatter::format($rule, failure: $failure), translate: false);
+			} elseif ($failure !== null && !$rule->branch) {
+				if (!$dryRun) {
+					$rule->control->addError(MessageFormatter::format($rule, failure: $failure ?: null), translate: false);
+				}
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+
+	/**
+	 * Evaluates the rules of a control referenced by a Form::Valid condition.
+	 */
+	private function evaluateReferenced(bool $dryRun): bool
+	{
+		if ($this->evaluating) {
+			throw new Nette\InvalidStateException("Form::Valid conditions of control '{$this->control->getName()}' form a cycle.");
+		}
+
+		$this->evaluating = true;
+		try {
+			return $this->evaluate(null, $dryRun);
+		} finally {
+			$this->evaluating = false;
+		}
 	}
 
 
@@ -341,12 +379,10 @@ final class Rules implements \IteratorAggregate
 				continue;
 			}
 
-			foreach ($rule->getClientRules() as $clientRule) {
-				foreach ($clientRule->attributes as $name => $value) {
-					$attrs[$name] = isset($attrs[$name])
-						? self::mergeAttribute($name, $attrs[$name], $value)
-						: $value;
-				}
+			foreach ($rule->getClientRule()->attributes ?? [] as $name => $value) {
+				$attrs[$name] = isset($attrs[$name])
+					? self::mergeAttribute($name, $attrs[$name], $value)
+					: $value;
 			}
 		}
 
@@ -393,29 +429,25 @@ final class Rules implements \IteratorAggregate
 
 
 	/**
-	 * Single evaluation point for all validator kinds. Returns null on success,
-	 * or a message describing the failure. Negation drops the message, which is
-	 * fine because negative rules exist only as conditions and those discard it.
+	 * Single evaluation point for all validator kinds. Returns null on success, otherwise
+	 * the message reported by the validator object, or false when the validator does not
+	 * describe the failure (a callback, a negated condition). A dry run applies no filters
+	 * and adds no errors.
 	 * @internal
 	 */
-	public static function evaluateRule(Rule $rule, bool $applyFilters = true): ?Validation\Message
+	public static function evaluateRule(Rule $rule, bool $dryRun = false): Validation\Message|false|null
 	{
 		$validator = $rule->getValidationObject();
-		if ($validator instanceof Validation\FilledValidator || $validator instanceof Validation\BlankValidator) {
-			// filledness is a control state, not a value property; the engine evaluates these two directly
+		if ($rule->validator === Form::Valid) {
+			$failure = $rule->control->getRules()->evaluateReferenced($dryRun) ? null : false;
+
+		} elseif ($validator instanceof Validation\ControlValidator) {
 			$failure = $validator->validateControl($rule->control);
 
 		} elseif ($validator instanceof Validation\ValueValidator) {
-			$value = $rule->control->getValue();
-			$failure = $validator->validate($value);
-			if ($failure === null && $applyFilters && !$rule->isNegative && $validator instanceof Validation\Filter) {
-				$rule->control->setValue($validator->filter($value));
-			}
-		} elseif ($rule->validator instanceof Validation\Filter) {
-			if ($applyFilters) {
-				$rule->control->setValue($rule->validator->filter($rule->control->getValue()));
-			}
+			$failure = $validator->validate($rule->control->getValue());
 
+		} elseif ($rule->validator instanceof Validation\Filter) {
 			$failure = null;
 
 		} elseif (is_string($raw = $rule->validator) || is_callable($raw)) {
@@ -426,28 +458,20 @@ final class Rules implements \IteratorAggregate
 
 			$callback = self::getCallback($raw);
 			assert(is_callable($callback));
-			$failure = $callback($rule->control, is_array($rule->arg) ? $args : $args[0])
-				? null
-				: self::createMessage();
+			$failure = $callback($rule->control, is_array($rule->arg) ? $args : $args[0]) ? null : false;
 
 		} else {
 			throw new Nette\InvalidStateException('Unknown validator type.');
 		}
 
-		if ($rule->isNegative) {
-			$failure = $failure === null ? self::createMessage() : null;
+		$filter = $validator ?? $rule->validator;
+		if ($failure === null && !$dryRun && !$rule->isNegative && $filter instanceof Validation\Filter) {
+			$rule->control->setValue($filter->filter($rule->control->getValue()));
 		}
 
-		return $failure;
-	}
-
-
-	/**
-	 * Creates the failure marker for validators that report only success/failure without an own message.
-	 */
-	private static function createMessage(): Validation\Message
-	{
-		return new Validation\Message('', '');
+		return $rule->isNegative
+			? ($failure === null ? false : null)
+			: $failure;
 	}
 
 
@@ -490,6 +514,20 @@ final class Rules implements \IteratorAggregate
 		}
 
 		if (
+			$validator instanceof Validation\Validator
+			&& !$validator instanceof Validation\ValueValidator
+			&& !$validator instanceof Validation\ControlValidator
+			&& !$validator instanceof Validation\Filter
+		) {
+			throw new Nette\InvalidArgumentException(sprintf(
+				'Validator %s must implement %s, %s or %s.',
+				$validator::class,
+				Validation\ValueValidator::class,
+				Validation\ControlValidator::class,
+				Validation\Filter::class,
+			));
+
+		} elseif (
 			!$validator instanceof Validation\Validator
 			&& (is_string($validator) || is_callable($validator))
 			&& !is_callable(self::getCallback($validator))

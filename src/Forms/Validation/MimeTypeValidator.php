@@ -59,14 +59,14 @@ final readonly class MimeTypeValidator implements ValueValidator
 	}
 
 
-	public function getClientRules(): array
+	public function getClientRule(): ClientRule
 	{
-		return [new ClientRule(
+		return new ClientRule(
 			':mimeType',
 			arg: $this->mimeTypes,
 			// the client knows only the browser-reported type, not the detected one
 			message: new Message(self::UnexpectedType, 'The uploaded file is not in the expected format.'),
 			attributes: ['accept' => implode(', ', $this->mimeTypes)],
-		)];
+		);
 	}
 }

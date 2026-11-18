@@ -21,6 +21,7 @@ final readonly class EnumValidator implements ValueValidator
 
 	/** @var class-string<\BackedEnum> */
 	public string $enum;
+	private bool $intBacked;
 
 
 	public function __construct(string $enum)
@@ -30,14 +31,14 @@ final readonly class EnumValidator implements ValueValidator
 		}
 
 		$this->enum = $enum;
+		$this->intBacked = new \ReflectionEnum($enum)->getBackingType()?->getName() === 'int';
 	}
 
 
 	public function validate(mixed $value): ?Message
 	{
-		$intBacked = new \ReflectionEnum($this->enum)->getBackingType()?->getName() === 'int';
 		foreach (is_object($value) ? [$value] : (array) $value as $item) {
-			if ($intBacked) {
+			if ($this->intBacked) {
 				$item = filter_var($item, FILTER_VALIDATE_INT, FILTER_NULL_ON_FAILURE);
 				if ($item === null || $this->enum::tryFrom($item) === null) {
 					return $this->createMessage();
@@ -57,13 +58,13 @@ final readonly class EnumValidator implements ValueValidator
 	}
 
 
-	public function getClientRules(): array
+	public function getClientRule(): ClientRule
 	{
 		// the enum check has no JS counterpart; export as membership check against the case values
-		return [new ClientRule(
+		return new ClientRule(
 			':equal',
 			arg: array_column($this->enum::cases(), 'value'),
 			message: $this->createMessage(),
-		)];
+		);
 	}
 }

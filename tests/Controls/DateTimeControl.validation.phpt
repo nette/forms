@@ -168,7 +168,7 @@ test('equal is exported in the format of the control', function () {
 	$date = $form->addDate('date');
 	$date->addRule(Form::Equal, 'msg', new DateTimeImmutable('2026-07-11 15:00'));
 	Assert::same(
-		[['op' => ':equal', 'msg' => 'msg', 'arg' => '2026-07-11']],
+		[['op' => ':equal', 'msg' => 'msg', 'arg' => ['2026-07-11']]],
 		ClientRuleExporter::export($date->getRules()),
 	);
 });

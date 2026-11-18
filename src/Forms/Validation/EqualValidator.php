@@ -8,14 +8,16 @@
 namespace Nette\Forms\Validation;
 
 use Nette\Forms\Control;
+use Nette\Forms\Controls\DateTimeControl;
 use function is_array;
 
 
 /**
  * Validates that the value equals one of the expected values (string comparison,
- * supports arrays). Expected values may reference other form controls.
+ * supports arrays). Expected values may reference other form controls. A date/time
+ * control compares in its own precision.
  */
-final readonly class EqualValidator implements ValueValidator
+final readonly class EqualValidator implements ValueValidator, ControlValidator
 {
 	public const NotEqual = 'forms.equal';
 
@@ -31,51 +33,76 @@ final readonly class EqualValidator implements ValueValidator
 
 	public function validate(mixed $value): ?Message
 	{
+		return $this->matches($value) ? null : $this->createMessage();
+	}
+
+
+	public function validateControl(Control $control): ?Message
+	{
+		if ($control instanceof DateTimeControl) {
+			return $control->validateEqual($this->resolveExpected()) ? null : $this->createMessage();
+		}
+
+		return $this->validate($control->getValue());
+	}
+
+
+	/**
+	 * Does every item of the value equal one of the expected values?
+	 */
+	private function matches(mixed $value): bool
+	{
 		$values = is_array($value) ? $value : [$value];
 		foreach ($values as $val) {
-			foreach ($this->expected as $item) {
-				$item = $item instanceof Control ? $item->getValue() : $item;
+			foreach ($this->resolveExpected() as $item) {
 				$item = $item instanceof \BackedEnum ? $item->value : $item;
 				if ((string) $val === (string) $item) {
 					continue 2;
 				}
 			}
 
-			return $this->createMessage();
+			return false;
 		}
 
-		return $values === [] ? $this->createMessage() : null;
+		return $values !== [];
 	}
 
 
-	public function getClientRules(): array
+	/**
+	 * Expected values with control references replaced by the values of the controls.
+	 * @internal
+	 * @return list<mixed>
+	 */
+	public function resolveExpected(): array
 	{
-		// control-valued expectations are exported as references and shown as %N in the message
-		$expected = implode(', ', array_map(
-			fn($item, $i) => $item instanceof Control ? "%$i" : self::toText($item),
-			$this->expected,
-			array_keys($this->expected),
-		));
-		return [new ClientRule(
+		return array_map(fn($item) => $item instanceof Control ? $item->getValue() : $item, $this->expected);
+	}
+
+
+	/**
+	 * Expected values for the client, control references shown as %N placeholders.
+	 * @internal
+	 * @return list<mixed>
+	 */
+	public function describeExpected(): array
+	{
+		return array_map(fn($item, $i) => $item instanceof Control ? "%$i" : $item, $this->expected, array_keys($this->expected));
+	}
+
+
+	public function getClientRule(): ClientRule
+	{
+		return new ClientRule(
 			':equal',
 			arg: $this->expected,
-			message: $this->createMessage($expected),
-		)];
+			message: $this->createMessage($this->describeExpected()),
+		);
 	}
 
 
-	private function createMessage(?string $expected = null): Message
+	/** @param  ?list<mixed>  $expected */
+	private function createMessage(?array $expected = null): Message
 	{
-		$expected ??= implode(', ', array_map(
-			fn($item) => self::toText($item instanceof Control ? $item->getValue() : $item),
-			$this->expected,
-		));
-		return new Message(self::NotEqual, 'Please enter %expected.', ['expected' => $expected]);
-	}
-
-
-	private static function toText(mixed $item): string
-	{
-		return (string) ($item instanceof \BackedEnum ? $item->value : $item);
+		return new Message(self::NotEqual, 'Please enter %expected.', ['expected' => $expected ?? $this->resolveExpected()]);
 	}
 }

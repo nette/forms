@@ -45,12 +45,12 @@ final readonly class FileSizeValidator implements ValueValidator
 	}
 
 
-	public function getClientRules(): array
+	public function getClientRule(): ClientRule
 	{
-		return [new ClientRule(
+		return new ClientRule(
 			':fileSize',
 			arg: $this->limit,
 			message: new Message(self::TooBig, 'The size of the uploaded file can be up to %limit bytes.', ['limit' => $this->limit]),
-		)];
+		);
 	}
 }

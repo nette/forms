@@ -105,12 +105,15 @@ test('the rule exports to JS as a membership check against case values', functio
 test('a non-backed enum yields a clear exception instead of a cryptic fatal', function () {
 	$form = new Form;
 	$input = $form->addText('status');
-	$input->addRule(Form::Enum, null, PureEnum::class);
-	$input->setValue('X');
 
 	Assert::exception(
-		fn() => $input->getRules()->validate(),
+		fn() => $input->addRule(Form::Enum, null, PureEnum::class),
 		Nette\InvalidArgumentException::class,
-		"The Enum validator requires a backed enum class, '%a%' given.",
+		"Validation rule :enum for control 'status' expects class name of a backed enum as the argument, string given.",
+	);
+	Assert::exception(
+		fn() => $input->addCondition(Form::Enum, 'NonExistent'),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :enum for control 'status' expects class name of a backed enum as the argument, string given.",
 	);
 });

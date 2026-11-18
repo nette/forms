@@ -12,9 +12,9 @@ use Nette\Forms\Control;
 
 /**
  * Validates that the control is left blank. Blankness is a control state,
- * not a value property, so the engine evaluates this validator directly.
+ * not a value property.
  */
-final class BlankValidator implements Validator
+final class BlankValidator implements ControlValidator
 {
 	public const NotBlank = 'forms.blank';
 
@@ -27,9 +27,9 @@ final class BlankValidator implements Validator
 	}
 
 
-	public function getClientRules(): array
+	public function getClientRule(): ClientRule
 	{
-		return [new ClientRule(':blank', message: $this->createMessage())];
+		return new ClientRule(':blank', message: $this->createMessage());
 	}
 
 

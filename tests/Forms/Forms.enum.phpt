@@ -9,6 +9,9 @@ use Tester\Assert;
 
 require __DIR__ . '/../bootstrap.php';
 
+// the deprecated Validator::validateXxx facade is intentionally exercised here
+error_reporting(error_reporting() & ~E_USER_DEPRECATED);
+
 
 enum TestEnum: string
 {

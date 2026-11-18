@@ -9,16 +9,14 @@ namespace Nette\Forms\Validation;
 
 
 /**
- * Common contract of validator objects. Most validators inspect the value alone
- * and implement ValueValidator; the filled/blank checks inspect the control state
- * and are recognized by the engine directly.
+ * Common contract of validator objects. A validator inspects either the value alone
+ * (ValueValidator) or the state of the control (ControlValidator).
  */
 interface Validator
 {
 	/**
-	 * Returns client-side counterparts of the validator for the netteForms.js
-	 * script. An empty list means the validator runs on the server only.
-	 * @return list<ClientRule>
+	 * Returns the client-side counterpart of the validator for the netteForms.js
+	 * script, or null when the validator runs on the server only.
 	 */
-	function getClientRules(): array;
+	function getClientRule(): ?ClientRule;
 }

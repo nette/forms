@@ -8,60 +8,26 @@
 namespace Nette\Forms;
 
 use Nette;
-use Nette\Utils\{Strings, Validators};
-use function count, is_array, is_int, is_string;
+use function is_array;
 
 
 /**
- * Default message catalog and legacy static validators.
+ * App-wide overrides of validation messages and legacy static validators.
  *
- * Message rendering lives in MessageFormatter; validator logic lives in the
- * Nette\Forms\Validation classes. The validateXxx() statics with an object
- * equivalent are deprecated thin delegates; the others remain because the
- * engine still needs them: Equal/NotEqual/Static/Valid/Submitted/Numeric
- * (operations without an object equivalent), Min/Max/Range (DateTimeControl
- * midnight wrap-around), MinLength/MaxLength/Length (item-count semantics
- * on multi-value controls) and Enum (invalid-class error path).
+ * The default messages live with the validator objects in Nette\Forms\Validation,
+ * message rendering in MessageFormatter. The validateXxx() statics with an object
+ * equivalent are deprecated thin delegates.
  */
 final class Validator
 {
 	use Nette\StaticClass;
 
 	/**
-	 * The immutable catalog of default validation messages.
-	 */
-	public const Defaults = [
-		Form::Equal => 'Please enter %s.',
-		Form::NotEqual => 'This value should not be %s.',
-		Form::Filled => 'This field is required.',
-		Form::Blank => 'This field should be blank.',
-		Form::MinLength => 'Please enter at least %d characters.',
-		Form::MaxLength => 'Please enter no more than %d characters.',
-		Form::Length => 'Please enter a value between %d and %d characters long.',
-		Form::Email => 'Please enter a valid email address.',
-		Form::URL => 'Please enter a valid URL.',
-		Form::Enum => 'Please select a valid option.',
-		Form::Integer => 'Please enter a valid integer.',
-		Form::Numeric => 'Please enter a non-negative integer.',
-		Form::Float => 'Please enter a valid number.',
-		Form::Min => 'Please enter a value greater than or equal to %d.',
-		Form::Max => 'Please enter a value less than or equal to %d.',
-		Form::Range => 'Please enter a value between %d and %d.',
-		Form::MaxFileSize => 'The size of the uploaded file can be up to %d bytes.',
-		Form::MaxPostSize => 'The uploaded data exceeds the limit of %limit bytes.',
-		Form::MimeType => 'The uploaded file is not in the expected format.',
-		Form::Image => 'The uploaded file must be image in format JPEG, GIF, PNG or WebP.',
-		Controls\SelectBox::Valid => 'Please select a valid option.',
-		Controls\UploadControl::Valid => 'An error occurred during file upload.',
-		Controls\UploadControl::MaxFiles => 'The maximum allowed number of uploaded files is %count.',
-	];
-
-	/**
-	 * App-wide overrides of the default validation messages; a changed entry takes
-	 * precedence over the default message of the mapped validator object.
+	 * App-wide overrides of the default validation messages, keyed by the message
+	 * identifier (e.g. 'forms.length.min') or by the operation it belongs to (Form::MinLength).
 	 * @var array<string, string>
 	 */
-	public static array $messages = self::Defaults;
+	public static array $messages = [];
 
 
 	/**
@@ -71,7 +37,7 @@ final class Validator
 	#[\Deprecated('use Nette\Forms\MessageFormatter::format()', since: '4.0')]
 	public static function formatMessage(Rule $rule, bool $withValue = true): string|Nette\HtmlStringable
 	{
-		return MessageFormatter::format($rule, $withValue);
+		return MessageFormatter::format($rule, $withValue, $rule->getClientRule()?->message);
 	}
 
 
@@ -80,22 +46,23 @@ final class Validator
 
 	/**
 	 * Checks whether the control's value equals the argument (string comparison, supports arrays).
+	 * @deprecated use Nette\Forms\Validation\EqualValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\EqualValidator', since: '4.0')]
 	public static function validateEqual(Control $control, mixed $arg): bool
 	{
-		if ($control instanceof Controls\DateTimeControl) {
-			return $control->validateEqual($arg);
-		}
-		return new Validation\EqualValidator($arg)->validate($control->getValue()) === null;
+		return new Validation\EqualValidator($arg)->validateControl($control) === null;
 	}
 
 
 	/**
 	 * Checks whether the control's value does not equal the argument.
+	 * @deprecated use Nette\Forms\Validation\NotEqualValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\NotEqualValidator', since: '4.0')]
 	public static function validateNotEqual(Control $control, mixed $arg): bool
 	{
-		return !static::validateEqual($control, $arg);
+		return new Validation\NotEqualValidator($arg)->validateControl($control) === null;
 	}
 
 
@@ -142,65 +109,82 @@ final class Validator
 	/**
 	 * Checks whether the control's value falls within the specified range (inclusive).
 	 * @param  array{int|float|string|\DateTimeInterface|null, int|float|string|\DateTimeInterface|null}  $range
+	 * @deprecated use Nette\Forms\Validation\RangeValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\RangeValidator', since: '4.0')]
 	public static function validateRange(Control $control, array $range): bool
 	{
-		if ($control instanceof Controls\DateTimeControl) {
-			return $control->validateMinMax($range[0] ?? null, $range[1] ?? null);
-		}
-		$range = array_map(fn($v) => $v === '' ? null : $v, $range);
-		return Validators::isInRange($control->getValue(), $range);
+		[$min, $max] = [$range[0] ?? null, $range[1] ?? null];
+		return ($min !== null || $max !== null)
+			&& new Validation\RangeValidator($min, $max)->validateControl($control) === null;
 	}
 
 
 	/**
 	 * Checks whether the control's value is greater than or equal to the minimum.
+	 * @deprecated use Nette\Forms\Validation\RangeValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\RangeValidator', since: '4.0')]
 	public static function validateMin(Control $control, int|float|string|\DateTimeInterface $minimum): bool
 	{
-		return Validators::isInRange($control->getValue(), [$minimum === '' ? null : $minimum, null]);
+		return new Validation\RangeValidator(min: $minimum)->validateControl($control) === null;
 	}
 
 
 	/**
 	 * Checks whether the control's value is less than or equal to the maximum.
+	 * @deprecated use Nette\Forms\Validation\RangeValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\RangeValidator', since: '4.0')]
 	public static function validateMax(Control $control, int|float|string|\DateTimeInterface $maximum): bool
 	{
-		return Validators::isInRange($control->getValue(), [null, $maximum === '' ? null : $maximum]);
+		return new Validation\RangeValidator(max: $maximum)->validateControl($control) === null;
 	}
 
 
 	/**
 	 * Checks whether the string length or array count falls within the given range [min, max].
 	 * @param  array{?int, ?int}|int  $range
+	 * @deprecated use Nette\Forms\Validation\LengthValidator or ItemCountValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\LengthValidator or ItemCountValidator', since: '4.0')]
 	public static function validateLength(Control $control, array|int $range): bool
 	{
-		if (!is_array($range)) {
-			$range = [$range, $range];
-		}
-
-		$value = $control->getValue();
-		return Validators::isInRange(is_array($value) ? count($value) : Strings::length((string) $value), $range);
+		return is_array($range)
+			? self::checkLength($control, $range[0] ?? null, $range[1] ?? null)
+			: self::checkLength($control, $range, $range);
 	}
 
 
 	/**
 	 * Checks whether the string length or array count is at least the specified minimum.
+	 * @deprecated use Nette\Forms\Validation\LengthValidator or ItemCountValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\LengthValidator or ItemCountValidator', since: '4.0')]
 	public static function validateMinLength(Control $control, int $length): bool
 	{
-		return static::validateLength($control, [$length, null]);
+		return self::checkLength($control, $length, null);
 	}
 
 
 	/**
 	 * Checks whether the string length or array count does not exceed the specified maximum.
+	 * @deprecated use Nette\Forms\Validation\LengthValidator or ItemCountValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\LengthValidator or ItemCountValidator', since: '4.0')]
 	public static function validateMaxLength(Control $control, int $length): bool
 	{
-		return static::validateLength($control, [null, $length]);
+		return self::checkLength($control, null, $length);
+	}
+
+
+	private static function checkLength(Control $control, ?int $min, ?int $max): bool
+	{
+		$value = $control->getValue();
+		$validator = is_array($value)
+			? new Validation\ItemCountValidator($min, $max)
+			: new Validation\LengthValidator($min, $max);
+		return $validator->validate($value) === null;
 	}
 
 
@@ -263,7 +247,9 @@ final class Validator
 	/**
 	 * Checks whether the control's value is a valid case of the given backed enum.
 	 * @param  class-string  $enum  backed enum class
+	 * @deprecated use Nette\Forms\Validation\EnumValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\EnumValidator', since: '4.0')]
 	public static function validateEnum(Control $control, string $enum): bool
 	{
 		return new Validation\EnumValidator($enum)->validate($control->getValue()) === null;
@@ -272,12 +258,12 @@ final class Validator
 
 	/**
 	 * Checks whether the control's value is a non-negative integer string or int.
+	 * @deprecated use Nette\Forms\Validation\NumericValidator
 	 */
+	#[\Deprecated('use Nette\Forms\Validation\NumericValidator', since: '4.0')]
 	public static function validateNumeric(Control $control): bool
 	{
-		$value = $control->getValue();
-		return (is_int($value) && $value >= 0)
-			|| (is_string($value) && Strings::match($value, '#^\d+$#D'));
+		return (new Validation\NumericValidator)->validate($control->getValue()) === null;
 	}
 
 

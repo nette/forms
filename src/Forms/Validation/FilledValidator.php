@@ -12,9 +12,9 @@ use Nette\Forms\Control;
 
 /**
  * Validates that the control is filled in. Filledness is a control state,
- * not a value property, so the engine evaluates this validator directly.
+ * not a value property.
  */
-final class FilledValidator implements Validator
+final class FilledValidator implements ControlValidator
 {
 	public const Required = 'forms.filled';
 
@@ -27,9 +27,9 @@ final class FilledValidator implements Validator
 	}
 
 
-	public function getClientRules(): array
+	public function getClientRule(): ClientRule
 	{
-		return [new ClientRule(':filled', message: $this->createMessage())];
+		return new ClientRule(':filled', message: $this->createMessage());
 	}
 
 

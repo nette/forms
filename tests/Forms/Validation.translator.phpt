@@ -123,7 +123,7 @@ test('late override of the select box default message applies (lazy resolution)'
 		$select->validate();
 		Assert::same(['Choose something!'], array_map(strval(...), $select->getErrors()));
 	} finally {
-		Validator::$messages[SelectBox::Valid] = 'Please select a valid option.';
+		Validator::$messages = [];
 	}
 });
 
@@ -143,4 +143,118 @@ test('catalogs keyed by English text keep working through the cast', function ()
 	$input->addRule(new Validation\EmailValidator);
 	$input->validate();
 	Assert::same(['Zadejte platný e-mail.'], $input->getErrors());
+});
+
+
+test('text-keyed translator receives the Message with the unsubstituted template', function () {
+	$translator = new class implements Nette\Localization\Translator {
+		public array $received = [];
+
+
+		public function translate($message, ...$parameters): string
+		{
+			$this->received[] = $message;
+			$table = ['Please enter at least %count characters.' => 'Zadejte alespoň %count znaků.'];
+			return $table[(string) $message] ?? (string) $message;
+		}
+	};
+
+	$form = new Form;
+	$form->setTranslator($translator);
+	$input = $form->addText('name')->setValue('ab');
+	$input->addRule(Form::MinLength, null, 5);
+	$input->validate();
+
+	Assert::same(['Zadejte alespoň 5 znaků.'], $input->getErrors());
+	$message = $translator->received[0];
+	Assert::type(Validation\Message::class, $message);
+	Assert::same('forms.length.min', $message->id);
+	Assert::same(5, $message->count);
+	Assert::same('Please enter at least %count characters.', (string) $message);
+});
+
+
+test('override by message id applies to both declaration styles', function () {
+	Validator::$messages['forms.length.min'] = 'Aspoň %count znaků';
+	try {
+		$form = new Form;
+		$byOp = $form->addText('a')->setValue('x')->addRule(Form::MinLength, null, 3);
+		$byObject = $form->addText('b')->setValue('x')->addRule(new Validation\LengthValidator(min: 3));
+		$form->validate();
+		Assert::same(['Aspoň 3 znaků'], $byOp->getErrors());
+		Assert::same(['Aspoň 3 znaků'], $byObject->getErrors());
+	} finally {
+		Validator::$messages = [];
+	}
+});
+
+
+test('override by operation applies to both declaration styles, including positional placeholders', function () {
+	Validator::$messages[Form::Email] = 'Bad e-mail';
+	Validator::$messages[Form::MinLength] = 'At least %d characters';
+	try {
+		$form = new Form;
+		$emailOp = $form->addText('a')->setValue('x')->addRule(Form::Email);
+		$emailObject = $form->addText('b')->setValue('x')->addRule(new Validation\EmailValidator);
+		$lengthOp = $form->addText('c')->setValue('x')->addRule(Form::MinLength, null, 3);
+		$lengthObject = $form->addText('d')->setValue('x')->addRule(new Validation\LengthValidator(min: 3));
+		$form->validate();
+		Assert::same(['Bad e-mail'], $emailOp->getErrors());
+		Assert::same(['Bad e-mail'], $emailObject->getErrors());
+		Assert::same(['At least 3 characters'], $lengthOp->getErrors());
+		Assert::same(['At least 3 characters'], $lengthObject->getErrors());
+	} finally {
+		Validator::$messages = [];
+	}
+});
+
+
+test('override by id wins over override by operation, message given to the rule wins over both', function () {
+	Validator::$messages[Form::Email] = 'by operation';
+	Validator::$messages['forms.email'] = 'by id';
+	try {
+		$form = new Form;
+		$plain = $form->addText('a')->setValue('x')->addRule(Form::Email);
+		$own = $form->addText('b')->setValue('x')->addRule(Form::Email, 'own');
+		$form->validate();
+		Assert::same(['by id'], $plain->getErrors());
+		Assert::same(['own'], $own->getErrors());
+	} finally {
+		Validator::$messages = [];
+	}
+});
+
+
+test('override by operation does not hijack a message with an own id', function () {
+	Validator::$messages[Form::Filled] = 'Required!';
+	try {
+		$form = new Form;
+		$select = $form->addSelect('s', null, ['a' => 'A']);
+		$select->validate();
+		Assert::same(['Please select a valid option.'], $select->getErrors());
+	} finally {
+		Validator::$messages = [];
+	}
+});
+
+
+test('overrides are empty by default, the defaults live with the validators', function () {
+	Assert::same([], Validator::$messages);
+	$form = new Form;
+	$input = $form->addText('a')->setValue('x')->addRule(Form::Numeric);
+	$input->validate();
+	Assert::same(['Please enter a non-negative integer.'], $input->getErrors());
+});
+
+
+test('override and translation of standalone messages', function () {
+	$message = new Validation\Message(Form::MaxPostSize, 'The uploaded data exceeds the limit of %limit bytes.', ['limit' => 100]);
+	Assert::same('The uploaded data exceeds the limit of 100 bytes.', Nette\Forms\MessageFormatter::formatStandalone($message, null));
+
+	Validator::$messages[Form::MaxPostSize] = 'Max %d bytes, %label stays';
+	try {
+		Assert::same('Max 100 bytes, %label stays', Nette\Forms\MessageFormatter::formatStandalone($message, null));
+	} finally {
+		Validator::$messages = [];
+	}
 });

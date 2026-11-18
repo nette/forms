@@ -73,6 +73,47 @@ test('filter and pattern validation interaction', function () {
 });
 
 
+test('toggles computed through a Valid condition neither apply filters nor add errors', function () {
+	$form = new Form;
+	$foo = $form->addText('foo')
+		->setRequired('fill foo')
+		->addFilter(fn($value) => $value . '!');
+	$form->addText('bar')
+		->addConditionOn($foo, Form::Valid)
+			->toggle('#x');
+
+	$foo->setValue('x');
+	Assert::same(['#x' => true], $form->getToggles());
+	Assert::same(['#x' => true], $form->getToggles());
+	Assert::same('x', $foo->getValue());
+	Assert::same([], $foo->getErrors());
+
+	$foo->setValue('');
+	Assert::same(['#x' => false], $form->getToggles());
+	Assert::same([], $foo->getErrors());
+});
+
+
+test('Valid conditions referring to each other fail with a clear exception', function () {
+	$form = new Form;
+	$a = $form->addText('a');
+	$b = $form->addText('b');
+	$a->addConditionOn($b, Form::Valid)->setRequired();
+	$b->addConditionOn($a, Form::Valid)->setRequired();
+
+	Assert::exception(
+		fn() => $form->validate(),
+		Nette\InvalidStateException::class,
+		"Form::Valid conditions of control '%a%' form a cycle.",
+	);
+	Assert::exception(
+		fn() => $form->getToggles(),
+		Nette\InvalidStateException::class,
+		"Form::Valid conditions of control '%a%' form a cycle.",
+	);
+});
+
+
 testException('exception on Valid in addCondition', function () {
 	$form = new Form;
 	$form->addText('foo')

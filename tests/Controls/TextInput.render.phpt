@@ -145,7 +145,7 @@ test('length rule precedence', function () {
 		->addRule($form::Length, null, [10, 20]);
 
 	Assert::same(
-		'<input type="text" name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":minLength","msg":"Please enter at least 10 characters.","arg":10},{"op":":maxLength","msg":"Please enter no more than 20 characters.","arg":20}]\'>',
+		'<input type="text" name="text" maxlength="20" id="frm-text" data-nette-rules=\'[{"op":":length","msg":"Please enter a value between 10 and 20 characters long.","arg":[10,20]}]\'>',
 		(string) $input->getControl(),
 	);
 });

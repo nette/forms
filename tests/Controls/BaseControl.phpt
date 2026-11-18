@@ -168,7 +168,7 @@ test('translator integration for labels and errors', function () {
 	$form->setTranslator(new class implements Nette\Localization\ITranslator {
 		public function translate($s, ...$parameters): string
 		{
-			return strtolower($s);
+			return strtolower((string) $s);
 		}
 	});
 

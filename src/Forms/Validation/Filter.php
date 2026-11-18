@@ -11,7 +11,9 @@ namespace Nette\Forms\Validation;
 /**
  * Transforms the control value before subsequent rules are evaluated.
  * Its presence declares that the value changes on the server, which stops
- * client-side export of all following rules.
+ * client-side export of all following rules. A filter that is also a Validator
+ * with a client rule is assumed to be reproduced by that rule on the client,
+ * so it does not stop the export.
  */
 interface Filter
 {

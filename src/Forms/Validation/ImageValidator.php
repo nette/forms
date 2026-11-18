@@ -58,9 +58,9 @@ final readonly class ImageValidator implements ValueValidator
 	}
 
 
-	public function getClientRules(): array
+	public function getClientRule(): ClientRule
 	{
-		return [new ClientRule(
+		return new ClientRule(
 			':image',
 			arg: $this->mimeTypes,
 			message: new Message(
@@ -69,6 +69,6 @@ final readonly class ImageValidator implements ValueValidator
 				['formats' => $this->getFormats()],
 			),
 			attributes: ['accept' => implode(', ', $this->mimeTypes)],
-		)];
+		);
 	}
 }

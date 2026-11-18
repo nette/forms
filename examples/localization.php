@@ -28,10 +28,12 @@ class MyTranslator implements Nette\Localization\Translator
 
 
 	/**
-	 * Translates the given string.
+	 * Translates the given string. A validation message (Nette\Forms\Validation\Message)
+	 * casts to its English template, e.g. 'Please enter at least %count characters.'
 	 */
 	public function translate($message, ...$parameters): string
 	{
+		$message = (string) $message;
 		return $this->table[$message] ?? $message;
 	}
 }

@@ -17,15 +17,30 @@ enum TestSuit: string
 }
 
 
-test('length validator exports two client rules with own messages and sets maxlength', function () {
+test('length validator with both bounds exports one client rule and sets maxlength', function () {
 	$form = new Form;
 	$input = $form->addText('name');
 	$input->addRule(new Validation\LengthValidator(min: 2, max: 5));
 	Assert::same([
-		['op' => ':minLength', 'msg' => 'Please enter at least 2 characters.', 'arg' => 2],
-		['op' => ':maxLength', 'msg' => 'Please enter no more than 5 characters.', 'arg' => 5],
+		['op' => ':length', 'msg' => 'Please enter a value between 2 and 5 characters long.', 'arg' => [2, 5]],
 	], ClientRuleExporter::export($input->getRules()));
 	Assert::same(5, $input->getControl()->maxlength);
+});
+
+
+test('condition with a validator object yielding a range is exported as one predicate', function () {
+	$form = new Form;
+	$input = $form->addText('name');
+	$input->addCondition(new Validation\LengthValidator(5, 10))->toggle('#x');
+	$tags = $form->addCheckboxList('tags', items: ['a' => 'A', 'b' => 'B', 'c' => 'C']);
+	$tags->addCondition(new Validation\ItemCountValidator(1, 2))->toggle('#y');
+
+	Assert::same([
+		['op' => ':length', 'rules' => [], 'control' => 'name', 'toggle' => ['#x' => true], 'arg' => [5, 10]],
+	], ClientRuleExporter::export($input->getRules()));
+	Assert::same([
+		['op' => ':length', 'rules' => [], 'control' => 'tags[]', 'toggle' => ['#y' => true], 'arg' => [1, 2]],
+	], ClientRuleExporter::export($tags->getRules()));
 });
 
 
@@ -92,28 +107,27 @@ test('condition with a validator object exports its branch', function () {
 });
 
 
-test('user message override propagates to all exported client rules', function () {
+test('user message replaces the message of the exported client rule', function () {
 	$form = new Form;
 	$input = $form->addText('name');
 	$input->addRule(new Validation\LengthValidator(min: 2, max: 5), 'Length must be right');
 	Assert::same([
-		['op' => ':minLength', 'msg' => 'Length must be right', 'arg' => 2],
-		['op' => ':maxLength', 'msg' => 'Length must be right', 'arg' => 5],
+		['op' => ':length', 'msg' => 'Length must be right', 'arg' => [2, 5]],
 	], ClientRuleExporter::export($input->getRules()));
 });
 
 
 test('server-only validator object is skipped and the export continues', function () {
-	$serverOnly = new class implements Validation\Validator {
+	$serverOnly = new class implements Validation\ValueValidator {
 		public function validate(mixed $value): ?Validation\Message
 		{
 			return null;
 		}
 
 
-		public function getClientRules(): array
+		public function getClientRule(): ?Validation\ClientRule
 		{
-			return [];
+			return null;
 		}
 	};
 
@@ -124,4 +138,46 @@ test('server-only validator object is skipped and the export continues', functio
 	Assert::same([
 		['op' => ':email', 'msg' => 'Please enter a valid email address.'],
 	], ClientRuleExporter::export($input->getRules()));
+});
+
+
+test('range with an open bound on a date control', function () {
+	$form = new Form;
+	$date = $form->addDate('d');
+	$date->addRule(Form::Range, 'too early', ['2026-01-01', null]);
+	Assert::same([
+		['op' => ':min', 'msg' => 'too early', 'arg' => '2026-01-01'],
+	], ClientRuleExporter::export($date->getRules()));
+	Assert::contains('min="2026-01-01"', (string) $date->getControl());
+
+	$other = $form->addDate('o');
+	$other->addRule(new Validation\EqualValidator(['2026-01-01', null]), 'msg');
+	Assert::same([
+		['op' => ':equal', 'msg' => 'msg', 'arg' => ['2026-01-01', null]],
+	], ClientRuleExporter::export($other->getRules()));
+
+	$date->setValue('2025-12-31');
+	$date->validate();
+	Assert::count(1, $date->getErrors());
+});
+
+
+test('date/time bound on a text input is exported and shown in the format of the input type', function () {
+	$form = new Form;
+	$date = $form->addText('date')->setHtmlType('date');
+	$date->addRule(Form::Min, null, new DateTimeImmutable('2026-01-01'));
+	$month = $form->addText('month')->setHtmlType('month');
+	$month->addRule(Form::Max, null, new DateTimeImmutable('2026-03-01'));
+	$time = $form->addText('time')->setHtmlType('time');
+	$time->addRule(Form::Max, null, new DateTimeImmutable('2000-01-01 10:30'));
+
+	Assert::same([
+		['op' => ':min', 'msg' => 'Please enter a value greater than or equal to 2026-01-01.', 'arg' => '2026-01-01'],
+	], ClientRuleExporter::export($date->getRules()));
+	Assert::same([
+		['op' => ':max', 'msg' => 'Please enter a value less than or equal to 2026-03.', 'arg' => '2026-03'],
+	], ClientRuleExporter::export($month->getRules()));
+	Assert::same([
+		['op' => ':max', 'msg' => 'Please enter a value less than or equal to 10:30.', 'arg' => '10:30'],
+	], ClientRuleExporter::export($time->getRules()));
 });

@@ -182,7 +182,7 @@ test('date/time bounds on a control without own formatting export to client rule
 	$input->addRule(new Validation\RangeValidator(min: new DateTimeImmutable('2026-01-01')));
 	$control = (string) $input->getControl();
 	Assert::notContains('min=', $control);
-	Assert::contains('"arg":"2026-01-01T00:00:00"', $control);
+	Assert::contains('"arg":"2026-01-01"', $control); // in the value format of the input type
 
 	$legacy = $form->addText('x');
 	$legacy->addRule(Form::Min, 'after %d', new DateTimeImmutable('2026-01-01 10:30'));
@@ -265,7 +265,7 @@ test('mime type validator passes the detected type to the message (issue #302)',
 	$failure = new Validation\MimeTypeValidator('image/*')->validate($file);
 	Assert::same('forms.mimeType', $failure->id);
 	Assert::same(['type' => $detected, 'file' => 'document.html'], $failure->parameters);
-	Assert::same("The uploaded file is in an unsupported format $detected.", (string) $failure);
+	Assert::same("The uploaded file is in an unsupported format $detected.", $failure->substitute($failure->template));
 
 	Assert::null(new Validation\MimeTypeValidator('text/*')->validate($file));
 });
@@ -276,7 +276,10 @@ test('length rules on multi-value controls count items and carry stable ids with
 	$failure = new Validation\ItemCountValidator(min: 2)->validate(['a']);
 	Assert::same('forms.count.min', $failure->id);
 	Assert::same(2, $failure->count);
-	Assert::same('Please select at least 2 items.', (string) $failure);
+	Assert::same('Please select at least %count items.', (string) $failure);
+
+	// the string length validator does not count items
+	Assert::same('forms.length.min', new Validation\LengthValidator(min: 2)->validate(['a', 'b'])?->id);
 
 	$form = new Form;
 	$list = $form->addCheckboxList('tags', items: ['a' => 'A', 'b' => 'B', 'c' => 'C']);
@@ -357,4 +360,126 @@ test('mistyped operation argument fails at the place of declaration, not at subm
 	// Control-valued arguments resolve at validation time and stay declarable
 	$input->addRule(Form::Pattern, null, $form->addText('patternSource'));
 	$input->addRule(Form::Length, null, [$form['limit'], 5]);
+});
+
+
+test('the content of array and class arguments is verified at declaration', function () {
+	$form = new Form;
+	$input = $form->addText('name');
+
+	Assert::exception(
+		fn() => $input->addRule(Form::Range, null, [1, [2]]),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :range for control 'name' expects array of two bounds as the argument, array given.",
+	);
+	Assert::exception(
+		fn() => $input->addRule(Form::Range, null, [null, null]),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :range for control 'name' expects array of two bounds as the argument, array given.",
+	);
+	Assert::exception(
+		fn() => $input->addCondition(Form::Enum, 'NonExistentEnum'),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :enum for control 'name' expects class name of a backed enum as the argument, string given.",
+	);
+	Assert::exception(
+		fn() => $form->addUpload('file')->addRule(Form::MimeType, null, ['image/png', 5]),
+		Nette\InvalidArgumentException::class,
+		"Validation rule :mimeType for control 'file' expects string or array of strings as the argument, array given.",
+	);
+
+	$input->addRule(Form::Range, null, ['a', null]);
+	$input->addRule(Form::Range, null, [null, $form->addText('max')]);
+});
+
+
+test('control-valued bounds of length and pattern resolve at validation time', function () {
+	$form = new Form;
+	$limit = $form->addInteger('limit')->setValue(3);
+	$source = $form->addText('source')->setValue('a+');
+	$input = $form->addText('name')->setValue('aaaa');
+	$input->addRule(Form::MaxLength, null, $limit);
+	$input->validate();
+	Assert::same(['Please enter no more than 3 characters.'], $input->getErrors());
+
+	$other = $form->addText('other')->setValue('ab');
+	$other->addRule(Form::Pattern, null, $source);
+	$other->validate();
+	Assert::same(['Please enter a value in the required format.'], $other->getErrors());
+
+	Assert::same(
+		[['op' => ':maxLength', 'msg' => 'Please enter no more than %0 characters.', 'arg' => ['control' => 'limit']]],
+		Nette\Forms\ClientRuleExporter::export($input->getRules()),
+	);
+});
+
+
+test('NotEqual and Numeric operations have validator objects', function () {
+	$form = new Form;
+	$name = $form->addText('name')->setValue('admin');
+	$name->addRule(Form::NotEqual, null, ['root', 'admin']);
+	$name->validate();
+	Assert::same(['This value should not be root, admin.'], $name->getErrors());
+	Assert::same(
+		[['op' => ':notEqual', 'msg' => 'This value should not be root, admin.', 'arg' => ['root', 'admin']]],
+		Nette\Forms\ClientRuleExporter::export($name->getRules()),
+	);
+
+	Assert::null(new Validation\NotEqualValidator('x')->validate('y'));
+	Assert::same('forms.numeric', new Validation\NumericValidator()->validate('-1')?->id);
+	Assert::null(new Validation\NumericValidator()->validate('42'));
+});
+
+
+test('a validator object must say whether it inspects the value or the control', function () {
+	$bare = new class implements Validation\Validator {
+		public function getClientRule(): ?Validation\ClientRule
+		{
+			return null;
+		}
+	};
+
+	$form = new Form;
+	$input = $form->addText('name');
+	Assert::exception(
+		fn() => $input->addRule($bare),
+		Nette\InvalidArgumentException::class,
+		'Validator %a% must implement Nette\Forms\Validation\ValueValidator, Nette\Forms\Validation\ControlValidator or Nette\Forms\Validation\Filter.',
+	);
+	Assert::exception(
+		fn() => $input->addCondition($bare),
+		Nette\InvalidArgumentException::class,
+		'Validator %a% must implement %a%.',
+	);
+	Assert::exception(
+		fn() => $input->addConditionOn($form->addText('other'), $bare),
+		Nette\InvalidArgumentException::class,
+		'Validator %a% must implement %a%.',
+	);
+});
+
+
+test('a custom control validator inspects the control', function () {
+	$disabled = new class implements Validation\ControlValidator {
+		public function validateControl(Nette\Forms\Control $control): ?Validation\Message
+		{
+			return $control->isDisabled() ? null : new Validation\Message('app.disabled', 'Control %label must be disabled.');
+		}
+
+
+		public function getClientRule(): ?Validation\ClientRule
+		{
+			return null;
+		}
+	};
+
+	$form = new Form;
+	$input = $form->addText('name', 'Name')->setValue('x')->addRule($disabled);
+	$input->validate();
+	Assert::same(['Control Name must be disabled.'], $input->getErrors());
+
+	$toggled = $form->addText('other')->setValue('x');
+	$toggled->addCondition($disabled)->addRule(Form::Email, 'unreachable');
+	$toggled->validate();
+	Assert::same([], $toggled->getErrors());
 });

@@ -27,7 +27,7 @@ final readonly class Message implements \Stringable
 
 
 	/**
-	 * Returns a copy with the template replaced (used for user-supplied messages).
+	 * Returns a copy with the template replaced.
 	 */
 	public function withTemplate(string|\Stringable $template): self
 	{
@@ -64,10 +64,11 @@ final readonly class Message implements \Stringable
 
 
 	/**
-	 * English fallback used when no translator handles the message by its identifier.
+	 * Returns the template with its placeholders, so a translator keyed by the English
+	 * text finds it; the parameters are substituted after translation.
 	 */
 	public function __toString(): string
 	{
-		return $this->substitute($this->template);
+		return (string) $this->template;
 	}
 }
